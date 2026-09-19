@@ -261,6 +261,15 @@ async function runTests(): Promise<void> {
     assert(body.data.releaseAuditSummary.programskiJezikPretpostavkaGovernance.sourceOfTruth === '/api/extrimli/extrem', 'unexpected pretpostavka audit source');
     assert(body.data.releaseAuditSummary.programskiJezikPretpostavkaGovernance.status === body.data.programskiJezikPretpostavka.status, 'pretpostavka audit status mismatch');
     assert(body.data.releaseAuditSummary.programskiJezikPretpostavkaGovernance.forStatus === body.data.programskiJezikPretpostavka.flowMetrics.forStatus, 'pretpostavka audit FOR status mismatch');
+    assert(body.data.programskiJezikParadigmaOblikovanjeTela.term === 'PROGRAMSKI JEZIK PARADIGMA I OBLIKOVANJE TELA (OBJEKAT U SISTEMU, ADAPTACIJA SA FUNKCIJAMA)', 'unexpected paradigma/body-shaping term');
+    assert(body.data.programskiJezikParadigmaOblikovanjeTela.technicalSignalSource === '/api/extrimli/extrem', 'unexpected paradigma/body-shaping source');
+    assert(['READY', 'WATCH', 'BLOCKED'].includes(body.data.programskiJezikParadigmaOblikovanjeTela.status), 'unexpected paradigma/body-shaping status');
+    assert(['READY', 'WATCH', 'BLOCKED'].includes(body.data.programskiJezikParadigmaOblikovanjeTela.paradigmMetrics.forStatus), 'unexpected paradigma/body-shaping FOR status');
+    assert(body.data.releaseAuditSummary.programskiJezikParadigmaOblikovanjeTelaGovernance.sourceOfTruth === '/api/extrimli/extrem', 'unexpected paradigma/body-shaping audit source');
+    assert(body.data.releaseAuditSummary.programskiJezikParadigmaOblikovanjeTelaGovernance.status === body.data.programskiJezikParadigmaOblikovanjeTela.status, 'paradigma/body-shaping audit status mismatch');
+    assert(body.data.releaseAuditSummary.programskiJezikParadigmaOblikovanjeTelaGovernance.forStatus === body.data.programskiJezikParadigmaOblikovanjeTela.paradigmMetrics.forStatus, 'paradigma/body-shaping audit FOR status mismatch');
+    assert(body.data.extremProfiler.programskiJezikParadigmaOblikovanjeTela.term === 'PROGRAMSKI JEZIK PARADIGMA I OBLIKOVANJE TELA (OBJEKAT U SISTEMU, ADAPTACIJA SA FUNKCIJAMA)', 'unexpected EXTREM paradigma/body-shaping term');
+    assert(body.data.extremProfiler.programskiJezikParadigmaOblikovanjeTela.technicalEvidence.forLoopBinding.sourceModel === 'PETLJE', 'unexpected EXTREM paradigma/body-shaping FOR source model');
     assert(body.data.radniTaktMozgaMislilac.term === 'RADNI TAKT MOZGA (MISLILAC)', 'unexpected radni takt term');
     assert(body.data.radniTaktMozgaMislilac.technicalSignalSource === '/api/extrimli/extrem', 'unexpected radni takt source');
     assert(['READY', 'WATCH', 'BLOCKED'].includes(body.data.radniTaktMozgaMislilac.status), 'unexpected radni takt status');

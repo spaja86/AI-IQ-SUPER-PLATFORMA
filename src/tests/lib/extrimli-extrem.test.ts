@@ -12,6 +12,7 @@ import {
   EXTRIMLI_EXTREM_OBJEKTNO_ORIJENTISANA_REPRODUKCIJA_CONTRACT_VERSION,
   EXTRIMLI_EXTREM_OBJEKTNO_ORIJENTUSANO_UZDIZANJE_EPSKIH_ELIKVADENATA_CONTRACT_VERSION,
   EXTRIMLI_EXTREM_PROPORCIONALNO_PROGRAMIRANJE_CONTRACT_VERSION,
+  EXTRIMLI_EXTREM_PROGRAMSKI_JEZIK_PARADIGMA_OBLIKOVANJE_TELA_CONTRACT_VERSION,
   EXTRIMLI_EXTREM_PROFILER_CONTRACT_VERSION,
   EXTRIMLI_EXTREM_PROFILER_MODULE_VERSION,
   EXTRIMLI_EXTREM_PROFILER_PERSONA_ID,
@@ -1055,6 +1056,25 @@ async function runTests(): Promise<void> {
     assert(['READY', 'WATCH', 'BLOCKED'].includes(signal.readiness.status), 'unexpected pretpostavka readiness status');
     assert(signal.technicalSignals.keyInformationIntegrityScore >= 0 && signal.technicalSignals.keyInformationIntegrityScore <= 100, 'pretpostavka key-information integrity score must be bounded');
     assert(signal.technicalSignals.actionShapeDeterminismScore >= 0 && signal.technicalSignals.actionShapeDeterminismScore <= 100, 'pretpostavka action-shape determinism score must be bounded');
+  });
+
+  await test('default report exposes PROGRAMSKI JEZIK PARADIGMA I OBLIKOVANJE TELA as additive EXTREM signal', () => {
+    const report = getExtrimliExtremProfilerReport();
+    const signal = report.programskiJezikParadigmaOblikovanjeTela;
+    assert(signal.contractVersion === EXTRIMLI_EXTREM_PROGRAMSKI_JEZIK_PARADIGMA_OBLIKOVANJE_TELA_CONTRACT_VERSION, 'paradigma/body-shaping contract version mismatch');
+    assert(signal.term === 'PROGRAMSKI JEZIK PARADIGMA I OBLIKOVANJE TELA (OBJEKAT U SISTEMU, ADAPTACIJA SA FUNKCIJAMA)', 'paradigma/body-shaping term mismatch');
+    assert(signal.sourceOfTruth === '/api/extrimli/extrem', 'paradigma/body-shaping source mismatch');
+    assert(signal.meaningLock.noNewRoutes, 'paradigma/body-shaping signal must not introduce new routes');
+    assert(signal.ownershipModel.extrem === 'technical-paradigm-body-shaping-signal', 'paradigma/body-shaping EXTREM ownership mismatch');
+    assert(signal.ownershipModel.extrondol === 'wawe-orchestration-audit-consumer', 'paradigma/body-shaping EXTRONDOL ownership mismatch');
+    assert(signal.technicalEvidence.forLoopBinding.sourceModel === 'PETLJE', 'paradigma/body-shaping FOR binding must stay on PETLJE');
+    assert(['READY', 'WATCH', 'BLOCKED'].includes(signal.readiness.status), 'unexpected paradigma/body-shaping readiness status');
+    assert(signal.technicalSignals.objectStateCarrierScore >= 0 && signal.technicalSignals.objectStateCarrierScore <= 100, 'object-state carrier score must be bounded');
+    assert(signal.technicalSignals.functionAdaptationScore >= 0 && signal.technicalSignals.functionAdaptationScore <= 100, 'function adaptation score must be bounded');
+    assert(signal.technicalSignals.methodBehaviorScore >= 0 && signal.technicalSignals.methodBehaviorScore <= 100, 'method behavior score must be bounded');
+    assert(signal.technicalSignals.bodyCompositionScore >= 0 && signal.technicalSignals.bodyCompositionScore <= 100, 'body composition score must be bounded');
+    assert(signal.technicalSignals.delegationIntegrityScore >= 0 && signal.technicalSignals.delegationIntegrityScore <= 100, 'delegation integrity score must be bounded');
+    assert(signal.technicalSignals.forAdaptationScore >= 0 && signal.technicalSignals.forAdaptationScore <= 100, 'FOR adaptation score must be bounded');
   });
 
   await test('pretpostavka input is deterministic over same environment values', async () => {

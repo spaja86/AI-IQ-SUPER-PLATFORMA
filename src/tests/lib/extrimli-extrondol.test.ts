@@ -37,6 +37,7 @@ import {
   EXTRONDOL_OBJEKTNO_ORIJENTISANA_REPRODUKCIJA_READY_ADJUSTMENT,
   EXTRONDOL_OBJEKTNO_ORIJENTISANA_REPRODUKCIJA_WATCH_ADJUSTMENT,
   EXTRONDOL_PROPORCIONALNO_PROGRAMIRANJE_CONTRACT_VERSION,
+  EXTRONDOL_PROGRAMSKI_JEZIK_PARADIGMA_OBLIKOVANJE_TELA_CONTRACT_VERSION,
   EXTRONDOL_SPAJINO_PROPORCIONALNO_PROGRAMIRANJE_UNIVERZITET_CONTRACT_VERSION,
   EXTRONDOL_SINEMETRICKO_PROGRAMIRANJE_CONTRACT_VERSION,
   EXTRONDOL_REQUESTED_DOMAIN_PATTERN,
@@ -52,6 +53,7 @@ import {
   getFunkionalnoProgramiranjePravnogMisaonogTokaAdjustment,
   getMetrickoProgramiranjeAdjustment,
   getProgramskiJezikInformacionihTokovaAdjustment,
+  getProgramskiJezikParadigmaOblikovanjeTelaAdjustment,
   getProgramskiJezikPretpostavkaAdjustment,
   getRadniTaktMozgaMislilacAdjustment,
   getProporcionalnoProgramiranjeAdjustment,
@@ -735,6 +737,9 @@ async function runTests(): Promise<void> {
     const programskiJezikPretpostavkaAdjustment = getProgramskiJezikPretpostavkaAdjustment(
       report.extremProfiler.programskiJezikPretpostavka.readiness.status,
     );
+    const programskiJezikParadigmaOblikovanjeTelaAdjustment = getProgramskiJezikParadigmaOblikovanjeTelaAdjustment(
+      report.extremProfiler.programskiJezikParadigmaOblikovanjeTela.readiness.status,
+    );
     const radniTaktMozgaMislilacAdjustment = getRadniTaktMozgaMislilacAdjustment(
       report.extremProfiler.radniTaktMozgaMislilac.readiness.status,
     );
@@ -769,6 +774,7 @@ async function runTests(): Promise<void> {
           + funkionalnoProgramiranjePravnogMisaonogTokaAdjustment
           + programskiJezikInformacionihTokovaAdjustment
           + programskiJezikPretpostavkaAdjustment
+          + programskiJezikParadigmaOblikovanjeTelaAdjustment
           + radniTaktMozgaMislilacAdjustment
           + metrikoProgramiranjeAdjustment
           + paradijogonalnoProgrimiranjeAdjustment
@@ -845,6 +851,48 @@ async function runTests(): Promise<void> {
     assert(report.b2bReadiness.downstreamSync.syncedFields.includes('programskiJezikPretpostavka'), 'pretpostavka governance field must sync downstream');
     assert(report.spajaKod.publicSignals.programskiJezikPretpostavkaStatus === report.extremProfiler.programskiJezikPretpostavka.readiness.status, 'SPAJA KOD pretpostavka summary mismatch');
     assert(report.acceptanceCriteria.some((item) => item.id === 'programski-jezik-pretpostavka-governance' && item.passed), 'pretpostavka acceptance criterion must pass');
+  });
+
+  await test('report maps PROGRAMSKI JEZIK PARADIGMA I OBLIKOVANJE TELA governance into WAWE, audit summary, downstream sync, and SPAJA KOD summary', () => {
+    const report = getExtrimliExtrondolReport();
+    assert(
+      report.programskiJezikParadigmaOblikovanjeTela.term === 'PROGRAMSKI JEZIK PARADIGMA I OBLIKOVANJE TELA (OBJEKAT U SISTEMU, ADAPTACIJA SA FUNKCIJAMA)',
+      'paradigma/body-shaping governance term mismatch',
+    );
+    assert(
+      report.programskiJezikParadigmaOblikovanjeTela.contractVersion === EXTRONDOL_PROGRAMSKI_JEZIK_PARADIGMA_OBLIKOVANJE_TELA_CONTRACT_VERSION,
+      'paradigma/body-shaping contract version mismatch',
+    );
+    assert(report.programskiJezikParadigmaOblikovanjeTela.technicalSignalSource === '/api/extrimli/extrem', 'paradigma/body-shaping technical source mismatch');
+    assert(report.programskiJezikParadigmaOblikovanjeTela.sourceOfTruth === '/api/extrimli/extrondol', 'paradigma/body-shaping governance source mismatch');
+    assert(report.programskiJezikParadigmaOblikovanjeTela.ownershipModel.extrem === 'technical-paradigm-body-shaping-signal', 'paradigma/body-shaping EXTREM ownership mismatch');
+    assert(
+      report.programskiJezikParadigmaOblikovanjeTela.paradigmMetrics.forStatus
+        === report.extremProfiler.programskiJezikParadigmaOblikovanjeTela.technicalEvidence.forLoopBinding.forEvidence.status,
+      'paradigma/body-shaping FOR status mismatch',
+    );
+    assert(
+      report.releaseAuditSummary.programskiJezikParadigmaOblikovanjeTelaGovernance.status
+        === report.extremProfiler.programskiJezikParadigmaOblikovanjeTela.readiness.status,
+      'paradigma/body-shaping audit status must mirror EXTREM',
+    );
+    assert(
+      report.b2bReadiness.downstreamSync.syncedFields.includes('extremProfiler.programskiJezikParadigmaOblikovanjeTela.readiness.status'),
+      'paradigma/body-shaping readiness must sync downstream',
+    );
+    assert(
+      report.b2bReadiness.downstreamSync.syncedFields.includes('programskiJezikParadigmaOblikovanjeTela'),
+      'paradigma/body-shaping governance field must sync downstream',
+    );
+    assert(
+      report.spajaKod.publicSignals.programskiJezikParadigmaOblikovanjeTelaStatus
+        === report.extremProfiler.programskiJezikParadigmaOblikovanjeTela.readiness.status,
+      'SPAJA KOD paradigma/body-shaping summary mismatch',
+    );
+    assert(
+      report.acceptanceCriteria.some((item) => item.id === 'programski-jezik-paradigma-oblikovanje-tela-governance' && item.passed),
+      'paradigma/body-shaping acceptance criterion must pass',
+    );
   });
 
   await test('report propagates PETLJE governance into rollout, audit summary, and downstream sync', () => {
