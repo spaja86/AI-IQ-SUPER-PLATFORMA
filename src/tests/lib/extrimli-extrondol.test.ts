@@ -844,7 +844,7 @@ async function runTests(): Promise<void> {
     assert(report.b2bReadiness.downstreamSync.syncedFields.includes('extremProfiler.programskiJezikPretpostavka.readiness.status'), 'pretpostavka readiness must sync downstream');
     assert(report.b2bReadiness.downstreamSync.syncedFields.includes('programskiJezikPretpostavka'), 'pretpostavka governance field must sync downstream');
     assert(report.spajaKod.publicSignals.programskiJezikPretpostavkaStatus === report.extremProfiler.programskiJezikPretpostavka.readiness.status, 'SPAJA KOD pretpostavka summary mismatch');
-    assert(report.acceptanceCriteria.some((item) => item.id === 'programski-jezik-informacionih-tokova-governance' && item.passed), 'informational-flow acceptance criterion must pass');
+    assert(report.acceptanceCriteria.some((item) => item.id === 'programski-jezik-pretpostavka-governance' && item.passed), 'pretpostavka acceptance criterion must pass');
   });
 
   await test('report propagates PETLJE governance into rollout, audit summary, and downstream sync', () => {
