@@ -1917,7 +1917,11 @@ function buildProgramskiJezikSpecijalizovanZaIgriceGovernance(params: {
       dakPromotionDecision: promotionHold ? 'HOLD' : 'PROMOTE',
       dukHumanReviewDecision: 'REQUIRED',
     },
-    consumerAnchors: signal.consumerAnchors,
+    consumerAnchors: {
+      igriceModule: signal.consumerAnchors.igriceModule,
+      gamingEndzinModule: signal.consumerAnchors.gamingEndzinModule,
+      publicOutput: 'audit-safe-summary',
+    },
     waweImpact: {
       currentWawe: params.currentWawe,
       eligibleNextWawe: params.eligibleNextWawe,
