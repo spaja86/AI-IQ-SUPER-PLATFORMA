@@ -1440,6 +1440,7 @@ function buildProgramskiJezikParadigmaOblikovanjeTelaSignal(
         || programskiJezikInformacionihTokova.readiness.deterministicFallbackRequired,
     },
   };
+}
 
 function classifyProgramskiJezikSpecijalizovanZaIgriceStatus(
   score: number,
@@ -1524,7 +1525,7 @@ function resolveProgramskiJezikSpecijalizovanZaIgriceForPetljaInput(
     start: parseIntegerEnv('EXTRIMLI_EXTREM_PROGRAMSKI_JEZIK_SPECIJALIZOVAN_ZA_IGRICE_FOR_START', 0, -1000, 1000, degradedSources),
     end: parseIntegerEnv('EXTRIMLI_EXTREM_PROGRAMSKI_JEZIK_SPECIJALIZOVAN_ZA_IGRICE_FOR_END', 16, -1000, 1000, degradedSources),
     step: parseIntegerEnv('EXTRIMLI_EXTREM_PROGRAMSKI_JEZIK_SPECIJALIZOVAN_ZA_IGRICE_FOR_STEP', 1, -1000, 1000, degradedSources),
-    maxIterations: parseIntegerEnv('EXTRIMLI_EXTREM_PROGRAMSKI_JEZIK_SPECIJALIZOVAN_ZA_IGRICE_FOR_MAX_ITERATIONS', 16, 0, 1000, degradedSources),
+    maxIterations: parseIntegerEnv('EXTRIMLI_EXTREM_PROGRAMSKI_JEZIK_SPECIJALIZOVAN_ZA_IGRICE_FOR_MAX_ITERATIONS', 32, 0, 1000, degradedSources),
     maxDurationMs: parseIntegerEnv('EXTRIMLI_EXTREM_PROGRAMSKI_JEZIK_SPECIJALIZOVAN_ZA_IGRICE_FOR_MAX_DURATION_MS', 100, 0, 10000, degradedSources),
     status,
   };
@@ -1717,19 +1718,20 @@ function buildProgramskiJezikSpecijalizovanZaIgriceSignal(
       spajaKod: 'public-audit-safe-summary',
     },
     canonicalVocabulary: {
-      gameplayCategory: { canonicalField: 'technicalSignals.gameplayCategoryCoverageScore', meaning: 'kategorija-igrice' },
-      runnerCompatibility: { canonicalField: 'technicalSignals.runnerCompatibilityScore', meaning: 'runner-kompatibilnost' },
-      dimensionalMode: { canonicalField: 'technicalSignals.dimensionalModeReadinessScore', meaning: 'dimenzionalni-rezim' },
-      renderPhysics: { canonicalField: 'technicalSignals.renderPhysicsReadinessScore', meaning: 'render-i-fizika' },
-      aiNpcBehavior: { canonicalField: 'technicalSignals.aiNpcBehaviorScore', meaning: 'ai-i-npc-ponasanje' },
-      multiplayerSync: { canonicalField: 'technicalSignals.multiplayerSyncScore', meaning: 'multiplayer-i-sync' },
-      antiCheat: { canonicalField: 'technicalSignals.antiCheatIntegrityScore', meaning: 'anti-cheat' },
-      analyticsPerformance: { canonicalField: 'technicalSignals.analyticsPerformanceReadinessScore', meaning: 'analytics-i-performance-readiness' },
+      gameplayCategory: { canonicalField: 'gamingDomainCoverage.gameplayCategoryCoverageScore', meaning: 'kategorija-igrice' },
+      runnerCompatibility: { canonicalField: 'gamingDomainCoverage.runnerCompatibilityScore', meaning: 'runner-kompatibilnost' },
+      dimensionalMode: { canonicalField: 'gamingDomainCoverage.dimensionalModeReadinessScore', meaning: 'dimenzionalni-rezim' },
+      renderPhysics: { canonicalField: 'gamingDomainCoverage.renderPhysicsReadinessScore', meaning: 'render-i-fizika' },
+      aiNpcBehavior: { canonicalField: 'gamingDomainCoverage.aiNpcBehaviorScore', meaning: 'ai-i-npc-ponasanje' },
+      multiplayerSync: { canonicalField: 'gamingDomainCoverage.multiplayerSyncScore', meaning: 'multiplayer-i-sync' },
+      antiCheat: { canonicalField: 'gamingDomainCoverage.antiCheatIntegrityScore', meaning: 'anti-cheat' },
+      analyticsPerformance: { canonicalField: 'gamingDomainCoverage.analyticsPerformanceReadinessScore', meaning: 'analytics-i-performance-readiness' },
       readinessStatus: { canonicalField: 'readiness.status', meaning: 'ready-watch-blocked' },
     },
     profileInput,
-    consumerModel: {
-      existingModules: ['src/lib/igrice.ts', 'src/lib/gaming-endzin.ts'],
+    consumerAnchors: {
+      igriceModule: 'src/lib/igrice.ts',
+      gamingEndzinModule: 'src/lib/gaming-endzin.ts',
       categoryAnchor: 'KategorijaIgrice',
       runnerAnchor: 'RunnerKompatibilnost',
       dimensionalAnchor: 'dimensional-engine-config',
@@ -1758,7 +1760,7 @@ function buildProgramskiJezikSpecijalizovanZaIgriceSignal(
         status: dikSignal?.status ?? null,
       },
     },
-    technicalSignals: {
+    gamingDomainCoverage: {
       gameplayCategoryCoverageScore,
       runnerCompatibilityScore,
       dimensionalModeReadinessScore,
@@ -1785,8 +1787,6 @@ function buildProgramskiJezikSpecijalizovanZaIgriceSignal(
       deterministicFallbackRequired: status !== 'READY' || forResult.reason !== 'completed',
     },
   };
-}
-
 }
 
 function classifyMetrickoProgramiranjeStatus(score: number): ExtrimliExtremMetrickoProgramiranjeStatus {

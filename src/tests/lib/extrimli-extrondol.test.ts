@@ -37,6 +37,7 @@ import {
   EXTRONDOL_OBJEKTNO_ORIJENTISANA_REPRODUKCIJA_READY_ADJUSTMENT,
   EXTRONDOL_OBJEKTNO_ORIJENTISANA_REPRODUKCIJA_WATCH_ADJUSTMENT,
   EXTRONDOL_PROPORCIONALNO_PROGRAMIRANJE_CONTRACT_VERSION,
+  EXTRONDOL_PROGRAMSKI_JEZIK_SPECIJALIZOVAN_ZA_IGRICE_CONTRACT_VERSION,
   EXTRONDOL_PROGRAMSKI_JEZIK_PARADIGMA_OBLIKOVANJE_TELA_CONTRACT_VERSION,
   EXTRONDOL_SPAJINO_PROPORCIONALNO_PROGRAMIRANJE_UNIVERZITET_CONTRACT_VERSION,
   EXTRONDOL_SINEMETRICKO_PROGRAMIRANJE_CONTRACT_VERSION,
@@ -55,6 +56,7 @@ import {
   getProgramskiJezikInformacionihTokovaAdjustment,
   getProgramskiJezikParadigmaOblikovanjeTelaAdjustment,
   getProgramskiJezikPretpostavkaAdjustment,
+  getProgramskiJezikSpecijalizovanZaIgriceAdjustment,
   getRadniTaktMozgaMislilacAdjustment,
   getProporcionalnoProgramiranjeAdjustment,
   getSpajinoProporcionalnoProgramiranjeUniverzitetAdjustment,
@@ -778,6 +780,7 @@ async function runTests(): Promise<void> {
           + programskiJezikInformacionihTokovaAdjustment
           + programskiJezikPretpostavkaAdjustment
           + programskiJezikParadigmaOblikovanjeTelaAdjustment
+          + programskiJezikSpecijalizovanZaIgriceAdjustment
           + radniTaktMozgaMislilacAdjustment
           + metrikoProgramiranjeAdjustment
           + paradijogonalnoProgrimiranjeAdjustment

@@ -1040,19 +1040,20 @@ export interface ExtrimliExtremProgramskiJezikSpecijalizovanZaIgriceSignal {
     spajaKod: 'public-audit-safe-summary';
   };
   canonicalVocabulary: {
-    gameplayCategory: { canonicalField: 'technicalSignals.gameplayCategoryCoverageScore'; meaning: 'kategorija-igrice' };
-    runnerCompatibility: { canonicalField: 'technicalSignals.runnerCompatibilityScore'; meaning: 'runner-kompatibilnost' };
-    dimensionalMode: { canonicalField: 'technicalSignals.dimensionalModeReadinessScore'; meaning: 'dimenzionalni-rezim' };
-    renderPhysics: { canonicalField: 'technicalSignals.renderPhysicsReadinessScore'; meaning: 'render-i-fizika' };
-    aiNpcBehavior: { canonicalField: 'technicalSignals.aiNpcBehaviorScore'; meaning: 'ai-i-npc-ponasanje' };
-    multiplayerSync: { canonicalField: 'technicalSignals.multiplayerSyncScore'; meaning: 'multiplayer-i-sync' };
-    antiCheat: { canonicalField: 'technicalSignals.antiCheatIntegrityScore'; meaning: 'anti-cheat' };
-    analyticsPerformance: { canonicalField: 'technicalSignals.analyticsPerformanceReadinessScore'; meaning: 'analytics-i-performance-readiness' };
+    gameplayCategory: { canonicalField: 'gamingDomainCoverage.gameplayCategoryCoverageScore'; meaning: 'kategorija-igrice' };
+    runnerCompatibility: { canonicalField: 'gamingDomainCoverage.runnerCompatibilityScore'; meaning: 'runner-kompatibilnost' };
+    dimensionalMode: { canonicalField: 'gamingDomainCoverage.dimensionalModeReadinessScore'; meaning: 'dimenzionalni-rezim' };
+    renderPhysics: { canonicalField: 'gamingDomainCoverage.renderPhysicsReadinessScore'; meaning: 'render-i-fizika' };
+    aiNpcBehavior: { canonicalField: 'gamingDomainCoverage.aiNpcBehaviorScore'; meaning: 'ai-i-npc-ponasanje' };
+    multiplayerSync: { canonicalField: 'gamingDomainCoverage.multiplayerSyncScore'; meaning: 'multiplayer-i-sync' };
+    antiCheat: { canonicalField: 'gamingDomainCoverage.antiCheatIntegrityScore'; meaning: 'anti-cheat' };
+    analyticsPerformance: { canonicalField: 'gamingDomainCoverage.analyticsPerformanceReadinessScore'; meaning: 'analytics-i-performance-readiness' };
     readinessStatus: { canonicalField: 'readiness.status'; meaning: 'ready-watch-blocked' };
   };
   profileInput: ExtrimliExtremProgramskiJezikSpecijalizovanZaIgriceProfileInput;
-  consumerModel: {
-    existingModules: readonly ['src/lib/igrice.ts', 'src/lib/gaming-endzin.ts'];
+  consumerAnchors: {
+    igriceModule: 'src/lib/igrice.ts';
+    gamingEndzinModule: 'src/lib/gaming-endzin.ts';
     categoryAnchor: 'KategorijaIgrice';
     runnerAnchor: 'RunnerKompatibilnost';
     dimensionalAnchor: 'dimensional-engine-config';
@@ -1081,7 +1082,7 @@ export interface ExtrimliExtremProgramskiJezikSpecijalizovanZaIgriceSignal {
       status: ExtrimliDokDikDakDukConsistencyHealth['signals']['dik']['status'];
     };
   };
-  technicalSignals: {
+  gamingDomainCoverage: {
     gameplayCategoryCoverageScore: number;
     runnerCompatibilityScore: number;
     dimensionalModeReadinessScore: number;

@@ -129,7 +129,6 @@ import {
   EXTRONDOL_PROGRAMSKI_JEZIK_INFORMACIONIH_TOKOVA_READY_ADJUSTMENT,
   EXTRONDOL_PROGRAMSKI_JEZIK_PARADIGMA_OBLIKOVANJE_TELA_BLOCKED_ADJUSTMENT,
   EXTRONDOL_PROGRAMSKI_JEZIK_PARADIGMA_OBLIKOVANJE_TELA_CONTRACT_VERSION,
-  EXTRONDOL_PROGRAMSKI_JEZIK_SPECIJALIZOVAN_ZA_IGRICE_CONTRACT_VERSION,
   EXTRONDOL_PROGRAMSKI_JEZIK_PARADIGMA_OBLIKOVANJE_TELA_READY_ADJUSTMENT,
   EXTRONDOL_PROGRAMSKI_JEZIK_PARADIGMA_OBLIKOVANJE_TELA_WATCH_ADJUSTMENT,
   EXTRONDOL_PROGRAMSKI_JEZIK_INFORMACIONIH_TOKOVA_WATCH_ADJUSTMENT,
@@ -2357,6 +2356,7 @@ function buildSpajaKodFacade(params: {
   programskiJezikInformacionihTokovaStatus: ExtrimliExtrondolReport['extremProfiler']['programskiJezikInformacionihTokova']['readiness']['status'];
   programskiJezikPretpostavkaStatus: ExtrimliExtrondolReport['extremProfiler']['programskiJezikPretpostavka']['readiness']['status'];
   programskiJezikParadigmaOblikovanjeTelaStatus: ExtrimliExtrondolReport['extremProfiler']['programskiJezikParadigmaOblikovanjeTela']['readiness']['status'];
+  programskiJezikSpecijalizovanZaIgriceStatus: ExtrimliExtrondolReport['extremProfiler']['programskiJezikSpecijalizovanZaIgrice']['readiness']['status'];
   metrikoProgramiranjeStatus: ExtrimliExtrondolReport['extremProfiler']['metrikoProgramiranje']['readiness']['status'];
   proporcionalnoProgramiranjeStatus: ExtrimliExtrondolReport['extremProfiler']['proporcionalnoProgramiranje']['readiness']['status'];
   spajinoProporcionalnoProgramiranjeUniverzitetStatus: ExtrimliExtrondolReport['extremProfiler']['spajinoProporcionalnoProgramiranjeUniverzitet']['readiness']['status'];
@@ -2425,6 +2425,7 @@ function buildSpajaKodFacade(params: {
       programskiJezikInformacionihTokovaStatus: params.programskiJezikInformacionihTokovaStatus,
       programskiJezikPretpostavkaStatus: params.programskiJezikPretpostavkaStatus,
       programskiJezikParadigmaOblikovanjeTelaStatus: params.programskiJezikParadigmaOblikovanjeTelaStatus,
+      programskiJezikSpecijalizovanZaIgriceStatus: params.programskiJezikSpecijalizovanZaIgriceStatus,
       metrikoProgramiranjeStatus: params.metrikoProgramiranjeStatus,
       proporcionalnoProgramiranjeStatus: params.proporcionalnoProgramiranjeStatus,
       spajinoProporcionalnoProgramiranjeUniverzitetStatus: params.spajinoProporcionalnoProgramiranjeUniverzitetStatus,
