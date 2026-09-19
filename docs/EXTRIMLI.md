@@ -1376,3 +1376,12 @@ Downstream note: ako linked repo `spaja86/IO-OPENUI-AO` koristi DUEL KING readin
 - Dozvoljene status klase su `READY | WATCH | BLOCKED`.
 - Obavezni fallback uslovi ostaju aktivni za prazne, nevalidne i nedeterminističke ulaze, kao i za `NaN`, `Infinity`, nevalidne opsege i svaki signal koji aktivira drift-zero blokadu.
 - `releaseAuditSummary`, rollback zahtev, WAWE 1–5 uticaj, downstream sync prema `spaja86/IO-OPENUI-AO` i `SPAJA KOD` audit-safe summary ostaju zaključani bez novih source-of-truth ruta.
+
+
+## PROGRAMSKI JEZIK PARADIGMA I OBLIKOVANJE TELA
+
+- `PROGRAMSKI JEZIK PARADIGMA I OBLIKOVANJE TELA (OBJEKAT U SISTEMU, ADAPTACIJA SA FUNKCIJAMA)` je additive-only track unutar postojećih `/api/extrimli/extrem` + `/api/extrimli/extrondol` granica.
+- EXTREM zaključava tehnički signal za objekat/stanje/metode/delegaciju/FOR, dok EXTRONDOL zaključava WAWE, freeze, human-review, releaseAuditSummary i rollback interpretaciju.
+- SPAJA KOD prikazuje samo zbirni audit-safe status; raw objektni, funkcionalni i FOR signali ostaju repo-local u EXTREM + EXTRONDOL sloju.
+- Downstream sync koristi samo `extremProfiler.programskiJezikParadigmaOblikovanjeTela.readiness`, `programskiJezikParadigmaOblikovanjeTela.waweImpact`, `releaseAuditSummary.programskiJezikParadigmaOblikovanjeTelaGovernance` i `spajaKod.publicSignals.programskiJezikParadigmaOblikovanjeTelaStatus`.
+- Detaljna specifikacija: `docs/PROGRAMSKI-JEZIK-PARADIGMA-I-OBLIKOVANJE-TELA.md`.

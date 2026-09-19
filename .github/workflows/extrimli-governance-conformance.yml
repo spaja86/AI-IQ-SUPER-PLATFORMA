@@ -15,6 +15,7 @@ on:
       - 'docs/EXTRIMLI-DEVELOPER-CREATE-PROGRAM.md'
       - 'docs/AI-IQ-PROGRAMSKI-JEZIK.md'
       - 'docs/PROGRAMSKI-JEZIK-INFORMACIONIH-TOKOVA.md'
+      - 'docs/PROGRAMSKI-JEZIK-PARADIGMA-I-OBLIKOVANJE-TELA.md'
       - 'docs/EXTRIMLI-EXTERNAL-GITHUB.md'
       - 'docs/MULTI-REPO-LINKS.md'
       - '.github/workflows/extrimli-validator.yml'
@@ -59,6 +60,7 @@ jobs:
           const extrimliDoc = fs.readFileSync('docs/EXTRIMLI.md', 'utf8');
           const aiIqDoc = fs.readFileSync('docs/AI-IQ-PROGRAMSKI-JEZIK.md', 'utf8');
           const informacioniTokoviDoc = fs.readFileSync('docs/PROGRAMSKI-JEZIK-INFORMACIONIH-TOKOVA.md', 'utf8');
+          const paradigmaDoc = fs.readFileSync('docs/PROGRAMSKI-JEZIK-PARADIGMA-I-OBLIKOVANJE-TELA.md', 'utf8');
           const developerCreateProgramDoc = fs.readFileSync('docs/EXTRIMLI-DEVELOPER-CREATE-PROGRAM.md', 'utf8');
           const externalDoc = fs.readFileSync('docs/EXTRIMLI-EXTERNAL-GITHUB.md', 'utf8');
           const links = fs.readFileSync('docs/MULTI-REPO-LINKS.md', 'utf8');
@@ -84,9 +86,12 @@ jobs:
           assert(extrimliDoc.includes('programskiJezikProucavanja') && extrimliDoc.includes('programskiEkanalog'), 'EXTRIMLI doc must include Programski jezik proučavanja + programski ekanalog additive fields');
           assert(aiIqDoc.includes('PROGRAMSKI JEZIK PROUČAVANJA') && aiIqDoc.includes('PROGRAMSKI EKANALOG'), 'AI IQ doc must include Programski jezik proučavanja + programski ekanalog profile');
           assert(aiIqDoc.includes('PROGRAMSKI JEZIK INFORMACIONIH TOKOVA') && aiIqDoc.includes('FOR PETLJA'), 'AI IQ doc must include informational-flow DSL profile');
+          assert(aiIqDoc.includes('PROGRAMSKI JEZIK PARADIGMA I OBLIKOVANJE TELA') && aiIqDoc.includes('objekat'), 'AI IQ doc must include paradigma/body-shaping DSL profile');
           assert(informacioniTokoviDoc.includes('READY | WATCH | BLOCKED') && informacioniTokoviDoc.includes('FOR PETLJA'), 'informational-flow doc must lock canonical semantics and FOR binding');
+          assert(paradigmaDoc.includes('READY | WATCH | BLOCKED') && paradigmaDoc.includes('/api/extrimli/extrem') && paradigmaDoc.includes('/api/extrimli/extrondol'), 'paradigma/body-shaping doc must lock canonical semantics and source-of-truth boundaries');
           assert(types.includes('programskiJezikProucavanja') && extrondolIndex.includes('programskiJezikProucavanja'), 'types and EXTRONDOL index must include Programski jezik proučavanja contract fields');
           assert(types.includes('programskiJezikInformacionihTokova') && extrondolIndex.includes('programskiJezikInformacionihTokova'), 'types and EXTRONDOL index must include informational-flow contract fields');
+          assert(types.includes('programskiJezikParadigmaOblikovanjeTela') && extrondolIndex.includes('programskiJezikParadigmaOblikovanjeTela'), 'types and EXTRONDOL index must include paradigma/body-shaping contract fields');
           assert(
             developerCreateProgramDoc.includes('PROGRAM_LOCK_SOURCE_OF_TRUTH') &&
             developerCreateProgramDoc.includes('PROGRAM_LOCK_DRIFT_ZERO') &&
@@ -94,15 +99,19 @@ jobs:
             'Developer/Create program doc must keep governance lock markers for source-of-truth, drift-zero, and machine-checked DoD'
           );
           assert(developerCreateProgramDoc.includes('PROGRAMSKI JEZIK PROUČAVANJA') && developerCreateProgramDoc.includes('PROGRAMSKI EKANALOG'), 'Developer/Create program doc must lock Programski jezik proučavanja + programski ekanalog');
+          assert(developerCreateProgramDoc.includes('PROGRAMSKI JEZIK PARADIGMA I OBLIKOVANJE TELA'), 'Developer/Create program doc must lock paradigma/body-shaping track');
           assert(developerCreateProgramDoc.includes('docs + types + routes + tests + workflows'), 'Developer/Create program doc must lock docs/types/routes/tests/workflows');
           assert(externalDoc.includes('.github/workflows/extrimli-governance-conformance.yml'), 'external governance doc must reference conformance workflow');
           assert(links.includes('EXTRIMLI governance conformance audit'), 'multi-repo links must include conformance audit mapping');
+          assert(links.includes('PROGRAMSKI JEZIK PARADIGMA I OBLIKOVANJE TELA'), 'multi-repo links must include paradigma/body-shaping downstream mapping');
           assert(links.includes('EXTRIMLI — Developer/Create Program'), 'multi-repo links must include the Developer/Create program downstream mapping');
           assert(links.includes('versionRoadmap.developerCreateLock'), 'multi-repo links must sync the shared Developer/Create lock');
           assert(validatorWorkflow.includes('docs/EXTRIMLI-DEVELOPER-CREATE-PROGRAM.md'), 'validator workflow must watch Developer/Create program doc');
+          assert(validatorWorkflow.includes('docs/PROGRAMSKI-JEZIK-PARADIGMA-I-OBLIKOVANJE-TELA.md'), 'validator workflow must watch paradigma/body-shaping doc');
           assert(validatorWorkflow.includes('src/tests/lib/extrimli-extrem.test.ts'), 'validator workflow must watch EXTREM profiler tests');
           assert(validatorWorkflow.includes('.github/workflows/extrimli-governance-conformance.yml'), 'validator workflow must watch governance conformance workflow');
           assert(externalWorkflow.includes('docs/EXTRIMLI-DEVELOPER-CREATE-PROGRAM.md'), 'external workflow must watch Developer/Create program doc');
+          assert(externalWorkflow.includes('docs/PROGRAMSKI-JEZIK-PARADIGMA-I-OBLIKOVANJE-TELA.md'), 'external workflow must watch paradigma/body-shaping doc');
           assert(externalWorkflow.includes('src/tests/lib/extrimli-extrem.test.ts'), 'external workflow must watch EXTREM profiler tests');
           assert(externalWorkflow.includes('.github/workflows/extrimli-governance-conformance.yml'), 'external workflow must watch governance conformance workflow');
           NODE

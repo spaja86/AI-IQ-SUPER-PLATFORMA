@@ -259,3 +259,10 @@ v1 je spreman za downstream sinhronizaciju prema `spaja86/IO-OPENUI-AO` kroz:
   - **učini oblik** = akcioni učini oblik za izlaznu interpretaciju.
 - `FOR + DOK + DIK` ostaju EXTREM tehnički dokaz, dok `DAK + DUK` ostaju EXTRONDOL governance odluka.
 - Dozvoljene status klase su `READY | WATCH | BLOCKED`, a postojeći explainability/guardrail/fallback okvir ostaje jedini javni model izlaganja.
+
+
+## PROGRAMSKI JEZIK PARADIGMA I OBLIKOVANJE TELA
+
+- `PROGRAMSKI JEZIK PARADIGMA I OBLIKOVANJE TELA (OBJEKAT U SISTEMU, ADAPTACIJA SA FUNKCIJAMA)` je additive-only DSL profil u okviru `EXTRIMLI-EXTRONDOL-EXTREM` modela.
+- `FOR PETLJA` ostaje sekvencijalni/adaptivni tok; `DOK + DIK` ostaju EXTREM tehnički dokaz, a `DAK + DUK` ostaju EXTRONDOL governance odluka.
+- `objekat` označava nosioca stanja, `funkcija/metoda` ponašanje nad stanjem, a `oblikovanje tela` auditabilnu kompoziciju objekta, instanci, atributa i delegacije.

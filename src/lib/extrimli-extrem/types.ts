@@ -4,6 +4,7 @@ import type { ExtrimliSpajaproExtremTrack } from '../extrimli-spajapro-track';
 import type { EkvivalentDomain, EkvivalentRelationType } from '../ekvivalent-network/types';
 import type { PetljaInput, PetljaReason, PetljaStatus } from '../petlje';
 import { EXTRIMLI_OBJEKTNO_ORIJENTISANA_PRONGILACIJA_CONTRACT_VERSION } from '../extrimli-objektna-prongilacija-contract';
+import { EXTRIMLI_PROGRAMSKI_JEZIK_PARADIGMA_OBLIKOVANJE_TELA_CONTRACT_VERSION } from '../extrimli-programski-jezik-paradigma-oblikovanje-tela-contract';
 import { EXTRIMLI_OBJEKTNO_ORIJENTISANA_REPRODUKCIJA_CONTRACT_VERSION } from '../extrimli-objektno-orijentisana-reprodukcija-contract';
 import { EXTRIMLI_OBJEKTNO_ORIJENTUSANO_UZDIZANJE_EPSKIH_ELIKVADENATA_CONTRACT_VERSION } from '../extrimli-objektno-orijentusano-uzdizanje-epskih-elikvadenata-contract';
 
@@ -680,6 +681,7 @@ export interface ExtrimliExtremRadniTaktMozgaMislilacSignal {
 
 export type ExtrimliExtremProgramskiJezikInformacionihTokovaStatus = 'READY' | 'WATCH' | 'BLOCKED';
 export type ExtrimliExtremProgramskiJezikPretpostavkaStatus = 'READY' | 'WATCH' | 'BLOCKED';
+export type ExtrimliExtremProgramskiJezikParadigmaOblikovanjeTelaStatus = 'READY' | 'WATCH' | 'BLOCKED';
 
 export interface ExtrimliExtremProgramskiJezikInformacionihTokovaProfileInput {
   forRangeCoveragePercent: number;
@@ -875,6 +877,124 @@ export interface ExtrimliExtremProgramskiJezikPretpostavkaSignal {
   readiness: {
     score: number;
     status: ExtrimliExtremProgramskiJezikPretpostavkaStatus;
+    readyForWaweProgression: boolean;
+    degraded: boolean;
+    watchReasons: string[];
+    blockerReasons: string[];
+    deterministicFallbackRequired: boolean;
+  };
+}
+
+export interface ExtrimliExtremProgramskiJezikParadigmaOblikovanjeTelaProfileInput {
+  objectStateCarrierPercent: number;
+  functionAdaptationPercent: number;
+  methodBehaviorPercent: number;
+  bodyCompositionPercent: number;
+  delegationIntegrityPercent: number;
+  forFlowAlignmentPercent: number;
+}
+
+export interface ExtrimliExtremProgramskiJezikParadigmaOblikovanjeTelaSignal {
+  term: 'PROGRAMSKI JEZIK PARADIGMA I OBLIKOVANJE TELA (OBJEKAT U SISTEMU, ADAPTACIJA SA FUNKCIJAMA)';
+  contractVersion: typeof EXTRIMLI_EXTREM_PROGRAMSKI_JEZIK_PARADIGMA_OBLIKOVANJE_TELA_CONTRACT_VERSION;
+  additiveOnly: true;
+  sourceOfTruth: '/api/extrimli/extrem';
+  triggerLabel: 'extrem:logic-change';
+  scopeLock: readonly ['EXTRIMLI', 'EXTREM', 'EXTRONDOL', 'SPAJA KOD'];
+  meaningLock: {
+    canonicalName: 'PROGRAMSKI JEZIK PARADIGMA I OBLIKOVANJE TELA (OBJEKAT U SISTEMU, ADAPTACIJA SA FUNKCIJAMA)';
+    statement: string;
+    objectMeaning: 'objekat-kao-nosilac-stanja-u-sistemu';
+    functionMeaning: 'funkcija-ili-metoda-kao-ponasanje-nad-stanjem';
+    forMeaning: 'sekvencijalni-adaptivni-nosac-promene';
+    bodyShapingMeaning: 'auditabilna-kompozicija-objekta-instanci-atributa-i-delegacije';
+    existingContractBeforeThisChange: false;
+    aliasesOfExistingSurfaces: false;
+    noNewRoutes: true;
+  };
+  ownershipModel: {
+    extrem: 'technical-paradigm-body-shaping-signal';
+    extrondol: 'wawe-orchestration-audit-consumer';
+    spajaKod: 'public-encapsulated-boundary';
+  };
+  canonicalVocabulary: {
+    objectStateCarrier: {
+      canonicalField: 'technicalSignals.objectStateCarrierScore';
+      meaning: 'objekat-kao-nosilac-stanja';
+    };
+    functionAdaptation: {
+      canonicalField: 'technicalSignals.functionAdaptationScore';
+      meaning: 'adaptacija-sa-funkcijama';
+    };
+    methodBehavior: {
+      canonicalField: 'technicalSignals.methodBehaviorScore';
+      meaning: 'ponasanje-nad-stanjem';
+    };
+    bodyComposition: {
+      canonicalField: 'technicalSignals.bodyCompositionScore';
+      meaning: 'oblikovanje-tela-kroz-kompoziciju';
+    };
+    delegationIntegrity: {
+      canonicalField: 'technicalSignals.delegationIntegrityScore';
+      meaning: 'delegacija-i-podela-odgovornosti';
+    };
+    forAdaptiveFlow: {
+      canonicalField: 'technicalSignals.forAdaptationScore';
+      meaning: 'for-kao-sekvencijalni-adaptivni-tok';
+    };
+    readinessStatus: {
+      canonicalField: 'readiness.status';
+      meaning: 'wawe-readiness-posture';
+    };
+  };
+  profileInput: ExtrimliExtremProgramskiJezikParadigmaOblikovanjeTelaProfileInput;
+  sourceSignals: {
+    objectTrack: 'Objektno orijentisana prongilacija';
+    proportionalTrack: 'PROPORCIONALNO PROGRAMIRANJE';
+    informationalFlowTrack: 'PROGRAMSKI JEZIK INFORMACIONIH TOKOVA';
+    synthesisRule: 'object-function-for-body-shaping';
+  };
+  technicalEvidence: {
+    forLoopBinding: {
+      sourceModel: 'PETLJE';
+      sourceKind: 'FOR PETLJA';
+      sourceOwnership: 'EXTREM';
+      noSourceOfTruthMove: true;
+      forEvidence: {
+        kind: 'FOR PETLJA';
+        readinessScore: number | null;
+        status: ExtrimliDokDikDakDukConsistencyHealth['signals']['dok']['status'];
+      };
+    };
+    dokEvidence: {
+      kind: 'DOK PETLJA';
+      readinessScore: number | null;
+      status: ExtrimliDokDikDakDukConsistencyHealth['signals']['dok']['status'];
+    };
+    dikEvidence: {
+      kind: 'DIK PETLJA';
+      readinessScore: number | null;
+      status: ExtrimliDokDikDakDukConsistencyHealth['signals']['dik']['status'];
+    };
+  };
+  technicalSignals: {
+    objectStateCarrierScore: number;
+    functionAdaptationScore: number;
+    methodBehaviorScore: number;
+    bodyCompositionScore: number;
+    delegationIntegrityScore: number;
+    forAdaptationScore: number;
+  };
+  ownershipEvidence: {
+    forTechnical: true;
+    dokTechnical: true;
+    dikTechnical: true;
+    dakDeferredToGovernance: true;
+    dukDeferredToGovernance: true;
+  };
+  readiness: {
+    score: number;
+    status: ExtrimliExtremProgramskiJezikParadigmaOblikovanjeTelaStatus;
     readyForWaweProgression: boolean;
     degraded: boolean;
     watchReasons: string[];
@@ -1859,6 +1979,40 @@ export interface ExtrimliDokDikDakDukConsistencyHealth {
     auditReady: boolean;
     reasons: string[];
   };
+  programskiJezikParadigmaOblikovanjeTela: {
+    canonicalName: 'PROGRAMSKI JEZIK PARADIGMA I OBLIKOVANJE TELA (OBJEKAT U SISTEMU, ADAPTACIJA SA FUNKCIJAMA)';
+    meaning: 'objekat-u-sistemu-adaptacija-sa-funkcijama';
+    additiveOnlyProfile: 'EXTRIMLI-EXTRONDOL-EXTREM';
+    sourceOfTruthRoutes: readonly ['/api/extrimli/extrem', '/api/extrimli/extrondol'];
+    technicalOwnershipLock: {
+      forPetlja: 'EXTREM';
+      objekatIFunkcija: 'EXTREM';
+      dokDik: 'EXTREM';
+      dakDuk: 'EXTRONDOL';
+      spajaKod: 'audit-safe-summary-only';
+    };
+    paradigmMetrics: {
+      objectStateCarrierScore: number;
+      functionAdaptationScore: number;
+      methodBehaviorScore: number;
+      bodyCompositionScore: number;
+      delegationIntegrityScore: number;
+      forAdaptationScore: number;
+      forStatus: ExtrimliDokDikDakDukConsistencyHealth['signals']['dok']['status'];
+      dokStatus: ExtrimliDokDikDakDukConsistencyHealth['signals']['dok']['status'] | null;
+      dikStatus: ExtrimliDokDikDakDukConsistencyHealth['signals']['dik']['status'] | null;
+      fallbackRequired: boolean;
+    };
+    governanceCoupling: {
+      promotionFreeze: boolean | null;
+      humanReviewRequired: true;
+      rollbackPlanRequired: true;
+      downstreamReference: 'spaja86/IO-OPENUI-AO';
+    };
+    consolidatedStatus: 'READY' | 'WATCH' | 'BLOCKED';
+    auditReady: boolean;
+    reasons: string[];
+  };
   reasons: string[];
 }
 
@@ -1945,6 +2099,7 @@ export interface ExtrimliExtremProfilerReport {
   proporcionalnoProgramiranje: ExtrimliExtremProporcionalnoProgramiranjeSignal;
   programskiJezikInformacionihTokova: ExtrimliExtremProgramskiJezikInformacionihTokovaSignal;
   programskiJezikPretpostavka: ExtrimliExtremProgramskiJezikPretpostavkaSignal;
+  programskiJezikParadigmaOblikovanjeTela: ExtrimliExtremProgramskiJezikParadigmaOblikovanjeTelaSignal;
   metrikoProgramiranje: ExtrimliExtremMetrickoProgramiranjeSignal;
   spajinoProporcionalnoProgramiranjeUniverzitet: ExtrimliExtremSpajinoProporcionalnoProgramiranjeUniverzitetSignal;
   sinemetrickoProgramiranje: ExtrimliExtremSinemetrickoProgramiranjeSignal;
@@ -2059,6 +2214,10 @@ export const EXTRIMLI_EXTREM_PROGRAMSKI_JEZIK_PRETPOSTAVKA_CONTRACT_VERSION =
   'v1-programski-jezik-pretpostavka';
 export const EXTRIMLI_EXTREM_PROGRAMSKI_JEZIK_PRETPOSTAVKA_MIN_READY_SCORE = 80;
 export const EXTRIMLI_EXTREM_PROGRAMSKI_JEZIK_PRETPOSTAVKA_MIN_WATCH_SCORE = 62;
+export const EXTRIMLI_EXTREM_PROGRAMSKI_JEZIK_PARADIGMA_OBLIKOVANJE_TELA_CONTRACT_VERSION =
+  EXTRIMLI_PROGRAMSKI_JEZIK_PARADIGMA_OBLIKOVANJE_TELA_CONTRACT_VERSION;
+export const EXTRIMLI_EXTREM_PROGRAMSKI_JEZIK_PARADIGMA_OBLIKOVANJE_TELA_MIN_READY_SCORE = 80;
+export const EXTRIMLI_EXTREM_PROGRAMSKI_JEZIK_PARADIGMA_OBLIKOVANJE_TELA_MIN_WATCH_SCORE = 62;
 export const EXTRIMLI_EXTREM_METRICKO_PROGRAMIRANJE_CONTRACT_VERSION = 'v1-metricko-programiranje';
 export const EXTRIMLI_EXTREM_METRICKO_PROGRAMIRANJE_MIN_READY_SCORE = 80;
 export const EXTRIMLI_EXTREM_METRICKO_PROGRAMIRANJE_MIN_WATCH_SCORE = 62;

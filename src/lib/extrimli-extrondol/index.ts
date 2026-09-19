@@ -43,6 +43,7 @@ import type {
   ExtrimliExtrondolParadijogonalnoProgrimiranjeGovernance,
   ExtrimliExtrondolFunkionalnoProgramiranjePravnogMisaonogTokaGovernance,
   ExtrimliExtrondolProgramskiJezikInformacionihTokovaGovernance,
+  ExtrimliExtrondolProgramskiJezikParadigmaOblikovanjeTelaGovernance,
   ExtrimliExtrondolProgramskiJezikPretpostavkaGovernance,
   ExtrimliExtrondolMetrickoProgramiranjeGovernance,
   ExtrimliExtrondolProporcionalnoProgramiranjeGovernance,
@@ -125,6 +126,10 @@ import {
   EXTRONDOL_PROGRAMSKI_JEZIK_INFORMACIONIH_TOKOVA_BLOCKED_ADJUSTMENT,
   EXTRONDOL_PROGRAMSKI_JEZIK_INFORMACIONIH_TOKOVA_CONTRACT_VERSION,
   EXTRONDOL_PROGRAMSKI_JEZIK_INFORMACIONIH_TOKOVA_READY_ADJUSTMENT,
+  EXTRONDOL_PROGRAMSKI_JEZIK_PARADIGMA_OBLIKOVANJE_TELA_BLOCKED_ADJUSTMENT,
+  EXTRONDOL_PROGRAMSKI_JEZIK_PARADIGMA_OBLIKOVANJE_TELA_CONTRACT_VERSION,
+  EXTRONDOL_PROGRAMSKI_JEZIK_PARADIGMA_OBLIKOVANJE_TELA_READY_ADJUSTMENT,
+  EXTRONDOL_PROGRAMSKI_JEZIK_PARADIGMA_OBLIKOVANJE_TELA_WATCH_ADJUSTMENT,
   EXTRONDOL_PROGRAMSKI_JEZIK_INFORMACIONIH_TOKOVA_WATCH_ADJUSTMENT,
   EXTRONDOL_PROGRAMSKI_JEZIK_PRETPOSTAVKA_BLOCKED_ADJUSTMENT,
   EXTRONDOL_PROGRAMSKI_JEZIK_PRETPOSTAVKA_CONTRACT_VERSION,
@@ -483,6 +488,14 @@ export function getProgramskiJezikPretpostavkaAdjustment(
   if (status === 'READY') return EXTRONDOL_PROGRAMSKI_JEZIK_PRETPOSTAVKA_READY_ADJUSTMENT;
   if (status === 'WATCH') return EXTRONDOL_PROGRAMSKI_JEZIK_PRETPOSTAVKA_WATCH_ADJUSTMENT;
   return EXTRONDOL_PROGRAMSKI_JEZIK_PRETPOSTAVKA_BLOCKED_ADJUSTMENT;
+}
+
+export function getProgramskiJezikParadigmaOblikovanjeTelaAdjustment(
+  status: ExtrimliExtrondolReport['extremProfiler']['programskiJezikParadigmaOblikovanjeTela']['readiness']['status'],
+): number {
+  if (status === 'READY') return EXTRONDOL_PROGRAMSKI_JEZIK_PARADIGMA_OBLIKOVANJE_TELA_READY_ADJUSTMENT;
+  if (status === 'WATCH') return EXTRONDOL_PROGRAMSKI_JEZIK_PARADIGMA_OBLIKOVANJE_TELA_WATCH_ADJUSTMENT;
+  return EXTRONDOL_PROGRAMSKI_JEZIK_PARADIGMA_OBLIKOVANJE_TELA_BLOCKED_ADJUSTMENT;
 }
 
 export function getMetrickoProgramiranjeAdjustment(
@@ -860,6 +873,38 @@ function buildProgramskiJezikPretpostavkaReasons(
   return {
     rolloutReasons: [],
     governanceReasons: ['ready:pretpostavka, ključne informacije i učini oblik ostaju deterministički, additive-only i audit-ready za WAWE progression'],
+  };
+}
+
+function buildProgramskiJezikParadigmaOblikovanjeTelaReasons(
+  signal: ExtrimliExtrondolReport['extremProfiler']['programskiJezikParadigmaOblikovanjeTela'],
+): {
+  rolloutReasons: string[];
+  governanceReasons: string[];
+} {
+  if (signal.readiness.status === 'WATCH') {
+    return {
+      rolloutReasons: [
+        'programski-jezik-paradigma-oblikovanje-tela:watch',
+        ...signal.readiness.watchReasons.map((reason) => `programski-jezik-paradigma-oblikovanje-tela:${reason}`),
+      ],
+      governanceReasons: signal.readiness.watchReasons.map((reason) => `watch:${reason}`),
+    };
+  }
+
+  if (signal.readiness.status === 'BLOCKED') {
+    return {
+      rolloutReasons: [
+        'programski-jezik-paradigma-oblikovanje-tela:blocked',
+        ...signal.readiness.blockerReasons.map((reason) => `programski-jezik-paradigma-oblikovanje-tela:${reason}`),
+      ],
+      governanceReasons: signal.readiness.blockerReasons.map((reason) => `blocked:${reason}`),
+    };
+  }
+
+  return {
+    rolloutReasons: [],
+    governanceReasons: ['ready:objekat, funkcija, delegacija i FOR tok ostaju auditabilno spojeni u additive-only paradigm/body-shaping track-u'],
   };
 }
 
@@ -1714,6 +1759,71 @@ function buildProgramskiJezikPretpostavkaGovernance(params: {
   };
 }
 
+function buildProgramskiJezikParadigmaOblikovanjeTelaGovernance(params: {
+  extremProfiler: ExtrimliExtrondolReport['extremProfiler'];
+  currentWawe: ExtrimliExtrondolWaweStage;
+  eligibleNextWawe: ExtrimliExtrondolWaweStage;
+  promotionFreeze: boolean;
+  downstreamSyncComplete: boolean;
+  humanReviewComplete: boolean;
+}): ExtrimliExtrondolProgramskiJezikParadigmaOblikovanjeTelaGovernance {
+  const signal = params.extremProfiler.programskiJezikParadigmaOblikovanjeTela;
+  const postureReasons = buildProgramskiJezikParadigmaOblikovanjeTelaReasons(signal);
+  const reasons = [
+    ...postureReasons.governanceReasons,
+    ...(!params.downstreamSyncComplete ? ['governance:downstream-sync-follow-up-required'] : []),
+    ...(!params.humanReviewComplete ? ['governance:human-review-required'] : []),
+    ...(signal.readiness.deterministicFallbackRequired ? ['governance:deterministic-fallback-required'] : []),
+    ...(params.promotionFreeze ? ['governance:promotion-freeze-active'] : []),
+  ];
+
+  return {
+    term: 'PROGRAMSKI JEZIK PARADIGMA I OBLIKOVANJE TELA (OBJEKAT U SISTEMU, ADAPTACIJA SA FUNKCIJAMA)',
+    sourceOfTruth: '/api/extrimli/extrondol',
+    technicalSignalSource: '/api/extrimli/extrem',
+    contractVersion: EXTRONDOL_PROGRAMSKI_JEZIK_PARADIGMA_OBLIKOVANJE_TELA_CONTRACT_VERSION,
+    additiveOnly: true,
+    status: signal.readiness.status,
+    readinessScore: signal.readiness.score,
+    governanceVisibility: 'audit-safe-readiness-only',
+    paradigmMetrics: {
+      objectStateCarrierScore: signal.technicalSignals.objectStateCarrierScore,
+      functionAdaptationScore: signal.technicalSignals.functionAdaptationScore,
+      methodBehaviorScore: signal.technicalSignals.methodBehaviorScore,
+      bodyCompositionScore: signal.technicalSignals.bodyCompositionScore,
+      delegationIntegrityScore: signal.technicalSignals.delegationIntegrityScore,
+      forAdaptationScore: signal.technicalSignals.forAdaptationScore,
+      forStatus: signal.technicalEvidence.forLoopBinding.forEvidence.status,
+      dokStatus: params.extremProfiler.dokDikDakDukConsistencyHealth.signals.dok.status,
+      dikStatus: params.extremProfiler.dokDikDakDukConsistencyHealth.signals.dik.status,
+      deterministicFallbackRequired: signal.readiness.deterministicFallbackRequired,
+    },
+    governanceDecisions: {
+      dakPromotionDecision: params.promotionFreeze || signal.readiness.status === 'BLOCKED' ? 'HOLD' : 'PROMOTE',
+      dukHumanReviewDecision: 'REQUIRED',
+    },
+    ownershipModel: {
+      extrem: 'technical-paradigm-body-shaping-signal',
+      extrondol: 'wawe-orchestration-audit-consumer',
+      spajaKod: 'public-encapsulated-boundary',
+    },
+    ownershipEvidence: signal.ownershipEvidence,
+    waweImpact: {
+      currentWawe: params.currentWawe,
+      eligibleNextWawe: params.eligibleNextWawe,
+      promotionFreeze: params.promotionFreeze || signal.readiness.status === 'BLOCKED',
+      reviewRequiredBeforeWideRollout: true,
+    },
+    auditCoupling: {
+      releaseAuditSummaryRequired: true,
+      humanReviewRequired: true,
+      rollbackPlanRequired: true,
+      downstreamSyncRequired: true,
+    },
+    reasons,
+  };
+}
+
 function buildMetrickoProgramiranjeGovernance(params: {
   extremProfiler: ExtrimliExtrondolReport['extremProfiler'];
   currentWawe: ExtrimliExtrondolWaweStage;
@@ -2135,6 +2245,7 @@ function buildSpajaKodFacade(params: {
   funkionalnoProgramiranjePravnogMisaonogTokaStatus: ExtrimliExtrondolReport['extremProfiler']['funkionalnoProgramiranjePravnogMisaonogToka']['readiness']['status'];
   programskiJezikInformacionihTokovaStatus: ExtrimliExtrondolReport['extremProfiler']['programskiJezikInformacionihTokova']['readiness']['status'];
   programskiJezikPretpostavkaStatus: ExtrimliExtrondolReport['extremProfiler']['programskiJezikPretpostavka']['readiness']['status'];
+  programskiJezikParadigmaOblikovanjeTelaStatus: ExtrimliExtrondolReport['extremProfiler']['programskiJezikParadigmaOblikovanjeTela']['readiness']['status'];
   metrikoProgramiranjeStatus: ExtrimliExtrondolReport['extremProfiler']['metrikoProgramiranje']['readiness']['status'];
   proporcionalnoProgramiranjeStatus: ExtrimliExtrondolReport['extremProfiler']['proporcionalnoProgramiranje']['readiness']['status'];
   spajinoProporcionalnoProgramiranjeUniverzitetStatus: ExtrimliExtrondolReport['extremProfiler']['spajinoProporcionalnoProgramiranjeUniverzitet']['readiness']['status'];
@@ -2202,6 +2313,7 @@ function buildSpajaKodFacade(params: {
       funkionalnoProgramiranjePravnogMisaonogTokaStatus: params.funkionalnoProgramiranjePravnogMisaonogTokaStatus,
       programskiJezikInformacionihTokovaStatus: params.programskiJezikInformacionihTokovaStatus,
       programskiJezikPretpostavkaStatus: params.programskiJezikPretpostavkaStatus,
+      programskiJezikParadigmaOblikovanjeTelaStatus: params.programskiJezikParadigmaOblikovanjeTelaStatus,
       metrikoProgramiranjeStatus: params.metrikoProgramiranjeStatus,
       proporcionalnoProgramiranjeStatus: params.proporcionalnoProgramiranjeStatus,
       spajinoProporcionalnoProgramiranjeUniverzitetStatus: params.spajinoProporcionalnoProgramiranjeUniverzitetStatus,
@@ -2487,6 +2599,9 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
       'extremProfiler.funkcionalnoProgramiranjeUzvisenogMisanogToka',
       'extremProfiler.funkcionalnoProgramiranjeEksplicitnogMisaonogToka',
       'extremProfiler.funkcionalnoProgramiranjePravednogMisaonogToka',
+      'extremProfiler.programskiJezikInformacionihTokova',
+      'extremProfiler.programskiJezikPretpostavka',
+      'extremProfiler.programskiJezikParadigmaOblikovanjeTela',
       'extremProfiler.paradijogonalnoProgrimiranje',
       'extremProfiler.funkionalnoProgramiranjePravnogMisaonogToka',
       'extremProfiler.metrikoProgramiranje',
@@ -2504,6 +2619,9 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
       'funkcionalnoProgramiranjeUzvisenogMisanogToka',
       'funkcionalnoProgramiranjeEksplicitnogMisaonogToka',
       'funkcionalnoProgramiranjePravednogMisaonogToka',
+      'programskiJezikInformacionihTokova',
+      'programskiJezikPretpostavka',
+      'programskiJezikParadigmaOblikovanjeTela',
       'paradijogonalnoProgrimiranje',
       'funkionalnoProgramiranjePravnogMisaonogToka',
       'metrikoProgramiranje',
@@ -2550,6 +2668,7 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
         'extremProfiler.funkcionalnoProgramiranjePravednogMisaonogToka.readiness',
         'extremProfiler.programskiJezikInformacionihTokova.readiness',
         'extremProfiler.programskiJezikPretpostavka.readiness',
+        'extremProfiler.programskiJezikParadigmaOblikovanjeTela.readiness',
         'extremProfiler.paradijogonalnoProgrimiranje.readiness',
         'extremProfiler.funkionalnoProgramiranjePravnogMisaonogToka.readiness',
         'extremProfiler.metrikoProgramiranje.readiness',
@@ -2569,6 +2688,7 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
         'funkcionalnoProgramiranjePravednogMisaonogToka',
         'programskiJezikInformacionihTokova',
         'programskiJezikPretpostavka',
+        'programskiJezikParadigmaOblikovanjeTela',
         'paradijogonalnoProgrimiranje',
         'funkionalnoProgramiranjePravnogMisaonogToka',
         'metrikoProgramiranje',
@@ -2640,6 +2760,9 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
   const programskiJezikPretpostavkaAdjustment = getProgramskiJezikPretpostavkaAdjustment(
     extremProfiler.programskiJezikPretpostavka.readiness.status,
   );
+  const programskiJezikParadigmaOblikovanjeTelaAdjustment = getProgramskiJezikParadigmaOblikovanjeTelaAdjustment(
+    extremProfiler.programskiJezikParadigmaOblikovanjeTela.readiness.status,
+  );
   const metrikoProgramiranjeAdjustment = getMetrickoProgramiranjeAdjustment(
     extremProfiler.metrikoProgramiranje.readiness.status,
   );
@@ -2687,6 +2810,7 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
         + funkionalnoProgramiranjePravnogMisaonogTokaAdjustment
         + programskiJezikInformacionihTokovaAdjustment
         + programskiJezikPretpostavkaAdjustment
+        + programskiJezikParadigmaOblikovanjeTelaAdjustment
         + metrikoProgramiranjeAdjustment
         + paradijogonalnoProgrimiranjeAdjustment
         + proporcionalnoProgramiranjeAdjustment
@@ -2850,6 +2974,12 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
     ...(extremProfiler.proporcionalnoProgramiranje.readiness.status === 'BLOCKED'
       ? ['PROPORCIONALNO PROGRAMIRANJE is BLOCKED and requires audit attention until PROTKROV FUNKCIJA, OBJEKTNE PARADOKSALNE ETAPE, and conditional facts return to proportional balance.']
       : []),
+    ...(extremProfiler.programskiJezikParadigmaOblikovanjeTela.readiness.status === 'WATCH'
+      ? ['PROGRAMSKI JEZIK PARADIGMA I OBLIKOVANJE TELA is in WATCH posture and requires architecture review for object-state, functional adaptation, and FOR composition before wider rollout.']
+      : []),
+    ...(extremProfiler.programskiJezikParadigmaOblikovanjeTela.readiness.status === 'BLOCKED'
+      ? ['PROGRAMSKI JEZIK PARADIGMA I OBLIKOVANJE TELA is BLOCKED and must freeze promotion until object-state, delegation, and FOR adaptation issues are resolved.']
+      : []),
     ...(extremProfiler.objektnoOrijentisanaReprodukcija.readiness.status === 'WATCH'
       ? ['Objektno orijentisana reprodukcija is in WATCH posture and requires replay review before wider rollout.']
       : []),
@@ -2906,6 +3036,9 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
     ...(extremProfiler.funkionalnoProgramiranjePravnogMisaonogToka.readiness.status === 'BLOCKED'
       ? ['funkionalno-programiranje-pravnog-misaonog-toka']
       : []),
+    ...(extremProfiler.programskiJezikParadigmaOblikovanjeTela.readiness.status === 'BLOCKED'
+      ? ['programski-jezik-paradigma-oblikovanje-tela']
+      : []),
     ...(extremProfiler.objektnoOrijentisanaReprodukcija.readiness.status === 'BLOCKED'
       ? ['objektno-orijentisana-reprodukcija']
       : []),
@@ -2956,6 +3089,8 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
     || extremProfiler.radniTaktMozgaMislilac.readiness.status === 'BLOCKED'
     || (extremProfiler.funkionalnoProgramiranjePravnogMisaonogToka.readiness.status === 'WATCH' && !humanReviewComplete)
     || extremProfiler.funkionalnoProgramiranjePravnogMisaonogToka.readiness.status === 'BLOCKED'
+    || (extremProfiler.programskiJezikParadigmaOblikovanjeTela.readiness.status === 'WATCH' && !humanReviewComplete)
+    || extremProfiler.programskiJezikParadigmaOblikovanjeTela.readiness.status === 'BLOCKED'
     || (extremProfiler.spajinoProporcionalnoProgramiranjeUniverzitet.readiness.status === 'WATCH' && !humanReviewComplete)
     || extremProfiler.spajinoProporcionalnoProgramiranjeUniverzitet.readiness.status === 'BLOCKED'
     || (extremProfiler.sinemetrickoProgramiranje.readiness.status === 'WATCH' && !humanReviewComplete)
@@ -2991,6 +3126,9 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
   const proporcionalnoProgramiranjePostureReasons = buildProporcionalnoProgramiranjeReasons(
     extremProfiler.proporcionalnoProgramiranje,
   );
+  const programskiJezikParadigmaOblikovanjeTelaPostureReasons = buildProgramskiJezikParadigmaOblikovanjeTelaReasons(
+    extremProfiler.programskiJezikParadigmaOblikovanjeTela,
+  );
   const spajinoProporcionalnoProgramiranjeUniverzitetPostureReasons = buildSpajinoProporcionalnoProgramiranjeUniverzitetReasons(
     extremProfiler.spajinoProporcionalnoProgramiranjeUniverzitet,
   );
@@ -3009,6 +3147,7 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
     ...radniTaktMozgaMislilacPostureReasons.rolloutReasons,
     ...funkionalnoProgramiranjePravnogMisaonogTokaPostureReasons.rolloutReasons,
     ...proporcionalnoProgramiranjePostureReasons.rolloutReasons,
+    ...programskiJezikParadigmaOblikovanjeTelaPostureReasons.rolloutReasons,
     ...spajinoProporcionalnoProgramiranjeUniverzitetPostureReasons.rolloutReasons,
     ...sinemetrickoProgramiranjePostureReasons.rolloutReasons,
     ...(extremProfiler.sinemetrickoProgramiranje.conflict.evidenceRequired
@@ -3237,6 +3376,22 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
       blockerReasons: [...extremProfiler.programskiJezikPretpostavka.readiness.blockerReasons],
       watchReasons: [...extremProfiler.programskiJezikPretpostavka.readiness.watchReasons],
     },
+    programskiJezikParadigmaOblikovanjeTelaGovernance: {
+      sourceOfTruth: '/api/extrimli/extrem',
+      status: extremProfiler.programskiJezikParadigmaOblikovanjeTela.readiness.status,
+      readinessScore: extremProfiler.programskiJezikParadigmaOblikovanjeTela.readiness.score,
+      objectStateCarrierScore: extremProfiler.programskiJezikParadigmaOblikovanjeTela.technicalSignals.objectStateCarrierScore,
+      functionAdaptationScore: extremProfiler.programskiJezikParadigmaOblikovanjeTela.technicalSignals.functionAdaptationScore,
+      methodBehaviorScore: extremProfiler.programskiJezikParadigmaOblikovanjeTela.technicalSignals.methodBehaviorScore,
+      bodyCompositionScore: extremProfiler.programskiJezikParadigmaOblikovanjeTela.technicalSignals.bodyCompositionScore,
+      delegationIntegrityScore: extremProfiler.programskiJezikParadigmaOblikovanjeTela.technicalSignals.delegationIntegrityScore,
+      forAdaptationScore: extremProfiler.programskiJezikParadigmaOblikovanjeTela.technicalSignals.forAdaptationScore,
+      forStatus: extremProfiler.programskiJezikParadigmaOblikovanjeTela.technicalEvidence.forLoopBinding.forEvidence.status,
+      deterministicFallbackRequired: extremProfiler.programskiJezikParadigmaOblikovanjeTela.readiness.deterministicFallbackRequired,
+      reviewRequiredBeforeWideRollout: extremProfiler.programskiJezikParadigmaOblikovanjeTela.readiness.status !== 'READY',
+      blockerReasons: [...extremProfiler.programskiJezikParadigmaOblikovanjeTela.readiness.blockerReasons],
+      watchReasons: [...extremProfiler.programskiJezikParadigmaOblikovanjeTela.readiness.watchReasons],
+    },
     metrikoProgramiranjeGovernance: {
       sourceOfTruth: '/api/extrimli/extrem',
       status: extremProfiler.metrikoProgramiranje.readiness.status,
@@ -3429,6 +3584,14 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
     humanReviewComplete,
   });
   const programskiJezikPretpostavka = buildProgramskiJezikPretpostavkaGovernance({
+    extremProfiler,
+    currentWawe,
+    eligibleNextWawe: nextWawe(currentWawe),
+    promotionFreeze,
+    downstreamSyncComplete,
+    humanReviewComplete,
+  });
+  const programskiJezikParadigmaOblikovanjeTela = buildProgramskiJezikParadigmaOblikovanjeTelaGovernance({
     extremProfiler,
     currentWawe,
     eligibleNextWawe: nextWawe(currentWawe),
@@ -3695,6 +3858,17 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
       details: programskiJezikPretpostavka.reasons.join('; '),
     },
     {
+      id: 'programski-jezik-paradigma-oblikovanje-tela-governance',
+      label: 'PROGRAMSKI JEZIK PARADIGMA I OBLIKOVANJE TELA posture',
+      required: true,
+      status: programskiJezikParadigmaOblikovanjeTela.status === 'READY'
+        ? 'PASS' as const
+        : programskiJezikParadigmaOblikovanjeTela.status === 'WATCH'
+          ? 'WARN' as const
+          : 'FAIL' as const,
+      details: programskiJezikParadigmaOblikovanjeTela.reasons.join('; '),
+    },
+    {
       id: 'objektno-orijentisana-reprodukcija-governance',
       label: 'Objektno orijentisana reprodukcija posture',
       required: true,
@@ -3841,6 +4015,7 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
     funkionalnoProgramiranjePravnogMisaonogTokaStatus: extremProfiler.funkionalnoProgramiranjePravnogMisaonogToka.readiness.status,
     programskiJezikInformacionihTokovaStatus: extremProfiler.programskiJezikInformacionihTokova.readiness.status,
     programskiJezikPretpostavkaStatus: extremProfiler.programskiJezikPretpostavka.readiness.status,
+    programskiJezikParadigmaOblikovanjeTelaStatus: extremProfiler.programskiJezikParadigmaOblikovanjeTela.readiness.status,
     metrikoProgramiranjeStatus: extremProfiler.metrikoProgramiranje.readiness.status,
     proporcionalnoProgramiranjeStatus: extremProfiler.proporcionalnoProgramiranje.readiness.status,
     spajinoProporcionalnoProgramiranjeUniverzitetStatus: extremProfiler.spajinoProporcionalnoProgramiranjeUniverzitet.readiness.status,
@@ -4209,6 +4384,9 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
         'extremProfiler.programskiJezikPretpostavka.readiness.status',
         'extremProfiler.programskiJezikPretpostavka.readiness.score',
         'extremProfiler.programskiJezikPretpostavka.forLoopBinding.forEvidence.status',
+        'extremProfiler.programskiJezikParadigmaOblikovanjeTela.readiness.status',
+        'extremProfiler.programskiJezikParadigmaOblikovanjeTela.readiness.score',
+        'extremProfiler.programskiJezikParadigmaOblikovanjeTela.technicalEvidence.forLoopBinding.forEvidence.status',
         'extremProfiler.metrikoProgramiranje.readiness.status',
         'extremProfiler.metrikoProgramiranje.readiness.score',
         'extremProfiler.proporcionalnoProgramiranje.readiness.status',
@@ -4251,6 +4429,9 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
         'programskiJezikPretpostavka',
         'programskiJezikPretpostavka.waweImpact',
         'programskiJezikPretpostavka.flowMetrics.forStatus',
+        'programskiJezikParadigmaOblikovanjeTela',
+        'programskiJezikParadigmaOblikovanjeTela.waweImpact',
+        'programskiJezikParadigmaOblikovanjeTela.paradigmMetrics.forStatus',
         'metrikoProgramiranje.waweImpact',
         'proporcionalnoProgramiranje.waweImpact',
         'spajinoProporcionalnoProgramiranjeUniverzitet.waweImpact',
@@ -4298,6 +4479,7 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
       || extremProfiler.radniTaktMozgaMislilac.readiness.status === 'BLOCKED'
       || extremProfiler.programskiJezikInformacionihTokova.readiness.status === 'BLOCKED'
       || extremProfiler.programskiJezikPretpostavka.readiness.status === 'BLOCKED'
+      || extremProfiler.programskiJezikParadigmaOblikovanjeTela.readiness.status === 'BLOCKED'
       || extremProfiler.metrikoProgramiranje.readiness.status === 'BLOCKED'
       || extremProfiler.spajinoProporcionalnoProgramiranjeUniverzitet.readiness.status === 'BLOCKED'
       || extremProfiler.sinemetrickoProgramiranje.readiness.status === 'BLOCKED'
@@ -4831,6 +5013,17 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
         && b2bReadiness.downstreamSync.syncedFields.includes('programskiJezikPretpostavka')
         && spajaKod.publicSignals.programskiJezikPretpostavkaStatus === extremProfiler.programskiJezikPretpostavka.readiness.status,
     },
+    {
+      id: 'programski-jezik-paradigma-oblikovanje-tela-governance',
+      description: 'PROGRAMSKI JEZIK PARADIGMA I OBLIKOVANJE TELA must remain additive-only, keep object/function/FOR raw signals inside EXTREM+EXTRONDOL, and expose only audit-safe status through release summary, downstream sync, and SPAJA KOD.',
+      passed: programskiJezikParadigmaOblikovanjeTela.contractVersion === EXTRONDOL_PROGRAMSKI_JEZIK_PARADIGMA_OBLIKOVANJE_TELA_CONTRACT_VERSION
+        && programskiJezikParadigmaOblikovanjeTela.technicalSignalSource === '/api/extrimli/extrem'
+        && programskiJezikParadigmaOblikovanjeTela.ownershipEvidence.forTechnical
+        && releaseAuditSummary.programskiJezikParadigmaOblikovanjeTelaGovernance.status === extremProfiler.programskiJezikParadigmaOblikovanjeTela.readiness.status
+        && b2bReadiness.downstreamSync.syncedFields.includes('extremProfiler.programskiJezikParadigmaOblikovanjeTela.readiness.status')
+        && b2bReadiness.downstreamSync.syncedFields.includes('programskiJezikParadigmaOblikovanjeTela')
+        && spajaKod.publicSignals.programskiJezikParadigmaOblikovanjeTelaStatus === extremProfiler.programskiJezikParadigmaOblikovanjeTela.readiness.status,
+    },
 
     {
       id: 'objektno-orijentisana-reprodukcija-governance',
@@ -4962,6 +5155,7 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
     sinemetrickoProgramiranje,
     programskiJezikInformacionihTokova,
     programskiJezikPretpostavka,
+    programskiJezikParadigmaOblikovanjeTela,
     objektnoOrijentisanaReprodukcija,
     epicElikvadenti,
     mobilnaLinija,
@@ -5102,6 +5296,7 @@ export {
   EXTRONDOL_FUNKIONALNO_PROGRAMIRANJE_PRAVNOG_MISAONOG_TOKA_CONTRACT_VERSION,
   EXTRONDOL_FUNKIONALNO_PROGRAMIRANJE_PRAVNOG_MISAONOG_TOKA_READY_ADJUSTMENT,
   EXTRONDOL_FUNKIONALNO_PROGRAMIRANJE_PRAVNOG_MISAONOG_TOKA_WATCH_ADJUSTMENT,
+  EXTRONDOL_PROGRAMSKI_JEZIK_PARADIGMA_OBLIKOVANJE_TELA_CONTRACT_VERSION,
   EXTRONDOL_METRICKO_PROGRAMIRANJE_BLOCKED_ADJUSTMENT,
   EXTRONDOL_METRICKO_PROGRAMIRANJE_CONTRACT_VERSION,
   EXTRONDOL_METRICKO_PROGRAMIRANJE_READY_ADJUSTMENT,

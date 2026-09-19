@@ -8,6 +8,7 @@ on:
       - 'docs/EXTRIMLI-DEVELOPER-CREATE-PROGRAM.md'
       - 'docs/AI-IQ-PROGRAMSKI-JEZIK.md'
       - 'docs/PROGRAMSKI-JEZIK-INFORMACIONIH-TOKOVA.md'
+      - 'docs/PROGRAMSKI-JEZIK-PARADIGMA-I-OBLIKOVANJE-TELA.md'
       - 'docs/EXTRIMLI-EXTERNAL-GITHUB.md'
       - 'docs/MULTI-REPO-LINKS.md'
       - '.agent-config.json'
