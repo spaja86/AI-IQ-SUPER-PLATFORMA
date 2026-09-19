@@ -1236,27 +1236,24 @@ function resolveProgramskiJezikPoProsparitetuDeklasiraneMatriceUEkstaziInput(
 function resolveProgramskiJezikPoProsparitetuDeklasiraneMatriceUEkstaziForPetljaInput(
   degradedSources: string[],
 ): PetljaInput {
+  const rawTo = parsePercentEnvWithInvalidFallback(
+    'EXTRIMLI_EXTREM_PROGRAMSKI_JEZIK_PO_PROSPARITETU_DEKLASIRANE_MATRICE_U_EKSTAZI_FOR_TO',
+    5,
+    0,
+    degradedSources,
+  );
+  const rawMultiplier = parsePercentEnvWithInvalidFallback(
+    'EXTRIMLI_EXTREM_PROGRAMSKI_JEZIK_PO_PROSPARITETU_DEKLASIRANE_MATRICE_U_EKSTAZI_FOR_MULTIPLIER',
+    50,
+    0,
+    degradedSources,
+  );
+  const invalidLoopConfiguration = rawTo <= 0 || rawMultiplier <= 0;
+
   return {
-    from: 0,
-    to: Math.max(
-      2,
-      Math.round(parsePercentEnvWithInvalidFallback(
-        'EXTRIMLI_EXTREM_PROGRAMSKI_JEZIK_PO_PROSPARITETU_DEKLASIRANE_MATRICE_U_EKSTAZI_FOR_TO',
-        5,
-        3,
-        degradedSources,
-      ) / 20),
-    ),
-    step: 1,
-    multiplier: Math.max(
-      1,
-      Math.round(parsePercentEnvWithInvalidFallback(
-        'EXTRIMLI_EXTREM_PROGRAMSKI_JEZIK_PO_PROSPARITETU_DEKLASIRANE_MATRICE_U_EKSTAZI_FOR_MULTIPLIER',
-        2,
-        1,
-        degradedSources,
-      ) / 50),
-    ),
+    start: 0,
+    end: invalidLoopConfiguration ? 0 : Math.max(2, Math.round(rawTo / 20)),
+    step: invalidLoopConfiguration ? 0 : Math.max(1, Math.round(rawMultiplier / 50)),
   };
 }
 

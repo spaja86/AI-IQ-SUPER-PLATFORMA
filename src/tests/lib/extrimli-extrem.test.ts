@@ -1141,6 +1141,8 @@ async function runTests(): Promise<void> {
       assert(signal.readiness.status === 'BLOCKED', 'invalid prosparitet/deklasirane-matrice inputs must block readiness');
       assert(signal.readiness.deterministicFallbackRequired, 'invalid prosparitet/deklasirane-matrice inputs must require deterministic fallback');
       assert(signal.readiness.blockerReasons.length >= 1, 'invalid prosparitet/deklasirane-matrice inputs must emit blocker reasons');
+      assert(signal.forLoopBinding.forEvidence.status === 'BLOCKED', `expected BLOCKED FOR status, got ${signal.forLoopBinding.forEvidence.status}`);
+      assert(signal.readiness.blockerReasons.includes('deklasirane-matrice-invalid-or-nondeterministic-input'), 'invalid FOR configuration must propagate deterministic blocker reason');
     });
   });
 
