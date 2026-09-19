@@ -52,6 +52,16 @@ Audit reference convention:
 
 `AI-IQ-SUPER-PLATFORMA#EXTRIMLI-DOK-DIK-DAK-DUK-CONSISTENCY -> IO-OPENUI-AO#<follow-up issue>`
 
+## EXTRIMLI SINEMETRIČKO PROGRAMIRANJE downstream reference
+
+- This repo: `AI-IQ-SUPER-PLATFORMA` — SINEMETRIČKO PROGRAMIRANJE additive track over EXTRIMLI/EXTREM/EXTRONDOL
+- Linked repo: `spaja86/IO-OPENUI-AO` — Follow-up required
+- Note: Sync only audit-safe governance/readiness outputs (`extremProfiler.sinemetrickoProgramiranje.readiness`, `sinemetrickoProgramiranje.waweImpact`, `releaseAuditSummary.sinemetrickoProgramiranjeGovernance`); internal matrix formulas and raw matrix payloads remain repo-local
+
+Audit reference convention:
+
+`AI-IQ-SUPER-PLATFORMA#EXTRIMLI-SINEMETRICKO-PROGRAMIRANJE -> IO-OPENUI-AO#<follow-up issue>`
+
 ## EXTRIMLI objektno orijentisana prongilacija downstream reference
 
 - This repo: `AI-IQ-SUPER-PLATFORMA` — Objektno orijentisana prongilacija over EXTRIMLI/EXTREM/EXTRONDOL

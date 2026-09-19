@@ -30,6 +30,7 @@ Sledeći artefakti ostaju zaključano jezgro Developer/Create programa:
 
 - `docs/EXTRIMLI.md`
 - `docs/EXTRIMLI-DEVELOPER-CREATE-PROGRAM.md`
+- `docs/EXTRIMLI-SINEMETRICKO-PROGRAMIRANJE.md`
 - `src/lib/extrimli-extrem/**`
 - `src/lib/extrimli-extrondol/**`
 - `src/app/api/extrimli/extrem/route.ts`
@@ -63,6 +64,7 @@ Ownership hard lock:
 - DOK/DIK/DAK/DUK signalni model ostaje zaključan: **DOK+DIK** u EXTREM tehničkom sloju, **DAK+DUK** u EXTRONDOL governance sloju.
 - `METRIČKO PROGRAMIRANJE` koristi isti ownership model i ne uvodi paralelni governance source izvan postojećih ruta.
 - Svaki rollout mora izložiti jedinstveni `dokDikDakDukConsistencyHealth` izlaz i test konzistentnosti između tehničkog i governance sloja.
+- SINEMETRIČKO PROGRAMIRANJE ostaje additive-only signal (bez novih ruta): EXTREM objavljuje readiness/conflict/evidence, EXTRONDOL koristi signal za WAWE freeze/promotion i release-audit odluke.
 
 ### Stream D — B2B readiness + payment verification
 - `b2bScope`, `b2bReadiness`, `paymentVerification` ostaju hard gate sloj pre promocije.

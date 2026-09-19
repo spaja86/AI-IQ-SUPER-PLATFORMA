@@ -22,6 +22,7 @@ This repository now exposes five aligned surfaces:
 | **METRIČKO PROGRAMIRANJE** | `docs/EXTRIMLI-METRICKO-PROGRAMIRANJE.md`, `/api/extrimli/extrem`, `/api/extrimli/extrondol`, `/api/extrimli/spaja-kod` | Active | Additive metric-programming track; EXTREM owns declaration-matrix and instance-positioning technical signal, EXTRONDOL owns WAWE/audit governance, SPAJA KOD exposes only audit-safe final status |
 | **SPAJAPRO Track** | `docs/EXTRIMLI-SPAJAPRO-TRACK.md`, `/api/extrimli/extrem`, `/api/extrimli/extrondol`, `/api/extrimli/spaja-kod` | Active | Locked ODIT→KODER planning track layered on EXTRIMLI; EXTREM owns technical signals, EXTRONDOL owns orchestration, SPAJA KOD exposes only final public-safe status |
 | **AI IQ Programski Jezik Integration Profile** | `docs/AI-IQ-PROGRAMSKI-JEZIK.md`, `/api/ai-iq-programski-jezik/*`, `/api/extrimli/extrem`, `/api/extrimli/extrondol` | Active | Additive `EXTRIMLI-EXTRONDOL-EXTREM` profile that maps `DOM/DIK` to EXTREM signals and `DAK/DUK` to EXTRONDOL promotion/human-review governance |
+| **SINEMETRIČKO PROGRAMIRANJE** | `docs/EXTRIMLI-SINEMETRICKO-PROGRAMIRANJE.md`, `/api/extrimli/extrem`, `/api/extrimli/extrondol`, `/api/extrimli/spaja-kod` | Active | Additive-only matrix-syntax signal: EXTREM publishes deterministic readiness/conflict/evidence, EXTRONDOL consumes it for WAWE freeze/promotion/audit, SPAJA KOD remains audit-safe summary boundary |
 | **World Bank Persona Bridge** | `src/lib/extrimli-world-bank-persona/`, `src/app/api/extrimli/world-bank-persona/` | Active | Maps AI IQ World Bank business context + EXTRIMLI/EXTRONDOL readiness into persona-centric output and Persona Bank lifecycle updates |
 
 ## Module paths
@@ -611,6 +612,44 @@ Governance impact:
 - `READY` signal podržava dalji WAWE napredak i deterministic replay posture.
 - `WATCH` signal zahteva review pre šireg rollout-a, bez promene public boundary-ja.
 - `BLOCKED` signal mora da aktivira promotion freeze kroz EXTRONDOL i release audit.
+
+## SINEMETRIČKO PROGRAMIRANJE
+
+- Canonical term: `SINEMETRIČKO PROGRAMIRANJE`
+- Scope lock: `EXTRIMLI`, `EXTREM`, `EXTRONDOL`, `SPAJA KOD`
+- Source-of-truth routes remain locked: `/api/extrimli/extrem`, `/api/extrimli/extrondol`, `/api/extrimli/spaja-kod`
+- No new parallel routes and no breaking mutation of existing contracts.
+
+Signal and ownership boundary:
+
+- **EXTREM** publishes additive deterministic signal:
+  - readiness
+  - conflict
+  - evidence
+- **EXTRONDOL** consumes that signal for:
+  - WAWE freeze/promotion posture
+  - human-review requirement
+  - release-audit summary and downstream-sync governance
+- **SPAJA KOD** keeps public-safe summary only (no raw matrix formulas).
+
+Canonical vocabulary lock:
+
+- `matrične sintakse` = scaling legal/conventional acts
+- `sekvence u oktavnom dimenzionalnom prostoru` = octaval sequence dimensional readiness
+- `matrična jedinjenja` = persona + strelična/miš/tastaturna enkripcija
+- `pixel cadence` = deterministic 1ms baseline
+
+Signal split lock remains mandatory:
+
+- `DOK + DIK` stay in EXTREM technical layer
+- `DAK + DUK` stay in EXTRONDOL governance layer
+
+Acceptance criteria:
+
+- deterministic output for identical input payloads
+- degraded-safe handling for NaN/Infinity/out-of-range inputs
+- octaval sequence + 1ms cadence constraints validated
+- DOK/DIK/DAK/DUK consistency health remains aligned across EXTREM and EXTRONDOL
 
 ## KRALJEVSKI PRAVNI UNIVERZITET
 
