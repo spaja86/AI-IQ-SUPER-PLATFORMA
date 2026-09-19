@@ -1009,6 +1009,119 @@ export interface ExtrimliExtremProgramskiJezikParadigmaOblikovanjeTelaProfileInp
   forFlowAlignmentPercent: number;
 }
 
+export type ExtrimliExtremProgramskiJezikDekoracijeObjektnihPrimesaStatus = 'READY' | 'WATCH' | 'BLOCKED';
+
+export interface ExtrimliExtremProgramskiJezikDekoracijeObjektnihPrimesaProfileInput {
+  dekoracijaObjekataPercent: number;
+  kohezijaObjektnihPrimesaPercent: number;
+  petljaZupcanikStabilnostPercent: number;
+  konfliktPritisakPercent: number;
+  svestranostUSvestranostiPercent: number;
+}
+
+export interface ExtrimliExtremProgramskiJezikDekoracijeObjektnihPrimesaSignal {
+  term: 'PROGRAMSKI JEZIK DEKORACIJE OBJEKTNIH PRIMESA (BROJČANI ZUPČANIK PETLJI U EKSTAZNOM OBLIKU ŠPEDICIJE – SVESTRANOST U SVESTRANOSTI)';
+  contractVersion: typeof EXTRIMLI_EXTREM_PROGRAMSKI_JEZIK_DEKORACIJE_OBJEKTNIH_PRIMESA_CONTRACT_VERSION;
+  additiveOnly: true;
+  sourceOfTruth: '/api/extrimli/extrem';
+  triggerLabel: 'extrem:logic-change';
+  scopeLock: readonly ['EXTRIMLI', 'EXTREM', 'EXTRONDOL', 'SPAJA KOD'];
+  meaningLock: {
+    canonicalName: 'PROGRAMSKI JEZIK DEKORACIJE OBJEKTNIH PRIMESA (BROJČANI ZUPČANIK PETLJI U EKSTAZNOM OBLIKU ŠPEDICIJE – SVESTRANOST U SVESTRANOSTI)';
+    statement: string;
+    dekoracijeObjektnihPrimesaMeaning: 'objektno-funkcionalni-signalni-domen';
+    brojcaniZupcanikPetljiMeaning: 'for-sekvencijalni-stabilizacioni-sloj';
+    ekstaznaSpedicijaMeaning: 'bounded-ekstazna-interpretacija-bez-novih-ruta';
+    svestranostUSvestranostiMeaning: 'koheziona-svestranost-u-konsolidovanom-signalu';
+    existingContractBeforeThisChange: false;
+    aliasesOfExistingSurfaces: false;
+    noNewRoutes: true;
+  };
+  ownershipModel: {
+    extrem: 'technical-object-primes-decoration-signal';
+    extrondol: 'wawe-orchestration-audit-consumer';
+    spajaKod: 'public-audit-safe-summary';
+  };
+  canonicalVocabulary: {
+    dekoracijaObjekata: {
+      canonicalField: 'technicalSignals.dekoracijaObjekataScore';
+      meaning: 'dekoracija-objekata';
+    };
+    kohezijaObjektnihPrimesa: {
+      canonicalField: 'technicalSignals.kohezijaObjektnihPrimesaScore';
+      meaning: 'kohezija-objektnih-primesa';
+    };
+    petljaZupcanikStabilnost: {
+      canonicalField: 'technicalSignals.petljaZupcanikStabilnostScore';
+      meaning: 'brojcani-zupcanik-petlji-stabilnost';
+    };
+    konfliktPritisak: {
+      canonicalField: 'technicalSignals.konfliktPritisakScore';
+      meaning: 'konflikt-pritisak';
+    };
+    svestranostUSvestranosti: {
+      canonicalField: 'technicalSignals.svestranostUSvestranostiScore';
+      meaning: 'svestranost-u-svestranosti';
+    };
+    readinessStatus: {
+      canonicalField: 'readiness.status';
+      meaning: 'ready-watch-blocked';
+    };
+  };
+  profileInput: ExtrimliExtremProgramskiJezikDekoracijeObjektnihPrimesaProfileInput;
+  sourceSignals: {
+    objectTrack: 'PROGRAMSKI JEZIK PARADIGMA I OBLIKOVANJE TELA (OBJEKAT U SISTEMU, ADAPTACIJA SA FUNKCIJAMA)';
+    informationalFlowTrack: 'PROGRAMSKI JEZIK INFORMACIONIH TOKOVA';
+    synthesisRule: 'dekoracije-objektnih-primesa-for-zupcanik';
+  };
+  technicalEvidence: {
+    forLoopBinding: {
+      sourceModel: 'PETLJE';
+      sourceKind: 'FOR PETLJA';
+      sourceOwnership: 'EXTREM';
+      noSourceOfTruthMove: true;
+      forEvidence: {
+        kind: 'FOR PETLJA';
+        readinessScore: number | null;
+        status: ExtrimliExtremPetljaSignalStatus;
+      };
+    };
+    dokEvidence: {
+      kind: 'DOK PETLJA';
+      readinessScore: number | null;
+      status: ExtrimliDokDikDakDukConsistencyHealth['signals']['dok']['status'];
+    };
+    dikEvidence: {
+      kind: 'DIK PETLJA';
+      readinessScore: number | null;
+      status: ExtrimliDokDikDakDukConsistencyHealth['signals']['dik']['status'];
+    };
+  };
+  technicalSignals: {
+    dekoracijaObjekataScore: number;
+    kohezijaObjektnihPrimesaScore: number;
+    petljaZupcanikStabilnostScore: number;
+    konfliktPritisakScore: number;
+    svestranostUSvestranostiScore: number;
+  };
+  ownershipEvidence: {
+    forTechnical: true;
+    dokTechnical: true;
+    dikTechnical: true;
+    dakDeferredToGovernance: true;
+    dukDeferredToGovernance: true;
+  };
+  readiness: {
+    score: number;
+    status: ExtrimliExtremProgramskiJezikDekoracijeObjektnihPrimesaStatus;
+    readyForWaweProgression: boolean;
+    degraded: boolean;
+    watchReasons: string[];
+    blockerReasons: string[];
+    deterministicFallbackRequired: boolean;
+  };
+}
+
 export interface ExtrimliExtremProgramskiJezikParadigmaOblikovanjeTelaSignal {
   term: 'PROGRAMSKI JEZIK PARADIGMA I OBLIKOVANJE TELA (OBJEKAT U SISTEMU, ADAPTACIJA SA FUNKCIJAMA)';
   contractVersion: typeof EXTRIMLI_EXTREM_PROGRAMSKI_JEZIK_PARADIGMA_OBLIKOVANJE_TELA_CONTRACT_VERSION;
@@ -2253,7 +2366,40 @@ export interface ExtrimliDokDikDakDukConsistencyHealth {
       bodyCompositionScore: number;
       delegationIntegrityScore: number;
       forAdaptationScore: number;
-      forStatus: ExtrimliDokDikDakDukConsistencyHealth['signals']['dok']['status'];
+      forStatus: ExtrimliExtremPetljaSignalStatus | null;
+      dokStatus: ExtrimliDokDikDakDukConsistencyHealth['signals']['dok']['status'] | null;
+      dikStatus: ExtrimliDokDikDakDukConsistencyHealth['signals']['dik']['status'] | null;
+      fallbackRequired: boolean;
+    };
+    governanceCoupling: {
+      promotionFreeze: boolean | null;
+      humanReviewRequired: true;
+      rollbackPlanRequired: true;
+      downstreamReference: 'spaja86/IO-OPENUI-AO';
+    };
+    consolidatedStatus: 'READY' | 'WATCH' | 'BLOCKED';
+    auditReady: boolean;
+    reasons: string[];
+  };
+  programskiJezikDekoracijeObjektnihPrimesa: {
+    canonicalName: 'PROGRAMSKI JEZIK DEKORACIJE OBJEKTNIH PRIMESA (BROJČANI ZUPČANIK PETLJI U EKSTAZNOM OBLIKU ŠPEDICIJE – SVESTRANOST U SVESTRANOSTI)';
+    meaning: 'dekoracije-objektnih-primesa-brojcani-zupcanik-petlji';
+    additiveOnlyProfile: 'EXTRIMLI-EXTRONDOL-EXTREM';
+    sourceOfTruthRoutes: readonly ['/api/extrimli/extrem', '/api/extrimli/extrondol'];
+    technicalOwnershipLock: {
+      forPetlja: 'EXTREM';
+      dekoracijeObjektnihPrimesa: 'EXTREM';
+      dokDik: 'EXTREM';
+      dakDuk: 'EXTRONDOL';
+      spajaKod: 'audit-safe-summary-only';
+    };
+    dekoracijeMetrics: {
+      dekoracijaObjekataScore: number;
+      kohezijaObjektnihPrimesaScore: number;
+      petljaZupcanikStabilnostScore: number;
+      konfliktPritisakScore: number;
+      svestranostUSvestranostiScore: number;
+      forStatus: ExtrimliExtremPetljaSignalStatus | null;
       dokStatus: ExtrimliDokDikDakDukConsistencyHealth['signals']['dok']['status'] | null;
       dikStatus: ExtrimliDokDikDakDukConsistencyHealth['signals']['dik']['status'] | null;
       fallbackRequired: boolean;
@@ -2394,6 +2540,7 @@ export interface ExtrimliExtremProfilerReport {
   programskiJezikPretpostavka: ExtrimliExtremProgramskiJezikPretpostavkaSignal;
   programskiJezikPoProsparitetuDeklasiraneMatriceUEkstazi: ExtrimliExtremProgramskiJezikPoProsparitetuDeklasiraneMatriceUEkstaziSignal;
   programskiJezikParadigmaOblikovanjeTela: ExtrimliExtremProgramskiJezikParadigmaOblikovanjeTelaSignal;
+  programskiJezikDekoracijeObjektnihPrimesa: ExtrimliExtremProgramskiJezikDekoracijeObjektnihPrimesaSignal;
   programskiJezikSpecijalizovanZaIgrice: ExtrimliExtremProgramskiJezikSpecijalizovanZaIgriceSignal;
   metrikoProgramiranje: ExtrimliExtremMetrickoProgramiranjeSignal;
   spajinoProporcionalnoProgramiranjeUniverzitet: ExtrimliExtremSpajinoProporcionalnoProgramiranjeUniverzitetSignal;
@@ -2517,6 +2664,10 @@ export const EXTRIMLI_EXTREM_PROGRAMSKI_JEZIK_PARADIGMA_OBLIKOVANJE_TELA_CONTRAC
   EXTRIMLI_PROGRAMSKI_JEZIK_PARADIGMA_OBLIKOVANJE_TELA_CONTRACT_VERSION;
 export const EXTRIMLI_EXTREM_PROGRAMSKI_JEZIK_PARADIGMA_OBLIKOVANJE_TELA_MIN_READY_SCORE = 80;
 export const EXTRIMLI_EXTREM_PROGRAMSKI_JEZIK_PARADIGMA_OBLIKOVANJE_TELA_MIN_WATCH_SCORE = 62;
+export const EXTRIMLI_EXTREM_PROGRAMSKI_JEZIK_DEKORACIJE_OBJEKTNIH_PRIMESA_CONTRACT_VERSION =
+  'v1-programski-jezik-dekoracije-objektnih-primesa';
+export const EXTRIMLI_EXTREM_PROGRAMSKI_JEZIK_DEKORACIJE_OBJEKTNIH_PRIMESA_MIN_READY_SCORE = 80;
+export const EXTRIMLI_EXTREM_PROGRAMSKI_JEZIK_DEKORACIJE_OBJEKTNIH_PRIMESA_MIN_WATCH_SCORE = 62;
 export const EXTRIMLI_EXTREM_PROGRAMSKI_JEZIK_SPECIJALIZOVAN_ZA_IGRICE_CONTRACT_VERSION = 'v1-programski-jezik-specijalizovan-za-igrice';
 export const EXTRIMLI_EXTREM_PROGRAMSKI_JEZIK_SPECIJALIZOVAN_ZA_IGRICE_MIN_READY_SCORE = 80;
 export const EXTRIMLI_EXTREM_PROGRAMSKI_JEZIK_SPECIJALIZOVAN_ZA_IGRICE_MIN_WATCH_SCORE = 62;

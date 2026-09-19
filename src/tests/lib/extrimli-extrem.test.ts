@@ -13,6 +13,7 @@ import {
   EXTRIMLI_EXTREM_OBJEKTNO_ORIJENTUSANO_UZDIZANJE_EPSKIH_ELIKVADENATA_CONTRACT_VERSION,
   EXTRIMLI_EXTREM_PROPORCIONALNO_PROGRAMIRANJE_CONTRACT_VERSION,
   EXTRIMLI_EXTREM_PROGRAMSKI_JEZIK_PARADIGMA_OBLIKOVANJE_TELA_CONTRACT_VERSION,
+  EXTRIMLI_EXTREM_PROGRAMSKI_JEZIK_DEKORACIJE_OBJEKTNIH_PRIMESA_CONTRACT_VERSION,
   EXTRIMLI_EXTREM_PROGRAMSKI_JEZIK_SPECIJALIZOVAN_ZA_IGRICE_CONTRACT_VERSION,
   EXTRIMLI_EXTREM_PROFILER_CONTRACT_VERSION,
   EXTRIMLI_EXTREM_PROFILER_MODULE_VERSION,
@@ -256,6 +257,46 @@ async function runTests(): Promise<void> {
     assert(['READY', 'WATCH', 'BLOCKED'].includes(signal.readiness.status), 'unexpected paradijogonalno status');
     assert(Number.isFinite(signal.readiness.score), 'paradijogonalno score must be finite');
     assert(report.acceptanceCriteria.some((item) => item.id === 'paradijogonalno-progrimiranje-lock' && item.passed), 'paradijogonalno acceptance criterion must pass');
+  });
+
+  await test('default report exposes PROGRAMSKI JEZIK DEKORACIJE OBJEKTNIH PRIMESA as additive EXTREM signal', () => {
+    const report = getExtrimliExtremProfilerReport();
+    const signal = report.programskiJezikDekoracijeObjektnihPrimesa;
+    assert(
+      signal.term === 'PROGRAMSKI JEZIK DEKORACIJE OBJEKTNIH PRIMESA (BROJČANI ZUPČANIK PETLJI U EKSTAZNOM OBLIKU ŠPEDICIJE – SVESTRANOST U SVESTRANOSTI)',
+      'dekoracije-objektnih-primesa term mismatch',
+    );
+    assert(
+      signal.contractVersion === EXTRIMLI_EXTREM_PROGRAMSKI_JEZIK_DEKORACIJE_OBJEKTNIH_PRIMESA_CONTRACT_VERSION,
+      'dekoracije-objektnih-primesa contract mismatch',
+    );
+    assert(signal.sourceOfTruth === '/api/extrimli/extrem', 'dekoracije-objektnih-primesa source mismatch');
+    assert(signal.scopeLock.join(',') === 'EXTRIMLI,EXTREM,EXTRONDOL,SPAJA KOD', 'dekoracije-objektnih-primesa scope lock mismatch');
+    assert(signal.ownershipModel.extrem === 'technical-object-primes-decoration-signal', 'dekoracije-objektnih-primesa EXTREM ownership mismatch');
+    assert(signal.ownershipModel.extrondol === 'wawe-orchestration-audit-consumer', 'dekoracije-objektnih-primesa EXTRONDOL ownership mismatch');
+    assert(['READY', 'WATCH', 'BLOCKED'].includes(signal.readiness.status), 'unexpected dekoracije-objektnih-primesa status');
+    assert(signal.readiness.score >= 0 && signal.readiness.score <= 100, 'dekoracije-objektnih-primesa score must be bounded');
+  });
+
+  await test('PROGRAMSKI JEZIK DEKORACIJE OBJEKTNIH PRIMESA degrades safely for NaN/Infinity/out-of-range inputs', async () => {
+    await withEnv({
+      EXTRIMLI_EXTREM_PROGRAMSKI_JEZIK_DEKORACIJE_OBJEKTNIH_PRIMESA_DEKORACIJA_OBJEKATA_PERCENT: 'NaN',
+      EXTRIMLI_EXTREM_PROGRAMSKI_JEZIK_DEKORACIJE_OBJEKTNIH_PRIMESA_KOHEZIJA_OBJEKTNIH_PRIMESA_PERCENT: 'Infinity',
+      EXTRIMLI_EXTREM_PROGRAMSKI_JEZIK_DEKORACIJE_OBJEKTNIH_PRIMESA_PETLJA_ZUPCANIK_STABILNOST_PERCENT: '150',
+      EXTRIMLI_EXTREM_PROGRAMSKI_JEZIK_DEKORACIJE_OBJEKTNIH_PRIMESA_KONFLIKT_PRITISAK_PERCENT: '-20',
+      EXTRIMLI_EXTREM_PROGRAMSKI_JEZIK_DEKORACIJE_OBJEKTNIH_PRIMESA_SVESTRANOST_U_SVESTRANOSTI_PERCENT: '999',
+    }, () => {
+      const report = getExtrimliExtremProfilerReport();
+      const signal = report.programskiJezikDekoracijeObjektnihPrimesa;
+      assert(['READY', 'WATCH', 'BLOCKED'].includes(signal.readiness.status), 'degraded dekoracije-objektnih-primesa status must stay bounded');
+      assert(signal.readiness.deterministicFallbackRequired, 'degraded dekoracije-objektnih-primesa must require deterministic fallback');
+      assert(signal.readiness.degraded, 'degraded dekoracije-objektnih-primesa must be flagged as degraded');
+      assert(signal.readiness.score >= 0 && signal.readiness.score <= 100, 'degraded dekoracije-objektnih-primesa score must stay bounded');
+      assert(
+        signal.readiness.watchReasons.length + signal.readiness.blockerReasons.length > 0,
+        'degraded dekoracije-objektnih-primesa must expose reasons',
+      );
+    });
   });
 
   await test('PARADIJOGONALNO PROGRIMIRANJE degrades safely on low cloud/prosparitet posture inputs', async () => {

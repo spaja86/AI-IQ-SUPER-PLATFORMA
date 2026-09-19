@@ -23,7 +23,8 @@ This repository now exposes five aligned surfaces:
 | **RADNI TAKT MOZGA (MISLILAC)** | `/api/extrimli/extrem`, `/api/extrimli/extrondol`, `/api/extrimli/spaja-kod` | Active | Additive educational-development track; EXTREM owns DOK/DIK technical learning-rhythm signals, EXTRONDOL owns DAK/DUK WAWE/audit governance, SPAJA KOD exposes only audit-safe readiness + epilog summary |
 | **PARADIJOGONALNO PROGRIMIRANJE** | `docs/EXTRIMLI-PARADIJOGONALNO-PROGRIMIRANJE.md`, `/api/extrimli/extrem`, `/api/extrimli/extrondol`, `/api/extrimli/spaja-kod` | Active | Additive-only cloud/prosparitet track; EXTREM owns the instrumental-vision DOK/DIK technical signal, EXTRONDOL owns WAWE/audit DAK/DUK governance, SPAJA KOD exposes only audit-safe final status |
 | **SPAJAPRO Track** | `docs/EXTRIMLI-SPAJAPRO-TRACK.md`, `/api/extrimli/extrem`, `/api/extrimli/extrondol`, `/api/extrimli/spaja-kod` | Active | Locked ODIT→KODER planning track layered on EXTRIMLI; EXTREM owns technical signals, EXTRONDOL owns orchestration, SPAJA KOD exposes only final public-safe status |
-| **AI IQ Programski Jezik Integration Profile** | `docs/AI-IQ-PROGRAMSKI-JEZIK.md`, `/api/ai-iq-programski-jezik/*`, `/api/extrimli/extrem`, `/api/extrimli/extrondol` | Active | Additive `EXTRIMLI-EXTRONDOL-EXTREM` profile that maps `DOM/DIK` to EXTREM signals and `DAK/DUK` to EXTRONDOL promotion/human-review governance |
+| **AI IQ Programski Jezik Integration Profile** | `docs/AI-IQ-PROGRAMSKI-JEZIK.md`, `/api/ai-iq-programski-jezik/*`, `/api/extrimli/extrem`, `/api/extrimli/extrondol` | Active | Additive `EXTRIMLI-EXTRONDOL-EXTREM` profile that maps `DOK/DIK/FOR` to EXTREM technical signals and `DAK/DUK` to EXTRONDOL promotion/human-review governance |
+| **PROGRAMSKI JEZIK DEKORACIJE OBJEKTNIH PRIMESA** | `docs/AI-IQ-PROGRAMSKI-JEZIK.md`, `/api/extrimli/extrem`, `/api/extrimli/extrondol`, `/api/ai-iq-programski-jezik/*`, `/api/extrimli/spaja-kod` | Active | Additive-only track with locked naming/scope/compatibility: EXTREM owns `DOK/DIK/FOR` technical signal, EXTRONDOL owns `DAK/DUK` WAWE/freeze/promotion/review governance, SPAJA KOD exposes only audit-safe summary |
 | **PROGRAMSKI JEZIK PO PROSPARITETU DEKLASIRANE MATRICE U EKSTAZI** | `docs/AI-IQ-PROGRAMSKI-JEZIK.md`, `docs/PROGRAMSKI-JEZIK-PO-PROSPARITETU-DEKLASIRANE-MATRICE-U-EKSTAZI.md`, `/api/extrimli/extrem`, `/api/extrimli/extrondol`, `/api/ai-iq-programski-jezik/*` | Active | Additive-only prosparitet/deklasirane-matrice profile: PROSPARITET stays input-domain-only, EXTREM owns DOK/DIK/FOR technical readiness, EXTRONDOL owns DAK/DUK WAWE/audit governance, SPAJA KOD exposes only audit-safe summary |
 | **PROGRAMSKI JEZIK SPECIJALIZOVAN ZA IGRICE** | `docs/AI-IQ-PROGRAMSKI-JEZIK.md`, `/api/ai-iq-programski-jezik/*`, `/api/extrimli/extrem`, `/api/extrimli/extrondol`, `src/lib/igrice.ts`, `src/lib/gaming-endzin.ts` | Active | Additive-only gaming DSL profile: AI IQ owns orchestration/explainability, EXTREM owns DOK/DIK/FOR gameplay-runtime readiness, EXTRONDOL owns DAK/DUK WAWE/audit governance, SPAJA KOD exposes only audit-safe summary |
 | **SINEMETRIČKO PROGRAMIRANJE** | `docs/EXTRIMLI-SINEMETRICKO-PROGRAMIRANJE.md`, `/api/extrimli/extrem`, `/api/extrimli/extrondol`, `/api/extrimli/spaja-kod` | Active | Additive-only matrix-syntax signal: EXTREM publishes deterministic readiness/conflict/evidence, EXTRONDOL consumes it for WAWE freeze/promotion/audit, SPAJA KOD remains audit-safe summary boundary |
@@ -1388,6 +1389,16 @@ Downstream note: ako linked repo `spaja86/IO-OPENUI-AO` koristi DUEL KING readin
 - `SPAJA KOD` ostaje audit-safe summary boundary bez izlaganja raw tehničkih detalja.
 - Dozvoljene status klase ostaju `READY | WATCH | BLOCKED`, uz deterministički fallback za `NaN`, `Infinity`, prazne ili nevalidne signale, nevalidne sekvence i out-of-range procente.
 - Detaljna specifikacija: `docs/PROGRAMSKI-JEZIK-PO-PROSPARITETU-DEKLASIRANE-MATRICE-U-EKSTAZI.md`.
+
+## PROGRAMSKI JEZIK DEKORACIJE OBJEKTNIH PRIMESA
+
+- Kanonski naziv trake je zaključan: `PROGRAMSKI JEZIK DEKORACIJE OBJEKTNIH PRIMESA (BROJČANI ZUPČANIK PETLJI U EKSTAZNOM OBLIKU ŠPEDICIJE – SVESTRANOST U SVESTRANOSTI)`.
+- Traka je additive-only i ostaje unutar postojećeg `EXTRIMLI-EXTRONDOL-EXTREM` profila bez novih source-of-truth ruta.
+- Ownership split je zaključan: `DOK/DIK/FOR` tehnički signal pripada EXTREM sloju, `DAK/DUK` governance signal pripada EXTRONDOL sloju, a `SPAJA KOD` izlaže samo audit-safe zbirni status.
+- Formalna semantika ostaje zaključana: `dekoracije objektnih primesa` kao objektno-funkcionalni signalni domen i `brojčani zupčanik petlji` kao FOR-sekvencijalni stabilizacioni sloj.
+- Dozvoljene status klase ostaju `READY | WATCH | BLOCKED`, uz obavezan deterministic fallback za `NaN`, `Infinity`, out-of-range vrednosti i nevalidne sekvence.
+- Governance mapiranje ostaje direktno povezano sa `promotionFreeze`, `humanReviewRequired`, `rollbackPlanRequired`, `releaseAuditSummary`, WAWE progresijom i downstream referencom ka `spaja86/IO-OPENUI-AO`.
+- Public boundary ostaje zaključan: nema curenja internih tehničkih detalja u SPAJA KOD ili druge javne slojeve.
 
 
 ## PROGRAMSKI JEZIK PARADIGMA I OBLIKOVANJE TELA

@@ -87,6 +87,9 @@ async function runTests(): Promise<void> {
         integrationProfile: {
           profileId: string;
           signalMapping: {
+            DOK: {
+              group: string[];
+            };
             SINEMETRICKO: {
               technicalSource: string;
               governanceSource: string;
@@ -95,6 +98,7 @@ async function runTests(): Promise<void> {
           unifiedSignalStatus: {
             sinemetricko: string;
             forInformacioniTokovi: string;
+            programskiJezikDekoracijeObjektnihPrimesa: string;
           };
           dokDikDakDukConsistencyHealth: {
             sourceOfTruth: string;
@@ -114,6 +118,13 @@ async function runTests(): Promise<void> {
               programskiJezikPretpostavka: {
                 canonicalName: string;
                 dslProfile: string;
+              };
+              programskiJezikDekoracijeObjektnihPrimesa: {
+                canonicalName: string;
+                ownershipSplit: {
+                  dokDikFor: string;
+                  dakDuk: string;
+                };
               };
               programskiJezikSpecijalizovanZaIgrice: {
                 canonicalName: string;
@@ -140,6 +151,7 @@ async function runTests(): Promise<void> {
             sinemetrickoAdditiveInput: boolean;
             informacioniTokoviAdditiveInput: boolean;
             pretpostavkaAdditiveInput: boolean;
+            dekoracijeObjektnihPrimesaAdditiveInput: boolean;
           };
           governanceLink: {
             rolloutSnapshot: { promotionFreeze: boolean };
@@ -153,9 +165,11 @@ async function runTests(): Promise<void> {
     assert(body.data.integrationProfile.profileId === 'EXTRIMLI-EXTRONDOL-EXTREM', 'missing additive integration profile');
     assert(body.data.integrationProfile.signalMapping.SINEMETRICKO.technicalSource === '/api/extrimli/extrem', 'missing SINEMETRICKO technical source');
     assert(body.data.integrationProfile.signalMapping.SINEMETRICKO.governanceSource === '/api/extrimli/extrondol', 'missing SINEMETRICKO governance source');
+    assert(body.data.integrationProfile.signalMapping.DOK.group.join(',') === 'DOKER PETLJA', 'missing DOK mapping');
     assert(['READY', 'WATCH', 'BLOCKED'].includes(body.data.integrationProfile.unifiedSignalStatus.sinemetricko), 'invalid SINEMETRICKO status');
     assert(['READY', 'WATCH', 'BLOCKED'].includes(body.data.integrationProfile.unifiedSignalStatus.forInformacioniTokovi), 'invalid informational-flow status');
     assert(['READY', 'WATCH', 'BLOCKED'].includes(body.data.integrationProfile.unifiedSignalStatus.pretpostavka), 'invalid pretpostavka status');
+    assert(['READY', 'WATCH', 'BLOCKED'].includes(body.data.integrationProfile.unifiedSignalStatus.programskiJezikDekoracijeObjektnihPrimesa), 'invalid dekoracije-objektnih-primesa status');
     assert(['READY', 'WATCH', 'BLOCKED'].includes(body.data.integrationProfile.unifiedSignalStatus.programskiJezikSpecijalizovanZaIgrice), 'invalid gaming DSL status');
     assert(body.data.integrationProfile.dokDikDakDukConsistencyHealth.sourceOfTruth === '/api/extrimli/extrondol', 'consistency source mismatch');
     assert(['READY', 'WATCH', 'BLOCKED'].includes(body.data.integrationProfile.dokDikDakDukConsistencyHealth.escalationStatus), 'invalid escalation consistency status');
@@ -168,6 +182,9 @@ async function runTests(): Promise<void> {
     assert(body.data.integrationProfile.dokDikDakDukConsistencyHealth.programskiJezikInformacionihTokova.dslProfile === 'interpretacioni-orkestracioni-dsl', 'informational-flow DSL profile mismatch');
     assert(body.data.integrationProfile.dokDikDakDukConsistencyHealth.programskiJezikPretpostavka.canonicalName === 'PROGRAMSKI JEZIK PRETPOSTAVKA (KLJUČNE INFORMACIJE SA UČINIM OBLIKOM)', 'missing pretpostavka profile');
     assert(body.data.integrationProfile.dokDikDakDukConsistencyHealth.programskiJezikPretpostavka.dslProfile === 'interpretacioni-pretpostavka-dsl', 'pretpostavka DSL profile mismatch');
+    assert(body.data.integrationProfile.dokDikDakDukConsistencyHealth.programskiJezikDekoracijeObjektnihPrimesa.canonicalName === 'PROGRAMSKI JEZIK DEKORACIJE OBJEKTNIH PRIMESA (BROJČANI ZUPČANIK PETLJI U EKSTAZNOM OBLIKU ŠPEDICIJE – SVESTRANOST U SVESTRANOSTI)', 'missing dekoracije-objektnih-primesa profile');
+    assert(body.data.integrationProfile.dokDikDakDukConsistencyHealth.programskiJezikDekoracijeObjektnihPrimesa.ownershipSplit.dokDikFor === 'EXTREM', 'dekoracije-objektnih-primesa EXTREM ownership mismatch');
+    assert(body.data.integrationProfile.dokDikDakDukConsistencyHealth.programskiJezikDekoracijeObjektnihPrimesa.ownershipSplit.dakDuk === 'EXTRONDOL', 'dekoracije-objektnih-primesa EXTRONDOL ownership mismatch');
     assert(body.data.integrationProfile.dokDikDakDukConsistencyHealth.programskiJezikSpecijalizovanZaIgrice.canonicalName === 'PROGRAMSKI JEZIK SPECIJALIZOVAN ZA IGRICE', 'missing gaming DSL profile');
     assert(body.data.integrationProfile.dokDikDakDukConsistencyHealth.programskiJezikSpecijalizovanZaIgrice.dslProfile === 'gaming-specijalizovani-dsl', 'gaming DSL profile mismatch');
     assert(body.data.integrationProfile.dokDikDakDukConsistencyHealth.programskiJezikSpecijalizovanZaIgrice.gamingDomain.consumerAnchors.join(',') === 'src/lib/igrice.ts,src/lib/gaming-endzin.ts', 'gaming DSL anchor mismatch');
@@ -180,6 +197,7 @@ async function runTests(): Promise<void> {
     assert(body.data.integrationProfile.acceptanceCriteria.sinemetrickoAdditiveInput, 'sinemetricko additive lock must be enabled');
     assert(body.data.integrationProfile.acceptanceCriteria.informacioniTokoviAdditiveInput, 'informational-flow additive lock must be enabled');
     assert(body.data.integrationProfile.acceptanceCriteria.pretpostavkaAdditiveInput, 'pretpostavka additive lock must be enabled');
+    assert(body.data.integrationProfile.acceptanceCriteria.dekoracijeObjektnihPrimesaAdditiveInput, 'dekoracije-objektnih-primesa additive lock must be enabled');
     assert(body.data.integrationProfile.governanceLink.downstreamReference.linkedRepo === 'spaja86/IO-OPENUI-AO', 'missing downstream linked repo');
     assert(body.data.integrationProfile.governanceLink.rolloutSnapshot.promotionFreeze === false, 'valid route payload should not be frozen');
   });

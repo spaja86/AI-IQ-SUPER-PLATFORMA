@@ -42,6 +42,10 @@ export interface AiiqLanguageExtrimliIntegrationProfile {
     extrondol: '/api/extrimli/extrondol';
   };
   signalMapping: {
+    DOK: {
+      source: '/api/extrimli/extrem';
+      group: readonly ['DOKER PETLJA'];
+    };
     DOM: {
       source: '/api/extrimli/extrem';
       group: readonly ['DOMPRE PETLJA', 'DOMBRE PETLJA', 'DOMBRA PETLJA', 'DOMBAR PETLJA', 'DOMPOR PETLJA'];
@@ -104,6 +108,7 @@ export interface AiiqLanguageExtrimliIntegrationProfile {
     forInformacioniTokovi: AiiqIntegrationSignalStatus;
     pretpostavka: AiiqIntegrationSignalStatus;
     prosparitetDeklasiraneMatriceEkstaza: AiiqIntegrationSignalStatus;
+    programskiJezikDekoracijeObjektnihPrimesa: AiiqIntegrationSignalStatus;
     programskiJezikSpecijalizovanZaIgrice: AiiqIntegrationSignalStatus;
     sinemetricko: AiiqIntegrationSignalStatus;
     overall: AiiqIntegrationSignalStatus;
@@ -111,7 +116,7 @@ export interface AiiqLanguageExtrimliIntegrationProfile {
   dokDikDakDukConsistencyHealth: {
     sourceOfTruth: '/api/extrimli/extrondol';
     additiveOnlyProfile: 'EXTRIMLI-EXTRONDOL-EXTREM';
-    scopeLock: readonly ['DOK', 'DIK', 'DAK', 'DUK'];
+    scopeLock: readonly ['DOK', 'DIK', 'DAK', 'DUK', 'FOR'];
     status: AiiqIntegrationSignalStatus;
     escalationStatus: AiiqIntegrationSignalStatus;
     escalationScore: number;
@@ -220,6 +225,40 @@ export interface AiiqLanguageExtrimliIntegrationProfile {
         etapsikmSenzacijeStageCohesionScore: number;
         driftConflictScore: number;
         continuationReadinessScore: number;
+      };
+      reasons: string[];
+    };
+    programskiJezikDekoracijeObjektnihPrimesa: {
+      canonicalName: 'PROGRAMSKI JEZIK DEKORACIJE OBJEKTNIH PRIMESA (BROJČANI ZUPČANIK PETLJI U EKSTAZNOM OBLIKU ŠPEDICIJE – SVESTRANOST U SVESTRANOSTI)';
+      additiveOnlyProfile: 'EXTRIMLI-EXTRONDOL-EXTREM';
+      dslProfile: 'objektno-funkcionalni-signalni-domen';
+      sourceOfTruthRoutes: readonly ['/api/extrimli/extrem', '/api/extrimli/extrondol'];
+      ownershipSplit: {
+        dokDikFor: 'EXTREM';
+        dakDuk: 'EXTRONDOL';
+        spajaKod: 'audit-safe-summary-only';
+      };
+      consolidatedStatus: AiiqIntegrationSignalStatus;
+      deterministicFallbackRequired: boolean;
+      explainabilityModel: 'existing-ai-iq-guardrails';
+      guardrailMode: 'deterministic-fallback';
+      semantics: {
+        dekoracijeObjektnihPrimesa: string;
+        brojcaniZupcanikPetlji: string;
+      };
+      signalMap: {
+        dok: AiiqIntegrationSignalStatus;
+        dik: AiiqIntegrationSignalStatus;
+        dak: AiiqIntegrationSignalStatus;
+        duk: AiiqIntegrationSignalStatus;
+        forPetlja: AiiqIntegrationSignalStatus;
+      };
+      metrics: {
+        dekoracijaObjekataScore: number;
+        kohezijaObjektnihPrimesaScore: number;
+        petljaZupcanikStabilnostScore: number;
+        konfliktPritisakScore: number;
+        svestranostUSvestranostiScore: number;
       };
       reasons: string[];
     };
@@ -343,6 +382,7 @@ export interface AiiqLanguageExtrimliIntegrationProfile {
     preserveDokDikDakDukContract: true;
     informacioniTokoviAdditiveInput: true;
     pretpostavkaAdditiveInput: true;
+    dekoracijeObjektnihPrimesaAdditiveInput: true;
     sinemetrickoAdditiveInput: true;
     performanceWithinTargets: boolean;
     securityBoundariesPreserved: boolean;
