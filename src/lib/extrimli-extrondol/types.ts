@@ -235,7 +235,7 @@ export interface ExtrimliExtrondolB2bReadiness {
       degradedSignals: ExtrimliExtremProfilerReport['petljeSignals']['summary']['degradedSignals'];
     };
     funkcinalnoProgramiranjeEnergetskogMisaonogTokaGovernance: {
-      sourceOfTruth: '/api/extrimli/extrondol';
+      sourceOfTruth: '/api/extrimli/extrem';
       status: ExtrimliExtremProfilerReport['funkcinalnoProgramiranjeEnergetskogMisaonogToka']['readiness']['status'];
       readinessScore: number;
       conflictPressurePercent: number;
@@ -244,7 +244,7 @@ export interface ExtrimliExtrondolB2bReadiness {
       watchReasons: string[];
     };
     objektnoOrijentisanaReprodukcijaGovernance: {
-      sourceOfTruth: '/api/extrimli/extrem';
+      sourceOfTruth: '/api/extrimli/extrondol';
       status: ExtrimliExtremProfilerReport['objektnoOrijentisanaReprodukcija']['readiness']['status'];
       readinessScore: number;
       reviewRequiredBeforeWideRollout: boolean;
