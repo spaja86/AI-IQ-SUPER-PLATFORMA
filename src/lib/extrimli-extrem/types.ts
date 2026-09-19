@@ -1702,8 +1702,8 @@ export interface ExtrimliDokDikDakDukConsistencyHealth {
       saturationLoadScore: number;
       continuationReadinessScore: number;
       forStatus: ExtrimliDokDikDakDukConsistencyHealth['signals']['dok']['status'];
-      dokStatus: ExtrimliDokDikDakDukConsistencyHealth['signals']['dok']['status'];
-      dikStatus: ExtrimliDokDikDakDukConsistencyHealth['signals']['dik']['status'];
+      dokStatus: ExtrimliDokDikDakDukConsistencyHealth['signals']['dok']['status'] | null;
+      dikStatus: ExtrimliDokDikDakDukConsistencyHealth['signals']['dik']['status'] | null;
       fallbackRequired: boolean;
     };
     governanceCoupling: {

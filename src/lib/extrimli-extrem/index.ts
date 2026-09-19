@@ -3910,8 +3910,8 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
       technicalIndicators: {
         conflictScore: petljeSignals.summary.conflictScore,
         readinessScore: petljeSignals.summary.readinessScore,
-        dokStatus: dokSignal?.status ?? programskiJezikInformacionihTokova.forLoopBinding.forEvidence.status,
-        dikStatus: dikSignal?.status ?? programskiJezikInformacionihTokova.forLoopBinding.forEvidence.status,
+        dokStatus: dokSignal?.status ?? null,
+        dikStatus: dikSignal?.status ?? null,
       },
       governanceIndicators: {
         promotionFreeze: null,
