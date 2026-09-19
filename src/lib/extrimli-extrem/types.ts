@@ -970,12 +970,12 @@ export interface ExtrimliExtremProgramskiJezikParadigmaOblikovanjeTelaSignal {
     dokEvidence: {
       kind: 'DOK PETLJA';
       readinessScore: number | null;
-      status: ExtrimliDokDikDakDukConsistencyHealth['signals']['dok']['status'];
+      status: ExtrimliDokDikDakDukConsistencyHealth['signals']['dok']['status'] | null;
     };
     dikEvidence: {
       kind: 'DIK PETLJA';
       readinessScore: number | null;
-      status: ExtrimliDokDikDakDukConsistencyHealth['signals']['dik']['status'];
+      status: ExtrimliDokDikDakDukConsistencyHealth['signals']['dik']['status'] | null;
     };
   };
   technicalSignals: {
