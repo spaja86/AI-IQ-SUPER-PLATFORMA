@@ -840,8 +840,8 @@ function buildProgramskiJezikInformacionihTokovaSignal(
       status,
       readyForWaweProgression: status === 'READY',
       degraded,
-      watchReasons: status === 'WATCH' && watchReasons.length == 0 ? [`aggregate-watch-score:${score}`] : watchReasons,
-      blockerReasons: status === 'BLOCKED' && blockerReasons.length == 0 ? [`aggregate-blocked-score:${score}`] : blockerReasons,
+      watchReasons: status === 'WATCH' && watchReasons.length === 0 ? [`aggregate-watch-score:${score}`] : watchReasons,
+      blockerReasons: status === 'BLOCKED' && blockerReasons.length === 0 ? [`aggregate-blocked-score:${score}`] : blockerReasons,
       deterministicFallbackRequired: status !== 'READY' || forResult.reason !== 'completed',
     },
   };
