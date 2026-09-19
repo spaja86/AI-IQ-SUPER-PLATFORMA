@@ -678,6 +678,106 @@ export interface ExtrimliExtremRadniTaktMozgaMislilacSignal {
   };
 }
 
+export type ExtrimliExtremProgramskiJezikInformacionihTokovaStatus = 'READY' | 'WATCH' | 'BLOCKED';
+
+export interface ExtrimliExtremProgramskiJezikInformacionihTokovaProfileInput {
+  forRangeCoveragePercent: number;
+  informacioniTokStabilityPercent: number;
+  numerickiTokIntegrityPercent: number;
+  driftConflictPercent: number;
+  saturationLoadPercent: number;
+  continuationReadinessPercent: number;
+}
+
+export interface ExtrimliExtremProgramskiJezikInformacionihTokovaSignal {
+  term: 'PROGRAMSKI JEZIK INFORMACIONIH TOKOVA';
+  contractVersion: typeof EXTRIMLI_EXTREM_PROGRAMSKI_JEZIK_INFORMACIONIH_TOKOVA_CONTRACT_VERSION;
+  additiveOnly: true;
+  sourceOfTruth: '/api/extrimli/extrem';
+  triggerLabel: 'extrem:logic-change';
+  scopeLock: readonly ['EXTRIMLI', 'EXTREM', 'EXTRONDOL', 'SPAJA KOD'];
+  meaningLock: {
+    canonicalName: 'PROGRAMSKI JEZIK INFORMACIONIH TOKOVA';
+    statement: string;
+    informacioniTokMeaning: 'upravljanje-tokom-informacija-kroz-deterministicke-signale';
+    numerickiTokMeaning: 'upravljanje-numerickim-sekvencama-i-opsezima';
+    forPetljaMeaning: 'osnovni-range-sekvencijalni-mehanizam-postojeceg-petlje-modela';
+    existingContractBeforeThisChange: false;
+    aliasesOfExistingSurfaces: false;
+    noNewRoutes: true;
+  };
+  ownershipModel: {
+    extrem: 'technical-informational-flow-signal';
+    extrondol: 'wawe-orchestration-audit-consumer';
+    spajaKod: 'public-encapsulated-boundary';
+  };
+  canonicalVocabulary: {
+    informacioniTok: {
+      canonicalField: 'technicalSignals.stabilityScore';
+      meaning: 'stabilnost-informacionog-toka';
+    };
+    numerickiTok: {
+      canonicalField: 'technicalSignals.sequenceIntegrityScore';
+      meaning: 'integritet-numerickog-toka';
+    };
+    driftKonflikt: {
+      canonicalField: 'technicalSignals.driftConflictScore';
+      meaning: 'drift-i-konflikt-pritisak';
+    };
+    saturacijaOpterecenje: {
+      canonicalField: 'technicalSignals.saturationLoadScore';
+      meaning: 'saturacija-i-opterecenje';
+    };
+    readinessNastavka: {
+      canonicalField: 'technicalSignals.continuationReadinessScore';
+      meaning: 'readiness-za-nastavak-obrade';
+    };
+    forPetlja: {
+      canonicalField: 'forLoopBinding.forEvidence';
+      meaning: 'osnovni-range-sekvencijalni-mehanizam';
+    };
+    readinessStatus: {
+      canonicalField: 'readiness.status';
+      meaning: 'wawe-readiness-posture';
+    };
+  };
+  profileInput: ExtrimliExtremProgramskiJezikInformacionihTokovaProfileInput;
+  forLoopBinding: {
+    sourceModel: 'PETLJE';
+    sourceKind: 'FOR PETLJA';
+    sourceOwnership: 'EXTREM';
+    noSourceOfTruthMove: true;
+    forEvidence: {
+      kind: 'FOR PETLJA';
+      readinessScore: number | null;
+      status: ExtrimliDokDikDakDukConsistencyHealth['signals']['dok']['status'];
+    };
+  };
+  technicalSignals: {
+    stabilityScore: number;
+    sequenceIntegrityScore: number;
+    driftConflictScore: number;
+    saturationLoadScore: number;
+    continuationReadinessScore: number;
+  };
+  ownershipEvidence: {
+    forTechnical: true;
+    dokTechnical: true;
+    dikTechnical: true;
+    dakDeferredToGovernance: true;
+    dukDeferredToGovernance: true;
+  };
+  readiness: {
+    score: number;
+    status: ExtrimliExtremProgramskiJezikInformacionihTokovaStatus;
+    readyForWaweProgression: boolean;
+    degraded: boolean;
+    watchReasons: string[];
+    blockerReasons: string[];
+    deterministicFallbackRequired: boolean;
+  };
+}
+
 export interface ExtrimliExtremMetrickoProgramiranjeSignal {
   term: 'METRIČKO PROGRAMIRANJE';
   contractVersion: typeof EXTRIMLI_EXTREM_METRICKO_PROGRAMIRANJE_CONTRACT_VERSION;
@@ -1584,6 +1684,38 @@ export interface ExtrimliDokDikDakDukConsistencyHealth {
       auditReady: boolean;
     };
   };
+  programskiJezikInformacionihTokova: {
+    canonicalName: 'PROGRAMSKI JEZIK INFORMACIONIH TOKOVA';
+    meaning: 'upravljanje numeričkih tokova informacija';
+    additiveOnlyProfile: 'EXTRIMLI-EXTRONDOL-EXTREM';
+    sourceOfTruthRoutes: readonly ['/api/extrimli/extrem', '/api/extrimli/extrondol'];
+    technicalOwnershipLock: {
+      forPetlja: 'EXTREM';
+      dokDik: 'EXTREM';
+      dakDuk: 'EXTRONDOL';
+      spajaKod: 'audit-safe-summary-only';
+    };
+    flowMetrics: {
+      stabilityScore: number;
+      sequenceIntegrityScore: number;
+      driftConflictScore: number;
+      saturationLoadScore: number;
+      continuationReadinessScore: number;
+      forStatus: ExtrimliDokDikDakDukConsistencyHealth['signals']['dok']['status'];
+      dokStatus: ExtrimliDokDikDakDukConsistencyHealth['signals']['dok']['status'] | null;
+      dikStatus: ExtrimliDokDikDakDukConsistencyHealth['signals']['dik']['status'] | null;
+      fallbackRequired: boolean;
+    };
+    governanceCoupling: {
+      promotionFreeze: boolean | null;
+      humanReviewRequired: true;
+      rollbackPlanRequired: true;
+      downstreamReference: 'spaja86/IO-OPENUI-AO';
+    };
+    consolidatedStatus: 'READY' | 'WATCH' | 'BLOCKED';
+    auditReady: boolean;
+    reasons: string[];
+  };
   reasons: string[];
 }
 
@@ -1668,6 +1800,7 @@ export interface ExtrimliExtremProfilerReport {
   paradijogonalnoProgrimiranje: ExtrimliExtremParadijogonalnoProgrimiranjeSignal;
   funkionalnoProgramiranjePravnogMisaonogToka: ExtrimliExtremFunkionalnoProgramiranjePravnogMisaonogTokaSignal;
   proporcionalnoProgramiranje: ExtrimliExtremProporcionalnoProgramiranjeSignal;
+  programskiJezikInformacionihTokova: ExtrimliExtremProgramskiJezikInformacionihTokovaSignal;
   metrikoProgramiranje: ExtrimliExtremMetrickoProgramiranjeSignal;
   spajinoProporcionalnoProgramiranjeUniverzitet: ExtrimliExtremSpajinoProporcionalnoProgramiranjeUniverzitetSignal;
   sinemetrickoProgramiranje: ExtrimliExtremSinemetrickoProgramiranjeSignal;
@@ -1775,6 +1908,9 @@ export const EXTRIMLI_EXTREM_FUNKIONALNO_PROGRAMIRANJE_PRAVNOG_MISAONOG_TOKA_MIN
 export const EXTRIMLI_EXTREM_PROPORCIONALNO_PROGRAMIRANJE_CONTRACT_VERSION = 'v1-proporcionalno-programiranje';
 export const EXTRIMLI_EXTREM_PROPORCIONALNO_PROGRAMIRANJE_MIN_READY_SCORE = 80;
 export const EXTRIMLI_EXTREM_PROPORCIONALNO_PROGRAMIRANJE_MIN_WATCH_SCORE = 62;
+export const EXTRIMLI_EXTREM_PROGRAMSKI_JEZIK_INFORMACIONIH_TOKOVA_CONTRACT_VERSION = 'v1-programski-jezik-informacionih-tokova';
+export const EXTRIMLI_EXTREM_PROGRAMSKI_JEZIK_INFORMACIONIH_TOKOVA_MIN_READY_SCORE = 80;
+export const EXTRIMLI_EXTREM_PROGRAMSKI_JEZIK_INFORMACIONIH_TOKOVA_MIN_WATCH_SCORE = 62;
 export const EXTRIMLI_EXTREM_METRICKO_PROGRAMIRANJE_CONTRACT_VERSION = 'v1-metricko-programiranje';
 export const EXTRIMLI_EXTREM_METRICKO_PROGRAMIRANJE_MIN_READY_SCORE = 80;
 export const EXTRIMLI_EXTREM_METRICKO_PROGRAMIRANJE_MIN_WATCH_SCORE = 62;

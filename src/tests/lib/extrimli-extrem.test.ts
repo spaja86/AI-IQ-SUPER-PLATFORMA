@@ -1024,6 +1024,24 @@ async function runTests(): Promise<void> {
     assert(signal.profileInput.pixelCadenceMs >= 1 && signal.profileInput.pixelCadenceMs <= 16, 'pixel cadence must remain in [1,16]');
   });
 
+  await test('default report exposes PROGRAMSKI JEZIK INFORMACIONIH TOKOVA as additive EXTREM signal', () => {
+    const report = getExtrimliExtremProfilerReport();
+    const signal = report.programskiJezikInformacionihTokova;
+    assert(signal.term === 'PROGRAMSKI JEZIK INFORMACIONIH TOKOVA', 'informational-flow term mismatch');
+    assert(signal.sourceOfTruth === '/api/extrimli/extrem', 'informational-flow source mismatch');
+    assert(signal.forLoopBinding.sourceModel === 'PETLJE', 'FOR binding must stay on PETLJE');
+    assert(signal.forLoopBinding.forEvidence.kind === 'FOR PETLJA', 'FOR evidence kind mismatch');
+    assert(signal.ownershipModel.extrem === 'technical-informational-flow-signal', 'informational-flow EXTREM ownership mismatch');
+    assert(signal.ownershipModel.extrondol === 'wawe-orchestration-audit-consumer', 'informational-flow EXTRONDOL ownership mismatch');
+    assert(signal.ownershipModel.spajaKod === 'public-encapsulated-boundary', 'informational-flow SPAJA KOD ownership mismatch');
+    assert(['READY', 'WATCH', 'BLOCKED'].includes(signal.readiness.status), 'unexpected informational-flow readiness status');
+    assert(signal.technicalSignals.stabilityScore >= 0 && signal.technicalSignals.stabilityScore <= 100, 'stability score must be bounded');
+    assert(signal.technicalSignals.sequenceIntegrityScore >= 0 && signal.technicalSignals.sequenceIntegrityScore <= 100, 'sequence integrity score must be bounded');
+    assert(signal.technicalSignals.driftConflictScore >= 0 && signal.technicalSignals.driftConflictScore <= 100, 'drift/conflict score must be bounded');
+    assert(signal.technicalSignals.saturationLoadScore >= 0 && signal.technicalSignals.saturationLoadScore <= 100, 'saturation/load score must be bounded');
+    assert(signal.technicalSignals.continuationReadinessScore >= 0 && signal.technicalSignals.continuationReadinessScore <= 100, 'continuation readiness score must be bounded');
+  });
+
   await test('sinemetricko input is deterministic over same environment values', async () => {
     await withEnv({
       EXTRIMLI_EXTREM_SINEMETRICKO_MATRIX_SYNTAX_LEGAL_SCALING_PERCENT: '77',

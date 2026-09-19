@@ -76,6 +76,10 @@ async function runTests(): Promise<void> {
     assert(first.integrationProfile.signalMapping.DAK.group.join(',') === 'DAKOR', 'DAK mapping mismatch');
     assert(first.integrationProfile.signalMapping.DUK.group.join(',') === 'DUKAR', 'DUK mapping mismatch');
     assert(
+      first.integrationProfile.signalMapping.FOR.group.join(',') === 'FOR PETLJA,PROGRAMSKI JEZIK INFORMACIONIH TOKOVA',
+      'FOR mapping mismatch',
+    );
+    assert(
       first.integrationProfile.signalMapping.SINEMETRICKO.group.join(',') === 'SINEMETRIČKO PROGRAMIRANJE',
       'SINEMETRICKO mapping mismatch',
     );
@@ -86,6 +90,7 @@ async function runTests(): Promise<void> {
     );
     assert(first.integrationProfile.unifiedSignalStatus.overall === second.integrationProfile.unifiedSignalStatus.overall, 'integration overall should be deterministic');
     assert(first.integrationProfile.unifiedSignalStatus.sinemetricko === second.integrationProfile.unifiedSignalStatus.sinemetricko, 'sinemetricko status should be deterministic');
+    assert(first.integrationProfile.unifiedSignalStatus.forInformacioniTokovi === second.integrationProfile.unifiedSignalStatus.forInformacioniTokovi, 'informational-flow status should be deterministic');
     assert(first.integrationProfile.dokDikDakDukConsistencyHealth.sourceOfTruth === '/api/extrimli/extrondol', 'consistency source mismatch');
     assert(first.integrationProfile.dokDikDakDukConsistencyHealth.scopeLock.join(',') === 'DOK,DIK,DAK,DUK', 'consistency scope lock mismatch');
     assert(['READY', 'WATCH', 'BLOCKED'].includes(first.integrationProfile.dokDikDakDukConsistencyHealth.escalationStatus), 'invalid consistency escalation status');
@@ -96,8 +101,11 @@ async function runTests(): Promise<void> {
     assert(first.integrationProfile.dokDikDakDukConsistencyHealth.programskiJezikProucavanja.ownershipSplit.dakDuk === 'EXTRONDOL', 'programski jezik proucavanja DAK/DUK ownership mismatch');
     assert(first.integrationProfile.dokDikDakDukConsistencyHealth.programskiJezikProucavanja.programskiEkanalog.canonicalName === 'PROGRAMSKI EKANALOG', 'programski ekanalog name mismatch');
     assert(first.integrationProfile.dokDikDakDukConsistencyHealth.programskiJezikProucavanja.programskiEkanalog.meaning === 'razumevanje logike', 'programski ekanalog meaning mismatch');
+    assert(first.integrationProfile.dokDikDakDukConsistencyHealth.programskiJezikInformacionihTokova.canonicalName === 'PROGRAMSKI JEZIK INFORMACIONIH TOKOVA', 'informational-flow canonical name mismatch');
+    assert(first.integrationProfile.dokDikDakDukConsistencyHealth.programskiJezikInformacionihTokova.dslProfile === 'interpretacioni-orkestracioni-dsl', 'informational-flow DSL profile mismatch');
     assert(first.integrationProfile.acceptanceCriteria.preserveDokDikDakDukContract, 'DOK/DIK/DAK/DUK contract lock must stay enabled');
     assert(first.integrationProfile.acceptanceCriteria.sinemetrickoAdditiveInput, 'sinemetricko additive input lock must stay enabled');
+    assert(first.integrationProfile.acceptanceCriteria.informacioniTokoviAdditiveInput, 'informational-flow additive input lock must stay enabled');
     assert(first.integrationProfile.governanceLink.downstreamReference.linkedRepo === 'spaja86/IO-OPENUI-AO', 'downstream reference mismatch');
     assert(first.durationMs <= AIIQ_LANG_PERFORMANCE_MAX_MS, `duration ${first.durationMs} > ${AIIQ_LANG_PERFORMANCE_MAX_MS}`);
   });

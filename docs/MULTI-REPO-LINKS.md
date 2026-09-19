@@ -1821,3 +1821,12 @@ AI-IQ-SUPER-PLATFORMA#DIGITRON-001 -> IO-OPENUI-AO#<follow-up issue>
 
 **Audit convention for this initiative (activate after downstream issue is opened):**
 Koristiti format `AI-IQ-SUPER-PLATFORMA#VPOREKLO-2026-09 -> IO-OPENUI-AO#123` gde je `123` stvarni broj downstream issue-ja.
+
+## EXTRIMLI informational flow downstream audit
+
+- Downstream consumer: `spaja86/IO-OPENUI-AO`
+- Upstream source: `PROGRAMSKI JEZIK INFORMACIONIH TOKOVA`
+- Scope: audit-safe downstream reference only
+- Synced status fields: `extremProfiler.programskiJezikInformacionihTokova.readiness`, `programskiJezikInformacionihTokova.status`, `spajaKod.publicSignals.programskiJezikInformacionihTokovaStatus`
+- Ownership lock: `FOR` + numerički tokovi = EXTREM/PETLJE technical source, `DOK/DIK` = EXTREM, `DAK/DUK` = EXTRONDOL, `SPAJA KOD` = public audit-safe summary
+- EXTRIMLI governance conformance audit mora zadržati audit-ready public-safe summary bez otkrivanja internog pattern modela.
