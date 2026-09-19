@@ -2,7 +2,7 @@
 
 ## Svrha
 
-`PROGRAMSKI JEZIK INFORMACIONIH TOKOVA (upravljanje numeričkih tokova informacija)` uvodi additive-only tehničko-governance tumačenje numeričkih tokova unutar postojećeg EXTRIMLI / EXTREM / EXTRONDOL / AI IQ PROGRAMSKI JEZIK modela.
+`PROGRAMSKI JEZIK INFORMACIONIH TOKOVA (upravljanje numeričkim tokovima informacija)` uvodi additive-only tehničko-governance tumačenje numeričkih tokova unutar postojećeg EXTRIMLI / EXTREM / EXTRONDOL / AI IQ PROGRAMSKI JEZIK modela.
 
 ## Kanonska semantika
 

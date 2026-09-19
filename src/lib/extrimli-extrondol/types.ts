@@ -226,7 +226,7 @@ export interface ExtrimliExtrondolB2bReadiness {
       blockerReasons: string[];
     };
     petljeGovernance: {
-      sourceOfTruth: '/api/extrimli/extrem';
+      sourceOfTruth: '/api/extrimli/extrondol';
       readinessScore: number;
       conflictScore: number;
       freezeRequired: boolean;

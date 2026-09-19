@@ -27,6 +27,7 @@ import {
   runSarPetlja,
   runZumbaPetlja,
 } from '../petlje';
+import type { PetljaInput, PetljaStatusInput } from '../petlje';
 import { buildAIIQWorldBankLicencniRegistar } from '../aiiq-world-bank-licencni-registar';
 import type {
   ExtrimliExtremAcceptanceCriterion,
@@ -620,6 +621,32 @@ function resolveProgramskiJezikInformacionihTokovaInput(
       68,
       degradedSources,
     ),
+  };
+}
+
+function resolveProgramskiJezikInformacionihTokovaForPetljaInput(
+  degradedSources: string[],
+): PetljaInput {
+  const rawStatus = process.env.EXTRIMLI_EXTREM_PROGRAMSKI_JEZIK_INFORMACIONIH_TOKOVA_FOR_STATUS;
+  const normalizedStatus = rawStatus?.trim().toUpperCase();
+  const status: PetljaStatusInput = normalizedStatus === 'MONSTER'
+    || normalizedStatus === 'DISABLED'
+    || normalizedStatus === 'ACTIVATED'
+    || normalizedStatus === 'DEAD'
+    ? normalizedStatus
+    : 'ACTIVATED';
+
+  if (rawStatus && normalizedStatus !== status) {
+    degradedSources.push('EXTRIMLI_EXTREM_PROGRAMSKI_JEZIK_INFORMACIONIH_TOKOVA_FOR_STATUS:invalid-status');
+  }
+
+  return {
+    start: parseIntegerEnv('EXTRIMLI_EXTREM_PROGRAMSKI_JEZIK_INFORMACIONIH_TOKOVA_FOR_START', 0, -1000, 1000, degradedSources),
+    end: parseIntegerEnv('EXTRIMLI_EXTREM_PROGRAMSKI_JEZIK_INFORMACIONIH_TOKOVA_FOR_END', 10, -1000, 1000, degradedSources),
+    step: parseIntegerEnv('EXTRIMLI_EXTREM_PROGRAMSKI_JEZIK_INFORMACIONIH_TOKOVA_FOR_STEP', 2, -1000, 1000, degradedSources),
+    maxIterations: parseIntegerEnv('EXTRIMLI_EXTREM_PROGRAMSKI_JEZIK_INFORMACIONIH_TOKOVA_FOR_MAX_ITERATIONS', 8, 0, 1000, degradedSources),
+    maxDurationMs: parseIntegerEnv('EXTRIMLI_EXTREM_PROGRAMSKI_JEZIK_INFORMACIONIH_TOKOVA_FOR_MAX_DURATION_MS', 100, 0, 10000, degradedSources),
+    status,
   };
 }
 
@@ -3393,7 +3420,7 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
   const kraljevskiPravniUniverzitetTrack = buildKraljevskiPravniUniverzitetTrack();
   const petljeSignals = buildPetljaSignalSection(degradedSources);
   const programskiJezikInformacionihTokovaInput = resolveProgramskiJezikInformacionihTokovaInput(degradedSources);
-  const forPetljaResult = runForPetlja({ start: 0, end: 10, step: 2, maxIterations: 8, maxDurationMs: 100, status: 'ACTIVATED' });
+  const forPetljaResult = runForPetlja(resolveProgramskiJezikInformacionihTokovaForPetljaInput(degradedSources));
   const objektnoOrijentisanaProngilacija = buildObjektnaProngilacijaSignal(
     objektnaProngilacijaInput,
     objektnaProngilacijaDegradedSources.length > 0,
