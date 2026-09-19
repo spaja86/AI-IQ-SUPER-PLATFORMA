@@ -637,7 +637,7 @@ function resolveProgramskiJezikInformacionihTokovaForPetljaInput(
     : 'ACTIVATED';
 
   if (rawStatus && normalizedStatus !== status) {
-    degradedSources.push('EXTRIMLI_EXTREM_PROGRAMSKI_JEZIK_INFORMACIONIH_TOKOVA_FOR_STATUS:invalid-status');
+    degradedSources.push('invalid-env:EXTRIMLI_EXTREM_PROGRAMSKI_JEZIK_INFORMACIONIH_TOKOVA_FOR_STATUS');
   }
 
   return {

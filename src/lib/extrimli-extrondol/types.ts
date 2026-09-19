@@ -226,7 +226,7 @@ export interface ExtrimliExtrondolB2bReadiness {
       blockerReasons: string[];
     };
     petljeGovernance: {
-      sourceOfTruth: '/api/extrimli/extrondol';
+      sourceOfTruth: '/api/extrimli/extrem';
       readinessScore: number;
       conflictScore: number;
       freezeRequired: boolean;
@@ -235,7 +235,7 @@ export interface ExtrimliExtrondolB2bReadiness {
       degradedSignals: ExtrimliExtremProfilerReport['petljeSignals']['summary']['degradedSignals'];
     };
     funkcinalnoProgramiranjeEnergetskogMisaonogTokaGovernance: {
-      sourceOfTruth: '/api/extrimli/extrem';
+      sourceOfTruth: '/api/extrimli/extrondol';
       status: ExtrimliExtremProfilerReport['funkcinalnoProgramiranjeEnergetskogMisaonogToka']['readiness']['status'];
       readinessScore: number;
       conflictPressurePercent: number;
