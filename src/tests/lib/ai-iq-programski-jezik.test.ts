@@ -103,9 +103,13 @@ async function runTests(): Promise<void> {
     assert(first.integrationProfile.dokDikDakDukConsistencyHealth.programskiJezikProucavanja.programskiEkanalog.meaning === 'razumevanje logike', 'programski ekanalog meaning mismatch');
     assert(first.integrationProfile.dokDikDakDukConsistencyHealth.programskiJezikInformacionihTokova.canonicalName === 'PROGRAMSKI JEZIK INFORMACIONIH TOKOVA', 'informational-flow canonical name mismatch');
     assert(first.integrationProfile.dokDikDakDukConsistencyHealth.programskiJezikInformacionihTokova.dslProfile === 'interpretacioni-orkestracioni-dsl', 'informational-flow DSL profile mismatch');
+    assert(first.integrationProfile.dokDikDakDukConsistencyHealth.programskiJezikPretpostavka.canonicalName === 'PROGRAMSKI JEZIK PRETPOSTAVKA (KLJUČNE INFORMACIJE SA UČINIM OBLIKOM)', 'pretpostavka canonical name mismatch');
+    assert(first.integrationProfile.dokDikDakDukConsistencyHealth.programskiJezikPretpostavka.dslProfile === 'interpretacioni-pretpostavka-dsl', 'pretpostavka DSL profile mismatch');
+    assert(['READY', 'WATCH', 'BLOCKED'].includes(first.integrationProfile.unifiedSignalStatus.pretpostavka), 'pretpostavka status must be bounded');
     assert(first.integrationProfile.acceptanceCriteria.preserveDokDikDakDukContract, 'DOK/DIK/DAK/DUK contract lock must stay enabled');
     assert(first.integrationProfile.acceptanceCriteria.sinemetrickoAdditiveInput, 'sinemetricko additive input lock must stay enabled');
     assert(first.integrationProfile.acceptanceCriteria.informacioniTokoviAdditiveInput, 'informational-flow additive input lock must stay enabled');
+    assert(first.integrationProfile.acceptanceCriteria.pretpostavkaAdditiveInput, 'pretpostavka additive input lock must stay enabled');
     assert(first.integrationProfile.governanceLink.downstreamReference.linkedRepo === 'spaja86/IO-OPENUI-AO', 'downstream reference mismatch');
     assert(first.durationMs <= AIIQ_LANG_PERFORMANCE_MAX_MS, `duration ${first.durationMs} > ${AIIQ_LANG_PERFORMANCE_MAX_MS}`);
   });

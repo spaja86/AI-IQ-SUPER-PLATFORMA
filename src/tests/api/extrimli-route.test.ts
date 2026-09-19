@@ -158,6 +158,7 @@ async function runTests(): Promise<void> {
         };
         dokerKuratIzekDokarTrack: { sequenceStates: Array<{ token: string; status: string }> };
         programskiJezikInformacionihTokova: { term: string; status: string; technicalSignalSource: string; flowMetrics: { forStatus: string } };
+        programskiJezikPretpostavka: { term: string; status: string; technicalSignalSource: string; flowMetrics: { forStatus: string } };
         releaseAuditSummary: {
           funkcinalnoProgramiranjeEnergetskogMisaonogTokaGovernance: { sourceOfTruth: string; status: string };
           funkcionalnoProgramiranjeUzvisenogMisanogTokaGovernance: { sourceOfTruth: string; status: string };
@@ -170,6 +171,7 @@ async function runTests(): Promise<void> {
           epicElikvadentiGovernance: { sourceOfTruth: string; status: string };
           petljeGovernance: { sourceOfTruth: string; readinessScore: number; conflictScore: number; freezeRequired: boolean };
           programskiJezikInformacionihTokovaGovernance: { sourceOfTruth: string; status: string; forStatus: string };
+          programskiJezikPretpostavkaGovernance: { sourceOfTruth: string; status: string; forStatus: string };
         };
         distanceRatioEkvilaterTable: { rows: Array<{ edgeId: string }> };
       };
@@ -252,6 +254,13 @@ async function runTests(): Promise<void> {
     assert(body.data.releaseAuditSummary.programskiJezikInformacionihTokovaGovernance.forStatus === body.data.programskiJezikInformacionihTokova.flowMetrics.forStatus, 'informational-flow audit FOR status mismatch');
     assert(body.data.extremProfiler.programskiJezikInformacionihTokova.term === 'PROGRAMSKI JEZIK INFORMACIONIH TOKOVA', 'unexpected EXTREM informational-flow term');
     assert(body.data.extremProfiler.programskiJezikInformacionihTokova.forLoopBinding.sourceModel === 'PETLJE', 'unexpected EXTREM informational-flow FOR source model');
+    assert(body.data.programskiJezikPretpostavka.term === 'PROGRAMSKI JEZIK PRETPOSTAVKA (KLJUČNE INFORMACIJE SA UČINIM OBLIKOM)', 'unexpected pretpostavka term');
+    assert(body.data.programskiJezikPretpostavka.technicalSignalSource === '/api/extrimli/extrem', 'unexpected pretpostavka source');
+    assert(['READY', 'WATCH', 'BLOCKED'].includes(body.data.programskiJezikPretpostavka.status), 'unexpected pretpostavka status');
+    assert(['READY', 'WATCH', 'BLOCKED'].includes(body.data.programskiJezikPretpostavka.flowMetrics.forStatus), 'unexpected pretpostavka FOR status');
+    assert(body.data.releaseAuditSummary.programskiJezikPretpostavkaGovernance.sourceOfTruth === '/api/extrimli/extrem', 'unexpected pretpostavka audit source');
+    assert(body.data.releaseAuditSummary.programskiJezikPretpostavkaGovernance.status === body.data.programskiJezikPretpostavka.status, 'pretpostavka audit status mismatch');
+    assert(body.data.releaseAuditSummary.programskiJezikPretpostavkaGovernance.forStatus === body.data.programskiJezikPretpostavka.flowMetrics.forStatus, 'pretpostavka audit FOR status mismatch');
     assert(body.data.radniTaktMozgaMislilac.term === 'RADNI TAKT MOZGA (MISLILAC)', 'unexpected radni takt term');
     assert(body.data.radniTaktMozgaMislilac.technicalSignalSource === '/api/extrimli/extrem', 'unexpected radni takt source');
     assert(['READY', 'WATCH', 'BLOCKED'].includes(body.data.radniTaktMozgaMislilac.status), 'unexpected radni takt status');

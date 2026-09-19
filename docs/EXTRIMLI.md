@@ -1366,3 +1366,13 @@ Downstream note: ako linked repo `spaja86/IO-OPENUI-AO` koristi DUEL KING readin
 - Jezgrene metrike toka su: stabilnost numeričkog toka, sekvencijalni integritet, drift/konflikt, saturacija/opterećenje i readiness za nastavak obrade.
 - Dozvoljene status klase su `READY | WATCH | BLOCKED`, uz deterministički fallback za `NaN`, `Infinity`, prazne sekvence i nevalidne opsege.
 - `releaseReadinessScorecard`, `canaryRingMetrics`, `contractDriftReport` i `governanceConformance` ostaju zaključani i za ovaj track.
+
+## PROGRAMSKI JEZIK PRETPOSTAVKA
+
+- `PROGRAMSKI JEZIK PRETPOSTAVKA (KLJUČNE INFORMACIJE SA UČINIM OBLIKOM)` je additive-only interpretacioni track unutar istog `EXTRIMLI / EXTREM / EXTRONDOL / AI IQ PROGRAMSKI JEZIK` modela.
+- **Pretpostavka** znači deterministički polazni okvir pretpostavke; **ključne informacije** znače obavezni skup ključnih informacija; **učini oblik** znači akcioni oblik za izlaznu interpretaciju.
+- `FOR` ostaje sekvencijalni ili strukturisani ulazni tok u EXTREM sloju, `DOK` ostaje target-stability dokaz, `DIK` ostaje sequence-improvement dokaz, dok `DAK + DUK` ostaju EXTRONDOL governance odluka za promotion i human review.
+- Jezgrene metrike track-a su: stabilnost, integritet ključnih informacija, determinističnost učinog oblika, drift/konflikt, saturacija/opterećenje i readiness nastavka.
+- Dozvoljene status klase su `READY | WATCH | BLOCKED`.
+- Obavezni fallback uslovi ostaju aktivni za prazne, nevalidne i nedeterminističke ulaze, kao i za `NaN`, `Infinity`, nevalidne opsege i svaki signal koji aktivira drift-zero blokadu.
+- `releaseAuditSummary`, rollback zahtev, WAWE 1–5 uticaj, downstream sync prema `spaja86/IO-OPENUI-AO` i `SPAJA KOD` audit-safe summary ostaju zaključani bez novih source-of-truth ruta.

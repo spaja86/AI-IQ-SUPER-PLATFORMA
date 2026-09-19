@@ -111,12 +111,17 @@ async function runTests(): Promise<void> {
                 canonicalName: string;
                 dslProfile: string;
               };
+              programskiJezikPretpostavka: {
+                canonicalName: string;
+                dslProfile: string;
+              };
             };
           };
           acceptanceCriteria: {
             preserveDokDikDakDukContract: boolean;
             sinemetrickoAdditiveInput: boolean;
             informacioniTokoviAdditiveInput: boolean;
+            pretpostavkaAdditiveInput: boolean;
           };
           governanceLink: {
             rolloutSnapshot: { promotionFreeze: boolean };
@@ -132,6 +137,7 @@ async function runTests(): Promise<void> {
     assert(body.data.integrationProfile.signalMapping.SINEMETRICKO.governanceSource === '/api/extrimli/extrondol', 'missing SINEMETRICKO governance source');
     assert(['READY', 'WATCH', 'BLOCKED'].includes(body.data.integrationProfile.unifiedSignalStatus.sinemetricko), 'invalid SINEMETRICKO status');
     assert(['READY', 'WATCH', 'BLOCKED'].includes(body.data.integrationProfile.unifiedSignalStatus.forInformacioniTokovi), 'invalid informational-flow status');
+    assert(['READY', 'WATCH', 'BLOCKED'].includes(body.data.integrationProfile.unifiedSignalStatus.pretpostavka), 'invalid pretpostavka status');
     assert(body.data.integrationProfile.dokDikDakDukConsistencyHealth.sourceOfTruth === '/api/extrimli/extrondol', 'consistency source mismatch');
     assert(['READY', 'WATCH', 'BLOCKED'].includes(body.data.integrationProfile.dokDikDakDukConsistencyHealth.escalationStatus), 'invalid escalation consistency status');
     assert(body.data.integrationProfile.dokDikDakDukConsistencyHealth.escalationScore >= 0 && body.data.integrationProfile.dokDikDakDukConsistencyHealth.escalationScore <= 100, 'invalid escalation consistency score');
@@ -141,9 +147,12 @@ async function runTests(): Promise<void> {
     assert(body.data.integrationProfile.dokDikDakDukConsistencyHealth.programskiJezikProucavanja.programskiEkanalog.meaning === 'razumevanje logike', 'programski ekanalog meaning mismatch');
     assert(body.data.integrationProfile.dokDikDakDukConsistencyHealth.programskiJezikInformacionihTokova.canonicalName === 'PROGRAMSKI JEZIK INFORMACIONIH TOKOVA', 'missing informational-flow profile');
     assert(body.data.integrationProfile.dokDikDakDukConsistencyHealth.programskiJezikInformacionihTokova.dslProfile === 'interpretacioni-orkestracioni-dsl', 'informational-flow DSL profile mismatch');
+    assert(body.data.integrationProfile.dokDikDakDukConsistencyHealth.programskiJezikPretpostavka.canonicalName === 'PROGRAMSKI JEZIK PRETPOSTAVKA (KLJUČNE INFORMACIJE SA UČINIM OBLIKOM)', 'missing pretpostavka profile');
+    assert(body.data.integrationProfile.dokDikDakDukConsistencyHealth.programskiJezikPretpostavka.dslProfile === 'interpretacioni-pretpostavka-dsl', 'pretpostavka DSL profile mismatch');
     assert(body.data.integrationProfile.acceptanceCriteria.preserveDokDikDakDukContract, 'DOK/DIK/DAK/DUK contract lock must be enabled');
     assert(body.data.integrationProfile.acceptanceCriteria.sinemetrickoAdditiveInput, 'sinemetricko additive lock must be enabled');
     assert(body.data.integrationProfile.acceptanceCriteria.informacioniTokoviAdditiveInput, 'informational-flow additive lock must be enabled');
+    assert(body.data.integrationProfile.acceptanceCriteria.pretpostavkaAdditiveInput, 'pretpostavka additive lock must be enabled');
     assert(body.data.integrationProfile.governanceLink.downstreamReference.linkedRepo === 'spaja86/IO-OPENUI-AO', 'missing downstream linked repo');
     assert(body.data.integrationProfile.governanceLink.rolloutSnapshot.promotionFreeze === false, 'valid route payload should not be frozen');
   });
