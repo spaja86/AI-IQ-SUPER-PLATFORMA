@@ -565,6 +565,14 @@ async function runTests(): Promise<void> {
     assert(report.dokDikDakDukConsistencyHealth.programskiJezikAnaliza.governanceIndicators.escalationRequired === report.b2bReadiness.governanceDecisions.escalationRequired, 'programski jezik analiza escalation flag mismatch');
     assert(report.dokDikDakDukConsistencyHealth.programskiJezikAnaliza.escalationScore >= 0 && report.dokDikDakDukConsistencyHealth.programskiJezikAnaliza.escalationScore <= 100, 'programski jezik analiza escalation score must be bounded');
     assert(['READY', 'WATCH', 'BLOCKED'].includes(report.dokDikDakDukConsistencyHealth.programskiJezikAnaliza.escalationStatus), 'programski jezik analiza escalation status mismatch');
+    assert(report.dokDikDakDukConsistencyHealth.programskiJezikProucavanja.canonicalName === 'PROGRAMSKI JEZIK PROUČAVANJA', 'programski jezik proucavanja name mismatch');
+    assert(report.dokDikDakDukConsistencyHealth.programskiJezikProucavanja.laboratoryCaseProfile.ownershipSplit.dokDik === 'EXTREM', 'programski jezik proucavanja DOK/DIK ownership mismatch');
+    assert(report.dokDikDakDukConsistencyHealth.programskiJezikProucavanja.laboratoryCaseProfile.ownershipSplit.dakDuk === 'EXTRONDOL', 'programski jezik proucavanja DAK/DUK ownership mismatch');
+    assert(report.dokDikDakDukConsistencyHealth.programskiJezikProucavanja.laboratoryCaseProfile.caseInputProfile.governance.promotionFreeze === report.rollout.promotionFreeze, 'programski jezik proucavanja promotion freeze mismatch');
+    assert(['READY', 'WATCH', 'BLOCKED'].includes(report.dokDikDakDukConsistencyHealth.programskiJezikProucavanja.laboratoryCaseProfile.consolidatedStatus), 'programski jezik proucavanja consolidated status mismatch');
+    assert(report.dokDikDakDukConsistencyHealth.programskiJezikProucavanja.programskiEkanalog.canonicalName === 'PROGRAMSKI EKANALOG', 'programski ekanalog name mismatch');
+    assert(report.dokDikDakDukConsistencyHealth.programskiJezikProucavanja.programskiEkanalog.meaning === 'razumevanje logike', 'programski ekanalog meaning mismatch');
+    assert(report.dokDikDakDukConsistencyHealth.programskiJezikProucavanja.programskiEkanalog.auditConclusion.length > 0, 'programski ekanalog audit conclusion must be present');
     assert(report.dokDikDakDukConsistencyHealth.consistent, 'consistency health should be consistent');
     assert(['READY', 'WATCH', 'BLOCKED'].includes(report.dokDikDakDukConsistencyHealth.status), 'invalid consistency health status');
     assert(report.acceptanceCriteria.some((item) => item.id === 'dok-dik-dak-duk-consistency-health' && item.passed), 'consistency acceptance criterion must pass');

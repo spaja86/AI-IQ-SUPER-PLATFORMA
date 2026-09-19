@@ -273,8 +273,30 @@ function buildIntegrationProfile(params: {
       humanReviewRequired: true,
       rollbackPlanRequired: true,
       downstreamReference: 'spaja86/IO-OPENUI-AO',
+      programskiJezikProucavanja: {
+        canonicalName: 'PROGRAMSKI JEZIK PROUČAVANJA',
+        additiveOnlyProfile: 'EXTRIMLI-EXTRONDOL-EXTREM',
+        sourceOfTruthRoutes: ['/api/extrimli/extrem', '/api/extrimli/extrondol'],
+        consolidatedStatus: consistencyEscalationStatus,
+        escalationScore: consistencyEscalationScore,
+        ownershipSplit: {
+          dokDik: 'EXTREM',
+          dakDuk: 'EXTRONDOL',
+        },
+        programskiEkanalog: {
+          canonicalName: 'PROGRAMSKI EKANALOG',
+          meaning: 'razumevanje logike',
+          auditConclusion: consistencyEscalationStatus === 'READY'
+            ? 'Logički sloj je stabilan i spreman za audit-safe AI IQ orkestraciju.'
+            : consistencyEscalationStatus === 'WATCH'
+              ? 'Logički sloj zahteva opreznu AI IQ orkestraciju uz dodatni governance nadzor.'
+              : 'Logički sloj zahteva deterministički fallback pre AI IQ promocije.',
+          auditReady: consistencyEscalationStatus !== 'BLOCKED',
+        },
+      },
       reasons: [
         'PROGRAMSKI JEZIK ANALIZA koristi objedinjeni DOK/DIK/DAK/DUK signal kao eskalacioni indikator kodesnog zapleta.',
+        'PROGRAMSKI JEZIK PROUČAVANJA koristi PROGRAMSKI EKANALOG za audit-ready tumačenje laboratorijske logike.',
         ...(consistencyEscalationStatus === 'BLOCKED'
           ? ['Eskalacioni status je BLOCKED; deterministički fallback ostaje obavezan.']
           : []),

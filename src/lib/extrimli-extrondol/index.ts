@@ -3511,6 +3511,47 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
       auditReady: false,
       reasons: [],
     },
+    programskiJezikProucavanja: {
+      canonicalName: 'PROGRAMSKI JEZIK PROUČAVANJA',
+      additiveOnlyProfile: 'EXTRIMLI-EXTRONDOL-EXTREM',
+      sourceOfTruthRoutes: ['/api/extrimli/extrem', '/api/extrimli/extrondol'],
+      laboratoryCaseProfile: {
+        ownershipSplit: {
+          dokDik: 'EXTREM',
+          dakDuk: 'EXTRONDOL',
+        },
+        caseInputProfile: {
+          technical: {
+            dokStatus: dokSignal?.status ?? null,
+            dikStatus: dikSignal?.status ?? null,
+            readinessScore: extremProfiler.petljeSignals.summary.readinessScore,
+            conflictScore: extremProfiler.petljeSignals.summary.conflictScore,
+          },
+          governance: {
+            dakStatus: mapGovernanceSignalStatus(dakState?.status),
+            dukStatus: mapGovernanceSignalStatus(dukState?.status),
+            promotionFreeze,
+            humanReviewRequired: true,
+            rollbackPlanRequired: true,
+          },
+        },
+        deterministicMetrics: {
+          technicalReadinessScore: 0,
+          technicalConflictScore: 0,
+          governanceAlignmentScore: 0,
+          escalationScore: 0,
+        },
+        consolidatedStatus: 'BLOCKED',
+        requiredReasons: [],
+      },
+      programskiEkanalog: {
+        canonicalName: 'PROGRAMSKI EKANALOG',
+        meaning: 'razumevanje logike',
+        interpretationLayer: 'audit-ready-logic-translation',
+        auditConclusion: '',
+        auditReady: false,
+      },
+    },
     reasons: [],
   };
   dokDikDakDukConsistencyHealth.consistent = Object.values(dokDikDakDukConsistencyHealth.checks).every(Boolean);
@@ -3570,6 +3611,33 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
       ? ['Signal je u WATCH režimu i zahteva opreznu WAWE progresiju uz human review.']
       : []),
   ];
+  const programskiJezikProucavanjaGovernanceAlignmentScore =
+    promotionFreeze
+      ? 35
+      : humanReviewComplete
+        ? 100
+        : 70;
+  dokDikDakDukConsistencyHealth.programskiJezikProucavanja.laboratoryCaseProfile.deterministicMetrics = {
+    technicalReadinessScore: round2(extremProfiler.petljeSignals.summary.readinessScore),
+    technicalConflictScore: round2(extremProfiler.petljeSignals.summary.conflictScore),
+    governanceAlignmentScore: programskiJezikProucavanjaGovernanceAlignmentScore,
+    escalationScore: round2(dokDikDakDukConsistencyHealth.programskiJezikAnaliza.escalationScore),
+  };
+  dokDikDakDukConsistencyHealth.programskiJezikProucavanja.laboratoryCaseProfile.consolidatedStatus =
+    dokDikDakDukConsistencyHealth.programskiJezikAnaliza.escalationStatus;
+  dokDikDakDukConsistencyHealth.programskiJezikProucavanja.laboratoryCaseProfile.requiredReasons = [
+    'DOK + DIK tehnički/laboratorijski signal dolazi iz EXTREM sloja.',
+    'DAK + DUK governance signal dolazi iz EXTRONDOL sloja.',
+    ...(promotionFreeze ? ['Promotion freeze je aktivan i ostaje hard gate za konsolidovani status.'] : []),
+  ];
+  dokDikDakDukConsistencyHealth.programskiJezikProucavanja.programskiEkanalog.auditConclusion =
+    dokDikDakDukConsistencyHealth.programskiJezikProucavanja.laboratoryCaseProfile.consolidatedStatus === 'READY'
+      ? 'Programski ekanalog potvrđuje stabilno razumevanje logike i audit-ready izlaz.'
+      : dokDikDakDukConsistencyHealth.programskiJezikProucavanja.laboratoryCaseProfile.consolidatedStatus === 'WATCH'
+        ? 'Programski ekanalog označava delimično stabilno razumevanje logike uz obavezan oprez.'
+        : 'Programski ekanalog označava da logika nije spremna za promociju bez fallback-a.';
+  dokDikDakDukConsistencyHealth.programskiJezikProucavanja.programskiEkanalog.auditReady =
+    dokDikDakDukConsistencyHealth.programskiJezikAnaliza.auditReady;
   const failedConsistencyChecks = [
     ...(!dokDikDakDukConsistencyHealth.checks.dokSignalPresent ? ['DOK PETLJA is missing from EXTREM technical signals.'] : []),
     ...(!dokDikDakDukConsistencyHealth.checks.dikSignalPresent ? ['DIK PETLJA is missing from EXTREM technical signals.'] : []),

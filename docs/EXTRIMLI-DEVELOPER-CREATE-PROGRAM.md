@@ -66,6 +66,8 @@ Ownership hard lock:
 - Svaki rollout mora izložiti jedinstveni `dokDikDakDukConsistencyHealth` izlaz i test konzistentnosti između tehničkog i governance sloja.
 - SINEMETRIČKO PROGRAMIRANJE ostaje additive-only signal (bez novih ruta): EXTREM objavljuje readiness/conflict/evidence, EXTRONDOL koristi signal za WAWE freeze/promotion i release-audit odluke.
 - `PROGRAMSKI JEZIK ANALIZA (ispitivanje eskalacije kodesnog zapleta)` je obavezni additive audit sloj u `dokDikDakDukConsistencyHealth`: mora objediniti tehničke conflict/readiness indikatore i governance freeze/promotion/escalation odluke u jedan score/status izlaz.
+- `PROGRAMSKI JEZIK PROUČAVANJA` je obavezni additive laboratorijski sloj: ulazni profil slučaja + determinističke metrike + konsolidovani status (`READY | WATCH | BLOCKED`) uz zaključan ownership split (`DOK/DIK` tehnički, `DAK/DUK` governance).
+- `PROGRAMSKI EKANALOG (razumevanje logike)` je obavezni audit-ready interpretacioni sloj nad laboratorijskim rezultatima bez novih source-of-truth ruta.
 
 ### Stream D — B2B readiness + payment verification
 - `b2bScope`, `b2bReadiness`, `paymentVerification` ostaju hard gate sloj pre promocije.

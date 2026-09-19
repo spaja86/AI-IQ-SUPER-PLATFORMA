@@ -3426,6 +3426,47 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
       auditReady: false,
       reasons: [],
     },
+    programskiJezikProucavanja: {
+      canonicalName: 'PROGRAMSKI JEZIK PROUČAVANJA',
+      additiveOnlyProfile: 'EXTRIMLI-EXTRONDOL-EXTREM',
+      sourceOfTruthRoutes: ['/api/extrimli/extrem', '/api/extrimli/extrondol'],
+      laboratoryCaseProfile: {
+        ownershipSplit: {
+          dokDik: 'EXTREM',
+          dakDuk: 'EXTRONDOL',
+        },
+        caseInputProfile: {
+          technical: {
+            dokStatus: dokSignal?.status ?? null,
+            dikStatus: dikSignal?.status ?? null,
+            readinessScore: petljeSignals.summary.readinessScore,
+            conflictScore: petljeSignals.summary.conflictScore,
+          },
+          governance: {
+            dakStatus: null,
+            dukStatus: null,
+            promotionFreeze: null,
+            humanReviewRequired: true,
+            rollbackPlanRequired: true,
+          },
+        },
+        deterministicMetrics: {
+          technicalReadinessScore: 0,
+          technicalConflictScore: 0,
+          governanceAlignmentScore: 0,
+          escalationScore: 0,
+        },
+        consolidatedStatus: 'BLOCKED',
+        requiredReasons: [],
+      },
+      programskiEkanalog: {
+        canonicalName: 'PROGRAMSKI EKANALOG',
+        meaning: 'razumevanje logike',
+        interpretationLayer: 'audit-ready-logic-translation',
+        auditConclusion: '',
+        auditReady: false,
+      },
+    },
     reasons: [],
   };
   dokDikDakDukConsistencyHealth.consistent = Object.values(dokDikDakDukConsistencyHealth.checks).every(Boolean);
@@ -3481,6 +3522,35 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
       ? [`Escalation status is ${dokDikDakDukConsistencyHealth.programskiJezikAnaliza.escalationStatus}.`]
       : []),
   ];
+  const programskiJezikProucavanjaGovernanceAlignmentScore =
+    dokDikDakDukConsistencyHealth.checks.ownershipBoundaryPreserved
+      ? dokDikDakDukConsistencyHealth.signals.dak.status === null && dokDikDakDukConsistencyHealth.signals.duk.status === null
+        ? 50
+        : 100
+      : 0;
+  dokDikDakDukConsistencyHealth.programskiJezikProucavanja.laboratoryCaseProfile.deterministicMetrics = {
+    technicalReadinessScore: round2(petljeSignals.summary.readinessScore),
+    technicalConflictScore: round2(petljeSignals.summary.conflictScore),
+    governanceAlignmentScore: programskiJezikProucavanjaGovernanceAlignmentScore,
+    escalationScore: round2(dokDikDakDukConsistencyHealth.programskiJezikAnaliza.escalationScore),
+  };
+  dokDikDakDukConsistencyHealth.programskiJezikProucavanja.laboratoryCaseProfile.consolidatedStatus =
+    dokDikDakDukConsistencyHealth.programskiJezikAnaliza.escalationStatus;
+  dokDikDakDukConsistencyHealth.programskiJezikProucavanja.laboratoryCaseProfile.requiredReasons = [
+    'DOK + DIK tehnički/laboratorijski signal ostaje u EXTREM sloju.',
+    'DAK + DUK governance signal ostaje u EXTRONDOL sloju.',
+    ...(dokDikDakDukConsistencyHealth.programskiJezikAnaliza.escalationStatus !== 'READY'
+      ? [`Programski jezik proučavanja status je ${dokDikDakDukConsistencyHealth.programskiJezikAnaliza.escalationStatus}.`]
+      : []),
+  ];
+  dokDikDakDukConsistencyHealth.programskiJezikProucavanja.programskiEkanalog.auditConclusion =
+    dokDikDakDukConsistencyHealth.programskiJezikProucavanja.laboratoryCaseProfile.consolidatedStatus === 'READY'
+      ? 'Laboratorijska logika je konzistentna i audit-ready za nastavak bez governance blokade.'
+      : dokDikDakDukConsistencyHealth.programskiJezikProucavanja.laboratoryCaseProfile.consolidatedStatus === 'WATCH'
+        ? 'Laboratorijska logika zahteva oprezan nastavak i dodatnu governance proveru.'
+        : 'Laboratorijska logika je u blokadi i zahteva deterministički fallback pre promocije.';
+  dokDikDakDukConsistencyHealth.programskiJezikProucavanja.programskiEkanalog.auditReady =
+    dokDikDakDukConsistencyHealth.programskiJezikAnaliza.auditReady;
   const failedConsistencyChecks = [
     ...(!dokDikDakDukConsistencyHealth.checks.dokSignalPresent ? ['DOK PETLJA signal missing from EXTREM technical output.'] : []),
     ...(!dokDikDakDukConsistencyHealth.checks.dikSignalPresent ? ['DIK PETLJA signal missing from EXTREM technical output.'] : []),

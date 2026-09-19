@@ -1439,6 +1439,47 @@ export interface ExtrimliDokDikDakDukConsistencyHealth {
     auditReady: boolean;
     reasons: string[];
   };
+  programskiJezikProucavanja: {
+    canonicalName: 'PROGRAMSKI JEZIK PROUČAVANJA';
+    additiveOnlyProfile: 'EXTRIMLI-EXTRONDOL-EXTREM';
+    sourceOfTruthRoutes: readonly ['/api/extrimli/extrem', '/api/extrimli/extrondol'];
+    laboratoryCaseProfile: {
+      ownershipSplit: {
+        dokDik: 'EXTREM';
+        dakDuk: 'EXTRONDOL';
+      };
+      caseInputProfile: {
+        technical: {
+          dokStatus: ExtrimliExtremPetljaSignalStatus | null;
+          dikStatus: ExtrimliExtremPetljaSignalStatus | null;
+          readinessScore: number | null;
+          conflictScore: number | null;
+        };
+        governance: {
+          dakStatus: 'READY' | 'WATCH' | 'BLOCKED' | null;
+          dukStatus: 'READY' | 'WATCH' | 'BLOCKED' | null;
+          promotionFreeze: boolean | null;
+          humanReviewRequired: true;
+          rollbackPlanRequired: true;
+        };
+      };
+      deterministicMetrics: {
+        technicalReadinessScore: number;
+        technicalConflictScore: number;
+        governanceAlignmentScore: number;
+        escalationScore: number;
+      };
+      consolidatedStatus: 'READY' | 'WATCH' | 'BLOCKED';
+      requiredReasons: string[];
+    };
+    programskiEkanalog: {
+      canonicalName: 'PROGRAMSKI EKANALOG';
+      meaning: 'razumevanje logike';
+      interpretationLayer: 'audit-ready-logic-translation';
+      auditConclusion: string;
+      auditReady: boolean;
+    };
+  };
   reasons: string[];
 }
 
