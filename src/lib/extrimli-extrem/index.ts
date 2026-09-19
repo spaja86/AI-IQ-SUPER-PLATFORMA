@@ -3529,10 +3529,10 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
         : 100
       : 0;
   dokDikDakDukConsistencyHealth.programskiJezikProucavanja.laboratoryCaseProfile.deterministicMetrics = {
-    technicalReadinessScore: round2(petljeSignals.summary.readinessScore),
-    technicalConflictScore: round2(petljeSignals.summary.conflictScore),
+    technicalReadinessScore: round(petljeSignals.summary.readinessScore, 2),
+    technicalConflictScore: round(petljeSignals.summary.conflictScore, 2),
     governanceAlignmentScore: programskiJezikProucavanjaGovernanceAlignmentScore,
-    escalationScore: round2(dokDikDakDukConsistencyHealth.programskiJezikAnaliza.escalationScore),
+    escalationScore: round(dokDikDakDukConsistencyHealth.programskiJezikAnaliza.escalationScore, 2),
   };
   dokDikDakDukConsistencyHealth.programskiJezikProucavanja.laboratoryCaseProfile.consolidatedStatus =
     dokDikDakDukConsistencyHealth.programskiJezikAnaliza.escalationStatus;

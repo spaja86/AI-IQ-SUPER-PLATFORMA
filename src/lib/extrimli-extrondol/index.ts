@@ -3618,10 +3618,10 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
         ? 100
         : 70;
   dokDikDakDukConsistencyHealth.programskiJezikProucavanja.laboratoryCaseProfile.deterministicMetrics = {
-    technicalReadinessScore: round2(extremProfiler.petljeSignals.summary.readinessScore),
-    technicalConflictScore: round2(extremProfiler.petljeSignals.summary.conflictScore),
+    technicalReadinessScore: round(extremProfiler.petljeSignals.summary.readinessScore, 2),
+    technicalConflictScore: round(extremProfiler.petljeSignals.summary.conflictScore, 2),
     governanceAlignmentScore: programskiJezikProucavanjaGovernanceAlignmentScore,
-    escalationScore: round2(dokDikDakDukConsistencyHealth.programskiJezikAnaliza.escalationScore),
+    escalationScore: round(dokDikDakDukConsistencyHealth.programskiJezikAnaliza.escalationScore, 2),
   };
   dokDikDakDukConsistencyHealth.programskiJezikProucavanja.laboratoryCaseProfile.consolidatedStatus =
     dokDikDakDukConsistencyHealth.programskiJezikAnaliza.escalationStatus;
