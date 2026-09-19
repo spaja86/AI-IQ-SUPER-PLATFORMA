@@ -26,6 +26,7 @@ export type ExtrimliExtremFunkcinalnoProgramiranjeEnergetskogMisaonogTokaStatus 
 export type ExtrimliExtremFunkcionalnoProgramiranjeUzvisenogMisanogTokaStatus = 'READY' | 'WATCH' | 'BLOCKED';
 export type ExtrimliExtremFunkcionalnoProgramiranjeEksplicitnogMisaonogTokaStatus = 'READY' | 'WATCH' | 'BLOCKED';
 export type ExtrimliExtremFunkionalnoProgramiranjePravnogMisaonogTokaStatus = 'READY' | 'WATCH' | 'BLOCKED';
+export type ExtrimliExtremParadijogonalnoProgrimiranjeStatus = 'READY' | 'WATCH' | 'BLOCKED';
 export type ExtrimliExtremProporcionalnoProgramiranjeStatus = 'READY' | 'WATCH' | 'BLOCKED';
 export type ExtrimliExtremSpajinoProporcionalnoProgramiranjeUniverzitetStatus = 'READY' | 'WATCH' | 'BLOCKED';
 
@@ -647,6 +648,104 @@ export interface ExtrimliExtremMetrickoProgramiranjeSignal {
   readiness: {
     score: number;
     status: ExtrimliExtremMetrickoProgramiranjeStatus;
+    readyForWaweProgression: boolean;
+    degraded: boolean;
+    watchReasons: string[];
+    blockerReasons: string[];
+  };
+}
+
+
+export interface ExtrimliExtremParadijogonalnoProgrimiranjeProfileInput {
+  paradijogonalFlowStabilityPercent: number;
+  instrumentalVisionPrecisionPercent: number;
+  sihofiziProsparitetAlignmentPercent: number;
+  prosparitetReadinessPercent: number;
+  cloudFieldCohesionPercent: number;
+  conflictDegradationPressurePercent: number;
+}
+
+export interface ExtrimliExtremParadijogonalnoProgrimiranjeSignal {
+  term: 'PARADIJOGONALNO PROGRIMIRANJE (INSTRUMENTALNI VID U SIHOFIZI PROSPARITET OBLAČNOG/CLOUD PREDELA)';
+  contractVersion: typeof EXTRIMLI_EXTREM_PARADIJOGONALNO_PROGRIMIRANJE_CONTRACT_VERSION;
+  additiveOnly: true;
+  sourceOfTruth: '/api/extrimli/extrem';
+  triggerLabel: 'extrem:logic-change';
+  scopeLock: readonly ['EXTRIMLI', 'EXTREM', 'EXTRONDOL', 'SPAJA KOD'];
+  meaningLock: {
+    canonicalName: 'PARADIJOGONALNO PROGRIMIRANJE (INSTRUMENTALNI VID U SIHOFIZI PROSPARITET OBLAČNOG/CLOUD PREDELA)';
+    spellingDecision: 'exact-user-term-locked';
+    paradijogonalnoMeaning: 'instrumentalni-pogled-nad-prosparitet-oblacnim-predelom';
+    instrumentalVisionMeaning: 'tehnicki-instrumentalni-vid';
+    sihofiziMeaning: 'signalna-sihofizi-kohezija';
+    prosparitetMeaning: 'prosparitet-readiness-interpretacioni-domen';
+    cloudPredelaMeaning: 'operativni-cloud-kontekst-predela';
+    statement: string;
+    interpretationLayer: 'technical-cloud-prosperity-signal';
+    existingContractBeforeThisChange: false;
+    aliasesOfExistingSurfaces: false;
+  };
+  ownershipModel: {
+    extrem: 'technical-paradijogonalno-signal';
+    extrondol: 'wawe-orchestration-audit-consumer';
+    spajaKod: 'public-encapsulated-boundary';
+  };
+  canonicalVocabulary: {
+    paradijogonalFlowStability: {
+      canonicalField: 'profileInput.paradijogonalFlowStabilityPercent';
+      meaning: 'stabilnost-paradijogonalnog-toka';
+    };
+    instrumentalVisionPrecision: {
+      canonicalField: 'profileInput.instrumentalVisionPrecisionPercent';
+      meaning: 'preciznost-instrumentalnog-vida';
+    };
+    sihofiziProsparitetAlignment: {
+      canonicalField: 'profileInput.sihofiziProsparitetAlignmentPercent';
+      meaning: 'poravnanje-sihofizi-i-prosparitet-signala';
+    };
+    prosparitetReadiness: {
+      canonicalField: 'profileInput.prosparitetReadinessPercent';
+      meaning: 'repo-local-prosparitet-readiness';
+    };
+    cloudFieldCohesion: {
+      canonicalField: 'profileInput.cloudFieldCohesionPercent';
+      meaning: 'kohezija-cloud-predela';
+    };
+    conflictDegradationPressure: {
+      canonicalField: 'profileInput.conflictDegradationPressurePercent';
+      meaning: 'konfliktno-degradacioni-pritisak';
+    };
+    readinessStatus: {
+      canonicalField: 'readiness.status';
+      meaning: 'wawe-readiness-posture';
+    };
+  };
+  profileInput: ExtrimliExtremParadijogonalnoProgrimiranjeProfileInput;
+  prosparitetDomain: {
+    sourceOfTruth: '/api/prosparitet/evaluate';
+    linkedRepoImpact: 'none';
+    governanceRole: 'input-domain-only';
+    cloudContext: 'oblacni-cloud-predela';
+  };
+  ownershipEvidence: {
+    dokRole: 'technical-proof-of-stability-and-bounded-cloud-prosperity-posture';
+    dikRole: 'technical-proof-of-instrumental-vision-sequencing-and-signal-cohesion';
+    dokEvidence: {
+      kind: 'DOK PETLJA';
+      readinessScore: number | null;
+      status: ExtrimliDokDikDakDukConsistencyHealth['signals']['dok']['status'];
+    };
+    dikEvidence: {
+      kind: 'DIK PETLJA';
+      readinessScore: number | null;
+      status: ExtrimliDokDikDakDukConsistencyHealth['signals']['dik']['status'];
+    };
+    dakDeferredToGovernance: true;
+    dukDeferredToGovernance: true;
+  };
+  readiness: {
+    score: number;
+    status: ExtrimliExtremParadijogonalnoProgrimiranjeStatus;
     readyForWaweProgression: boolean;
     degraded: boolean;
     watchReasons: string[];
@@ -1396,6 +1495,7 @@ export interface ExtrimliExtremProfilerReport {
   funkcionalnoProgramiranjeUzvisenogMisanogToka: ExtrimliExtremFunkcionalnoProgramiranjeUzvisenogMisanogTokaSignal;
   funkcionalnoProgramiranjeEksplicitnogMisaonogToka: ExtrimliExtremFunkcionalnoProgramiranjeEksplicitnogMisaonogTokaSignal;
   funkcionalnoProgramiranjePravednogMisaonogToka: ExtrimliExtremFunkcionalnoProgramiranjePravednogMisaonogTokaSignal;
+  paradijogonalnoProgrimiranje: ExtrimliExtremParadijogonalnoProgrimiranjeSignal;
   funkionalnoProgramiranjePravnogMisaonogToka: ExtrimliExtremFunkionalnoProgramiranjePravnogMisaonogTokaSignal;
   proporcionalnoProgramiranje: ExtrimliExtremProporcionalnoProgramiranjeSignal;
   metrikoProgramiranje: ExtrimliExtremMetrickoProgramiranjeSignal;
@@ -1493,6 +1593,9 @@ export const EXTRIMLI_EXTREM_FUNKCIONALNO_PROGRAMIRANJE_EKSPLICITNOG_MISAONOG_TO
 export const EXTRIMLI_EXTREM_FUNKCIONALNO_PROGRAMIRANJE_PRAVEDNOG_MISAONOG_TOKA_CONTRACT_VERSION = 'v1-funkcionalno-programiranje-pravednog-misaonog-toka';
 export const EXTRIMLI_EXTREM_FUNKCIONALNO_PROGRAMIRANJE_PRAVEDNOG_MISAONOG_TOKA_MIN_READY_SCORE = 81;
 export const EXTRIMLI_EXTREM_FUNKCIONALNO_PROGRAMIRANJE_PRAVEDNOG_MISAONOG_TOKA_MIN_WATCH_SCORE = 63;
+export const EXTRIMLI_EXTREM_PARADIJOGONALNO_PROGRIMIRANJE_CONTRACT_VERSION = 'v1-paradijogonalno-progrimiranje';
+export const EXTRIMLI_EXTREM_PARADIJOGONALNO_PROGRIMIRANJE_MIN_READY_SCORE = 80;
+export const EXTRIMLI_EXTREM_PARADIJOGONALNO_PROGRIMIRANJE_MIN_WATCH_SCORE = 62;
 export const EXTRIMLI_EXTREM_FUNKIONALNO_PROGRAMIRANJE_PRAVNOG_MISAONOG_TOKA_CONTRACT_VERSION = 'v1-funkionalno-programiranje-pravnog-misaonog-toka';
 export const EXTRIMLI_EXTREM_FUNKIONALNO_PROGRAMIRANJE_PRAVNOG_MISAONOG_TOKA_MIN_READY_SCORE = 80;
 export const EXTRIMLI_EXTREM_FUNKIONALNO_PROGRAMIRANJE_PRAVNOG_MISAONOG_TOKA_MIN_WATCH_SCORE = 62;

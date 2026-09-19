@@ -46,6 +46,9 @@ import type {
   ExtrimliExtremFunkcionalnoProgramiranjePravednogMisaonogTokaProfileInput,
   ExtrimliExtremFunkcionalnoProgramiranjePravednogMisaonogTokaSignal,
   ExtrimliExtremFunkcionalnoProgramiranjePravednogMisaonogTokaStatus,
+  ExtrimliExtremParadijogonalnoProgrimiranjeProfileInput,
+  ExtrimliExtremParadijogonalnoProgrimiranjeSignal,
+  ExtrimliExtremParadijogonalnoProgrimiranjeStatus,
   ExtrimliExtremFunkionalnoProgramiranjePravnogMisaonogTokaProfileInput,
   ExtrimliExtremFunkionalnoProgramiranjePravnogMisaonogTokaSignal,
   ExtrimliExtremFunkionalnoProgramiranjePravnogMisaonogTokaStatus,
@@ -112,6 +115,9 @@ import {
   EXTRIMLI_EXTREM_FUNKCIONALNO_PROGRAMIRANJE_PRAVEDNOG_MISAONOG_TOKA_CONTRACT_VERSION,
   EXTRIMLI_EXTREM_FUNKCIONALNO_PROGRAMIRANJE_PRAVEDNOG_MISAONOG_TOKA_MIN_READY_SCORE,
   EXTRIMLI_EXTREM_FUNKCIONALNO_PROGRAMIRANJE_PRAVEDNOG_MISAONOG_TOKA_MIN_WATCH_SCORE,
+  EXTRIMLI_EXTREM_PARADIJOGONALNO_PROGRIMIRANJE_CONTRACT_VERSION,
+  EXTRIMLI_EXTREM_PARADIJOGONALNO_PROGRIMIRANJE_MIN_READY_SCORE,
+  EXTRIMLI_EXTREM_PARADIJOGONALNO_PROGRIMIRANJE_MIN_WATCH_SCORE,
   EXTRIMLI_EXTREM_FUNKIONALNO_PROGRAMIRANJE_PRAVNOG_MISAONOG_TOKA_CONTRACT_VERSION,
   EXTRIMLI_EXTREM_FUNKIONALNO_PROGRAMIRANJE_PRAVNOG_MISAONOG_TOKA_MIN_READY_SCORE,
   EXTRIMLI_EXTREM_FUNKIONALNO_PROGRAMIRANJE_PRAVNOG_MISAONOG_TOKA_MIN_WATCH_SCORE,
@@ -655,6 +661,154 @@ function buildMetrickoProgramiranjeSignal(
     ownershipEvidence: {
       dokTechnical: true,
       dikTechnical: true,
+      dakDeferredToGovernance: true,
+      dukDeferredToGovernance: true,
+    },
+    readiness: {
+      score,
+      status,
+      readyForWaweProgression: status === 'READY',
+      degraded,
+      watchReasons: status === 'WATCH' && watchReasons.length === 0 ? [`aggregate-watch-score:${score}`] : watchReasons,
+      blockerReasons: status === 'BLOCKED' && blockerReasons.length === 0 ? [`aggregate-blocked-score:${score}`] : blockerReasons,
+    },
+  };
+}
+
+
+function classifyParadijogonalnoProgrimiranjeStatus(
+  score: number,
+): ExtrimliExtremParadijogonalnoProgrimiranjeStatus {
+  if (score >= EXTRIMLI_EXTREM_PARADIJOGONALNO_PROGRIMIRANJE_MIN_READY_SCORE) return 'READY';
+  if (score >= EXTRIMLI_EXTREM_PARADIJOGONALNO_PROGRIMIRANJE_MIN_WATCH_SCORE) return 'WATCH';
+  return 'BLOCKED';
+}
+
+function buildParadijogonalnoProgrimiranjeSignal(
+  profileInput: ExtrimliExtremParadijogonalnoProgrimiranjeProfileInput,
+  dokSignal: ExtrimliExtremPetljaSignalResult | undefined,
+  dikSignal: ExtrimliExtremPetljaSignalResult | undefined,
+  degraded: boolean,
+): ExtrimliExtremParadijogonalnoProgrimiranjeSignal {
+  const score = round(
+    clamp(
+      (profileInput.paradijogonalnoFlowStabilityPercent * 0.2)
+      + (profileInput.instrumentalVisionPrecisionPercent * 0.18)
+      + (profileInput.sihofiziProsparitetAlignmentPercent * 0.18)
+      + (profileInput.prosparitetReadinessPercent * 0.17)
+      + (profileInput.cloudFieldCohesionPercent * 0.15)
+      + ((100 - profileInput.conflictDegradationPressurePercent) * 0.06)
+      + ((dokSignal?.readinessScore ?? 0) * 0.03)
+      + ((dikSignal?.readinessScore ?? 0) * 0.03),
+      0,
+      100,
+    ),
+    2,
+  );
+  const aggregateStatus = classifyParadijogonalnoProgrimiranjeStatus(score);
+  const watchReasons = [
+    ...(profileInput.paradijogonalnoFlowStabilityPercent < 82 ? [`paradijogonal-flow-watch:${profileInput.paradijogonalnoFlowStabilityPercent}`] : []),
+    ...(profileInput.instrumentalVisionPrecisionPercent < 80 ? [`instrumental-vision-watch:${profileInput.instrumentalVisionPrecisionPercent}`] : []),
+    ...(profileInput.sihofiziProsparitetAlignmentPercent < 80 ? [`sihofizi-prosparitet-watch:${profileInput.sihofiziProsparitetAlignmentPercent}`] : []),
+    ...(profileInput.prosparitetReadinessPercent < 78 ? [`prosparitet-readiness-watch:${profileInput.prosparitetReadinessPercent}`] : []),
+    ...(profileInput.cloudFieldCohesionPercent < 79 ? [`cloud-field-cohesion-watch:${profileInput.cloudFieldCohesionPercent}`] : []),
+    ...(profileInput.conflictDegradationPressurePercent > 24 ? [`conflict-degradation-watch:${profileInput.conflictDegradationPressurePercent}`] : []),
+    ...(dokSignal?.status === 'WATCH' ? [`dok-evidence-watch:${dokSignal.readinessScore}`] : []),
+    ...(dikSignal?.status === 'WATCH' ? [`dik-evidence-watch:${dikSignal.readinessScore}`] : []),
+  ];
+  const blockerReasons = [
+    ...(profileInput.paradijogonalnoFlowStabilityPercent < 58 ? [`paradijogonal-flow-blocked:${profileInput.paradijogonalnoFlowStabilityPercent}`] : []),
+    ...(profileInput.instrumentalVisionPrecisionPercent < 56 ? [`instrumental-vision-blocked:${profileInput.instrumentalVisionPrecisionPercent}`] : []),
+    ...(profileInput.sihofiziProsparitetAlignmentPercent < 56 ? [`sihofizi-prosparitet-blocked:${profileInput.sihofiziProsparitetAlignmentPercent}`] : []),
+    ...(profileInput.prosparitetReadinessPercent < 54 ? [`prosparitet-readiness-blocked:${profileInput.prosparitetReadinessPercent}`] : []),
+    ...(profileInput.cloudFieldCohesionPercent < 55 ? [`cloud-field-cohesion-blocked:${profileInput.cloudFieldCohesionPercent}`] : []),
+    ...(profileInput.conflictDegradationPressurePercent > 56 ? [`conflict-degradation-blocked:${profileInput.conflictDegradationPressurePercent}`] : []),
+    ...(dokSignal?.status === 'BLOCKED' ? [`dok-evidence-blocked:${dokSignal.readinessScore}`] : []),
+    ...(dikSignal?.status === 'BLOCKED' ? [`dik-evidence-blocked:${dikSignal.readinessScore}`] : []),
+    ...(!dokSignal ? ['dok-evidence-missing'] : []),
+    ...(!dikSignal ? ['dik-evidence-missing'] : []),
+  ];
+  const status: ExtrimliExtremParadijogonalnoProgrimiranjeStatus = blockerReasons.length > 0 || aggregateStatus === 'BLOCKED'
+    ? 'BLOCKED'
+    : watchReasons.length > 0 || aggregateStatus === 'WATCH'
+      ? 'WATCH'
+      : aggregateStatus;
+
+  return {
+    term: 'PARADIJOGONALNO PROGRIMIRANJE (INSTRUMENTALNI VID U SIHOFIZI PROSPARITET OBLAČNOG/CLOUD PREDELA)',
+    contractVersion: EXTRIMLI_EXTREM_PARADIJOGONALNO_PROGRIMIRANJE_CONTRACT_VERSION,
+    additiveOnly: true,
+    sourceOfTruth: '/api/extrimli/extrem',
+    triggerLabel: 'extrem:logic-change',
+    scopeLock: ['EXTRIMLI', 'EXTREM', 'EXTRONDOL', 'SPAJA KOD'],
+    meaningLock: {
+      canonicalName: 'PARADIJOGONALNO PROGRIMIRANJE (INSTRUMENTALNI VID U SIHOFIZI PROSPARITET OBLAČNOG/CLOUD PREDELA)',
+      spellingDecision: 'exact-user-term-locked',
+      paradijogonalnoMeaning: 'instrumentalni-pogled-nad-prosparitet-oblacnim-predelom',
+      instrumentalVisionMeaning: 'tehnicki-instrumentalni-vid',
+      sihofiziMeaning: 'signalna-sihofizi-kohezija',
+      prosparitetMeaning: 'prosparitet-readiness-interpretacioni-domen',
+      cloudPredelaMeaning: 'operativni-cloud-kontekst-predela',
+      statement: 'Additive EXTREM signal that locks Paradijogonalno progrimiranje as a technical instrumental-vision posture over repo-local PROSPARITET readiness and cloud predela cohesion while DOK/DIK remain technical and DAK/DUK stay in EXTRONDOL governance.',
+      interpretationLayer: 'technical-cloud-prosperity-signal',
+      existingContractBeforeThisChange: false,
+      aliasesOfExistingSurfaces: false,
+    },
+    ownershipModel: {
+      extrem: 'technical-paradijogonalno-signal',
+      extrondol: 'wawe-orchestration-audit-consumer',
+      spajaKod: 'public-encapsulated-boundary',
+    },
+    canonicalVocabulary: {
+      paradijogonalFlowStability: {
+        canonicalField: 'profileInput.paradijogonalnoFlowStabilityPercent',
+        meaning: 'stabilnost-paradijogonalnog-toka',
+      },
+      instrumentalVisionPrecision: {
+        canonicalField: 'profileInput.instrumentalVisionPrecisionPercent',
+        meaning: 'preciznost-instrumentalnog-vida',
+      },
+      sihofiziProsparitetAlignment: {
+        canonicalField: 'profileInput.sihofiziProsparitetAlignmentPercent',
+        meaning: 'poravnanje-sihofizi-i-prosparitet-signala',
+      },
+      prosparitetReadiness: {
+        canonicalField: 'profileInput.prosparitetReadinessPercent',
+        meaning: 'repo-local-prosparitet-readiness',
+      },
+      cloudFieldCohesion: {
+        canonicalField: 'profileInput.cloudFieldCohesionPercent',
+        meaning: 'kohezija-cloud-predela',
+      },
+      conflictDegradationPressure: {
+        canonicalField: 'profileInput.conflictDegradationPressurePercent',
+        meaning: 'konfliktno-degradacioni-pritisak',
+      },
+      readinessStatus: {
+        canonicalField: 'readiness.status',
+        meaning: 'wawe-readiness-posture',
+      },
+    },
+    profileInput,
+    prosparitetDomain: {
+      sourceOfTruth: '/api/prosparitet/evaluate',
+      linkedRepoImpact: 'none',
+      governanceRole: 'input-domain-only',
+      cloudContext: 'oblacni-cloud-predela',
+    },
+    ownershipEvidence: {
+      dokRole: 'technical-proof-of-stability-and-bounded-cloud-prosperity-posture',
+      dikRole: 'technical-proof-of-instrumental-vision-sequencing-and-signal-cohesion',
+      dokEvidence: {
+        kind: 'DOK PETLJA',
+        readinessScore: dokSignal?.readinessScore ?? null,
+        status: dokSignal?.status ?? null,
+      },
+      dikEvidence: {
+        kind: 'DIK PETLJA',
+        readinessScore: dikSignal?.readinessScore ?? null,
+        status: dikSignal?.status ?? null,
+      },
       dakDeferredToGovernance: true,
       dukDeferredToGovernance: true,
     },
@@ -2786,10 +2940,62 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
     funkcionalnoProgramiranjePravednogMisaonogTokaInput,
     funkcionalnoProgramiranjePravednogMisaonogTokaDegradedSources.length > 0,
   );
+
   const funkionalnoProgramiranjePravnogMisaonogToka = buildFunkionalnoProgramiranjePravnogMisaonogTokaSignal(
     funkionalnoProgramiranjePravnogMisaonogTokaInput,
     funkionalnoProgramiranjePravnogMisaonogTokaDegradedSources.length > 0,
     kraljevskiPravniUniverzitetTrack,
+  );
+  const dokSignalForParadijogonalno = petljeSignals.signals.find((signal) => signal.kind === 'DOK PETLJA');
+  const dikSignalForParadijogonalno = petljeSignals.signals.find((signal) => signal.kind === 'DIK PETLJA');
+  const paradijogonalnoFlowStabilityPercent = parsePercentEnvWithInvalidFallback(
+    'EXTRIMLI_EXTREM_PARADIJOGONALNO_FLOW_STABILITY_PERCENT',
+    89,
+    72,
+    degradedSources,
+  );
+  const instrumentalVisionPrecisionPercent = parsePercentEnvWithInvalidFallback(
+    'EXTRIMLI_EXTREM_PARADIJOGONALNO_INSTRUMENTAL_VISION_PRECISION_PERCENT',
+    87,
+    70,
+    degradedSources,
+  );
+  const sihofiziProsparitetAlignmentPercent = parsePercentEnvWithInvalidFallback(
+    'EXTRIMLI_EXTREM_PARADIJOGONALNO_SIHOFIZI_PROSPARITET_ALIGNMENT_PERCENT',
+    88,
+    71,
+    degradedSources,
+  );
+  const prosparitetReadinessPercent = parsePercentEnvWithInvalidFallback(
+    'EXTRIMLI_EXTREM_PARADIJOGONALNO_PROSPARITET_READINESS_PERCENT',
+    85,
+    68,
+    degradedSources,
+  );
+  const cloudFieldCohesionPercent = parsePercentEnvWithInvalidFallback(
+    'EXTRIMLI_EXTREM_PARADIJOGONALNO_CLOUD_FIELD_COHESION_PERCENT',
+    86,
+    69,
+    degradedSources,
+  );
+  const conflictDegradationPressurePercent = parsePercentEnvWithInvalidFallback(
+    'EXTRIMLI_EXTREM_PARADIJOGONALNO_CONFLICT_DEGRADATION_PRESSURE_PERCENT',
+    18,
+    52,
+    degradedSources,
+  );
+  const paradijogonalnoProgrimiranje = buildParadijogonalnoProgrimiranjeSignal(
+    {
+      paradijogonalnoFlowStabilityPercent,
+      instrumentalVisionPrecisionPercent,
+      sihofiziProsparitetAlignmentPercent,
+      prosparitetReadinessPercent,
+      cloudFieldCohesionPercent,
+      conflictDegradationPressurePercent,
+    },
+    dokSignalForParadijogonalno,
+    dikSignalForParadijogonalno,
+    degradedSources.some((source) => source.startsWith('invalid-env:EXTRIMLI_EXTREM_PARADIJOGONALNO_')),
   );
   const objektnoOrijentusanoUzdizanjeEpskihElikvadenata = buildEpicElikvadentSignal(
     epicElikvadentInput,
@@ -3483,6 +3689,25 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
         && funkcionalnoProgramiranjePravednogMisaonogToka.canonicalVocabulary.conflictBiasPressure.canonicalField === 'profileInput.conflictBiasPressurePercent'
         && Number.isFinite(funkcionalnoProgramiranjePravednogMisaonogToka.readiness.score),
     },
+
+    {
+      id: 'paradijogonalno-progrimiranje-lock',
+      description: 'Paradijogonalno progrimiranje is locked as an additive EXTREM technical track with exact user-requested spelling, PROSPARITET input-domain-only coupling, and DOK/DIK technical ownership while DAK/DUK remain governance-only.',
+      passed: paradijogonalnoProgrimiranje.contractVersion === EXTRIMLI_EXTREM_PARADIJOGONALNO_PROGRIMIRANJE_CONTRACT_VERSION
+        && paradijogonalnoProgrimiranje.scopeLock.join(',') === 'EXTRIMLI,EXTREM,EXTRONDOL,SPAJA KOD'
+        && paradijogonalnoProgrimiranje.meaningLock.spellingDecision === 'exact-user-term-locked'
+        && paradijogonalnoProgrimiranje.ownershipEvidence.dakDeferredToGovernance
+        && paradijogonalnoProgrimiranje.ownershipEvidence.dukDeferredToGovernance,
+    },
+    {
+      id: 'paradijogonalno-progrimiranje-model',
+      description: 'Paradijogonalno progrimiranje preserves bounded cloud/prosparitet posture inputs, canonical vocabulary, and DOK/DIK technical evidence without creating a new governance source.',
+      passed: paradijogonalnoProgrimiranje.prosparitetDomain.sourceOfTruth === '/api/prosparitet/evaluate'
+        && paradijogonalnoProgrimiranje.canonicalVocabulary.cloudFieldCohesion.canonicalField === 'profileInput.cloudFieldCohesionPercent'
+        && paradijogonalnoProgrimiranje.ownershipEvidence.dokEvidence.kind === 'DOK PETLJA'
+        && paradijogonalnoProgrimiranje.ownershipEvidence.dikEvidence.kind === 'DIK PETLJA'
+        && Number.isFinite(paradijogonalnoProgrimiranje.readiness.score),
+    },
     {
       id: 'funkionalno-programiranje-pravnog-misaonog-toka-lock',
       description: 'FUNKIONALNO PROGRAMIRANJE PRAVNOG MISAONOG TOKA is locked as an additive EXTREM legal-reasoning signal with exact user-requested spelling, legal-track coupling, and explicit EXTREM/EXTRONDOL/SPAJA KOD ownership.',
@@ -3723,6 +3948,7 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
     funkcionalnoProgramiranjeUzvisenogMisanogToka,
     funkcionalnoProgramiranjeEksplicitnogMisaonogToka,
     funkcionalnoProgramiranjePravednogMisaonogToka,
+    paradijogonalnoProgrimiranje,
     funkionalnoProgramiranjePravnogMisaonogToka,
     proporcionalnoProgramiranje,
     metrikoProgramiranje,
@@ -3797,6 +4023,9 @@ export type {
   ExtrimliExtremFunkcionalnoProgramiranjeEksplicitnogMisaonogTokaProfileInput,
   ExtrimliExtremFunkcionalnoProgramiranjeEksplicitnogMisaonogTokaSignal,
   ExtrimliExtremFunkcionalnoProgramiranjeEksplicitnogMisaonogTokaStatus,
+  ExtrimliExtremParadijogonalnoProgrimiranjeProfileInput,
+  ExtrimliExtremParadijogonalnoProgrimiranjeSignal,
+  ExtrimliExtremParadijogonalnoProgrimiranjeStatus,
   ExtrimliExtremFunkionalnoProgramiranjePravnogMisaonogTokaProfileInput,
   ExtrimliExtremFunkionalnoProgramiranjePravnogMisaonogTokaSignal,
   ExtrimliExtremFunkionalnoProgramiranjePravnogMisaonogTokaStatus,
@@ -3853,6 +4082,9 @@ export {
   EXTRIMLI_EXTREM_FUNKCIONALNO_PROGRAMIRANJE_PRAVEDNOG_MISAONOG_TOKA_CONTRACT_VERSION,
   EXTRIMLI_EXTREM_FUNKCIONALNO_PROGRAMIRANJE_PRAVEDNOG_MISAONOG_TOKA_MIN_READY_SCORE,
   EXTRIMLI_EXTREM_FUNKCIONALNO_PROGRAMIRANJE_PRAVEDNOG_MISAONOG_TOKA_MIN_WATCH_SCORE,
+  EXTRIMLI_EXTREM_PARADIJOGONALNO_PROGRIMIRANJE_CONTRACT_VERSION,
+  EXTRIMLI_EXTREM_PARADIJOGONALNO_PROGRIMIRANJE_MIN_READY_SCORE,
+  EXTRIMLI_EXTREM_PARADIJOGONALNO_PROGRIMIRANJE_MIN_WATCH_SCORE,
   EXTRIMLI_EXTREM_FUNKIONALNO_PROGRAMIRANJE_PRAVNOG_MISAONOG_TOKA_CONTRACT_VERSION,
   EXTRIMLI_EXTREM_FUNKIONALNO_PROGRAMIRANJE_PRAVNOG_MISAONOG_TOKA_MIN_READY_SCORE,
   EXTRIMLI_EXTREM_FUNKIONALNO_PROGRAMIRANJE_PRAVNOG_MISAONOG_TOKA_MIN_WATCH_SCORE,
