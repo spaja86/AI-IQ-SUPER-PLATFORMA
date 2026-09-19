@@ -20,6 +20,7 @@ This repository now exposes five aligned surfaces:
 | **SPAJA KOD** | `src/app/api/extrimli/spaja-kod/` | Active | Public encapsulated facade over EXTREM + EXTRONDOL that exposes only system readiness, governance, and audit signals |
 | **SPAJINO PROPORCIONALNO PROGRAMIRANJE UNIVERZITET** | `docs/EXTRIMLI-SPAJINO-PROPORCIONALNO-PROGRAMIRANJE-UNIVERZITET.md`, `/api/extrimli/extrem`, `/api/extrimli/extrondol`, `/api/extrimli/spaja-kod` | Active | Additive university-layer interpretation over `PROPORCIONALNO PROGRAMIRANJE`; EXTREM owns the technical signal, EXTRONDOL owns WAWE/audit governance, SPAJA KOD exposes only audit-safe summary status |
 | **METRIČKO PROGRAMIRANJE** | `docs/EXTRIMLI-METRICKO-PROGRAMIRANJE.md`, `/api/extrimli/extrem`, `/api/extrimli/extrondol`, `/api/extrimli/spaja-kod` | Active | Additive metric-programming track; EXTREM owns declaration-matrix and instance-positioning technical signal, EXTRONDOL owns WAWE/audit governance, SPAJA KOD exposes only audit-safe final status |
+| **PARADIJOGONALNO PROGRIMIRANJE** | `docs/EXTRIMLI-PARADIJOGONALNO-PROGRIMIRANJE.md`, `/api/extrimli/extrem`, `/api/extrimli/extrondol`, `/api/extrimli/spaja-kod` | Active | Additive-only cloud/prosparitet track; EXTREM owns the instrumental-vision DOK/DIK technical signal, EXTRONDOL owns WAWE/audit DAK/DUK governance, SPAJA KOD exposes only audit-safe final status |
 | **SPAJAPRO Track** | `docs/EXTRIMLI-SPAJAPRO-TRACK.md`, `/api/extrimli/extrem`, `/api/extrimli/extrondol`, `/api/extrimli/spaja-kod` | Active | Locked ODIT→KODER planning track layered on EXTRIMLI; EXTREM owns technical signals, EXTRONDOL owns orchestration, SPAJA KOD exposes only final public-safe status |
 | **AI IQ Programski Jezik Integration Profile** | `docs/AI-IQ-PROGRAMSKI-JEZIK.md`, `/api/ai-iq-programski-jezik/*`, `/api/extrimli/extrem`, `/api/extrimli/extrondol` | Active | Additive `EXTRIMLI-EXTRONDOL-EXTREM` profile that maps `DOM/DIK` to EXTREM signals and `DAK/DUK` to EXTRONDOL promotion/human-review governance |
 | **SINEMETRIČKO PROGRAMIRANJE** | `docs/EXTRIMLI-SINEMETRICKO-PROGRAMIRANJE.md`, `/api/extrimli/extrem`, `/api/extrimli/extrondol`, `/api/extrimli/spaja-kod` | Active | Additive-only matrix-syntax signal: EXTREM publishes deterministic readiness/conflict/evidence, EXTRONDOL consumes it for WAWE freeze/promotion/audit, SPAJA KOD remains audit-safe summary boundary |
@@ -44,6 +45,7 @@ This repository now exposes five aligned surfaces:
 | SPAJA KOD facade API route | `src/app/api/extrimli/spaja-kod/` |
 | SPAJINO proportional university spec | `docs/EXTRIMLI-SPAJINO-PROPORCIONALNO-PROGRAMIRANJE-UNIVERZITET.md` |
 | Metricko programming spec | `docs/EXTRIMLI-METRICKO-PROGRAMIRANJE.md` |
+| Paradijogonalno programming spec | `docs/EXTRIMLI-PARADIJOGONALNO-PROGRIMIRANJE.md` |
 | SPAJAPRO planning-track doc | `docs/EXTRIMLI-SPAJAPRO-TRACK.md` |
 | World Bank Persona bridge library | `src/lib/extrimli-world-bank-persona/` |
 | World Bank Persona bridge API route | `src/app/api/extrimli/world-bank-persona/` |
@@ -101,6 +103,15 @@ Promotion freeze je obavezan kada KPI/audit/sync nije potpun, uz rollback na pre
 - Shared roadmap `versionRoadmap.developerCreateLock` dodatno zaključava jezgro artefakata, ownership split i obavezne drift-zero slojeve (`docs + types + routes + tests + workflows`).
 - KORON overlay route: `src/app/api/extrimli/koron/route.ts`
 - DUEL KING route: `src/app/api/extrimli/duel-king/route.ts`
+
+## PARADIJOGONALNO PROGRIMIRANJE
+
+- Kanonski naziv/spelling je zaključan na `PARADIJOGONALNO PROGRIMIRANJE (INSTRUMENTALNI VID U SIHOFIZI PROSPARITET OBLAČNOG/CLOUD PREDELA)`.
+- Track je additive-only i ostaje unutar postojećih EXTRIMLI / EXTREM / EXTRONDOL / SPAJA KOD granica bez novog public runtime source-of-truth sloja.
+- `EXTREM` objavljuje tehnički readiness signal sa statusom `READY | WATCH | BLOCKED` i bounded razlozima za flow stability, instrumental vision precision, sihofizi-prosparitet alignment, cloud-field cohesion i conflict/degradation pressure.
+- `PROSPARITET` ostaje repo-local interpretacioni domen ulaza; cloud/predela sloj je operativni kontekst nad prosperity signalom, ne novi governance izvor.
+- Ownership split je zaključan: `DOK` + `DIK` ostaju tehnički dokaz u EXTREM sloju, `DAK` + `DUK` ostaju EXTRONDOL governance odluka za promotion/human-review/rollback.
+- `EXTRONDOL` koristi signal za WAWE impact, release-audit summary, downstream-sync i freeze/promotion interpretaciju, dok `SPAJA KOD` izlaže samo audit-safe final status.
 
 
 ## Scope and naming lock (EXTRIMLI, EXTRONDEND, EXTRONDOL)

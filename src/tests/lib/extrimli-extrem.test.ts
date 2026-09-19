@@ -5,6 +5,7 @@ import {
   EXTRIMLI_EXTREM_FUNKCIONALNO_PROGRAMIRANJE_PRAVEDNOG_MISAONOG_TOKA_CONTRACT_VERSION,
   EXTRIMLI_EXTREM_FUNKIONALNO_PROGRAMIRANJE_PRAVNOG_MISAONOG_TOKA_CONTRACT_VERSION,
   EXTRIMLI_EXTREM_METRICKO_PROGRAMIRANJE_CONTRACT_VERSION,
+  EXTRIMLI_EXTREM_PARADIJOGONALNO_PROGRIMIRANJE_CONTRACT_VERSION,
   EXTRIMLI_EXTREM_MOBILNA_LINIJA_INSTALLATION_CONTRACT_VERSION,
   EXTRIMLI_EXTREM_MOBILNA_LINIJA_MIN_SIGNAL_FOR_READY,
   EXTRIMLI_EXTREM_OBJEKTNO_ORIJENTISANA_PRONGILACIJA_CONTRACT_VERSION,
@@ -217,6 +218,37 @@ async function runTests(): Promise<void> {
     assert(Number.isFinite(signal.readiness.score), 'metric programming score must be finite');
     assert(report.acceptanceCriteria.some((item) => item.id === 'metriko-programiranje-lock' && item.passed), 'metric programming acceptance criterion must pass');
   });
+
+  await test('default report exposes PARADIJOGONALNO PROGRIMIRANJE as additive EXTREM cloud/prosparitet signal', () => {
+    const report = getExtrimliExtremProfilerReport();
+    const signal = report.paradijogonalnoProgrimiranje;
+    assert(signal.term === 'PARADIJOGONALNO PROGRIMIRANJE (INSTRUMENTALNI VID U SIHOFIZI PROSPARITET OBLAČNOG/CLOUD PREDELA)', 'paradijogonalno term mismatch');
+    assert(signal.contractVersion === EXTRIMLI_EXTREM_PARADIJOGONALNO_PROGRIMIRANJE_CONTRACT_VERSION, 'paradijogonalno contract mismatch');
+    assert(signal.sourceOfTruth === '/api/extrimli/extrem', 'paradijogonalno source mismatch');
+    assert(signal.ownershipEvidence.dokEvidence.kind === 'DOK PETLJA', 'paradijogonalno must bind DOK evidence');
+    assert(signal.ownershipEvidence.dikEvidence.kind === 'DIK PETLJA', 'paradijogonalno must bind DIK evidence');
+    assert(signal.ownershipEvidence.dakDeferredToGovernance, 'paradijogonalno must defer DAK to governance');
+    assert(signal.ownershipEvidence.dukDeferredToGovernance, 'paradijogonalno must defer DUK to governance');
+    assert(['READY', 'WATCH', 'BLOCKED'].includes(signal.readiness.status), 'unexpected paradijogonalno status');
+    assert(Number.isFinite(signal.readiness.score), 'paradijogonalno score must be finite');
+    assert(report.acceptanceCriteria.some((item) => item.id === 'paradijogonalno-progrimiranje-lock' && item.passed), 'paradijogonalno acceptance criterion must pass');
+  });
+
+  await test('PARADIJOGONALNO PROGRIMIRANJE degrades safely on low cloud/prosparitet posture inputs', async () => {
+    await withEnv({
+      EXTRIMLI_EXTREM_PARADIJOGONALNO_FLOW_STABILITY_PERCENT: '20',
+      EXTRIMLI_EXTREM_PARADIJOGONALNO_INSTRUMENTAL_VISION_PRECISION_PERCENT: '15',
+      EXTRIMLI_EXTREM_PARADIJOGONALNO_SIHOFIZI_PROSPARITET_ALIGNMENT_PERCENT: '10',
+      EXTRIMLI_EXTREM_PARADIJOGONALNO_PROSPARITET_READINESS_PERCENT: '5',
+      EXTRIMLI_EXTREM_PARADIJOGONALNO_CLOUD_FIELD_COHESION_PERCENT: '0',
+      EXTRIMLI_EXTREM_PARADIJOGONALNO_CONFLICT_DEGRADATION_PRESSURE_PERCENT: '99',
+    }, () => {
+      const report = getExtrimliExtremProfilerReport();
+      assert(report.paradijogonalnoProgrimiranje.readiness.status === 'BLOCKED', 'paradijogonalno should block on degraded low posture');
+      assert(report.governanceSignal.freezeRequired, 'paradijogonalno blocker should freeze governance progression');
+    });
+  });
+
 
   await test('default report exposes PROPORCIONALNO PROGRAMIRANJE as additive language-innovation EXTREM signal', () => {
     const report = getExtrimliExtremProfilerReport();

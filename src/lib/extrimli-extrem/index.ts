@@ -692,7 +692,7 @@ function buildParadijogonalnoProgrimiranjeSignal(
 ): ExtrimliExtremParadijogonalnoProgrimiranjeSignal {
   const score = round(
     clamp(
-      (profileInput.paradijogonalFlowStabilityPercent * 0.2)
+      (profileInput.paradijogonalnoFlowStabilityPercent * 0.2)
       + (profileInput.instrumentalVisionPrecisionPercent * 0.18)
       + (profileInput.sihofiziProsparitetAlignmentPercent * 0.18)
       + (profileInput.prosparitetReadinessPercent * 0.17)
@@ -707,7 +707,7 @@ function buildParadijogonalnoProgrimiranjeSignal(
   );
   const aggregateStatus = classifyParadijogonalnoProgrimiranjeStatus(score);
   const watchReasons = [
-    ...(profileInput.paradijogonalFlowStabilityPercent < 82 ? [`paradijogonal-flow-watch:${profileInput.paradijogonalFlowStabilityPercent}`] : []),
+    ...(profileInput.paradijogonalnoFlowStabilityPercent < 82 ? [`paradijogonal-flow-watch:${profileInput.paradijogonalnoFlowStabilityPercent}`] : []),
     ...(profileInput.instrumentalVisionPrecisionPercent < 80 ? [`instrumental-vision-watch:${profileInput.instrumentalVisionPrecisionPercent}`] : []),
     ...(profileInput.sihofiziProsparitetAlignmentPercent < 80 ? [`sihofizi-prosparitet-watch:${profileInput.sihofiziProsparitetAlignmentPercent}`] : []),
     ...(profileInput.prosparitetReadinessPercent < 78 ? [`prosparitet-readiness-watch:${profileInput.prosparitetReadinessPercent}`] : []),
@@ -717,7 +717,7 @@ function buildParadijogonalnoProgrimiranjeSignal(
     ...(dikSignal?.status === 'WATCH' ? [`dik-evidence-watch:${dikSignal.readinessScore}`] : []),
   ];
   const blockerReasons = [
-    ...(profileInput.paradijogonalFlowStabilityPercent < 58 ? [`paradijogonal-flow-blocked:${profileInput.paradijogonalFlowStabilityPercent}`] : []),
+    ...(profileInput.paradijogonalnoFlowStabilityPercent < 58 ? [`paradijogonal-flow-blocked:${profileInput.paradijogonalnoFlowStabilityPercent}`] : []),
     ...(profileInput.instrumentalVisionPrecisionPercent < 56 ? [`instrumental-vision-blocked:${profileInput.instrumentalVisionPrecisionPercent}`] : []),
     ...(profileInput.sihofiziProsparitetAlignmentPercent < 56 ? [`sihofizi-prosparitet-blocked:${profileInput.sihofiziProsparitetAlignmentPercent}`] : []),
     ...(profileInput.prosparitetReadinessPercent < 54 ? [`prosparitet-readiness-blocked:${profileInput.prosparitetReadinessPercent}`] : []),
@@ -761,7 +761,7 @@ function buildParadijogonalnoProgrimiranjeSignal(
     },
     canonicalVocabulary: {
       paradijogonalFlowStability: {
-        canonicalField: 'profileInput.paradijogonalFlowStabilityPercent',
+        canonicalField: 'profileInput.paradijogonalnoFlowStabilityPercent',
         meaning: 'stabilnost-paradijogonalnog-toka',
       },
       instrumentalVisionPrecision: {
@@ -2986,7 +2986,7 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
   );
   const paradijogonalnoProgrimiranje = buildParadijogonalnoProgrimiranjeSignal(
     {
-      paradijogonalFlowStabilityPercent,
+      paradijogonalnoFlowStabilityPercent,
       instrumentalVisionPrecisionPercent,
       sihofiziProsparitetAlignmentPercent,
       prosparitetReadinessPercent,

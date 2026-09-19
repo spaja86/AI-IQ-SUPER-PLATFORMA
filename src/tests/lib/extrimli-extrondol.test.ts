@@ -21,6 +21,7 @@ import {
   EXTRONDOL_EPIC_ELIKVADENTI_CONTRACT_VERSION,
   EXTRONDOL_FUNKCINALNO_PROGRAMIRANJE_ENERGETSKOG_MISAONOG_TOKA_CONTRACT_VERSION,
   EXTRONDOL_FUNKCIONALNO_PROGRAMIRANJE_PRAVEDNOG_MISAONOG_TOKA_CONTRACT_VERSION,
+  EXTRONDOL_PARADIJOGONALNO_PROGRIMIRANJE_CONTRACT_VERSION,
   EXTRONDOL_FUNKCIONALNO_PROGRAMIRANJE_UZVISENOG_MISANOG_TOKA_BLOCKED_ADJUSTMENT,
   EXTRONDOL_FUNKCIONALNO_PROGRAMIRANJE_UZVISENOG_MISANOG_TOKA_CONTRACT_VERSION,
   EXTRONDOL_FUNKCIONALNO_PROGRAMIRANJE_UZVISENOG_MISANOG_TOKA_READY_ADJUSTMENT,
@@ -46,6 +47,7 @@ import {
   getObjektnaProngilacijaAdjustment,
   getObjektnoOrijentisanaReprodukcijaAdjustment,
   getFunkcionalnoProgramiranjePravednogMisaonogTokaAdjustment,
+  getParadijogonalnoProgrimiranjeAdjustment,
   getFunkcionalnoProgramiranjeUzvisenogMisanogTokaAdjustment,
   getFunkcionalnoProgramiranjeEksplicitnogMisaonogTokaAdjustment,
   getFunkionalnoProgramiranjePravnogMisaonogTokaAdjustment,
@@ -698,6 +700,9 @@ async function runTests(): Promise<void> {
     const metrikoProgramiranjeAdjustment = getMetrickoProgramiranjeAdjustment(
       report.extremProfiler.metrikoProgramiranje.readiness.status,
     );
+    const paradijogonalnoProgrimiranjeAdjustment = getParadijogonalnoProgrimiranjeAdjustment(
+      report.extremProfiler.paradijogonalnoProgrimiranje.readiness.status,
+    );
     const proporcionalnoProgramiranjeAdjustment = getProporcionalnoProgramiranjeAdjustment(
       report.extremProfiler.proporcionalnoProgramiranje.readiness.status,
     );
@@ -722,6 +727,7 @@ async function runTests(): Promise<void> {
           + funkcionalnoProgramiranjePravednogMisaonogTokaAdjustment
           + funkionalnoProgramiranjePravnogMisaonogTokaAdjustment
           + metrikoProgramiranjeAdjustment
+          + paradijogonalnoProgrimiranjeAdjustment
           + proporcionalnoProgramiranjeAdjustment
           + spajinoProporcionalnoProgramiranjeUniverzitetAdjustment
           + sinemetrickoProgramiranjeAdjustment
