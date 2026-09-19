@@ -130,6 +130,7 @@ jobs:
           assert(links.includes('IO-OPENUI-AO#<follow-up issue> -> AI-IQ-SUPER-PLATFORMA#EXTRIMLI-EXTERNAL-GITHUB'), 'multi-repo links must include bidirectional audit convention');
           assert(extrimli.includes('docs/EXTRIMLI-EXTERNAL-GITHUB.md'), 'EXTRIMLI doc must reference canonical external GitHub plan');
           assert(extrimli.includes('KORON'), 'EXTRIMLI doc must declare KORON scope');
+          assert(extrimli.includes('RADNI TAKT MOZGA (MISLILAC)'), 'EXTRIMLI doc must declare RADNI TAKT MOZGA (MISLILAC) additive governance track');
           assert(extrimli.includes('Locked source-of-truth set'), 'EXTRIMLI doc must lock source-of-truth artifact set');
           assert(extrimli.includes('releaseReadinessScorecard') && extrimli.includes('contractDriftReport') && extrimli.includes('governanceConformance'), 'EXTRIMLI doc must include governance conformance payload fields');
           assert(Array.isArray(agent.workflows) && agent.workflows.includes('.github/workflows/extrimli-external-github.yml'), 'agent config must include governance workflow');

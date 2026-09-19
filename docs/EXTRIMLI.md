@@ -20,6 +20,7 @@ This repository now exposes five aligned surfaces:
 | **SPAJA KOD** | `src/app/api/extrimli/spaja-kod/` | Active | Public encapsulated facade over EXTREM + EXTRONDOL that exposes only system readiness, governance, and audit signals |
 | **SPAJINO PROPORCIONALNO PROGRAMIRANJE UNIVERZITET** | `docs/EXTRIMLI-SPAJINO-PROPORCIONALNO-PROGRAMIRANJE-UNIVERZITET.md`, `/api/extrimli/extrem`, `/api/extrimli/extrondol`, `/api/extrimli/spaja-kod` | Active | Additive university-layer interpretation over `PROPORCIONALNO PROGRAMIRANJE`; EXTREM owns the technical signal, EXTRONDOL owns WAWE/audit governance, SPAJA KOD exposes only audit-safe summary status |
 | **METRIČKO PROGRAMIRANJE** | `docs/EXTRIMLI-METRICKO-PROGRAMIRANJE.md`, `/api/extrimli/extrem`, `/api/extrimli/extrondol`, `/api/extrimli/spaja-kod` | Active | Additive metric-programming track; EXTREM owns declaration-matrix and instance-positioning technical signal, EXTRONDOL owns WAWE/audit governance, SPAJA KOD exposes only audit-safe final status |
+| **RADNI TAKT MOZGA (MISLILAC)** | `/api/extrimli/extrem`, `/api/extrimli/extrondol`, `/api/extrimli/spaja-kod` | Active | Additive educational-development track; EXTREM owns DOK/DIK technical learning-rhythm signals, EXTRONDOL owns DAK/DUK WAWE/audit governance, SPAJA KOD exposes only audit-safe readiness + epilog summary |
 | **PARADIJOGONALNO PROGRIMIRANJE** | `docs/EXTRIMLI-PARADIJOGONALNO-PROGRIMIRANJE.md`, `/api/extrimli/extrem`, `/api/extrimli/extrondol`, `/api/extrimli/spaja-kod` | Active | Additive-only cloud/prosparitet track; EXTREM owns the instrumental-vision DOK/DIK technical signal, EXTRONDOL owns WAWE/audit DAK/DUK governance, SPAJA KOD exposes only audit-safe final status |
 | **SPAJAPRO Track** | `docs/EXTRIMLI-SPAJAPRO-TRACK.md`, `/api/extrimli/extrem`, `/api/extrimli/extrondol`, `/api/extrimli/spaja-kod` | Active | Locked ODIT→KODER planning track layered on EXTRIMLI; EXTREM owns technical signals, EXTRONDOL owns orchestration, SPAJA KOD exposes only final public-safe status |
 | **AI IQ Programski Jezik Integration Profile** | `docs/AI-IQ-PROGRAMSKI-JEZIK.md`, `/api/ai-iq-programski-jezik/*`, `/api/extrimli/extrem`, `/api/extrimli/extrondol` | Active | Additive `EXTRIMLI-EXTRONDOL-EXTREM` profile that maps `DOM/DIK` to EXTREM signals and `DAK/DUK` to EXTRONDOL promotion/human-review governance |
@@ -509,6 +510,40 @@ Governance impact:
 - `READY` signal može da unapredi `orchestrationReadinessScore` bez novih public surface-ova.
 - `WATCH` signal zahteva review vidljivost i zadržava rollout u audit-safe WAWE okviru.
 - `BLOCKED` signal mora da aktivira promotion freeze, release audit coupling i rollback/human-review zahteve kroz EXTRONDOL.
+
+## RADNI TAKT MOZGA (MISLILAC)
+
+- Canonical term: `RADNI TAKT MOZGA (MISLILAC)`
+- Meaning lock: edukativno-razvojni model učenja, samodiscipline i etičkog razlikovanja dobra/zla
+- Contract mode: additive-only
+- Technical source of truth: `/api/extrimli/extrem`
+- Governance source of truth: `/api/extrimli/extrondol`
+- Public boundary: `/api/extrimli/spaja-kod`
+
+Ownership split:
+
+- **EXTREM** objavljuje tehnički signal (DOK + DIK) za početničko učenje (jedna rečenica, duboko razumevanje), stabilnost rutine i balans mentalno-fizičkog rada.
+- **EXTRONDOL** koristi governance signal (DAK + DUK) za WAWE 1–5 orkestraciju, promotion freeze/promotion odluke, human-review, release-audit summary i rollback disciplinu.
+- **SPAJA KOD** izlaže samo audit-safe zbirni status i epilog bez internih formula, težina i scoring detalja.
+
+Canonical domains:
+
+- `pocetnickoUcenje` — jedna rečenica + dubinsko razumevanje (`sentenceDepthPercent`)
+- `mentalnoFizickaSinergija` — učenje ↔ trening i energetski balans (`learningTrainingSynergyPercent`)
+- `kontinuiraniNapredak` — stabilnost rutine i kontinuitet (`routineConsistencyPercent`)
+- `humanistickiCilj` — čovečnost, odgovornost, samopouzdanje i etičko razlikovanje dobra/zla (`ethicalClarityPercent`, `selfConfidenceDisciplinePercent`)
+
+Readiness and governance mapping:
+
+- Statusi su zaključani na `READY`, `WATCH`, `BLOCKED`.
+- `WATCH` razlozi obuhvataju: nestabilnost učenja, nedoslednost rutine, slab balans mentalno-fizičkog rada, konfliktni pritisak.
+- `BLOCKED` razlozi obuhvataju: kritično niski domen score-ovi, visoki konfliktni pritisak, DOK/DIK tehničke blokade.
+- EXTRONDOL mapira signal u WAWE 1–5 uz obaveznu audit-tragljivost (`releaseAuditSummary.radniTaktMozgaMislilacGovernance`) i downstream reference.
+
+Epilog boundary:
+
+- SPAJA KOD sadrži audit-safe epilog sloj `epilogijaCovecnosti`.
+- Citat ostaje formalizovan kao narativni zaključak i ne otvara novi source-of-truth runtime surface.
 
 ## PROPORCIONALNO PROGRAMIRANJE
 

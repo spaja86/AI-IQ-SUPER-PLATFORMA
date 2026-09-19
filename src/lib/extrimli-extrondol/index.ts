@@ -120,6 +120,10 @@ import {
   EXTRONDOL_FUNKIONALNO_PROGRAMIRANJE_PRAVNOG_MISAONOG_TOKA_CONTRACT_VERSION,
   EXTRONDOL_FUNKIONALNO_PROGRAMIRANJE_PRAVNOG_MISAONOG_TOKA_READY_ADJUSTMENT,
   EXTRONDOL_FUNKIONALNO_PROGRAMIRANJE_PRAVNOG_MISAONOG_TOKA_WATCH_ADJUSTMENT,
+  EXTRONDOL_RADNI_TAKT_MOZGA_MISLILAC_BLOCKED_ADJUSTMENT,
+  EXTRONDOL_RADNI_TAKT_MOZGA_MISLILAC_CONTRACT_VERSION,
+  EXTRONDOL_RADNI_TAKT_MOZGA_MISLILAC_READY_ADJUSTMENT,
+  EXTRONDOL_RADNI_TAKT_MOZGA_MISLILAC_WATCH_ADJUSTMENT,
   EXTRONDOL_METRICKO_PROGRAMIRANJE_BLOCKED_ADJUSTMENT,
   EXTRONDOL_METRICKO_PROGRAMIRANJE_CONTRACT_VERSION,
   EXTRONDOL_METRICKO_PROGRAMIRANJE_READY_ADJUSTMENT,
@@ -1334,6 +1338,7 @@ function buildRadniTaktMozgaMislilacGovernance(params: {
   humanReviewComplete: boolean;
 }): ExtrimliExtrondolRadniTaktMozgaMislilacGovernance {
   const signal = params.extremProfiler.radniTaktMozgaMislilac;
+  const scoreAdjustment = getRadniTaktMozgaMislilacAdjustment(signal.readiness.status);
   const postureReasons = buildRadniTaktMozgaMislilacReasons(signal);
   const reasons = [
     ...postureReasons.governanceReasons,
@@ -1349,6 +1354,7 @@ function buildRadniTaktMozgaMislilacGovernance(params: {
     contractVersion: EXTRONDOL_RADNI_TAKT_MOZGA_MISLILAC_CONTRACT_VERSION,
     additiveOnly: true,
     status: signal.readiness.status,
+    scoreAdjustment,
     readinessScore: signal.readiness.score,
     conflictPressurePercent: signal.profileInput.conflictPressurePercent,
     routineConsistencyPercent: signal.profileInput.routineConsistencyPercent,
