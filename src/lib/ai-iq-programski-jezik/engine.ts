@@ -207,7 +207,7 @@ function buildIntegrationProfile(params: {
   const informacioniTokoviScore = round2(clamp(params.informationalFlowReadinessScore, 0, 100));
   const informacioniTokovi = params.informationalFlowSignalStatus;
   const pretpostavka = params.pretpostavkaSignalStatus;
-  const overall = mergeSignalStatus(params.dom, params.dik, params.dak, params.duk, informacioniTokovi, pretpostavka, sinemetricko);
+  const overall = mergeSignalStatus(params.dom, params.dik, params.dak, params.duk, informacioniTokovi, sinemetricko);
   const consistencyEscalationScore = round2(
     clamp(
       params.rolloutMaturityScore * 0.7
