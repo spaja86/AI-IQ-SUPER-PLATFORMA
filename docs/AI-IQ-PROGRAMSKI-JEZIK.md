@@ -189,6 +189,58 @@ v1 je spreman za downstream sinhronizaciju prema `spaja86/IO-OPENUI-AO` kroz:
 - Security usklađenost
 - Potvrđen human review pre promocije
 
+## 11) PROGRAMSKI JEZIK APSTRAKCIJA (initiative lock)
+
+- Inicijativa formalizuje „Programski jezik apstrakcija” za organizovanje i nabavku informacija i izgradnju superiornih informacionih sistema sa automatskim radom i adaptacijom.
+- Model je additive-only: nema breaking promena ni novih source-of-truth ruta.
+
+### Zaključan scope i source-of-truth
+
+- `EXTREM` ostaje tehnički signal/readiness/conflict sloj.
+- `EXTRONDOL` ostaje governance WAWE/freeze/promotion sloj.
+- `AI IQ PROGRAMSKI JEZIK` ostaje DSL orkestracija + explainability sloj.
+- Primarne integracione rute ostaju: `/api/extrimli/extrem`, `/api/extrimli/extrondol`.
+
+### Signalni ownership
+
+- `DOK + DIK` = tehnički dokaz (`EXTREM`)
+- `DAK + DUK` = governance odluka (`EXTRONDOL`)
+- `FOR` = numerički/sekvencijalni informacioni tok za stabilnost i readiness
+- Konsolidovani izlaz ostaje: `READY | WATCH | BLOCKED`
+
+### DSL apstrakcioni profil
+
+- Zaključani stubovi: `INTENT`, `RULE`, `AI`, `ORCHESTRATE`, `OUTPUT`.
+- Obavezni guardrail-i i deterministički fallback ostaju aktivni.
+- Izlaz ostaje audit-ready (`status/score/warnings/action/explanation`).
+
+### Superior information metrics
+
+- `stabilityScore`
+- `sequenceIntegrityScore`
+- `driftConflictScore`
+- `saturationLoadScore`
+- `continuationReadinessScore`
+
+### Adaptivni operativni model
+
+- `DETERMINISTIC_ONLY` = bazni režim
+- `HYBRID` = kontrolisani režim
+- `AI_NATIVE` = dozvoljen samo uz security + readiness + governance gate
+
+### Governance i drift-zero disciplina
+
+- Quality gate redosled ostaje: `lint → test → smoke → predeploy → security → human review → audit log`
+- Rollback plan i promotion freeze ostaju obavezni kada signal to zahteva.
+- Drift-zero conformance: `docs + types + routes + tests + workflows` moraju ostati usklađeni; nema promocije uz drift.
+
+### Fazni rollout
+
+1. dokumentacioni lock i ugovor modela
+2. tipovi/kontrakti i health/readiness izlazi
+3. test/conformance i audit evidencija
+4. downstream sinhronizacija i audit-safe public summary
+
 ## PROGRAMSKI JEZIK INFORMACIONIH TOKOVA
 
 - `PROGRAMSKI JEZIK INFORMACIONIH TOKOVA` je additive-only interpretacioni/orkestracioni DSL profil u okviru `EXTRIMLI-EXTRONDOL-EXTREM` modela.

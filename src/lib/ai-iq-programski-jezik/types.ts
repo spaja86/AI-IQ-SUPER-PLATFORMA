@@ -177,6 +177,67 @@ export interface AiiqLanguageExtrimliIntegrationProfile {
       };
       reasons: string[];
     };
+    programskiJezikApstrakcija: {
+      canonicalName: 'PROGRAMSKI JEZIK APSTRAKCIJA';
+      additiveOnly: true;
+      initiativeGoal: string;
+      sourceOfTruthLock: {
+        extrem: '/api/extrimli/extrem';
+        extrondol: '/api/extrimli/extrondol';
+        aiIqProgramskiJezik: 'dsl-orchestration-explainability-layer';
+        integrationSignalRoutes: readonly ['/api/extrimli/extrem', '/api/extrimli/extrondol'];
+      };
+      signalOwnership: {
+        dokDik: 'EXTREM';
+        dakDuk: 'EXTRONDOL';
+        forInformacioniTok: 'EXTREM';
+        consolidatedOutput: readonly ['READY', 'WATCH', 'BLOCKED'];
+      };
+      dslProfile: {
+        intent: true;
+        rules: true;
+        aiLayer: true;
+        orchestration: true;
+        outputSchema: true;
+        mandatoryGuardrails: true;
+        deterministicFallback: true;
+        auditReadyExplanation: true;
+      };
+      superiorInformationSystemMetrics: {
+        stabilityScore: number;
+        sequenceIntegrityScore: number;
+        driftConflictScore: number;
+        saturationLoadScore: number;
+        continuationReadinessScore: number;
+      };
+      adaptiveOperatingModel: {
+        deterministicOnly: true;
+        hybrid: true;
+        aiNative: 'security-readiness-governance-gated';
+      };
+      governanceQualityGate: {
+        sequence: readonly ['lint', 'test', 'smoke', 'predeploy', 'security', 'human-review', 'audit-log'];
+        rollbackPlanRequired: true;
+        promotionFreezeOnSignal: true;
+      };
+      driftZeroConformance: {
+        layers: readonly ['docs', 'types', 'routes', 'tests', 'workflows'];
+        promotionBlockedOnDrift: true;
+      };
+      rolloutPlan: {
+        phase1: 'documentation-lock-and-contract-model';
+        phase2: 'types-contracts-health-readiness';
+        phase3: 'tests-conformance-audit-evidence';
+        phase4: 'downstream-sync-and-audit-safe-summary';
+      };
+      successCriteria: {
+        deterministicRepeatability: true;
+        edgeCasesValidated: true;
+        adaptiveFallbackConfirmed: boolean;
+        governanceConformanceGreen: boolean;
+        downstreamSyncReady: boolean;
+      };
+    };
     reasons: string[];
   };
   governanceLink: {
