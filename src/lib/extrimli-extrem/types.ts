@@ -59,7 +59,7 @@ export interface ExtrimliExtremObjektnaProngilacijaSignal {
   meaningLock: {
     canonicalName: 'Objektno orijentisana prongilacija';
     statement: string;
-    existingContractBeforeThisChange: false;
+    existingContractBeforeThisChange: true;
   };
   ownershipModel: {
     extrem: 'technical-object-state-signal';
@@ -108,7 +108,7 @@ export interface ExtrimliExtremFunkcinalnoProgramiranjeEnergetskogMisaonogTokaSi
     canonicalName: 'FUNKCINALNO PROGRAMIRANJE ENERGETSKOG MISAONOG TOKA';
     statement: string;
     interpretationLayer: 'technical-signal';
-    existingContractBeforeThisChange: false;
+    existingContractBeforeThisChange: true;
     aliasesOfExistingSurfaces: false;
   };
   ownershipModel: {
@@ -682,6 +682,7 @@ export interface ExtrimliExtremRadniTaktMozgaMislilacSignal {
 export type ExtrimliExtremProgramskiJezikInformacionihTokovaStatus = 'READY' | 'WATCH' | 'BLOCKED';
 export type ExtrimliExtremProgramskiJezikPretpostavkaStatus = 'READY' | 'WATCH' | 'BLOCKED';
 export type ExtrimliExtremProgramskiJezikParadigmaOblikovanjeTelaStatus = 'READY' | 'WATCH' | 'BLOCKED';
+export type ExtrimliExtremProgramskiJezikSpecijalizovanZaIgriceStatus = 'READY' | 'WATCH' | 'BLOCKED';
 
 export interface ExtrimliExtremProgramskiJezikInformacionihTokovaProfileInput {
   forRangeCoveragePercent: number;
@@ -753,7 +754,7 @@ export interface ExtrimliExtremProgramskiJezikInformacionihTokovaSignal {
     forEvidence: {
       kind: 'FOR PETLJA';
       readinessScore: number | null;
-      status: ExtrimliDokDikDakDukConsistencyHealth['signals']['dok']['status'];
+      status: ExtrimliExtremPetljaSignalStatus;
     };
   };
   technicalSignals: {
@@ -963,18 +964,18 @@ export interface ExtrimliExtremProgramskiJezikParadigmaOblikovanjeTelaSignal {
       forEvidence: {
         kind: 'FOR PETLJA';
         readinessScore: number | null;
-        status: ExtrimliDokDikDakDukConsistencyHealth['signals']['dok']['status'];
+        status: ExtrimliExtremPetljaSignalStatus;
       };
     };
     dokEvidence: {
       kind: 'DOK PETLJA';
       readinessScore: number | null;
-      status: ExtrimliDokDikDakDukConsistencyHealth['signals']['dok']['status'];
+      status: ExtrimliDokDikDakDukConsistencyHealth['signals']['dok']['status'] | null;
     };
     dikEvidence: {
       kind: 'DIK PETLJA';
       readinessScore: number | null;
-      status: ExtrimliDokDikDakDukConsistencyHealth['signals']['dik']['status'];
+      status: ExtrimliDokDikDakDukConsistencyHealth['signals']['dik']['status'] | null;
     };
   };
   technicalSignals: {
@@ -995,6 +996,112 @@ export interface ExtrimliExtremProgramskiJezikParadigmaOblikovanjeTelaSignal {
   readiness: {
     score: number;
     status: ExtrimliExtremProgramskiJezikParadigmaOblikovanjeTelaStatus;
+    readyForWaweProgression: boolean;
+    degraded: boolean;
+    watchReasons: string[];
+    blockerReasons: string[];
+    deterministicFallbackRequired: boolean;
+  };
+}
+
+export interface ExtrimliExtremProgramskiJezikSpecijalizovanZaIgriceProfileInput {
+  gameplayCategoryCoveragePercent: number;
+  runnerCompatibilityPercent: number;
+  dimensionalModeReadinessPercent: number;
+  renderPhysicsReadinessPercent: number;
+  aiNpcBehaviorPercent: number;
+  multiplayerSyncPercent: number;
+  antiCheatIntegrityPercent: number;
+  analyticsPerformanceReadinessPercent: number;
+}
+
+export interface ExtrimliExtremProgramskiJezikSpecijalizovanZaIgriceSignal {
+  term: 'PROGRAMSKI JEZIK SPECIJALIZOVAN ZA IGRICE';
+  contractVersion: typeof EXTRIMLI_EXTREM_PROGRAMSKI_JEZIK_SPECIJALIZOVAN_ZA_IGRICE_CONTRACT_VERSION;
+  additiveOnly: true;
+  sourceOfTruth: '/api/extrimli/extrem';
+  triggerLabel: 'extrimli:logic-change';
+  scopeLock: readonly ['AI IQ PROGRAMSKI JEZIK', 'EXTREM', 'EXTRONDOL', 'SPAJA KOD', 'IGRICE', 'GAMING ENDZIN'];
+  meaningLock: {
+    canonicalName: 'PROGRAMSKI JEZIK SPECIJALIZOVAN ZA IGRICE';
+    statement: string;
+    gameplayMeaning: 'dsl-za-gameplay-i-runtime-orkestraciju';
+    runnerMeaning: 'runner-kompatibilnost-postojeceg-gaming-endzina';
+    dimensionMeaning: '2d-3d-dimenzionalni-rezim-iz-postojeceg-modela';
+    governanceMeaning: 'dak-duk-promotion-i-human-review-ostaju-u-extrondol';
+    existingContractBeforeThisChange: true;
+    aliasesOfExistingSurfaces: false;
+    noNewRoutes: true;
+  };
+  ownershipModel: {
+    aiIqProgramskiJezik: 'dsl-orchestration-explainability-layer';
+    extrem: 'technical-gaming-language-signal';
+    extrondol: 'wawe-governance-audit-consumer';
+    spajaKod: 'public-audit-safe-summary';
+  };
+  canonicalVocabulary: {
+    gameplayCategory: { canonicalField: 'gamingDomainCoverage.gameplayCategoryCoverageScore'; meaning: 'kategorija-igrice' };
+    runnerCompatibility: { canonicalField: 'gamingDomainCoverage.runnerCompatibilityScore'; meaning: 'runner-kompatibilnost' };
+    dimensionalMode: { canonicalField: 'gamingDomainCoverage.dimensionalModeReadinessScore'; meaning: 'dimenzionalni-rezim' };
+    renderPhysics: { canonicalField: 'gamingDomainCoverage.renderPhysicsReadinessScore'; meaning: 'render-i-fizika' };
+    aiNpcBehavior: { canonicalField: 'gamingDomainCoverage.aiNpcBehaviorScore'; meaning: 'ai-i-npc-ponasanje' };
+    multiplayerSync: { canonicalField: 'gamingDomainCoverage.multiplayerSyncScore'; meaning: 'multiplayer-i-sync' };
+    antiCheat: { canonicalField: 'gamingDomainCoverage.antiCheatIntegrityScore'; meaning: 'anti-cheat' };
+    analyticsPerformance: { canonicalField: 'gamingDomainCoverage.analyticsPerformanceReadinessScore'; meaning: 'analytics-i-performance-readiness' };
+    readinessStatus: { canonicalField: 'readiness.status'; meaning: 'ready-watch-blocked' };
+  };
+  profileInput: ExtrimliExtremProgramskiJezikSpecijalizovanZaIgriceProfileInput;
+  consumerAnchors: {
+    igriceModule: 'src/lib/igrice.ts';
+    gamingEndzinModule: 'src/lib/gaming-endzin.ts';
+    categoryAnchor: 'KategorijaIgrice';
+    runnerAnchor: 'RunnerKompatibilnost';
+    dimensionalAnchor: 'dimensional-engine-config';
+    sourceOfTruthMoveAllowed: false;
+  };
+  technicalEvidence: {
+    forLoopBinding: {
+      sourceModel: 'PETLJE';
+      sourceKind: 'FOR PETLJA';
+      sourceOwnership: 'EXTREM';
+      noSourceOfTruthMove: true;
+      forEvidence: {
+        kind: 'FOR PETLJA';
+        readinessScore: number | null;
+        status: ExtrimliExtremPetljaSignalStatus;
+      };
+    };
+    dokEvidence: {
+      kind: 'DOK PETLJA';
+      readinessScore: number | null;
+      status: ExtrimliDokDikDakDukConsistencyHealth['signals']['dok']['status'];
+    };
+    dikEvidence: {
+      kind: 'DIK PETLJA';
+      readinessScore: number | null;
+      status: ExtrimliDokDikDakDukConsistencyHealth['signals']['dik']['status'];
+    };
+  };
+  gamingDomainCoverage: {
+    gameplayCategoryCoverageScore: number;
+    runnerCompatibilityScore: number;
+    dimensionalModeReadinessScore: number;
+    renderPhysicsReadinessScore: number;
+    aiNpcBehaviorScore: number;
+    multiplayerSyncScore: number;
+    antiCheatIntegrityScore: number;
+    analyticsPerformanceReadinessScore: number;
+  };
+  ownershipEvidence: {
+    forTechnical: true;
+    dokTechnical: true;
+    dikTechnical: true;
+    dakDeferredToGovernance: true;
+    dukDeferredToGovernance: true;
+  };
+  readiness: {
+    score: number;
+    status: ExtrimliExtremProgramskiJezikSpecijalizovanZaIgriceStatus;
     readyForWaweProgression: boolean;
     degraded: boolean;
     watchReasons: string[];
@@ -1926,7 +2033,7 @@ export interface ExtrimliDokDikDakDukConsistencyHealth {
       driftConflictScore: number;
       saturationLoadScore: number;
       continuationReadinessScore: number;
-      forStatus: ExtrimliDokDikDakDukConsistencyHealth['signals']['dok']['status'];
+      forStatus: ExtrimliExtremProgramskiJezikSpecijalizovanZaIgriceSignal['technicalEvidence']['forLoopBinding']['forEvidence']['status'];
       dokStatus: ExtrimliDokDikDakDukConsistencyHealth['signals']['dok']['status'] | null;
       dikStatus: ExtrimliDokDikDakDukConsistencyHealth['signals']['dik']['status'] | null;
       fallbackRequired: boolean;
@@ -1964,7 +2071,7 @@ export interface ExtrimliDokDikDakDukConsistencyHealth {
       driftConflictScore: number;
       saturationLoadScore: number;
       continuationReadinessScore: number;
-      forStatus: ExtrimliDokDikDakDukConsistencyHealth['signals']['dok']['status'];
+      forStatus: ExtrimliExtremProgramskiJezikSpecijalizovanZaIgriceSignal['technicalEvidence']['forLoopBinding']['forEvidence']['status'];
       dokStatus: ExtrimliDokDikDakDukConsistencyHealth['signals']['dok']['status'] | null;
       dikStatus: ExtrimliDokDikDakDukConsistencyHealth['signals']['dik']['status'] | null;
       fallbackRequired: boolean;
@@ -2008,6 +2115,44 @@ export interface ExtrimliDokDikDakDukConsistencyHealth {
       humanReviewRequired: true;
       rollbackPlanRequired: true;
       downstreamReference: 'spaja86/IO-OPENUI-AO';
+    };
+    consolidatedStatus: 'READY' | 'WATCH' | 'BLOCKED';
+    auditReady: boolean;
+    reasons: string[];
+  };
+  programskiJezikSpecijalizovanZaIgrice: {
+    canonicalName: 'PROGRAMSKI JEZIK SPECIJALIZOVAN ZA IGRICE';
+    meaning: 'gaming-specijalizovan-dsl-za-gameplay-runtime-i-governance';
+    additiveOnlyProfile: 'EXTRIMLI-EXTRONDOL-EXTREM';
+    sourceOfTruthRoutes: readonly ['/api/ai-iq-programski-jezik/evaluate', '/api/ai-iq-programski-jezik/compile', '/api/extrimli/extrem', '/api/extrimli/extrondol'];
+    technicalOwnershipLock: {
+      forPetlja: 'EXTREM';
+      dokDik: 'EXTREM';
+      dakDuk: 'EXTRONDOL';
+      aiIqProgramskiJezik: 'dsl-orchestration-explainability-layer';
+      gamingConsumers: readonly ['src/lib/igrice.ts', 'src/lib/gaming-endzin.ts'];
+      spajaKod: 'audit-safe-summary-only';
+    };
+    domainMetrics: {
+      gameplayCategoryCoverageScore: number;
+      runnerCompatibilityScore: number;
+      dimensionalModeReadinessScore: number;
+      renderPhysicsReadinessScore: number;
+      aiNpcBehaviorScore: number;
+      multiplayerSyncScore: number;
+      antiCheatIntegrityScore: number;
+      analyticsPerformanceReadinessScore: number;
+      forStatus: ExtrimliExtremProgramskiJezikSpecijalizovanZaIgriceSignal['technicalEvidence']['forLoopBinding']['forEvidence']['status'];
+      dokStatus: ExtrimliDokDikDakDukConsistencyHealth['signals']['dok']['status'] | null;
+      dikStatus: ExtrimliDokDikDakDukConsistencyHealth['signals']['dik']['status'] | null;
+      fallbackRequired: boolean;
+    };
+    governanceCoupling: {
+      promotionFreeze: boolean | null;
+      humanReviewRequired: true;
+      rollbackPlanRequired: true;
+      downstreamReference: 'spaja86/IO-OPENUI-AO';
+      publicOutput: 'audit-safe-summary';
     };
     consolidatedStatus: 'READY' | 'WATCH' | 'BLOCKED';
     auditReady: boolean;
@@ -2100,6 +2245,7 @@ export interface ExtrimliExtremProfilerReport {
   programskiJezikInformacionihTokova: ExtrimliExtremProgramskiJezikInformacionihTokovaSignal;
   programskiJezikPretpostavka: ExtrimliExtremProgramskiJezikPretpostavkaSignal;
   programskiJezikParadigmaOblikovanjeTela: ExtrimliExtremProgramskiJezikParadigmaOblikovanjeTelaSignal;
+  programskiJezikSpecijalizovanZaIgrice: ExtrimliExtremProgramskiJezikSpecijalizovanZaIgriceSignal;
   metrikoProgramiranje: ExtrimliExtremMetrickoProgramiranjeSignal;
   spajinoProporcionalnoProgramiranjeUniverzitet: ExtrimliExtremSpajinoProporcionalnoProgramiranjeUniverzitetSignal;
   sinemetrickoProgramiranje: ExtrimliExtremSinemetrickoProgramiranjeSignal;
@@ -2218,6 +2364,9 @@ export const EXTRIMLI_EXTREM_PROGRAMSKI_JEZIK_PARADIGMA_OBLIKOVANJE_TELA_CONTRAC
   EXTRIMLI_PROGRAMSKI_JEZIK_PARADIGMA_OBLIKOVANJE_TELA_CONTRACT_VERSION;
 export const EXTRIMLI_EXTREM_PROGRAMSKI_JEZIK_PARADIGMA_OBLIKOVANJE_TELA_MIN_READY_SCORE = 80;
 export const EXTRIMLI_EXTREM_PROGRAMSKI_JEZIK_PARADIGMA_OBLIKOVANJE_TELA_MIN_WATCH_SCORE = 62;
+export const EXTRIMLI_EXTREM_PROGRAMSKI_JEZIK_SPECIJALIZOVAN_ZA_IGRICE_CONTRACT_VERSION = 'v1-programski-jezik-specijalizovan-za-igrice';
+export const EXTRIMLI_EXTREM_PROGRAMSKI_JEZIK_SPECIJALIZOVAN_ZA_IGRICE_MIN_READY_SCORE = 80;
+export const EXTRIMLI_EXTREM_PROGRAMSKI_JEZIK_SPECIJALIZOVAN_ZA_IGRICE_MIN_WATCH_SCORE = 62;
 export const EXTRIMLI_EXTREM_METRICKO_PROGRAMIRANJE_CONTRACT_VERSION = 'v1-metricko-programiranje';
 export const EXTRIMLI_EXTREM_METRICKO_PROGRAMIRANJE_MIN_READY_SCORE = 80;
 export const EXTRIMLI_EXTREM_METRICKO_PROGRAMIRANJE_MIN_WATCH_SCORE = 62;

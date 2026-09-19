@@ -37,6 +37,7 @@ import {
   EXTRONDOL_OBJEKTNO_ORIJENTISANA_REPRODUKCIJA_READY_ADJUSTMENT,
   EXTRONDOL_OBJEKTNO_ORIJENTISANA_REPRODUKCIJA_WATCH_ADJUSTMENT,
   EXTRONDOL_PROPORCIONALNO_PROGRAMIRANJE_CONTRACT_VERSION,
+  EXTRONDOL_PROGRAMSKI_JEZIK_SPECIJALIZOVAN_ZA_IGRICE_CONTRACT_VERSION,
   EXTRONDOL_PROGRAMSKI_JEZIK_PARADIGMA_OBLIKOVANJE_TELA_CONTRACT_VERSION,
   EXTRONDOL_SPAJINO_PROPORCIONALNO_PROGRAMIRANJE_UNIVERZITET_CONTRACT_VERSION,
   EXTRONDOL_SINEMETRICKO_PROGRAMIRANJE_CONTRACT_VERSION,
@@ -55,6 +56,7 @@ import {
   getProgramskiJezikInformacionihTokovaAdjustment,
   getProgramskiJezikParadigmaOblikovanjeTelaAdjustment,
   getProgramskiJezikPretpostavkaAdjustment,
+  getProgramskiJezikSpecijalizovanZaIgriceAdjustment,
   getRadniTaktMozgaMislilacAdjustment,
   getProporcionalnoProgramiranjeAdjustment,
   getSpajinoProporcionalnoProgramiranjeUniverzitetAdjustment,
@@ -740,6 +742,9 @@ async function runTests(): Promise<void> {
     const programskiJezikParadigmaOblikovanjeTelaAdjustment = getProgramskiJezikParadigmaOblikovanjeTelaAdjustment(
       report.extremProfiler.programskiJezikParadigmaOblikovanjeTela.readiness.status,
     );
+    const programskiJezikSpecijalizovanZaIgriceAdjustment = getProgramskiJezikSpecijalizovanZaIgriceAdjustment(
+      report.extremProfiler.programskiJezikSpecijalizovanZaIgrice.readiness.status,
+    );
     const radniTaktMozgaMislilacAdjustment = getRadniTaktMozgaMislilacAdjustment(
       report.extremProfiler.radniTaktMozgaMislilac.readiness.status,
     );
@@ -775,6 +780,7 @@ async function runTests(): Promise<void> {
           + programskiJezikInformacionihTokovaAdjustment
           + programskiJezikPretpostavkaAdjustment
           + programskiJezikParadigmaOblikovanjeTelaAdjustment
+          + programskiJezikSpecijalizovanZaIgriceAdjustment
           + radniTaktMozgaMislilacAdjustment
           + metrikoProgramiranjeAdjustment
           + paradijogonalnoProgrimiranjeAdjustment
@@ -895,6 +901,21 @@ async function runTests(): Promise<void> {
     );
   });
 
+  await test('report maps PROGRAMSKI JEZIK SPECIJALIZOVAN ZA IGRICE governance into WAWE, audit summary, downstream sync, and SPAJA KOD summary', () => {
+    const report = getExtrimliExtrondolReport();
+    assert(report.programskiJezikSpecijalizovanZaIgrice.term === 'PROGRAMSKI JEZIK SPECIJALIZOVAN ZA IGRICE', 'gaming DSL governance term mismatch');
+    assert(report.programskiJezikSpecijalizovanZaIgrice.contractVersion === EXTRONDOL_PROGRAMSKI_JEZIK_SPECIJALIZOVAN_ZA_IGRICE_CONTRACT_VERSION, 'gaming DSL governance contract mismatch');
+    assert(report.programskiJezikSpecijalizovanZaIgrice.technicalSignalSource === '/api/extrimli/extrem', 'gaming DSL governance technical source mismatch');
+    assert(report.programskiJezikSpecijalizovanZaIgrice.sourceOfTruth === '/api/extrimli/extrondol', 'gaming DSL governance source mismatch');
+    assert(report.programskiJezikSpecijalizovanZaIgrice.ownershipModel.aiIqProgramskiJezik === 'dsl-orchestration-explainability-layer', 'gaming DSL AI IQ ownership mismatch');
+    assert(report.programskiJezikSpecijalizovanZaIgrice.governanceDecisions.dukHumanReviewDecision === 'REQUIRED', 'gaming DSL DUK decision mismatch');
+    assert(report.releaseAuditSummary.programskiJezikSpecijalizovanZaIgriceGovernance.status === report.extremProfiler.programskiJezikSpecijalizovanZaIgrice.readiness.status, 'gaming DSL audit status must mirror EXTREM');
+    assert(report.b2bReadiness.downstreamSync.syncedFields.includes('extremProfiler.programskiJezikSpecijalizovanZaIgrice.readiness.status'), 'gaming DSL readiness must sync downstream');
+    assert(report.b2bReadiness.downstreamSync.syncedFields.includes('programskiJezikSpecijalizovanZaIgrice'), 'gaming DSL governance field must sync downstream');
+    assert(report.spajaKod.publicSignals.programskiJezikSpecijalizovanZaIgriceStatus === report.extremProfiler.programskiJezikSpecijalizovanZaIgrice.readiness.status, 'SPAJA KOD gaming DSL summary mismatch');
+    assert(report.acceptanceCriteria.some((item) => item.id === 'programski-jezik-specijalizovan-za-igrice-governance' && item.passed), 'gaming DSL acceptance criterion must pass');
+  });
+
   await test('report propagates PETLJE governance into rollout, audit summary, and downstream sync', () => {
     const report = getExtrimliExtrondolReport();
     assert(report.petljeGovernance.term === 'EXTRIMLI EXTRONDOL EXTREM PETLJE', 'petlje governance term mismatch');
@@ -1005,7 +1026,7 @@ async function runTests(): Promise<void> {
     assert(Number.isFinite(report.b2bReadiness.governanceDecisions.resolutionReadiness.rezolucijaScore), 'resolution readiness score must be finite');
     assert(report.b2bReadiness.governanceDecisions.semaFormulaGate.canonicalExpression === 'ŠEMA + ŠEMA + ALL ŠEMA == MUŠEMA', 'B2B formula expression mismatch');
     assert(['PASSED', 'BLOCKED'].includes(report.b2bReadiness.governanceDecisions.semaFormulaGate.status), 'B2B formula status mismatch');
-    assert(report.b2bReadiness.governanceDecisions.partnerReadinessWarnings.every((warning) => warning.startsWith('DUET:') || warning.includes('Downstream sync') || warning.includes('Domain strategy') || warning.includes('Human review evidence') || warning.includes('Payment verification') || warning.includes('EXTREM profiler') || warning.includes('ŠEMA + ŠEMA + ALL ŠEMA == MUŠEMA') || warning.includes('Global licensing')), 'unexpected B2B warning format');
+    assert(report.b2bReadiness.governanceDecisions.partnerReadinessWarnings.every((warning) => warning.startsWith('DUET:') || warning.includes('Downstream sync') || warning.includes('Domain strategy') || warning.includes('Human review evidence') || warning.includes('Payment verification') || warning.includes('EXTREM profiler') || warning.includes('ŠEMA + ŠEMA + ALL ŠEMA == MUŠEMA') || warning.includes('Global licensing') || warning.includes('PROGRAMSKI JEZIK ')), 'unexpected B2B warning format');
     assert(report.b2bReadiness.governanceDecisions.partnerReadinessWarnings.some((warning) => warning.includes('Human review evidence')), 'human review warning must be present');
     assert(report.b2bReadiness.globalLicensing.globalLicenseReadinessScore >= 0, 'global license readiness score mismatch');
     assert(report.b2bReadiness.globalLicensing.activityCoverageScore >= 0, 'activity coverage score mismatch');

@@ -159,6 +159,7 @@ async function runTests(): Promise<void> {
         dokerKuratIzekDokarTrack: { sequenceStates: Array<{ token: string; status: string }> };
         programskiJezikInformacionihTokova: { term: string; status: string; technicalSignalSource: string; flowMetrics: { forStatus: string } };
         programskiJezikPretpostavka: { term: string; status: string; technicalSignalSource: string; flowMetrics: { forStatus: string } };
+        programskiJezikSpecijalizovanZaIgrice: { term: string; status: string; technicalSignalSource: string; gamingDomainMetrics: { forStatus: string } };
         releaseAuditSummary: {
           funkcinalnoProgramiranjeEnergetskogMisaonogTokaGovernance: { sourceOfTruth: string; status: string };
           funkcionalnoProgramiranjeUzvisenogMisanogTokaGovernance: { sourceOfTruth: string; status: string };
@@ -172,6 +173,7 @@ async function runTests(): Promise<void> {
           petljeGovernance: { sourceOfTruth: string; readinessScore: number; conflictScore: number; freezeRequired: boolean };
           programskiJezikInformacionihTokovaGovernance: { sourceOfTruth: string; status: string; forStatus: string };
           programskiJezikPretpostavkaGovernance: { sourceOfTruth: string; status: string; forStatus: string };
+          programskiJezikSpecijalizovanZaIgriceGovernance: { sourceOfTruth: string; status: string; forStatus: string };
         };
         distanceRatioEkvilaterTable: { rows: Array<{ edgeId: string }> };
       };
@@ -262,6 +264,13 @@ async function runTests(): Promise<void> {
     assert(body.data.releaseAuditSummary.programskiJezikPretpostavkaGovernance.status === body.data.programskiJezikPretpostavka.status, 'pretpostavka audit status mismatch');
     assert(body.data.releaseAuditSummary.programskiJezikPretpostavkaGovernance.forStatus === body.data.programskiJezikPretpostavka.flowMetrics.forStatus, 'pretpostavka audit FOR status mismatch');
     assert(body.data.programskiJezikParadigmaOblikovanjeTela.term === 'PROGRAMSKI JEZIK PARADIGMA I OBLIKOVANJE TELA (OBJEKAT U SISTEMU, ADAPTACIJA SA FUNKCIJAMA)', 'unexpected paradigma/body-shaping term');
+    assert(body.data.programskiJezikSpecijalizovanZaIgrice.term === 'PROGRAMSKI JEZIK SPECIJALIZOVAN ZA IGRICE', 'unexpected gaming DSL term');
+    assert(body.data.programskiJezikSpecijalizovanZaIgrice.technicalSignalSource === '/api/extrimli/extrem', 'unexpected gaming DSL source');
+    assert(['READY', 'WATCH', 'BLOCKED'].includes(body.data.programskiJezikSpecijalizovanZaIgrice.status), 'unexpected gaming DSL status');
+    assert(['READY', 'WATCH', 'BLOCKED'].includes(body.data.programskiJezikSpecijalizovanZaIgrice.gamingDomainMetrics.forStatus), 'unexpected gaming DSL FOR status');
+    assert(body.data.releaseAuditSummary.programskiJezikSpecijalizovanZaIgriceGovernance.sourceOfTruth === '/api/extrimli/extrem', 'unexpected gaming DSL audit source');
+    assert(body.data.releaseAuditSummary.programskiJezikSpecijalizovanZaIgriceGovernance.status === body.data.programskiJezikSpecijalizovanZaIgrice.status, 'gaming DSL audit status mismatch');
+    assert(body.data.releaseAuditSummary.programskiJezikSpecijalizovanZaIgriceGovernance.forStatus === body.data.programskiJezikSpecijalizovanZaIgrice.gamingDomainMetrics.forStatus, 'gaming DSL audit FOR status mismatch');
     assert(body.data.programskiJezikParadigmaOblikovanjeTela.technicalSignalSource === '/api/extrimli/extrem', 'unexpected paradigma/body-shaping source');
     assert(['READY', 'WATCH', 'BLOCKED'].includes(body.data.programskiJezikParadigmaOblikovanjeTela.status), 'unexpected paradigma/body-shaping status');
     assert(['READY', 'WATCH', 'BLOCKED'].includes(body.data.programskiJezikParadigmaOblikovanjeTela.paradigmMetrics.forStatus), 'unexpected paradigma/body-shaping FOR status');

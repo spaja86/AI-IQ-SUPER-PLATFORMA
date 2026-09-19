@@ -266,3 +266,11 @@ v1 je spreman za downstream sinhronizaciju prema `spaja86/IO-OPENUI-AO` kroz:
 - `PROGRAMSKI JEZIK PARADIGMA I OBLIKOVANJE TELA (OBJEKAT U SISTEMU, ADAPTACIJA SA FUNKCIJAMA)` je additive-only DSL profil u okviru `EXTRIMLI-EXTRONDOL-EXTREM` modela.
 - `FOR PETLJA` ostaje sekvencijalni/adaptivni tok; `DOK + DIK` ostaju EXTREM tehnički dokaz, a `DAK + DUK` ostaju EXTRONDOL governance odluka.
 - `objekat` označava nosioca stanja, `funkcija/metoda` ponašanje nad stanjem, a `oblikovanje tela` auditabilnu kompoziciju objekta, instanci, atributa i delegacije.
+
+## PROGRAMSKI JEZIK SPECIJALIZOVAN ZA IGRICE
+
+- `PROGRAMSKI JEZIK SPECIJALIZOVAN ZA IGRICE` je additive-only gaming profil unutar postojećeg `EXTRIMLI-EXTRONDOL-EXTREM` modela; ne uvodi novi paralelni sistem ni novu centralnu rutu.
+- `AI IQ PROGRAMSKI JEZIK` ostaje DSL/orchestration/explainability sloj, `EXTREM` ostaje tehnički dokaz (`DOK + DIK + FOR`), a `EXTRONDOL` ostaje WAWE/governance sloj (`DAK + DUK`).
+- Profil pokriva postojeći gaming domen repozitorijuma: kategoriju igrice, runner kompatibilnost, dimenzionalni režim, render/fizika, AI/NPC ponašanje, multiplayer/sync, anti-cheat i analytics/performance readiness.
+- Postojeći potrošači ostaju `src/lib/igrice.ts` i `src/lib/gaming-endzin.ts`, dok javni izlaz ostaje audit-safe summary.
+- Dozvoljene status klase ostaju `READY | WATCH | BLOCKED`, uz deterministički fallback za `NaN`, `Infinity`, prazne tokove i nevalidne runner/dimenzija/status ulaze.

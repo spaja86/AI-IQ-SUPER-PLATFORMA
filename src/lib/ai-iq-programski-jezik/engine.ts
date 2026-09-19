@@ -39,6 +39,7 @@ let lastEvaluatedAt: string | null = null;
 
 type ExtremInformationalFlowSignal = ReturnType<typeof getExtrimliExtremProfilerReport>['programskiJezikInformacionihTokova'];
 type ExtremPretpostavkaSignal = ReturnType<typeof getExtrimliExtremProfilerReport>['programskiJezikPretpostavka'];
+type ExtremGamingDslSignal = ReturnType<typeof getExtrimliExtremProfilerReport>['programskiJezikSpecijalizovanZaIgrice'];
 
 const DOM_GROUP = ['DOMPRE PETLJA', 'DOMBRE PETLJA', 'DOMBRA PETLJA', 'DOMBAR PETLJA', 'DOMPOR PETLJA'] as const;
 const DIK_GROUP = ['DIK PETLJA'] as const;
@@ -193,6 +194,9 @@ function buildIntegrationProfile(params: {
   pretpostavkaSignalStatus: AiiqIntegrationSignalStatus;
   pretpostavkaReadinessScore: number;
   pretpostavkaTechnicalSignals: ExtremPretpostavkaSignal['technicalSignals'];
+  gamingDslSignalStatus: AiiqIntegrationSignalStatus;
+  gamingDslReadinessScore: number;
+  gamingDslSignals: ExtremGamingDslSignal['gamingDomainCoverage'];
 }): AiiqLanguageExtrimliIntegrationProfile {
   const sinemetricko = resolveSinemetrickoSignalStatus({
     dom: params.dom,
@@ -207,7 +211,9 @@ function buildIntegrationProfile(params: {
   const informacioniTokoviScore = round2(clamp(params.informationalFlowReadinessScore, 0, 100));
   const informacioniTokovi = params.informationalFlowSignalStatus;
   const pretpostavka = params.pretpostavkaSignalStatus;
-  const overall = mergeSignalStatus(params.dom, params.dik, params.dak, params.duk, informacioniTokovi, sinemetricko);
+  const gamingDslScore = round2(clamp(params.gamingDslReadinessScore, 0, 100));
+  const gamingDsl = params.gamingDslSignalStatus;
+  const overall = mergeSignalStatus(params.dom, params.dik, params.dak, params.duk, informacioniTokovi, pretpostavka, sinemetricko);
   const consistencyEscalationScore = round2(
     clamp(
       params.rolloutMaturityScore * 0.7
@@ -271,6 +277,12 @@ function buildIntegrationProfile(params: {
         group: ['SINEMETRIČKO PROGRAMIRANJE'] as const,
         role: 'additive-governance-technical-input',
       },
+      IGRICE: {
+        technicalSource: '/api/extrimli/extrem',
+        governanceSource: '/api/extrimli/extrondol',
+        group: ['PROGRAMSKI JEZIK SPECIJALIZOVAN ZA IGRICE'] as const,
+        role: 'gaming-runtime-orchestration-profile',
+      },
     },
     layerResponsibilities: {
       extrem: 'technical-signal-engine-readiness-conflict-profiling',
@@ -284,6 +296,7 @@ function buildIntegrationProfile(params: {
       duk: params.duk,
       forInformacioniTokovi: informacioniTokovi,
       pretpostavka,
+      programskiJezikSpecijalizovanZaIgrice: gamingDsl,
       sinemetricko,
       overall,
     },
@@ -383,6 +396,52 @@ function buildIntegrationProfile(params: {
           'FOR/DOK/DIK ostaju tehnički signal u EXTREM sloju, a DAK/DUK ostaju governance odluka u EXTRONDOL sloju.',
           ...(pretpostavka !== 'READY'
             ? ['Pretpostavka track nije READY; deterministički fallback ostaje aktivan.']
+            : []),
+        ],
+      },
+      programskiJezikSpecijalizovanZaIgrice: {
+        canonicalName: 'PROGRAMSKI JEZIK SPECIJALIZOVAN ZA IGRICE',
+        additiveOnlyProfile: 'EXTRIMLI-EXTRONDOL-EXTREM',
+        dslProfile: 'gaming-specijalizovani-dsl',
+        sourceOfTruthRoutes: ['/api/extrimli/extrem', '/api/extrimli/extrondol'],
+        ownershipSplit: {
+          forPetlja: 'EXTREM',
+          dokDik: 'EXTREM',
+          dakDuk: 'EXTRONDOL',
+          spajaKod: 'audit-safe-summary-only',
+        },
+        unifiedStatus: gamingDsl,
+        deterministicFallbackRequired: gamingDsl !== 'READY',
+        explainabilityModel: 'existing-ai-iq-guardrails',
+        guardrailMode: 'deterministic-fallback',
+        gamingDomain: {
+          category: 'igrice',
+          consumerAnchors: ['src/lib/igrice.ts', 'src/lib/gaming-endzin.ts'],
+          ownership: {
+            aiIqProgramskiJezik: 'dsl-orchestration-explainability-layer',
+            extrem: 'technical-gaming-signal',
+            extrondol: 'wawe-governance-audit-consumer',
+          },
+        },
+        metrics: {
+          gameplayCategoryCoverageScore: params.gamingDslSignals.gameplayCategoryCoverageScore,
+          runnerCompatibilityScore: params.gamingDslSignals.runnerCompatibilityScore,
+          dimensionalModeReadinessScore: params.gamingDslSignals.dimensionalModeReadinessScore,
+          renderPhysicsReadinessScore: params.gamingDslSignals.renderPhysicsReadinessScore,
+          aiNpcBehaviorScore: params.gamingDslSignals.aiNpcBehaviorScore,
+          multiplayerSyncScore: params.gamingDslSignals.multiplayerSyncScore,
+          antiCheatIntegrityScore: params.gamingDslSignals.antiCheatIntegrityScore,
+          analyticsPerformanceReadinessScore: params.gamingDslSignals.analyticsPerformanceReadinessScore,
+        },
+        reasons: [
+          'Gaming DSL ostaje additive profil nad postojećim AI IQ PROGRAMSKI JEZIK + EXTREM + EXTRONDOL slojevima.',
+          'DOK + DIK + FOR ostaju tehnički dokaz gameplay/runtime toka u EXTREM sloju, dok DAK + DUK ostaju governance odluke u EXTRONDOL sloju.',
+          'Javni izlaz ostaje audit-safe summary za postojeće gaming potrošače oko src/lib/igrice.ts i src/lib/gaming-endzin.ts.',
+          ...(gamingDsl !== 'READY'
+            ? ['Gaming DSL track nije READY; deterministički fallback ostaje aktivan.']
+            : []),
+          ...(gamingDslScore < 80
+            ? [`Gaming DSL readiness ostaje na ${gamingDslScore}.`]
             : []),
         ],
       },
@@ -495,6 +554,7 @@ function invalidEvaluateResult(
   start: number,
   extremInformationalFlow: ExtremInformationalFlowSignal,
   extremPretpostavka: ExtremPretpostavkaSignal,
+  extremGamingDsl: ExtremGamingDslSignal,
 ): AiiqLanguageEvaluateResult {
   const durationMs = round2(performance.now() - start);
   record(null, 'evaluate');
@@ -526,6 +586,9 @@ function invalidEvaluateResult(
       pretpostavkaSignalStatus: extremPretpostavka.readiness.status,
       pretpostavkaReadinessScore: extremPretpostavka.readiness.score,
       pretpostavkaTechnicalSignals: extremPretpostavka.technicalSignals,
+      gamingDslSignalStatus: extremGamingDsl.readiness.status,
+      gamingDslReadinessScore: extremGamingDsl.readiness.score,
+      gamingDslSignals: extremGamingDsl.gamingDomainCoverage,
     }),
     disclaimer: AIIQ_LANG_DISCLAIMER,
     valid: false,
@@ -539,6 +602,7 @@ function invalidCompileResult(
   start: number,
   extremInformationalFlow: ExtremInformationalFlowSignal,
   extremPretpostavka: ExtremPretpostavkaSignal,
+  extremGamingDsl: ExtremGamingDslSignal,
 ): AiiqLanguageCompileResult {
   const durationMs = round2(performance.now() - start);
   record(null, 'compile');
@@ -570,6 +634,9 @@ function invalidCompileResult(
       pretpostavkaSignalStatus: extremPretpostavka.readiness.status,
       pretpostavkaReadinessScore: extremPretpostavka.readiness.score,
       pretpostavkaTechnicalSignals: extremPretpostavka.technicalSignals,
+      gamingDslSignalStatus: extremGamingDsl.readiness.status,
+      gamingDslReadinessScore: extremGamingDsl.readiness.score,
+      gamingDslSignals: extremGamingDsl.gamingDomainCoverage,
     }),
     disclaimer: AIIQ_LANG_DISCLAIMER,
     valid: false,
@@ -634,13 +701,14 @@ export function evaluateAiiqLanguage(input: AiiqLanguageEvaluateInput): AiiqLang
   const extremReport = getExtrimliExtremProfilerReport();
   const extremInformationalFlow = extremReport.programskiJezikInformacionihTokova;
   const extremPretpostavka = extremReport.programskiJezikPretpostavka;
+  const extremGamingDsl = extremReport.programskiJezikSpecijalizovanZaIgrice;
 
   if (!input || typeof input !== 'object') {
-    return invalidEvaluateResult(undefined, undefined, 'input must be an object', start, extremInformationalFlow, extremPretpostavka);
+    return invalidEvaluateResult(undefined, undefined, 'input must be an object', start, extremInformationalFlow, extremPretpostavka, extremGamingDsl);
   }
 
   if (typeof input.goal !== 'string' || input.goal.trim().length === 0) {
-    return invalidEvaluateResult(input.referenceId, input.goal, 'goal is required (non-empty string)', start, extremInformationalFlow, extremPretpostavka);
+    return invalidEvaluateResult(input.referenceId, input.goal, 'goal is required (non-empty string)', start, extremInformationalFlow, extremPretpostavka, extremGamingDsl);
   }
 
   if (!isMode(input.mode)) {
@@ -651,6 +719,7 @@ export function evaluateAiiqLanguage(input: AiiqLanguageEvaluateInput): AiiqLang
       start,
       extremInformationalFlow,
       extremPretpostavka,
+      extremGamingDsl,
     );
   }
 
@@ -666,12 +735,12 @@ export function evaluateAiiqLanguage(input: AiiqLanguageEvaluateInput): AiiqLang
 
   for (const [value, field] of boundedChecks) {
     if (!isBoundedScore(value)) {
-      return invalidEvaluateResult(input.referenceId, input.goal, `${field} must be within 0..100`, start, extremInformationalFlow, extremPretpostavka);
+      return invalidEvaluateResult(input.referenceId, input.goal, `${field} must be within 0..100`, start, extremInformationalFlow, extremPretpostavka, extremGamingDsl);
     }
   }
 
   if (typeof input.fallbackConfigured !== 'boolean') {
-    return invalidEvaluateResult(input.referenceId, input.goal, 'fallbackConfigured must be boolean', start, extremInformationalFlow, extremPretpostavka);
+    return invalidEvaluateResult(input.referenceId, input.goal, 'fallbackConfigured must be boolean', start, extremInformationalFlow, extremPretpostavka, extremGamingDsl);
   }
 
   const deterministicReadiness = round2(
@@ -759,6 +828,9 @@ export function evaluateAiiqLanguage(input: AiiqLanguageEvaluateInput): AiiqLang
     pretpostavkaSignalStatus: extremPretpostavka.readiness.status,
     pretpostavkaReadinessScore: extremPretpostavka.readiness.score,
     pretpostavkaTechnicalSignals: extremPretpostavka.technicalSignals,
+    gamingDslSignalStatus: extremGamingDsl.readiness.status,
+    gamingDslReadinessScore: extremGamingDsl.readiness.score,
+    gamingDslSignals: extremGamingDsl.gamingDomainCoverage,
   });
   const recommendedAction = integrationProfile.dokDikDakDukConsistencyHealth.deterministicFallbackRequired
     ? (status === 'BLOCKED' ? 'HARDEN_GUARDS' : 'RUN_SHADOW_MODE')
@@ -794,13 +866,14 @@ export function compileAiiqLanguage(input: AiiqLanguageCompileInput): AiiqLangua
   const extremReport = getExtrimliExtremProfilerReport();
   const extremInformationalFlow = extremReport.programskiJezikInformacionihTokova;
   const extremPretpostavka = extremReport.programskiJezikPretpostavka;
+  const extremGamingDsl = extremReport.programskiJezikSpecijalizovanZaIgrice;
 
   if (!input || typeof input !== 'object') {
-    return invalidCompileResult(undefined, 'input must be an object', start, extremInformationalFlow, extremPretpostavka);
+    return invalidCompileResult(undefined, 'input must be an object', start, extremInformationalFlow, extremPretpostavka, extremGamingDsl);
   }
 
   if (typeof input.source !== 'string' || input.source.trim().length === 0) {
-    return invalidCompileResult(input.referenceId, 'source is required (non-empty string)', start, extremInformationalFlow, extremPretpostavka);
+    return invalidCompileResult(input.referenceId, 'source is required (non-empty string)', start, extremInformationalFlow, extremPretpostavka, extremGamingDsl);
   }
 
   if (!isMode(input.targetMode)) {
@@ -810,20 +883,21 @@ export function compileAiiqLanguage(input: AiiqLanguageCompileInput): AiiqLangua
       start,
       extremInformationalFlow,
       extremPretpostavka,
+      extremGamingDsl,
     );
   }
 
   if (typeof input.strictSecurity !== 'boolean') {
-    return invalidCompileResult(input.referenceId, 'strictSecurity must be boolean', start, extremInformationalFlow, extremPretpostavka);
+    return invalidCompileResult(input.referenceId, 'strictSecurity must be boolean', start, extremInformationalFlow, extremPretpostavka, extremGamingDsl);
   }
 
   if (typeof input.featureFlagAiIqLanguage !== 'boolean') {
-    return invalidCompileResult(input.referenceId, 'featureFlagAiIqLanguage must be boolean', start, extremInformationalFlow, extremPretpostavka);
+    return invalidCompileResult(input.referenceId, 'featureFlagAiIqLanguage must be boolean', start, extremInformationalFlow, extremPretpostavka, extremGamingDsl);
   }
 
   const { ast, warnings, unsupportedKeywords } = parseProgram(input.source);
   if (ast.length === 0) {
-    return invalidCompileResult(input.referenceId, 'source cannot be compiled into valid AST nodes', start, extremInformationalFlow, extremPretpostavka);
+    return invalidCompileResult(input.referenceId, 'source cannot be compiled into valid AST nodes', start, extremInformationalFlow, extremPretpostavka, extremGamingDsl);
   }
 
   const syntaxScore = round2(clamp((ast.length / Math.max(1, input.source.split(/\r?\n/).filter(Boolean).length)) * 100, 0, 100));
@@ -923,6 +997,9 @@ export function compileAiiqLanguage(input: AiiqLanguageCompileInput): AiiqLangua
     pretpostavkaSignalStatus: extremPretpostavka.readiness.status,
     pretpostavkaReadinessScore: extremPretpostavka.readiness.score,
     pretpostavkaTechnicalSignals: extremPretpostavka.technicalSignals,
+    gamingDslSignalStatus: extremGamingDsl.readiness.status,
+    gamingDslReadinessScore: extremGamingDsl.readiness.score,
+    gamingDslSignals: extremGamingDsl.gamingDomainCoverage,
   });
   const executionMode: AiiqLanguageMode = integrationProfile.dokDikDakDukConsistencyHealth.deterministicFallbackRequired
     ? 'DETERMINISTIC_ONLY'

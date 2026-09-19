@@ -78,6 +78,12 @@ export interface AiiqLanguageExtrimliIntegrationProfile {
       group: readonly ['SINEMETRIČKO PROGRAMIRANJE'];
       role: 'additive-governance-technical-input';
     };
+    IGRICE: {
+      technicalSource: '/api/extrimli/extrem';
+      governanceSource: '/api/extrimli/extrondol';
+      group: readonly ['PROGRAMSKI JEZIK SPECIJALIZOVAN ZA IGRICE'];
+      role: 'gaming-runtime-orchestration-profile';
+    };
   };
   layerResponsibilities: {
     extrem: 'technical-signal-engine-readiness-conflict-profiling';
@@ -91,6 +97,7 @@ export interface AiiqLanguageExtrimliIntegrationProfile {
     duk: AiiqIntegrationSignalStatus;
     forInformacioniTokovi: AiiqIntegrationSignalStatus;
     pretpostavka: AiiqIntegrationSignalStatus;
+    programskiJezikSpecijalizovanZaIgrice: AiiqIntegrationSignalStatus;
     sinemetricko: AiiqIntegrationSignalStatus;
     overall: AiiqIntegrationSignalStatus;
   };
@@ -174,6 +181,42 @@ export interface AiiqLanguageExtrimliIntegrationProfile {
         driftConflictScore: number;
         saturationLoadScore: number;
         continuationReadinessScore: number;
+      };
+      reasons: string[];
+    };
+    programskiJezikSpecijalizovanZaIgrice: {
+      canonicalName: 'PROGRAMSKI JEZIK SPECIJALIZOVAN ZA IGRICE';
+      additiveOnlyProfile: 'EXTRIMLI-EXTRONDOL-EXTREM';
+      dslProfile: 'gaming-specijalizovani-dsl';
+      sourceOfTruthRoutes: readonly ['/api/extrimli/extrem', '/api/extrimli/extrondol'];
+      ownershipSplit: {
+        forPetlja: 'EXTREM';
+        dokDik: 'EXTREM';
+        dakDuk: 'EXTRONDOL';
+        spajaKod: 'audit-safe-summary-only';
+      };
+      unifiedStatus: AiiqIntegrationSignalStatus;
+      deterministicFallbackRequired: boolean;
+      explainabilityModel: 'existing-ai-iq-guardrails';
+      guardrailMode: 'deterministic-fallback';
+      gamingDomain: {
+        category: 'igrice';
+        consumerAnchors: readonly ['src/lib/igrice.ts', 'src/lib/gaming-endzin.ts'];
+        ownership: {
+          aiIqProgramskiJezik: 'dsl-orchestration-explainability-layer';
+          extrem: 'technical-gaming-signal';
+          extrondol: 'wawe-governance-audit-consumer';
+        };
+      };
+      metrics: {
+        gameplayCategoryCoverageScore: number;
+        runnerCompatibilityScore: number;
+        dimensionalModeReadinessScore: number;
+        renderPhysicsReadinessScore: number;
+        aiNpcBehaviorScore: number;
+        multiplayerSyncScore: number;
+        antiCheatIntegrityScore: number;
+        analyticsPerformanceReadinessScore: number;
       };
       reasons: string[];
     };
