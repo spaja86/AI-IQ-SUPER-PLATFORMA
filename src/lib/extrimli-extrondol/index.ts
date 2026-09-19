@@ -2831,6 +2831,8 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
       readinessScore: extremProfiler.paradijogonalnoProgrimiranje.readiness.score,
       cloudFieldCohesionPercent: extremProfiler.paradijogonalnoProgrimiranje.profileInput.cloudFieldCohesionPercent,
       conflictDegradationPressurePercent: extremProfiler.paradijogonalnoProgrimiranje.profileInput.conflictDegradationPressurePercent,
+      dokStatus: extremProfiler.paradijogonalnoProgrimiranje.ownershipEvidence.dokEvidence.status,
+      dikStatus: extremProfiler.paradijogonalnoProgrimiranje.ownershipEvidence.dikEvidence.status,
       reviewRequiredBeforeWideRollout: extremProfiler.paradijogonalnoProgrimiranje.readiness.status !== 'READY',
       blockerReasons: [...extremProfiler.paradijogonalnoProgrimiranje.readiness.blockerReasons],
       watchReasons: [...extremProfiler.paradijogonalnoProgrimiranje.readiness.watchReasons],
