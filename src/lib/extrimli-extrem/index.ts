@@ -810,7 +810,7 @@ function buildProgramskiJezikInformacionihTokovaSignal(
       informacioniTokMeaning: 'upravljanje-tokom-informacija-kroz-deterministicke-signale',
       numerickiTokMeaning: 'upravljanje-numerickim-sekvencama-i-opsezima',
       forPetljaMeaning: 'osnovni-range-sekvencijalni-mehanizam-postojeceg-petlje-modela',
-      existingContractBeforeThisChange: false,
+      existingContractBeforeThisChange: true,
       aliasesOfExistingSurfaces: false,
       noNewRoutes: true,
     },

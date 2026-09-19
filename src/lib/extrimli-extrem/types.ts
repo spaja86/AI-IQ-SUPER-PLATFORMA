@@ -59,7 +59,7 @@ export interface ExtrimliExtremObjektnaProngilacijaSignal {
   meaningLock: {
     canonicalName: 'Objektno orijentisana prongilacija';
     statement: string;
-    existingContractBeforeThisChange: false;
+    existingContractBeforeThisChange: true;
   };
   ownershipModel: {
     extrem: 'technical-object-state-signal';
