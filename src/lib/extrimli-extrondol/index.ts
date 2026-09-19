@@ -1877,12 +1877,6 @@ function buildProgramskiJezikPoProsparitetuDeklasiraneMatriceUEkstaziGovernance(
     readinessScore: signal.readiness.score,
     governanceVisibility: 'audit-safe-readiness-only',
     flowMetrics: {
-      deklasiraneMatriceReadinessScore: signal.technicalSignals.deklasiraneMatriceReadinessScore,
-      prosparitetAlignmentScore: signal.technicalSignals.prosparitetAlignmentScore,
-      glasovneKomandePredispozicijaScore: signal.technicalSignals.glasovneKomandePredispozicijaScore,
-      etapsikmSenzacijeStageCohesionScore: signal.technicalSignals.etapsikmSenzacijeStageCohesionScore,
-      driftConflictScore: signal.technicalSignals.driftConflictScore,
-      continuationReadinessScore: signal.technicalSignals.continuationReadinessScore,
       forStatus: signal.forLoopBinding.forEvidence.status,
       dokStatus: params.extremProfiler.dokDikDakDukConsistencyHealth.signals.dok.status,
       dikStatus: params.extremProfiler.dokDikDakDukConsistencyHealth.signals.dik.status,

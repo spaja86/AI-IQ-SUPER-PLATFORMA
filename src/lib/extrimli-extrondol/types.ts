@@ -768,12 +768,6 @@ export interface ExtrimliExtrondolProgramskiJezikPoProsparitetuDeklasiraneMatric
   readinessScore: number;
   governanceVisibility: 'audit-safe-readiness-only';
   flowMetrics: {
-    deklasiraneMatriceReadinessScore: number;
-    prosparitetAlignmentScore: number;
-    glasovneKomandePredispozicijaScore: number;
-    etapsikmSenzacijeStageCohesionScore: number;
-    driftConflictScore: number;
-    continuationReadinessScore: number;
     forStatus: ExtrimliExtremProfilerReport['programskiJezikPoProsparitetuDeklasiraneMatriceUEkstazi']['forLoopBinding']['forEvidence']['status'];
     dokStatus: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['signals']['dok']['status'];
     dikStatus: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['signals']['dik']['status'];
