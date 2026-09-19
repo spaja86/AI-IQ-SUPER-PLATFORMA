@@ -5000,7 +5000,10 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
     || petljeSignals.summary.freezeRequired
     || businessLicensingSignals.freezeRequired
     || kraljevskiPravniUniverzitetTrack.readiness.status === 'BLOCKED'
+    || programskiJezikInformacionihTokova.readiness.status === 'BLOCKED'
+    || programskiJezikPretpostavka.readiness.status === 'BLOCKED'
     || programskiJezikPoProsparitetuDeklasiraneMatriceUEkstazi.readiness.status === 'BLOCKED'
+    || programskiJezikParadigmaOblikovanjeTela.readiness.status === 'BLOCKED'
     || funkcinalnoProgramiranjeEnergetskogMisaonogToka.readiness.status === 'BLOCKED'
     || funkcionalnoProgramiranjeUzvisenogMisanogToka.readiness.status === 'BLOCKED'
     || funkcionalnoProgramiranjeEksplicitnogMisaonogToka.readiness.status === 'BLOCKED'
