@@ -188,3 +188,11 @@ v1 je spreman za downstream sinhronizaciju prema `spaja86/IO-OPENUI-AO` kroz:
 - Merljiv kvalitet (`status/score/warnings`) kroz testove
 - Security usklađenost
 - Potvrđen human review pre promocije
+
+## PROGRAMSKI JEZIK INFORMACIONIH TOKOVA
+
+- `PROGRAMSKI JEZIK INFORMACIONIH TOKOVA` je additive-only interpretacioni/orkestracioni DSL profil u okviru `EXTRIMLI-EXTRONDOL-EXTREM` modela.
+- Ne uvodi novi runtime niti nove breaking rute; koristi postojeći explainability, guardrail i deterministic fallback model iz AI IQ PROGRAMSKI JEZIK sloja.
+- `FOR PETLJA` i `PROGRAMSKI JEZIK INFORMACIONIH TOKOVA` mapiraju se kao sekvencijalni numerički ulaz, dok `DOK + DIK` ostaju EXTREM tehnički dokaz, a `DAK + DUK` ostaju EXTRONDOL governance odluka.
+- Dozvoljene status klase su `READY | WATCH | BLOCKED`.
+- Degradacioni i fallback uslovi ostaju aktivni za `NaN`, `Infinity`, prazne sekvence, nevalidne opsege i svaki signal koji traži deterministic fallback.

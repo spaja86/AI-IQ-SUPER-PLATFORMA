@@ -17,6 +17,7 @@ import {
   runDokonPetlja,
   runDomporPetlja,
   runDomprePetlja,
+  runForPetlja,
   runDonkiPetlja,
   runDumpirPetlja,
   runIndirektPetlja,
@@ -56,6 +57,9 @@ import type {
   ExtrimliExtremFunkionalnoProgramiranjePravnogMisaonogTokaSignal,
   ExtrimliExtremFunkionalnoProgramiranjePravnogMisaonogTokaStatus,
   ExtrimliExtremMetrickoProgramiranjeProfileInput,
+  ExtrimliExtremProgramskiJezikInformacionihTokovaProfileInput,
+  ExtrimliExtremProgramskiJezikInformacionihTokovaSignal,
+  ExtrimliExtremProgramskiJezikInformacionihTokovaStatus,
   ExtrimliExtremMetrickoProgramiranjeSignal,
   ExtrimliExtremMetrickoProgramiranjeStatus,
   ExtrimliExtremProporcionalnoProgramiranjeProfileInput,
@@ -130,6 +134,12 @@ import {
   EXTRIMLI_EXTREM_PROPORCIONALNO_PROGRAMIRANJE_CONTRACT_VERSION,
   EXTRIMLI_EXTREM_PROPORCIONALNO_PROGRAMIRANJE_MIN_READY_SCORE,
   EXTRIMLI_EXTREM_PROPORCIONALNO_PROGRAMIRANJE_MIN_WATCH_SCORE,
+  EXTRIMLI_EXTREM_PROGRAMSKI_JEZIK_INFORMACIONIH_TOKOVA_CONTRACT_VERSION,
+  EXTRIMLI_EXTREM_PROGRAMSKI_JEZIK_INFORMACIONIH_TOKOVA_MIN_READY_SCORE,
+  EXTRIMLI_EXTREM_PROGRAMSKI_JEZIK_INFORMACIONIH_TOKOVA_MIN_WATCH_SCORE,
+  EXTRIMLI_EXTREM_PROGRAMSKI_JEZIK_INFORMACIONIH_TOKOVA_CONTRACT_VERSION,
+  EXTRIMLI_EXTREM_PROGRAMSKI_JEZIK_INFORMACIONIH_TOKOVA_MIN_READY_SCORE,
+  EXTRIMLI_EXTREM_PROGRAMSKI_JEZIK_INFORMACIONIH_TOKOVA_MIN_WATCH_SCORE,
   EXTRIMLI_EXTREM_METRICKO_PROGRAMIRANJE_CONTRACT_VERSION,
   EXTRIMLI_EXTREM_METRICKO_PROGRAMIRANJE_MIN_READY_SCORE,
   EXTRIMLI_EXTREM_METRICKO_PROGRAMIRANJE_MIN_WATCH_SCORE,
@@ -563,6 +573,254 @@ function classifySpajinoProporcionalnoProgramiranjeUniverzitetStatus(
   if (score >= EXTRIMLI_EXTREM_SPAJINO_PROPORCIONALNO_PROGRAMIRANJE_UNIVERZITET_MIN_READY_SCORE) return 'READY';
   if (score >= EXTRIMLI_EXTREM_SPAJINO_PROPORCIONALNO_PROGRAMIRANJE_UNIVERZITET_MIN_WATCH_SCORE) return 'WATCH';
   return 'BLOCKED';
+}
+
+function classifyProgramskiJezikInformacionihTokovaStatus(
+  score: number,
+): ExtrimliExtremProgramskiJezikInformacionihTokovaStatus {
+  if (score >= EXTRIMLI_EXTREM_PROGRAMSKI_JEZIK_INFORMACIONIH_TOKOVA_MIN_READY_SCORE) return 'READY';
+  if (score >= EXTRIMLI_EXTREM_PROGRAMSKI_JEZIK_INFORMACIONIH_TOKOVA_MIN_WATCH_SCORE) return 'WATCH';
+  return 'BLOCKED';
+}
+
+function resolveProgramskiJezikInformacionihTokovaInput(
+  degradedSources: string[],
+): ExtrimliExtremProgramskiJezikInformacionihTokovaProfileInput {
+  return {
+    forRangeCoveragePercent: parsePercentEnvWithInvalidFallback(
+      'EXTRIMLI_EXTREM_PROGRAMSKI_JEZIK_INFORMACIONIH_TOKOVA_FOR_RANGE_COVERAGE_PERCENT',
+      90,
+      72,
+      degradedSources,
+    ),
+    informacioniTokStabilityPercent: parsePercentEnvWithInvalidFallback(
+      'EXTRIMLI_EXTREM_PROGRAMSKI_JEZIK_INFORMACIONIH_TOKOVA_STABILITY_PERCENT',
+      88,
+      70,
+      degradedSources,
+    ),
+    numerickiTokIntegrityPercent: parsePercentEnvWithInvalidFallback(
+      'EXTRIMLI_EXTREM_PROGRAMSKI_JEZIK_INFORMACIONIH_TOKOVA_NUMERICKI_INTEGRITY_PERCENT',
+      89,
+      72,
+      degradedSources,
+    ),
+    driftConflictPercent: parsePercentEnvWithInvalidFallback(
+      'EXTRIMLI_EXTREM_PROGRAMSKI_JEZIK_INFORMACIONIH_TOKOVA_DRIFT_CONFLICT_PERCENT',
+      18,
+      48,
+      degradedSources,
+    ),
+    saturationLoadPercent: parsePercentEnvWithInvalidFallback(
+      'EXTRIMLI_EXTREM_PROGRAMSKI_JEZIK_INFORMACIONIH_TOKOVA_SATURATION_LOAD_PERCENT',
+      24,
+      52,
+      degradedSources,
+    ),
+    continuationReadinessPercent: parsePercentEnvWithInvalidFallback(
+      'EXTRIMLI_EXTREM_PROGRAMSKI_JEZIK_INFORMACIONIH_TOKOVA_CONTINUATION_READINESS_PERCENT',
+      87,
+      68,
+      degradedSources,
+    ),
+  };
+}
+
+function buildProgramskiJezikInformacionihTokovaSignal(
+  profileInput: ExtrimliExtremProgramskiJezikInformacionihTokovaProfileInput,
+  forResult: ReturnType<typeof runForPetlja>,
+  dokSignal: ExtrimliExtremPetljaSignalResult | undefined,
+  dikSignal: ExtrimliExtremPetljaSignalResult | undefined,
+  degraded: boolean,
+): ExtrimliExtremProgramskiJezikInformacionihTokovaSignal {
+  const forReadinessScore = round(
+    clamp(
+      (forResult.completed ? 86 : 34)
+      + Math.max(0, 10 - forResult.iterations) * 1.6
+      - forResult.warnings.length * 8
+      - (forResult.reason === 'invalid-input' ? 28 : 0)
+      - (forResult.reason === 'blocked-status' ? 36 : 0)
+      - (forResult.reason === 'max-iterations' ? 18 : 0)
+      - (forResult.reason === 'time-limit' ? 16 : 0),
+      0,
+      100,
+    ),
+    2,
+  );
+  const forStatus = forReadinessScore >= EXTRIMLI_EXTREM_PETLJE_READY_MIN_SCORE
+    ? 'READY'
+    : forReadinessScore >= EXTRIMLI_EXTREM_PETLJE_WATCH_MIN_SCORE
+      ? 'WATCH'
+      : 'BLOCKED';
+  const stabilityScore = round(
+    clamp(
+      (profileInput.informacioniTokStabilityPercent * 0.48)
+      + (profileInput.forRangeCoveragePercent * 0.22)
+      + (forReadinessScore * 0.15)
+      + ((dokSignal?.readinessScore ?? 0) * 0.08)
+      + ((dikSignal?.readinessScore ?? 0) * 0.07),
+      0,
+      100,
+    ),
+    2,
+  );
+  const sequenceIntegrityScore = round(
+    clamp(
+      (profileInput.numerickiTokIntegrityPercent * 0.52)
+      + (profileInput.forRangeCoveragePercent * 0.16)
+      + (forReadinessScore * 0.16)
+      + ((dokSignal?.readinessScore ?? 0) * 0.08)
+      + ((dikSignal?.readinessScore ?? 0) * 0.08),
+      0,
+      100,
+    ),
+    2,
+  );
+  const driftConflictScore = round(
+    clamp(
+      (profileInput.driftConflictPercent * 0.5)
+      + (((100 - (dokSignal?.readinessScore ?? 0)) * 0.12))
+      + (((100 - (dikSignal?.readinessScore ?? 0)) * 0.12))
+      + (((100 - forReadinessScore) * 0.26)),
+      0,
+      100,
+    ),
+    2,
+  );
+  const saturationLoadScore = round(
+    clamp(
+      (profileInput.saturationLoadPercent * 0.58)
+      + ((100 - profileInput.forRangeCoveragePercent) * 0.18)
+      + ((100 - profileInput.continuationReadinessPercent) * 0.12)
+      + ((forResult.warnings.length * 6)),
+      0,
+      100,
+    ),
+    2,
+  );
+  const continuationReadinessScore = round(
+    clamp(
+      (profileInput.continuationReadinessPercent * 0.46)
+      + ((100 - driftConflictScore) * 0.18)
+      + ((100 - saturationLoadScore) * 0.16)
+      + (forReadinessScore * 0.1)
+      + ((dokSignal?.readinessScore ?? 0) * 0.05)
+      + ((dikSignal?.readinessScore ?? 0) * 0.05),
+      0,
+      100,
+    ),
+    2,
+  );
+  const score = round(
+    clamp(
+      (stabilityScore * 0.24)
+      + (sequenceIntegrityScore * 0.24)
+      + ((100 - driftConflictScore) * 0.18)
+      + ((100 - saturationLoadScore) * 0.12)
+      + (continuationReadinessScore * 0.22),
+      0,
+      100,
+    ),
+    2,
+  );
+  const watchReasons = [
+    ...(stabilityScore < 82 ? [`informacioni-tok-stability-watch:${stabilityScore}`] : []),
+    ...(sequenceIntegrityScore < 82 ? [`numericki-tok-integrity-watch:${sequenceIntegrityScore}`] : []),
+    ...(driftConflictScore > 22 ? [`drift-konflikt-watch:${driftConflictScore}`] : []),
+    ...(saturationLoadScore > 28 ? [`saturacija-watch:${saturationLoadScore}`] : []),
+    ...(continuationReadinessScore < 80 ? [`continuation-readiness-watch:${continuationReadinessScore}`] : []),
+    ...(forStatus === 'WATCH' ? [`for-petlja-watch:${forReadinessScore}`] : []),
+    ...(dokSignal?.status === 'WATCH' ? [`dok-evidence-watch:${dokSignal.readinessScore}`] : []),
+    ...(dikSignal?.status === 'WATCH' ? [`dik-evidence-watch:${dikSignal.readinessScore}`] : []),
+  ];
+  const blockerReasons = [
+    ...(profileInput.forRangeCoveragePercent < 58 ? [`for-range-coverage-blocked:${profileInput.forRangeCoveragePercent}`] : []),
+    ...(stabilityScore < 60 ? [`informacioni-tok-stability-blocked:${stabilityScore}`] : []),
+    ...(sequenceIntegrityScore < 60 ? [`numericki-tok-integrity-blocked:${sequenceIntegrityScore}`] : []),
+    ...(driftConflictScore > 56 ? [`drift-konflikt-blocked:${driftConflictScore}`] : []),
+    ...(saturationLoadScore > 64 ? [`saturacija-blocked:${saturationLoadScore}`] : []),
+    ...(continuationReadinessScore < 56 ? [`continuation-readiness-blocked:${continuationReadinessScore}`] : []),
+    ...(forStatus === 'BLOCKED' ? [`for-petlja-blocked:${forReadinessScore}`] : []),
+    ...(forResult.reason === 'invalid-input' ? ['for-petlja-invalid-input'] : []),
+    ...(dokSignal?.status === 'BLOCKED' ? [`dok-evidence-blocked:${dokSignal.readinessScore}`] : []),
+    ...(dikSignal?.status === 'BLOCKED' ? [`dik-evidence-blocked:${dikSignal.readinessScore}`] : []),
+    ...(!dokSignal ? ['dok-evidence-missing'] : []),
+    ...(!dikSignal ? ['dik-evidence-missing'] : []),
+  ];
+  const aggregateStatus = classifyProgramskiJezikInformacionihTokovaStatus(score);
+  const status: ExtrimliExtremProgramskiJezikInformacionihTokovaStatus = blockerReasons.length > 0 || aggregateStatus === 'BLOCKED'
+    ? 'BLOCKED'
+    : watchReasons.length > 0 || aggregateStatus === 'WATCH'
+      ? 'WATCH'
+      : aggregateStatus;
+
+  return {
+    term: 'PROGRAMSKI JEZIK INFORMACIONIH TOKOVA',
+    contractVersion: EXTRIMLI_EXTREM_PROGRAMSKI_JEZIK_INFORMACIONIH_TOKOVA_CONTRACT_VERSION,
+    additiveOnly: true,
+    sourceOfTruth: '/api/extrimli/extrem',
+    triggerLabel: 'extrem:logic-change',
+    scopeLock: ['EXTRIMLI', 'EXTREM', 'EXTRONDOL', 'SPAJA KOD'],
+    meaningLock: {
+      canonicalName: 'PROGRAMSKI JEZIK INFORMACIONIH TOKOVA',
+      statement: 'Additive EXTREM signal that locks informational and numeric flow governance around FOR-based sequence evidence, DOK/DIK technical proof, and deterministic audit-ready fallback without changing EXTRONDOL ownership.',
+      informacioniTokMeaning: 'upravljanje-tokom-informacija-kroz-deterministicke-signale',
+      numerickiTokMeaning: 'upravljanje-numerickim-sekvencama-i-opsezima',
+      forPetljaMeaning: 'osnovni-range-sekvencijalni-mehanizam-postojeceg-petlje-modela',
+      existingContractBeforeThisChange: false,
+      aliasesOfExistingSurfaces: false,
+      noNewRoutes: true,
+    },
+    ownershipModel: {
+      extrem: 'technical-informational-flow-signal',
+      extrondol: 'wawe-orchestration-audit-consumer',
+      spajaKod: 'public-encapsulated-boundary',
+    },
+    canonicalVocabulary: {
+      informacioniTok: { canonicalField: 'technicalSignals.stabilityScore', meaning: 'stabilnost-informacionog-toka' },
+      numerickiTok: { canonicalField: 'technicalSignals.sequenceIntegrityScore', meaning: 'integritet-numerickog-toka' },
+      driftKonflikt: { canonicalField: 'technicalSignals.driftConflictScore', meaning: 'drift-i-konflikt-pritisak' },
+      saturacijaOpterecenje: { canonicalField: 'technicalSignals.saturationLoadScore', meaning: 'saturacija-i-opterecenje' },
+      readinessNastavka: { canonicalField: 'technicalSignals.continuationReadinessScore', meaning: 'readiness-za-nastavak-obrade' },
+      forPetlja: { canonicalField: 'forLoopBinding.forEvidence', meaning: 'osnovni-range-sekvencijalni-mehanizam' },
+      readinessStatus: { canonicalField: 'readiness.status', meaning: 'wawe-readiness-posture' },
+    },
+    profileInput,
+    forLoopBinding: {
+      sourceModel: 'PETLJE',
+      sourceKind: 'FOR PETLJA',
+      sourceOwnership: 'EXTREM',
+      noSourceOfTruthMove: true,
+      forEvidence: {
+        kind: 'FOR PETLJA',
+        readinessScore: forReadinessScore,
+        status: forStatus,
+      },
+    },
+    technicalSignals: {
+      stabilityScore,
+      sequenceIntegrityScore,
+      driftConflictScore,
+      saturationLoadScore,
+      continuationReadinessScore,
+    },
+    ownershipEvidence: {
+      forTechnical: true,
+      dokTechnical: true,
+      dikTechnical: true,
+      dakDeferredToGovernance: true,
+      dukDeferredToGovernance: true,
+    },
+    readiness: {
+      score,
+      status,
+      readyForWaweProgression: status === 'READY',
+      degraded,
+      watchReasons: status === 'WATCH' && watchReasons.length == 0 ? [`aggregate-watch-score:${score}`] : watchReasons,
+      blockerReasons: status === 'BLOCKED' && blockerReasons.length == 0 ? [`aggregate-blocked-score:${score}`] : blockerReasons,
+      deterministicFallbackRequired: status !== 'READY' || forResult.reason !== 'completed',
+    },
+  };
 }
 
 function classifyMetrickoProgramiranjeStatus(score: number): ExtrimliExtremMetrickoProgramiranjeStatus {
@@ -3137,6 +3395,8 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
   const zelezaraPretplataIdentityTrack = buildZelezaraPretplataIdentityTrack();
   const kraljevskiPravniUniverzitetTrack = buildKraljevskiPravniUniverzitetTrack();
   const petljeSignals = buildPetljaSignalSection(degradedSources);
+  const programskiJezikInformacionihTokovaInput = resolveProgramskiJezikInformacionihTokovaInput(degradedSources);
+  const forPetljaResult = runForPetlja({ start: 0, end: 10, step: 2, maxIterations: 8, maxDurationMs: 100, status: 'ACTIVATED' });
   const objektnoOrijentisanaProngilacija = buildObjektnaProngilacijaSignal(
     objektnaProngilacijaInput,
     objektnaProngilacijaDegradedSources.length > 0,
@@ -3254,6 +3514,13 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
   );
   const dokSignalForMetricko = petljeSignals.signals.find((signal) => signal.kind === 'DOK PETLJA');
   const dikSignalForMetricko = petljeSignals.signals.find((signal) => signal.kind === 'DIK PETLJA');
+  const programskiJezikInformacionihTokova = buildProgramskiJezikInformacionihTokovaSignal(
+    programskiJezikInformacionihTokovaInput,
+    forPetljaResult,
+    dokSignalForMetricko,
+    dikSignalForMetricko,
+    degradedSources.some((source) => source.startsWith('invalid-env:EXTRIMLI_EXTREM_PROGRAMSKI_JEZIK_INFORMACIONIH_TOKOVA_')) || forPetljaResult.reason !== 'completed',
+  );
   const metrikoProgramiranje = buildMetrickoProgramiranjeSignal(
     {
       declarationMatrixPercent: metrikoProgramiranjeDeclarationMatrixPercent,
@@ -3544,6 +3811,9 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
   if (radniTaktMozgaMislilac.readiness.degraded) {
     degradedSources.push(`radni-takt-mozga-mislilac:${radniTaktMozgaMislilac.readiness.status.toLowerCase()}`);
   }
+  if (programskiJezikInformacionihTokova.readiness.degraded) {
+    degradedSources.push(`programski-jezik-informacionih-tokova:${programskiJezikInformacionihTokova.readiness.status.toLowerCase()}`);
+  }
   if (metrikoProgramiranje.readiness.degraded) {
     degradedSources.push(`metriko-programiranje:${metrikoProgramiranje.readiness.status.toLowerCase()}`);
   }
@@ -3700,6 +3970,38 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
         auditReady: false,
       },
     },
+    programskiJezikInformacionihTokova: {
+      canonicalName: 'PROGRAMSKI JEZIK INFORMACIONIH TOKOVA',
+      meaning: 'upravljanje numeričkih tokova informacija',
+      additiveOnlyProfile: 'EXTRIMLI-EXTRONDOL-EXTREM',
+      sourceOfTruthRoutes: ['/api/extrimli/extrem', '/api/extrimli/extrondol'],
+      technicalOwnershipLock: {
+        forPetlja: 'EXTREM',
+        dokDik: 'EXTREM',
+        dakDuk: 'EXTRONDOL',
+        spajaKod: 'audit-safe-summary-only',
+      },
+      flowMetrics: {
+        stabilityScore: programskiJezikInformacionihTokova.technicalSignals.stabilityScore,
+        sequenceIntegrityScore: programskiJezikInformacionihTokova.technicalSignals.sequenceIntegrityScore,
+        driftConflictScore: programskiJezikInformacionihTokova.technicalSignals.driftConflictScore,
+        saturationLoadScore: programskiJezikInformacionihTokova.technicalSignals.saturationLoadScore,
+        continuationReadinessScore: programskiJezikInformacionihTokova.technicalSignals.continuationReadinessScore,
+        forStatus: programskiJezikInformacionihTokova.forLoopBinding.forEvidence.status,
+        dokStatus: dokSignal?.status ?? null,
+        dikStatus: dikSignal?.status ?? null,
+        fallbackRequired: programskiJezikInformacionihTokova.readiness.deterministicFallbackRequired,
+      },
+      governanceCoupling: {
+        promotionFreeze: null,
+        humanReviewRequired: true,
+        rollbackPlanRequired: true,
+        downstreamReference: 'spaja86/IO-OPENUI-AO',
+      },
+      consolidatedStatus: programskiJezikInformacionihTokova.readiness.status,
+      auditReady: false,
+      reasons: [],
+    },
     reasons: [],
   };
   dokDikDakDukConsistencyHealth.consistent = Object.values(dokDikDakDukConsistencyHealth.checks).every(Boolean);
@@ -3784,6 +4086,22 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
         : 'Laboratorijska logika je u blokadi i zahteva deterministički fallback pre promocije.';
   dokDikDakDukConsistencyHealth.programskiJezikProucavanja.programskiEkanalog.auditReady =
     dokDikDakDukConsistencyHealth.programskiJezikAnaliza.auditReady;
+  dokDikDakDukConsistencyHealth.programskiJezikInformacionihTokova.governanceCoupling.promotionFreeze =
+    dokDikDakDukConsistencyHealth.status === 'BLOCKED'
+      ? true
+      : dokDikDakDukConsistencyHealth.status === 'WATCH'
+        ? null
+        : false;
+  dokDikDakDukConsistencyHealth.programskiJezikInformacionihTokova.auditReady =
+    dokDikDakDukConsistencyHealth.consistent
+    && programskiJezikInformacionihTokova.readiness.score >= 0
+    && programskiJezikInformacionihTokova.readiness.score <= 100;
+  dokDikDakDukConsistencyHealth.programskiJezikInformacionihTokova.reasons = [
+    'FOR i numerički tokovi ostaju tehnički signalni sloj vezan za postojeći PETLJE model.',
+    'DOK + DIK ostaju EXTREM tehnički dokaz, dok DAK + DUK ostaju EXTRONDOL governance odluka.',
+    ...(programskiJezikInformacionihTokova.readiness.watchReasons.map((reason) => `WATCH:${reason}`)),
+    ...(programskiJezikInformacionihTokova.readiness.blockerReasons.map((reason) => `BLOCKED:${reason}`)),
+  ];
   const failedConsistencyChecks = [
     ...(!dokDikDakDukConsistencyHealth.checks.dokSignalPresent ? ['DOK PETLJA signal missing from EXTREM technical output.'] : []),
     ...(!dokDikDakDukConsistencyHealth.checks.dikSignalPresent ? ['DIK PETLJA signal missing from EXTREM technical output.'] : []),
@@ -3831,6 +4149,15 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
       id: 'additive-only-compatibility',
       description: 'Profiler surface is additive-only and does not alias or mutate existing EXTRIMLI contracts.',
       passed: true,
+    },
+    {
+      id: 'informacioni-tokovi-safety',
+      description: 'PROGRAMSKI JEZIK INFORMACIONIH TOKOVA produces deterministic audit-safe output for FOR-based numeric flows and bounded fallback behavior.',
+      passed: programskiJezikInformacionihTokova.readiness.score >= 0
+        && programskiJezikInformacionihTokova.readiness.score <= 100
+        && (programskiJezikInformacionihTokova.forLoopBinding.forEvidence.status === 'READY'
+          || programskiJezikInformacionihTokova.forLoopBinding.forEvidence.status === 'WATCH'
+          || programskiJezikInformacionihTokova.forLoopBinding.forEvidence.status === 'BLOCKED'),
     },
     {
       id: 'petlje-contract-boundary-lock',
@@ -4336,6 +4663,7 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
     paradijogonalnoProgrimiranje,
     funkionalnoProgramiranjePravnogMisaonogToka,
     proporcionalnoProgramiranje,
+    programskiJezikInformacionihTokova,
     metrikoProgramiranje,
     spajinoProporcionalnoProgramiranjeUniverzitet,
     sinemetrickoProgramiranje,
@@ -4418,6 +4746,9 @@ export type {
   ExtrimliExtremFunkionalnoProgramiranjePravnogMisaonogTokaSignal,
   ExtrimliExtremFunkionalnoProgramiranjePravnogMisaonogTokaStatus,
   ExtrimliExtremMetrickoProgramiranjeProfileInput,
+  ExtrimliExtremProgramskiJezikInformacionihTokovaProfileInput,
+  ExtrimliExtremProgramskiJezikInformacionihTokovaSignal,
+  ExtrimliExtremProgramskiJezikInformacionihTokovaStatus,
   ExtrimliExtremMetrickoProgramiranjeSignal,
   ExtrimliExtremMetrickoProgramiranjeStatus,
   ExtrimliExtremMobilnaLinijaDeviceType,

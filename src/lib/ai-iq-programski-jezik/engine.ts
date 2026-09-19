@@ -195,7 +195,26 @@ function buildIntegrationProfile(params: {
     securityBoundariesPreserved: params.securityBoundariesPreserved,
     rolloutMaturityScore: params.rolloutMaturityScore,
   });
-  const overall = mergeSignalStatus(params.dom, params.dik, params.dak, params.duk, sinemetricko);
+  const informacioniTokoviScore = round2(
+    clamp(
+      params.rolloutMaturityScore * 0.34
+      + (params.performanceWithinTargets ? 100 : 40) * 0.18
+      + (params.securityBoundariesPreserved ? 100 : 35) * 0.16
+      + (params.promotionFreeze ? 28 : 92) * 0.12
+      + (params.dom === 'READY' ? 92 : params.dom === 'WATCH' ? 68 : 34) * 0.1
+      + (params.dik === 'READY' ? 92 : params.dik === 'WATCH' ? 68 : 34) * 0.1,
+      0,
+      100,
+    ),
+  );
+  const informacioniTokovi: AiiqIntegrationSignalStatus = params.promotionFreeze
+    ? 'BLOCKED'
+    : informacioniTokoviScore >= 82
+      ? 'READY'
+      : informacioniTokoviScore >= 62
+        ? 'WATCH'
+        : 'BLOCKED';
+  const overall = mergeSignalStatus(params.dom, params.dik, params.dak, params.duk, informacioniTokovi, sinemetricko);
   const consistencyEscalationScore = round2(
     clamp(
       params.rolloutMaturityScore * 0.7
@@ -241,6 +260,12 @@ function buildIntegrationProfile(params: {
         group: DUK_GROUP,
         role: 'human-review-control',
       },
+      FOR: {
+        technicalSource: '/api/extrimli/extrem',
+        governanceSource: '/api/extrimli/extrondol',
+        group: ['FOR PETLJA', 'PROGRAMSKI JEZIK INFORMACIONIH TOKOVA'] as const,
+        role: 'sequential-numeric-flow-input',
+      },
       SINEMETRICKO: {
         technicalSource: '/api/extrimli/extrem',
         governanceSource: '/api/extrimli/extrondol',
@@ -258,6 +283,7 @@ function buildIntegrationProfile(params: {
       dik: params.dik,
       dak: params.dak,
       duk: params.duk,
+      forInformacioniTokovi: informacioniTokovi,
       sinemetricko,
       overall,
     },
@@ -294,9 +320,40 @@ function buildIntegrationProfile(params: {
           auditReady: consistencyEscalationStatus !== 'BLOCKED',
         },
       },
+      programskiJezikInformacionihTokova: {
+        canonicalName: 'PROGRAMSKI JEZIK INFORMACIONIH TOKOVA',
+        additiveOnlyProfile: 'EXTRIMLI-EXTRONDOL-EXTREM',
+        dslProfile: 'interpretacioni-orkestracioni-dsl',
+        sourceOfTruthRoutes: ['/api/extrimli/extrem', '/api/extrimli/extrondol'],
+        ownershipSplit: {
+          forPetlja: 'EXTREM',
+          dokDik: 'EXTREM',
+          dakDuk: 'EXTRONDOL',
+          spajaKod: 'audit-safe-summary-only',
+        },
+        unifiedStatus: informacioniTokovi,
+        deterministicFallbackRequired: informacioniTokovi !== 'READY',
+        explainabilityModel: 'existing-ai-iq-guardrails',
+        guardrailMode: 'deterministic-fallback',
+        metrics: {
+          stabilityScore: informacioniTokoviScore,
+          sequenceIntegrityScore: round2(clamp((params.rolloutMaturityScore * 0.5) + (params.performanceWithinTargets ? 35 : 15), 0, 100)),
+          driftConflictScore: round2(clamp((params.promotionFreeze ? 70 : 18) + (params.securityBoundariesPreserved ? 0 : 16), 0, 100)),
+          saturationLoadScore: round2(clamp((params.performanceWithinTargets ? 18 : 64) + (params.dom === 'BLOCKED' ? 12 : 0), 0, 100)),
+          continuationReadinessScore: round2(clamp((params.rolloutMaturityScore * 0.56) + (params.securityBoundariesPreserved ? 22 : 6), 0, 100)),
+        },
+        reasons: [
+          'Novi track ostaje interpretacioni/orkestracioni DSL profil i koristi postojeći AI IQ guardrail model.',
+          'FOR i numerički tokovi ostaju tehnički signalni sloj vezan za EXTREM/PETLJE, bez paralelnog runtime-a.',
+          ...(informacioniTokovi !== 'READY'
+            ? ['Informacioni tokovi nisu READY; deterministički fallback ostaje aktivan.']
+            : []),
+        ],
+      },
       reasons: [
         'PROGRAMSKI JEZIK ANALIZA koristi objedinjeni DOK/DIK/DAK/DUK signal kao eskalacioni indikator kodesnog zapleta.',
         'PROGRAMSKI JEZIK PROUČAVANJA koristi PROGRAMSKI EKANALOG za audit-ready tumačenje laboratorijske logike.',
+        'PROGRAMSKI JEZIK INFORMACIONIH TOKOVA koristi isti DSL explainability, guardrail i deterministic fallback model bez novog runtime sloja.',
         ...(consistencyEscalationStatus === 'BLOCKED'
           ? ['Eskalacioni status je BLOCKED; deterministički fallback ostaje obavezan.']
           : []),
@@ -321,6 +378,7 @@ function buildIntegrationProfile(params: {
       edgeCaseValidation: true,
       preserveExistingContracts: true,
       preserveDokDikDakDukContract: true,
+      informacioniTokoviAdditiveInput: true,
       sinemetrickoAdditiveInput: true,
       performanceWithinTargets: params.performanceWithinTargets,
       securityBoundariesPreserved: params.securityBoundariesPreserved,

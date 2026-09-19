@@ -13,6 +13,8 @@ on:
       - 'src/app/api/extrimli/extrem/**'
       - 'docs/EXTRIMLI.md'
       - 'docs/EXTRIMLI-DEVELOPER-CREATE-PROGRAM.md'
+      - 'docs/AI-IQ-PROGRAMSKI-JEZIK.md'
+      - 'docs/PROGRAMSKI-JEZIK-INFORMACIONIH-TOKOVA.md'
       - 'docs/EXTRIMLI-EXTERNAL-GITHUB.md'
       - 'docs/MULTI-REPO-LINKS.md'
       - '.github/workflows/extrimli-validator.yml'
@@ -56,6 +58,7 @@ jobs:
           const extremRoute = fs.readFileSync('src/app/api/extrimli/extrem/route.ts', 'utf8');
           const extrimliDoc = fs.readFileSync('docs/EXTRIMLI.md', 'utf8');
           const aiIqDoc = fs.readFileSync('docs/AI-IQ-PROGRAMSKI-JEZIK.md', 'utf8');
+          const informacioniTokoviDoc = fs.readFileSync('docs/PROGRAMSKI-JEZIK-INFORMACIONIH-TOKOVA.md', 'utf8');
           const developerCreateProgramDoc = fs.readFileSync('docs/EXTRIMLI-DEVELOPER-CREATE-PROGRAM.md', 'utf8');
           const externalDoc = fs.readFileSync('docs/EXTRIMLI-EXTERNAL-GITHUB.md', 'utf8');
           const links = fs.readFileSync('docs/MULTI-REPO-LINKS.md', 'utf8');
@@ -80,7 +83,10 @@ jobs:
           assert(extrimliDoc.includes('versionRoadmap.developerCreateLock'), 'EXTRIMLI doc must reference the shared Developer/Create lock');
           assert(extrimliDoc.includes('programskiJezikProucavanja') && extrimliDoc.includes('programskiEkanalog'), 'EXTRIMLI doc must include Programski jezik proučavanja + programski ekanalog additive fields');
           assert(aiIqDoc.includes('PROGRAMSKI JEZIK PROUČAVANJA') && aiIqDoc.includes('PROGRAMSKI EKANALOG'), 'AI IQ doc must include Programski jezik proučavanja + programski ekanalog profile');
+          assert(aiIqDoc.includes('PROGRAMSKI JEZIK INFORMACIONIH TOKOVA') && aiIqDoc.includes('FOR PETLJA'), 'AI IQ doc must include informational-flow DSL profile');
+          assert(informacioniTokoviDoc.includes('READY | WATCH | BLOCKED') && informacioniTokoviDoc.includes('FOR PETLJA'), 'informational-flow doc must lock canonical semantics and FOR binding');
           assert(types.includes('programskiJezikProucavanja') && extrondolIndex.includes('programskiJezikProucavanja'), 'types and EXTRONDOL index must include Programski jezik proučavanja contract fields');
+          assert(types.includes('programskiJezikInformacionihTokova') && extrondolIndex.includes('programskiJezikInformacionihTokova'), 'types and EXTRONDOL index must include informational-flow contract fields');
           assert(
             developerCreateProgramDoc.includes('PROGRAM_LOCK_SOURCE_OF_TRUTH') &&
             developerCreateProgramDoc.includes('PROGRAM_LOCK_DRIFT_ZERO') &&

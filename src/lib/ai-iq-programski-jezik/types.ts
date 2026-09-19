@@ -60,6 +60,12 @@ export interface AiiqLanguageExtrimliIntegrationProfile {
       group: readonly ['DUKAR'];
       role: 'human-review-control';
     };
+    FOR: {
+      technicalSource: '/api/extrimli/extrem';
+      governanceSource: '/api/extrimli/extrondol';
+      group: readonly ['FOR PETLJA', 'PROGRAMSKI JEZIK INFORMACIONIH TOKOVA'];
+      role: 'sequential-numeric-flow-input';
+    };
     SINEMETRICKO: {
       technicalSource: '/api/extrimli/extrem';
       governanceSource: '/api/extrimli/extrondol';
@@ -77,6 +83,7 @@ export interface AiiqLanguageExtrimliIntegrationProfile {
     dik: AiiqIntegrationSignalStatus;
     dak: AiiqIntegrationSignalStatus;
     duk: AiiqIntegrationSignalStatus;
+    forInformacioniTokovi: AiiqIntegrationSignalStatus;
     sinemetricko: AiiqIntegrationSignalStatus;
     overall: AiiqIntegrationSignalStatus;
   };
@@ -109,6 +116,30 @@ export interface AiiqLanguageExtrimliIntegrationProfile {
         auditReady: boolean;
       };
     };
+    programskiJezikInformacionihTokova: {
+      canonicalName: 'PROGRAMSKI JEZIK INFORMACIONIH TOKOVA';
+      additiveOnlyProfile: 'EXTRIMLI-EXTRONDOL-EXTREM';
+      dslProfile: 'interpretacioni-orkestracioni-dsl';
+      sourceOfTruthRoutes: readonly ['/api/extrimli/extrem', '/api/extrimli/extrondol'];
+      ownershipSplit: {
+        forPetlja: 'EXTREM';
+        dokDik: 'EXTREM';
+        dakDuk: 'EXTRONDOL';
+        spajaKod: 'audit-safe-summary-only';
+      };
+      unifiedStatus: AiiqIntegrationSignalStatus;
+      deterministicFallbackRequired: boolean;
+      explainabilityModel: 'existing-ai-iq-guardrails';
+      guardrailMode: 'deterministic-fallback';
+      metrics: {
+        stabilityScore: number;
+        sequenceIntegrityScore: number;
+        driftConflictScore: number;
+        saturationLoadScore: number;
+        continuationReadinessScore: number;
+      };
+      reasons: string[];
+    };
     reasons: string[];
   };
   governanceLink: {
@@ -130,6 +161,7 @@ export interface AiiqLanguageExtrimliIntegrationProfile {
     edgeCaseValidation: true;
     preserveExistingContracts: true;
     preserveDokDikDakDukContract: true;
+    informacioniTokoviAdditiveInput: true;
     sinemetrickoAdditiveInput: true;
     performanceWithinTargets: boolean;
     securityBoundariesPreserved: boolean;

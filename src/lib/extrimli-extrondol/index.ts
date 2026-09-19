@@ -42,6 +42,7 @@ import type {
   ExtrimliExtrondolRadniTaktMozgaMislilacGovernance,
   ExtrimliExtrondolParadijogonalnoProgrimiranjeGovernance,
   ExtrimliExtrondolFunkionalnoProgramiranjePravnogMisaonogTokaGovernance,
+  ExtrimliExtrondolProgramskiJezikInformacionihTokovaGovernance,
   ExtrimliExtrondolMetrickoProgramiranjeGovernance,
   ExtrimliExtrondolProporcionalnoProgramiranjeGovernance,
   ExtrimliExtrondolSpajinoProporcionalnoProgramiranjeUniverzitetGovernance,
@@ -120,6 +121,10 @@ import {
   EXTRONDOL_FUNKIONALNO_PROGRAMIRANJE_PRAVNOG_MISAONOG_TOKA_CONTRACT_VERSION,
   EXTRONDOL_FUNKIONALNO_PROGRAMIRANJE_PRAVNOG_MISAONOG_TOKA_READY_ADJUSTMENT,
   EXTRONDOL_FUNKIONALNO_PROGRAMIRANJE_PRAVNOG_MISAONOG_TOKA_WATCH_ADJUSTMENT,
+  EXTRONDOL_PROGRAMSKI_JEZIK_INFORMACIONIH_TOKOVA_BLOCKED_ADJUSTMENT,
+  EXTRONDOL_PROGRAMSKI_JEZIK_INFORMACIONIH_TOKOVA_CONTRACT_VERSION,
+  EXTRONDOL_PROGRAMSKI_JEZIK_INFORMACIONIH_TOKOVA_READY_ADJUSTMENT,
+  EXTRONDOL_PROGRAMSKI_JEZIK_INFORMACIONIH_TOKOVA_WATCH_ADJUSTMENT,
   EXTRONDOL_METRICKO_PROGRAMIRANJE_BLOCKED_ADJUSTMENT,
   EXTRONDOL_METRICKO_PROGRAMIRANJE_CONTRACT_VERSION,
   EXTRONDOL_METRICKO_PROGRAMIRANJE_READY_ADJUSTMENT,
@@ -770,6 +775,38 @@ function buildFunkionalnoProgramiranjePravnogMisaonogTokaReasons(
   return {
     rolloutReasons: [],
     governanceReasons: ['ready:legal thought-flow, legal transformation cohesion, and evidentiary completeness are aligned for WAWE progression'],
+  };
+}
+
+function buildProgramskiJezikInformacionihTokovaReasons(
+  signal: ExtrimliExtrondolReport['extremProfiler']['programskiJezikInformacionihTokova'],
+): {
+  rolloutReasons: string[];
+  governanceReasons: string[];
+} {
+  if (signal.readiness.status === 'WATCH') {
+    return {
+      rolloutReasons: [
+        'programski-jezik-informacionih-tokova:watch',
+        ...signal.readiness.watchReasons.map((reason) => `programski-jezik-informacionih-tokova:${reason}`),
+      ],
+      governanceReasons: signal.readiness.watchReasons.map((reason) => `watch:${reason}`),
+    };
+  }
+
+  if (signal.readiness.status === 'BLOCKED') {
+    return {
+      rolloutReasons: [
+        'programski-jezik-informacionih-tokova:blocked',
+        ...signal.readiness.blockerReasons.map((reason) => `programski-jezik-informacionih-tokova:${reason}`),
+      ],
+      governanceReasons: signal.readiness.blockerReasons.map((reason) => `blocked:${reason}`),
+    };
+  }
+
+  return {
+    rolloutReasons: [],
+    governanceReasons: ['ready:informational and numeric flow signals remain deterministic, FOR-bound, and additive-only for WAWE progression'],
   };
 }
 
@@ -1494,6 +1531,66 @@ function buildFunkionalnoProgramiranjePravnogMisaonogTokaGovernance(params: {
   };
 }
 
+function buildProgramskiJezikInformacionihTokovaGovernance(params: {
+  extremProfiler: ExtrimliExtrondolReport['extremProfiler'];
+  currentWawe: ExtrimliExtrondolWaweStage;
+  eligibleNextWawe: ExtrimliExtrondolWaweStage;
+  promotionFreeze: boolean;
+  downstreamSyncComplete: boolean;
+  humanReviewComplete: boolean;
+}): ExtrimliExtrondolProgramskiJezikInformacionihTokovaGovernance {
+  const signal = params.extremProfiler.programskiJezikInformacionihTokova;
+  const postureReasons = buildProgramskiJezikInformacionihTokovaReasons(signal);
+  const reasons = [
+    ...postureReasons.governanceReasons,
+    ...(!params.downstreamSyncComplete ? ['governance:downstream-sync-follow-up-required'] : []),
+    ...(!params.humanReviewComplete ? ['governance:human-review-required'] : []),
+    ...(signal.readiness.deterministicFallbackRequired ? ['governance:deterministic-fallback-required'] : []),
+    ...(params.promotionFreeze ? ['governance:promotion-freeze-active'] : []),
+  ];
+
+  return {
+    term: 'PROGRAMSKI JEZIK INFORMACIONIH TOKOVA',
+    sourceOfTruth: '/api/extrimli/extrondol',
+    technicalSignalSource: '/api/extrimli/extrem',
+    contractVersion: EXTRONDOL_PROGRAMSKI_JEZIK_INFORMACIONIH_TOKOVA_CONTRACT_VERSION,
+    additiveOnly: true,
+    status: signal.readiness.status,
+    readinessScore: signal.readiness.score,
+    governanceVisibility: 'audit-safe-readiness-only',
+    flowMetrics: {
+      stabilityScore: signal.technicalSignals.stabilityScore,
+      sequenceIntegrityScore: signal.technicalSignals.sequenceIntegrityScore,
+      driftConflictScore: signal.technicalSignals.driftConflictScore,
+      saturationLoadScore: signal.technicalSignals.saturationLoadScore,
+      continuationReadinessScore: signal.technicalSignals.continuationReadinessScore,
+      forStatus: signal.forLoopBinding.forEvidence.status,
+      dokStatus: params.extremProfiler.dokDikDakDukConsistencyHealth.signals.dok.status,
+      dikStatus: params.extremProfiler.dokDikDakDukConsistencyHealth.signals.dik.status,
+      deterministicFallbackRequired: signal.readiness.deterministicFallbackRequired,
+    },
+    ownershipModel: {
+      extrem: 'technical-informational-flow-signal',
+      extrondol: 'wawe-orchestration-audit-consumer',
+      spajaKod: 'public-encapsulated-boundary',
+    },
+    ownershipEvidence: signal.ownershipEvidence,
+    waweImpact: {
+      currentWawe: params.currentWawe,
+      eligibleNextWawe: params.eligibleNextWawe,
+      promotionFreeze: params.promotionFreeze || signal.readiness.status === 'BLOCKED',
+      reviewRequiredBeforeWideRollout: signal.readiness.status !== 'READY',
+    },
+    auditCoupling: {
+      releaseAuditSummaryRequired: true,
+      humanReviewRequired: true,
+      rollbackPlanRequired: true,
+      downstreamSyncRequired: true,
+    },
+    reasons,
+  };
+}
+
 function buildMetrickoProgramiranjeGovernance(params: {
   extremProfiler: ExtrimliExtrondolReport['extremProfiler'];
   currentWawe: ExtrimliExtrondolWaweStage;
@@ -1913,6 +2010,7 @@ function buildSpajaKodFacade(params: {
   radniTaktMozgaMislilacStatus: ExtrimliExtrondolReport['extremProfiler']['radniTaktMozgaMislilac']['readiness']['status'];
   paradijogonalnoProgrimiranjeStatus: ExtrimliExtrondolReport['extremProfiler']['paradijogonalnoProgrimiranje']['readiness']['status'];
   funkionalnoProgramiranjePravnogMisaonogTokaStatus: ExtrimliExtrondolReport['extremProfiler']['funkionalnoProgramiranjePravnogMisaonogToka']['readiness']['status'];
+  programskiJezikInformacionihTokovaStatus: ExtrimliExtrondolReport['extremProfiler']['programskiJezikInformacionihTokova']['readiness']['status'];
   metrikoProgramiranjeStatus: ExtrimliExtrondolReport['extremProfiler']['metrikoProgramiranje']['readiness']['status'];
   proporcionalnoProgramiranjeStatus: ExtrimliExtrondolReport['extremProfiler']['proporcionalnoProgramiranje']['readiness']['status'];
   spajinoProporcionalnoProgramiranjeUniverzitetStatus: ExtrimliExtrondolReport['extremProfiler']['spajinoProporcionalnoProgramiranjeUniverzitet']['readiness']['status'];
@@ -1978,6 +2076,7 @@ function buildSpajaKodFacade(params: {
       radniTaktMozgaMislilacStatus: params.radniTaktMozgaMislilacStatus,
       paradijogonalnoProgrimiranjeStatus: params.paradijogonalnoProgrimiranjeStatus,
       funkionalnoProgramiranjePravnogMisaonogTokaStatus: params.funkionalnoProgramiranjePravnogMisaonogTokaStatus,
+      programskiJezikInformacionihTokovaStatus: params.programskiJezikInformacionihTokovaStatus,
       metrikoProgramiranjeStatus: params.metrikoProgramiranjeStatus,
       proporcionalnoProgramiranjeStatus: params.proporcionalnoProgramiranjeStatus,
       spajinoProporcionalnoProgramiranjeUniverzitetStatus: params.spajinoProporcionalnoProgramiranjeUniverzitetStatus,
@@ -2324,6 +2423,7 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
         'extremProfiler.funkcionalnoProgramiranjeUzvisenogMisanogToka.readiness',
         'extremProfiler.funkcionalnoProgramiranjeEksplicitnogMisaonogToka.readiness',
         'extremProfiler.funkcionalnoProgramiranjePravednogMisaonogToka.readiness',
+        'extremProfiler.programskiJezikInformacionihTokova.readiness',
         'extremProfiler.paradijogonalnoProgrimiranje.readiness',
         'extremProfiler.funkionalnoProgramiranjePravnogMisaonogToka.readiness',
         'extremProfiler.metrikoProgramiranje.readiness',
@@ -2341,6 +2441,7 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
         'funkcionalnoProgramiranjeUzvisenogMisanogToka',
         'funkcionalnoProgramiranjeEksplicitnogMisaonogToka',
         'funkcionalnoProgramiranjePravednogMisaonogToka',
+        'programskiJezikInformacionihTokova',
         'paradijogonalnoProgrimiranje',
         'funkionalnoProgramiranjePravnogMisaonogToka',
         'metrikoProgramiranje',
@@ -2970,6 +3071,21 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
       blockerReasons: [...extremProfiler.paradijogonalnoProgrimiranje.readiness.blockerReasons],
       watchReasons: [...extremProfiler.paradijogonalnoProgrimiranje.readiness.watchReasons],
     },
+    programskiJezikInformacionihTokovaGovernance: {
+      sourceOfTruth: '/api/extrimli/extrem',
+      status: extremProfiler.programskiJezikInformacionihTokova.readiness.status,
+      readinessScore: extremProfiler.programskiJezikInformacionihTokova.readiness.score,
+      stabilityScore: extremProfiler.programskiJezikInformacionihTokova.technicalSignals.stabilityScore,
+      sequenceIntegrityScore: extremProfiler.programskiJezikInformacionihTokova.technicalSignals.sequenceIntegrityScore,
+      driftConflictScore: extremProfiler.programskiJezikInformacionihTokova.technicalSignals.driftConflictScore,
+      saturationLoadScore: extremProfiler.programskiJezikInformacionihTokova.technicalSignals.saturationLoadScore,
+      continuationReadinessScore: extremProfiler.programskiJezikInformacionihTokova.technicalSignals.continuationReadinessScore,
+      forStatus: extremProfiler.programskiJezikInformacionihTokova.forLoopBinding.forEvidence.status,
+      deterministicFallbackRequired: extremProfiler.programskiJezikInformacionihTokova.readiness.deterministicFallbackRequired,
+      reviewRequiredBeforeWideRollout: extremProfiler.programskiJezikInformacionihTokova.readiness.status !== 'READY',
+      blockerReasons: [...extremProfiler.programskiJezikInformacionihTokova.readiness.blockerReasons],
+      watchReasons: [...extremProfiler.programskiJezikInformacionihTokova.readiness.watchReasons],
+    },
     metrikoProgramiranjeGovernance: {
       sourceOfTruth: '/api/extrimli/extrem',
       status: extremProfiler.metrikoProgramiranje.readiness.status,
@@ -3146,6 +3262,14 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
     humanReviewComplete,
   });
   const paradijogonalnoProgrimiranje = buildParadijogonalnoProgrimiranjeGovernance({
+    extremProfiler,
+    currentWawe,
+    eligibleNextWawe: nextWawe(currentWawe),
+    promotionFreeze,
+    downstreamSyncComplete,
+    humanReviewComplete,
+  });
+  const programskiJezikInformacionihTokova = buildProgramskiJezikInformacionihTokovaGovernance({
     extremProfiler,
     currentWawe,
     eligibleNextWawe: nextWawe(currentWawe),
@@ -3390,6 +3514,17 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
       details: spajinoProporcionalnoProgramiranjeUniverzitet.reasons.join('; '),
     },
     {
+      id: 'programski-jezik-informacionih-tokova-governance',
+      label: 'PROGRAMSKI JEZIK INFORMACIONIH TOKOVA posture',
+      required: true,
+      status: programskiJezikInformacionihTokova.status === 'READY'
+        ? 'PASS' as const
+        : programskiJezikInformacionihTokova.status === 'WATCH'
+          ? 'WARN' as const
+          : 'FAIL' as const,
+      details: programskiJezikInformacionihTokova.reasons.join('; '),
+    },
+    {
       id: 'objektno-orijentisana-reprodukcija-governance',
       label: 'Objektno orijentisana reprodukcija posture',
       required: true,
@@ -3534,6 +3669,7 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
     radniTaktMozgaMislilacStatus: extremProfiler.radniTaktMozgaMislilac.readiness.status,
     paradijogonalnoProgrimiranjeStatus: extremProfiler.paradijogonalnoProgrimiranje.readiness.status,
     funkionalnoProgramiranjePravnogMisaonogTokaStatus: extremProfiler.funkionalnoProgramiranjePravnogMisaonogToka.readiness.status,
+    programskiJezikInformacionihTokovaStatus: extremProfiler.programskiJezikInformacionihTokova.readiness.status,
     metrikoProgramiranjeStatus: extremProfiler.metrikoProgramiranje.readiness.status,
     proporcionalnoProgramiranjeStatus: extremProfiler.proporcionalnoProgramiranje.readiness.status,
     spajinoProporcionalnoProgramiranjeUniverzitetStatus: extremProfiler.spajinoProporcionalnoProgramiranjeUniverzitet.readiness.status,
@@ -3896,6 +4032,9 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
         'extremProfiler.paradijogonalnoProgrimiranje.readiness.score',
         'extremProfiler.funkionalnoProgramiranjePravnogMisaonogToka.readiness.status',
         'extremProfiler.funkionalnoProgramiranjePravnogMisaonogToka.readiness.score',
+        'extremProfiler.programskiJezikInformacionihTokova.readiness.status',
+        'extremProfiler.programskiJezikInformacionihTokova.readiness.score',
+        'extremProfiler.programskiJezikInformacionihTokova.forLoopBinding.forEvidence.status',
         'extremProfiler.metrikoProgramiranje.readiness.status',
         'extremProfiler.metrikoProgramiranje.readiness.score',
         'extremProfiler.proporcionalnoProgramiranje.readiness.status',
@@ -3932,6 +4071,9 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
         'radniTaktMozgaMislilac.waweImpact',
         'paradijogonalnoProgrimiranje.waweImpact',
         'funkionalnoProgramiranjePravnogMisaonogToka.waweImpact',
+        'programskiJezikInformacionihTokova',
+        'programskiJezikInformacionihTokova.waweImpact',
+        'programskiJezikInformacionihTokova.flowMetrics.forStatus',
         'metrikoProgramiranje.waweImpact',
         'proporcionalnoProgramiranje.waweImpact',
         'spajinoProporcionalnoProgramiranjeUniverzitet.waweImpact',
@@ -3977,6 +4119,7 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
       || extremProfiler.funkcionalnoProgramiranjeEksplicitnogMisaonogToka.readiness.status === 'BLOCKED'
       || extremProfiler.funkcionalnoProgramiranjePravednogMisaonogToka.readiness.status === 'BLOCKED'
       || extremProfiler.radniTaktMozgaMislilac.readiness.status === 'BLOCKED'
+      || extremProfiler.programskiJezikInformacionihTokova.readiness.status === 'BLOCKED'
       || extremProfiler.metrikoProgramiranje.readiness.status === 'BLOCKED'
       || extremProfiler.spajinoProporcionalnoProgramiranjeUniverzitet.readiness.status === 'BLOCKED'
       || extremProfiler.sinemetrickoProgramiranje.readiness.status === 'BLOCKED'
@@ -4489,6 +4632,18 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
         && b2bReadiness.downstreamSync.syncedFields.includes('extremProfiler.sinemetrickoProgramiranje.readiness.status'),
     },
     {
+      id: 'programski-jezik-informacionih-tokova-governance',
+      description: 'PROGRAMSKI JEZIK INFORMACIONIH TOKOVA must remain additive-only, FOR-bound to PETLJE, and propagated from EXTREM into WAWE governance, audit summary, downstream sync, and SPAJA KOD summary outputs.',
+      passed: programskiJezikInformacionihTokova.contractVersion === EXTRONDOL_PROGRAMSKI_JEZIK_INFORMACIONIH_TOKOVA_CONTRACT_VERSION
+        && programskiJezikInformacionihTokova.technicalSignalSource === '/api/extrimli/extrem'
+        && programskiJezikInformacionihTokova.ownershipEvidence.forTechnical
+        && releaseAuditSummary.programskiJezikInformacionihTokovaGovernance.status === extremProfiler.programskiJezikInformacionihTokova.readiness.status
+        && b2bReadiness.downstreamSync.syncedFields.includes('extremProfiler.programskiJezikInformacionihTokova.readiness.status')
+        && b2bReadiness.downstreamSync.syncedFields.includes('programskiJezikInformacionihTokova')
+        && spajaKod.publicSignals.programskiJezikInformacionihTokovaStatus === extremProfiler.programskiJezikInformacionihTokova.readiness.status,
+    },
+
+    {
       id: 'objektno-orijentisana-reprodukcija-governance',
       description: 'Objektno orijentisana reprodukcija is propagated from EXTREM into WAWE freeze, release audit, human-review, rollback, and downstream sync using audit-safe readiness fields only.',
       passed: objektnoOrijentisanaReprodukcija.contractVersion === EXTRONDOL_OBJEKTNO_ORIJENTISANA_REPRODUKCIJA_CONTRACT_VERSION
@@ -4616,6 +4771,7 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
     proporcionalnoProgramiranje,
     spajinoProporcionalnoProgramiranjeUniverzitet,
     sinemetrickoProgramiranje,
+    programskiJezikInformacionihTokova,
     objektnoOrijentisanaReprodukcija,
     epicElikvadenti,
     mobilnaLinija,

@@ -810,6 +810,21 @@ async function runTests(): Promise<void> {
     );
   });
 
+  await test('report maps PROGRAMSKI JEZIK INFORMACIONIH TOKOVA governance into WAWE, audit summary, downstream sync, and SPAJA KOD summary', () => {
+    const report = getExtrimliExtrondolReport();
+    assert(report.programskiJezikInformacionihTokova.term === 'PROGRAMSKI JEZIK INFORMACIONIH TOKOVA', 'informational-flow governance term mismatch');
+    assert(report.programskiJezikInformacionihTokova.technicalSignalSource === '/api/extrimli/extrem', 'informational-flow governance technical source mismatch');
+    assert(report.programskiJezikInformacionihTokova.sourceOfTruth === '/api/extrimli/extrondol', 'informational-flow governance source mismatch');
+    assert(report.programskiJezikInformacionihTokova.ownershipModel.extrem === 'technical-informational-flow-signal', 'informational-flow governance EXTREM ownership mismatch');
+    assert(report.programskiJezikInformacionihTokova.ownershipEvidence.forTechnical && report.programskiJezikInformacionihTokova.ownershipEvidence.dakDeferredToGovernance && report.programskiJezikInformacionihTokova.ownershipEvidence.dukDeferredToGovernance, 'informational-flow governance ownership evidence mismatch');
+    assert(report.programskiJezikInformacionihTokova.flowMetrics.forStatus === report.extremProfiler.programskiJezikInformacionihTokova.forLoopBinding.forEvidence.status, 'informational-flow FOR status mismatch');
+    assert(report.releaseAuditSummary.programskiJezikInformacionihTokovaGovernance.status === report.extremProfiler.programskiJezikInformacionihTokova.readiness.status, 'informational-flow audit status must mirror EXTREM');
+    assert(report.b2bReadiness.downstreamSync.syncedFields.includes('extremProfiler.programskiJezikInformacionihTokova.readiness.status'), 'informational-flow readiness must sync downstream');
+    assert(report.b2bReadiness.downstreamSync.syncedFields.includes('programskiJezikInformacionihTokova'), 'informational-flow governance field must sync downstream');
+    assert(report.spajaKod.publicSignals.programskiJezikInformacionihTokovaStatus === report.extremProfiler.programskiJezikInformacionihTokova.readiness.status, 'SPAJA KOD informational-flow summary mismatch');
+    assert(report.acceptanceCriteria.some((item) => item.id === 'programski-jezik-informacionih-tokova-governance' && item.passed), 'informational-flow acceptance criterion must pass');
+  });
+
   await test('report propagates PETLJE governance into rollout, audit summary, and downstream sync', () => {
     const report = getExtrimliExtrondolReport();
     assert(report.petljeGovernance.term === 'EXTRIMLI EXTRONDOL EXTREM PETLJE', 'petlje governance term mismatch');

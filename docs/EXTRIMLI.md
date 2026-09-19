@@ -1355,3 +1355,14 @@ Downstream note: ako linked repo `spaja86/IO-OPENUI-AO` koristi DUEL KING readin
 - GitHub governance workflow: `.github/workflows/extrimli-external-github.yml`
 - Deploy workflows: `.github/workflows/extrimli-spaja-deploy.yml`, `.github/workflows/extrimli-trance-extrem-deploy.yml`
 - Multi-repo links: `docs/MULTI-REPO-LINKS.md`
+
+## PROGRAMSKI JEZIK INFORMACIONIH TOKOVA
+
+- `PROGRAMSKI JEZIK INFORMACIONIH TOKOVA (upravljanje numeričkih tokova informacija)` je novi additive-only track nad postojećim EXTRIMLI / EXTREM / EXTRONDOL / AI IQ PROGRAMSKI JEZIK modelom.
+- `FOR` i numerički tokovi pripadaju tehničkom signalnom sloju i ostaju vezani za postojeći PETLJE model kao osnovni range/sekvencijalni mehanizam.
+- `DOK + DIK` ostaju EXTREM tehnički dokaz.
+- `DAK + DUK` ostaju EXTRONDOL governance odluka.
+- `SPAJA KOD` ostaje samo audit-safe summary boundary.
+- Jezgrene metrike toka su: stabilnost numeričkog toka, sekvencijalni integritet, drift/konflikt, saturacija/opterećenje i readiness za nastavak obrade.
+- Dozvoljene status klase su `READY | WATCH | BLOCKED`, uz deterministički fallback za `NaN`, `Infinity`, prazne sekvence i nevalidne opsege.
+- `releaseReadinessScorecard`, `canaryRingMetrics`, `contractDriftReport` i `governanceConformance` ostaju zaključani i za ovaj track.

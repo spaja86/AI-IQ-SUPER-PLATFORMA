@@ -160,3 +160,11 @@ Uvodi se pravilo **drift-zero**:
 - Human review je potvrđen
 - Rollback plan + audit summary su kompletni
 - Security i secret-scan disciplina ostaju potvrđeni pre promocije
+
+## PROGRAMSKI JEZIK INFORMACIONIH TOKOVA LOCK
+
+- `PROGRAM_LOCK_SOURCE_OF_TRUTH`: `PROGRAMSKI JEZIK INFORMACIONIH TOKOVA` koristi samo `/api/extrimli/extrem` i `/api/extrimli/extrondol` kao source-of-truth rute.
+- `PROGRAM_LOCK_DRIFT_ZERO`: docs + types + routes + tests + workflows moraju ostati usklađeni za `FOR` signal i `DOK/DIK/DAK/DUK` ownership split.
+- `PROGRAM_LOCK_MACHINE_DOD`: acceptance zahteva deterministički izlaz za iste numeričke tokove, audit-ready konsolidovani status i samo audit-safe downstream reference.
+- `PROGRAMSKI JEZIK PROUČAVANJA`, `PROGRAMSKI EKANALOG` i `PROGRAMSKI JEZIK INFORMACIONIH TOKOVA` dele additive-only governance model bez paralelnog runtime-a.
+- Realization sequence ostaje: documentation lock, contract/type alignment, health/readiness outputs, test + governance conformance, downstream sync + public summary.
