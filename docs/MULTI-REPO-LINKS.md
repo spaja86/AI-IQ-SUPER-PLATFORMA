@@ -1840,3 +1840,10 @@ Koristiti format `AI-IQ-SUPER-PLATFORMA#VPOREKLO-2026-09 -> IO-OPENUI-AO#123` gd
 - Synced status fields: `extremProfiler.programskiJezikInformacionihTokova.readiness`, `programskiJezikInformacionihTokova.status`, `spajaKod.publicSignals.programskiJezikInformacionihTokovaStatus`
 - Ownership lock: `FOR` + numerički tokovi = EXTREM/PETLJE technical source, `DOK/DIK` = EXTREM, `DAK/DUK` = EXTRONDOL, `SPAJA KOD` = public audit-safe summary
 - EXTRIMLI governance conformance audit mora zadržati audit-ready public-safe summary bez otkrivanja internog pattern modela.
+
+
+## EXTRIMLI PROGRAMSKI JEZIK PARADIGMA I OBLIKOVANJE TELA downstream reference
+
+- This repo: `AI-IQ-SUPER-PLATFORMA` — PROGRAMSKI JEZIK PARADIGMA I OBLIKOVANJE TELA additive track over EXTRIMLI/EXTREM/EXTRONDOL
+- Linked repo: `spaja86/IO-OPENUI-AO` — Follow-up only / audit-safe summary sync
+- Sync only audit-safe readiness/governance outputs (`extremProfiler.programskiJezikParadigmaOblikovanjeTela.readiness`, `programskiJezikParadigmaOblikovanjeTela.waweImpact`, `releaseAuditSummary.programskiJezikParadigmaOblikovanjeTelaGovernance`, `spajaKod.publicSignals.programskiJezikParadigmaOblikovanjeTelaStatus`); raw object-state, function-adaptation, delegation, and FOR internals remain repo-local

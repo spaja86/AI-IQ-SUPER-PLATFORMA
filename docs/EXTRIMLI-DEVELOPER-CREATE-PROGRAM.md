@@ -168,3 +168,11 @@ Uvodi se pravilo **drift-zero**:
 - `PROGRAM_LOCK_MACHINE_DOD`: acceptance zahteva deterministički izlaz za iste numeričke tokove, audit-ready konsolidovani status i samo audit-safe downstream reference.
 - `PROGRAMSKI JEZIK PROUČAVANJA`, `PROGRAMSKI EKANALOG` i `PROGRAMSKI JEZIK INFORMACIONIH TOKOVA` dele additive-only governance model bez paralelnog runtime-a.
 - Realization sequence ostaje: documentation lock, contract/type alignment, health/readiness outputs, test + governance conformance, downstream sync + public summary.
+
+
+## PROGRAMSKI JEZIK PARADIGMA I OBLIKOVANJE TELA LOCK
+
+- `PROGRAM_LOCK_SOURCE_OF_TRUTH`: `PROGRAMSKI JEZIK PARADIGMA I OBLIKOVANJE TELA` koristi samo `/api/extrimli/extrem` i `/api/extrimli/extrondol` kao source-of-truth rute.
+- `PROGRAM_LOCK_DRIFT_ZERO`: docs + types + routes + tests + workflows moraju ostati poravnati za `programskiJezikParadigmaOblikovanjeTela` contract, release audit i SPAJA KOD summary.
+- `PROGRAM_LOCK_MACHINE_DOD`: obavezni dokaz ostaju `src/tests/lib/extrimli-extrem.test.ts`, `src/tests/lib/extrimli-extrondol.test.ts`, `src/tests/api/extrimli-route.test.ts` i `.github/workflows/extrimli-governance-conformance.yml`.
+- `PROGRAMSKI JEZIK PARADIGMA I OBLIKOVANJE TELA` deli additive-only governance model sa `PROGRAMSKI JEZIK INFORMACIONIH TOKOVA`, `PROGRAMSKI JEZIK PRETPOSTAVKA`, `PROGRAMSKI JEZIK PROUČAVANJA` i `PROGRAMSKI EKANALOG`.
