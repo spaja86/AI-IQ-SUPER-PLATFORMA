@@ -54,6 +54,7 @@ import {
   getFunkionalnoProgramiranjePravnogMisaonogTokaAdjustment,
   getMetrickoProgramiranjeAdjustment,
   getProgramskiJezikInformacionihTokovaAdjustment,
+  getProgramskiJezikPoProsparitetuDeklasiraneMatriceUEkstaziAdjustment,
   getProgramskiJezikParadigmaOblikovanjeTelaAdjustment,
   getProgramskiJezikPretpostavkaAdjustment,
   getProgramskiJezikSpecijalizovanZaIgriceAdjustment,
@@ -739,6 +740,10 @@ async function runTests(): Promise<void> {
     const programskiJezikPretpostavkaAdjustment = getProgramskiJezikPretpostavkaAdjustment(
       report.extremProfiler.programskiJezikPretpostavka.readiness.status,
     );
+    const programskiJezikPoProsparitetuDeklasiraneMatriceUEkstaziAdjustment =
+      getProgramskiJezikPoProsparitetuDeklasiraneMatriceUEkstaziAdjustment(
+        report.extremProfiler.programskiJezikPoProsparitetuDeklasiraneMatriceUEkstazi.readiness.status,
+      );
     const programskiJezikParadigmaOblikovanjeTelaAdjustment = getProgramskiJezikParadigmaOblikovanjeTelaAdjustment(
       report.extremProfiler.programskiJezikParadigmaOblikovanjeTela.readiness.status,
     );
@@ -779,6 +784,7 @@ async function runTests(): Promise<void> {
           + funkionalnoProgramiranjePravnogMisaonogTokaAdjustment
           + programskiJezikInformacionihTokovaAdjustment
           + programskiJezikPretpostavkaAdjustment
+          + programskiJezikPoProsparitetuDeklasiraneMatriceUEkstaziAdjustment
           + programskiJezikParadigmaOblikovanjeTelaAdjustment
           + programskiJezikSpecijalizovanZaIgriceAdjustment
           + radniTaktMozgaMislilacAdjustment
@@ -857,6 +863,41 @@ async function runTests(): Promise<void> {
     assert(report.b2bReadiness.downstreamSync.syncedFields.includes('programskiJezikPretpostavka'), 'pretpostavka governance field must sync downstream');
     assert(report.spajaKod.publicSignals.programskiJezikPretpostavkaStatus === report.extremProfiler.programskiJezikPretpostavka.readiness.status, 'SPAJA KOD pretpostavka summary mismatch');
     assert(report.acceptanceCriteria.some((item) => item.id === 'programski-jezik-pretpostavka-governance' && item.passed), 'pretpostavka acceptance criterion must pass');
+  });
+
+  await test('report maps PROGRAMSKI JEZIK PO PROSPARITETU DEKLASIRANE MATRICE U EKSTAZI governance into WAWE, audit summary, downstream sync, and SPAJA KOD summary', () => {
+    const report = getExtrimliExtrondolReport();
+    assert(
+      report.programskiJezikPoProsparitetuDeklasiraneMatriceUEkstazi.term
+        === 'PROGRAMSKI JEZIK PO PROSPARITETU DEKLASIRANE MATRICE U EKSTAZI (PREDISPOZIJA EKSTREMNIH GLASOVNIH KOMANDI U ETAPSIKM SENZACIJAMA)',
+      'prosparitet/deklasirane-matrice governance term mismatch',
+    );
+    assert(report.programskiJezikPoProsparitetuDeklasiraneMatriceUEkstazi.technicalSignalSource === '/api/extrimli/extrem', 'prosparitet/deklasirane-matrice governance technical source mismatch');
+    assert(report.programskiJezikPoProsparitetuDeklasiraneMatriceUEkstazi.sourceOfTruth === '/api/extrimli/extrondol', 'prosparitet/deklasirane-matrice governance source mismatch');
+    assert(report.programskiJezikPoProsparitetuDeklasiraneMatriceUEkstazi.ownershipEvidence.prosparitetInputOnly, 'PROSPARITET must stay input-domain-only');
+    assert(report.programskiJezikPoProsparitetuDeklasiraneMatriceUEkstazi.governanceDecisions.dukHumanReviewDecision === 'REQUIRED', 'prosparitet/deklasirane-matrice DUK decision mismatch');
+    assert(
+      report.releaseAuditSummary.programskiJezikPoProsparitetuDeklasiraneMatriceUEkstaziGovernance.status
+        === report.extremProfiler.programskiJezikPoProsparitetuDeklasiraneMatriceUEkstazi.readiness.status,
+      'prosparitet/deklasirane-matrice audit status must mirror EXTREM',
+    );
+    assert(
+      report.b2bReadiness.downstreamSync.syncedFields.includes('extremProfiler.programskiJezikPoProsparitetuDeklasiraneMatriceUEkstazi.readiness.status'),
+      'prosparitet/deklasirane-matrice readiness must sync downstream',
+    );
+    assert(
+      report.b2bReadiness.downstreamSync.syncedFields.includes('programskiJezikPoProsparitetuDeklasiraneMatriceUEkstazi'),
+      'prosparitet/deklasirane-matrice governance field must sync downstream',
+    );
+    assert(
+      report.spajaKod.publicSignals.programskiJezikPoProsparitetuDeklasiraneMatriceUEkstaziStatus
+        === report.extremProfiler.programskiJezikPoProsparitetuDeklasiraneMatriceUEkstazi.readiness.status,
+      'SPAJA KOD prosparitet/deklasirane-matrice summary mismatch',
+    );
+    assert(
+      report.acceptanceCriteria.some((item) => item.id === 'programski-jezik-po-prosparitetu-deklasirane-matrice-u-ekstazi-governance' && item.passed),
+      'prosparitet/deklasirane-matrice acceptance criterion must pass',
+    );
   });
 
   await test('report maps PROGRAMSKI JEZIK PARADIGMA I OBLIKOVANJE TELA governance into WAWE, audit summary, downstream sync, and SPAJA KOD summary', () => {

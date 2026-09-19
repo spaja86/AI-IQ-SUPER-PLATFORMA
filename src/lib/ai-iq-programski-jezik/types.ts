@@ -72,6 +72,12 @@ export interface AiiqLanguageExtrimliIntegrationProfile {
       group: readonly ['PROGRAMSKI JEZIK PRETPOSTAVKA (KLJUČNE INFORMACIJE SA UČINIM OBLIKOM)'];
       role: 'interpretacioni-track';
     };
+    PROSPARITET_DEKLASIRANE_MATRICE_EKSTAZA: {
+      technicalSource: '/api/extrimli/extrem';
+      governanceSource: '/api/extrimli/extrondol';
+      group: readonly ['PROGRAMSKI JEZIK PO PROSPARITETU DEKLASIRANE MATRICE U EKSTAZI (PREDISPOZIJA EKSTREMNIH GLASOVNIH KOMANDI U ETAPSIKM SENZACIJAMA)'];
+      role: 'prosparitet-input-domain-interpretation-track';
+    };
     SINEMETRICKO: {
       technicalSource: '/api/extrimli/extrem';
       governanceSource: '/api/extrimli/extrondol';
@@ -97,6 +103,7 @@ export interface AiiqLanguageExtrimliIntegrationProfile {
     duk: AiiqIntegrationSignalStatus;
     forInformacioniTokovi: AiiqIntegrationSignalStatus;
     pretpostavka: AiiqIntegrationSignalStatus;
+    prosparitetDeklasiraneMatriceEkstaza: AiiqIntegrationSignalStatus;
     programskiJezikSpecijalizovanZaIgrice: AiiqIntegrationSignalStatus;
     sinemetricko: AiiqIntegrationSignalStatus;
     overall: AiiqIntegrationSignalStatus;
@@ -180,6 +187,38 @@ export interface AiiqLanguageExtrimliIntegrationProfile {
         actionShapeDeterminismScore: number;
         driftConflictScore: number;
         saturationLoadScore: number;
+        continuationReadinessScore: number;
+      };
+      reasons: string[];
+    };
+    programskiJezikPoProsparitetuDeklasiraneMatriceUEkstazi: {
+      canonicalName: 'PROGRAMSKI JEZIK PO PROSPARITETU DEKLASIRANE MATRICE U EKSTAZI (PREDISPOZIJA EKSTREMNIH GLASOVNIH KOMANDI U ETAPSIKM SENZACIJAMA)';
+      additiveOnlyProfile: 'EXTRIMLI-EXTRONDOL-EXTREM';
+      dslProfile: 'prosparitet-deklasirane-matrice-ekstaza-dsl';
+      sourceOfTruthRoutes: readonly ['/api/extrimli/extrem', '/api/extrimli/extrondol'];
+      ownershipSplit: {
+        forPetlja: 'EXTREM';
+        dokDik: 'EXTREM';
+        dakDuk: 'EXTRONDOL';
+        spajaKod: 'audit-safe-summary-only';
+        prosparitet: 'input-domain-only';
+      };
+      unifiedStatus: AiiqIntegrationSignalStatus;
+      deterministicFallbackRequired: boolean;
+      explainabilityModel: 'existing-ai-iq-guardrails';
+      guardrailMode: 'deterministic-fallback';
+      semantics: {
+        prosparitet: string;
+        deklasiraneMatrice: string;
+        glasovneKomande: string;
+        etapsikmSenzacije: string;
+      };
+      metrics: {
+        deklasiraneMatriceReadinessScore: number;
+        prosparitetAlignmentScore: number;
+        glasovneKomandePredispozicijaScore: number;
+        etapsikmSenzacijeStageCohesionScore: number;
+        driftConflictScore: number;
         continuationReadinessScore: number;
       };
       reasons: string[];

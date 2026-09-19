@@ -260,6 +260,14 @@ v1 je spreman za downstream sinhronizaciju prema `spaja86/IO-OPENUI-AO` kroz:
 - `FOR + DOK + DIK` ostaju EXTREM tehnički dokaz, dok `DAK + DUK` ostaju EXTRONDOL governance odluka.
 - Dozvoljene status klase su `READY | WATCH | BLOCKED`, a postojeći explainability/guardrail/fallback okvir ostaje jedini javni model izlaganja.
 
+## PROGRAMSKI JEZIK PO PROSPARITETU DEKLASIRANE MATRICE U EKSTAZI
+
+- `PROGRAMSKI JEZIK PO PROSPARITETU DEKLASIRANE MATRICE U EKSTAZI (PREDISPOZIJA EKSTREMNIH GLASOVNIH KOMANDI U ETAPSIKM SENZACIJAMA)` je additive-only interpretacioni DSL profil unutar postojećeg `EXTRIMLI-EXTRONDOL-EXTREM` modela.
+- Novi track dobija jasno signal-mapping mesto uz `FOR`, `PROGRAMSKI JEZIK INFORMACIONIH TOKOVA`, `PRETPOSTAVKA` i gaming profile, bez uvođenja nove runtime rute ili novog source-of-truth surface-a.
+- `PROSPARITET` ostaje input-domain-only ulaz u AI IQ explainability sloj; `DOK + DIK + FOR` ostaju EXTREM tehnički dokaz, dok `DAK + DUK` ostaju EXTRONDOL governance odluka.
+- Explainability razlozi ostaju zaključani na readiness deklasiranih matrica, prosparitet alignment, predispoziciju glasovnih komandi, etapsikm stage-cohesion i drift/conflict signal.
+- Konsolidovani status ovog track-a ulazi u `dokDikDakDukConsistencyHealth`, uz iste status klase `READY | WATCH | BLOCKED` i obavezni deterministic fallback za `NaN`, `Infinity`, prazne/nevalidne signale, nevalidne sekvence i out-of-range procente.
+
 
 ## PROGRAMSKI JEZIK PARADIGMA I OBLIKOVANJE TELA
 

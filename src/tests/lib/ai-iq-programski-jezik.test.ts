@@ -33,6 +33,27 @@ function assert(condition: boolean, message: string): void {
   if (!condition) throw new Error(message);
 }
 
+async function withEnv<T>(
+  overrides: Record<string, string | undefined>,
+  fn: () => Promise<T> | T,
+): Promise<T> {
+  const previousEntries = Object.entries(overrides).map(([key]) => [key, process.env[key]] as const);
+
+  for (const [key, value] of Object.entries(overrides)) {
+    if (typeof value === 'undefined') delete process.env[key];
+    else process.env[key] = value;
+  }
+
+  try {
+    return await fn();
+  } finally {
+    for (const [key, value] of previousEntries) {
+      if (typeof value === 'undefined') delete process.env[key];
+      else process.env[key] = value;
+    }
+  }
+}
+
 async function runTests(): Promise<void> {
   _resetAiiqLanguageMetrics();
 
@@ -105,6 +126,8 @@ async function runTests(): Promise<void> {
     assert(first.integrationProfile.dokDikDakDukConsistencyHealth.programskiJezikInformacionihTokova.dslProfile === 'interpretacioni-orkestracioni-dsl', 'informational-flow DSL profile mismatch');
     assert(first.integrationProfile.dokDikDakDukConsistencyHealth.programskiJezikPretpostavka.canonicalName === 'PROGRAMSKI JEZIK PRETPOSTAVKA (KLJUČNE INFORMACIJE SA UČINIM OBLIKOM)', 'pretpostavka canonical name mismatch');
     assert(first.integrationProfile.dokDikDakDukConsistencyHealth.programskiJezikPretpostavka.dslProfile === 'interpretacioni-pretpostavka-dsl', 'pretpostavka DSL profile mismatch');
+    assert(first.integrationProfile.dokDikDakDukConsistencyHealth.programskiJezikPoProsparitetuDeklasiraneMatriceUEkstazi.canonicalName === 'PROGRAMSKI JEZIK PO PROSPARITETU DEKLASIRANE MATRICE U EKSTAZI (PREDISPOZIJA EKSTREMNIH GLASOVNIH KOMANDI U ETAPSIKM SENZACIJAMA)', 'prosparitet/deklasirane-matrice canonical name mismatch');
+    assert(first.integrationProfile.dokDikDakDukConsistencyHealth.programskiJezikPoProsparitetuDeklasiraneMatriceUEkstazi.ownershipSplit.prosparitet === 'input-domain-only', 'PROSPARITET ownership split mismatch');
     assert(first.integrationProfile.dokDikDakDukConsistencyHealth.programskiJezikSpecijalizovanZaIgrice.canonicalName === 'PROGRAMSKI JEZIK SPECIJALIZOVAN ZA IGRICE', 'gaming DSL canonical name mismatch');
     assert(first.integrationProfile.dokDikDakDukConsistencyHealth.programskiJezikSpecijalizovanZaIgrice.dslProfile === 'gaming-specijalizovani-dsl', 'gaming DSL profile mismatch');
     assert(first.integrationProfile.dokDikDakDukConsistencyHealth.programskiJezikSpecijalizovanZaIgrice.gamingDomain.consumerAnchors.join(',') === 'src/lib/igrice.ts,src/lib/gaming-endzin.ts', 'gaming DSL anchors mismatch');
@@ -116,6 +139,7 @@ async function runTests(): Promise<void> {
     assert(first.integrationProfile.dokDikDakDukConsistencyHealth.programskiJezikApstrakcija.rolloutPlan.phase1 === 'documentation-lock-and-contract-model', 'apstrakcija rollout phase1 mismatch');
     assert(first.integrationProfile.dokDikDakDukConsistencyHealth.programskiJezikApstrakcija.rolloutPlan.phase4 === 'downstream-sync-and-audit-safe-summary', 'apstrakcija rollout phase4 mismatch');
     assert(['READY', 'WATCH', 'BLOCKED'].includes(first.integrationProfile.unifiedSignalStatus.pretpostavka), 'pretpostavka status must be bounded');
+    assert(['READY', 'WATCH', 'BLOCKED'].includes(first.integrationProfile.unifiedSignalStatus.prosparitetDeklasiraneMatriceEkstaza), 'prosparitet/deklasirane-matrice status must be bounded');
     assert(['READY', 'WATCH', 'BLOCKED'].includes(first.integrationProfile.unifiedSignalStatus.programskiJezikSpecijalizovanZaIgrice), 'gaming DSL status must be bounded');
     assert(first.integrationProfile.acceptanceCriteria.preserveDokDikDakDukContract, 'DOK/DIK/DAK/DUK contract lock must stay enabled');
     assert(first.integrationProfile.acceptanceCriteria.sinemetrickoAdditiveInput, 'sinemetricko additive input lock must stay enabled');
@@ -175,6 +199,49 @@ async function runTests(): Promise<void> {
 
     assert(result.valid, 'result should remain valid');
     assert(result.status === 'BLOCKED', `expected BLOCKED, got ${result.status}`);
+  });
+
+  await test('overall follows prosparitet deklasirane matrice track WATCH and BLOCKED transitions', async () => {
+    const input = {
+      referenceId: 'eval-prosparitet-overall',
+      goal: 'AI-native orkestracija prompta i pravila',
+      mode: 'HYBRID' as const,
+      promptComplexity: 84,
+      ruleCoverage: 86,
+      orchestrationReadiness: 82,
+      autonomyLevel: 79,
+      riskLevel: 28,
+      explainabilityNeed: 90,
+      securityPolicyScore: 88,
+      fallbackConfigured: true,
+    };
+
+    const baseline = evaluateAiiqLanguage(input);
+    assert(baseline.integrationProfile.unifiedSignalStatus.prosparitetDeklasiraneMatriceEkstaza === 'READY', 'baseline prosparitet/deklasirane-matrice track should be READY');
+    assert(baseline.integrationProfile.unifiedSignalStatus.overall === 'READY', 'baseline overall integration status should be READY');
+
+    const watchResult = await withEnv(
+      {
+        EXTRIMLI_EXTREM_PROGRAMSKI_JEZIK_PO_PROSPARITETU_DEKLASIRANE_MATRICE_U_EKSTAZI_DEKLASIRANE_MATRICE_READINESS_PERCENT: '70',
+        EXTRIMLI_EXTREM_PROGRAMSKI_JEZIK_PO_PROSPARITETU_DEKLASIRANE_MATRICE_U_EKSTAZI_PROSPARITET_ALIGNMENT_PERCENT: '70',
+        EXTRIMLI_EXTREM_PROGRAMSKI_JEZIK_PO_PROSPARITETU_DEKLASIRANE_MATRICE_U_EKSTAZI_GLASOVNE_KOMANDE_PREDISPOZICIJA_PERCENT: '70',
+        EXTRIMLI_EXTREM_PROGRAMSKI_JEZIK_PO_PROSPARITETU_DEKLASIRANE_MATRICE_U_EKSTAZI_ETAPSIKM_SENZACIJE_STAGE_COHESION_PERCENT: '70',
+        EXTRIMLI_EXTREM_PROGRAMSKI_JEZIK_PO_PROSPARITETU_DEKLASIRANE_MATRICE_U_EKSTAZI_DRIFT_CONFLICT_PERCENT: '28',
+        EXTRIMLI_EXTREM_PROGRAMSKI_JEZIK_PO_PROSPARITETU_DEKLASIRANE_MATRICE_U_EKSTAZI_CONTINUATION_READINESS_PERCENT: '70',
+      },
+      () => evaluateAiiqLanguage(input),
+    );
+    assert(watchResult.integrationProfile.unifiedSignalStatus.prosparitetDeklasiraneMatriceEkstaza === 'WATCH', `expected WATCH prosparitet/deklasirane-matrice status, got ${watchResult.integrationProfile.unifiedSignalStatus.prosparitetDeklasiraneMatriceEkstaza}`);
+    assert(watchResult.integrationProfile.unifiedSignalStatus.overall === 'WATCH', `expected WATCH overall integration status, got ${watchResult.integrationProfile.unifiedSignalStatus.overall}`);
+
+    const blockedResult = await withEnv(
+      {
+        EXTRIMLI_EXTREM_PROGRAMSKI_JEZIK_PO_PROSPARITETU_DEKLASIRANE_MATRICE_U_EKSTAZI_FOR_MULTIPLIER: '0',
+      },
+      () => evaluateAiiqLanguage(input),
+    );
+    assert(blockedResult.integrationProfile.unifiedSignalStatus.prosparitetDeklasiraneMatriceEkstaza === 'BLOCKED', `expected BLOCKED prosparitet/deklasirane-matrice status, got ${blockedResult.integrationProfile.unifiedSignalStatus.prosparitetDeklasiraneMatriceEkstaza}`);
+    assert(blockedResult.integrationProfile.unifiedSignalStatus.overall === 'BLOCKED', `expected BLOCKED overall integration status, got ${blockedResult.integrationProfile.unifiedSignalStatus.overall}`);
   });
 
   console.log('\n🧠 [ai-iq-programski-jezik] compile');

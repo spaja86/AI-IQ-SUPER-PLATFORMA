@@ -26,6 +26,7 @@ import {
   EXTRIMLI_EXTREM_PARADIJOGONALNO_PROGRIMIRANJE_CONTRACT_VERSION,
   EXTRIMLI_EXTREM_FUNKIONALNO_PROGRAMIRANJE_PRAVNOG_MISAONOG_TOKA_CONTRACT_VERSION,
   EXTRIMLI_EXTREM_PROGRAMSKI_JEZIK_INFORMACIONIH_TOKOVA_CONTRACT_VERSION,
+  EXTRIMLI_EXTREM_PROGRAMSKI_JEZIK_PO_PROSPARITETU_DEKLASIRANE_MATRICE_U_EKSTAZI_CONTRACT_VERSION,
   EXTRIMLI_EXTREM_PROGRAMSKI_JEZIK_PARADIGMA_OBLIKOVANJE_TELA_CONTRACT_VERSION,
   EXTRIMLI_EXTREM_PROGRAMSKI_JEZIK_PRETPOSTAVKA_CONTRACT_VERSION,
   EXTRIMLI_EXTREM_PROGRAMSKI_JEZIK_SPECIJALIZOVAN_ZA_IGRICE_CONTRACT_VERSION,
@@ -757,6 +758,60 @@ export interface ExtrimliExtrondolProgramskiJezikPretpostavkaGovernance {
   reasons: string[];
 }
 
+export interface ExtrimliExtrondolProgramskiJezikPoProsparitetuDeklasiraneMatriceUEkstaziGovernance {
+  term: 'PROGRAMSKI JEZIK PO PROSPARITETU DEKLASIRANE MATRICE U EKSTAZI (PREDISPOZIJA EKSTREMNIH GLASOVNIH KOMANDI U ETAPSIKM SENZACIJAMA)';
+  sourceOfTruth: '/api/extrimli/extrondol';
+  technicalSignalSource: '/api/extrimli/extrem';
+  contractVersion: typeof EXTRONDOL_PROGRAMSKI_JEZIK_PO_PROSPARITETU_DEKLASIRANE_MATRICE_U_EKSTAZI_CONTRACT_VERSION;
+  additiveOnly: true;
+  status: ExtrimliExtremProfilerReport['programskiJezikPoProsparitetuDeklasiraneMatriceUEkstazi']['readiness']['status'];
+  readinessScore: number;
+  governanceVisibility: 'audit-safe-readiness-only';
+  flowMetrics: {
+    forStatus: ExtrimliExtremProfilerReport['programskiJezikPoProsparitetuDeklasiraneMatriceUEkstazi']['forLoopBinding']['forEvidence']['status'];
+    dokStatus: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['signals']['dok']['status'];
+    dikStatus: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['signals']['dik']['status'];
+    deterministicFallbackRequired: boolean;
+  };
+  semantics: {
+    prosparitet: string;
+    deklasiraneMatrice: string;
+    glasovneKomande: string;
+    etapsikmSenzacije: string;
+  };
+  governanceDecisions: {
+    dakPromotionDecision: 'PROMOTE' | 'HOLD';
+    dukHumanReviewDecision: 'REQUIRED' | 'OPTIONAL';
+  };
+  ownershipModel: {
+    prosparitet: 'repo-local-input-domain-only';
+    extrem: 'technical-readiness-signal';
+    extrondol: 'wawe-governance-audit-consumer';
+    spajaKod: 'public-audit-safe-summary';
+  };
+  ownershipEvidence: {
+    prosparitetInputOnly: true;
+    forTechnical: true;
+    dokTechnical: true;
+    dikTechnical: true;
+    dakDeferredToGovernance: true;
+    dukDeferredToGovernance: true;
+  };
+  waweImpact: {
+    currentWawe: ExtrimliExtrondolWaweStage;
+    eligibleNextWawe: ExtrimliExtrondolWaweStage;
+    promotionFreeze: boolean;
+    reviewRequiredBeforeWideRollout: boolean;
+  };
+  auditCoupling: {
+    releaseAuditSummaryRequired: true;
+    humanReviewRequired: true;
+    rollbackPlanRequired: true;
+    downstreamSyncRequired: true;
+  };
+  reasons: string[];
+}
+
 export interface ExtrimliExtrondolProgramskiJezikParadigmaOblikovanjeTelaGovernance {
   term: 'PROGRAMSKI JEZIK PARADIGMA I OBLIKOVANJE TELA (OBJEKAT U SISTEMU, ADAPTACIJA SA FUNKCIJAMA)';
   sourceOfTruth: '/api/extrimli/extrondol';
@@ -1273,6 +1328,22 @@ export interface ExtrimliExtrondolReleaseAuditSummary {
     blockerReasons: string[];
     watchReasons: string[];
   };
+  programskiJezikPoProsparitetuDeklasiraneMatriceUEkstaziGovernance: {
+    sourceOfTruth: '/api/extrimli/extrem';
+    status: ExtrimliExtremProfilerReport['programskiJezikPoProsparitetuDeklasiraneMatriceUEkstazi']['readiness']['status'];
+    readinessScore: number;
+    deklasiraneMatriceReadinessScore: number;
+    prosparitetAlignmentScore: number;
+    glasovneKomandePredispozicijaScore: number;
+    etapsikmSenzacijeStageCohesionScore: number;
+    driftConflictScore: number;
+    continuationReadinessScore: number;
+    forStatus: ExtrimliExtremProfilerReport['programskiJezikPoProsparitetuDeklasiraneMatriceUEkstazi']['forLoopBinding']['forEvidence']['status'];
+    deterministicFallbackRequired: boolean;
+    reviewRequiredBeforeWideRollout: boolean;
+    blockerReasons: string[];
+    watchReasons: string[];
+  };
   programskiJezikParadigmaOblikovanjeTelaGovernance: {
     sourceOfTruth: '/api/extrimli/extrem';
     status: ExtrimliExtremProfilerReport['programskiJezikParadigmaOblikovanjeTela']['readiness']['status'];
@@ -1579,6 +1650,7 @@ export interface ExtrimliExtrondolStartProject {
     'extremProfiler.funkcionalnoProgramiranjePravednogMisaonogToka',
     'extremProfiler.programskiJezikInformacionihTokova',
     'extremProfiler.programskiJezikPretpostavka',
+    'extremProfiler.programskiJezikPoProsparitetuDeklasiraneMatriceUEkstazi',
     'extremProfiler.programskiJezikParadigmaOblikovanjeTela',
     'extremProfiler.programskiJezikSpecijalizovanZaIgrice',
     'extremProfiler.metrikoProgramiranje',
@@ -1797,6 +1869,7 @@ export interface ExtrimliSpajaKodPublicFacade {
     funkionalnoProgramiranjePravnogMisaonogTokaStatus: ExtrimliExtremProfilerReport['funkionalnoProgramiranjePravnogMisaonogToka']['readiness']['status'];
     programskiJezikInformacionihTokovaStatus: ExtrimliExtremProfilerReport['programskiJezikInformacionihTokova']['readiness']['status'];
     programskiJezikPretpostavkaStatus: ExtrimliExtremProfilerReport['programskiJezikPretpostavka']['readiness']['status'];
+    programskiJezikPoProsparitetuDeklasiraneMatriceUEkstaziStatus: ExtrimliExtremProfilerReport['programskiJezikPoProsparitetuDeklasiraneMatriceUEkstazi']['readiness']['status'];
     programskiJezikParadigmaOblikovanjeTelaStatus: ExtrimliExtremProfilerReport['programskiJezikParadigmaOblikovanjeTela']['readiness']['status'];
     programskiJezikSpecijalizovanZaIgriceStatus: ExtrimliExtremProfilerReport['programskiJezikSpecijalizovanZaIgrice']['readiness']['status'];
     metrikoProgramiranjeStatus: ExtrimliExtremProfilerReport['metrikoProgramiranje']['readiness']['status'];
@@ -1859,6 +1932,7 @@ export interface ExtrimliExtrondolReport {
   funkionalnoProgramiranjePravnogMisaonogToka: ExtrimliExtrondolFunkionalnoProgramiranjePravnogMisaonogTokaGovernance;
   programskiJezikInformacionihTokova: ExtrimliExtrondolProgramskiJezikInformacionihTokovaGovernance;
   programskiJezikPretpostavka: ExtrimliExtrondolProgramskiJezikPretpostavkaGovernance;
+  programskiJezikPoProsparitetuDeklasiraneMatriceUEkstazi: ExtrimliExtrondolProgramskiJezikPoProsparitetuDeklasiraneMatriceUEkstaziGovernance;
   programskiJezikParadigmaOblikovanjeTela: ExtrimliExtrondolProgramskiJezikParadigmaOblikovanjeTelaGovernance;
   programskiJezikSpecijalizovanZaIgrice: ExtrimliExtrondolProgramskiJezikSpecijalizovanZaIgriceGovernance;
   metrikoProgramiranje: ExtrimliExtrondolMetrickoProgramiranjeGovernance;
@@ -1963,6 +2037,11 @@ export const EXTRONDOL_PROGRAMSKI_JEZIK_PRETPOSTAVKA_CONTRACT_VERSION = EXTRIMLI
 export const EXTRONDOL_PROGRAMSKI_JEZIK_PRETPOSTAVKA_READY_ADJUSTMENT = 2;
 export const EXTRONDOL_PROGRAMSKI_JEZIK_PRETPOSTAVKA_WATCH_ADJUSTMENT = -6;
 export const EXTRONDOL_PROGRAMSKI_JEZIK_PRETPOSTAVKA_BLOCKED_ADJUSTMENT = -15;
+export const EXTRONDOL_PROGRAMSKI_JEZIK_PO_PROSPARITETU_DEKLASIRANE_MATRICE_U_EKSTAZI_CONTRACT_VERSION =
+  EXTRIMLI_EXTREM_PROGRAMSKI_JEZIK_PO_PROSPARITETU_DEKLASIRANE_MATRICE_U_EKSTAZI_CONTRACT_VERSION;
+export const EXTRONDOL_PROGRAMSKI_JEZIK_PO_PROSPARITETU_DEKLASIRANE_MATRICE_U_EKSTAZI_READY_ADJUSTMENT = 2;
+export const EXTRONDOL_PROGRAMSKI_JEZIK_PO_PROSPARITETU_DEKLASIRANE_MATRICE_U_EKSTAZI_WATCH_ADJUSTMENT = -6;
+export const EXTRONDOL_PROGRAMSKI_JEZIK_PO_PROSPARITETU_DEKLASIRANE_MATRICE_U_EKSTAZI_BLOCKED_ADJUSTMENT = -15;
 export const EXTRONDOL_PROGRAMSKI_JEZIK_PARADIGMA_OBLIKOVANJE_TELA_CONTRACT_VERSION = EXTRIMLI_EXTREM_PROGRAMSKI_JEZIK_PARADIGMA_OBLIKOVANJE_TELA_CONTRACT_VERSION;
 export const EXTRONDOL_PROGRAMSKI_JEZIK_PARADIGMA_OBLIKOVANJE_TELA_READY_ADJUSTMENT = 2;
 export const EXTRONDOL_PROGRAMSKI_JEZIK_PARADIGMA_OBLIKOVANJE_TELA_WATCH_ADJUSTMENT = -6;
