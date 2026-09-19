@@ -244,7 +244,7 @@ export interface ExtrimliExtrondolB2bReadiness {
       watchReasons: string[];
     };
     objektnoOrijentisanaReprodukcijaGovernance: {
-      sourceOfTruth: '/api/extrimli/extrondol';
+      sourceOfTruth: '/api/extrimli/extrem';
       status: ExtrimliExtremProfilerReport['objektnoOrijentisanaReprodukcija']['readiness']['status'];
       readinessScore: number;
       reviewRequiredBeforeWideRollout: boolean;
