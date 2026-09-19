@@ -108,7 +108,7 @@ export interface ExtrimliExtremFunkcinalnoProgramiranjeEnergetskogMisaonogTokaSi
     canonicalName: 'FUNKCINALNO PROGRAMIRANJE ENERGETSKOG MISAONOG TOKA';
     statement: string;
     interpretationLayer: 'technical-signal';
-    existingContractBeforeThisChange: false;
+    existingContractBeforeThisChange: true;
     aliasesOfExistingSurfaces: false;
   };
   ownershipModel: {
