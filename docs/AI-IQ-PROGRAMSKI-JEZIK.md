@@ -54,10 +54,12 @@ Podržani keyword-i:
   - `/api/extrimli/extrondol` (WAWE/governance sloj)
 
 Signal mapiranje:
+- `DOK` → EXTREM `DOKER PETLJA`
 - `DOM` → EXTREM PETLJE DOM grupa (`DOMPRE`, `DOMBRE`, `DOMBRA`, `DOMBAR`, `DOMPOR`)
 - `DIK` → EXTREM `DIK PETLJA`
 - `DAK` → EXTRONDOL promocioni tok (`DAKOR`)
 - `DUK` → EXTRONDOL human-review tok (`DUKAR`)
+- `FOR` → EXTREM/EXTRONDOL sekvencijalni numerički tok (`FOR PETLJA`, `PROGRAMSKI JEZIK INFORMACIONIH TOKOVA`)
 
 PROGRAMSKI JEZIK ANALIZA (ispitivanje eskalacije kodesnog zapleta):
 - additive-only pod-profil unutar `EXTRIMLI-EXTRONDOL-EXTREM`
@@ -267,6 +269,14 @@ v1 je spreman za downstream sinhronizaciju prema `spaja86/IO-OPENUI-AO` kroz:
 - `PROSPARITET` ostaje input-domain-only ulaz u AI IQ explainability sloj; `DOK + DIK + FOR` ostaju EXTREM tehnički dokaz, dok `DAK + DUK` ostaju EXTRONDOL governance odluka.
 - Explainability razlozi ostaju zaključani na readiness deklasiranih matrica, prosparitet alignment, predispoziciju glasovnih komandi, etapsikm stage-cohesion i drift/conflict signal.
 - Konsolidovani status ovog track-a ulazi u `dokDikDakDukConsistencyHealth`, uz iste status klase `READY | WATCH | BLOCKED` i obavezni deterministic fallback za `NaN`, `Infinity`, prazne/nevalidne signale, nevalidne sekvence i out-of-range procente.
+
+## PROGRAMSKI JEZIK DEKORACIJE OBJEKTNIH PRIMESA
+
+- `PROGRAMSKI JEZIK DEKORACIJE OBJEKTNIH PRIMESA (BROJČANI ZUPČANIK PETLJI U EKSTAZNOM OBLIKU ŠPEDICIJE – SVESTRANOST U SVESTRANOSTI)` je additive-only traka unutar postojećeg `EXTRIMLI-EXTRONDOL-EXTREM` modela.
+- Ownership split je zaključan bez novih source-of-truth ruta: `DOK/DIK/FOR` tehnički signal ostaje u EXTREM sloju, `DAK/DUK` governance signal ostaje u EXTRONDOL sloju, a SPAJA KOD izlaže samo audit-safe zbirni status.
+- Formalna semantika trake je zaključana: `dekoracije objektnih primesa` = objektno-funkcionalni signalni domen, `brojčani zupčanik petlji` = FOR-sekvencijalni stabilizacioni sloj.
+- Konsolidovani izlaz ostaje `READY | WATCH | BLOCKED`, uz obavezan deterministic fallback za `NaN`, `Infinity`, out-of-range vrednosti i nevalidne sekvence.
+- Explainability u AI IQ sloju mora zadržati mapiranje `DOK/DIK/DAK/DUK/FOR`, release audit trag i downstream referencu ka `spaja86/IO-OPENUI-AO` bez curenja internih tehničkih detalja.
 
 
 ## PROGRAMSKI JEZIK PARADIGMA I OBLIKOVANJE TELA

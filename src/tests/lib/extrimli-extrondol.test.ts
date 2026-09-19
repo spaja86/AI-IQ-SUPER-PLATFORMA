@@ -54,6 +54,7 @@ import {
   getFunkionalnoProgramiranjePravnogMisaonogTokaAdjustment,
   getMetrickoProgramiranjeAdjustment,
   getProgramskiJezikInformacionihTokovaAdjustment,
+  getProgramskiJezikDekoracijeObjektnihPrimesaAdjustment,
   getProgramskiJezikPoProsparitetuDeklasiraneMatriceUEkstaziAdjustment,
   getProgramskiJezikParadigmaOblikovanjeTelaAdjustment,
   getProgramskiJezikPretpostavkaAdjustment,
@@ -747,6 +748,9 @@ async function runTests(): Promise<void> {
     const programskiJezikParadigmaOblikovanjeTelaAdjustment = getProgramskiJezikParadigmaOblikovanjeTelaAdjustment(
       report.extremProfiler.programskiJezikParadigmaOblikovanjeTela.readiness.status,
     );
+    const programskiJezikDekoracijeObjektnihPrimesaAdjustment = getProgramskiJezikDekoracijeObjektnihPrimesaAdjustment(
+      report.extremProfiler.programskiJezikDekoracijeObjektnihPrimesa.readiness.status,
+    );
     const programskiJezikSpecijalizovanZaIgriceAdjustment = getProgramskiJezikSpecijalizovanZaIgriceAdjustment(
       report.extremProfiler.programskiJezikSpecijalizovanZaIgrice.readiness.status,
     );
@@ -786,6 +790,7 @@ async function runTests(): Promise<void> {
           + programskiJezikPretpostavkaAdjustment
           + programskiJezikPoProsparitetuDeklasiraneMatriceUEkstaziAdjustment
           + programskiJezikParadigmaOblikovanjeTelaAdjustment
+          + programskiJezikDekoracijeObjektnihPrimesaAdjustment
           + programskiJezikSpecijalizovanZaIgriceAdjustment
           + radniTaktMozgaMislilacAdjustment
           + metrikoProgramiranjeAdjustment
@@ -897,6 +902,41 @@ async function runTests(): Promise<void> {
     assert(
       report.acceptanceCriteria.some((item) => item.id === 'programski-jezik-po-prosparitetu-deklasirane-matrice-u-ekstazi-governance' && item.passed),
       'prosparitet/deklasirane-matrice acceptance criterion must pass',
+    );
+  });
+
+  await test('report maps PROGRAMSKI JEZIK DEKORACIJE OBJEKTNIH PRIMESA governance into WAWE, audit summary, downstream sync, and SPAJA KOD summary', () => {
+    const report = getExtrimliExtrondolReport();
+    assert(
+      report.programskiJezikDekoracijeObjektnihPrimesa.term
+        === 'PROGRAMSKI JEZIK DEKORACIJE OBJEKTNIH PRIMESA (BROJČANI ZUPČANIK PETLJI U EKSTAZNOM OBLIKU ŠPEDICIJE – SVESTRANOST U SVESTRANOSTI)',
+      'dekoracije-objektnih-primesa governance term mismatch',
+    );
+    assert(report.programskiJezikDekoracijeObjektnihPrimesa.technicalSignalSource === '/api/extrimli/extrem', 'dekoracije-objektnih-primesa technical source mismatch');
+    assert(report.programskiJezikDekoracijeObjektnihPrimesa.sourceOfTruth === '/api/extrimli/extrondol', 'dekoracije-objektnih-primesa governance source mismatch');
+    assert(report.programskiJezikDekoracijeObjektnihPrimesa.ownershipModel.extrem === 'technical-object-primes-decoration-signal', 'dekoracije-objektnih-primesa EXTREM ownership mismatch');
+    assert(report.programskiJezikDekoracijeObjektnihPrimesa.ownershipModel.extrondol === 'wawe-orchestration-audit-consumer', 'dekoracije-objektnih-primesa EXTRONDOL ownership mismatch');
+    assert(
+      report.releaseAuditSummary.programskiJezikDekoracijeObjektnihPrimesaGovernance.status
+        === report.extremProfiler.programskiJezikDekoracijeObjektnihPrimesa.readiness.status,
+      'dekoracije-objektnih-primesa audit status must mirror EXTREM',
+    );
+    assert(
+      report.b2bReadiness.downstreamSync.syncedFields.includes('extremProfiler.programskiJezikDekoracijeObjektnihPrimesa.readiness.status'),
+      'dekoracije-objektnih-primesa readiness must sync downstream',
+    );
+    assert(
+      report.b2bReadiness.downstreamSync.syncedFields.includes('programskiJezikDekoracijeObjektnihPrimesa'),
+      'dekoracije-objektnih-primesa governance field must sync downstream',
+    );
+    assert(
+      report.spajaKod.publicSignals.programskiJezikDekoracijeObjektnihPrimesaStatus
+        === report.extremProfiler.programskiJezikDekoracijeObjektnihPrimesa.readiness.status,
+      'SPAJA KOD dekoracije-objektnih-primesa summary mismatch',
+    );
+    assert(
+      report.acceptanceCriteria.some((item) => item.id === 'programski-jezik-dekoracije-objektnih-primesa-governance' && item.passed),
+      'dekoracije-objektnih-primesa acceptance criterion must pass',
     );
   });
 

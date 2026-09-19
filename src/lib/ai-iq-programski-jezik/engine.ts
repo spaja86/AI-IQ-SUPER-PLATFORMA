@@ -40,6 +40,7 @@ let lastEvaluatedAt: string | null = null;
 type ExtremInformationalFlowSignal = ReturnType<typeof getExtrimliExtremProfilerReport>['programskiJezikInformacionihTokova'];
 type ExtremPretpostavkaSignal = ReturnType<typeof getExtrimliExtremProfilerReport>['programskiJezikPretpostavka'];
 type ExtremProsparitetDeklasiraneMatriceEkstazaSignal = ReturnType<typeof getExtrimliExtremProfilerReport>['programskiJezikPoProsparitetuDeklasiraneMatriceUEkstazi'];
+type ExtremDekoracijeObjektnihPrimesaSignal = ReturnType<typeof getExtrimliExtremProfilerReport>['programskiJezikDekoracijeObjektnihPrimesa'];
 type ExtremGamingDslSignal = ReturnType<typeof getExtrimliExtremProfilerReport>['programskiJezikSpecijalizovanZaIgrice'];
 
 const DOM_GROUP = ['DOMPRE PETLJA', 'DOMBRE PETLJA', 'DOMBRA PETLJA', 'DOMBAR PETLJA', 'DOMPOR PETLJA'] as const;
@@ -190,6 +191,7 @@ function buildIntegrationProfile(params: {
   promotionFreeze: boolean;
   performanceWithinTargets: boolean;
   securityBoundariesPreserved: boolean;
+  dokStatus: AiiqIntegrationSignalStatus;
   informationalFlowSignalStatus: AiiqIntegrationSignalStatus;
   informationalFlowReadinessScore: number;
   pretpostavkaSignalStatus: AiiqIntegrationSignalStatus;
@@ -198,6 +200,9 @@ function buildIntegrationProfile(params: {
   prosparitetDeklasiraneMatriceEkstazaSignalStatus: AiiqIntegrationSignalStatus;
   prosparitetDeklasiraneMatriceEkstazaReadinessScore: number;
   prosparitetDeklasiraneMatriceEkstazaTechnicalSignals: ExtremProsparitetDeklasiraneMatriceEkstazaSignal['technicalSignals'];
+  dekoracijeObjektnihPrimesaSignalStatus: AiiqIntegrationSignalStatus;
+  dekoracijeObjektnihPrimesaReadinessScore: number;
+  dekoracijeObjektnihPrimesaTechnicalSignals: ExtremDekoracijeObjektnihPrimesaSignal['technicalSignals'];
   gamingDslSignalStatus: AiiqIntegrationSignalStatus;
   gamingDslReadinessScore: number;
   gamingDslSignals: ExtremGamingDslSignal['gamingDomainCoverage'];
@@ -216,9 +221,11 @@ function buildIntegrationProfile(params: {
   const informacioniTokovi = params.informationalFlowSignalStatus;
   const pretpostavka = params.pretpostavkaSignalStatus;
   const prosparitetDeklasiraneMatriceEkstaza = params.prosparitetDeklasiraneMatriceEkstazaSignalStatus;
+  const dekoracijeObjektnihPrimesa = params.dekoracijeObjektnihPrimesaSignalStatus;
   const gamingDslScore = round2(clamp(params.gamingDslReadinessScore, 0, 100));
   const gamingDsl = params.gamingDslSignalStatus;
   const overall = mergeSignalStatus(
+    params.dokStatus,
     params.dom,
     params.dik,
     params.dak,
@@ -226,6 +233,7 @@ function buildIntegrationProfile(params: {
     informacioniTokovi,
     pretpostavka,
     prosparitetDeklasiraneMatriceEkstaza,
+    dekoracijeObjektnihPrimesa,
     gamingDsl,
     sinemetricko,
   );
@@ -256,6 +264,10 @@ function buildIntegrationProfile(params: {
       extrondol: '/api/extrimli/extrondol',
     },
     signalMapping: {
+      DOK: {
+        source: '/api/extrimli/extrem',
+        group: ['DOKER PETLJA'] as const,
+      },
       DOM: {
         source: '/api/extrimli/extrem',
         group: DOM_GROUP,
@@ -318,6 +330,7 @@ function buildIntegrationProfile(params: {
       forInformacioniTokovi: informacioniTokovi,
       pretpostavka,
       prosparitetDeklasiraneMatriceEkstaza,
+      programskiJezikDekoracijeObjektnihPrimesa: dekoracijeObjektnihPrimesa,
       programskiJezikSpecijalizovanZaIgrice: gamingDsl,
       sinemetricko,
       overall,
@@ -325,7 +338,7 @@ function buildIntegrationProfile(params: {
     dokDikDakDukConsistencyHealth: {
       sourceOfTruth: '/api/extrimli/extrondol',
       additiveOnlyProfile: 'EXTRIMLI-EXTRONDOL-EXTREM',
-      scopeLock: ['DOK', 'DIK', 'DAK', 'DUK'],
+      scopeLock: ['DOK', 'DIK', 'DAK', 'DUK', 'FOR'],
       status: overall,
       escalationStatus: consistencyEscalationStatus,
       escalationScore: consistencyEscalationScore,
@@ -462,6 +475,46 @@ function buildIntegrationProfile(params: {
             : []),
         ],
       },
+      programskiJezikDekoracijeObjektnihPrimesa: {
+        canonicalName: 'PROGRAMSKI JEZIK DEKORACIJE OBJEKTNIH PRIMESA (BROJČANI ZUPČANIK PETLJI U EKSTAZNOM OBLIKU ŠPEDICIJE – SVESTRANOST U SVESTRANOSTI)',
+        additiveOnlyProfile: 'EXTRIMLI-EXTRONDOL-EXTREM',
+        dslProfile: 'objektno-funkcionalni-signalni-domen',
+        sourceOfTruthRoutes: ['/api/extrimli/extrem', '/api/extrimli/extrondol'],
+        ownershipSplit: {
+          dokDikFor: 'EXTREM',
+          dakDuk: 'EXTRONDOL',
+          spajaKod: 'audit-safe-summary-only',
+        },
+        consolidatedStatus: dekoracijeObjektnihPrimesa,
+        deterministicFallbackRequired: dekoracijeObjektnihPrimesa !== 'READY',
+        explainabilityModel: 'existing-ai-iq-guardrails',
+        guardrailMode: 'deterministic-fallback',
+        semantics: {
+          dekoracijeObjektnihPrimesa: 'objektno-funkcionalni signalni domen za dekoracije objektnih primesa',
+          brojcaniZupcanikPetlji: 'FOR-sekvencijalni stabilizacioni sloj brojčanog zupčanika petlji',
+        },
+        signalMap: {
+          dok: params.dokStatus,
+          dik: params.dik,
+          dak: params.dak,
+          duk: params.duk,
+          forPetlja: informacioniTokovi,
+        },
+        metrics: {
+          dekoracijaObjekataScore: params.dekoracijeObjektnihPrimesaTechnicalSignals.dekoracijaObjekataScore,
+          kohezijaObjektnihPrimesaScore: params.dekoracijeObjektnihPrimesaTechnicalSignals.kohezijaObjektnihPrimesaScore,
+          petljaZupcanikStabilnostScore: params.dekoracijeObjektnihPrimesaTechnicalSignals.petljaZupcanikStabilnostScore,
+          konfliktPritisakScore: params.dekoracijeObjektnihPrimesaTechnicalSignals.konfliktPritisakScore,
+          svestranostUSvestranostiScore: params.dekoracijeObjektnihPrimesaTechnicalSignals.svestranostUSvestranostiScore,
+        },
+        reasons: [
+          'Traka je zaključana kao additive-only unutar postojećeg EXTRIMLI-EXTRONDOL-EXTREM profila bez nove source-of-truth rute.',
+          'EXTREM ostaje vlasnik DOK/DIK/FOR tehničkog signala, EXTRONDOL vlasnik DAK/DUK governance signala, a SPAJA KOD javno izlaže samo audit-safe zbirni status.',
+          ...(dekoracijeObjektnihPrimesa !== 'READY'
+            ? ['Signal trake nije READY; deterministički fallback ostaje obavezan.']
+            : []),
+        ],
+      },
       programskiJezikSpecijalizovanZaIgrice: {
         canonicalName: 'PROGRAMSKI JEZIK SPECIJALIZOVAN ZA IGRICE',
         additiveOnlyProfile: 'EXTRIMLI-EXTRONDOL-EXTREM',
@@ -577,6 +630,7 @@ function buildIntegrationProfile(params: {
         'PROGRAMSKI JEZIK PROUČAVANJA koristi PROGRAMSKI EKANALOG za audit-ready tumačenje laboratorijske logike.',
         'PROGRAMSKI JEZIK INFORMACIONIH TOKOVA koristi isti DSL explainability, guardrail i deterministic fallback model bez novog runtime sloja.',
         'PROGRAMSKI JEZIK PRETPOSTAVKA ostaje additive FOR/DOK/DIK interpretacioni track sa DAK/DUK governance zaključavanjem.',
+        'PROGRAMSKI JEZIK DEKORACIJE OBJEKTNIH PRIMESA mapira DOK/DIK/DAK/DUK/FOR signal uz explainability razlog i bez curenja internih tehničkih detalja u public sloj.',
         ...(consistencyEscalationStatus === 'BLOCKED'
           ? ['Eskalacioni status je BLOCKED; deterministički fallback ostaje obavezan.']
           : []),
@@ -603,6 +657,7 @@ function buildIntegrationProfile(params: {
       preserveDokDikDakDukContract: true,
       informacioniTokoviAdditiveInput: true,
       pretpostavkaAdditiveInput: true,
+      dekoracijeObjektnihPrimesaAdditiveInput: true,
       sinemetrickoAdditiveInput: true,
       performanceWithinTargets: params.performanceWithinTargets,
       securityBoundariesPreserved: params.securityBoundariesPreserved,
@@ -618,6 +673,7 @@ function invalidEvaluateResult(
   extremInformationalFlow: ExtremInformationalFlowSignal,
   extremPretpostavka: ExtremPretpostavkaSignal,
   extremProsparitetDeklasiraneMatriceEkstaza: ExtremProsparitetDeklasiraneMatriceEkstazaSignal,
+  extremDekoracijeObjektnihPrimesa: ExtremDekoracijeObjektnihPrimesaSignal,
   extremGamingDsl: ExtremGamingDslSignal,
 ): AiiqLanguageEvaluateResult {
   const durationMs = round2(performance.now() - start);
@@ -645,6 +701,7 @@ function invalidEvaluateResult(
       promotionFreeze: true,
       performanceWithinTargets: durationMs <= AIIQ_LANG_PERFORMANCE_MAX_MS,
       securityBoundariesPreserved: false,
+      dokStatus: 'BLOCKED',
       informationalFlowSignalStatus: extremInformationalFlow.readiness.status,
       informationalFlowReadinessScore: extremInformationalFlow.readiness.score,
       pretpostavkaSignalStatus: extremPretpostavka.readiness.status,
@@ -653,6 +710,9 @@ function invalidEvaluateResult(
       prosparitetDeklasiraneMatriceEkstazaSignalStatus: extremProsparitetDeklasiraneMatriceEkstaza.readiness.status,
       prosparitetDeklasiraneMatriceEkstazaReadinessScore: extremProsparitetDeklasiraneMatriceEkstaza.readiness.score,
       prosparitetDeklasiraneMatriceEkstazaTechnicalSignals: extremProsparitetDeklasiraneMatriceEkstaza.technicalSignals,
+      dekoracijeObjektnihPrimesaSignalStatus: extremDekoracijeObjektnihPrimesa.readiness.status,
+      dekoracijeObjektnihPrimesaReadinessScore: extremDekoracijeObjektnihPrimesa.readiness.score,
+      dekoracijeObjektnihPrimesaTechnicalSignals: extremDekoracijeObjektnihPrimesa.technicalSignals,
       gamingDslSignalStatus: extremGamingDsl.readiness.status,
       gamingDslReadinessScore: extremGamingDsl.readiness.score,
       gamingDslSignals: extremGamingDsl.gamingDomainCoverage,
@@ -670,6 +730,7 @@ function invalidCompileResult(
   extremInformationalFlow: ExtremInformationalFlowSignal,
   extremPretpostavka: ExtremPretpostavkaSignal,
   extremProsparitetDeklasiraneMatriceEkstaza: ExtremProsparitetDeklasiraneMatriceEkstazaSignal,
+  extremDekoracijeObjektnihPrimesa: ExtremDekoracijeObjektnihPrimesaSignal,
   extremGamingDsl: ExtremGamingDslSignal,
 ): AiiqLanguageCompileResult {
   const durationMs = round2(performance.now() - start);
@@ -697,6 +758,7 @@ function invalidCompileResult(
       promotionFreeze: true,
       performanceWithinTargets: durationMs <= AIIQ_LANG_PERFORMANCE_MAX_MS,
       securityBoundariesPreserved: false,
+      dokStatus: 'BLOCKED',
       informationalFlowSignalStatus: extremInformationalFlow.readiness.status,
       informationalFlowReadinessScore: extremInformationalFlow.readiness.score,
       pretpostavkaSignalStatus: extremPretpostavka.readiness.status,
@@ -705,6 +767,9 @@ function invalidCompileResult(
       prosparitetDeklasiraneMatriceEkstazaSignalStatus: extremProsparitetDeklasiraneMatriceEkstaza.readiness.status,
       prosparitetDeklasiraneMatriceEkstazaReadinessScore: extremProsparitetDeklasiraneMatriceEkstaza.readiness.score,
       prosparitetDeklasiraneMatriceEkstazaTechnicalSignals: extremProsparitetDeklasiraneMatriceEkstaza.technicalSignals,
+      dekoracijeObjektnihPrimesaSignalStatus: extremDekoracijeObjektnihPrimesa.readiness.status,
+      dekoracijeObjektnihPrimesaReadinessScore: extremDekoracijeObjektnihPrimesa.readiness.score,
+      dekoracijeObjektnihPrimesaTechnicalSignals: extremDekoracijeObjektnihPrimesa.technicalSignals,
       gamingDslSignalStatus: extremGamingDsl.readiness.status,
       gamingDslReadinessScore: extremGamingDsl.readiness.score,
       gamingDslSignals: extremGamingDsl.gamingDomainCoverage,
@@ -773,14 +838,15 @@ export function evaluateAiiqLanguage(input: AiiqLanguageEvaluateInput): AiiqLang
   const extremInformationalFlow = extremReport.programskiJezikInformacionihTokova;
   const extremPretpostavka = extremReport.programskiJezikPretpostavka;
   const extremProsparitetDeklasiraneMatriceEkstaza = extremReport.programskiJezikPoProsparitetuDeklasiraneMatriceUEkstazi;
+  const extremDekoracijeObjektnihPrimesa = extremReport.programskiJezikDekoracijeObjektnihPrimesa;
   const extremGamingDsl = extremReport.programskiJezikSpecijalizovanZaIgrice;
 
   if (!input || typeof input !== 'object') {
-    return invalidEvaluateResult(undefined, undefined, 'input must be an object', start, extremInformationalFlow, extremPretpostavka, extremProsparitetDeklasiraneMatriceEkstaza, extremGamingDsl);
+    return invalidEvaluateResult(undefined, undefined, 'input must be an object', start, extremInformationalFlow, extremPretpostavka, extremProsparitetDeklasiraneMatriceEkstaza, extremDekoracijeObjektnihPrimesa, extremGamingDsl);
   }
 
   if (typeof input.goal !== 'string' || input.goal.trim().length === 0) {
-    return invalidEvaluateResult(input.referenceId, input.goal, 'goal is required (non-empty string)', start, extremInformationalFlow, extremPretpostavka, extremProsparitetDeklasiraneMatriceEkstaza, extremGamingDsl);
+    return invalidEvaluateResult(input.referenceId, input.goal, 'goal is required (non-empty string)', start, extremInformationalFlow, extremPretpostavka, extremProsparitetDeklasiraneMatriceEkstaza, extremDekoracijeObjektnihPrimesa, extremGamingDsl);
   }
 
   if (!isMode(input.mode)) {
@@ -792,6 +858,7 @@ export function evaluateAiiqLanguage(input: AiiqLanguageEvaluateInput): AiiqLang
       extremInformationalFlow,
       extremPretpostavka,
       extremProsparitetDeklasiraneMatriceEkstaza,
+      extremDekoracijeObjektnihPrimesa,
       extremGamingDsl,
     );
   }
@@ -808,12 +875,12 @@ export function evaluateAiiqLanguage(input: AiiqLanguageEvaluateInput): AiiqLang
 
   for (const [value, field] of boundedChecks) {
     if (!isBoundedScore(value)) {
-      return invalidEvaluateResult(input.referenceId, input.goal, `${field} must be within 0..100`, start, extremInformationalFlow, extremPretpostavka, extremProsparitetDeklasiraneMatriceEkstaza, extremGamingDsl);
+      return invalidEvaluateResult(input.referenceId, input.goal, `${field} must be within 0..100`, start, extremInformationalFlow, extremPretpostavka, extremProsparitetDeklasiraneMatriceEkstaza, extremDekoracijeObjektnihPrimesa, extremGamingDsl);
     }
   }
 
   if (typeof input.fallbackConfigured !== 'boolean') {
-    return invalidEvaluateResult(input.referenceId, input.goal, 'fallbackConfigured must be boolean', start, extremInformationalFlow, extremPretpostavka, extremProsparitetDeklasiraneMatriceEkstaza, extremGamingDsl);
+    return invalidEvaluateResult(input.referenceId, input.goal, 'fallbackConfigured must be boolean', start, extremInformationalFlow, extremPretpostavka, extremProsparitetDeklasiraneMatriceEkstaza, extremDekoracijeObjektnihPrimesa, extremGamingDsl);
   }
 
   const deterministicReadiness = round2(
@@ -896,6 +963,7 @@ export function evaluateAiiqLanguage(input: AiiqLanguageEvaluateInput): AiiqLang
     promotionFreeze: status === 'BLOCKED' || input.riskLevel >= 80 || !input.fallbackConfigured,
     performanceWithinTargets: durationMs <= AIIQ_LANG_PERFORMANCE_MAX_MS,
     securityBoundariesPreserved: status !== 'BLOCKED' && input.securityPolicyScore >= 60 && input.fallbackConfigured,
+    dokStatus: extremDekoracijeObjektnihPrimesa.technicalEvidence.dokEvidence.status,
     informationalFlowSignalStatus: extremInformationalFlow.readiness.status,
     informationalFlowReadinessScore: extremInformationalFlow.readiness.score,
     pretpostavkaSignalStatus: extremPretpostavka.readiness.status,
@@ -904,6 +972,9 @@ export function evaluateAiiqLanguage(input: AiiqLanguageEvaluateInput): AiiqLang
     prosparitetDeklasiraneMatriceEkstazaSignalStatus: extremProsparitetDeklasiraneMatriceEkstaza.readiness.status,
     prosparitetDeklasiraneMatriceEkstazaReadinessScore: extremProsparitetDeklasiraneMatriceEkstaza.readiness.score,
     prosparitetDeklasiraneMatriceEkstazaTechnicalSignals: extremProsparitetDeklasiraneMatriceEkstaza.technicalSignals,
+    dekoracijeObjektnihPrimesaSignalStatus: extremDekoracijeObjektnihPrimesa.readiness.status,
+    dekoracijeObjektnihPrimesaReadinessScore: extremDekoracijeObjektnihPrimesa.readiness.score,
+    dekoracijeObjektnihPrimesaTechnicalSignals: extremDekoracijeObjektnihPrimesa.technicalSignals,
     gamingDslSignalStatus: extremGamingDsl.readiness.status,
     gamingDslReadinessScore: extremGamingDsl.readiness.score,
     gamingDslSignals: extremGamingDsl.gamingDomainCoverage,
@@ -943,14 +1014,15 @@ export function compileAiiqLanguage(input: AiiqLanguageCompileInput): AiiqLangua
   const extremInformationalFlow = extremReport.programskiJezikInformacionihTokova;
   const extremPretpostavka = extremReport.programskiJezikPretpostavka;
   const extremProsparitetDeklasiraneMatriceEkstaza = extremReport.programskiJezikPoProsparitetuDeklasiraneMatriceUEkstazi;
+  const extremDekoracijeObjektnihPrimesa = extremReport.programskiJezikDekoracijeObjektnihPrimesa;
   const extremGamingDsl = extremReport.programskiJezikSpecijalizovanZaIgrice;
 
   if (!input || typeof input !== 'object') {
-    return invalidCompileResult(undefined, 'input must be an object', start, extremInformationalFlow, extremPretpostavka, extremProsparitetDeklasiraneMatriceEkstaza, extremGamingDsl);
+    return invalidCompileResult(undefined, 'input must be an object', start, extremInformationalFlow, extremPretpostavka, extremProsparitetDeklasiraneMatriceEkstaza, extremDekoracijeObjektnihPrimesa, extremGamingDsl);
   }
 
   if (typeof input.source !== 'string' || input.source.trim().length === 0) {
-    return invalidCompileResult(input.referenceId, 'source is required (non-empty string)', start, extremInformationalFlow, extremPretpostavka, extremProsparitetDeklasiraneMatriceEkstaza, extremGamingDsl);
+    return invalidCompileResult(input.referenceId, 'source is required (non-empty string)', start, extremInformationalFlow, extremPretpostavka, extremProsparitetDeklasiraneMatriceEkstaza, extremDekoracijeObjektnihPrimesa, extremGamingDsl);
   }
 
   if (!isMode(input.targetMode)) {
@@ -961,21 +1033,22 @@ export function compileAiiqLanguage(input: AiiqLanguageCompileInput): AiiqLangua
       extremInformationalFlow,
       extremPretpostavka,
       extremProsparitetDeklasiraneMatriceEkstaza,
+      extremDekoracijeObjektnihPrimesa,
       extremGamingDsl,
     );
   }
 
   if (typeof input.strictSecurity !== 'boolean') {
-    return invalidCompileResult(input.referenceId, 'strictSecurity must be boolean', start, extremInformationalFlow, extremPretpostavka, extremProsparitetDeklasiraneMatriceEkstaza, extremGamingDsl);
+    return invalidCompileResult(input.referenceId, 'strictSecurity must be boolean', start, extremInformationalFlow, extremPretpostavka, extremProsparitetDeklasiraneMatriceEkstaza, extremDekoracijeObjektnihPrimesa, extremGamingDsl);
   }
 
   if (typeof input.featureFlagAiIqLanguage !== 'boolean') {
-    return invalidCompileResult(input.referenceId, 'featureFlagAiIqLanguage must be boolean', start, extremInformationalFlow, extremPretpostavka, extremProsparitetDeklasiraneMatriceEkstaza, extremGamingDsl);
+    return invalidCompileResult(input.referenceId, 'featureFlagAiIqLanguage must be boolean', start, extremInformationalFlow, extremPretpostavka, extremProsparitetDeklasiraneMatriceEkstaza, extremDekoracijeObjektnihPrimesa, extremGamingDsl);
   }
 
   const { ast, warnings, unsupportedKeywords } = parseProgram(input.source);
   if (ast.length === 0) {
-    return invalidCompileResult(input.referenceId, 'source cannot be compiled into valid AST nodes', start, extremInformationalFlow, extremPretpostavka, extremProsparitetDeklasiraneMatriceEkstaza, extremGamingDsl);
+    return invalidCompileResult(input.referenceId, 'source cannot be compiled into valid AST nodes', start, extremInformationalFlow, extremPretpostavka, extremProsparitetDeklasiraneMatriceEkstaza, extremDekoracijeObjektnihPrimesa, extremGamingDsl);
   }
 
   const syntaxScore = round2(clamp((ast.length / Math.max(1, input.source.split(/\r?\n/).filter(Boolean).length)) * 100, 0, 100));
@@ -1070,6 +1143,7 @@ export function compileAiiqLanguage(input: AiiqLanguageCompileInput): AiiqLangua
     promotionFreeze: status === 'BLOCKED' || !securityPass || aiFeatureFreeze,
     performanceWithinTargets: durationMs <= AIIQ_LANG_PERFORMANCE_MAX_MS,
     securityBoundariesPreserved: securityPass,
+    dokStatus: extremDekoracijeObjektnihPrimesa.technicalEvidence.dokEvidence.status,
     informationalFlowSignalStatus: extremInformationalFlow.readiness.status,
     informationalFlowReadinessScore: extremInformationalFlow.readiness.score,
     pretpostavkaSignalStatus: extremPretpostavka.readiness.status,
@@ -1078,6 +1152,9 @@ export function compileAiiqLanguage(input: AiiqLanguageCompileInput): AiiqLangua
     prosparitetDeklasiraneMatriceEkstazaSignalStatus: extremProsparitetDeklasiraneMatriceEkstaza.readiness.status,
     prosparitetDeklasiraneMatriceEkstazaReadinessScore: extremProsparitetDeklasiraneMatriceEkstaza.readiness.score,
     prosparitetDeklasiraneMatriceEkstazaTechnicalSignals: extremProsparitetDeklasiraneMatriceEkstaza.technicalSignals,
+    dekoracijeObjektnihPrimesaSignalStatus: extremDekoracijeObjektnihPrimesa.readiness.status,
+    dekoracijeObjektnihPrimesaReadinessScore: extremDekoracijeObjektnihPrimesa.readiness.score,
+    dekoracijeObjektnihPrimesaTechnicalSignals: extremDekoracijeObjektnihPrimesa.technicalSignals,
     gamingDslSignalStatus: extremGamingDsl.readiness.status,
     gamingDslReadinessScore: extremGamingDsl.readiness.score,
     gamingDslSignals: extremGamingDsl.gamingDomainCoverage,

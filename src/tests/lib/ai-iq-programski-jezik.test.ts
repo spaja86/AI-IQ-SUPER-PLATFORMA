@@ -94,6 +94,7 @@ async function runTests(): Promise<void> {
     assert(first.integrationProfile.profileId === 'EXTRIMLI-EXTRONDOL-EXTREM', 'integration profile id mismatch');
     assert(first.integrationProfile.signalMapping.DOM.group.join(',') === 'DOMPRE PETLJA,DOMBRE PETLJA,DOMBRA PETLJA,DOMBAR PETLJA,DOMPOR PETLJA', 'DOM mapping mismatch');
     assert(first.integrationProfile.signalMapping.DIK.group.join(',') === 'DIK PETLJA', 'DIK mapping mismatch');
+    assert(first.integrationProfile.signalMapping.DOK.group.join(',') === 'DOKER PETLJA', 'DOK mapping mismatch');
     assert(first.integrationProfile.signalMapping.DAK.group.join(',') === 'DAKOR', 'DAK mapping mismatch');
     assert(first.integrationProfile.signalMapping.DUK.group.join(',') === 'DUKAR', 'DUK mapping mismatch');
     assert(
@@ -113,7 +114,7 @@ async function runTests(): Promise<void> {
     assert(first.integrationProfile.unifiedSignalStatus.sinemetricko === second.integrationProfile.unifiedSignalStatus.sinemetricko, 'sinemetricko status should be deterministic');
     assert(first.integrationProfile.unifiedSignalStatus.forInformacioniTokovi === second.integrationProfile.unifiedSignalStatus.forInformacioniTokovi, 'informational-flow status should be deterministic');
     assert(first.integrationProfile.dokDikDakDukConsistencyHealth.sourceOfTruth === '/api/extrimli/extrondol', 'consistency source mismatch');
-    assert(first.integrationProfile.dokDikDakDukConsistencyHealth.scopeLock.join(',') === 'DOK,DIK,DAK,DUK', 'consistency scope lock mismatch');
+    assert(first.integrationProfile.dokDikDakDukConsistencyHealth.scopeLock.join(',') === 'DOK,DIK,DAK,DUK,FOR', 'consistency scope lock mismatch');
     assert(['READY', 'WATCH', 'BLOCKED'].includes(first.integrationProfile.dokDikDakDukConsistencyHealth.escalationStatus), 'invalid consistency escalation status');
     assert(first.integrationProfile.dokDikDakDukConsistencyHealth.escalationScore >= 0 && first.integrationProfile.dokDikDakDukConsistencyHealth.escalationScore <= 100, 'consistency escalation score must be bounded');
     assert(first.integrationProfile.dokDikDakDukConsistencyHealth.downstreamReference === 'spaja86/IO-OPENUI-AO', 'consistency downstream reference mismatch');
@@ -128,6 +129,9 @@ async function runTests(): Promise<void> {
     assert(first.integrationProfile.dokDikDakDukConsistencyHealth.programskiJezikPretpostavka.dslProfile === 'interpretacioni-pretpostavka-dsl', 'pretpostavka DSL profile mismatch');
     assert(first.integrationProfile.dokDikDakDukConsistencyHealth.programskiJezikPoProsparitetuDeklasiraneMatriceUEkstazi.canonicalName === 'PROGRAMSKI JEZIK PO PROSPARITETU DEKLASIRANE MATRICE U EKSTAZI (PREDISPOZIJA EKSTREMNIH GLASOVNIH KOMANDI U ETAPSIKM SENZACIJAMA)', 'prosparitet/deklasirane-matrice canonical name mismatch');
     assert(first.integrationProfile.dokDikDakDukConsistencyHealth.programskiJezikPoProsparitetuDeklasiraneMatriceUEkstazi.ownershipSplit.prosparitet === 'input-domain-only', 'PROSPARITET ownership split mismatch');
+    assert(first.integrationProfile.dokDikDakDukConsistencyHealth.programskiJezikDekoracijeObjektnihPrimesa.canonicalName === 'PROGRAMSKI JEZIK DEKORACIJE OBJEKTNIH PRIMESA (BROJČANI ZUPČANIK PETLJI U EKSTAZNOM OBLIKU ŠPEDICIJE – SVESTRANOST U SVESTRANOSTI)', 'dekoracije-objektnih-primesa canonical name mismatch');
+    assert(first.integrationProfile.dokDikDakDukConsistencyHealth.programskiJezikDekoracijeObjektnihPrimesa.ownershipSplit.dokDikFor === 'EXTREM', 'dekoracije-objektnih-primesa EXTREM ownership mismatch');
+    assert(first.integrationProfile.dokDikDakDukConsistencyHealth.programskiJezikDekoracijeObjektnihPrimesa.ownershipSplit.dakDuk === 'EXTRONDOL', 'dekoracije-objektnih-primesa EXTRONDOL ownership mismatch');
     assert(first.integrationProfile.dokDikDakDukConsistencyHealth.programskiJezikSpecijalizovanZaIgrice.canonicalName === 'PROGRAMSKI JEZIK SPECIJALIZOVAN ZA IGRICE', 'gaming DSL canonical name mismatch');
     assert(first.integrationProfile.dokDikDakDukConsistencyHealth.programskiJezikSpecijalizovanZaIgrice.dslProfile === 'gaming-specijalizovani-dsl', 'gaming DSL profile mismatch');
     assert(first.integrationProfile.dokDikDakDukConsistencyHealth.programskiJezikSpecijalizovanZaIgrice.gamingDomain.consumerAnchors.join(',') === 'src/lib/igrice.ts,src/lib/gaming-endzin.ts', 'gaming DSL anchors mismatch');
@@ -140,11 +144,13 @@ async function runTests(): Promise<void> {
     assert(first.integrationProfile.dokDikDakDukConsistencyHealth.programskiJezikApstrakcija.rolloutPlan.phase4 === 'downstream-sync-and-audit-safe-summary', 'apstrakcija rollout phase4 mismatch');
     assert(['READY', 'WATCH', 'BLOCKED'].includes(first.integrationProfile.unifiedSignalStatus.pretpostavka), 'pretpostavka status must be bounded');
     assert(['READY', 'WATCH', 'BLOCKED'].includes(first.integrationProfile.unifiedSignalStatus.prosparitetDeklasiraneMatriceEkstaza), 'prosparitet/deklasirane-matrice status must be bounded');
+    assert(['READY', 'WATCH', 'BLOCKED'].includes(first.integrationProfile.unifiedSignalStatus.programskiJezikDekoracijeObjektnihPrimesa), 'dekoracije-objektnih-primesa status must be bounded');
     assert(['READY', 'WATCH', 'BLOCKED'].includes(first.integrationProfile.unifiedSignalStatus.programskiJezikSpecijalizovanZaIgrice), 'gaming DSL status must be bounded');
     assert(first.integrationProfile.acceptanceCriteria.preserveDokDikDakDukContract, 'DOK/DIK/DAK/DUK contract lock must stay enabled');
     assert(first.integrationProfile.acceptanceCriteria.sinemetrickoAdditiveInput, 'sinemetricko additive input lock must stay enabled');
     assert(first.integrationProfile.acceptanceCriteria.informacioniTokoviAdditiveInput, 'informational-flow additive input lock must stay enabled');
     assert(first.integrationProfile.acceptanceCriteria.pretpostavkaAdditiveInput, 'pretpostavka additive input lock must stay enabled');
+    assert(first.integrationProfile.acceptanceCriteria.dekoracijeObjektnihPrimesaAdditiveInput, 'dekoracije-objektnih-primesa additive input lock must stay enabled');
     assert(first.integrationProfile.governanceLink.downstreamReference.linkedRepo === 'spaja86/IO-OPENUI-AO', 'downstream reference mismatch');
     assert(first.durationMs <= AIIQ_LANG_PERFORMANCE_MAX_MS, `duration ${first.durationMs} > ${AIIQ_LANG_PERFORMANCE_MAX_MS}`);
   });

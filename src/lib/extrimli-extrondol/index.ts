@@ -2582,6 +2582,7 @@ function buildSpajaKodFacade(params: {
   programskiJezikPretpostavkaStatus: ExtrimliExtrondolReport['extremProfiler']['programskiJezikPretpostavka']['readiness']['status'];
   programskiJezikPoProsparitetuDeklasiraneMatriceUEkstaziStatus: ExtrimliExtrondolReport['extremProfiler']['programskiJezikPoProsparitetuDeklasiraneMatriceUEkstazi']['readiness']['status'];
   programskiJezikParadigmaOblikovanjeTelaStatus: ExtrimliExtrondolReport['extremProfiler']['programskiJezikParadigmaOblikovanjeTela']['readiness']['status'];
+  programskiJezikDekoracijeObjektnihPrimesaStatus: ExtrimliExtrondolReport['extremProfiler']['programskiJezikDekoracijeObjektnihPrimesa']['readiness']['status'];
   programskiJezikSpecijalizovanZaIgriceStatus: ExtrimliExtrondolReport['extremProfiler']['programskiJezikSpecijalizovanZaIgrice']['readiness']['status'];
   metrikoProgramiranjeStatus: ExtrimliExtrondolReport['extremProfiler']['metrikoProgramiranje']['readiness']['status'];
   proporcionalnoProgramiranjeStatus: ExtrimliExtrondolReport['extremProfiler']['proporcionalnoProgramiranje']['readiness']['status'];
@@ -2652,6 +2653,7 @@ function buildSpajaKodFacade(params: {
       programskiJezikPretpostavkaStatus: params.programskiJezikPretpostavkaStatus,
       programskiJezikPoProsparitetuDeklasiraneMatriceUEkstaziStatus: params.programskiJezikPoProsparitetuDeklasiraneMatriceUEkstaziStatus,
       programskiJezikParadigmaOblikovanjeTelaStatus: params.programskiJezikParadigmaOblikovanjeTelaStatus,
+      programskiJezikDekoracijeObjektnihPrimesaStatus: params.programskiJezikDekoracijeObjektnihPrimesaStatus,
       programskiJezikSpecijalizovanZaIgriceStatus: params.programskiJezikSpecijalizovanZaIgriceStatus,
       metrikoProgramiranjeStatus: params.metrikoProgramiranjeStatus,
       proporcionalnoProgramiranjeStatus: params.proporcionalnoProgramiranjeStatus,
@@ -5532,6 +5534,21 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
         && b2bReadiness.downstreamSync.syncedFields.includes('extremProfiler.programskiJezikPoProsparitetuDeklasiraneMatriceUEkstazi.readiness.status')
         && b2bReadiness.downstreamSync.syncedFields.includes('programskiJezikPoProsparitetuDeklasiraneMatriceUEkstazi')
         && spajaKod.publicSignals.programskiJezikPoProsparitetuDeklasiraneMatriceUEkstaziStatus === extremProfiler.programskiJezikPoProsparitetuDeklasiraneMatriceUEkstazi.readiness.status,
+    },
+    {
+      id: 'programski-jezik-dekoracije-objektnih-primesa-governance',
+      description: 'PROGRAMSKI JEZIK DEKORACIJE OBJEKTNIH PRIMESA must remain additive-only, keep DOK/DIK/FOR technical ownership in EXTREM, keep DAK/DUK governance ownership in EXTRONDOL, and expose only audit-safe summary via release audit, downstream sync, and SPAJA KOD.',
+      passed: programskiJezikDekoracijeObjektnihPrimesa.contractVersion === EXTRONDOL_PROGRAMSKI_JEZIK_DEKORACIJE_OBJEKTNIH_PRIMESA_CONTRACT_VERSION
+        && programskiJezikDekoracijeObjektnihPrimesa.technicalSignalSource === '/api/extrimli/extrem'
+        && programskiJezikDekoracijeObjektnihPrimesa.ownershipEvidence.forTechnical
+        && programskiJezikDekoracijeObjektnihPrimesa.ownershipEvidence.dokTechnical
+        && programskiJezikDekoracijeObjektnihPrimesa.ownershipEvidence.dikTechnical
+        && programskiJezikDekoracijeObjektnihPrimesa.ownershipEvidence.dakDeferredToGovernance
+        && programskiJezikDekoracijeObjektnihPrimesa.ownershipEvidence.dukDeferredToGovernance
+        && releaseAuditSummary.programskiJezikDekoracijeObjektnihPrimesaGovernance.status === extremProfiler.programskiJezikDekoracijeObjektnihPrimesa.readiness.status
+        && b2bReadiness.downstreamSync.syncedFields.includes('extremProfiler.programskiJezikDekoracijeObjektnihPrimesa.readiness.status')
+        && b2bReadiness.downstreamSync.syncedFields.includes('programskiJezikDekoracijeObjektnihPrimesa')
+        && spajaKod.publicSignals.programskiJezikDekoracijeObjektnihPrimesaStatus === extremProfiler.programskiJezikDekoracijeObjektnihPrimesa.readiness.status,
     },
     {
       id: 'programski-jezik-paradigma-oblikovanje-tela-governance',
