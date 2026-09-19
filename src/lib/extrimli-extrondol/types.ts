@@ -22,6 +22,7 @@ import {
   EXTRIMLI_EXTREM_FUNKCIONALNO_PROGRAMIRANJE_UZVISENOG_MISANOG_TOKA_CONTRACT_VERSION,
   EXTRIMLI_EXTREM_FUNKCIONALNO_PROGRAMIRANJE_EKSPLICITNOG_MISAONOG_TOKA_CONTRACT_VERSION,
   EXTRIMLI_EXTREM_FUNKCIONALNO_PROGRAMIRANJE_PRAVEDNOG_MISAONOG_TOKA_CONTRACT_VERSION,
+  EXTRIMLI_EXTREM_RADNI_TAKT_MOZGA_MISLILAC_CONTRACT_VERSION,
   EXTRIMLI_EXTREM_PARADIJOGONALNO_PROGRIMIRANJE_CONTRACT_VERSION,
   EXTRIMLI_EXTREM_FUNKIONALNO_PROGRAMIRANJE_PRAVNOG_MISAONOG_TOKA_CONTRACT_VERSION,
   EXTRIMLI_EXTREM_METRICKO_PROGRAMIRANJE_CONTRACT_VERSION,
@@ -473,6 +474,49 @@ export interface ExtrimliExtrondolFunkcionalnoProgramiranjePravednogMisaonogToka
     humanReviewRequired: true;
     rollbackPlanRequired: true;
     downstreamSyncRequired: true;
+  };
+  reasons: string[];
+}
+
+export interface ExtrimliExtrondolRadniTaktMozgaMislilacGovernance {
+  term: 'RADNI TAKT MOZGA (MISLILAC)';
+  sourceOfTruth: '/api/extrimli/extrondol';
+  technicalSignalSource: '/api/extrimli/extrem';
+  contractVersion: typeof EXTRONDOL_RADNI_TAKT_MOZGA_MISLILAC_CONTRACT_VERSION;
+  additiveOnly: true;
+  status: ExtrimliExtremProfilerReport['radniTaktMozgaMislilac']['readiness']['status'];
+  readinessScore: number;
+  conflictPressurePercent: number;
+  routineConsistencyPercent: number;
+  governanceVisibility: 'audit-safe-readiness-only';
+  ownershipModel: {
+    extrem: 'technical-learning-routine-signal';
+    extrondol: 'wawe-orchestration-audit-consumer';
+    spajaKod: 'public-encapsulated-boundary';
+  };
+  ownershipEvidence: {
+    dokTechnical: true;
+    dikTechnical: true;
+    dakDeferredToGovernance: true;
+    dukDeferredToGovernance: true;
+  };
+  waweImpact: {
+    currentWawe: ExtrimliExtrondolWaweStage;
+    eligibleNextWawe: ExtrimliExtrondolWaweStage;
+    promotionFreeze: boolean;
+    reviewRequiredBeforeWideRollout: boolean;
+  };
+  auditCoupling: {
+    releaseAuditSummaryRequired: true;
+    humanReviewRequired: true;
+    rollbackPlanRequired: true;
+    downstreamSyncRequired: true;
+  };
+  epilogijaCovecnosti: {
+    title: 'EPILOGIJA ČOVEČNOSTI';
+    includedInAuditSummary: true;
+    citationPresent: true;
+    interpretationLayer: 'educational-development-learning-discipline-ethics-signal';
   };
   reasons: string[];
 }
@@ -929,6 +973,30 @@ export interface ExtrimliExtrondolReleaseAuditSummary {
     reviewRequiredBeforeWideRollout: boolean;
     blockerReasons: string[];
     watchReasons: string[];
+  };
+  funkcionalnoProgramiranjePravednogMisaonogTokaGovernance: {
+    sourceOfTruth: '/api/extrimli/extrem';
+    status: ExtrimliExtremProfilerReport['funkcionalnoProgramiranjePravednogMisaonogToka']['readiness']['status'];
+    readinessScore: number;
+    conflictBiasPressurePercent: number;
+    reviewRequiredBeforeWideRollout: boolean;
+    blockerReasons: string[];
+    watchReasons: string[];
+  };
+  radniTaktMozgaMislilacGovernance: {
+    sourceOfTruth: '/api/extrimli/extrem';
+    status: ExtrimliExtremProfilerReport['radniTaktMozgaMislilac']['readiness']['status'];
+    readinessScore: number;
+    conflictPressurePercent: number;
+    routineConsistencyPercent: number;
+    reviewRequiredBeforeWideRollout: boolean;
+    blockerReasons: string[];
+    watchReasons: string[];
+    epilogijaCovecnosti: {
+      title: 'EPILOGIJA ČOVEČNOSTI';
+      citation: string;
+      interpretation: string;
+    };
   };
   paradijogonalnoProgrimiranjeGovernance: {
     sourceOfTruth: '/api/extrimli/extrem';
@@ -1423,6 +1491,7 @@ export interface ExtrimliSpajaKodPublicFacade {
     funkcionalnoProgramiranjeUzvisenogMisanogTokaStatus: ExtrimliExtremProfilerReport['funkcionalnoProgramiranjeUzvisenogMisanogToka']['readiness']['status'];
     funkcionalnoProgramiranjeEksplicitnogMisaonogTokaStatus: ExtrimliExtremProfilerReport['funkcionalnoProgramiranjeEksplicitnogMisaonogToka']['readiness']['status'];
     funkcionalnoProgramiranjePravednogMisaonogTokaStatus: ExtrimliExtremProfilerReport['funkcionalnoProgramiranjePravednogMisaonogToka']['readiness']['status'];
+    radniTaktMozgaMislilacStatus: ExtrimliExtremProfilerReport['radniTaktMozgaMislilac']['readiness']['status'];
     paradijogonalnoProgrimiranjeStatus: ExtrimliExtremProfilerReport['paradijogonalnoProgrimiranje']['readiness']['status'];
     funkionalnoProgramiranjePravnogMisaonogTokaStatus: ExtrimliExtremProfilerReport['funkionalnoProgramiranjePravnogMisaonogToka']['readiness']['status'];
     metrikoProgramiranjeStatus: ExtrimliExtremProfilerReport['metrikoProgramiranje']['readiness']['status'];
@@ -1431,6 +1500,11 @@ export interface ExtrimliSpajaKodPublicFacade {
     humanReviewRequired: true;
     rollbackPlanRequired: true;
     degraded: boolean;
+  };
+  epilogijaCovecnosti: {
+    title: 'EPILOGIJA ČOVEČNOSTI';
+    citation: string;
+    interpretation: string;
   };
   platformTrack: ExtrimliSpajaproPublicBoundaryStatus;
   dokerKuratIzekDokarTrack: ExtrimliDokerKuratIzekDokarPublicBoundaryStatus;
@@ -1475,6 +1549,7 @@ export interface ExtrimliExtrondolReport {
   funkcionalnoProgramiranjeUzvisenogMisanogToka: ExtrimliExtrondolFunkcionalnoProgramiranjeUzvisenogMisanogTokaGovernance;
   funkcionalnoProgramiranjeEksplicitnogMisaonogToka: ExtrimliExtrondolFunkcionalnoProgramiranjeEksplicitnogMisaonogTokaGovernance;
   funkcionalnoProgramiranjePravednogMisaonogToka: ExtrimliExtrondolFunkcionalnoProgramiranjePravednogMisaonogTokaGovernance;
+  radniTaktMozgaMislilac: ExtrimliExtrondolRadniTaktMozgaMislilacGovernance;
   paradijogonalnoProgrimiranje: ExtrimliExtrondolParadijogonalnoProgrimiranjeGovernance;
   funkionalnoProgramiranjePravnogMisaonogToka: ExtrimliExtrondolFunkionalnoProgramiranjePravnogMisaonogTokaGovernance;
   metrikoProgramiranje: ExtrimliExtrondolMetrickoProgramiranjeGovernance;
@@ -1559,6 +1634,10 @@ export const EXTRONDOL_FUNKCIONALNO_PROGRAMIRANJE_PRAVEDNOG_MISAONOG_TOKA_CONTRA
 export const EXTRONDOL_FUNKCIONALNO_PROGRAMIRANJE_PRAVEDNOG_MISAONOG_TOKA_READY_ADJUSTMENT = 2;
 export const EXTRONDOL_FUNKCIONALNO_PROGRAMIRANJE_PRAVEDNOG_MISAONOG_TOKA_WATCH_ADJUSTMENT = -6;
 export const EXTRONDOL_FUNKCIONALNO_PROGRAMIRANJE_PRAVEDNOG_MISAONOG_TOKA_BLOCKED_ADJUSTMENT = -15;
+export const EXTRONDOL_RADNI_TAKT_MOZGA_MISLILAC_CONTRACT_VERSION = EXTRIMLI_EXTREM_RADNI_TAKT_MOZGA_MISLILAC_CONTRACT_VERSION;
+export const EXTRONDOL_RADNI_TAKT_MOZGA_MISLILAC_READY_ADJUSTMENT = 2;
+export const EXTRONDOL_RADNI_TAKT_MOZGA_MISLILAC_WATCH_ADJUSTMENT = -6;
+export const EXTRONDOL_RADNI_TAKT_MOZGA_MISLILAC_BLOCKED_ADJUSTMENT = -15;
 export const EXTRONDOL_PARADIJOGONALNO_PROGRIMIRANJE_CONTRACT_VERSION = EXTRIMLI_EXTREM_PARADIJOGONALNO_PROGRIMIRANJE_CONTRACT_VERSION;
 export const EXTRONDOL_PARADIJOGONALNO_PROGRIMIRANJE_READY_ADJUSTMENT = 2;
 export const EXTRONDOL_PARADIJOGONALNO_PROGRIMIRANJE_WATCH_ADJUSTMENT = -6;
