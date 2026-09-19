@@ -515,7 +515,7 @@ export interface ExtrimliExtrondolRadniTaktMozgaMislilacGovernance {
   epilogijaCovecnosti: {
     title: 'EPILOGIJA ČOVEČNOSTI';
     includedInAuditSummary: true;
-    citationPresent: true;
+    citationPresent: boolean;
     interpretationLayer: 'educational-development-learning-discipline-ethics-signal';
   };
   reasons: string[];
