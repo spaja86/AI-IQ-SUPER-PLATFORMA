@@ -3937,8 +3937,8 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
         },
         caseInputProfile: {
           technical: {
-            dokStatus: dokSignal?.status ?? programskiJezikInformacionihTokova.forLoopBinding.forEvidence.status,
-            dikStatus: dikSignal?.status ?? programskiJezikInformacionihTokova.forLoopBinding.forEvidence.status,
+            dokStatus: dokSignal?.status ?? null,
+            dikStatus: dikSignal?.status ?? null,
             readinessScore: petljeSignals.summary.readinessScore,
             conflictScore: petljeSignals.summary.conflictScore,
           },
@@ -3985,8 +3985,8 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
         saturationLoadScore: programskiJezikInformacionihTokova.technicalSignals.saturationLoadScore,
         continuationReadinessScore: programskiJezikInformacionihTokova.technicalSignals.continuationReadinessScore,
         forStatus: programskiJezikInformacionihTokova.forLoopBinding.forEvidence.status,
-        dokStatus: dokSignal?.status ?? programskiJezikInformacionihTokova.forLoopBinding.forEvidence.status,
-        dikStatus: dikSignal?.status ?? programskiJezikInformacionihTokova.forLoopBinding.forEvidence.status,
+        dokStatus: dokSignal?.status ?? null,
+        dikStatus: dikSignal?.status ?? null,
         fallbackRequired: programskiJezikInformacionihTokova.readiness.deterministicFallbackRequired,
       },
       governanceCoupling: {
