@@ -608,6 +608,7 @@ export interface ExtrimliExtrondolRadniTaktMozgaMislilacGovernance {
     canonicalNarrativeId: 'zivot-je-igra-sitni-koraci-covecanstvo';
     includedInAuditSummary: true;
     citationPresent: true;
+    visualReferencePresent: true;
     interpretationLayer: 'educational-development-learning-discipline-ethics-signal';
   };
   reasons: string[];
@@ -1447,6 +1448,7 @@ export interface ExtrimliExtrondolReleaseAuditSummary {
       title: 'EPILOGIJA ČOVEČANSTVA';
       canonicalNarrativeId: 'zivot-je-igra-sitni-koraci-covecanstvo';
       citation: string;
+      visualReference: string;
       interpretation: string;
     };
   };
@@ -2115,6 +2117,7 @@ export interface ExtrimliSpajaKodPublicFacade {
     title: 'EPILOGIJA ČOVEČANSTVA';
     canonicalNarrativeId: 'zivot-je-igra-sitni-koraci-covecanstvo';
     citation: string;
+    visualReference: string;
     interpretation: string;
   };
   platformTrack: ExtrimliSpajaproPublicBoundaryStatus;

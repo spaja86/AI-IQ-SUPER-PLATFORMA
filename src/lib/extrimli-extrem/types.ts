@@ -668,6 +668,7 @@ export interface ExtrimliExtremRadniTaktMozgaMislilacSignal {
     title: 'EPILOGIJA ČOVEČANSTVA';
     canonicalNarrativeId: 'zivot-je-igra-sitni-koraci-covecanstvo';
     citation: string;
+    visualReference: string;
     interpretation: string;
   };
   readiness: {

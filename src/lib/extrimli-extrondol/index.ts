@@ -1666,6 +1666,7 @@ function buildRadniTaktMozgaMislilacGovernance(params: {
       canonicalNarrativeId: signal.epilogijaCovecnosti.canonicalNarrativeId,
       includedInAuditSummary: true,
       citationPresent: signal.epilogijaCovecnosti.citation.trim().length > 0,
+      visualReferencePresent: signal.epilogijaCovecnosti.visualReference.trim().length > 0,
       interpretationLayer: 'educational-development-learning-discipline-ethics-signal',
     },
     reasons,
@@ -2769,6 +2770,7 @@ function buildSpajaKodFacade(params: {
       title: 'EPILOGIJA ČOVEČANSTVA',
       canonicalNarrativeId: params.extremProfiler.radniTaktMozgaMislilac.epilogijaCovecnosti.canonicalNarrativeId,
       citation: params.extremProfiler.radniTaktMozgaMislilac.epilogijaCovecnosti.citation,
+      visualReference: params.extremProfiler.radniTaktMozgaMislilac.epilogijaCovecnosti.visualReference,
       interpretation: params.extremProfiler.radniTaktMozgaMislilac.epilogijaCovecnosti.interpretation,
     },
     platformTrack,
@@ -3854,6 +3856,7 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
         title: 'EPILOGIJA ČOVEČANSTVA',
         canonicalNarrativeId: extremProfiler.radniTaktMozgaMislilac.epilogijaCovecnosti.canonicalNarrativeId,
         citation: extremProfiler.radniTaktMozgaMislilac.epilogijaCovecnosti.citation,
+        visualReference: extremProfiler.radniTaktMozgaMislilac.epilogijaCovecnosti.visualReference,
         interpretation: extremProfiler.radniTaktMozgaMislilac.epilogijaCovecnosti.interpretation,
       },
     },
@@ -5932,6 +5935,7 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
       description: 'SPAJA KOD exposes EPILOGIJA ČOVEČANSTVA as an audit-safe narrative layer without leaking internal formulas.',
       passed: spajaKod.epilogijaCovecnosti.title === 'EPILOGIJA ČOVEČANSTVA'
         && spajaKod.epilogijaCovecnosti.citation.length > 0
+        && spajaKod.epilogijaCovecnosti.visualReference.length > 0
         && spajaKod.epilogijaCovecnosti.interpretation.length > 0
         && spajaKod.rawPatternVisibility === 'HIDDEN',
     },
