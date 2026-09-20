@@ -29,26 +29,53 @@ export interface ExtrimliVersionRoadmapDeliveryWave {
   outcome: string;
 }
 
+export const EXTRIMLI_DEVELOPER_CREATE_MANDATORY_ARTIFACTS = {
+  docs: [
+    'docs/EXTRIMLI.md',
+    'docs/EXTRIMLI-DEVELOPER-CREATE-PROGRAM.md',
+    'docs/AI-IQ-PROGRAMSKI-JEZIK.md',
+    'docs/PROGRAMSKI-JEZIK-INFORMACIONIH-TOKOVA.md',
+  ],
+  runtime: ['src/lib/extrimli-extrem/**', 'src/lib/extrimli-extrondol/**'],
+  routes: ['src/app/api/extrimli/extrem/route.ts', 'src/app/api/extrimli/extrondol/route.ts'],
+  tests: [
+    'src/tests/lib/extrimli-extrem.test.ts',
+    'src/tests/lib/extrimli-extrondol.test.ts',
+    'src/tests/api/extrimli-route.test.ts',
+  ],
+  governance: [
+    '.github/workflows/extrimli-validator.yml',
+    '.github/workflows/extrimli-governance-conformance.yml',
+    '.github/workflows/extrimli-external-github.yml',
+  ],
+} as const;
+
+export const EXTRIMLI_DEVELOPER_CREATE_LOCKED_CORE_ARTIFACTS = [
+  'docs/EXTRIMLI.md',
+  'docs/EXTRIMLI-DEVELOPER-CREATE-PROGRAM.md',
+  'docs/AI-IQ-PROGRAMSKI-JEZIK.md',
+  'docs/PROGRAMSKI-JEZIK-INFORMACIONIH-TOKOVA.md',
+  'src/lib/extrimli-extrem/**',
+  'src/lib/extrimli-extrondol/**',
+  'src/app/api/extrimli/extrem/route.ts',
+  'src/app/api/extrimli/extrondol/route.ts',
+  'src/tests/lib/extrimli-extrem.test.ts',
+  'src/tests/lib/extrimli-extrondol.test.ts',
+  'src/tests/api/extrimli-route.test.ts',
+  '.github/workflows/extrimli-validator.yml',
+  '.github/workflows/extrimli-governance-conformance.yml',
+  '.github/workflows/extrimli-external-github.yml',
+] as const;
+
+export type ExtrimliDeveloperCreateMandatoryArtifacts = typeof EXTRIMLI_DEVELOPER_CREATE_MANDATORY_ARTIFACTS;
+export type ExtrimliDeveloperCreateLockedCoreArtifact = typeof EXTRIMLI_DEVELOPER_CREATE_LOCKED_CORE_ARTIFACTS[number];
+
 export interface ExtrimliDeveloperCreateProgramLock {
   sourceProgramDoc: 'docs/EXTRIMLI-DEVELOPER-CREATE-PROGRAM.md';
   additiveOnly: true;
   sourceOfTruthRoutes: readonly ['/api/extrimli/extrem', '/api/extrimli/extrondol'];
-  lockedCoreArtifacts: readonly string[];
-  mandatoryArtifacts: {
-    docs: readonly [
-      'docs/EXTRIMLI.md',
-      'docs/EXTRIMLI-DEVELOPER-CREATE-PROGRAM.md',
-      'docs/AI-IQ-PROGRAMSKI-JEZIK.md',
-      'docs/PROGRAMSKI-JEZIK-INFORMACIONIH-TOKOVA.md'
-    ];
-    runtime: readonly ['src/lib/extrimli-extrem/**', 'src/lib/extrimli-extrondol/**'];
-    routes: readonly ['src/app/api/extrimli/extrem/route.ts', 'src/app/api/extrimli/extrondol/route.ts'];
-    governance: readonly [
-      '.github/workflows/extrimli-validator.yml',
-      '.github/workflows/extrimli-governance-conformance.yml',
-      '.github/workflows/extrimli-external-github.yml'
-    ];
-  };
+  lockedCoreArtifacts: readonly ExtrimliDeveloperCreateLockedCoreArtifact[];
+  mandatoryArtifacts: ExtrimliDeveloperCreateMandatoryArtifacts;
   ownershipBoundary: {
     extrimli: 'base-runtime-domain';
     extrem: 'technical-signal-and-profiler';
@@ -70,11 +97,11 @@ export interface ExtrimliDeveloperCreateProgramLock {
     ...ExtrimliDeveloperCreateRealizationStep[]
   ];
   implementationStreams: readonly [
-    ExtrimliDeveloperCreateImplementationStream,
-    ExtrimliDeveloperCreateImplementationStream,
-    ExtrimliDeveloperCreateImplementationStream,
-    ExtrimliDeveloperCreateImplementationStream,
-    ExtrimliDeveloperCreateImplementationStream
+    ExtrimliDeveloperCreateImplementationStream<'stream-a-domain-model-and-types'>,
+    ExtrimliDeveloperCreateImplementationStream<'stream-b-api-stability-and-degraded-behavior'>,
+    ExtrimliDeveloperCreateImplementationStream<'stream-c-consistency-health-and-governance-signals'>,
+    ExtrimliDeveloperCreateImplementationStream<'stream-d-release-gates-and-rollback'>,
+    ExtrimliDeveloperCreateImplementationStream<'stream-e-downstream-sync-and-public-summary'>
   ];
   expansionTracks: readonly [
     'wawe-canary-dashboard',
@@ -117,13 +144,15 @@ export type ExtrimliDeveloperCreateRealizationStep =
   | 'test-and-governance-conformance'
   | 'downstream-sync-and-public-summary';
 
-export interface ExtrimliDeveloperCreateImplementationStream {
-  id:
-    | 'stream-a-domain-model-and-types'
-    | 'stream-b-api-stability-and-degraded-behavior'
-    | 'stream-c-consistency-health-and-governance-signals'
-    | 'stream-d-release-gates-and-rollback'
-    | 'stream-e-downstream-sync-and-public-summary';
+export type ExtrimliDeveloperCreateImplementationStreamId =
+  | 'stream-a-domain-model-and-types'
+  | 'stream-b-api-stability-and-degraded-behavior'
+  | 'stream-c-consistency-health-and-governance-signals'
+  | 'stream-d-release-gates-and-rollback'
+  | 'stream-e-downstream-sync-and-public-summary';
+
+export interface ExtrimliDeveloperCreateImplementationStream<TId extends ExtrimliDeveloperCreateImplementationStreamId = ExtrimliDeveloperCreateImplementationStreamId> {
+  id: TId;
   title: string;
   focus: string;
 }
@@ -190,36 +219,8 @@ const EXTRIMLI_DEVELOPER_CREATE_LOCK: ExtrimliDeveloperCreateProgramLock = {
   sourceProgramDoc: 'docs/EXTRIMLI-DEVELOPER-CREATE-PROGRAM.md',
   additiveOnly: true,
   sourceOfTruthRoutes: ['/api/extrimli/extrem', '/api/extrimli/extrondol'],
-  lockedCoreArtifacts: [
-    'docs/EXTRIMLI.md',
-    'docs/EXTRIMLI-DEVELOPER-CREATE-PROGRAM.md',
-    'docs/AI-IQ-PROGRAMSKI-JEZIK.md',
-    'docs/PROGRAMSKI-JEZIK-INFORMACIONIH-TOKOVA.md',
-    'src/lib/extrimli-extrem/**',
-    'src/lib/extrimli-extrondol/**',
-    'src/app/api/extrimli/extrem/route.ts',
-    'src/app/api/extrimli/extrondol/route.ts',
-    'src/tests/lib/extrimli-extrem.test.ts',
-    'src/tests/lib/extrimli-extrondol.test.ts',
-    '.github/workflows/extrimli-validator.yml',
-    '.github/workflows/extrimli-governance-conformance.yml',
-    '.github/workflows/extrimli-external-github.yml',
-  ],
-  mandatoryArtifacts: {
-    docs: [
-      'docs/EXTRIMLI.md',
-      'docs/EXTRIMLI-DEVELOPER-CREATE-PROGRAM.md',
-      'docs/AI-IQ-PROGRAMSKI-JEZIK.md',
-      'docs/PROGRAMSKI-JEZIK-INFORMACIONIH-TOKOVA.md',
-    ],
-    runtime: ['src/lib/extrimli-extrem/**', 'src/lib/extrimli-extrondol/**'],
-    routes: ['src/app/api/extrimli/extrem/route.ts', 'src/app/api/extrimli/extrondol/route.ts'],
-    governance: [
-      '.github/workflows/extrimli-validator.yml',
-      '.github/workflows/extrimli-governance-conformance.yml',
-      '.github/workflows/extrimli-external-github.yml',
-    ],
-  },
+  lockedCoreArtifacts: [...EXTRIMLI_DEVELOPER_CREATE_LOCKED_CORE_ARTIFACTS],
+  mandatoryArtifacts: EXTRIMLI_DEVELOPER_CREATE_MANDATORY_ARTIFACTS,
   ownershipBoundary: {
     extrimli: 'base-runtime-domain',
     extrem: 'technical-signal-and-profiler',
@@ -286,7 +287,7 @@ const EXTRIMLI_DEVELOPER_CREATE_LOCK: ExtrimliDeveloperCreateProgramLock = {
     humanReviewRequired: true,
     securityRequired: true,
     rollbackRequired: true,
-  ],
+  },
   definitionOfDone: {
     additiveOnlyRequired: true,
     dokDikDakDukSplitLocked: true,
@@ -497,6 +498,7 @@ function toExtrimliDeveloperCreateLockComparable(
     docs,
     runtime,
     routes,
+    tests,
     governance,
     ...unexpectedMandatoryArtifacts
   } = mandatoryArtifacts;
@@ -524,6 +526,7 @@ function toExtrimliDeveloperCreateLockComparable(
       docs: [...docs],
       runtime: [...runtime],
       routes: [...routes],
+      tests: [...tests],
       governance: [...governance],
     },
     ownershipBoundary: {

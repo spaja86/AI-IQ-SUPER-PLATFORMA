@@ -109,6 +109,7 @@ async function runTests(): Promise<void> {
     assert(lock.ownershipBoundary.extrondol === 'wawe-orchestration-audit-freeze-promotion', 'EXTRONDOL ownership boundary mismatch');
     assert(lock.ownershipBoundary.dok === 'EXTREM' && lock.ownershipBoundary.for === 'EXTREM' && lock.ownershipBoundary.dak === 'EXTRONDOL', 'DOK/FOR/DAK ownership split mismatch');
     assert(lock.mandatoryArtifacts.docs.includes('docs/AI-IQ-PROGRAMSKI-JEZIK.md'), 'AI IQ mandatory doc artifact missing');
+    assert(lock.mandatoryArtifacts.tests.includes('src/tests/api/extrimli-route.test.ts'), 'route test mandatory artifact missing');
     assert(lock.mandatoryArtifacts.governance.includes('.github/workflows/extrimli-external-github.yml'), 'external governance workflow artifact missing');
     assert(lock.acceptanceLock.allowedStatuses.join(',') === 'READY,WATCH,BLOCKED', 'acceptance status lock mismatch');
     assert(lock.driftZeroLayers.join(',') === 'docs,types,routes,tests,workflows', 'developer/create drift-zero layers mismatch');

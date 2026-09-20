@@ -99,7 +99,11 @@ jobs:
             developerCreateProgramDoc.includes('PROGRAM_LOCK_MACHINE_DOD'),
             'Developer/Create program doc must keep governance lock markers for source-of-truth, drift-zero, and machine-checked DoD'
           );
-          assert(developerCreateProgramDoc.includes('DOK + DIK + FOR') && developerCreateProgramDoc.includes('DOK/DIK/DAK/DUK/FOR'), 'Developer/Create program doc must lock FOR across ownership and drift-zero language');
+          assert(
+            (developerCreateProgramDoc.includes('DOK + DIK + FOR') || developerCreateProgramDoc.includes('DOK+DIK+FOR'))
+              && developerCreateProgramDoc.includes('DOK/DIK/DAK/DUK/FOR'),
+            'Developer/Create program doc must lock FOR across ownership and drift-zero language'
+          );
           assert(developerCreateProgramDoc.includes('PROGRAMSKI JEZIK PROUČAVANJA') && developerCreateProgramDoc.includes('PROGRAMSKI EKANALOG'), 'Developer/Create program doc must lock Programski jezik proučavanja + programski ekanalog');
           assert(developerCreateProgramDoc.includes('PROGRAMSKI JEZIK PARADIGMA I OBLIKOVANJE TELA'), 'Developer/Create program doc must lock paradigma/body-shaping track');
           assert(developerCreateProgramDoc.includes('docs + types + routes + tests + workflows'), 'Developer/Create program doc must lock docs/types/routes/tests/workflows');

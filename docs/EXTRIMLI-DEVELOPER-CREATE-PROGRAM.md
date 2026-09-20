@@ -38,6 +38,7 @@ Sledeći artefakti ostaju zaključano jezgro Developer/Create programa:
 - `src/app/api/extrimli/extrondol/route.ts`
 - `src/tests/lib/extrimli-extrem.test.ts`
 - `src/tests/lib/extrimli-extrondol.test.ts`
+- `src/tests/api/extrimli-route.test.ts`
 
 Ownership hard lock:
 

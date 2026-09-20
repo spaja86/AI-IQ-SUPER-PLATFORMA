@@ -5739,7 +5739,9 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
     || dokDikDakDukConsistencyHealth.signals.dak.status === 'WATCH'
     || dokDikDakDukConsistencyHealth.signals.duk.status === 'WATCH') {
     dokDikDakDukConsistencyHealth.status = 'WATCH';
-  } else if (dokDikDakDukConsistencyHealth.signals.for.status === null
+  } else if (dokDikDakDukConsistencyHealth.signals.dok.status === null
+    || dokDikDakDukConsistencyHealth.signals.dik.status === null
+    || dokDikDakDukConsistencyHealth.signals.for.status === null
     || dokDikDakDukConsistencyHealth.signals.dak.status === null
     || dokDikDakDukConsistencyHealth.signals.duk.status === null) {
     dokDikDakDukConsistencyHealth.status = 'WATCH';
