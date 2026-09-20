@@ -188,6 +188,6 @@ jobs:
           echo "## EXTRIMLI Governance Conformance" >> "$GITHUB_STEP_SUMMARY"
           echo "" >> "$GITHUB_STEP_SUMMARY"
           echo "- Scope lock: EXTRIMLI + EXTREM + EXTRONDOL" >> "$GITHUB_STEP_SUMMARY"
-          echo "- Source-of-truth routes: /api/extrimli/extrem + /api/extrimli/extrondol" >> "$GITHUB_STEP_SUMMARY"
+          echo "- Source-of-truth routes: /api/extrimli/extrem + /api/extrimli/extrondol + /api/extrimli/spaja-kod" >> "$GITHUB_STEP_SUMMARY"
           echo "- Drift checks: docs/types/routes/tests/workflows" >> "$GITHUB_STEP_SUMMARY"
           echo "- Schedule: weekly (Mon 04:00 UTC)" >> "$GITHUB_STEP_SUMMARY"
