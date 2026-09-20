@@ -91,6 +91,15 @@ PROGRAMSKI JEZIK PROUČAVANJA (analitika laboratorijskih slučajeva):
 - `strictSecurity=true` zahteva `RULE` sa `NO_SECRET` i `ALLOWLIST`.
 - Bez aktivnog feature flag-a AI sloj se ne aktivira (deterministički fallback).
 
+### DEVELOPER AND CREATE / VRH / RADNI TAKT repo-wide reflection
+
+- `DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == RADNI TAKT MOZGA (MISLILAC)` ostaje additive-only repo-wide reflection nad postojećim EXTRIMLI/EXTREM/EXTRONDOL/SPAJA KOD slojevima.
+- Centralni dokaz ostaje `dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection`.
+- `RADNI TAKT MOZGA (MISLILAC)` ostaje zajednički rhythm/readiness tehnički signal, `VRH PROGRAMSKOG EKVILADENTA` ostaje vršni interpretativni sloj, a `METRIČKO`, `SINEMETRIČKO` i `PARADIJOGONALNO` ostaju kanonski prateći track-ovi istog modela.
+- Dozvoljene status klase ostaju `READY | WATCH | BLOCKED`.
+- Deterministički fallback ostaje obavezan za `NaN`, `Infinity`, prazne i konfliktne ulaze.
+- Nema novih runtime ruta; postojeći source-of-truth i boundary ostaju `/api/extrimli/extrem`, `/api/extrimli/extrondol` i audit-safe `/api/extrimli/spaja-kod`.
+
 ## 3) Izvršni model
 
 ### Deterministički engine

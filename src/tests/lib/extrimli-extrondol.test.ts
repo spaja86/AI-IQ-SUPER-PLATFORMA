@@ -170,7 +170,10 @@ async function runTests(): Promise<void> {
     assert(lock.operationalAuditPackage.required, 'operational audit package must be required');
     assert(lock.operationalAuditPackage.standardizedPrDescription, 'operational audit package must standardize PR description');
     assert(lock.operationalAuditPackage.requiredFields.join(',') === 'rolloutPlan,rollbackPlan,kpiImpact,humanReviewStatus,downstreamReference', 'operational audit package required fields mismatch');
+    assert(lock.mandatoryArtifacts.docs.includes('docs/EXTRIMLI-VRH-PROGRAMSKOG-EKVILADENTA.md'), 'VRH mandatory doc artifact missing');
+    assert(lock.mandatoryArtifacts.docs.includes('docs/EXTRIMLI-EXTERNAL-GITHUB.md'), 'external GitHub mandatory doc artifact missing');
     assert(lock.mandatoryArtifacts.routes.includes('src/app/api/extrimli/extrem/route.ts'), 'EXTREM route mandatory artifact missing');
+    assert(lock.mandatoryArtifacts.routes.includes('src/app/api/extrimli/spaja-kod/route.ts'), 'SPAJA KOD route mandatory artifact missing');
     assert(lock.mandatoryArtifacts.tests.includes('src/tests/api/extrimli-route.test.ts'), 'route test mandatory artifact missing');
     assert(lock.acceptanceLock.degradedPolicy === 'partial-payload-no-500', 'developer/create degraded policy mismatch');
     assert(report.startProject.mandatoryOutputs.includes('versionRoadmap.developerCreateLock'), 'developer/create lock must be a START mandatory output');
