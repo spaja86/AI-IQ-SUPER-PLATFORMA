@@ -3785,19 +3785,29 @@ function resolveVrhProgramskogEkviladentaForSignalResolution(params: {
     2,
   );
   const fallbackStatus = classifyVrhProgramskogEkviladentaStatus(fallbackReadinessScore);
-  const fallbackRequired = (
-    params.forSignal?.status == null
-    || params.forSignal?.readinessScore == null
-  ) && (
-    params.informationalForEvidence?.status == null
-    || params.informationalForEvidence?.readinessScore == null
-  );
+  let fallbackRequired = false;
+  const resolvedSignal = params.forSignal?.status != null && params.forSignal.readinessScore != null
+    ? {
+      kind: 'FOR PETLJA' as const,
+      status: params.forSignal.status,
+      readinessScore: params.forSignal.readinessScore,
+    }
+    : params.informationalForEvidence?.status != null && params.informationalForEvidence.readinessScore != null
+      ? {
+        kind: 'FOR PETLJA' as const,
+        status: params.informationalForEvidence.status,
+        readinessScore: params.informationalForEvidence.readinessScore,
+      }
+      : (() => {
+        fallbackRequired = true;
+        return {
+          kind: 'FOR PETLJA' as const,
+          status: fallbackStatus,
+          readinessScore: fallbackReadinessScore,
+        };
+      })();
   return {
-    signal: {
-      kind: 'FOR PETLJA',
-      status: params.forSignal?.status ?? params.informationalForEvidence?.status ?? fallbackStatus,
-      readinessScore: params.forSignal?.readinessScore ?? params.informationalForEvidence?.readinessScore ?? fallbackReadinessScore,
-    },
+    signal: resolvedSignal,
     fallbackRequired,
   };
 }
