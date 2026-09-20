@@ -385,21 +385,23 @@ async function runTests(): Promise<void> {
   await test('VRH PROGRAMSKOG EKVILADENTA keeps deterministic FOR fallback when PETLJE summary omits FOR signal', () => {
     const report = getExtrimliExtremProfilerReport();
     const informationalForEvidence = report.programskiJezikInformacionihTokova.forLoopBinding.forEvidence;
+    const forPetljaResult = runForPetlja({
+      start: 1,
+      target: 10,
+      sequence: ['signal', 'flow', 'audit'],
+      maxIterations: 8,
+      maxDurationMs: 100,
+      status: 'ACTIVATED',
+    });
     const resolvedForSignal = resolveVrhProgramskogEkviladentaForSignal({
       informationalForEvidence,
-      forPetljaResult: runForPetlja({
-        start: 1,
-        target: 10,
-        sequence: ['signal', 'flow', 'audit'],
-        maxIterations: 8,
-        maxDurationMs: 100,
-        status: 'ACTIVATED',
-      }),
+      forPetljaResult,
     });
+    const computedFallbackSignal = resolveVrhProgramskogEkviladentaForSignal({ forPetljaResult });
 
     assert(resolvedForSignal.kind === 'FOR PETLJA', 'vrh fallback FOR kind mismatch');
-    assert(resolvedForSignal.status === informationalForEvidence.status, 'vrh fallback FOR status should align with informational flow evidence');
-    assert(resolvedForSignal.readinessScore === informationalForEvidence.readinessScore, 'vrh fallback FOR readiness should align with informational flow evidence');
+    assert(resolvedForSignal.status === computedFallbackSignal.status, 'vrh fallback FOR status should resolve from deterministic fallback when PETLJE FOR is missing');
+    assert(resolvedForSignal.readinessScore === computedFallbackSignal.readinessScore, 'vrh fallback FOR readiness should resolve from deterministic fallback when PETLJE FOR is missing');
   });
 
   await test('default report exposes objektno orijentisana reprodukcija as additive EXTREM signal', () => {

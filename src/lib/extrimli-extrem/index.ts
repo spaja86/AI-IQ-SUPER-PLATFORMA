@@ -3792,7 +3792,9 @@ function resolveVrhProgramskogEkviladentaForSignalResolution(params: {
       status: params.forSignal.status,
       readinessScore: params.forSignal.readinessScore,
     }
-    : params.informationalForEvidence?.status != null && params.informationalForEvidence.readinessScore != null
+    : params.forSignal != null
+      && params.informationalForEvidence?.status != null
+      && params.informationalForEvidence.readinessScore != null
       ? {
         kind: 'FOR PETLJA' as const,
         status: params.informationalForEvidence.status,
