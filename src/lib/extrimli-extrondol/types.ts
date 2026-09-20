@@ -632,6 +632,10 @@ export interface ExtrimliExtrondolDeveloperAndCreateRepoWideReflectionGovernance
   };
   mappedTracks: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['mappedTracks'];
   repoWideReflection: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['repoWideReflection'];
+  dailyOperationalCadence: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['dailyOperationalCadence'] & {
+    status: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['readiness']['status'];
+    reviewRequiredBeforeWideRollout: boolean;
+  };
   waweImpact: {
     currentWawe: ExtrimliExtrondolWaweStage;
     eligibleNextWawe: ExtrimliExtrondolWaweStage;
@@ -1461,6 +1465,12 @@ export interface ExtrimliExtrondolReleaseAuditSummary {
     blockerReasons: string[];
     watchReasons: string[];
     mappedTracks: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['mappedTracks'];
+    dailyOperationalCadence: {
+      activeRoadmapStagePolicy: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['dailyOperationalCadence']['activeRoadmapStagePolicy'];
+      cadenceBlocks: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['dailyOperationalCadence']['cadenceBlocks'];
+      taskPriorities: readonly [1, 2, 3];
+      endOfDayStatuses: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['dailyOperationalCadence']['endOfDayStatuses'];
+    };
   };
   paradijogonalnoProgrimiranjeGovernance: {
     sourceOfTruth: '/api/extrimli/extrem';

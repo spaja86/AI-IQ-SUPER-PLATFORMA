@@ -6043,6 +6043,41 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
         tests: true,
         workflows: true,
       },
+      dailyOperationalCadence: {
+        technicalSignalOwner: 'EXTREM',
+        governanceArtifact: true,
+        derivedFromExistingModulesValidatorsAndWorkflows: true,
+        noNewRuntimeDomain: true,
+        activeRoadmapStagePolicy: 'single-active-roadmap-stage-per-day',
+        cadenceBlocks: ['morning-startup', 'deep-focus-block', 'midday-checkpoint', 'end-of-day-closeout'],
+        endOfDayStatuses: ['completed', 'carried-over', 'blocked'],
+        dailyTasks: [
+          {
+            priority: 1,
+            roadmapStageIdRequired: true,
+            measurableOutputRequired: true,
+            acceptanceEvidenceRequired: true,
+            endOfDayStatusRequired: true,
+            derivedFrom: 'existing-modules-validators-and-workflows',
+          },
+          {
+            priority: 2,
+            roadmapStageIdRequired: true,
+            measurableOutputRequired: true,
+            acceptanceEvidenceRequired: true,
+            endOfDayStatusRequired: true,
+            derivedFrom: 'existing-modules-validators-and-workflows',
+          },
+          {
+            priority: 3,
+            roadmapStageIdRequired: true,
+            measurableOutputRequired: true,
+            acceptanceEvidenceRequired: true,
+            endOfDayStatusRequired: true,
+            derivedFrom: 'existing-modules-validators-and-workflows',
+          },
+        ],
+      },
       readiness: {
         score: 0,
         status: 'BLOCKED',
@@ -6284,6 +6319,8 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
     'DEVELOPER AND CREATE ostaje additive-only repo-wide interpretativni lock preko postojećih EXTRIMLI / EXTREM / EXTRONDOL kontrakata.',
     'VRH PROGRAMSKOG EKVILADENTA ostaje vršni sloj, RADNI TAKT MOZGA (MISLILAC) ostaje zajednički ritam/readiness signal, a METRIČKO / SINEMETRIČKO / PARADIJOGONALNO ostaju kanonski prateći track-ovi.',
     'Repo-wide odraz ostaje validan samo kada su docs, types, routes, tests i workflows drift-zero poravnati bez novih runtime ruta.',
+    'Dnevni operativni sloj ostaje governance artefakt: isti dan mora zaključati jednu aktivnu roadmap fazu, prioritete 1–3, merljiv izlaz, acceptance evidence i closeout status completed/carried-over/blocked.',
+    'Jutarnji start, deep-focus blok, midday checkpoint i end-of-day closeout ostaju obavezni cadence blokovi izvedeni iz postojećih modula, validatora i workflow-a.',
     ...(dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.deterministicFallbackRequired
       ? ['Deterministic fallback ostaje obavezan za NaN, Infinity, prazne i konfliktne ulaze.']
       : []),

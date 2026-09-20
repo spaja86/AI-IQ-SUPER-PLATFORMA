@@ -72,6 +72,8 @@ Ownership hard lock:
 - `PROGRAMSKI EKANALOG (razumevanje logike)` je obavezni audit-ready interpretacioni sloj nad laboratorijskim rezultatima bez novih source-of-truth ruta.
 - `VRH PROGRAMSKOG EKVILADENTA` ostaje additive-only interpretativni vršni sloj nad `PROPORCIONALNO PROGRAMIRANJE`: satnica se mapira na `METRIČKO PROGRAMIRANJE`, vokalni/narativni deo na `SINEMETRIČKO PROGRAMIRANJE`, a instrument tabla na `PARADIJOGONALNO PROGRAMIRANJE` (`docs/EXTRIMLI-PARADIJOGONALNO-PROGRAMIRANJE.md`), bez uvođenja novih runtime ruta.
 - `DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == RADNI TAKT MOZGA (MISLILAC)` ostaje repo-wide reflection lock: isti `READY | WATCH | BLOCKED` jezik, isti deterministic fallback za `NaN`, `Infinity`, prazne i konfliktne ulaze i isti `dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection` dokaz moraju važiti kroz docs + types + routes + tests + workflows.
+- Repo-wide reflection sada obavezno nosi i dnevni operativni sloj kao governance artefakt: svaki dan mora imati task set vezan za jednu aktivnu roadmap fazu, prioritete `1–3`, merljiv izlaz, acceptance evidence i closeout status `completed | carried-over | blocked`.
+- Dnevni cadence blokovi ostaju zaključani na `morning-startup`, `deep-focus-block`, `midday-checkpoint` i `end-of-day-closeout`, izvedeni iz postojećih modula, validatora i workflow-a bez novog runtime domena za taskove.
 - V2–V5 lock za VRH je sekvencijalan: prvo docs + contract mapping, zatim EXTREM signal expansion, zatim deterministic governance hardening, pa tek onda EXTRONDOL release orchestration.
 
 ### Stream D — B2B readiness + payment verification
@@ -85,16 +87,38 @@ Ownership hard lock:
 ## 3.1) Redosled realizacije
 
 1. dokumentacioni lock i roadmap
-2. type/contract usklađivanje
-3. route i health izlazi
-4. test i governance conformance
-5. downstream sync i public-safe summary
+2. terminološko i ownership usklađivanje
+3. type/contract usklađivanje
+4. route i health izlazi
+5. test i governance conformance
+6. dnevni task cadence
+7. downstream sync i public-safe summary
 
 ## 3.2) PR execution lock (obavezno mapiranje)
 
 - Svaki PR mora mapirati **tačno jednu** roadmap fazu (`Verzija 1` do `Verzija 7`).
 - Svaki PR mora sadržati jedan jasno merljiv izlaz: `roadmapStageId`, `measurableOutput`, `acceptanceEvidence`.
+- Svaki dnevni task set mora pratiti isti PR/governance model: prioritet `1`, `2` i `3` moraju biti vezani za istu aktivnu roadmap fazu.
 - PR bez ove mape se tretira kao governance drift i ne ide u promotion.
+
+## 3.3) Dnevni operativni cadence lock
+
+- Dnevni zadaci nisu novi paralelni sistem, već governance artefakt izveden iz postojećih modula, validatora i workflow-a.
+- Svaki dan obavezno sadrži:
+  - `morning-startup`
+  - `deep-focus-block`
+  - `midday-checkpoint`
+  - `end-of-day-closeout`
+- Svaki dnevni task mora imati:
+  - `priority` = `1 | 2 | 3`
+  - `roadmapStageId`
+  - `measurableOutput`
+  - `acceptanceEvidence`
+- Kraj dana obavezno zatvara status:
+  - `completed`
+  - `carried-over`
+  - `blocked`
+- `EXTREM` nosi tehničke signale radnog takta i dnevne discipline, `EXTRONDOL` nosi governance odluku `READY | WATCH | BLOCKED`, a centralni dokaz ostaje `dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection`.
 
 ## 4) EXTREM priorities
 
@@ -183,6 +207,7 @@ Bez kompletnog audit paketa release ostaje u freeze režimu.
 - Human review je potvrđen
 - Rollback plan + audit summary su kompletni
 - Security i secret-scan disciplina ostaju potvrđeni pre promocije
+- Dnevni task set postoji za svaku aktivnu fazu i zatvara se sa `completed`, `carried-over` ili `blocked`
 
 ## PROGRAMSKI JEZIK INFORMACIONIH TOKOVA LOCK
 
@@ -208,6 +233,7 @@ Bez kompletnog audit paketa release ostaje u freeze režimu.
 - `PROGRAM_LOCK_PARENT_CHILD`: track ostaje interpretativni vršni sloj iznad `PROPORCIONALNO PROGRAMIRANJE`, ne zaseban paralelni sistem.
 - `PROGRAM_LOCK_ROLE_SPLIT`: `PROPORCIONALNO PROGRAMIRANJE` ostaje parent disciplina, `METRIČKO PROGRAMIRANJE` nosi satnicu i deklarativno-instancijsku metriku, `SINEMETRIČKO PROGRAMIRANJE` nosi vokalni/narativni audit-safe sloj, a `PARADIJOGONALNO PROGRAMIRANJE` iz `docs/EXTRIMLI-PARADIJOGONALNO-PROGRAMIRANJE.md` ostaje instrument tabla za pregled i signalnu kontrolu.
 - `PROGRAM_LOCK_REPO_WIDE_REFLECTION`: `DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == RADNI TAKT MOZGA (MISLILAC)` sme postojati samo kao additive reflection preko postojećih `VRH`, `RADNI TAKT`, `METRIČKO`, `SINEMETRIČKO` i `PARADIJOGONALNO` track-ova, uz centralni dokaz u `dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection`.
+- `PROGRAM_LOCK_DAILY_CADENCE`: isti repo-wide reflection mora nositi dnevni governance cadence sa `morning-startup`, `deep-focus-block`, `midday-checkpoint`, `end-of-day-closeout`, prioritetima `1–3` i closeout statusima `completed | carried-over | blocked`.
 - `PROGRAM_LOCK_CONTRACT_MAPPING`: analize, proučavanja, informacioni tokovi, pretpostavke, apstrakcije, paradigmijalno oblikovanje tela, ekstremne igrice, prosparitetne matrice i dekoracija primesa moraju ostati mapirani na postojeće AI IQ / EXTRIMLI kontrakte bez novog source-of-truth sloja.
 - `PROGRAM_LOCK_OWNERSHIP`: `EXTREM` zadržava `DOK + DIK + FOR` tehničko vlasništvo, `EXTRONDOL` zadržava `DAK + DUK` governance vlasništvo, a `SPAJA KOD` ostaje samo audit-safe summary boundary.
 - `PROGRAM_LOCK_MACHINE_DOD`: bilo koja buduća realizacija sme biti samo additive proširenje kroz EXTREM tehnički izveštaj, EXTRONDOL `releaseAuditSummary`, SPAJA KOD summary i prateće docs/tests slojeve uz deterministički `READY | WATCH | BLOCKED` izlaz i fallback za `NaN`, `Infinity`, prazne ili konfliktne ulaze; ako track pređe iz documentation-only u enforced contract stanje, tada obavezni validation artefakti postaju `src/tests/lib/extrimli-extrem.test.ts`, `src/tests/lib/extrimli-extrondol.test.ts`, `src/tests/api/extrimli-route.test.ts` i `.github/workflows/extrimli-governance-conformance.yml`.

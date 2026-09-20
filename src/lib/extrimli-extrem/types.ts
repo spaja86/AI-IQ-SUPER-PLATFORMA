@@ -2428,6 +2428,41 @@ export interface ExtrimliDokDikDakDukConsistencyHealth {
       tests: boolean;
       workflows: boolean;
     };
+    dailyOperationalCadence: {
+      technicalSignalOwner: 'EXTREM';
+      governanceArtifact: true;
+      derivedFromExistingModulesValidatorsAndWorkflows: true;
+      noNewRuntimeDomain: true;
+      activeRoadmapStagePolicy: 'single-active-roadmap-stage-per-day';
+      cadenceBlocks: readonly ['morning-startup', 'deep-focus-block', 'midday-checkpoint', 'end-of-day-closeout'];
+      endOfDayStatuses: readonly ['completed', 'carried-over', 'blocked'];
+      dailyTasks: readonly [
+        {
+          priority: 1;
+          roadmapStageIdRequired: true;
+          measurableOutputRequired: true;
+          acceptanceEvidenceRequired: true;
+          endOfDayStatusRequired: true;
+          derivedFrom: 'existing-modules-validators-and-workflows';
+        },
+        {
+          priority: 2;
+          roadmapStageIdRequired: true;
+          measurableOutputRequired: true;
+          acceptanceEvidenceRequired: true;
+          endOfDayStatusRequired: true;
+          derivedFrom: 'existing-modules-validators-and-workflows';
+        },
+        {
+          priority: 3;
+          roadmapStageIdRequired: true;
+          measurableOutputRequired: true;
+          acceptanceEvidenceRequired: true;
+          endOfDayStatusRequired: true;
+          derivedFrom: 'existing-modules-validators-and-workflows';
+        }
+      ];
+    };
     readiness: {
       score: number;
       status: 'READY' | 'WATCH' | 'BLOCKED';

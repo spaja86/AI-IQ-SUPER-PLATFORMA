@@ -549,6 +549,7 @@ Readiness and governance mapping:
 - `WATCH` razlozi obuhvataju: nestabilnost učenja, nedoslednost rutine, slab balans mentalno-fizičkog rada, konfliktni pritisak.
 - `BLOCKED` razlozi obuhvataju: kritično niski domen score-ovi, visoki konfliktni pritisak, DOK/DIK tehničke blokade.
 - EXTRONDOL mapira signal u WAWE 1–5 uz obaveznu audit-tragljivost (`releaseAuditSummary.radniTaktMozgaMislilacGovernance`) i downstream reference.
+- Repo-wide radni takt disciplina sada obavezno zaključava dnevne zadatke kroz `morning-startup`, `deep-focus-block`, `midday-checkpoint` i `end-of-day-closeout`, sa prioritetima `1–3`, jednim aktivnim `roadmapStageId`, `measurableOutput`, `acceptanceEvidence` i closeout statusom `completed | carried-over | blocked`.
 
 Epilog boundary:
 
@@ -737,6 +738,7 @@ Canonical role split:
 - `METRIČKO PROGRAMIRANJE` = sloj satnice, vremenskog ritma i deklarativno-instancijske metrike
 - `SINEMETRIČKO PROGRAMIRANJE` = vokalni/narativni deo i audit-safe explainability signal
 - `PARADIJOGONALNO PROGRAMIRANJE` = instrument tabla za operativni pregled, analize i signalnu kontrolu
+- Ova četiri sloja zajedno nose repo-wide dnevni operativni cadence bez novih runtime ruta: METRIČKO = satnica, SINEMETRIČKO = audit-safe narativ, PARADIJOGONALNO = checkpoint tabla, RADNI TAKT = readiness disciplina.
 
 Referenced component specs:
 
@@ -763,6 +765,7 @@ Boundary and validation lock:
 - Dozvoljeni statusi ostaju `READY | WATCH | BLOCKED`.
 - Fallback za `NaN`, `Infinity`, prazne ili konfliktne ulaze ostaje obavezan.
 - Buduća realizacija sme ostati samo additive proširenje u EXTREM, EXTRONDOL, SPAJA KOD summary i pratećim docs/test slojevima.
+- Dnevni task model ostaje governance artefakt izveden iz postojećih modula, validatora i workflow-a, bez novog paralelnog runtime domena.
 
 ## Objektno orijentisana reprodukcija
 

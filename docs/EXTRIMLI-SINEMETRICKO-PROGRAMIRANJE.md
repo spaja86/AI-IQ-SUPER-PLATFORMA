@@ -35,6 +35,7 @@
 - Oktavni sequencing and 1ms cadence constraints are validated.
 - DOK/DIK/DAK/DUK consistency health remains aligned across EXTREM and EXTRONDOL.
 - Public repo-wide reflection language remains `READY | WATCH | BLOCKED`.
+- Dnevni task cadence ostaje audit-safe narativni sloj: prioriteti `1–3`, `measurableOutput`, `acceptanceEvidence` i closeout `completed | carried-over | blocked` moraju biti objašnjivi bez novih ruta.
 
 ## Audit-safe downstream sync
 
