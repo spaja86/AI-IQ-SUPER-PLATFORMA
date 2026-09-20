@@ -1619,8 +1619,14 @@ function buildRadniTaktMozgaMislilacGovernance(params: {
   const signal = params.extremProfiler.radniTaktMozgaMislilac;
   const scoreAdjustment = getRadniTaktMozgaMislilacAdjustment(signal.readiness.status);
   const postureReasons = buildRadniTaktMozgaMislilacReasons(signal);
+  const canonicalEpilogNarrativePresent = signal.epilogijaCovecnosti.citation.includes('Sunce')
+    && signal.epilogijaCovecnosti.citation.includes('Sunčanica')
+    && signal.epilogijaCovecnosti.citation.includes('prirodnih odnosa');
   const reasons = [
     ...postureReasons.governanceReasons,
+    ...(canonicalEpilogNarrativePresent
+      ? ['epilog:canonical-sunce-suncanica-prirodni-odnosi']
+      : ['epilog:canonical-narrative-missing']),
     ...(!params.downstreamSyncComplete ? ['governance:downstream-sync-follow-up-required'] : []),
     ...(!params.humanReviewComplete ? ['governance:human-review-required'] : []),
     ...(params.promotionFreeze ? ['governance:promotion-freeze-active'] : []),

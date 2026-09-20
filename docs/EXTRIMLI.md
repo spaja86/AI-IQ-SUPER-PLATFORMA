@@ -538,6 +538,7 @@ Canonical domains:
 - `mentalnoFizickaSinergija` — učenje ↔ trening i energetski balans (`learningTrainingSynergyPercent`)
 - `kontinuiraniNapredak` — stabilnost rutine i kontinuitet (`routineConsistencyPercent`)
 - `humanistickiCilj` — čovečnost, odgovornost, samopouzdanje i etičko razlikovanje dobra/zla (`ethicalClarityPercent`, `selfConfidenceDisciplinePercent`)
+- `epilogijaCovecnosti` — kanonski narativ ostaje additive-only i audit-ready: `Sunce + Sunčanica` služe kao upozoravajuća metafora da nerazumevanje prirodnih odnosa i ljubavi bez odgovornosti vodi u posledice (`PAKAO`), bez promene source-of-truth ownership granica.
 
 Readiness and governance mapping:
 
@@ -549,6 +550,7 @@ Readiness and governance mapping:
 Epilog boundary:
 
 - SPAJA KOD sadrži audit-safe epilog sloj `epilogijaCovecnosti`.
+- Kanonski epilog signal je propagiran kroz EXTREM → EXTRONDOL → SPAJA KOD bez novih ruta i bez promene `DOK/DIK/FOR` (EXTREM) i `DAK/DUK` (EXTRONDOL) ownership modela.
 - Citat ostaje formalizovan kao narativni zaključak i ne otvara novi source-of-truth runtime surface.
 
 ## PROPORCIONALNO PROGRAMIRANJE
