@@ -5643,7 +5643,6 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
     || objektnoOrijentusanoUzdizanjeEpskihElikvadenata.readiness.status === 'BLOCKED'
     || sinemetrickoProgramiranje.readiness.status === 'BLOCKED'
     || sinemetrickoProgramiranje.conflict.status === 'BLOCKED'
-    || vrhProgramskogEkviladenta.readiness.status === 'BLOCKED'
     || semaMuSemaFormula.status === 'BLOCKED'
     || mobilnaLinija.installationMessages.status === 'BLOCKED'
     || mobilnaLinija.packagePlanHint.readiness === 'BLOCKED';
