@@ -782,6 +782,7 @@ Canonical vocabulary:
 Documentation boundary:
 
 - Shared ChatGPT link i već opisane povelje/pravni akti tretiraju se kao **documentation-only** source material.
+- `VRH PROGRAMSKOG EKVILADENTA` u V2–V5 zaključava additive-only mapiranje: `eksponencijalne funkcije` → readiness/progression, `oktavna topologija` + `sekvencijalni oktavni sistem reprodukcije` → orchestration model, `ekspozje` → auditabilni intenzitet/opterećenje, `obrtni moment` → torque/momentum, `srazmerno stanje u eksploatacionom nivou` → proporcionalno/governance posture.
 - Primarni sadržajni gap koji mora biti eksplicitno zaključen je `POVELJA O ZAKONODAVNOM PRAVU`.
 
 Structured governance signals:

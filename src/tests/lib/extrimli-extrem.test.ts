@@ -23,10 +23,13 @@ import {
   EXTRIMLI_EXTREM_PROFILER_SOURCE_OF_TRUTH,
   EXTRIMLI_EXTREM_SPAJINO_PROPORCIONALNO_PROGRAMIRANJE_UNIVERZITET_CONTRACT_VERSION,
   EXTRIMLI_EXTREM_SINEMETRICKO_PROGRAMIRANJE_CONTRACT_VERSION,
+  EXTRIMLI_EXTREM_VRH_PROGRAMSKOG_EKVILADENTA_CONTRACT_VERSION,
   EXTRIMLI_EXTREM_SHEMA_MUSHEMA_CANONICAL_EXPRESSION,
   EXTRIMLI_EXTREM_ZELEZARA_PRETPLATA_IDENTITY_CONTRACT_VERSION,
   getExtrimliExtremProfilerReport,
+  resolveVrhProgramskogEkviladentaForSignal,
 } from '../../lib/extrimli-extrem';
+import { runForPetlja } from '../../lib/petlje';
 
 let passed = 0;
 let failed = 0;
@@ -361,6 +364,44 @@ async function runTests(): Promise<void> {
     assert(Number.isFinite(signal.readiness.score), 'university track score must be finite');
     assert(signal.readiness.score >= 0 && signal.readiness.score <= 100, 'university track score must be bounded');
     assert(report.acceptanceCriteria.some((item) => item.id === 'spajino-proporcionalno-programiranje-univerzitet-lock' && item.passed), 'university track lock criterion must pass');
+  });
+
+  await test('default report exposes VRH PROGRAMSKOG EKVILADENTA as additive parented interpretive signal', () => {
+    const report = getExtrimliExtremProfilerReport();
+    const signal = report.vrhProgramskogEkviladenta;
+    assert(signal.term === 'VRH PROGRAMSKOG EKVILADENTA', 'vrh term mismatch');
+    assert(signal.contractVersion === EXTRIMLI_EXTREM_VRH_PROGRAMSKOG_EKVILADENTA_CONTRACT_VERSION, 'vrh contract mismatch');
+    assert(signal.parentTrack === 'PROPORCIONALNO PROGRAMIRANJE', 'vrh parent track mismatch');
+    assert(signal.meaningLock.noNewRoutes === true, 'vrh must stay additive-only without new routes');
+    assert(signal.meaningLock.chatGptSharePolicy === 'documentation-only', 'vrh share link policy mismatch');
+    assert(signal.canonicalUniversityTracks.kraljevskiMatematickiUniverzitet.term === 'KRALJEVSKI MATEMATIČKI UNIVERZITET', 'vrh math track mismatch');
+    assert(signal.canonicalUniversityTracks.kraljevskaFizikaUniverzitet.term === 'KRALJEVSKA FIZIKA UNIVERZITET', 'vrh physics track mismatch');
+    assert(signal.canonicalUniversityTracks.kraljevskiMasinskiUniverzitet.term === 'KRALJEVSKI MAŠINSKI UNIVERZITET', 'vrh mechanical track mismatch');
+    assert(['READY', 'WATCH', 'BLOCKED'].includes(signal.readiness.status), 'unexpected vrh status');
+    assert(Number.isFinite(signal.readiness.score), 'vrh score must be finite');
+    assert(report.acceptanceCriteria.some((item) => item.id === 'vrh-programskog-ekviladenta-lock' && item.passed), 'vrh lock criterion must pass');
+  });
+
+  await test('VRH PROGRAMSKOG EKVILADENTA keeps deterministic FOR fallback when PETLJE summary omits FOR signal', () => {
+    const report = getExtrimliExtremProfilerReport();
+    const informationalForEvidence = report.programskiJezikInformacionihTokova.forLoopBinding.forEvidence;
+    const forPetljaResult = runForPetlja({
+      start: 1,
+      target: 10,
+      sequence: ['signal', 'flow', 'audit'],
+      maxIterations: 8,
+      maxDurationMs: 100,
+      status: 'ACTIVATED',
+    });
+    const resolvedForSignal = resolveVrhProgramskogEkviladentaForSignal({
+      informationalForEvidence,
+      forPetljaResult,
+    });
+    const computedFallbackSignal = resolveVrhProgramskogEkviladentaForSignal({ forPetljaResult });
+
+    assert(resolvedForSignal.kind === 'FOR PETLJA', 'vrh fallback FOR kind mismatch');
+    assert(resolvedForSignal.status === computedFallbackSignal.status, 'vrh fallback FOR status should resolve from deterministic fallback when PETLJE FOR is missing');
+    assert(resolvedForSignal.readinessScore === computedFallbackSignal.readinessScore, 'vrh fallback FOR readiness should resolve from deterministic fallback when PETLJE FOR is missing');
   });
 
   await test('default report exposes objektno orijentisana reprodukcija as additive EXTREM signal', () => {
