@@ -12,7 +12,7 @@
 
 - Parent track: `PROPORCIONALNO PROGRAMIRANJE`
 - Contract mode: additive-only parented layer
-- Model: interpretativni orchestration/governance narativ nad postojećim EXTRIMLI i AI IQ slojevima
+- Model: interpretativni orkestracioni/governance narativ nad postojećim EXTRIMLI i AI IQ slojevima
 
 `VRH PROGRAMSKOG EKVILADENTA` nije novi modul, već vršni plan koji orkestrira postojeće proporcionalne, metričke, sinemetričke, paradijogonalne i AI-IQ jezičke slojeve u jednu governance priču.
 
