@@ -1,6 +1,7 @@
 import {
   EXTRIMLI_DEVELOPER_CREATE_DAILY_CADENCE_BLOCKS,
   EXTRIMLI_DEVELOPER_CREATE_DAILY_CLOSEOUT_STATUSES,
+  EXTRIMLI_DEVELOPER_CREATE_DAILY_TASK_PRIORITIES,
 } from '../extrimli-version-roadmap';
 import type { ExtrimliVersionRoadmap, ExtrimliVersionRoadmapVersionId } from '../extrimli-version-roadmap';
 import type { ExtrimliDokerKuratIzekDokarExtremTrack } from '../extrimli-doker-kurat-izek-dokar-track';
@@ -2448,6 +2449,7 @@ export interface ExtrimliDokDikDakDukConsistencyHealth {
       noNewRuntimeDomain: true;
       activeRoadmapStagePolicy: 'single-active-roadmap-stage-per-day';
       cadenceBlocks: typeof EXTRIMLI_DEVELOPER_CREATE_DAILY_CADENCE_BLOCKS;
+      taskPriorities: typeof EXTRIMLI_DEVELOPER_CREATE_DAILY_TASK_PRIORITIES;
       endOfDayStatuses: typeof EXTRIMLI_DEVELOPER_CREATE_DAILY_CLOSEOUT_STATUSES;
       dailyTasks: readonly ExtrimliDeveloperCreateRepoWideReflectionDailyTask[];
     };

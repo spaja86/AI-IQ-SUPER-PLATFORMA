@@ -215,6 +215,7 @@ import { buildSpajaproExtremTrack } from '../extrimli-spajapro-track';
 import {
   EXTRIMLI_DEVELOPER_CREATE_DAILY_CADENCE_BLOCKS,
   EXTRIMLI_DEVELOPER_CREATE_DAILY_CLOSEOUT_STATUSES,
+  EXTRIMLI_DEVELOPER_CREATE_DAILY_TASK_PRIORITIES,
   getExtrimliVersionRoadmap,
   isExtrimliDeveloperCreateLockAligned,
 } from '../extrimli-version-roadmap';
@@ -6052,6 +6053,7 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
         noNewRuntimeDomain: true,
         activeRoadmapStagePolicy: 'single-active-roadmap-stage-per-day',
         cadenceBlocks: EXTRIMLI_DEVELOPER_CREATE_DAILY_CADENCE_BLOCKS,
+        taskPriorities: EXTRIMLI_DEVELOPER_CREATE_DAILY_TASK_PRIORITIES,
         endOfDayStatuses: EXTRIMLI_DEVELOPER_CREATE_DAILY_CLOSEOUT_STATUSES,
         dailyTasks: [
           {
