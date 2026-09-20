@@ -39,7 +39,7 @@ Traženi apstraktni delovi ostaju vezani za postojeće repo-kontrakte:
 - `informacioni tokovi` → `PROGRAMSKI JEZIK INFORMACIONIH TOKOVA` → `docs/PROGRAMSKI-JEZIK-INFORMACIONIH-TOKOVA.md`
 - `pretpostavke` → `PROGRAMSKI JEZIK PRETPOSTAVKA` → `docs/AI-IQ-PROGRAMSKI-JEZIK.md`
 - `apstrakcije` → `AI IQ PROGRAMSKI JEZIK` apstrakcioni profil → `docs/AI-IQ-PROGRAMSKI-JEZIK.md`
-- `paradigmijalno oblikovanje tela` → `PROGRAMSKI JEZIK PARADIGMA I OBLIKOVANJE TELA` → `docs/PROGRAMSKI-JEZIK-PARADIGMA-I-OBLIKOVANJE-TELA.md`
+- `paradigmijalno oblikovanje tela` → `PROGRAMSKI JEZIK PARADIGMA I OBLIKOVANJE TELA` → `docs/PROGRAMSKI-JEZIK-PARADIGMA-I-OBLIKOVANJE-TELA.md` (`programskiJezikParadigmaOblikovanjeTela` contract)
 - `ekstremne igrice` → `PROGRAMSKI JEZIK SPECIJALIZOVAN ZA IGRICE` → `docs/AI-IQ-PROGRAMSKI-JEZIK.md`
 - `prosparitet deklariše matrice u ekstazi` → `PROGRAMSKI JEZIK PO PROSPARITETU DEKLASIRANE MATRICE U EKSTAZI` → `docs/PROGRAMSKI-JEZIK-PO-PROSPARITETU-DEKLASIRANE-MATRICE-U-EKSTAZI.md`
 - `dekoracija običnih primesa` → `PROGRAMSKI JEZIK DEKORACIJE OBJEKTNIH PRIMESA` → `docs/AI-IQ-PROGRAMSKI-JEZIK.md`
