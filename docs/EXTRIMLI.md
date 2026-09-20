@@ -667,15 +667,15 @@ Referenced component specs:
 
 Existing-contract mapping:
 
-- `analize` = `PROGRAMSKI JEZIK ANALIZA`
-- `proučavanja` = `PROGRAMSKI JEZIK PROUČAVANJA`
-- `informacioni tokovi` = `PROGRAMSKI JEZIK INFORMACIONIH TOKOVA`
-- `pretpostavke` = `PROGRAMSKI JEZIK PRETPOSTAVKA`
-- `apstrakcije` = `AI IQ PROGRAMSKI JEZIK` apstrakcioni profil
-- `paradigmijalno oblikovanje tela` = `PROGRAMSKI JEZIK PARADIGMA I OBLIKOVANJE TELA`
-- `ekstremne igrice` = `PROGRAMSKI JEZIK SPECIJALIZOVAN ZA IGRICE`
-- `prosparitet deklariše matrice u ekstazi` = `PROGRAMSKI JEZIK PO PROSPARITETU DEKLASIRANE MATRICE U EKSTAZI`
-- `dekoracija običnih primesa` = `PROGRAMSKI JEZIK DEKORACIJE OBJEKTNIH PRIMESA`
+- `analize` = `PROGRAMSKI JEZIK ANALIZA` → `docs/AI-IQ-PROGRAMSKI-JEZIK.md`
+- `proučavanja` = `PROGRAMSKI JEZIK PROUČAVANJA` → `docs/AI-IQ-PROGRAMSKI-JEZIK.md`
+- `informacioni tokovi` = `PROGRAMSKI JEZIK INFORMACIONIH TOKOVA` → `docs/PROGRAMSKI-JEZIK-INFORMACIONIH-TOKOVA.md`
+- `pretpostavke` = `PROGRAMSKI JEZIK PRETPOSTAVKA` → `docs/AI-IQ-PROGRAMSKI-JEZIK.md`
+- `apstrakcije` = `AI IQ PROGRAMSKI JEZIK` apstrakcioni profil → `docs/AI-IQ-PROGRAMSKI-JEZIK.md`
+- `paradigmijalno oblikovanje tela` = `PROGRAMSKI JEZIK PARADIGMA I OBLIKOVANJE TELA` → `docs/PROGRAMSKI-JEZIK-PARADIGMA-I-OBLIKOVANJE-TELA.md`
+- `ekstremne igrice` = `PROGRAMSKI JEZIK SPECIJALIZOVAN ZA IGRICE` → `docs/AI-IQ-PROGRAMSKI-JEZIK.md`
+- `prosparitet deklariše matrice u ekstazi` = `PROGRAMSKI JEZIK PO PROSPARITETU DEKLASIRANE MATRICE U EKSTAZI` → `docs/PROGRAMSKI-JEZIK-PO-PROSPARITETU-DEKLASIRANE-MATRICE-U-EKSTAZI.md`
+- `dekoracija običnih primesa` = `PROGRAMSKI JEZIK DEKORACIJE OBJEKTNIH PRIMESA` → `docs/AI-IQ-PROGRAMSKI-JEZIK.md`
 
 Boundary and validation lock:
 
