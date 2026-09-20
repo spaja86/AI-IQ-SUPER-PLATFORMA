@@ -2393,6 +2393,47 @@ export interface ExtrimliDokDikDakDukConsistencyHealth {
       auditReady: boolean;
     };
   };
+  developerAndCreateRepoWideReflection: {
+    canonicalName: 'DEVELOPER AND CREATE';
+    equalityLock: 'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == RADNI TAKT MOZGA (MISLILAC)';
+    scope: 'repo-wide-rhythm-readiness-guidance';
+    additiveOnlyProfile: 'EXTRIMLI-EXTRONDOL-EXTREM';
+    sourceOfTruthRoutes: readonly ['/api/extrimli/extrem', '/api/extrimli/extrondol', '/api/extrimli/spaja-kod'];
+    ownershipLock: {
+      dokDikFor: 'EXTREM';
+      dakDuk: 'EXTRONDOL';
+      spajaKod: 'audit-safe-summary-only';
+    };
+    mappedTracks: {
+      vrhProgramskogEkviladenta: 'VRH PROGRAMSKOG EKVILADENTA';
+      radniTaktMozgaMislilac: 'RADNI TAKT MOZGA (MISLILAC)';
+      metrikoProgramiranje: 'METRIČKO PROGRAMIRANJE';
+      sinemetrickoProgramiranje: 'SINEMETRIČKO PROGRAMIRANJE';
+      paradijogonalnoProgrimiranje: 'PARADIJOGONALNO PROGRAMIRANJE';
+    };
+    readinessModel: readonly ['READY', 'WATCH', 'BLOCKED'];
+    driftZeroLayers: readonly ['docs', 'types', 'routes', 'tests', 'workflows'];
+    roadmapStageMapping: {
+      v2: 'terminology-and-contract-mapping';
+      v3: 'extrem-repo-wide-rhythm-readiness-expansion';
+      v4: 'governance-hardening-and-freeze-rules';
+      v5: 'extrondol-release-audit-and-orchestration';
+      v6: 'downstream-and-multi-repo-alignment';
+    };
+    repoWideReflection: {
+      docs: boolean;
+      types: boolean;
+      routes: boolean;
+      tests: boolean;
+      workflows: boolean;
+    };
+    readiness: {
+      score: number;
+      status: 'READY' | 'WATCH' | 'BLOCKED';
+      deterministicFallbackRequired: boolean;
+      reasons: string[];
+    };
+  };
   programskiJezikInformacionihTokova: {
     canonicalName: 'PROGRAMSKI JEZIK INFORMACIONIH TOKOVA';
     meaning: 'upravljanje numeričkih tokova informacija';

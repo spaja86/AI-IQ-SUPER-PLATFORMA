@@ -1037,6 +1037,7 @@ AI-IQ-SUPER-PLATFORMA#EXTRIMLI-TRANCE-001 -> IO-OPENUI-AO#<follow-up issue>
 | Source (AI-IQ-SUPER-PLATFORMA) | Target (IO-OPENUI-AO) | Sync |
 |---|---|---|
 | Developer/Create roadmap lock (Verzije 1–7) | `spaja86/IO-OPENUI-AO` — Follow-up required | Mirror staged roadmap contract, `versionRoadmap.developerCreateLock`, and governance checkpoints in downstream runbooks |
+| Developer/Create repo-wide reflection (`DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == RADNI TAKT MOZGA (MISLILAC)`) | `spaja86/IO-OPENUI-AO` — Follow-up required | Sync `dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection`, shared `READY/WATCH/BLOCKED` language, and deterministic fallback discipline across docs/types/routes/tests/workflows |
 | EXTREM freeze/warning separation and DISKVIT governance signal posture | `spaja86/IO-OPENUI-AO` — Follow-up required | Sync runbook interpretation for warning vs blocked freeze triggers |
 | EXTRONDOL orchestration core (`releaseAuditSummary`, `releaseReadinessScorecard`, `contractDriftReport`, `governanceConformance`) | `spaja86/IO-OPENUI-AO` — Follow-up required | Keep downstream governance consumers aligned with mandatory payload |
 | Developer/Create PR execution + audit package lock | `spaja86/IO-OPENUI-AO` — Follow-up required | Mirror one-stage-per-PR mapping and standardized audit package fields in downstream PR governance |

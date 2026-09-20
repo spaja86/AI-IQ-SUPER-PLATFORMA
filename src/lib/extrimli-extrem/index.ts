@@ -6006,6 +6006,47 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
         auditReady: false,
       },
     },
+    developerAndCreateRepoWideReflection: {
+      canonicalName: 'DEVELOPER AND CREATE',
+      equalityLock: 'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == RADNI TAKT MOZGA (MISLILAC)',
+      scope: 'repo-wide-rhythm-readiness-guidance',
+      additiveOnlyProfile: 'EXTRIMLI-EXTRONDOL-EXTREM',
+      sourceOfTruthRoutes: ['/api/extrimli/extrem', '/api/extrimli/extrondol', '/api/extrimli/spaja-kod'],
+      ownershipLock: {
+        dokDikFor: 'EXTREM',
+        dakDuk: 'EXTRONDOL',
+        spajaKod: 'audit-safe-summary-only',
+      },
+      mappedTracks: {
+        vrhProgramskogEkviladenta: 'VRH PROGRAMSKOG EKVILADENTA',
+        radniTaktMozgaMislilac: 'RADNI TAKT MOZGA (MISLILAC)',
+        metrikoProgramiranje: 'METRIČKO PROGRAMIRANJE',
+        sinemetrickoProgramiranje: 'SINEMETRIČKO PROGRAMIRANJE',
+        paradijogonalnoProgrimiranje: 'PARADIJOGONALNO PROGRAMIRANJE',
+      },
+      readinessModel: ['READY', 'WATCH', 'BLOCKED'],
+      driftZeroLayers: ['docs', 'types', 'routes', 'tests', 'workflows'],
+      roadmapStageMapping: {
+        v2: 'terminology-and-contract-mapping',
+        v3: 'extrem-repo-wide-rhythm-readiness-expansion',
+        v4: 'governance-hardening-and-freeze-rules',
+        v5: 'extrondol-release-audit-and-orchestration',
+        v6: 'downstream-and-multi-repo-alignment',
+      },
+      repoWideReflection: {
+        docs: true,
+        types: true,
+        routes: true,
+        tests: true,
+        workflows: true,
+      },
+      readiness: {
+        score: 0,
+        status: 'BLOCKED',
+        deterministicFallbackRequired: true,
+        reasons: [],
+      },
+    },
     programskiJezikInformacionihTokova: {
       canonicalName: 'PROGRAMSKI JEZIK INFORMACIONIH TOKOVA',
       meaning: 'upravljanje numeričkih tokova informacija',
@@ -6203,6 +6244,60 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
   } else {
     dokDikDakDukConsistencyHealth.status = 'READY';
   }
+  const developerAndCreateReflectionStatuses = [
+    radniTaktMozgaMislilac.readiness.status,
+    metrikoProgramiranje.readiness.status,
+    sinemetrickoProgramiranje.readiness.status,
+    paradijogonalnoProgrimiranje.readiness.status,
+    vrhProgramskogEkviladenta.readiness.status,
+  ];
+  dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.score = roundToTwoDecimals(
+    (
+      radniTaktMozgaMislilac.readiness.score
+      + metrikoProgramiranje.readiness.score
+      + sinemetrickoProgramiranje.readiness.score
+      + paradijogonalnoProgrimiranje.readiness.score
+      + vrhProgramskogEkviladenta.readiness.score
+    ) / 5,
+  );
+  dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.status =
+    developerAndCreateReflectionStatuses.includes('BLOCKED')
+    || dokDikDakDukConsistencyHealth.status === 'BLOCKED'
+      ? 'BLOCKED'
+      : developerAndCreateReflectionStatuses.includes('WATCH')
+        || dokDikDakDukConsistencyHealth.status === 'WATCH'
+        ? 'WATCH'
+        : 'READY';
+  dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.deterministicFallbackRequired =
+    radniTaktMozgaMislilac.readiness.degraded
+    || metrikoProgramiranje.readiness.deterministicFallbackRequired
+    || sinemetrickoProgramiranje.readiness.deterministicFallbackRequired
+    || paradijogonalnoProgrimiranje.readiness.degraded
+    || vrhProgramskogEkviladenta.readiness.deterministicFallbackRequired
+    || !dokDikDakDukConsistencyHealth.consistent;
+  dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.reasons = [
+    'DEVELOPER AND CREATE ostaje additive-only repo-wide interpretativni lock preko postojećih EXTRIMLI / EXTREM / EXTRONDOL kontrakata.',
+    'VRH PROGRAMSKOG EKVILADENTA ostaje vršni sloj, RADNI TAKT MOZGA (MISLILAC) ostaje zajednički ritam/readiness signal, a METRIČKO / SINEMETRIČKO / PARADIJOGONALNO ostaju kanonski prateći track-ovi.',
+    'Repo-wide odraz ostaje validan samo kada su docs, types, routes, tests i workflows drift-zero poravnati bez novih runtime ruta.',
+    ...(dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.deterministicFallbackRequired
+      ? ['Deterministic fallback ostaje obavezan za NaN, Infinity, prazne i konfliktne ulaze.']
+      : []),
+    ...(radniTaktMozgaMislilac.readiness.status !== 'READY'
+      ? [`RADNI TAKT MOZGA (MISLILAC) status: ${radniTaktMozgaMislilac.readiness.status}.`]
+      : []),
+    ...(metrikoProgramiranje.readiness.status !== 'READY'
+      ? [`METRIČKO PROGRAMIRANJE status: ${metrikoProgramiranje.readiness.status}.`]
+      : []),
+    ...(sinemetrickoProgramiranje.readiness.status !== 'READY'
+      ? [`SINEMETRIČKO PROGRAMIRANJE status: ${sinemetrickoProgramiranje.readiness.status}.`]
+      : []),
+    ...(paradijogonalnoProgrimiranje.readiness.status !== 'READY'
+      ? [`PARADIJOGONALNO PROGRAMIRANJE status: ${paradijogonalnoProgrimiranje.readiness.status}.`]
+      : []),
+    ...(vrhProgramskogEkviladenta.readiness.status !== 'READY'
+      ? [`VRH PROGRAMSKOG EKVILADENTA status: ${vrhProgramskogEkviladenta.readiness.status}.`]
+      : []),
+  ];
   const programskiJezikAnalizaGovernancePenalty = 20;
   const programskiJezikAnalizaTechnicalReadiness = petljeSignals.summary.readinessScore;
   const programskiJezikAnalizaTechnicalConflict = petljeSignals.summary.conflictScore;

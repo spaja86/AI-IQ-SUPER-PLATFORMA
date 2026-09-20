@@ -13,6 +13,7 @@ on:
       - 'src/app/api/extrimli/extrem/**'
       - 'docs/EXTRIMLI.md'
       - 'docs/EXTRIMLI-DEVELOPER-CREATE-PROGRAM.md'
+      - 'docs/EXTRIMLI-VRH-PROGRAMSKOG-EKVILADENTA.md'
       - 'docs/AI-IQ-PROGRAMSKI-JEZIK.md'
       - 'docs/PROGRAMSKI-JEZIK-INFORMACIONIH-TOKOVA.md'
       - 'docs/PROGRAMSKI-JEZIK-PARADIGMA-I-OBLIKOVANJE-TELA.md'
@@ -62,6 +63,7 @@ jobs:
           const informacioniTokoviDoc = fs.readFileSync('docs/PROGRAMSKI-JEZIK-INFORMACIONIH-TOKOVA.md', 'utf8');
           const paradigmaDoc = fs.readFileSync('docs/PROGRAMSKI-JEZIK-PARADIGMA-I-OBLIKOVANJE-TELA.md', 'utf8');
           const developerCreateProgramDoc = fs.readFileSync('docs/EXTRIMLI-DEVELOPER-CREATE-PROGRAM.md', 'utf8');
+          const vrhDoc = fs.readFileSync('docs/EXTRIMLI-VRH-PROGRAMSKOG-EKVILADENTA.md', 'utf8');
           const externalDoc = fs.readFileSync('docs/EXTRIMLI-EXTERNAL-GITHUB.md', 'utf8');
           const links = fs.readFileSync('docs/MULTI-REPO-LINKS.md', 'utf8');
           const versionRoadmap = fs.readFileSync('src/lib/extrimli-version-roadmap.ts', 'utf8');
@@ -107,6 +109,10 @@ jobs:
           assert(developerCreateProgramDoc.includes('PROGRAMSKI JEZIK PROUČAVANJA') && developerCreateProgramDoc.includes('PROGRAMSKI EKANALOG'), 'Developer/Create program doc must lock Programski jezik proučavanja + programski ekanalog');
           assert(developerCreateProgramDoc.includes('PROGRAMSKI JEZIK PARADIGMA I OBLIKOVANJE TELA'), 'Developer/Create program doc must lock paradigma/body-shaping track');
           assert(developerCreateProgramDoc.includes('docs + types + routes + tests + workflows'), 'Developer/Create program doc must lock docs/types/routes/tests/workflows');
+          assert(developerCreateProgramDoc.includes('DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == RADNI TAKT MOZGA (MISLILAC)'), 'Developer/Create program doc must lock repo-wide equality mapping');
+          assert(vrhDoc.includes('DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == RADNI TAKT MOZGA (MISLILAC)'), 'VRH doc must lock repo-wide equality mapping');
+          assert(types.includes('developerAndCreateRepoWideReflection') && extrondolIndex.includes('developerAndCreateRepoWideReflection'), 'types and EXTRONDOL index must include developer/create repo-wide reflection contract fields');
+          assert(extrimliDoc.includes('dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection'), 'EXTRIMLI doc must include developer/create consistency proof field');
           assert(versionRoadmap.includes('mandatoryArtifacts') && versionRoadmap.includes('implementationStreams') && versionRoadmap.includes('acceptanceLock'), 'roadmap lock must include mandatory artifacts, streams, and acceptance lock');
           assert(versionRoadmap.includes('prExecutionLock') && versionRoadmap.includes('operationalAuditPackage'), 'roadmap lock must include PR execution and operational audit package requirements');
           assert(developerCreateProgramDoc.includes('PR execution lock') && developerCreateProgramDoc.includes('roadmapStageId') && developerCreateProgramDoc.includes('measurableOutput') && developerCreateProgramDoc.includes('acceptanceEvidence'), 'Developer/Create program doc must lock PR execution mapping fields');

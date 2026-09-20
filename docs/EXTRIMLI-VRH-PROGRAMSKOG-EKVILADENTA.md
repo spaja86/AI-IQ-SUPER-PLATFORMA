@@ -4,6 +4,8 @@
 
 `VRH PROGRAMSKOG EKVILADENTA` zaključava additive-only interpretativni vršni sloj iznad postojećeg parent track-a `PROPORCIONALNO PROGRAMIRANJE`.
 
+`DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == RADNI TAKT MOZGA (MISLILAC)` je zaključan kao repo-wide reflection nad postojećim EXTREM/EXTRONDOL/SPAJA KOD kontraktima, bez novih runtime ruta i uz centralni dokaz u `dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection`.
+
 - nema novih runtime ruta
 - nema paralelnog source-of-truth sistema
 - oslonac ostaju `/api/extrimli/extrem`, `/api/extrimli/extrondol` i `/api/extrimli/spaja-kod`
