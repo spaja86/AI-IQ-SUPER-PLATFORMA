@@ -31,6 +31,9 @@ This repository now exposes five aligned surfaces:
 | **PROGRAMSKI JEZIK SPECIJALIZOVAN ZA IGRICE** | `docs/AI-IQ-PROGRAMSKI-JEZIK.md`, `/api/ai-iq-programski-jezik/*`, `/api/extrimli/extrem`, `/api/extrimli/extrondol`, `src/lib/igrice.ts`, `src/lib/gaming-endzin.ts` | Active | Additive-only gaming DSL profile: AI IQ owns orchestration/explainability, EXTREM owns DOK/DIK/FOR gameplay-runtime readiness, EXTRONDOL owns DAK/DUK WAWE/audit governance, SPAJA KOD exposes only audit-safe summary |
 | **World Bank Persona Bridge** | `src/lib/extrimli-world-bank-persona/`, `src/app/api/extrimli/world-bank-persona/` | Active | Maps AI IQ World Bank business context + EXTRIMLI/EXTRONDOL readiness into persona-centric output and Persona Bank lifecycle updates |
 
+- `DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == RADNI TAKT MOZGA (MISLILAC)` ostaje additive-only repo-wide reflection nad postojećim `VRH`, `RADNI TAKT`, `METRIČKO`, `SINEMETRIČKO` i `PARADIJOGONALNO` track-ovima.
+- Kanonski dokaz tog odraza objavljuje se kroz `dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection`, sa istim `READY | WATCH | BLOCKED` modelom i istim deterministic fallback pravilima za `NaN`, `Infinity`, prazne i konfliktne ulaze.
+
 ## Module paths
 
 | Surface | Path |

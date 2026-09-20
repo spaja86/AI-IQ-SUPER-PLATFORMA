@@ -273,6 +273,15 @@ export interface ExtrimliExtrondolB2bReadiness {
     blockerReasons: string[];
     watchReasons: string[];
   };
+  developerAndCreateRepoWideReflectionGovernance: {
+    sourceOfTruth: '/api/extrimli/extrem';
+    status: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['readiness']['status'];
+    readinessScore: number;
+    deterministicFallbackRequired: boolean;
+    reviewRequiredBeforeWideRollout: boolean;
+    blockerReasons: string[];
+    watchReasons: string[];
+  };
   sinemetrickoProgramiranjeGovernance: {
       sourceOfTruth: '/api/extrimli/extrem';
       status: ExtrimliExtremProfilerReport['sinemetrickoProgramiranje']['readiness']['status'];
@@ -600,6 +609,39 @@ export interface ExtrimliExtrondolRadniTaktMozgaMislilacGovernance {
     includedInAuditSummary: true;
     citationPresent: true;
     interpretationLayer: 'educational-development-learning-discipline-ethics-signal';
+  };
+  reasons: string[];
+}
+
+export interface ExtrimliExtrondolDeveloperAndCreateRepoWideReflectionGovernance {
+  term: 'DEVELOPER AND CREATE';
+  equalityLock: 'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == RADNI TAKT MOZGA (MISLILAC)';
+  sourceOfTruth: '/api/extrimli/extrondol';
+  technicalSignalSource: '/api/extrimli/extrem';
+  publicBoundary: '/api/extrimli/spaja-kod';
+  additiveOnly: true;
+  governanceVisibility: 'audit-safe-readiness-only';
+  status: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['readiness']['status'];
+  readinessScore: number;
+  deterministicFallbackRequired: boolean;
+  ownershipModel: {
+    dokDikFor: 'EXTREM';
+    dakDuk: 'EXTRONDOL';
+    spajaKod: 'audit-safe-summary-only';
+  };
+  mappedTracks: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['mappedTracks'];
+  repoWideReflection: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['repoWideReflection'];
+  waweImpact: {
+    currentWawe: ExtrimliExtrondolWaweStage;
+    eligibleNextWawe: ExtrimliExtrondolWaweStage;
+    promotionFreeze: boolean;
+    reviewRequiredBeforeWideRollout: boolean;
+  };
+  auditCoupling: {
+    releaseAuditSummaryRequired: true;
+    humanReviewRequired: true;
+    rollbackPlanRequired: true;
+    downstreamSyncRequired: true;
   };
   reasons: string[];
 }
@@ -1408,6 +1450,16 @@ export interface ExtrimliExtrondolReleaseAuditSummary {
       interpretation: string;
     };
   };
+  developerAndCreateRepoWideReflectionGovernance: {
+    sourceOfTruth: '/api/extrimli/extrondol';
+    status: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['readiness']['status'];
+    readinessScore: number;
+    deterministicFallbackRequired: boolean;
+    reviewRequiredBeforeWideRollout: boolean;
+    blockerReasons: string[];
+    watchReasons: string[];
+    mappedTracks: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['mappedTracks'];
+  };
   paradijogonalnoProgrimiranjeGovernance: {
     sourceOfTruth: '/api/extrimli/extrem';
     status: ExtrimliExtremProfilerReport['paradijogonalnoProgrimiranje']['readiness']['status'];
@@ -1824,6 +1876,8 @@ export interface ExtrimliExtrondolStartProject {
     'extremProfiler.proporcionalnoProgramiranje',
     'extremProfiler.spajinoProporcionalnoProgramiranjeUniverzitet',
     'extremProfiler.sinemetrickoProgramiranje',
+    'extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection',
+    'extremProfiler.dokDikDakDukConsistencyHealth.programskiJezikProucavanja',
     'extremProfiler.objektnoOrijentisanaProngilacija',
     'extremProfiler.objektnoOrijentisanaReprodukcija',
     'extremProfiler.objektnoOrijentusanoUzdizanjeEpskihElikvadenata',
@@ -1843,6 +1897,7 @@ export interface ExtrimliExtrondolStartProject {
     'proporcionalnoProgramiranje',
     'spajinoProporcionalnoProgramiranjeUniverzitet',
     'sinemetrickoProgramiranje',
+    'developerAndCreateRepoWideReflection',
     'objektnoOrijentisanaProngilacija',
     'objektnoOrijentisanaReprodukcija',
     'epicElikvadenti',
@@ -1889,6 +1944,8 @@ export interface ExtrimliExtrondolStartProject {
       'extremProfiler.proporcionalnoProgramiranje.readiness',
       'extremProfiler.spajinoProporcionalnoProgramiranjeUniverzitet.readiness',
       'extremProfiler.sinemetrickoProgramiranje.readiness',
+      'extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection',
+      'extremProfiler.dokDikDakDukConsistencyHealth.programskiJezikProucavanja',
       'extremProfiler.resolutionReadiness',
       'extremProfiler.semaMuSemaFormula',
       'extremProfiler.objektnoOrijentisanaProngilacija.readiness',
@@ -1908,6 +1965,8 @@ export interface ExtrimliExtrondolStartProject {
       'proporcionalnoProgramiranje',
       'spajinoProporcionalnoProgramiranjeUniverzitet',
       'sinemetrickoProgramiranje',
+      'developerAndCreateRepoWideReflection',
+      'extremProfiler.dokDikDakDukConsistencyHealth.programskiJezikProucavanja',
       'mobilnaLinija',
       'objektnoOrijentisanaProngilacija',
       'objektnoOrijentisanaReprodukcija',
@@ -2047,6 +2106,7 @@ export interface ExtrimliSpajaKodPublicFacade {
     proporcionalnoProgramiranjeStatus: ExtrimliExtremProfilerReport['proporcionalnoProgramiranje']['readiness']['status'];
     spajinoProporcionalnoProgramiranjeUniverzitetStatus: ExtrimliExtremProfilerReport['spajinoProporcionalnoProgramiranjeUniverzitet']['readiness']['status'];
     vrhProgramskogEkviladentaStatus: ExtrimliExtremProfilerReport['vrhProgramskogEkviladenta']['readiness']['status'];
+    developerAndCreateStatus: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['readiness']['status'];
     humanReviewRequired: true;
     rollbackPlanRequired: true;
     degraded: boolean;
@@ -2101,6 +2161,7 @@ export interface ExtrimliExtrondolReport {
   funkcionalnoProgramiranjeEksplicitnogMisaonogToka: ExtrimliExtrondolFunkcionalnoProgramiranjeEksplicitnogMisaonogTokaGovernance;
   funkcionalnoProgramiranjePravednogMisaonogToka: ExtrimliExtrondolFunkcionalnoProgramiranjePravednogMisaonogTokaGovernance;
   radniTaktMozgaMislilac: ExtrimliExtrondolRadniTaktMozgaMislilacGovernance;
+  developerAndCreateRepoWideReflection: ExtrimliExtrondolDeveloperAndCreateRepoWideReflectionGovernance;
   paradijogonalnoProgrimiranje: ExtrimliExtrondolParadijogonalnoProgrimiranjeGovernance;
   funkionalnoProgramiranjePravnogMisaonogToka: ExtrimliExtrondolFunkionalnoProgramiranjePravnogMisaonogTokaGovernance;
   programskiJezikInformacionihTokova: ExtrimliExtrondolProgramskiJezikInformacionihTokovaGovernance;

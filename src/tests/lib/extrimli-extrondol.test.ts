@@ -203,6 +203,9 @@ async function runTests(): Promise<void> {
     assert(report.releaseAuditSummary.humanReviewRequired, 'release audit must require human review');
     assert(report.releaseAuditSummary.rollbackPlanRequired, 'release audit must require rollback plan');
     assert(report.releaseAuditSummary.objektnoOrijentisanaReprodukcijaGovernance.sourceOfTruth === '/api/extrimli/extrem', 'release audit reproduction source mismatch');
+    assert(report.releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.sourceOfTruth === '/api/extrimli/extrem', 'developer/create release audit source mismatch');
+    assert(report.releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.readinessScore >= 0 && report.releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.readinessScore <= 100, 'developer/create release audit readiness score must be bounded');
+    assert(report.releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.reviewRequiredBeforeWideRollout === (report.releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.status !== 'READY'), 'developer/create release audit review requirement mismatch');
   });
 
   await test('report maps KRALJEVSKI PRAVNI UNIVERZITET governance into WAWE, audit, downstream sync, and SPAJA KOD summary', () => {
@@ -640,6 +643,11 @@ async function runTests(): Promise<void> {
     assert(report.dokDikDakDukConsistencyHealth.programskiJezikProucavanja.programskiEkanalog.canonicalName === 'PROGRAMSKI EKANALOG', 'programski ekanalog name mismatch');
     assert(report.dokDikDakDukConsistencyHealth.programskiJezikProucavanja.programskiEkanalog.meaning === 'razumevanje logike', 'programski ekanalog meaning mismatch');
     assert(report.dokDikDakDukConsistencyHealth.programskiJezikProucavanja.programskiEkanalog.auditConclusion.length > 0, 'programski ekanalog audit conclusion must be present');
+    assert(report.developerAndCreateRepoWideReflection.term === 'DEVELOPER AND CREATE', 'developer/create governance term mismatch');
+    assert(report.developerAndCreateRepoWideReflection.equalityLock === 'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == RADNI TAKT MOZGA (MISLILAC)', 'developer/create governance equality lock mismatch');
+    assert(report.developerAndCreateRepoWideReflection.publicBoundary === '/api/extrimli/spaja-kod', 'developer/create public boundary mismatch');
+    assert(report.spajaKod.publicSignals.developerAndCreateStatus === report.developerAndCreateRepoWideReflection.status, 'SPAJA KOD developer/create status mismatch');
+    assert(report.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.status === report.developerAndCreateRepoWideReflection.status, 'developer/create consistency mismatch');
     assert(report.dokDikDakDukConsistencyHealth.consistent, 'consistency health should be consistent');
     assert(['READY', 'WATCH', 'BLOCKED'].includes(report.dokDikDakDukConsistencyHealth.status), 'invalid consistency health status');
     assert(report.acceptanceCriteria.some((item) => item.id === 'dok-dik-dak-duk-consistency-health' && item.passed), 'consistency acceptance criterion must pass');
