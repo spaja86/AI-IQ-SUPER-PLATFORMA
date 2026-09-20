@@ -4898,6 +4898,8 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
       readinessModel: ['READY', 'WATCH', 'BLOCKED'],
       driftZeroLayers: ['docs', 'types', 'routes', 'tests', 'workflows'],
       roadmapStageMapping: extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.roadmapStageMapping,
+      technicalReadinessProfile: extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.technicalReadinessProfile,
+      currentImplementationStage: extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.currentImplementationStage,
       repoWideReflection: extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.repoWideReflection,
       readiness: {
         score: extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.score,
