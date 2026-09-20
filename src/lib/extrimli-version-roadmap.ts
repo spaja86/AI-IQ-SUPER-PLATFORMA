@@ -115,6 +115,16 @@ export interface ExtrimliDeveloperCreateProgramLock {
     'versioned-readiness-review',
     ...ExtrimliDeveloperCreateExpansionTrack[]
   ];
+  prExecutionLock: {
+    singleRoadmapStagePerPr: true;
+    measurableOutputRequired: true;
+    requiredFields: readonly ['roadmapStageId', 'measurableOutput', 'acceptanceEvidence'];
+  };
+  operationalAuditPackage: {
+    required: true;
+    standardizedPrDescription: true;
+    requiredFields: readonly ['rolloutPlan', 'rollbackPlan', 'kpiImpact', 'humanReviewStatus', 'downstreamReference'];
+  };
   acceptanceLock: {
     noNewSourceOfTruthRoutes: true;
     sourceOfTruthRoutesStable: true;
@@ -278,6 +288,16 @@ const EXTRIMLI_DEVELOPER_CREATE_LOCK: ExtrimliDeveloperCreateProgramLock = {
     'analytics-kpi-trend-watch',
     'versioned-readiness-review',
   ],
+  prExecutionLock: {
+    singleRoadmapStagePerPr: true,
+    measurableOutputRequired: true,
+    requiredFields: ['roadmapStageId', 'measurableOutput', 'acceptanceEvidence'],
+  },
+  operationalAuditPackage: {
+    required: true,
+    standardizedPrDescription: true,
+    requiredFields: ['rolloutPlan', 'rollbackPlan', 'kpiImpact', 'humanReviewStatus', 'downstreamReference'],
+  },
   acceptanceLock: {
     noNewSourceOfTruthRoutes: true,
     sourceOfTruthRoutesStable: true,
@@ -461,6 +481,8 @@ function toExtrimliDeveloperCreateLockComparable(
     realizationSequence,
     implementationStreams,
     expansionTracks,
+    prExecutionLock,
+    operationalAuditPackage,
     acceptanceLock,
     definitionOfDone,
     ...unexpectedTopLevel
@@ -505,6 +527,22 @@ function toExtrimliDeveloperCreateLockComparable(
   assertNoExtraKeys(unexpectedMandatoryArtifacts);
 
   const {
+    singleRoadmapStagePerPr,
+    measurableOutputRequired,
+    requiredFields: prExecutionRequiredFields,
+    ...unexpectedPrExecutionLock
+  } = prExecutionLock;
+  assertNoExtraKeys(unexpectedPrExecutionLock);
+
+  const {
+    required: operationalAuditPackageRequired,
+    standardizedPrDescription,
+    requiredFields: operationalAuditRequiredFields,
+    ...unexpectedOperationalAuditPackage
+  } = operationalAuditPackage;
+  assertNoExtraKeys(unexpectedOperationalAuditPackage);
+
+  const {
     noNewSourceOfTruthRoutes,
     sourceOfTruthRoutesStable: acceptanceSourceOfTruthRoutesStable,
     driftZeroRequired,
@@ -544,6 +582,16 @@ function toExtrimliDeveloperCreateLockComparable(
     realizationSequence: [...realizationSequence],
     implementationStreams: implementationStreams.map((stream) => ({ ...stream })),
     expansionTracks: [...expansionTracks],
+    prExecutionLock: {
+      singleRoadmapStagePerPr,
+      measurableOutputRequired,
+      requiredFields: [...prExecutionRequiredFields],
+    },
+    operationalAuditPackage: {
+      required: operationalAuditPackageRequired,
+      standardizedPrDescription,
+      requiredFields: [...operationalAuditRequiredFields],
+    },
     acceptanceLock: {
       noNewSourceOfTruthRoutes,
       sourceOfTruthRoutesStable: acceptanceSourceOfTruthRoutesStable,

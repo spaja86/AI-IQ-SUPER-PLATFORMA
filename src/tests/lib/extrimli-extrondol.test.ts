@@ -162,6 +162,12 @@ async function runTests(): Promise<void> {
     assert(lock.sourceOfTruthRoutes.join(',') === '/api/extrimli/extrem,/api/extrimli/extrondol', 'developer/create source routes mismatch');
     assert(lock.driftZeroLayers.join(',') === 'docs,types,routes,tests,workflows', 'developer/create drift-zero layers mismatch');
     assert(lock.ownershipBoundary.dik === 'EXTREM' && lock.ownershipBoundary.for === 'EXTREM' && lock.ownershipBoundary.duk === 'EXTRONDOL', 'DIK/FOR/DUK ownership split mismatch');
+    assert(lock.prExecutionLock.singleRoadmapStagePerPr, 'single-roadmap-stage-per-PR lock must be enabled');
+    assert(lock.prExecutionLock.measurableOutputRequired, 'measurable-output lock must be enabled');
+    assert(lock.prExecutionLock.requiredFields.join(',') === 'roadmapStageId,measurableOutput,acceptanceEvidence', 'PR execution required fields mismatch');
+    assert(lock.operationalAuditPackage.required, 'operational audit package must be required');
+    assert(lock.operationalAuditPackage.standardizedPrDescription, 'operational audit package must standardize PR description');
+    assert(lock.operationalAuditPackage.requiredFields.join(',') === 'rolloutPlan,rollbackPlan,kpiImpact,humanReviewStatus,downstreamReference', 'operational audit package required fields mismatch');
     assert(lock.mandatoryArtifacts.routes.includes('src/app/api/extrimli/extrem/route.ts'), 'EXTREM route mandatory artifact missing');
     assert(lock.mandatoryArtifacts.tests.includes('src/tests/api/extrimli-route.test.ts'), 'route test mandatory artifact missing');
     assert(lock.acceptanceLock.degradedPolicy === 'partial-payload-no-500', 'developer/create degraded policy mismatch');
