@@ -35,6 +35,7 @@ import {
   EXTRIMLI_EXTREM_PROPORCIONALNO_PROGRAMIRANJE_CONTRACT_VERSION,
   EXTRIMLI_EXTREM_SINEMETRICKO_PROGRAMIRANJE_CONTRACT_VERSION,
   EXTRIMLI_EXTREM_SPAJINO_PROPORCIONALNO_PROGRAMIRANJE_UNIVERZITET_CONTRACT_VERSION,
+  EXTRIMLI_EXTREM_VRH_PROGRAMSKOG_EKVILADENTA_CONTRACT_VERSION,
 } from '../extrimli-extrem/types';
 import { EXTRIMLI_OBJEKTNO_ORIJENTISANA_PRONGILACIJA_CONTRACT_VERSION } from '../extrimli-objektna-prongilacija-contract';
 import { EXTRIMLI_OBJEKTNO_ORIJENTISANA_REPRODUKCIJA_CONTRACT_VERSION } from '../extrimli-objektno-orijentisana-reprodukcija-contract';
@@ -256,7 +257,23 @@ export interface ExtrimliExtrondolB2bReadiness {
       blockerReasons: string[];
       watchReasons: string[];
     };
-    sinemetrickoProgramiranjeGovernance: {
+    vrhProgramskogEkviladentaGovernance: {
+    sourceOfTruth: '/api/extrimli/extrem';
+    status: ExtrimliExtremProfilerReport['vrhProgramskogEkviladenta']['readiness']['status'];
+    readinessScore: number;
+    exponentialProgressionScore: number;
+    octavalTopologyScore: number;
+    sequentialOctavalReproductionScore: number;
+    exposureAuditabilityScore: number;
+    torqueMomentumScore: number;
+    proportionalExploitationReadinessScore: number;
+    forStatus: ExtrimliExtremProfilerReport['vrhProgramskogEkviladenta']['technicalEvidence']['forLoopBinding']['forEvidence']['status'];
+    deterministicFallbackRequired: boolean;
+    reviewRequiredBeforeWideRollout: boolean;
+    blockerReasons: string[];
+    watchReasons: string[];
+  };
+  sinemetrickoProgramiranjeGovernance: {
       sourceOfTruth: '/api/extrimli/extrem';
       status: ExtrimliExtremProfilerReport['sinemetrickoProgramiranje']['readiness']['status'];
       readinessScore: number;
@@ -316,6 +333,65 @@ export interface ExtrimliExtrondolObjektnaProngilacijaGovernance {
       { stage: 'WAWE-4'; requirement: string },
       { stage: 'WAWE-5'; requirement: string }
     ];
+  };
+  auditCoupling: {
+    releaseAuditSummaryRequired: true;
+    humanReviewRequired: true;
+    rollbackPlanRequired: true;
+    downstreamSyncRequired: true;
+  };
+  reasons: string[];
+}
+
+export interface ExtrimliExtrondolVrhProgramskogEkviladentaGovernance {
+  term: 'VRH PROGRAMSKOG EKVILADENTA';
+  sourceOfTruth: '/api/extrimli/extrondol';
+  technicalSignalSource: '/api/extrimli/extrem';
+  contractVersion: typeof EXTRONDOL_VRH_PROGRAMSKOG_EKVILADENTA_CONTRACT_VERSION;
+  additiveOnly: true;
+  parentTrack: 'PROPORCIONALNO PROGRAMIRANJE';
+  governanceVisibility: 'audit-safe-readiness-only';
+  status: ExtrimliExtremProfilerReport['vrhProgramskogEkviladenta']['readiness']['status'];
+  readinessScore: number;
+  ownershipModel: {
+    extrem: 'technical-vrh-readiness-signal';
+    extrondol: 'wawe-orchestration-audit-consumer';
+    spajaKod: 'public-audit-safe-summary';
+  };
+  canonicalMappings: {
+    eksponencijalneFunkcije: 'readiness-progression-signal';
+    oktavnaTopologija: 'sekvencijalna-topologija';
+    sekvencijalnaReprodukcija: 'orchestration-sequence';
+    ekspozje: 'auditabilni-intenzitet-opterecenja';
+    obrtniMoment: 'momentum-torque-signal';
+  };
+  ownershipEvidence: {
+    forTechnical: true;
+    dokTechnical: true;
+    dikTechnical: true;
+    dakDeferredToGovernance: true;
+    dukDeferredToGovernance: true;
+  };
+  vrhMetrics: {
+    exponentialProgressionScore: number;
+    octavalTopologyScore: number;
+    sequentialOctavalReproductionScore: number;
+    exposureAuditabilityScore: number;
+    torqueMomentumScore: number;
+    proportionalExploitationReadinessScore: number;
+    forStatus: ExtrimliExtremProfilerReport['vrhProgramskogEkviladenta']['technicalEvidence']['forLoopBinding']['forEvidence']['status'];
+    deterministicFallbackRequired: boolean;
+  };
+  canonicalUniversityTracks: {
+    kraljevskiMatematickiUniverzitetStatus: ExtrimliExtremProfilerReport['vrhProgramskogEkviladenta']['canonicalUniversityTracks']['kraljevskiMatematickiUniverzitet']['status'];
+    kraljevskaFizikaUniverzitetStatus: ExtrimliExtremProfilerReport['vrhProgramskogEkviladenta']['canonicalUniversityTracks']['kraljevskaFizikaUniverzitet']['status'];
+    kraljevskiMasinskiUniverzitetStatus: ExtrimliExtremProfilerReport['vrhProgramskogEkviladenta']['canonicalUniversityTracks']['kraljevskiMasinskiUniverzitet']['status'];
+  };
+  waweImpact: {
+    currentWawe: ExtrimliExtrondolWaweStage;
+    eligibleNextWawe: ExtrimliExtrondolWaweStage;
+    promotionFreeze: boolean;
+    reviewRequiredBeforeWideRollout: boolean;
   };
   auditCoupling: {
     releaseAuditSummaryRequired: true;
@@ -1475,6 +1551,22 @@ export interface ExtrimliExtrondolReleaseAuditSummary {
     blockerReasons: string[];
     watchReasons: string[];
   };
+  vrhProgramskogEkviladentaGovernance: {
+    sourceOfTruth: '/api/extrimli/extrem';
+    status: ExtrimliExtremProfilerReport['vrhProgramskogEkviladenta']['readiness']['status'];
+    readinessScore: number;
+    exponentialProgressionScore: number;
+    octavalTopologyScore: number;
+    sequentialOctavalReproductionScore: number;
+    exposureAuditabilityScore: number;
+    torqueMomentumScore: number;
+    proportionalExploitationReadinessScore: number;
+    forStatus: ExtrimliExtremProfilerReport['vrhProgramskogEkviladenta']['technicalEvidence']['forLoopBinding']['forEvidence']['status'];
+    deterministicFallbackRequired: boolean;
+    reviewRequiredBeforeWideRollout: boolean;
+    blockerReasons: string[];
+    watchReasons: string[];
+  };
   sinemetrickoProgramiranjeGovernance: {
     sourceOfTruth: '/api/extrimli/extrem';
     status: ExtrimliExtremProfilerReport['sinemetrickoProgramiranje']['readiness']['status'];
@@ -1952,6 +2044,7 @@ export interface ExtrimliSpajaKodPublicFacade {
     metrikoProgramiranjeStatus: ExtrimliExtremProfilerReport['metrikoProgramiranje']['readiness']['status'];
     proporcionalnoProgramiranjeStatus: ExtrimliExtremProfilerReport['proporcionalnoProgramiranje']['readiness']['status'];
     spajinoProporcionalnoProgramiranjeUniverzitetStatus: ExtrimliExtremProfilerReport['spajinoProporcionalnoProgramiranjeUniverzitet']['readiness']['status'];
+    vrhProgramskogEkviladentaStatus: ExtrimliExtremProfilerReport['vrhProgramskogEkviladenta']['readiness']['status'];
     humanReviewRequired: true;
     rollbackPlanRequired: true;
     degraded: boolean;
@@ -2016,6 +2109,7 @@ export interface ExtrimliExtrondolReport {
   metrikoProgramiranje: ExtrimliExtrondolMetrickoProgramiranjeGovernance;
   proporcionalnoProgramiranje: ExtrimliExtrondolProporcionalnoProgramiranjeGovernance;
   spajinoProporcionalnoProgramiranjeUniverzitet: ExtrimliExtrondolSpajinoProporcionalnoProgramiranjeUniverzitetGovernance;
+  vrhProgramskogEkviladenta: ExtrimliExtrondolVrhProgramskogEkviladentaGovernance;
   sinemetrickoProgramiranje: ExtrimliExtrondolSinemetrickoProgramiranjeGovernance;
   objektnoOrijentisanaReprodukcija: ExtrimliExtrondolObjektnoOrijentisanaReprodukcijaGovernance;
   epicElikvadenti: ExtrimliExtrondolEpicElikvadentiGovernance;
@@ -2151,6 +2245,11 @@ export const EXTRONDOL_SINEMETRICKO_PROGRAMIRANJE_CONTRACT_VERSION =
 export const EXTRONDOL_SINEMETRICKO_PROGRAMIRANJE_READY_ADJUSTMENT = 2;
 export const EXTRONDOL_SINEMETRICKO_PROGRAMIRANJE_WATCH_ADJUSTMENT = -6;
 export const EXTRONDOL_SINEMETRICKO_PROGRAMIRANJE_BLOCKED_ADJUSTMENT = -15;
+export const EXTRONDOL_VRH_PROGRAMSKOG_EKVILADENTA_CONTRACT_VERSION =
+  EXTRIMLI_EXTREM_VRH_PROGRAMSKOG_EKVILADENTA_CONTRACT_VERSION;
+export const EXTRONDOL_VRH_PROGRAMSKOG_EKVILADENTA_READY_ADJUSTMENT = 2;
+export const EXTRONDOL_VRH_PROGRAMSKOG_EKVILADENTA_WATCH_ADJUSTMENT = -6;
+export const EXTRONDOL_VRH_PROGRAMSKOG_EKVILADENTA_BLOCKED_ADJUSTMENT = -15;
 export const EXTRONDOL_OBJEKTNO_ORIJENTISANA_PRONGILACIJA_CONTRACT_VERSION = EXTRIMLI_OBJEKTNO_ORIJENTISANA_PRONGILACIJA_CONTRACT_VERSION;
 export const EXTRONDOL_OBJEKTNO_ORIJENTISANA_PRONGILACIJA_READY_ADJUSTMENT = 2;
 export const EXTRONDOL_OBJEKTNO_ORIJENTISANA_PRONGILACIJA_WATCH_ADJUSTMENT = -4;

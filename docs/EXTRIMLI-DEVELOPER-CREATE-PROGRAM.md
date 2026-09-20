@@ -71,6 +71,7 @@ Ownership hard lock:
 - `PROGRAMSKI JEZIK PROUČAVANJA` je obavezni additive laboratorijski sloj: ulazni profil slučaja + determinističke metrike + konsolidovani status (`READY | WATCH | BLOCKED`) uz zaključan ownership split (`DOK/DIK/FOR` tehnički, `DAK/DUK` governance).
 - `PROGRAMSKI EKANALOG (razumevanje logike)` je obavezni audit-ready interpretacioni sloj nad laboratorijskim rezultatima bez novih source-of-truth ruta.
 - `VRH PROGRAMSKOG EKVILADENTA` ostaje additive-only interpretativni vršni sloj nad `PROPORCIONALNO PROGRAMIRANJE`: satnica se mapira na `METRIČKO PROGRAMIRANJE`, vokalni/narativni deo na `SINEMETRIČKO PROGRAMIRANJE`, a instrument tabla na `PARADIJOGONALNO PROGRAMIRANJE` (`docs/EXTRIMLI-PARADIJOGONALNO-PROGRAMIRANJE.md`), bez uvođenja novih runtime ruta.
+- V2–V5 lock za VRH je sekvencijalan: prvo docs + contract mapping, zatim EXTREM signal expansion, zatim deterministic governance hardening, pa tek onda EXTRONDOL release orchestration.
 
 ### Stream D — B2B readiness + payment verification
 - `b2bScope`, `b2bReadiness`, `paymentVerification` ostaju hard gate sloj pre promocije.
@@ -201,6 +202,8 @@ Bez kompletnog audit paketa release ostaje u freeze režimu.
 ## VRH PROGRAMSKOG EKVILADENTA LOCK
 
 - `PROGRAM_LOCK_SOURCE_OF_TRUTH`: `VRH PROGRAMSKOG EKVILADENTA` koristi samo `/api/extrimli/extrem`, `/api/extrimli/extrondol` i `/api/extrimli/spaja-kod` kao postojeće surface-ove bez novih runtime ruta.
+- `PROGRAM_LOCK_TERMINOLOGY`: `DOK + DIK + FOR` su EXTREM technical ownership; `DAK + DUK` su EXTRONDOL governance ownership; ChatGPT/share materijal ostaje documentation-only.
+- `PROGRAM_LOCK_VRH_TRACKS`: eksponencijalne funkcije, oktavna topologija, sekvencijalna oktavna reprodukcija, exposure i torque moraju biti mapirani na postojeće EXTREM/EXTRONDOL discipline, a `KRALJEVSKI MATEMATIČKI UNIVERZITET`, `KRALJEVSKA FIZIKA UNIVERZITET` i `KRALJEVSKI MAŠINSKI UNIVERZITET` smeju postojati samo kao interpretativne trake.
 - `PROGRAM_LOCK_PARENT_CHILD`: track ostaje interpretativni vršni sloj iznad `PROPORCIONALNO PROGRAMIRANJE`, ne zaseban paralelni sistem.
 - `PROGRAM_LOCK_ROLE_SPLIT`: `PROPORCIONALNO PROGRAMIRANJE` ostaje parent disciplina, `METRIČKO PROGRAMIRANJE` nosi satnicu i deklarativno-instancijsku metriku, `SINEMETRIČKO PROGRAMIRANJE` nosi vokalni/narativni audit-safe sloj, a `PARADIJOGONALNO PROGRAMIRANJE` iz `docs/EXTRIMLI-PARADIJOGONALNO-PROGRAMIRANJE.md` ostaje instrument tabla za pregled i signalnu kontrolu.
 - `PROGRAM_LOCK_CONTRACT_MAPPING`: analize, proučavanja, informacioni tokovi, pretpostavke, apstrakcije, paradigmijalno oblikovanje tela, ekstremne igrice, prosparitetne matrice i dekoracija primesa moraju ostati mapirani na postojeće AI IQ / EXTRIMLI kontrakte bez novog source-of-truth sloja.

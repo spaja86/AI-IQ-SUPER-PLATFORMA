@@ -25,6 +25,7 @@ import {
   EXTRIMLI_EXTREM_PROPORCIONALNO_PROGRAMIRANJE_CONTRACT_VERSION,
   EXTRIMLI_EXTREM_RADNI_TAKT_MOZGA_MISLILAC_CONTRACT_VERSION,
   EXTRIMLI_EXTREM_SPAJINO_PROPORCIONALNO_PROGRAMIRANJE_UNIVERZITET_CONTRACT_VERSION,
+  EXTRIMLI_EXTREM_VRH_PROGRAMSKOG_EKVILADENTA_CONTRACT_VERSION,
 } from '../../lib/extrimli-extrem/types';
 
 let passed = 0;
@@ -143,6 +144,7 @@ async function runTests(): Promise<void> {
         funkionalnoProgramiranjePravnogMisaonogToka: { term: string; status: string; technicalSignalSource: string; legalBoundary: { sourceTrack: string } };
         proporcionalnoProgramiranje: { term: string; status: string; technicalSignalSource: string };
         spajinoProporcionalnoProgramiranjeUniverzitet: { term: string; status: string; technicalSignalSource: string; parentTrack: string };
+        vrhProgramskogEkviladenta: { term: string; status: string; technicalSignalSource: string; parentTrack: string };
         epicElikvadenti: { term: string; status: string; technicalSignalSource: string };
         mobilnaLinija: {
           lineType: string;
@@ -168,6 +170,7 @@ async function runTests(): Promise<void> {
           funkionalnoProgramiranjePravnogMisaonogTokaGovernance: { sourceOfTruth: string; status: string };
           proporcionalnoProgramiranjeGovernance: { sourceOfTruth: string; status: string };
           spajinoProporcionalnoProgramiranjeUniverzitetGovernance: { sourceOfTruth: string; status: string };
+          vrhProgramskogEkviladentaGovernance: { sourceOfTruth: string; status: string };
           semaFormulaGovernance: { canonicalExpression: string; status: string; muSemaConclusion: string };
           epicElikvadentiGovernance: { sourceOfTruth: string; status: string };
           petljeGovernance: { sourceOfTruth: string; readinessScore: number; conflictScore: number; freezeRequired: boolean };
@@ -301,6 +304,10 @@ async function runTests(): Promise<void> {
     assert(body.data.spajinoProporcionalnoProgramiranjeUniverzitet.technicalSignalSource === '/api/extrimli/extrem', 'unexpected university track source');
     assert(body.data.spajinoProporcionalnoProgramiranjeUniverzitet.parentTrack === 'PROPORCIONALNO PROGRAMIRANJE', 'unexpected university parent track');
     assert(['READY', 'WATCH', 'BLOCKED'].includes(body.data.spajinoProporcionalnoProgramiranjeUniverzitet.status), 'unexpected university track status');
+    assert(body.data.vrhProgramskogEkviladenta.term === 'VRH PROGRAMSKOG EKVILADENTA', 'unexpected vrh term');
+    assert(body.data.vrhProgramskogEkviladenta.technicalSignalSource === '/api/extrimli/extrem', 'unexpected vrh source');
+    assert(body.data.vrhProgramskogEkviladenta.parentTrack === 'PROPORCIONALNO PROGRAMIRANJE', 'unexpected vrh parent track');
+    assert(['READY', 'WATCH', 'BLOCKED'].includes(body.data.vrhProgramskogEkviladenta.status), 'unexpected vrh status');
     assert(body.data.epicElikvadenti.term === 'Objektno orijentusano uzdizanje epskih elikvadenata', 'unexpected epic elikvadenti term');
     assert(body.data.epicElikvadenti.technicalSignalSource === '/api/extrimli/extrem', 'unexpected epic elikvadenti source');
     assert(['READY', 'WATCH', 'BLOCKED'].includes(body.data.epicElikvadenti.status), 'unexpected epic elikvadenti status');
@@ -324,6 +331,7 @@ async function runTests(): Promise<void> {
     assert(body.data.releaseAuditSummary.funkionalnoProgramiranjePravnogMisaonogTokaGovernance.sourceOfTruth === '/api/extrimli/extrem', 'missing legal-functional governance source');
     assert(body.data.releaseAuditSummary.proporcionalnoProgramiranjeGovernance.sourceOfTruth === '/api/extrimli/extrem', 'missing proportional programming governance source');
     assert(body.data.releaseAuditSummary.spajinoProporcionalnoProgramiranjeUniverzitetGovernance.sourceOfTruth === '/api/extrimli/extrem', 'missing university governance source');
+    assert(body.data.releaseAuditSummary.vrhProgramskogEkviladentaGovernance.sourceOfTruth === '/api/extrimli/extrem', 'missing vrh governance source');
     assert(body.data.releaseAuditSummary.petljeGovernance.sourceOfTruth === '/api/extrimli/extrem', 'missing petlje governance source');
     assert(typeof body.data.releaseAuditSummary.petljeGovernance.freezeRequired === 'boolean', 'petlje governance freeze should be boolean');
     assert(['READY', 'WATCH', 'BLOCKED'].includes(body.data.releaseAuditSummary.funkcinalnoProgramiranjeEnergetskogMisaonogTokaGovernance.status), 'unexpected functional energy-flow governance status');
@@ -334,6 +342,7 @@ async function runTests(): Promise<void> {
     assert(['READY', 'WATCH', 'BLOCKED'].includes(body.data.releaseAuditSummary.funkionalnoProgramiranjePravnogMisaonogTokaGovernance.status), 'unexpected legal-functional governance status');
     assert(['READY', 'WATCH', 'BLOCKED'].includes(body.data.releaseAuditSummary.proporcionalnoProgramiranjeGovernance.status), 'unexpected proportional programming governance status');
     assert(['READY', 'WATCH', 'BLOCKED'].includes(body.data.releaseAuditSummary.spajinoProporcionalnoProgramiranjeUniverzitetGovernance.status), 'unexpected university governance status');
+    assert(['READY', 'WATCH', 'BLOCKED'].includes(body.data.releaseAuditSummary.vrhProgramskogEkviladentaGovernance.status), 'unexpected vrh governance status');
     assert(['READY', 'WATCH', 'BLOCKED'].includes(body.data.releaseAuditSummary.epicElikvadentiGovernance.status), 'unexpected epic governance status');
     assert(['PASSED', 'BLOCKED'].includes(body.data.releaseAuditSummary.semaFormulaGovernance.status), 'unexpected formula governance status');
     assert(['MUŠEMA_CONFIRMED', 'MUŠEMA_BLOCKED'].includes(body.data.releaseAuditSummary.semaFormulaGovernance.muSemaConclusion), 'unexpected MUŠEMA conclusion');
@@ -371,6 +380,12 @@ async function runTests(): Promise<void> {
           };
         };
         spajinoProporcionalnoProgramiranjeUniverzitet: {
+          term: string;
+          contractVersion: string;
+          parentTrack: string;
+          readiness: { status: string; score: number };
+        };
+        vrhProgramskogEkviladenta: {
           term: string;
           contractVersion: string;
           parentTrack: string;
@@ -437,6 +452,11 @@ async function runTests(): Promise<void> {
     assert(body.data.spajinoProporcionalnoProgramiranjeUniverzitet.parentTrack === 'PROPORCIONALNO PROGRAMIRANJE', 'unexpected EXTREM university parent track');
     assert(['READY', 'WATCH', 'BLOCKED'].includes(body.data.spajinoProporcionalnoProgramiranjeUniverzitet.readiness.status), 'unexpected EXTREM university status');
     assert(Number.isFinite(body.data.spajinoProporcionalnoProgramiranjeUniverzitet.readiness.score), 'university score must be finite');
+    assert(body.data.vrhProgramskogEkviladenta.term === 'VRH PROGRAMSKOG EKVILADENTA', 'unexpected EXTREM vrh term');
+    assert(body.data.vrhProgramskogEkviladenta.contractVersion === EXTRIMLI_EXTREM_VRH_PROGRAMSKOG_EKVILADENTA_CONTRACT_VERSION, 'unexpected EXTREM vrh contract');
+    assert(body.data.vrhProgramskogEkviladenta.parentTrack === 'PROPORCIONALNO PROGRAMIRANJE', 'unexpected EXTREM vrh parent track');
+    assert(['READY', 'WATCH', 'BLOCKED'].includes(body.data.vrhProgramskogEkviladenta.readiness.status), 'unexpected EXTREM vrh status');
+    assert(Number.isFinite(body.data.vrhProgramskogEkviladenta.readiness.score), 'vrh score must be finite');
     assert(body.data.objektnoOrijentisanaProngilacija.term === 'Objektno orijentisana prongilacija', 'unexpected EXTREM object-oriented prongilacija term');
     assert(
       body.data.objektnoOrijentisanaProngilacija.contractVersion === EXTRIMLI_EXTREM_OBJEKTNO_ORIJENTISANA_PRONGILACIJA_CONTRACT_VERSION,
@@ -535,6 +555,7 @@ async function runTests(): Promise<void> {
           paradijogonalnoProgrimiranjeStatus: string;
           proporcionalnoProgramiranjeStatus: string;
           spajinoProporcionalnoProgramiranjeUniverzitetStatus: string;
+          vrhProgramskogEkviladentaStatus: string;
         };
         epilogijaCovecnosti: { title: string; interpretation: string };
         dokerKuratIzekDokarTrack: { boundarySurface: string; publicStatus: string; tokenSummaries: Array<{ token: string; status: string }> };
@@ -557,6 +578,7 @@ async function runTests(): Promise<void> {
     assert(['READY', 'WATCH', 'BLOCKED'].includes(body.data.publicSignals.paradijogonalnoProgrimiranjeStatus), 'unexpected SPAJA KOD paradijogonalno summary status');
     assert(['READY', 'WATCH', 'BLOCKED'].includes(body.data.publicSignals.proporcionalnoProgramiranjeStatus), 'unexpected SPAJA KOD proportional programming summary status');
     assert(['READY', 'WATCH', 'BLOCKED'].includes(body.data.publicSignals.spajinoProporcionalnoProgramiranjeUniverzitetStatus), 'unexpected SPAJA KOD university summary status');
+    assert(['READY', 'WATCH', 'BLOCKED'].includes(body.data.publicSignals.vrhProgramskogEkviladentaStatus), 'unexpected SPAJA KOD vrh summary status');
     assert(body.data.epilogijaCovecnosti.title === 'EPILOGIJA ČOVEČNOSTI', 'unexpected SPAJA KOD epilog title');
     assert(body.data.epilogijaCovecnosti.interpretation.length > 0, 'SPAJA KOD epilog interpretation should be present');
     assert(body.data.dokerKuratIzekDokarTrack.boundarySurface === 'SPAJA KOD', 'unexpected quartet boundary surface');

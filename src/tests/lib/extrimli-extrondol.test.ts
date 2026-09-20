@@ -41,6 +41,7 @@ import {
   EXTRONDOL_PROGRAMSKI_JEZIK_PARADIGMA_OBLIKOVANJE_TELA_CONTRACT_VERSION,
   EXTRONDOL_SPAJINO_PROPORCIONALNO_PROGRAMIRANJE_UNIVERZITET_CONTRACT_VERSION,
   EXTRONDOL_SINEMETRICKO_PROGRAMIRANJE_CONTRACT_VERSION,
+  EXTRONDOL_VRH_PROGRAMSKOG_EKVILADENTA_CONTRACT_VERSION,
   EXTRONDOL_REQUESTED_DOMAIN_PATTERN,
   EXTRONDOL_PERSONA_ID,
   EXTRONDOL_SOURCE_OF_TRUTH,
@@ -63,6 +64,7 @@ import {
   getProporcionalnoProgramiranjeAdjustment,
   getSpajinoProporcionalnoProgramiranjeUniverzitetAdjustment,
   getSinemetrickoProgramiranjeAdjustment,
+  getVrhProgramskogEkviladentaAdjustment,
   getExtrimliExtrondolReport,
 } from '../../lib/extrimli-extrondol';
 import {
@@ -458,6 +460,21 @@ async function runTests(): Promise<void> {
     assert(report.acceptanceCriteria.some((item) => item.id === 'spajino-proporcionalno-programiranje-univerzitet-governance' && item.passed), 'university acceptance criterion must pass');
   });
 
+  await test('report maps VRH PROGRAMSKOG EKVILADENTA into WAWE governance, audit, downstream sync, and SPAJA KOD summary', () => {
+    const report = getExtrimliExtrondolReport();
+    assert(report.vrhProgramskogEkviladenta.term === 'VRH PROGRAMSKOG EKVILADENTA', 'vrh term mismatch');
+    assert(report.vrhProgramskogEkviladenta.contractVersion === EXTRONDOL_VRH_PROGRAMSKOG_EKVILADENTA_CONTRACT_VERSION, 'vrh contract mismatch');
+    assert(report.vrhProgramskogEkviladenta.technicalSignalSource === '/api/extrimli/extrem', 'vrh technical source mismatch');
+    assert(report.vrhProgramskogEkviladenta.parentTrack === 'PROPORCIONALNO PROGRAMIRANJE', 'vrh parent track mismatch');
+    assert(report.releaseAuditSummary.vrhProgramskogEkviladentaGovernance.sourceOfTruth === '/api/extrimli/extrem', 'vrh audit source mismatch');
+    assert(report.b2bReadiness.downstreamSync.syncedFields.includes('extremProfiler.vrhProgramskogEkviladenta.readiness.status'), 'vrh status must sync downstream');
+    assert(report.b2bReadiness.downstreamSync.syncedFields.includes('vrhProgramskogEkviladenta.waweImpact'), 'vrh WAWE impact must sync downstream');
+    assert(report.startProject.mandatoryOutputs.includes('vrhProgramskogEkviladenta'), 'vrh governance must be mandatory output');
+    assert(report.spajaKod.publicSignals.vrhProgramskogEkviladentaStatus === report.extremProfiler.vrhProgramskogEkviladenta.readiness.status, 'SPAJA KOD vrh summary mismatch');
+    assert(report.releaseReadinessScorecard.checks.some((check) => check.id === 'vrh-programskog-ekviladenta-governance'), 'vrh scorecard check missing');
+    assert(report.acceptanceCriteria.some((item) => item.id === 'vrh-programskog-ekviladenta-governance' && item.passed), 'vrh acceptance criterion must pass');
+  });
+
   await test('report maps objektno orijentisana reprodukcija into WAWE governance and downstream sync', () => {
     const report = getExtrimliExtrondolReport();
     assert(report.objektnoOrijentisanaReprodukcija.term === 'Objektno orijentisana reprodukcija', 'object-oriented reproduction term mismatch');
@@ -780,6 +797,9 @@ async function runTests(): Promise<void> {
     const spajinoProporcionalnoProgramiranjeUniverzitetAdjustment = getSpajinoProporcionalnoProgramiranjeUniverzitetAdjustment(
       report.extremProfiler.spajinoProporcionalnoProgramiranjeUniverzitet.readiness.status,
     );
+    const vrhProgramskogEkviladentaAdjustment = getVrhProgramskogEkviladentaAdjustment(
+      report.extremProfiler.vrhProgramskogEkviladenta.readiness.status,
+    );
     const sinemetrickoProgramiranjeAdjustment = getSinemetrickoProgramiranjeAdjustment(
       report.extremProfiler.sinemetrickoProgramiranje.readiness.status,
     );
@@ -808,6 +828,7 @@ async function runTests(): Promise<void> {
           + paradijogonalnoProgrimiranjeAdjustment
           + proporcionalnoProgramiranjeAdjustment
           + spajinoProporcionalnoProgramiranjeUniverzitetAdjustment
+          + vrhProgramskogEkviladentaAdjustment
           + sinemetrickoProgramiranjeAdjustment
           + objektnoOrijentisanaReprodukcijaAdjustment
           + epicElikvadentiAdjustment

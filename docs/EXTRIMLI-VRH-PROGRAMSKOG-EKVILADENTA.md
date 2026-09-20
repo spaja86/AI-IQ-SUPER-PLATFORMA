@@ -16,6 +16,32 @@
 
 `VRH PROGRAMSKOG EKVILADENTA` nije novi modul, već vršni plan koji orkestrira postojeće proporcionalne, metričke, sinemetričke, paradijogonalne i AI-IQ jezičke slojeve u jednu governance priču.
 
+## Kanonsko terminološko mapiranje
+
+- `DOK + DIK + FOR` ostaju tehnički EXTREM sloj.
+- `DAK + DUK` ostaju EXTRONDOL governance sloj.
+- ChatGPT share link i sličan spoljašnji materijal tretiraju se isključivo kao **documentation-only** izvor, nikada kao runtime source of truth.
+- `eksponencijalne funkcije` mapiraju se na readiness/progression signal.
+- `oktavna topologija` i `sekvencionalni oktavni sistem reprodukcije` mapiraju se na sekvencijalni/orchestration model unutar EXTREM signala.
+- `ekspozje / exposure` mapira se na auditabilni intenzitet ili opterećenje.
+- `obrtni moment` mapira se na momentum / torque signal u tehničkom profileru.
+- `srazmerno stanje u eksploatacionom nivou` mapira se na proporcionalno-programiranje i governance readiness posture.
+
+## Kanonske interpretativne trake
+
+- `KRALJEVSKI MATEMATIČKI UNIVERZITET` — eksponencijalno, proporcionalno i sekvencijalno modelovanje
+- `KRALJEVSKA FIZIKA UNIVERZITET` — exposure, energija, dinamika i konfliktna propagacija
+- `KRALJEVSKI MAŠINSKI UNIVERZITET` — obrtni moment, mehanička stabilnost i izvršno kretanje signala
+
+Ove trake su dozvoljene samo kao additive interpretativni slojevi unutar postojećih EXTREM/EXTRONDOL kontrakata, bez novih API modula.
+
+## V2–V5 realizacioni lock
+
+- **V2** — kanonsko dokumentaciono i kontraktno mapiranje novih termina na postojeće EXTRIMLI/EXTREM/EXTRONDOL surface-ove
+- **V3** — proširenje EXTREM readiness/profiler signala za eksponencijalni rast, oktavni raspored, sekvencijalnu reprodukciju, exposure i torque
+- **V4** — governance hardening nad tim signalima sa determinističkim `READY | WATCH | BLOCKED` pravilima i fallback-om za `NaN`, `Infinity`, prazne ili konfliktne ulaze
+- **V5** — EXTRONDOL release orkestracija kroz WAWE uticaj, freeze/promotion razloge, release-audit i downstream summary
+
 ## Canonical role split
 
 - `PROPORCIONALNO PROGRAMIRANJE` = parent disciplina i centralna ravnoteža funkcionalnog i objektnog sloja
