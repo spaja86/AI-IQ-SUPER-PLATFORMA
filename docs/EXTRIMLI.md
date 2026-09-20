@@ -659,6 +659,12 @@ Canonical role split:
 - `SINEMETRIČKO PROGRAMIRANJE` = vokalni/narativni deo i audit-safe explainability signal
 - `PARADIJOGONALNO PROGRIMIRANJE` = instrument tabla za operativni pregled, analize i signalnu kontrolu
 
+Referenced component specs:
+
+- `METRIČKO PROGRAMIRANJE` → `docs/EXTRIMLI-METRICKO-PROGRAMIRANJE.md`
+- `SINEMETRIČKO PROGRAMIRANJE` → `docs/EXTRIMLI-SINEMETRICKO-PROGRAMIRANJE.md`
+- `PARADIJOGONALNO PROGRIMIRANJE` → `docs/EXTRIMLI-PARADIJOGONALNO-PROGRIMIRANJE.md`
+
 Existing-contract mapping:
 
 - `analize` = `PROGRAMSKI JEZIK ANALIZA`
