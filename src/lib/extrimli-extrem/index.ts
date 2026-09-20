@@ -3759,6 +3759,17 @@ export function resolveVrhProgramskogEkviladentaForSignal(params: {
   informationalForEvidence?: ExtrimliExtremProgramskiJezikInformacionihTokovaSignal['forLoopBinding']['forEvidence'];
   forPetljaResult: ReturnType<typeof runForPetlja>;
 }): ExtrimliDokDikDakDukConsistencyHealth['signals']['for'] {
+  return resolveVrhProgramskogEkviladentaForSignalResolution(params).signal;
+}
+
+function resolveVrhProgramskogEkviladentaForSignalResolution(params: {
+  forSignal?: ExtrimliDokDikDakDukConsistencyHealth['signals']['for'];
+  informationalForEvidence?: ExtrimliExtremProgramskiJezikInformacionihTokovaSignal['forLoopBinding']['forEvidence'];
+  forPetljaResult: ReturnType<typeof runForPetlja>;
+}): {
+  signal: ExtrimliDokDikDakDukConsistencyHealth['signals']['for'];
+  fallbackRequired: boolean;
+} {
   const fallbackReadinessScore = round(
     clamp(
       (params.forPetljaResult.completed ? 86 : 34)
@@ -3773,30 +3784,13 @@ export function resolveVrhProgramskogEkviladentaForSignal(params: {
     ),
     2,
   );
-  const fallbackStatus =
-    fallbackReadinessScore >= EXTRIMLI_EXTREM_PETLJE_READY_MIN_SCORE
-      ? 'READY'
-      : fallbackReadinessScore >= EXTRIMLI_EXTREM_PETLJE_WATCH_MIN_SCORE
-        ? 'WATCH'
-        : 'BLOCKED';
-
-  return resolveVrhProgramskogEkviladentaForSignalResolution(params).signal;
-}
-
-function resolveVrhProgramskogEkviladentaForSignalResolution(params: {
-  forSignal?: ExtrimliDokDikDakDukConsistencyHealth['signals']['for'];
-  informationalForEvidence?: ExtrimliExtremProgramskiJezikInformacionihTokovaSignal['forLoopBinding']['forEvidence'];
-  forPetljaResult: ReturnType<typeof runForPetlja>;
-}): {
-  signal: ExtrimliDokDikDakDukConsistencyHealth['signals']['for'];
-  fallbackRequired: boolean;
-} {
+  const fallbackStatus = classifyVrhProgramskogEkviladentaStatus(fallbackReadinessScore);
   const fallbackRequired = params.forSignal?.status == null || params.forSignal?.readinessScore == null;
   return {
     signal: {
-    kind: 'FOR PETLJA',
-    status: params.forSignal?.status ?? params.informationalForEvidence?.status ?? fallbackStatus,
-    readinessScore: params.forSignal?.readinessScore ?? params.informationalForEvidence?.readinessScore ?? fallbackReadinessScore,
+      kind: 'FOR PETLJA',
+      status: params.forSignal?.status ?? params.informationalForEvidence?.status ?? fallbackStatus,
+      readinessScore: params.forSignal?.readinessScore ?? params.informationalForEvidence?.readinessScore ?? fallbackReadinessScore,
     },
     fallbackRequired,
   };
