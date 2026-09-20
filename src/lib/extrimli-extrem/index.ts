@@ -3754,6 +3754,39 @@ function classifyVrhProgramskogEkviladentaStatus(score: number): ExtrimliExtremV
   return 'BLOCKED';
 }
 
+export function resolveVrhProgramskogEkviladentaForSignal(params: {
+  forSignal?: ExtrimliDokDikDakDukConsistencyHealth['signals']['for'];
+  informationalForEvidence?: ExtrimliExtremProgramskiJezikInformacionihTokovaSignal['forLoopBinding']['forEvidence'];
+  forPetljaResult: ReturnType<typeof runForPetlja>;
+}): ExtrimliDokDikDakDukConsistencyHealth['signals']['for'] {
+  const fallbackReadinessScore = round(
+    clamp(
+      (params.forPetljaResult.completed ? 86 : 34)
+      + Math.max(0, 10 - params.forPetljaResult.iterations) * 1.6
+      - params.forPetljaResult.warnings.length * 8
+      - (params.forPetljaResult.reason === 'invalid-input' ? 28 : 0)
+      - (params.forPetljaResult.reason === 'blocked-status' ? 36 : 0)
+      - (params.forPetljaResult.reason === 'max-iterations' ? 18 : 0)
+      - (params.forPetljaResult.reason === 'time-limit' ? 16 : 0),
+      0,
+      100,
+    ),
+    2,
+  );
+  const fallbackStatus =
+    fallbackReadinessScore >= EXTRIMLI_EXTREM_PETLJE_READY_MIN_SCORE
+      ? 'READY'
+      : fallbackReadinessScore >= EXTRIMLI_EXTREM_PETLJE_WATCH_MIN_SCORE
+        ? 'WATCH'
+        : 'BLOCKED';
+
+  return {
+    kind: 'FOR PETLJA',
+    status: params.forSignal?.status ?? params.informationalForEvidence?.status ?? fallbackStatus,
+    readinessScore: params.forSignal?.readinessScore ?? params.informationalForEvidence?.readinessScore ?? fallbackReadinessScore,
+  };
+}
+
 function buildVrhProgramskogEkviladentaSignal(params: {
   profileInput: ExtrimliExtremVrhProgramskogEkviladentaProfileInput;
   proporcionalnoProgramiranje: ExtrimliExtremProporcionalnoProgramiranjeSignal;
@@ -5543,31 +5576,13 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
   const vrhProgramskogEkviladentaInput = resolveVrhProgramskogEkviladentaInput(degradedSources);
   const vrhDokSignal = { kind: 'DOK PETLJA' as const, status: dokSignal?.status ?? null, readinessScore: dokSignal?.readinessScore ?? null };
   const vrhDikSignal = { kind: 'DIK PETLJA' as const, status: dikSignal?.status ?? null, readinessScore: dikSignal?.readinessScore ?? null };
-  const vrhForFallbackReadinessScore = round(
-    clamp(
-      (forPetljaResult.completed ? 86 : 34)
-      + Math.max(0, 10 - forPetljaResult.iterations) * 1.6
-      - forPetljaResult.warnings.length * 8
-      - (forPetljaResult.reason === 'invalid-input' ? 28 : 0)
-      - (forPetljaResult.reason === 'blocked-status' ? 36 : 0)
-      - (forPetljaResult.reason === 'max-iterations' ? 18 : 0)
-      - (forPetljaResult.reason === 'time-limit' ? 16 : 0),
-      0,
-      100,
-    ),
-    2,
-  );
-  const vrhForFallbackStatus =
-    vrhForFallbackReadinessScore >= EXTRIMLI_EXTREM_PETLJE_READY_MIN_SCORE
-      ? 'READY'
-      : vrhForFallbackReadinessScore >= EXTRIMLI_EXTREM_PETLJE_WATCH_MIN_SCORE
-        ? 'WATCH'
-        : 'BLOCKED';
-  const vrhForSignal = {
-    kind: 'FOR PETLJA' as const,
-    status: forSignal?.status ?? programskiJezikInformacionihTokova.forLoopBinding.forEvidence.status ?? vrhForFallbackStatus,
-    readinessScore: forSignal?.readinessScore ?? programskiJezikInformacionihTokova.forLoopBinding.forEvidence.readinessScore ?? vrhForFallbackReadinessScore,
-  };
+  const vrhForSignal = resolveVrhProgramskogEkviladentaForSignal({
+    forSignal: forSignal == null
+      ? undefined
+      : { kind: 'FOR PETLJA', status: forSignal.status, readinessScore: forSignal.readinessScore },
+    informationalForEvidence: programskiJezikInformacionihTokova.forLoopBinding.forEvidence,
+    forPetljaResult,
+  });
   const vrhProgramskogEkviladentaDegraded =
     degradedSources.some((source) => source.startsWith('invalid-env:EXTRIMLI_EXTREM_VRH_'))
     || proporcionalnoProgramiranje.readiness.degraded

@@ -27,7 +27,9 @@ import {
   EXTRIMLI_EXTREM_SHEMA_MUSHEMA_CANONICAL_EXPRESSION,
   EXTRIMLI_EXTREM_ZELEZARA_PRETPLATA_IDENTITY_CONTRACT_VERSION,
   getExtrimliExtremProfilerReport,
+  resolveVrhProgramskogEkviladentaForSignal,
 } from '../../lib/extrimli-extrem';
+import { runForPetlja } from '../../lib/petlje';
 
 let passed = 0;
 let failed = 0;
@@ -381,41 +383,23 @@ async function runTests(): Promise<void> {
   });
 
   await test('VRH PROGRAMSKOG EKVILADENTA keeps deterministic FOR fallback when PETLJE summary omits FOR signal', () => {
-    const originalFind = Array.prototype.find;
-    Array.prototype.find = function patchedFind<T>(
-      this: T[],
-      predicate: (value: T, index: number, obj: T[]) => unknown,
-      thisArg?: unknown,
-    ): T | undefined {
-      if (this.some((value) => typeof value === 'object' && value !== null && 'kind' in (value as object) && (value as { kind?: string }).kind === 'FOR PETLJA')) {
-        return originalFind.call(
-          this,
-          (value: T, index: number, obj: T[]) => (
-            !(
-              typeof value === 'object'
-              && value !== null
-              && 'kind' in (value as object)
-              && (value as { kind?: string }).kind === 'FOR PETLJA'
-            )
-          ) && Boolean(predicate.call(thisArg, value, index, obj)),
-          thisArg,
-        );
-      }
+    const report = getExtrimliExtremProfilerReport();
+    const informationalForEvidence = report.programskiJezikInformacionihTokova.forLoopBinding.forEvidence;
+    const resolvedForSignal = resolveVrhProgramskogEkviladentaForSignal({
+      informationalForEvidence,
+      forPetljaResult: runForPetlja({
+        start: 1,
+        target: 10,
+        sequence: ['signal', 'flow', 'audit'],
+        maxIterations: 8,
+        maxDurationMs: 100,
+        status: 'ACTIVATED',
+      }),
+    });
 
-      return originalFind.call(this, predicate, thisArg);
-    };
-
-    try {
-      const report = getExtrimliExtremProfilerReport();
-      const vrhForEvidence = report.vrhProgramskogEkviladenta.technicalEvidence.forLoopBinding.forEvidence;
-      const informationalForEvidence = report.programskiJezikInformacionihTokova.forLoopBinding.forEvidence;
-      assert(vrhForEvidence.kind === 'FOR PETLJA', 'vrh fallback FOR kind mismatch');
-      assert(vrhForEvidence.status === informationalForEvidence.status, 'vrh fallback FOR status should align with informational flow evidence');
-      assert(vrhForEvidence.readinessScore === informationalForEvidence.readinessScore, 'vrh fallback FOR readiness should align with informational flow evidence');
-      assert(report.vrhProgramskogEkviladenta.readiness.deterministicFallbackRequired === report.programskiJezikInformacionihTokova.readiness.degraded, 'vrh fallback degraded posture mismatch');
-    } finally {
-      Array.prototype.find = originalFind;
-    }
+    assert(resolvedForSignal.kind === 'FOR PETLJA', 'vrh fallback FOR kind mismatch');
+    assert(resolvedForSignal.status === informationalForEvidence.status, 'vrh fallback FOR status should align with informational flow evidence');
+    assert(resolvedForSignal.readinessScore === informationalForEvidence.readinessScore, 'vrh fallback FOR readiness should align with informational flow evidence');
   });
 
   await test('default report exposes objektno orijentisana reprodukcija as additive EXTREM signal', () => {
