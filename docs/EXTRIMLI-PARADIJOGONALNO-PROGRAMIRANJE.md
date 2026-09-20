@@ -48,4 +48,5 @@ EXTRONDOL koristi paradijogonalno signal za:
 - Nema novog runtime public source-of-truth endpointa.
 - PROSPARITET ostaje repo-local ulazni domen.
 - Nema novog cross-repo runtime coupling-a bez eksplicitnog downstream follow-up-a.
+- PARADIJOGONALNO status ulazi u `dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.technicalReadinessProfile` samo kao postojeći instrumentalni readiness doprinos; repo-wide javni odraz ostaje audit-safe summary preko EXTRONDOL/SPAJA KOD boundary-ja.
 - Dozvoljeni statusi ostaju `READY | WATCH | BLOCKED`, uz obavezan deterministic fallback za `NaN`, `Infinity`, prazne i konfliktne ulaze.

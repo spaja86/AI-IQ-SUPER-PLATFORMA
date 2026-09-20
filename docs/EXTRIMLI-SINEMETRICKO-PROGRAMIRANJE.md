@@ -35,6 +35,7 @@
 - Oktavni sequencing and 1ms cadence constraints are validated.
 - DOK/DIK/DAK/DUK consistency health remains aligned across EXTREM and EXTRONDOL.
 - Public repo-wide reflection language remains `READY | WATCH | BLOCKED`.
+- SINEMETRIČKO stanje se repo-wide odražava samo kroz `dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.technicalReadinessProfile` i audit-safe EXTRONDOL/SPAJA KOD summary, bez novih ruta i bez izlaganja raw matrica/formula.
 
 ## Audit-safe downstream sync
 

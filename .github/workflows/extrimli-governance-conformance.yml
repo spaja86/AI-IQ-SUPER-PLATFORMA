@@ -126,24 +126,32 @@ jobs:
           assert(developerCreateProgramDoc.includes('docs + types + routes + tests + workflows'), 'Developer/Create program doc must lock docs/types/routes/tests/workflows');
           assert(developerCreateProgramDoc.includes('DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == RADNI TAKT MOZGA (MISLILAC)'), 'Developer/Create program doc must lock repo-wide equality mapping');
           assert(vrhDoc.includes('DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == RADNI TAKT MOZGA (MISLILAC)'), 'VRH doc must lock repo-wide equality mapping');
+          assert(vrhDoc.includes('v5-extrondol-release-audit-and-orchestration'), 'VRH doc must lock the active Developer/Create execution stage');
           assert(metrikoDoc.includes('/api/extrimli/extrem') && metrikoDoc.includes('/api/extrimli/extrondol') && metrikoDoc.includes('/api/extrimli/spaja-kod'), 'METRIČKO doc must keep source-of-truth routes locked');
           assert(metrikoDoc.includes('dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection'), 'METRIČKO doc must reference the central repo-wide reflection proof');
+          assert(metrikoDoc.includes('technicalReadinessProfile'), 'METRIČKO doc must reference the shared technical readiness profile');
           assert(metrikoDoc.includes('DOK + DIK + FOR') && metrikoDoc.includes('DAK + DUK'), 'METRIČKO doc must lock technical/governance ownership split');
           assert(metrikoDoc.includes('READY | WATCH | BLOCKED') && metrikoDoc.includes('NaN') && metrikoDoc.includes('Infinity'), 'METRIČKO doc must keep deterministic fallback semantics');
           assert(sinemetrickoDoc.includes('DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == RADNI TAKT MOZGA (MISLILAC)'), 'SINEMETRIČKO doc must lock repo-wide equality mapping');
           assert(sinemetrickoDoc.includes('dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection'), 'SINEMETRIČKO doc must reference the central repo-wide reflection proof');
+          assert(sinemetrickoDoc.includes('technicalReadinessProfile'), 'SINEMETRIČKO doc must reference the shared technical readiness profile');
           assert(sinemetrickoDoc.includes('DOK + DIK + FOR') && sinemetrickoDoc.includes('DAK + DUK'), 'SINEMETRIČKO doc must lock technical/governance ownership split');
           assert(sinemetrickoDoc.includes('READY | WATCH | BLOCKED') && sinemetrickoDoc.includes('NaN/Infinity'), 'SINEMETRIČKO doc must keep deterministic fallback semantics');
           assert(paradijogonalnoDoc.includes('/api/extrimli/extrem') && paradijogonalnoDoc.includes('/api/extrimli/extrondol') && paradijogonalnoDoc.includes('/api/extrimli/spaja-kod'), 'PARADIJOGONALNO doc must keep source-of-truth routes locked');
           assert(paradijogonalnoDoc.includes('DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == RADNI TAKT MOZGA (MISLILAC)'), 'PARADIJOGONALNO doc must lock repo-wide equality mapping');
           assert(paradijogonalnoDoc.includes('dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection'), 'PARADIJOGONALNO doc must reference the central repo-wide reflection proof');
+          assert(paradijogonalnoDoc.includes('technicalReadinessProfile'), 'PARADIJOGONALNO doc must reference the shared technical readiness profile');
           assert(paradijogonalnoDoc.includes('FOR') && paradijogonalnoDoc.includes('DAK') && paradijogonalnoDoc.includes('DUK'), 'PARADIJOGONALNO doc must lock technical/governance ownership split');
           assert(paradijogonalnoDoc.includes('READY | WATCH | BLOCKED') && paradijogonalnoDoc.includes('NaN') && paradijogonalnoDoc.includes('Infinity'), 'PARADIJOGONALNO doc must keep deterministic fallback semantics');
           assert(types.includes('developerAndCreateRepoWideReflection') && extrondolIndex.includes('developerAndCreateRepoWideReflection'), 'types and EXTRONDOL index must include developer/create repo-wide reflection contract fields');
+          assert(types.includes('technicalReadinessProfile') && extrondolIndex.includes('technicalReadinessProfile'), 'types and EXTRONDOL index must include technical readiness profile fields for repo-wide reflection');
+          assert(types.includes('roadmapExecution') && extrondolIndex.includes('roadmapExecution'), 'types and EXTRONDOL index must include roadmap execution fields for repo-wide reflection');
           assert(extrimliDoc.includes('dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection'), 'EXTRIMLI doc must include developer/create consistency proof field');
+          assert(extrimliDoc.includes('technicalReadinessProfile') && extrimliDoc.includes('v5-extrondol-release-audit-and-orchestration'), 'EXTRIMLI doc must include the technical readiness profile and active execution stage');
           assert(versionRoadmap.includes('mandatoryArtifacts') && versionRoadmap.includes('implementationStreams') && versionRoadmap.includes('acceptanceLock'), 'roadmap lock must include mandatory artifacts, streams, and acceptance lock');
           assert(versionRoadmap.includes('prExecutionLock') && versionRoadmap.includes('operationalAuditPackage'), 'roadmap lock must include PR execution and operational audit package requirements');
           assert(developerCreateProgramDoc.includes('PR execution lock') && developerCreateProgramDoc.includes('roadmapStageId') && developerCreateProgramDoc.includes('measurableOutput') && developerCreateProgramDoc.includes('acceptanceEvidence'), 'Developer/Create program doc must lock PR execution mapping fields');
+          assert(developerCreateProgramDoc.includes('v5-extrondol-release-audit-and-orchestration') && developerCreateProgramDoc.includes('technicalReadinessProfile'), 'Developer/Create program doc must lock the active execution stage and technical readiness profile');
           assert(developerCreateProgramDoc.includes('Standardizovani operativni audit paket') && developerCreateProgramDoc.includes('rolloutPlan') && developerCreateProgramDoc.includes('rollbackPlan') && developerCreateProgramDoc.includes('kpiImpact') && developerCreateProgramDoc.includes('humanReviewStatus') && developerCreateProgramDoc.includes('downstreamReference'), 'Developer/Create program doc must lock operational audit package fields');
           assert(externalDoc.includes('.github/workflows/extrimli-governance-conformance.yml'), 'external governance doc must reference conformance workflow');
           assert(externalDoc.includes('DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == RADNI TAKT MOZGA (MISLILAC)'), 'external governance doc must lock repo-wide reflection');
@@ -154,6 +162,7 @@ jobs:
           assert(links.includes('EXTRIMLI — Developer/Create Program'), 'multi-repo links must include the Developer/Create program downstream mapping');
           assert(links.includes('versionRoadmap.developerCreateLock'), 'multi-repo links must sync the shared Developer/Create lock');
           assert(links.includes('PR execution lock') && links.includes('roadmapStageId') && links.includes('measurableOutput') && links.includes('acceptanceEvidence'), 'multi-repo links must sync PR execution lock fields');
+          assert(links.includes('v5-extrondol-release-audit-and-orchestration') && links.includes('follow-up only'), 'multi-repo links must sync the active execution stage and follow-up-only downstream boundary');
           assert(links.includes('Audit package lock') && links.includes('rolloutPlan') && links.includes('rollbackPlan') && links.includes('kpiImpact') && links.includes('humanReviewStatus') && links.includes('downstreamReference'), 'multi-repo links must sync operational audit package fields');
           assert(validatorWorkflow.includes('docs/EXTRIMLI-DEVELOPER-CREATE-PROGRAM.md'), 'validator workflow must watch Developer/Create program doc');
           assert(validatorWorkflow.includes('docs/EXTRIMLI-METRICKO-PROGRAMIRANJE.md'), 'validator workflow must watch METRIČKO doc');
@@ -183,6 +192,6 @@ jobs:
           echo "## EXTRIMLI Governance Conformance" >> "$GITHUB_STEP_SUMMARY"
           echo "" >> "$GITHUB_STEP_SUMMARY"
           echo "- Scope lock: EXTRIMLI + EXTREM + EXTRONDOL" >> "$GITHUB_STEP_SUMMARY"
-          echo "- Source-of-truth routes: /api/extrimli/extrem + /api/extrimli/extrondol" >> "$GITHUB_STEP_SUMMARY"
+          echo "- Source-of-truth routes: /api/extrimli/extrem + /api/extrimli/extrondol + /api/extrimli/spaja-kod" >> "$GITHUB_STEP_SUMMARY"
           echo "- Drift checks: docs/types/routes/tests/workflows" >> "$GITHUB_STEP_SUMMARY"
           echo "- Schedule: weekly (Mon 04:00 UTC)" >> "$GITHUB_STEP_SUMMARY"
