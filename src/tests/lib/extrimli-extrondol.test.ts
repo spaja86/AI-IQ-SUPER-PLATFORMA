@@ -209,6 +209,9 @@ async function runTests(): Promise<void> {
     assert(report.releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.sourceOfTruth === '/api/extrimli/extrem', 'developer/create release audit source mismatch');
     assert(report.releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.readinessScore >= 0 && report.releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.readinessScore <= 100, 'developer/create release audit readiness score must be bounded');
     assert(report.releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.reviewRequiredBeforeWideRollout === (report.releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.status !== 'READY'), 'developer/create release audit review requirement mismatch');
+    assert(report.releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.technicalReadinessProfile.consolidatedRhythmStatus === report.releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.status, 'developer/create release audit profile mismatch');
+    assert(report.releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.roadmapExecution.roadmapStageId === 'v5-extrondol-release-audit-and-orchestration', 'developer/create release audit roadmap stage mismatch');
+    assert(report.releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.roadmapExecution.acceptanceEvidence.join(',') === 'developerAndCreateRepoWideReflection,releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance,spajaKod.publicSignals.developerAndCreateStatus', 'developer/create release audit acceptance evidence mismatch');
   });
 
   await test('report maps KRALJEVSKI PRAVNI UNIVERZITET governance into WAWE, audit, downstream sync, and SPAJA KOD summary', () => {
@@ -649,6 +652,9 @@ async function runTests(): Promise<void> {
     assert(report.developerAndCreateRepoWideReflection.term === 'DEVELOPER AND CREATE', 'developer/create governance term mismatch');
     assert(report.developerAndCreateRepoWideReflection.equalityLock === 'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == RADNI TAKT MOZGA (MISLILAC)', 'developer/create governance equality lock mismatch');
     assert(report.developerAndCreateRepoWideReflection.publicBoundary === '/api/extrimli/spaja-kod', 'developer/create public boundary mismatch');
+    assert(report.developerAndCreateRepoWideReflection.technicalReadinessProfile.radniTaktMozgaMislilac.status === report.extremProfiler.radniTaktMozgaMislilac.readiness.status, 'developer/create governance radni takt profile mismatch');
+    assert(report.developerAndCreateRepoWideReflection.roadmapExecution.roadmapStageId === 'v5-extrondol-release-audit-and-orchestration', 'developer/create governance roadmap stage mismatch');
+    assert(report.developerAndCreateRepoWideReflection.roadmapExecution.downstreamSync === 'follow-up-only-until-io-openui-ao-adopts-audit-safe-summary', 'developer/create governance downstream boundary mismatch');
     assert(report.spajaKod.publicSignals.developerAndCreateStatus === report.developerAndCreateRepoWideReflection.status, 'SPAJA KOD developer/create status mismatch');
     assert(report.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.status === report.developerAndCreateRepoWideReflection.status, 'developer/create consistency mismatch');
     assert(report.dokDikDakDukConsistencyHealth.consistent, 'consistency health should be consistent');

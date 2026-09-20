@@ -281,6 +281,8 @@ export interface ExtrimliExtrondolB2bReadiness {
     reviewRequiredBeforeWideRollout: boolean;
     blockerReasons: string[];
     watchReasons: string[];
+    technicalReadinessProfile: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['technicalReadinessProfile'];
+    roadmapExecution: ExtrimliExtrondolDeveloperAndCreateRepoWideReflectionGovernance['roadmapExecution'];
   };
   sinemetrickoProgramiranjeGovernance: {
       sourceOfTruth: '/api/extrimli/extrem';
@@ -630,7 +632,18 @@ export interface ExtrimliExtrondolDeveloperAndCreateRepoWideReflectionGovernance
     spajaKod: 'audit-safe-summary-only';
   };
   mappedTracks: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['mappedTracks'];
+  technicalReadinessProfile: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['technicalReadinessProfile'];
   repoWideReflection: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['repoWideReflection'];
+  roadmapExecution: {
+    roadmapStageId: 'v5-extrondol-release-audit-and-orchestration';
+    measurableOutput: 'EXTRONDOL consumes the repo-wide technical profile and publishes only audit-safe WAWE/review/rollback governance';
+    acceptanceEvidence: readonly [
+      'developerAndCreateRepoWideReflection',
+      'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance',
+      'spajaKod.publicSignals.developerAndCreateStatus'
+    ];
+    downstreamSync: 'follow-up-only-until-io-openui-ao-adopts-audit-safe-summary';
+  };
   waweImpact: {
     currentWawe: ExtrimliExtrondolWaweStage;
     eligibleNextWawe: ExtrimliExtrondolWaweStage;
@@ -1459,6 +1472,8 @@ export interface ExtrimliExtrondolReleaseAuditSummary {
     blockerReasons: string[];
     watchReasons: string[];
     mappedTracks: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['mappedTracks'];
+    technicalReadinessProfile: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['technicalReadinessProfile'];
+    roadmapExecution: ExtrimliExtrondolDeveloperAndCreateRepoWideReflectionGovernance['roadmapExecution'];
   };
   paradijogonalnoProgrimiranjeGovernance: {
     sourceOfTruth: '/api/extrimli/extrem';

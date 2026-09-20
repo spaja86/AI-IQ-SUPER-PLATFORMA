@@ -33,6 +33,9 @@ This repository now exposes five aligned surfaces:
 
 - `DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == RADNI TAKT MOZGA (MISLILAC)` ostaje additive-only repo-wide reflection nad postojećim `VRH`, `RADNI TAKT`, `METRIČKO`, `SINEMETRIČKO` i `PARADIJOGONALNO` track-ovima.
 - Kanonski dokaz tog odraza objavljuje se kroz `dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection`, sa istim `READY | WATCH | BLOCKED` modelom i istim deterministic fallback pravilima za `NaN`, `Infinity`, prazne i konfliktne ulaze.
+- Tehnički “radni takt” odraz repo-wide ostaje strukturisan kroz `dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.technicalReadinessProfile`, koji sabira samo postojeće `RADNI TAKT`, `METRIČKO`, `SINEMETRIČKO`, `PARADIJOGONALNO` i `VRH` readiness signale.
+- Trenutni execution lock za ovaj odraz ostaje `roadmapStageId=v5-extrondol-release-audit-and-orchestration`: merljivi izlaz je audit-safe repo-wide reflection status preko postojećih surface-ova, a acceptance evidence ostaje `developerAndCreateRepoWideReflection`, `releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance` i `spajaKod.publicSignals.developerAndCreateStatus`.
+- Downstream granica ostaje follow-up only dok `spaja86/IO-OPENUI-AO` ne usvoji isti audit-safe summary; nema novih runtime ruta niti paralelnog source-of-truth sloja.
 
 ## Module paths
 

@@ -3870,6 +3870,17 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
       watchReasons: extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.status === 'WATCH'
         ? [...extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.reasons]
         : [],
+      technicalReadinessProfile: extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.technicalReadinessProfile,
+      roadmapExecution: {
+        roadmapStageId: 'v5-extrondol-release-audit-and-orchestration',
+        measurableOutput: 'EXTRONDOL consumes the repo-wide technical profile and publishes only audit-safe WAWE/review/rollback governance',
+        acceptanceEvidence: [
+          'developerAndCreateRepoWideReflection',
+          'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance',
+          'spajaKod.publicSignals.developerAndCreateStatus',
+        ],
+        downstreamSync: 'follow-up-only-until-io-openui-ao-adopts-audit-safe-summary',
+      },
     },
     paradijogonalnoProgrimiranjeGovernance: {
       sourceOfTruth: '/api/extrimli/extrem',
@@ -5324,7 +5335,18 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
           spajaKod: 'audit-safe-summary-only',
         },
         mappedTracks: extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.mappedTracks,
+        technicalReadinessProfile: extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.technicalReadinessProfile,
         repoWideReflection: extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.repoWideReflection,
+        roadmapExecution: {
+          roadmapStageId: 'v5-extrondol-release-audit-and-orchestration',
+          measurableOutput: 'EXTRONDOL consumes the repo-wide technical profile and publishes only audit-safe WAWE/review/rollback governance',
+          acceptanceEvidence: [
+            'developerAndCreateRepoWideReflection',
+            'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance',
+            'spajaKod.publicSignals.developerAndCreateStatus',
+          ],
+          downstreamSync: 'follow-up-only-until-io-openui-ao-adopts-audit-safe-summary',
+        },
         waweImpact: {
           currentWawe,
           eligibleNextWawe: nextWawe(currentWawe),
@@ -5999,7 +6021,18 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
         spajaKod: 'audit-safe-summary-only',
       },
       mappedTracks: extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.mappedTracks,
+      technicalReadinessProfile: extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.technicalReadinessProfile,
       repoWideReflection: extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.repoWideReflection,
+      roadmapExecution: {
+        roadmapStageId: 'v5-extrondol-release-audit-and-orchestration',
+        measurableOutput: 'EXTRONDOL consumes the repo-wide technical profile and publishes only audit-safe WAWE/review/rollback governance',
+        acceptanceEvidence: [
+          'developerAndCreateRepoWideReflection',
+          'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance',
+          'spajaKod.publicSignals.developerAndCreateStatus',
+        ],
+        downstreamSync: 'follow-up-only-until-io-openui-ao-adopts-audit-safe-summary',
+      },
       waweImpact: {
         currentWawe,
         eligibleNextWawe: nextWawe(currentWawe),
