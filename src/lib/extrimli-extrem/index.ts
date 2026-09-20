@@ -5536,6 +5536,15 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
     sinemetrickoProgramiranjeDegradedSources.length > 0,
   );
   const vrhProgramskogEkviladentaInput = resolveVrhProgramskogEkviladentaInput(degradedSources);
+  const vrhProgramskogEkviladentaDegraded =
+    degradedSources.some((source) => source.startsWith('invalid-env:EXTRIMLI_EXTREM_VRH_'))
+    || proporcionalnoProgramiranje.readiness.degraded
+    || metrikoProgramiranje.readiness.degraded
+    || sinemetrickoProgramiranje.readiness.degraded
+    || programskiJezikInformacionihTokova.readiness.degraded
+    || spajinoProporcionalnoProgramiranjeUniverzitet.readiness.degraded
+    || dokSignal == null
+    || dikSignal == null;
   const vrhProgramskogEkviladenta = buildVrhProgramskogEkviladentaSignal({
     profileInput: vrhProgramskogEkviladentaInput,
     proporcionalnoProgramiranje,
@@ -5545,7 +5554,7 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
     spajinoProporcionalnoProgramiranjeUniverzitet,
     dokSignal: { kind: 'DOK PETLJA', status: dokSignal?.status ?? null, readinessScore: dokSignal?.readinessScore ?? null },
     dikSignal: { kind: 'DIK PETLJA', status: dikSignal?.status ?? null, readinessScore: dikSignal?.readinessScore ?? null },
-    degraded: degradedSources.some((source) => source.startsWith('invalid-env:EXTRIMLI_EXTREM_VRH_')),
+    degraded: vrhProgramskogEkviladentaDegraded,
   });
   const semaMuSemaFormula = buildSemaMuSemaFormula(profileInput, resolutionInput, degradedSources);
   const rezolucijaScore = round(
