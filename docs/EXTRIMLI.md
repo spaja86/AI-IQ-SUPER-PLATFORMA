@@ -21,13 +21,14 @@ This repository now exposes five aligned surfaces:
 | **SPAJINO PROPORCIONALNO PROGRAMIRANJE UNIVERZITET** | `docs/EXTRIMLI-SPAJINO-PROPORCIONALNO-PROGRAMIRANJE-UNIVERZITET.md`, `/api/extrimli/extrem`, `/api/extrimli/extrondol`, `/api/extrimli/spaja-kod` | Active | Additive university-layer interpretation over `PROPORCIONALNO PROGRAMIRANJE`; EXTREM owns the technical signal, EXTRONDOL owns WAWE/audit governance, SPAJA KOD exposes only audit-safe summary status |
 | **METRIČKO PROGRAMIRANJE** | `docs/EXTRIMLI-METRICKO-PROGRAMIRANJE.md`, `/api/extrimli/extrem`, `/api/extrimli/extrondol`, `/api/extrimli/spaja-kod` | Active | Additive metric-programming track; EXTREM owns declaration-matrix and instance-positioning technical signal, EXTRONDOL owns WAWE/audit governance, SPAJA KOD exposes only audit-safe final status |
 | **RADNI TAKT MOZGA (MISLILAC)** | `/api/extrimli/extrem`, `/api/extrimli/extrondol`, `/api/extrimli/spaja-kod` | Active | Additive educational-development track; EXTREM owns DOK/DIK technical learning-rhythm signals, EXTRONDOL owns DAK/DUK WAWE/audit governance, SPAJA KOD exposes only audit-safe readiness + epilog summary |
-| **PARADIJOGONALNO PROGRIMIRANJE** | `docs/EXTRIMLI-PARADIJOGONALNO-PROGRIMIRANJE.md`, `/api/extrimli/extrem`, `/api/extrimli/extrondol`, `/api/extrimli/spaja-kod` | Active | Additive-only cloud/prosparitet track; EXTREM owns the instrumental-vision DOK/DIK technical signal, EXTRONDOL owns WAWE/audit DAK/DUK governance, SPAJA KOD exposes only audit-safe final status |
+| **PARADIJOGONALNO PROGRAMIRANJE** | `docs/EXTRIMLI-PARADIJOGONALNO-PROGRAMIRANJE.md`, `/api/extrimli/extrem`, `/api/extrimli/extrondol`, `/api/extrimli/spaja-kod` | Active | Additive-only cloud/prosparitet track; EXTREM owns the instrumental-vision DOK/DIK technical signal, EXTRONDOL owns WAWE/audit DAK/DUK governance, SPAJA KOD exposes only audit-safe final status |
+| **SINEMETRIČKO PROGRAMIRANJE** | `docs/EXTRIMLI-SINEMETRICKO-PROGRAMIRANJE.md`, `/api/extrimli/extrem`, `/api/extrimli/extrondol`, `/api/extrimli/spaja-kod` | Active | Additive-only matrix-syntax signal: EXTREM publishes deterministic readiness/conflict/evidence, EXTRONDOL consumes it for WAWE freeze/promotion/audit, SPAJA KOD remains audit-safe summary boundary |
+| **VRH PROGRAMSKOG EKVILADENTA** | `docs/EXTRIMLI-VRH-PROGRAMSKOG-EKVILADENTA.md`, `/api/extrimli/extrem`, `/api/extrimli/extrondol`, `/api/extrimli/spaja-kod` | Active | Additive-only interpretative apex layer over `PROPORCIONALNO PROGRAMIRANJE`; orchestrates metric, sinemetric, paradijogonal, and AI-IQ language tracks without introducing a new runtime source of truth |
 | **SPAJAPRO Track** | `docs/EXTRIMLI-SPAJAPRO-TRACK.md`, `/api/extrimli/extrem`, `/api/extrimli/extrondol`, `/api/extrimli/spaja-kod` | Active | Locked ODIT→KODER planning track layered on EXTRIMLI; EXTREM owns technical signals, EXTRONDOL owns orchestration, SPAJA KOD exposes only final public-safe status |
 | **AI IQ Programski Jezik Integration Profile** | `docs/AI-IQ-PROGRAMSKI-JEZIK.md`, `/api/ai-iq-programski-jezik/*`, `/api/extrimli/extrem`, `/api/extrimli/extrondol` | Active | Additive `EXTRIMLI-EXTRONDOL-EXTREM` profile that maps `DOK/DIK/FOR` to EXTREM technical signals and `DAK/DUK` to EXTRONDOL promotion/human-review governance |
 | **PROGRAMSKI JEZIK DEKORACIJE OBJEKTNIH PRIMESA** | `docs/AI-IQ-PROGRAMSKI-JEZIK.md`, `/api/extrimli/extrem`, `/api/extrimli/extrondol`, `/api/ai-iq-programski-jezik/*`, `/api/extrimli/spaja-kod` | Active | Additive-only track with locked naming/scope/compatibility: EXTREM owns `DOK/DIK/FOR` technical signal, EXTRONDOL owns `DAK/DUK` WAWE/freeze/promotion/review governance, SPAJA KOD exposes only audit-safe summary |
 | **PROGRAMSKI JEZIK PO PROSPARITETU DEKLASIRANE MATRICE U EKSTAZI** | `docs/AI-IQ-PROGRAMSKI-JEZIK.md`, `docs/PROGRAMSKI-JEZIK-PO-PROSPARITETU-DEKLASIRANE-MATRICE-U-EKSTAZI.md`, `/api/extrimli/extrem`, `/api/extrimli/extrondol`, `/api/ai-iq-programski-jezik/*` | Active | Additive-only prosparitet/deklasirane-matrice profile: PROSPARITET stays input-domain-only, EXTREM owns DOK/DIK/FOR technical readiness, EXTRONDOL owns DAK/DUK WAWE/audit governance, SPAJA KOD exposes only audit-safe summary |
 | **PROGRAMSKI JEZIK SPECIJALIZOVAN ZA IGRICE** | `docs/AI-IQ-PROGRAMSKI-JEZIK.md`, `/api/ai-iq-programski-jezik/*`, `/api/extrimli/extrem`, `/api/extrimli/extrondol`, `src/lib/igrice.ts`, `src/lib/gaming-endzin.ts` | Active | Additive-only gaming DSL profile: AI IQ owns orchestration/explainability, EXTREM owns DOK/DIK/FOR gameplay-runtime readiness, EXTRONDOL owns DAK/DUK WAWE/audit governance, SPAJA KOD exposes only audit-safe summary |
-| **SINEMETRIČKO PROGRAMIRANJE** | `docs/EXTRIMLI-SINEMETRICKO-PROGRAMIRANJE.md`, `/api/extrimli/extrem`, `/api/extrimli/extrondol`, `/api/extrimli/spaja-kod` | Active | Additive-only matrix-syntax signal: EXTREM publishes deterministic readiness/conflict/evidence, EXTRONDOL consumes it for WAWE freeze/promotion/audit, SPAJA KOD remains audit-safe summary boundary |
 | **World Bank Persona Bridge** | `src/lib/extrimli-world-bank-persona/`, `src/app/api/extrimli/world-bank-persona/` | Active | Maps AI IQ World Bank business context + EXTRIMLI/EXTRONDOL readiness into persona-centric output and Persona Bank lifecycle updates |
 
 ## Module paths
@@ -49,7 +50,7 @@ This repository now exposes five aligned surfaces:
 | SPAJA KOD facade API route | `src/app/api/extrimli/spaja-kod/` |
 | SPAJINO proportional university spec | `docs/EXTRIMLI-SPAJINO-PROPORCIONALNO-PROGRAMIRANJE-UNIVERZITET.md` |
 | Metricko programming spec | `docs/EXTRIMLI-METRICKO-PROGRAMIRANJE.md` |
-| Paradijogonalno programming spec | `docs/EXTRIMLI-PARADIJOGONALNO-PROGRIMIRANJE.md` |
+| Paradijogonalno programming spec | `docs/EXTRIMLI-PARADIJOGONALNO-PROGRAMIRANJE.md` |
 | SPAJAPRO planning-track doc | `docs/EXTRIMLI-SPAJAPRO-TRACK.md` |
 | World Bank Persona bridge library | `src/lib/extrimli-world-bank-persona/` |
 | World Bank Persona bridge API route | `src/app/api/extrimli/world-bank-persona/` |
@@ -110,9 +111,9 @@ Promotion freeze je obavezan kada KPI/audit/sync nije potpun, uz rollback na pre
 - KORON overlay route: `src/app/api/extrimli/koron/route.ts`
 - DUEL KING route: `src/app/api/extrimli/duel-king/route.ts`
 
-## PARADIJOGONALNO PROGRIMIRANJE
+## PARADIJOGONALNO PROGRAMIRANJE
 
-- Kanonski naziv/spelling je zaključan na `PARADIJOGONALNO PROGRIMIRANJE (INSTRUMENTALNI VID U SIHOFIZI PROSPARITET OBLAČNOG/CLOUD PREDELA)`.
+- Kanonski naziv/spelling je zaključan na `PARADIJOGONALNO PROGRAMIRANJE (INSTRUMENTALNI VID U SIHOFIZI PROSPARITET OBLAČNOG/CLOUD PREDELA)`.
 - Track je additive-only i ostaje unutar postojećih EXTRIMLI / EXTREM / EXTRONDOL / SPAJA KOD granica bez novog public runtime source-of-truth sloja.
 - `EXTREM` objavljuje tehnički readiness signal sa statusom `READY | WATCH | BLOCKED` i bounded razlozima za flow stability, instrumental vision precision, sihofizi-prosparitet alignment, cloud-field cohesion i conflict/degradation pressure.
 - `PROSPARITET` ostaje repo-local interpretacioni domen ulaza; cloud/predela sloj je operativni kontekst nad prosperity signalom, ne novi governance izvor.
@@ -634,6 +635,55 @@ Boundary + governance impact:
 - Track je interpretativni univerzitetski sloj iznad postojećeg proporcionalnog programiranja i nije zamena za postojeće contracts.
 - `WATCH` ili `BLOCKED` status moraju da aktiviraju promotion freeze kada proporcionalnost ili PETLJE padnu ispod potrebne posture.
 - PETLJE ostaje jedini kanonski loop contract koji ovaj track koristi kao dokaz obima.
+
+## VRH PROGRAMSKOG EKVILADENTA
+
+- Canonical term: `VRH PROGRAMSKOG EKVILADENTA`
+- Contract mode: additive-only interpretative apex layer
+- Parent track: `PROPORCIONALNO PROGRAMIRANJE`
+- Technical source of truth: `/api/extrimli/extrem`
+- Governance source of truth: `/api/extrimli/extrondol`
+- Public boundary: `/api/extrimli/spaja-kod`
+- Detailed specification: `docs/EXTRIMLI-VRH-PROGRAMSKOG-EKVILADENTA.md`
+
+Ownership split:
+
+- **EXTREM** ostaje tehnički nosilac signala, metrika, readiness/conflict posture i `DOK + DIK + FOR` ownership-a.
+- **EXTRONDOL** ostaje governance sloj za WAWE, promotion freeze, audit, rollback i `DAK + DUK`.
+- **SPAJA KOD** ostaje audit-safe summary boundary bez sirovih formula, internih težina i paralelnog runtime contract-a.
+
+Canonical role split:
+
+- `PROPORCIONALNO PROGRAMIRANJE` = parent disciplina i centralna ravnoteža funkcionalnog i objektnog sloja
+- `METRIČKO PROGRAMIRANJE` = sloj satnice, vremenskog ritma i deklarativno-instancijske metrike
+- `SINEMETRIČKO PROGRAMIRANJE` = vokalni/narativni deo i audit-safe explainability signal
+- `PARADIJOGONALNO PROGRAMIRANJE` = instrument tabla za operativni pregled, analize i signalnu kontrolu
+
+Referenced component specs:
+
+- `METRIČKO PROGRAMIRANJE` → `docs/EXTRIMLI-METRICKO-PROGRAMIRANJE.md`
+- `SINEMETRIČKO PROGRAMIRANJE` → `docs/EXTRIMLI-SINEMETRICKO-PROGRAMIRANJE.md`
+- `PARADIJOGONALNO PROGRAMIRANJE` → `docs/EXTRIMLI-PARADIJOGONALNO-PROGRAMIRANJE.md`
+
+Existing-contract mapping:
+
+- `PROGRAMSKI JEZIK ANALIZA` (`analize`) → `docs/AI-IQ-PROGRAMSKI-JEZIK.md`
+- `PROGRAMSKI JEZIK PROUČAVANJA` (`proučavanja`) → `docs/AI-IQ-PROGRAMSKI-JEZIK.md`
+- `PROGRAMSKI JEZIK INFORMACIONIH TOKOVA` (`informacioni tokovi`) → `docs/PROGRAMSKI-JEZIK-INFORMACIONIH-TOKOVA.md`
+- `PROGRAMSKI JEZIK PRETPOSTAVKA` (`pretpostavke`) → `docs/AI-IQ-PROGRAMSKI-JEZIK.md`
+- `AI IQ PROGRAMSKI JEZIK` apstrakcioni profil (`apstrakcije`) → `docs/AI-IQ-PROGRAMSKI-JEZIK.md`
+- `PROGRAMSKI JEZIK PARADIGMA I OBLIKOVANJE TELA` (`paradigmijalno oblikovanje tela`) → `docs/PROGRAMSKI-JEZIK-PARADIGMA-I-OBLIKOVANJE-TELA.md` (`programskiJezikParadigmaOblikovanjeTela` contract)
+- `PROGRAMSKI JEZIK SPECIJALIZOVAN ZA IGRICE` (`ekstremne igrice`) → `docs/AI-IQ-PROGRAMSKI-JEZIK.md`
+- `PROGRAMSKI JEZIK PO PROSPARITETU DEKLASIRANE MATRICE U EKSTAZI` (`prosparitet deklariše matrice u ekstazi`) → `docs/PROGRAMSKI-JEZIK-PO-PROSPARITETU-DEKLASIRANE-MATRICE-U-EKSTAZI.md`
+- `PROGRAMSKI JEZIK DEKORACIJE OBJEKTNIH PRIMESA` (`dekoracija običnih primesa`) → `docs/AI-IQ-PROGRAMSKI-JEZIK.md`
+
+Boundary and validation lock:
+
+- Nema novih source-of-truth ruta.
+- Nema breaking promena.
+- Dozvoljeni statusi ostaju `READY | WATCH | BLOCKED`.
+- Fallback za `NaN`, `Infinity`, prazne ili konfliktne ulaze ostaje obavezan.
+- Buduća realizacija sme ostati samo additive proširenje u EXTREM, EXTRONDOL, SPAJA KOD summary i pratećim docs/test slojevima.
 
 ## Objektno orijentisana reprodukcija
 

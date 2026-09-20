@@ -31,6 +31,7 @@ Sledeći artefakti ostaju zaključano jezgro Developer/Create programa:
 - `docs/EXTRIMLI.md`
 - `docs/EXTRIMLI-DEVELOPER-CREATE-PROGRAM.md`
 - `docs/EXTRIMLI-SINEMETRICKO-PROGRAMIRANJE.md`
+- `docs/EXTRIMLI-VRH-PROGRAMSKOG-EKVILADENTA.md`
 - `src/lib/extrimli-extrem/**`
 - `src/lib/extrimli-extrondol/**`
 - `src/app/api/extrimli/extrem/route.ts`
@@ -68,6 +69,7 @@ Ownership hard lock:
 - `PROGRAMSKI JEZIK ANALIZA (ispitivanje eskalacije kodesnog zapleta)` je obavezni additive audit sloj u `dokDikDakDukConsistencyHealth`: mora objediniti tehničke conflict/readiness indikatore i governance freeze/promotion/escalation odluke u jedan score/status izlaz.
 - `PROGRAMSKI JEZIK PROUČAVANJA` je obavezni additive laboratorijski sloj: ulazni profil slučaja + determinističke metrike + konsolidovani status (`READY | WATCH | BLOCKED`) uz zaključan ownership split (`DOK/DIK` tehnički, `DAK/DUK` governance).
 - `PROGRAMSKI EKANALOG (razumevanje logike)` je obavezni audit-ready interpretacioni sloj nad laboratorijskim rezultatima bez novih source-of-truth ruta.
+- `VRH PROGRAMSKOG EKVILADENTA` ostaje additive-only interpretativni vršni sloj nad `PROPORCIONALNO PROGRAMIRANJE`: satnica se mapira na `METRIČKO PROGRAMIRANJE`, vokalni/narativni deo na `SINEMETRIČKO PROGRAMIRANJE`, a instrument tabla na `PARADIJOGONALNO PROGRAMIRANJE` (`docs/EXTRIMLI-PARADIJOGONALNO-PROGRAMIRANJE.md`), bez uvođenja novih runtime ruta.
 
 ### Stream D — B2B readiness + payment verification
 - `b2bScope`, `b2bReadiness`, `paymentVerification` ostaju hard gate sloj pre promocije.
@@ -176,3 +178,12 @@ Uvodi se pravilo **drift-zero**:
 - `PROGRAM_LOCK_DRIFT_ZERO`: docs + types + routes + tests + workflows moraju ostati poravnati za `programskiJezikParadigmaOblikovanjeTela` contract, release audit i SPAJA KOD summary.
 - `PROGRAM_LOCK_MACHINE_DOD`: obavezni dokaz ostaju `src/tests/lib/extrimli-extrem.test.ts`, `src/tests/lib/extrimli-extrondol.test.ts`, `src/tests/api/extrimli-route.test.ts` i `.github/workflows/extrimli-governance-conformance.yml`.
 - `PROGRAMSKI JEZIK PARADIGMA I OBLIKOVANJE TELA` deli additive-only governance model sa `PROGRAMSKI JEZIK INFORMACIONIH TOKOVA`, `PROGRAMSKI JEZIK PRETPOSTAVKA`, `PROGRAMSKI JEZIK PROUČAVANJA` i `PROGRAMSKI EKANALOG`.
+
+## VRH PROGRAMSKOG EKVILADENTA LOCK
+
+- `PROGRAM_LOCK_SOURCE_OF_TRUTH`: `VRH PROGRAMSKOG EKVILADENTA` koristi samo `/api/extrimli/extrem`, `/api/extrimli/extrondol` i `/api/extrimli/spaja-kod` kao postojeće surface-ove bez novih runtime ruta.
+- `PROGRAM_LOCK_PARENT_CHILD`: track ostaje interpretativni vršni sloj iznad `PROPORCIONALNO PROGRAMIRANJE`, ne zaseban paralelni sistem.
+- `PROGRAM_LOCK_ROLE_SPLIT`: `PROPORCIONALNO PROGRAMIRANJE` ostaje parent disciplina, `METRIČKO PROGRAMIRANJE` nosi satnicu i deklarativno-instancijsku metriku, `SINEMETRIČKO PROGRAMIRANJE` nosi vokalni/narativni audit-safe sloj, a `PARADIJOGONALNO PROGRAMIRANJE` iz `docs/EXTRIMLI-PARADIJOGONALNO-PROGRAMIRANJE.md` ostaje instrument tabla za pregled i signalnu kontrolu.
+- `PROGRAM_LOCK_CONTRACT_MAPPING`: analize, proučavanja, informacioni tokovi, pretpostavke, apstrakcije, paradigmijalno oblikovanje tela, ekstremne igrice, prosparitetne matrice i dekoracija primesa moraju ostati mapirani na postojeće AI IQ / EXTRIMLI kontrakte bez novog source-of-truth sloja.
+- `PROGRAM_LOCK_OWNERSHIP`: `EXTREM` zadržava `DOK + DIK + FOR` tehničko vlasništvo, `EXTRONDOL` zadržava `DAK + DUK` governance vlasništvo, a `SPAJA KOD` ostaje samo audit-safe summary boundary.
+- `PROGRAM_LOCK_MACHINE_DOD`: bilo koja buduća realizacija sme biti samo additive proširenje kroz EXTREM tehnički izveštaj, EXTRONDOL `releaseAuditSummary`, SPAJA KOD summary i prateće docs/tests slojeve uz deterministički `READY | WATCH | BLOCKED` izlaz i fallback za `NaN`, `Infinity`, prazne ili konfliktne ulaze; ako track pređe iz documentation-only u enforced contract stanje, tada obavezni validation artefakti postaju `src/tests/lib/extrimli-extrem.test.ts`, `src/tests/lib/extrimli-extrondol.test.ts`, `src/tests/api/extrimli-route.test.ts` i `.github/workflows/extrimli-governance-conformance.yml`.
