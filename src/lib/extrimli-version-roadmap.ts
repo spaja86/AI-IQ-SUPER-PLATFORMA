@@ -34,14 +34,29 @@ export interface ExtrimliDeveloperCreateDailyTaskTemplate {
   focus: string;
 }
 
+export const EXTRIMLI_DEVELOPER_CREATE_DAILY_CADENCE_BLOCKS = [
+  'morning-startup',
+  'deep-focus-block',
+  'midday-checkpoint',
+  'end-of-day-closeout',
+] as const;
+
+export const EXTRIMLI_DEVELOPER_CREATE_DAILY_TASK_PRIORITIES = [1, 2, 3] as const;
+
+export const EXTRIMLI_DEVELOPER_CREATE_DAILY_CLOSEOUT_STATUSES = [
+  'completed',
+  'carried-over',
+  'blocked',
+] as const;
+
 export interface ExtrimliDeveloperCreateDailyOperationalCadence {
   governanceArtifact: true;
   derivedFromExistingModulesValidatorsAndWorkflows: true;
   noNewRuntimeDomain: true;
-  cadenceBlocks: readonly ['morning-startup', 'deep-focus-block', 'midday-checkpoint', 'end-of-day-closeout'];
-  taskPriorities: readonly [1, 2, 3];
+  cadenceBlocks: typeof EXTRIMLI_DEVELOPER_CREATE_DAILY_CADENCE_BLOCKS;
+  taskPriorities: typeof EXTRIMLI_DEVELOPER_CREATE_DAILY_TASK_PRIORITIES;
   requiredTaskFields: readonly ['priority', 'roadmapStageId', 'measurableOutput', 'acceptanceEvidence', 'endOfDayStatus'];
-  endOfDayStatuses: readonly ['completed', 'carried-over', 'blocked'];
+  endOfDayStatuses: typeof EXTRIMLI_DEVELOPER_CREATE_DAILY_CLOSEOUT_STATUSES;
   qualityGatesInheritedFromCiBot: readonly ['lint', 'test', 'smoke', 'predeploy', 'build'];
   taskTemplate: readonly [
     ExtrimliDeveloperCreateDailyTaskTemplate,
@@ -297,10 +312,10 @@ const EXTRIMLI_DEVELOPER_CREATE_LOCK: ExtrimliDeveloperCreateProgramLock = {
     governanceArtifact: true,
     derivedFromExistingModulesValidatorsAndWorkflows: true,
     noNewRuntimeDomain: true,
-    cadenceBlocks: ['morning-startup', 'deep-focus-block', 'midday-checkpoint', 'end-of-day-closeout'],
-    taskPriorities: [1, 2, 3],
+    cadenceBlocks: EXTRIMLI_DEVELOPER_CREATE_DAILY_CADENCE_BLOCKS,
+    taskPriorities: EXTRIMLI_DEVELOPER_CREATE_DAILY_TASK_PRIORITIES,
     requiredTaskFields: ['priority', 'roadmapStageId', 'measurableOutput', 'acceptanceEvidence', 'endOfDayStatus'],
-    endOfDayStatuses: ['completed', 'carried-over', 'blocked'],
+    endOfDayStatuses: EXTRIMLI_DEVELOPER_CREATE_DAILY_CLOSEOUT_STATUSES,
     qualityGatesInheritedFromCiBot: ['lint', 'test', 'smoke', 'predeploy', 'build'],
     taskTemplate: [
       {

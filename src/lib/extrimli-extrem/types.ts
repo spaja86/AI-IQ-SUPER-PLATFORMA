@@ -1,3 +1,7 @@
+import {
+  EXTRIMLI_DEVELOPER_CREATE_DAILY_CADENCE_BLOCKS,
+  EXTRIMLI_DEVELOPER_CREATE_DAILY_CLOSEOUT_STATUSES,
+} from '../extrimli-version-roadmap';
 import type { ExtrimliVersionRoadmap, ExtrimliVersionRoadmapVersionId } from '../extrimli-version-roadmap';
 import type { ExtrimliDokerKuratIzekDokarExtremTrack } from '../extrimli-doker-kurat-izek-dokar-track';
 import type { ExtrimliSpajaproExtremTrack } from '../extrimli-spajapro-track';
@@ -2443,13 +2447,9 @@ export interface ExtrimliDokDikDakDukConsistencyHealth {
       derivedFromExistingModulesValidatorsAndWorkflows: true;
       noNewRuntimeDomain: true;
       activeRoadmapStagePolicy: 'single-active-roadmap-stage-per-day';
-      cadenceBlocks: readonly ['morning-startup', 'deep-focus-block', 'midday-checkpoint', 'end-of-day-closeout'];
-      endOfDayStatuses: readonly ['completed', 'carried-over', 'blocked'];
-      dailyTasks: readonly [
-        ExtrimliDeveloperCreateRepoWideReflectionDailyTask & { priority: 1 },
-        ExtrimliDeveloperCreateRepoWideReflectionDailyTask & { priority: 2 },
-        ExtrimliDeveloperCreateRepoWideReflectionDailyTask & { priority: 3 }
-      ];
+      cadenceBlocks: typeof EXTRIMLI_DEVELOPER_CREATE_DAILY_CADENCE_BLOCKS;
+      endOfDayStatuses: typeof EXTRIMLI_DEVELOPER_CREATE_DAILY_CLOSEOUT_STATUSES;
+      dailyTasks: readonly ExtrimliDeveloperCreateRepoWideReflectionDailyTask[];
     };
     readiness: {
       score: number;
