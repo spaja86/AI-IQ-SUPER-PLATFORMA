@@ -29,26 +29,60 @@ export interface ExtrimliVersionRoadmapDeliveryWave {
   outcome: string;
 }
 
+export const EXTRIMLI_DEVELOPER_CREATE_MANDATORY_ARTIFACTS = {
+  docs: [
+    'docs/EXTRIMLI.md',
+    'docs/EXTRIMLI-DEVELOPER-CREATE-PROGRAM.md',
+    'docs/AI-IQ-PROGRAMSKI-JEZIK.md',
+    'docs/PROGRAMSKI-JEZIK-INFORMACIONIH-TOKOVA.md',
+  ],
+  runtime: ['src/lib/extrimli-extrem/**', 'src/lib/extrimli-extrondol/**'],
+  routes: ['src/app/api/extrimli/extrem/route.ts', 'src/app/api/extrimli/extrondol/route.ts'],
+  tests: [
+    'src/tests/lib/extrimli-extrem.test.ts',
+    'src/tests/lib/extrimli-extrondol.test.ts',
+    'src/tests/api/extrimli-route.test.ts',
+  ],
+  governance: [
+    '.github/workflows/extrimli-validator.yml',
+    '.github/workflows/extrimli-governance-conformance.yml',
+    '.github/workflows/extrimli-external-github.yml',
+  ],
+} as const;
+
+export const EXTRIMLI_DEVELOPER_CREATE_LOCKED_CORE_ARTIFACTS = [
+  'docs/EXTRIMLI.md',
+  'docs/EXTRIMLI-DEVELOPER-CREATE-PROGRAM.md',
+  'docs/AI-IQ-PROGRAMSKI-JEZIK.md',
+  'docs/PROGRAMSKI-JEZIK-INFORMACIONIH-TOKOVA.md',
+  'src/lib/extrimli-extrem/**',
+  'src/lib/extrimli-extrondol/**',
+  'src/app/api/extrimli/extrem/route.ts',
+  'src/app/api/extrimli/extrondol/route.ts',
+  'src/tests/lib/extrimli-extrem.test.ts',
+  'src/tests/lib/extrimli-extrondol.test.ts',
+  'src/tests/api/extrimli-route.test.ts',
+  '.github/workflows/extrimli-validator.yml',
+  '.github/workflows/extrimli-governance-conformance.yml',
+  '.github/workflows/extrimli-external-github.yml',
+] as const;
+
+export type ExtrimliDeveloperCreateMandatoryArtifacts = typeof EXTRIMLI_DEVELOPER_CREATE_MANDATORY_ARTIFACTS;
+export type ExtrimliDeveloperCreateLockedCoreArtifact = typeof EXTRIMLI_DEVELOPER_CREATE_LOCKED_CORE_ARTIFACTS[number];
+
 export interface ExtrimliDeveloperCreateProgramLock {
   sourceProgramDoc: 'docs/EXTRIMLI-DEVELOPER-CREATE-PROGRAM.md';
   additiveOnly: true;
   sourceOfTruthRoutes: readonly ['/api/extrimli/extrem', '/api/extrimli/extrondol'];
-  lockedCoreArtifacts: readonly [
-    'docs/EXTRIMLI.md',
-    'docs/EXTRIMLI-DEVELOPER-CREATE-PROGRAM.md',
-    'src/lib/extrimli-extrem/**',
-    'src/lib/extrimli-extrondol/**',
-    'src/app/api/extrimli/extrem/route.ts',
-    'src/app/api/extrimli/extrondol/route.ts',
-    'src/tests/lib/extrimli-extrem.test.ts',
-    'src/tests/lib/extrimli-extrondol.test.ts'
-  ];
+  lockedCoreArtifacts: readonly ExtrimliDeveloperCreateLockedCoreArtifact[];
+  mandatoryArtifacts: ExtrimliDeveloperCreateMandatoryArtifacts;
   ownershipBoundary: {
     extrimli: 'base-runtime-domain';
     extrem: 'technical-signal-and-profiler';
     extrondol: 'wawe-orchestration-audit-freeze-promotion';
     dok: 'EXTREM';
     dik: 'EXTREM';
+    for: 'EXTREM';
     dak: 'EXTRONDOL';
     duk: 'EXTRONDOL';
     spajaKod: 'public-audit-safe-boundary';
@@ -62,6 +96,13 @@ export interface ExtrimliDeveloperCreateProgramLock {
     'downstream-sync-and-public-summary',
     ...ExtrimliDeveloperCreateRealizationStep[]
   ];
+  implementationStreams: readonly [
+    ExtrimliDeveloperCreateImplementationStream<'stream-a-domain-model-and-types'>,
+    ExtrimliDeveloperCreateImplementationStream<'stream-b-api-stability-and-degraded-behavior'>,
+    ExtrimliDeveloperCreateImplementationStream<'stream-c-consistency-health-and-governance-signals'>,
+    ExtrimliDeveloperCreateImplementationStream<'stream-d-release-gates-and-rollback'>,
+    ExtrimliDeveloperCreateImplementationStream<'stream-e-downstream-sync-and-public-summary'>
+  ];
   expansionTracks: readonly [
     'wawe-canary-dashboard',
     'contract-evolution-log',
@@ -70,8 +111,20 @@ export interface ExtrimliDeveloperCreateProgramLock {
     'persona-bank-and-analytics-sync',
     'spaja-kod-public-safe-aggregate',
     'cross-repo-reference-expansion',
+    'analytics-kpi-trend-watch',
+    'versioned-readiness-review',
     ...ExtrimliDeveloperCreateExpansionTrack[]
   ];
+  acceptanceLock: {
+    noNewSourceOfTruthRoutes: true;
+    sourceOfTruthRoutesStable: true;
+    driftZeroRequired: true;
+    allowedStatuses: readonly ['READY', 'WATCH', 'BLOCKED'];
+    degradedPolicy: 'partial-payload-no-500';
+    humanReviewRequired: true;
+    securityRequired: true;
+    rollbackRequired: true;
+  };
   definitionOfDone: {
     additiveOnlyRequired: true;
     dokDikDakDukSplitLocked: true;
@@ -91,6 +144,19 @@ export type ExtrimliDeveloperCreateRealizationStep =
   | 'test-and-governance-conformance'
   | 'downstream-sync-and-public-summary';
 
+export type ExtrimliDeveloperCreateImplementationStreamId =
+  | 'stream-a-domain-model-and-types'
+  | 'stream-b-api-stability-and-degraded-behavior'
+  | 'stream-c-consistency-health-and-governance-signals'
+  | 'stream-d-release-gates-and-rollback'
+  | 'stream-e-downstream-sync-and-public-summary';
+
+export interface ExtrimliDeveloperCreateImplementationStream<TId extends ExtrimliDeveloperCreateImplementationStreamId = ExtrimliDeveloperCreateImplementationStreamId> {
+  id: TId;
+  title: string;
+  focus: string;
+}
+
 export type ExtrimliDeveloperCreateExpansionTrack =
   | 'wawe-canary-dashboard'
   | 'contract-evolution-log'
@@ -98,7 +164,9 @@ export type ExtrimliDeveloperCreateExpansionTrack =
   | 'freeze-rollback-rehearsal'
   | 'persona-bank-and-analytics-sync'
   | 'spaja-kod-public-safe-aggregate'
-  | 'cross-repo-reference-expansion';
+  | 'cross-repo-reference-expansion'
+  | 'analytics-kpi-trend-watch'
+  | 'versioned-readiness-review';
 
 export interface ExtrimliVersionRoadmap {
   contractVersion: 'v1-7-roadmap';
@@ -151,22 +219,15 @@ const EXTRIMLI_DEVELOPER_CREATE_LOCK: ExtrimliDeveloperCreateProgramLock = {
   sourceProgramDoc: 'docs/EXTRIMLI-DEVELOPER-CREATE-PROGRAM.md',
   additiveOnly: true,
   sourceOfTruthRoutes: ['/api/extrimli/extrem', '/api/extrimli/extrondol'],
-  lockedCoreArtifacts: [
-    'docs/EXTRIMLI.md',
-    'docs/EXTRIMLI-DEVELOPER-CREATE-PROGRAM.md',
-    'src/lib/extrimli-extrem/**',
-    'src/lib/extrimli-extrondol/**',
-    'src/app/api/extrimli/extrem/route.ts',
-    'src/app/api/extrimli/extrondol/route.ts',
-    'src/tests/lib/extrimli-extrem.test.ts',
-    'src/tests/lib/extrimli-extrondol.test.ts',
-  ],
+  lockedCoreArtifacts: [...EXTRIMLI_DEVELOPER_CREATE_LOCKED_CORE_ARTIFACTS],
+  mandatoryArtifacts: EXTRIMLI_DEVELOPER_CREATE_MANDATORY_ARTIFACTS,
   ownershipBoundary: {
     extrimli: 'base-runtime-domain',
     extrem: 'technical-signal-and-profiler',
     extrondol: 'wawe-orchestration-audit-freeze-promotion',
     dok: 'EXTREM',
     dik: 'EXTREM',
+    for: 'EXTREM',
     dak: 'EXTRONDOL',
     duk: 'EXTRONDOL',
     spajaKod: 'public-audit-safe-boundary',
@@ -179,6 +240,33 @@ const EXTRIMLI_DEVELOPER_CREATE_LOCK: ExtrimliDeveloperCreateProgramLock = {
     'test-and-governance-conformance',
     'downstream-sync-and-public-summary',
   ],
+  implementationStreams: [
+    {
+      id: 'stream-a-domain-model-and-types',
+      title: 'Stream A — Domain model i tipovi',
+      focus: 'Standardizacija EXTRIMLI/EXTREM/EXTRONDOL kontrakata bez breaking promena.',
+    },
+    {
+      id: 'stream-b-api-stability-and-degraded-behavior',
+      title: 'Stream B — API surface stabilnost i degradacija',
+      focus: 'Stabilnost postojećih ruta uz partial-payload-no-500 fallback ponašanje.',
+    },
+    {
+      id: 'stream-c-consistency-health-and-governance-signals',
+      title: 'Stream C — DOK/DIK/DAK/DUK/FOR consistency health',
+      focus: 'Jedinstven dokDikDakDukConsistencyHealth za tehnički i governance ownership split.',
+    },
+    {
+      id: 'stream-d-release-gates-and-rollback',
+      title: 'Stream D — Release gates i rollback',
+      focus: 'Freeze/promotion/human-review/rollback hard gate orkestracija.',
+    },
+    {
+      id: 'stream-e-downstream-sync-and-public-summary',
+      title: 'Stream E — Downstream sync i public-safe summary',
+      focus: 'Multi-repo mapiranje prema docs/MULTI-REPO-LINKS.md i IO-OPENUI-AO.',
+    },
+  ],
   expansionTracks: [
     'wawe-canary-dashboard',
     'contract-evolution-log',
@@ -187,7 +275,19 @@ const EXTRIMLI_DEVELOPER_CREATE_LOCK: ExtrimliDeveloperCreateProgramLock = {
     'persona-bank-and-analytics-sync',
     'spaja-kod-public-safe-aggregate',
     'cross-repo-reference-expansion',
+    'analytics-kpi-trend-watch',
+    'versioned-readiness-review',
   ],
+  acceptanceLock: {
+    noNewSourceOfTruthRoutes: true,
+    sourceOfTruthRoutesStable: true,
+    driftZeroRequired: true,
+    allowedStatuses: ['READY', 'WATCH', 'BLOCKED'],
+    degradedPolicy: 'partial-payload-no-500',
+    humanReviewRequired: true,
+    securityRequired: true,
+    rollbackRequired: true,
+  },
   definitionOfDone: {
     additiveOnlyRequired: true,
     dokDikDakDukSplitLocked: true,
@@ -355,10 +455,13 @@ function toExtrimliDeveloperCreateLockComparable(
     additiveOnly,
     sourceOfTruthRoutes,
     lockedCoreArtifacts,
+    mandatoryArtifacts,
     ownershipBoundary,
     driftZeroLayers,
     realizationSequence,
+    implementationStreams,
     expansionTracks,
+    acceptanceLock,
     definitionOfDone,
     ...unexpectedTopLevel
   } = lock;
@@ -370,6 +473,7 @@ function toExtrimliDeveloperCreateLockComparable(
     extrondol,
     dok,
     dik,
+    for: technicalFor,
     dak,
     duk,
     spajaKod,
@@ -390,24 +494,66 @@ function toExtrimliDeveloperCreateLockComparable(
   } = definitionOfDone;
   assertNoExtraKeys(unexpectedDefinitionOfDone);
 
+  const {
+    docs,
+    runtime,
+    routes,
+    tests,
+    governance,
+    ...unexpectedMandatoryArtifacts
+  } = mandatoryArtifacts;
+  assertNoExtraKeys(unexpectedMandatoryArtifacts);
+
+  const {
+    noNewSourceOfTruthRoutes,
+    sourceOfTruthRoutesStable: acceptanceSourceOfTruthRoutesStable,
+    driftZeroRequired,
+    allowedStatuses,
+    degradedPolicy,
+    humanReviewRequired: acceptanceHumanReviewRequired,
+    securityRequired: acceptanceSecurityRequired,
+    rollbackRequired: acceptanceRollbackRequired,
+    ...unexpectedAcceptanceLock
+  } = acceptanceLock;
+  assertNoExtraKeys(unexpectedAcceptanceLock);
+
   return {
     sourceProgramDoc,
     additiveOnly,
     sourceOfTruthRoutes: [...sourceOfTruthRoutes],
     lockedCoreArtifacts: [...lockedCoreArtifacts],
+    mandatoryArtifacts: {
+      docs: [...docs],
+      runtime: [...runtime],
+      routes: [...routes],
+      tests: [...tests],
+      governance: [...governance],
+    },
     ownershipBoundary: {
       extrimli,
       extrem,
       extrondol,
       dok,
       dik,
+      for: technicalFor,
       dak,
       duk,
       spajaKod,
     },
     driftZeroLayers: [...driftZeroLayers],
     realizationSequence: [...realizationSequence],
+    implementationStreams: implementationStreams.map((stream) => ({ ...stream })),
     expansionTracks: [...expansionTracks],
+    acceptanceLock: {
+      noNewSourceOfTruthRoutes,
+      sourceOfTruthRoutesStable: acceptanceSourceOfTruthRoutesStable,
+      driftZeroRequired,
+      allowedStatuses: [...allowedStatuses],
+      degradedPolicy,
+      humanReviewRequired: acceptanceHumanReviewRequired,
+      securityRequired: acceptanceSecurityRequired,
+      rollbackRequired: acceptanceRollbackRequired,
+    },
     definitionOfDone: {
       additiveOnlyRequired,
       dokDikDakDukSplitLocked,

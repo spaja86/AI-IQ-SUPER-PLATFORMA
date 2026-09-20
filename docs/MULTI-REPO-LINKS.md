@@ -42,11 +42,11 @@ Audit reference convention:
 
 `AI-IQ-SUPER-PLATFORMA#SPAJAPRO-EXTRIMLI-TRACK -> IO-OPENUI-AO#<follow-up issue>`
 
-## EXTRIMLI DOK/DIK/DAK/DUK consistency downstream reference
+## EXTRIMLI DOK/DIK/DAK/DUK/FOR consistency downstream reference
 
 | This repo | Linked repo | Note |
 | --- | --- | --- |
-| `AI-IQ-SUPER-PLATFORMA` — `dokDikDakDukConsistencyHealth` contract over EXTREM + EXTRONDOL | `spaja86/IO-OPENUI-AO` — Follow-up required | Downstream sync must keep source-of-truth split (`DOK/DIK` technical in EXTREM, `DAK/DUK` governance in EXTRONDOL) and consume only audit-safe consistency status/reasons fields, including additive `programskiJezikProucavanja` + `programskiEkanalog` summary fields |
+| `AI-IQ-SUPER-PLATFORMA` — `dokDikDakDukConsistencyHealth` contract over EXTREM + EXTRONDOL | `spaja86/IO-OPENUI-AO` — Follow-up required | Downstream sync must keep source-of-truth split (`DOK/DIK/FOR` technical in EXTREM, `DAK/DUK` governance in EXTRONDOL) and consume only audit-safe consistency status/reasons fields, including additive `programskiJezikProucavanja` + `programskiEkanalog` summary fields |
 
 Audit reference convention:
 

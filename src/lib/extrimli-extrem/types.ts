@@ -2134,16 +2134,18 @@ export interface ExtrimliExtremKraljevskiPravniTrack {
 
 export interface ExtrimliDokDikDakDukConsistencyHealth {
   sourceOfTruth: string;
-  scopeLock: readonly ['DOK', 'DIK', 'DAK', 'DUK'];
+  scopeLock: readonly ['DOK', 'DIK', 'DAK', 'DUK', 'FOR'];
   ownershipBoundary: {
     dok: 'EXTREM';
     dik: 'EXTREM';
+    for: 'EXTREM';
     dak: 'EXTRONDOL';
     duk: 'EXTRONDOL';
   };
   signalSources: {
     dok: '/api/extrimli/extrem#petljeSignals.signals.find(kind=DOK PETLJA)';
     dik: '/api/extrimli/extrem#petljeSignals.signals.find(kind=DIK PETLJA)';
+    for: '/api/extrimli/extrem#programskiJezikInformacionihTokova.forLoopBinding.forEvidence';
     dak: '/api/extrimli/extrondol#spajaproTrack.sequenceStates.find(token=DAKOR)';
     duk: '/api/extrimli/extrondol#spajaproTrack.sequenceStates.find(token=DUKAR)';
   };
@@ -2155,6 +2157,11 @@ export interface ExtrimliDokDikDakDukConsistencyHealth {
     };
     dik: {
       kind: 'DIK PETLJA';
+      status: ExtrimliExtremPetljaSignalStatus | null;
+      readinessScore: number | null;
+    };
+    for: {
+      kind: 'FOR PETLJA';
       status: ExtrimliExtremPetljaSignalStatus | null;
       readinessScore: number | null;
     };
@@ -2172,6 +2179,7 @@ export interface ExtrimliDokDikDakDukConsistencyHealth {
   checks: {
     dokSignalPresent: boolean;
     dikSignalPresent: boolean;
+    forSignalPresent: boolean;
     dakMappedToPromotion: boolean;
     dukMappedToHumanReview: boolean;
     ownershipBoundaryPreserved: boolean;

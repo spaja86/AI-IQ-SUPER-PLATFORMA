@@ -107,7 +107,11 @@ async function runTests(): Promise<void> {
     assert(lock.ownershipBoundary.extrimli === 'base-runtime-domain', 'EXTRIMLI ownership boundary mismatch');
     assert(lock.ownershipBoundary.extrem === 'technical-signal-and-profiler', 'EXTREM ownership boundary mismatch');
     assert(lock.ownershipBoundary.extrondol === 'wawe-orchestration-audit-freeze-promotion', 'EXTRONDOL ownership boundary mismatch');
-    assert(lock.ownershipBoundary.dok === 'EXTREM' && lock.ownershipBoundary.dak === 'EXTRONDOL', 'DOK/DAK ownership split mismatch');
+    assert(lock.ownershipBoundary.dok === 'EXTREM' && lock.ownershipBoundary.for === 'EXTREM' && lock.ownershipBoundary.dak === 'EXTRONDOL', 'DOK/FOR/DAK ownership split mismatch');
+    assert(lock.mandatoryArtifacts.docs.includes('docs/AI-IQ-PROGRAMSKI-JEZIK.md'), 'AI IQ mandatory doc artifact missing');
+    assert(lock.mandatoryArtifacts.tests.includes('src/tests/api/extrimli-route.test.ts'), 'route test mandatory artifact missing');
+    assert(lock.mandatoryArtifacts.governance.includes('.github/workflows/extrimli-external-github.yml'), 'external governance workflow artifact missing');
+    assert(lock.acceptanceLock.allowedStatuses.join(',') === 'READY,WATCH,BLOCKED', 'acceptance status lock mismatch');
     assert(lock.driftZeroLayers.join(',') === 'docs,types,routes,tests,workflows', 'developer/create drift-zero layers mismatch');
     assert(lock.realizationSequence.join(',') === 'documentation-lock-and-roadmap,type-contract-alignment,route-and-health-outputs,test-and-governance-conformance,downstream-sync-and-public-summary', 'developer/create realization sequence mismatch');
     assert(lock.definitionOfDone.docsTypesRoutesTestsWorkflowsAligned, 'developer/create DoD alignment must be required');
@@ -559,21 +563,24 @@ async function runTests(): Promise<void> {
     assert(report.acceptanceCriteria.some((item) => item.id === 'doker-kurat-izek-dokar-extrem-freeze' && item.passed), 'quartet freeze criterion must pass');
   });
 
-  await test('DOK/DIK/DAK/DUK consistency health preserves EXTREM vs EXTRONDOL ownership boundary', () => {
+  await test('DOK/DIK/DAK/DUK/FOR consistency health preserves EXTREM vs EXTRONDOL ownership boundary', () => {
     const report = getExtrimliExtremProfilerReport();
     assert(report.dokDikDakDukConsistencyHealth.sourceOfTruth === '/api/extrimli/extrem', 'consistency source mismatch');
-    assert(report.dokDikDakDukConsistencyHealth.scopeLock.join(',') === 'DOK,DIK,DAK,DUK', 'scope lock mismatch');
+    assert(report.dokDikDakDukConsistencyHealth.scopeLock.join(',') === 'DOK,DIK,DAK,DUK,FOR', 'scope lock mismatch');
     assert(report.dokDikDakDukConsistencyHealth.ownershipBoundary.dok === 'EXTREM', 'DOK ownership mismatch');
     assert(report.dokDikDakDukConsistencyHealth.ownershipBoundary.dik === 'EXTREM', 'DIK ownership mismatch');
+    assert(report.dokDikDakDukConsistencyHealth.ownershipBoundary.for === 'EXTREM', 'FOR ownership mismatch');
     assert(report.dokDikDakDukConsistencyHealth.ownershipBoundary.dak === 'EXTRONDOL', 'DAK ownership mismatch');
     assert(report.dokDikDakDukConsistencyHealth.ownershipBoundary.duk === 'EXTRONDOL', 'DUK ownership mismatch');
     assert(report.dokDikDakDukConsistencyHealth.signals.dok.kind === 'DOK PETLJA', 'DOK signal kind mismatch');
     assert(report.dokDikDakDukConsistencyHealth.signals.dik.kind === 'DIK PETLJA', 'DIK signal kind mismatch');
+    assert(report.dokDikDakDukConsistencyHealth.signals.for.kind === 'FOR PETLJA', 'FOR signal kind mismatch');
     assert(report.dokDikDakDukConsistencyHealth.signals.dak.token === 'DAKOR', 'DAK token mismatch');
     assert(report.dokDikDakDukConsistencyHealth.signals.duk.token === 'DUKAR', 'DUK token mismatch');
     const signalStatuses = [
       report.dokDikDakDukConsistencyHealth.signals.dok.status,
       report.dokDikDakDukConsistencyHealth.signals.dik.status,
+      report.dokDikDakDukConsistencyHealth.signals.for.status,
       report.dokDikDakDukConsistencyHealth.signals.dak.status,
       report.dokDikDakDukConsistencyHealth.signals.duk.status,
     ];

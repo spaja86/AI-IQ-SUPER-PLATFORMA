@@ -41,6 +41,9 @@ on:
     paths:
       - 'docs/EXTRIMLI.md'
       - 'docs/EXTRIMLI-DEVELOPER-CREATE-PROGRAM.md'
+      - 'docs/AI-IQ-PROGRAMSKI-JEZIK.md'
+      - 'docs/PROGRAMSKI-JEZIK-INFORMACIONIH-TOKOVA.md'
+      - 'docs/PROGRAMSKI-JEZIK-PARADIGMA-I-OBLIKOVANJE-TELA.md'
       - 'docs/EXTRIMLI-EXTERNAL-GITHUB.md'
       - 'docs/MULTI-REPO-LINKS.md'
       - '.agent-config.json'
@@ -118,6 +121,7 @@ jobs:
           assert(doc.includes('docs/EXTRIMLI.md') && doc.includes('docs/MULTI-REPO-LINKS.md'), 'canonical doc must lock source-of-truth docs');
           assert(developerCreateProgramDoc.includes('docs + types + routes + tests + workflows'), 'Developer/Create program doc must lock docs/types/routes/tests/workflows');
           assert(developerCreateProgramDoc.includes('src/tests/lib/extrimli-extrem.test.ts') && developerCreateProgramDoc.includes('src/tests/lib/extrimli-extrondol.test.ts'), 'Developer/Create program doc must lock EXTREM/EXTRONDOL tests');
+          assert(developerCreateProgramDoc.includes('DOK + DIK + FOR') && developerCreateProgramDoc.includes('DOK/DIK/DAK/DUK/FOR'), 'Developer/Create program doc must include FOR in the ownership and consistency lock');
           assert(doc.includes('EXTRIMLI_EXTENDOL_CONTRACT_VERSION'), 'canonical doc must declare EXTRIMLI Extendol contract');
           assert(doc.includes('/api/extrimli/extendol'), 'canonical doc must reference EXTRIMLI Extendol unified endpoint');
           assert(doc.includes('/api/extrimli/koron'), 'canonical doc must reference EXTRIMLI KORON endpoint');
@@ -135,6 +139,7 @@ jobs:
           assert(extrimli.includes('KORON'), 'EXTRIMLI doc must declare KORON scope');
           assert(extrimli.includes('RADNI TAKT MOZGA (MISLILAC)'), 'EXTRIMLI doc must declare RADNI TAKT MOZGA (MISLILAC) additive governance track');
           assert(extrimli.includes('Locked source-of-truth set'), 'EXTRIMLI doc must lock source-of-truth artifact set');
+          assert(extrimli.includes('DOK + DIK + FOR'), 'EXTRIMLI doc must lock FOR in the technical ownership boundary');
           assert(extrimli.includes('releaseReadinessScorecard') && extrimli.includes('contractDriftReport') && extrimli.includes('governanceConformance'), 'EXTRIMLI doc must include governance conformance payload fields');
           assert(Array.isArray(agent.workflows) && agent.workflows.includes('.github/workflows/extrimli-external-github.yml'), 'agent config must include governance workflow');
           assert(Array.isArray(agent.releaseDocs) && agent.releaseDocs.includes('docs/EXTRIMLI-EXTERNAL-GITHUB.md'), 'agent config must include canonical plan doc');

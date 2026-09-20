@@ -161,7 +161,10 @@ async function runTests(): Promise<void> {
     assert(lock.sourceProgramDoc === 'docs/EXTRIMLI-DEVELOPER-CREATE-PROGRAM.md', 'developer/create doc mismatch');
     assert(lock.sourceOfTruthRoutes.join(',') === '/api/extrimli/extrem,/api/extrimli/extrondol', 'developer/create source routes mismatch');
     assert(lock.driftZeroLayers.join(',') === 'docs,types,routes,tests,workflows', 'developer/create drift-zero layers mismatch');
-    assert(lock.ownershipBoundary.dik === 'EXTREM' && lock.ownershipBoundary.duk === 'EXTRONDOL', 'DIK/DUK ownership split mismatch');
+    assert(lock.ownershipBoundary.dik === 'EXTREM' && lock.ownershipBoundary.for === 'EXTREM' && lock.ownershipBoundary.duk === 'EXTRONDOL', 'DIK/FOR/DUK ownership split mismatch');
+    assert(lock.mandatoryArtifacts.routes.includes('src/app/api/extrimli/extrem/route.ts'), 'EXTREM route mandatory artifact missing');
+    assert(lock.mandatoryArtifacts.tests.includes('src/tests/api/extrimli-route.test.ts'), 'route test mandatory artifact missing');
+    assert(lock.acceptanceLock.degradedPolicy === 'partial-payload-no-500', 'developer/create degraded policy mismatch');
     assert(report.startProject.mandatoryOutputs.includes('versionRoadmap.developerCreateLock'), 'developer/create lock must be a START mandatory output');
     assert(report.startProject.downstreamSync.syncedContractFields.includes('versionRoadmap.developerCreateLock'), 'developer/create lock must be synced downstream');
     assert(report.b2bReadiness.downstreamSync.syncedFields.includes('versionRoadmap.developerCreateLock.driftZeroLayers'), 'developer/create drift-zero layers must be synced downstream');
@@ -564,12 +567,13 @@ async function runTests(): Promise<void> {
     assert(report.acceptanceCriteria.some((item) => item.id === 'doker-kurat-izek-dokar-public-boundary' && item.passed), 'quartet public boundary criterion must pass');
   });
 
-  await test('DOK/DIK/DAK/DUK consistency health stays deterministic across technical and governance layers', () => {
+  await test('DOK/DIK/DAK/DUK/FOR consistency health stays deterministic across technical and governance layers', () => {
     const report = getExtrimliExtrondolReport();
     assert(report.dokDikDakDukConsistencyHealth.sourceOfTruth === '/api/extrimli/extrondol', 'consistency source mismatch');
-    assert(report.dokDikDakDukConsistencyHealth.scopeLock.join(',') === 'DOK,DIK,DAK,DUK', 'consistency scope lock mismatch');
+    assert(report.dokDikDakDukConsistencyHealth.scopeLock.join(',') === 'DOK,DIK,DAK,DUK,FOR', 'consistency scope lock mismatch');
     assert(report.dokDikDakDukConsistencyHealth.signals.dok.kind === 'DOK PETLJA', 'DOK signal kind mismatch');
     assert(report.dokDikDakDukConsistencyHealth.signals.dik.kind === 'DIK PETLJA', 'DIK signal kind mismatch');
+    assert(report.dokDikDakDukConsistencyHealth.signals.for.kind === 'FOR PETLJA', 'FOR signal kind mismatch');
     assert(report.dokDikDakDukConsistencyHealth.signals.dak.token === 'DAKOR', 'DAK token mismatch');
     assert(report.dokDikDakDukConsistencyHealth.signals.duk.token === 'DUKAR', 'DUK token mismatch');
     assert(report.dokDikDakDukConsistencyHealth.signals.dak.status !== null, 'DAK status should be present');
@@ -577,6 +581,7 @@ async function runTests(): Promise<void> {
     const signalStatuses = [
       report.dokDikDakDukConsistencyHealth.signals.dok.status,
       report.dokDikDakDukConsistencyHealth.signals.dik.status,
+      report.dokDikDakDukConsistencyHealth.signals.for.status,
       report.dokDikDakDukConsistencyHealth.signals.dak.status,
       report.dokDikDakDukConsistencyHealth.signals.duk.status,
     ];

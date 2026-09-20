@@ -4528,24 +4528,28 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
   const expectedOwnershipBoundary = {
     dok: 'EXTREM',
     dik: 'EXTREM',
+    for: 'EXTREM',
     dak: 'EXTRONDOL',
     duk: 'EXTRONDOL',
   } as const;
   const expectedSignalSources = {
     dok: '/api/extrimli/extrem#petljeSignals.signals.find(kind=DOK PETLJA)',
     dik: '/api/extrimli/extrem#petljeSignals.signals.find(kind=DIK PETLJA)',
+    for: '/api/extrimli/extrem#programskiJezikInformacionihTokova.forLoopBinding.forEvidence',
     dak: '/api/extrimli/extrondol#spajaproTrack.sequenceStates.find(token=DAKOR)',
     duk: '/api/extrimli/extrondol#spajaproTrack.sequenceStates.find(token=DUKAR)',
   } as const;
   const matchesExpectedOwnershipBoundary = (boundary: typeof expectedOwnershipBoundary): boolean => (
     boundary.dok === expectedOwnershipBoundary.dok
     && boundary.dik === expectedOwnershipBoundary.dik
+    && boundary.for === expectedOwnershipBoundary.for
     && boundary.dak === expectedOwnershipBoundary.dak
     && boundary.duk === expectedOwnershipBoundary.duk
   );
   const matchesExpectedSignalSources = (sources: typeof expectedSignalSources): boolean => (
     sources.dok === expectedSignalSources.dok
     && sources.dik === expectedSignalSources.dik
+    && sources.for === expectedSignalSources.for
     && sources.dak === expectedSignalSources.dak
     && sources.duk === expectedSignalSources.duk
   );
@@ -4563,11 +4567,12 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
   };
   const dokDikDakDukConsistencyHealth: ExtrimliDokDikDakDukConsistencyHealth = {
     sourceOfTruth: '/api/extrimli/extrondol',
-    scopeLock: ['DOK', 'DIK', 'DAK', 'DUK'],
+    scopeLock: ['DOK', 'DIK', 'DAK', 'DUK', 'FOR'],
     ownershipBoundary: expectedOwnershipBoundary,
     signalSources: {
       dok: '/api/extrimli/extrem#petljeSignals.signals.find(kind=DOK PETLJA)',
       dik: '/api/extrimli/extrem#petljeSignals.signals.find(kind=DIK PETLJA)',
+      for: '/api/extrimli/extrem#programskiJezikInformacionihTokova.forLoopBinding.forEvidence',
       dak: '/api/extrimli/extrondol#spajaproTrack.sequenceStates.find(token=DAKOR)',
       duk: '/api/extrimli/extrondol#spajaproTrack.sequenceStates.find(token=DUKAR)',
     },
@@ -4581,6 +4586,11 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
         kind: 'DIK PETLJA',
         status: dikSignal?.status ?? null,
         readinessScore: dikSignal?.readinessScore ?? null,
+      },
+      for: {
+        kind: 'FOR PETLJA',
+        status: extremProfiler.programskiJezikInformacionihTokova.forLoopBinding.forEvidence.status,
+        readinessScore: extremProfiler.programskiJezikInformacionihTokova.forLoopBinding.forEvidence.readinessScore,
       },
       dak: {
         token: 'DAKOR',
@@ -4596,6 +4606,7 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
     checks: {
       dokSignalPresent: Boolean(dokSignal),
       dikSignalPresent: Boolean(dikSignal),
+      forSignalPresent: extremProfiler.programskiJezikInformacionihTokova.forLoopBinding.forEvidence.readinessScore !== null,
       dakMappedToPromotion: Boolean(dakState) && dakState?.signalRole === 'promotion',
       dukMappedToHumanReview: Boolean(dukState) && dukState?.signalRole === 'human-review',
       ownershipBoundaryPreserved: matchesExpectedOwnershipBoundary(extremProfiler.dokDikDakDukConsistencyHealth.ownershipBoundary)
@@ -4675,16 +4686,19 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
     dokDikDakDukConsistencyHealth.status = 'BLOCKED';
   } else if (dokDikDakDukConsistencyHealth.signals.dok.status === 'BLOCKED'
     || dokDikDakDukConsistencyHealth.signals.dik.status === 'BLOCKED'
+    || dokDikDakDukConsistencyHealth.signals.for.status === 'BLOCKED'
     || dokDikDakDukConsistencyHealth.signals.dak.status === 'BLOCKED'
     || dokDikDakDukConsistencyHealth.signals.duk.status === 'BLOCKED') {
     dokDikDakDukConsistencyHealth.status = 'BLOCKED';
   } else if (dokDikDakDukConsistencyHealth.signals.dok.status === 'WATCH'
     || dokDikDakDukConsistencyHealth.signals.dik.status === 'WATCH'
+    || dokDikDakDukConsistencyHealth.signals.for.status === 'WATCH'
     || dokDikDakDukConsistencyHealth.signals.dak.status === 'WATCH'
     || dokDikDakDukConsistencyHealth.signals.duk.status === 'WATCH') {
     dokDikDakDukConsistencyHealth.status = 'WATCH';
   } else if (dokDikDakDukConsistencyHealth.signals.dok.status === null
     || dokDikDakDukConsistencyHealth.signals.dik.status === null
+    || dokDikDakDukConsistencyHealth.signals.for.status === null
     || dokDikDakDukConsistencyHealth.signals.dak.status === null
     || dokDikDakDukConsistencyHealth.signals.duk.status === null) {
     dokDikDakDukConsistencyHealth.status = 'WATCH';
@@ -4742,7 +4756,7 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
   dokDikDakDukConsistencyHealth.programskiJezikProucavanja.laboratoryCaseProfile.consolidatedStatus =
     dokDikDakDukConsistencyHealth.programskiJezikAnaliza.escalationStatus;
   dokDikDakDukConsistencyHealth.programskiJezikProucavanja.laboratoryCaseProfile.requiredReasons = [
-    'DOK + DIK tehnički/laboratorijski signal dolazi iz EXTREM sloja.',
+    'DOK + DIK + FOR tehnički/laboratorijski signal dolazi iz EXTREM sloja.',
     'DAK + DUK governance signal dolazi iz EXTRONDOL sloja.',
     ...(promotionFreeze ? ['Promotion freeze je aktivan i ostaje hard gate za konsolidovani status.'] : []),
   ];
@@ -4757,6 +4771,7 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
   const failedConsistencyChecks = [
     ...(!dokDikDakDukConsistencyHealth.checks.dokSignalPresent ? ['DOK PETLJA is missing from EXTREM technical signals.'] : []),
     ...(!dokDikDakDukConsistencyHealth.checks.dikSignalPresent ? ['DIK PETLJA is missing from EXTREM technical signals.'] : []),
+    ...(!dokDikDakDukConsistencyHealth.checks.forSignalPresent ? ['FOR PETLJA is missing from EXTREM technical signals.'] : []),
     ...(!dokDikDakDukConsistencyHealth.checks.dakMappedToPromotion ? ['DAKOR promotion mapping is missing from EXTRONDOL governance sequence.'] : []),
     ...(!dokDikDakDukConsistencyHealth.checks.dukMappedToHumanReview ? ['DUKAR human-review mapping is missing from EXTRONDOL governance sequence.'] : []),
     ...(!dokDikDakDukConsistencyHealth.checks.ownershipBoundaryPreserved ? ['EXTREM/EXTRONDOL ownership boundary is inconsistent with declared source-of-truth split.'] : []),
@@ -4764,20 +4779,22 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
   if (!dokDikDakDukConsistencyHealth.consistent) {
     dokDikDakDukConsistencyHealth.reasons = failedConsistencyChecks;
   } else if (dokDikDakDukConsistencyHealth.status === 'READY') {
-    dokDikDakDukConsistencyHealth.reasons = ['DOK/DIK technical readiness and DAK/DUK governance mapping are aligned across EXTREM and EXTRONDOL.'];
+    dokDikDakDukConsistencyHealth.reasons = ['DOK/DIK/FOR technical readiness and DAK/DUK governance mapping are aligned across EXTREM and EXTRONDOL.'];
   } else if (dokDikDakDukConsistencyHealth.status === 'WATCH') {
     dokDikDakDukConsistencyHealth.reasons = [
-      'DOK/DIK/DAK/DUK mapping is aligned but at least one signal remains in WATCH or unresolved state.',
+      'DOK/DIK/DAK/DUK/FOR mapping is aligned but at least one signal remains in WATCH or unresolved state.',
       ...(dokDikDakDukConsistencyHealth.signals.dok.status !== 'READY' ? [`DOK status is ${dokDikDakDukConsistencyHealth.signals.dok.status ?? 'UNRESOLVED'}.`] : []),
       ...(dokDikDakDukConsistencyHealth.signals.dik.status !== 'READY' ? [`DIK status is ${dokDikDakDukConsistencyHealth.signals.dik.status ?? 'UNRESOLVED'}.`] : []),
+      ...(dokDikDakDukConsistencyHealth.signals.for.status !== 'READY' ? [`FOR status is ${dokDikDakDukConsistencyHealth.signals.for.status ?? 'UNRESOLVED'}.`] : []),
       ...(dokDikDakDukConsistencyHealth.signals.dak.status !== 'READY' ? [`DAK status is ${dokDikDakDukConsistencyHealth.signals.dak.status ?? 'UNRESOLVED'}.`] : []),
       ...(dokDikDakDukConsistencyHealth.signals.duk.status !== 'READY' ? [`DUK status is ${dokDikDakDukConsistencyHealth.signals.duk.status ?? 'UNRESOLVED'}.`] : []),
     ];
   } else {
     dokDikDakDukConsistencyHealth.reasons = [
-      'DOK/DIK/DAK/DUK mapping is aligned but one or more signals are BLOCKED.',
+      'DOK/DIK/DAK/DUK/FOR mapping is aligned but one or more signals are BLOCKED.',
       ...(dokDikDakDukConsistencyHealth.signals.dok.status === 'BLOCKED' ? ['DOK signal is BLOCKED.'] : []),
       ...(dokDikDakDukConsistencyHealth.signals.dik.status === 'BLOCKED' ? ['DIK signal is BLOCKED.'] : []),
+      ...(dokDikDakDukConsistencyHealth.signals.for.status === 'BLOCKED' ? ['FOR signal is BLOCKED.'] : []),
       ...(dokDikDakDukConsistencyHealth.signals.dak.status === 'BLOCKED' ? ['DAK signal is BLOCKED.'] : []),
       ...(dokDikDakDukConsistencyHealth.signals.duk.status === 'BLOCKED' ? ['DUK signal is BLOCKED.'] : []),
     ];
