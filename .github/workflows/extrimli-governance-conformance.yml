@@ -73,6 +73,13 @@ jobs:
           assert(types.includes('export interface ExtrimliExtrondolContractDriftReport'), 'types must expose ExtrimliExtrondolContractDriftReport');
           assert(versionRoadmap.includes('export interface ExtrimliDeveloperCreateProgramLock'), 'roadmap must expose Developer/Create lock type');
           assert(versionRoadmap.includes('developerCreateLock'), 'roadmap must publish Developer/Create lock payload');
+          assert(versionRoadmap.includes('docs/EXTRIMLI-VRH-PROGRAMSKOG-EKVILADENTA.md'), 'roadmap lock must include VRH doc artifact');
+          assert(versionRoadmap.includes('docs/EXTRIMLI-METRICKO-PROGRAMIRANJE.md'), 'roadmap lock must include METRIČKO doc artifact');
+          assert(versionRoadmap.includes('docs/EXTRIMLI-SINEMETRICKO-PROGRAMIRANJE.md'), 'roadmap lock must include SINEMETRIČKO doc artifact');
+          assert(versionRoadmap.includes('docs/EXTRIMLI-PARADIJOGONALNO-PROGRAMIRANJE.md'), 'roadmap lock must include PARADIJOGONALNO doc artifact');
+          assert(versionRoadmap.includes('docs/MULTI-REPO-LINKS.md'), 'roadmap lock must include multi-repo links artifact');
+          assert(versionRoadmap.includes('docs/EXTRIMLI-EXTERNAL-GITHUB.md'), 'roadmap lock must include external GitHub doc artifact');
+          assert(versionRoadmap.includes('src/app/api/extrimli/spaja-kod/route.ts'), 'roadmap lock must include SPAJA KOD route artifact');
           assert(types.includes(\"'.github/workflows/extrimli-governance-conformance.yml'\"), 'types drift artifacts must include conformance workflow');
           assert(
             extrondolIndex.includes('releaseReadinessScorecard') &&
@@ -90,6 +97,8 @@ jobs:
           assert(aiIqDoc.includes('PROGRAMSKI JEZIK PROUČAVANJA') && aiIqDoc.includes('PROGRAMSKI EKANALOG'), 'AI IQ doc must include Programski jezik proučavanja + programski ekanalog profile');
           assert(aiIqDoc.includes('PROGRAMSKI JEZIK INFORMACIONIH TOKOVA') && aiIqDoc.includes('FOR PETLJA'), 'AI IQ doc must include informational-flow DSL profile');
           assert(aiIqDoc.includes('PROGRAMSKI JEZIK PARADIGMA I OBLIKOVANJE TELA') && aiIqDoc.includes('objekat'), 'AI IQ doc must include paradigma/body-shaping DSL profile');
+          assert(aiIqDoc.includes('DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == RADNI TAKT MOZGA (MISLILAC)'), 'AI IQ doc must lock the repo-wide Developer/Create reflection');
+          assert(aiIqDoc.includes('METRIČKO') && aiIqDoc.includes('SINEMETRIČKO') && aiIqDoc.includes('PARADIJOGONALNO'), 'AI IQ doc must map the repo-wide reflection tracks');
           assert(informacioniTokoviDoc.includes('READY | WATCH | BLOCKED') && informacioniTokoviDoc.includes('FOR PETLJA'), 'informational-flow doc must lock canonical semantics and FOR binding');
           assert(paradigmaDoc.includes('READY | WATCH | BLOCKED') && paradigmaDoc.includes('/api/extrimli/extrem') && paradigmaDoc.includes('/api/extrimli/extrondol'), 'paradigma/body-shaping doc must lock canonical semantics and source-of-truth boundaries');
           assert(types.includes('programskiJezikProucavanja') && extrondolIndex.includes('programskiJezikProucavanja'), 'types and EXTRONDOL index must include Programski jezik proučavanja contract fields');
@@ -118,6 +127,9 @@ jobs:
           assert(developerCreateProgramDoc.includes('PR execution lock') && developerCreateProgramDoc.includes('roadmapStageId') && developerCreateProgramDoc.includes('measurableOutput') && developerCreateProgramDoc.includes('acceptanceEvidence'), 'Developer/Create program doc must lock PR execution mapping fields');
           assert(developerCreateProgramDoc.includes('Standardizovani operativni audit paket') && developerCreateProgramDoc.includes('rolloutPlan') && developerCreateProgramDoc.includes('rollbackPlan') && developerCreateProgramDoc.includes('kpiImpact') && developerCreateProgramDoc.includes('humanReviewStatus') && developerCreateProgramDoc.includes('downstreamReference'), 'Developer/Create program doc must lock operational audit package fields');
           assert(externalDoc.includes('.github/workflows/extrimli-governance-conformance.yml'), 'external governance doc must reference conformance workflow');
+          assert(externalDoc.includes('DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == RADNI TAKT MOZGA (MISLILAC)'), 'external governance doc must lock repo-wide reflection');
+          assert(externalDoc.includes('roadmapStageId') && externalDoc.includes('measurableOutput') && externalDoc.includes('acceptanceEvidence'), 'external governance doc must include PR execution lock fields');
+          assert(externalDoc.includes('rolloutPlan') && externalDoc.includes('rollbackPlan') && externalDoc.includes('kpiImpact') && externalDoc.includes('humanReviewStatus') && externalDoc.includes('downstreamReference'), 'external governance doc must include audit package lock fields');
           assert(links.includes('EXTRIMLI governance conformance audit'), 'multi-repo links must include conformance audit mapping');
           assert(links.includes('PROGRAMSKI JEZIK PARADIGMA I OBLIKOVANJE TELA'), 'multi-repo links must include paradigma/body-shaping downstream mapping');
           assert(links.includes('EXTRIMLI — Developer/Create Program'), 'multi-repo links must include the Developer/Create program downstream mapping');

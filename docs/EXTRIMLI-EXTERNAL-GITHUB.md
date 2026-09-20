@@ -66,6 +66,15 @@ Cilj je da EXTRIMLI ostane podeljen na dva jasno odvojena sloja:
 - `Verzija 6–7` završavaju multi-repo i enterprise operating model
 - Shared roadmap contract ostaje `v1-7-roadmap` i mora ostati additive-only
 
+### 4.3 Developer/Create repo-wide reflection lock
+
+- `DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == RADNI TAKT MOZGA (MISLILAC)` ostaje repo-wide reflection nad postojećim `VRH`, `RADNI TAKT`, `METRIČKO`, `SINEMETRIČKO` i `PARADIJOGONALNO` track-ovima.
+- Centralni dokaz ostaje `dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection`.
+- `EXTREM` ostaje tehnički nosilac repo-wide rhythm/readiness signala, `EXTRONDOL` ostaje governance consumer za WAWE freeze/promotion/human-review/rollback odluke, a `SPAJA KOD` ostaje audit-safe public summary boundary.
+- Dozvoljeni javni statusi ostaju `READY | WATCH | BLOCKED`; deterministički fallback ostaje obavezan za `NaN`, `Infinity`, prazne i konfliktne ulaze.
+- PR execution lock ostaje obavezan: jedan PR mapira tačno jednu roadmap fazu i mora sadržati `roadmapStageId`, `measurableOutput`, `acceptanceEvidence`.
+- Audit package lock ostaje obavezan: `rolloutPlan`, `rollbackPlan`, `kpiImpact`, `humanReviewStatus`, `downstreamReference`.
+
 ### 4.1 B2B operating model
 
 - EXTRONDOL je canonical B2B orchestration surface za organization-level consumers.
