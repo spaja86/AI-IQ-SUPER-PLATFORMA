@@ -563,7 +563,7 @@ async function runTests(): Promise<void> {
           spajinoProporcionalnoProgramiranjeUniverzitetStatus: string;
           vrhProgramskogEkviladentaStatus: string;
         };
-        epilogijaCovecnosti: { title: string; canonicalNarrativeId: string; citation: string; interpretation: string };
+        epilogijaCovecnosti: { title: string; canonicalNarrativeId: string; citation: string; visualReference: string; interpretation: string };
         dokerKuratIzekDokarTrack: { boundarySurface: string; publicStatus: string; tokenSummaries: Array<{ token: string; status: string }> };
         blockers: string[];
       };
@@ -588,6 +588,7 @@ async function runTests(): Promise<void> {
     assert(body.data.epilogijaCovecnosti.title === 'EPILOGIJA ČOVEČANSTVA', 'unexpected SPAJA KOD epilog title');
     assert(body.data.epilogijaCovecnosti.canonicalNarrativeId === 'zivot-je-igra-sitni-koraci-covecanstvo', 'unexpected SPAJA KOD canonical epilog narrative id');
     assert(body.data.epilogijaCovecnosti.citation.includes('Život je igra'), 'SPAJA KOD epilog citation should preserve canonical narrative');
+    assert(body.data.epilogijaCovecnosti.visualReference.includes('e7fe3fd0-5dae-4ba9-8e96-939eb6fd5565'), 'SPAJA KOD epilog visual reference should preserve canonical image');
     assert(body.data.epilogijaCovecnosti.interpretation.length > 0, 'SPAJA KOD epilog interpretation should be present');
     assert(body.data.dokerKuratIzekDokarTrack.boundarySurface === 'SPAJA KOD', 'unexpected quartet boundary surface');
     assert(['READY', 'WATCH', 'BLOCKED'].includes(body.data.dokerKuratIzekDokarTrack.publicStatus), 'unexpected quartet public status');

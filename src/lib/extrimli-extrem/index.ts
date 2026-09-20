@@ -233,6 +233,8 @@ const EXTRIMLI_EXTREM_PROPORCIONALNO_PROGRAMIRANJE_OBJECT_SOURCE_TRACKS = [
 
 const EXTRIMLI_EXTREM_RADNI_TAKT_MOZGA_MISLILAC_EPILOGIJA_COVECNOSTI_CITAT =
   'Život je igra, ako previše zaigraš možeš se izgubiti u životnom okruženju pa se odrekneš života olako. Kroz životne igre uvek ideš sitnim koracima - glavni adut; ako napraviš veliki korak - loš adut, previše šupljina ima (pa sam odraz je pogrešan život). Šupljine su odraz slabosti; ako ih drugi osete možda se zaslade.';
+const EXTRIMLI_EXTREM_RADNI_TAKT_MOZGA_MISLILAC_EPILOGIJA_COVECNOSTI_VISUAL_REFERENCE =
+  'https://github.com/user-attachments/assets/e7fe3fd0-5dae-4ba9-8e96-939eb6fd5565' as const;
 const EXTRIMLI_EXTREM_RADNI_TAKT_MOZGA_MISLILAC_EPILOGIJA_COVECNOSTI_CANONICAL_NARRATIVE_ID =
   'zivot-je-igra-sitni-koraci-covecanstvo' as const;
 
@@ -3358,6 +3360,7 @@ function buildRadniTaktMozgaMislilacSignal(
       title: 'EPILOGIJA ČOVEČANSTVA',
       canonicalNarrativeId: EXTRIMLI_EXTREM_RADNI_TAKT_MOZGA_MISLILAC_EPILOGIJA_COVECNOSTI_CANONICAL_NARRATIVE_ID,
       citation: EXTRIMLI_EXTREM_RADNI_TAKT_MOZGA_MISLILAC_EPILOGIJA_COVECNOSTI_CITAT,
+      visualReference: EXTRIMLI_EXTREM_RADNI_TAKT_MOZGA_MISLILAC_EPILOGIJA_COVECNOSTI_VISUAL_REFERENCE,
       interpretation: 'Formalized ČOVEČANSTVO interpretation layer for disciplined learning through small steps, risk awareness, and responsibility without changing DOK/DIK/FOR versus DAK/DUK ownership boundaries.',
     },
     readiness: {
@@ -6789,6 +6792,7 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
         && radniTaktMozgaMislilac.learningDomains.kontinuiraniNapredak.semanticLock === 'kontinualna-gradacija-sopstvenog-razvoja'
         && radniTaktMozgaMislilac.learningDomains.humanistickiCilj.semanticLock === 'covecnost-odgovornost-samopouzdanje'
         && radniTaktMozgaMislilac.epilogijaCovecnosti.title === 'EPILOGIJA ČOVEČANSTVA'
+        && radniTaktMozgaMislilac.epilogijaCovecnosti.visualReference.length > 0
         && radniTaktMozgaMislilac.readiness.status !== undefined,
     },
 

@@ -241,6 +241,7 @@ async function runTests(): Promise<void> {
     assert(signal.epilogijaCovecnosti.title === 'EPILOGIJA ČOVEČANSTVA', 'radni takt epilog title mismatch');
     assert(signal.epilogijaCovecnosti.canonicalNarrativeId === 'zivot-je-igra-sitni-koraci-covecanstvo', 'radni takt canonical narrative id mismatch');
     assert(signal.epilogijaCovecnosti.citation.includes('Život je igra'), 'radni takt epilog citation mismatch');
+    assert(signal.epilogijaCovecnosti.visualReference.includes('e7fe3fd0-5dae-4ba9-8e96-939eb6fd5565'), 'radni takt epilog visual reference mismatch');
     assert(signal.epilogijaCovecnosti.citation.includes('sitnim koracima - glavni adut'), 'radni takt canonical epilog narrative missing');
     assert(signal.epilogijaCovecnosti.citation.includes('Šupljine su odraz slabosti'), 'radni takt epilog weakness segment missing');
     assert(['READY', 'WATCH', 'BLOCKED'].includes(signal.readiness.status), 'unexpected radni takt status');

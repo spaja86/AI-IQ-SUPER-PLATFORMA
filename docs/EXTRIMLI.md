@@ -555,6 +555,7 @@ Epilog boundary:
 - SPAJA KOD sadrži audit-safe epilog sloj `epilogijaCovecnosti`.
 - Kanonski epilog signal je propagiran kroz EXTREM → EXTRONDOL → SPAJA KOD bez novih ruta i bez promene `DOK/DIK/FOR` (EXTREM) i `DAK/DUK` (EXTRONDOL) ownership modela.
 - Citat ostaje formalizovan kao narativni zaključak i ne otvara novi source-of-truth runtime surface.
+- Audit-safe epilog sada nosi i `visualReference` kako bi svaki citat imao determinističku vizuelizaciju bez menjanja ownership granica.
 
 ## PRIRODA == ZDRAV ŽIVOT (EXTRIMLI EXTRONDOL EXTREM DOK DUK DAK DIK FOR)
 
