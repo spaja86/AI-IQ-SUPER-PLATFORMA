@@ -462,6 +462,7 @@ async function runTests(): Promise<void> {
 
   await test('report maps VRH PROGRAMSKOG EKVILADENTA into WAWE governance, audit, downstream sync, and SPAJA KOD summary', () => {
     const report = getExtrimliExtrondolReport();
+    const scorecardCheck = report.releaseReadinessScorecard.checks.find((check) => check.id === 'vrh-programskog-ekviladenta-governance');
     assert(report.vrhProgramskogEkviladenta.term === 'VRH PROGRAMSKOG EKVILADENTA', 'vrh term mismatch');
     assert(report.vrhProgramskogEkviladenta.contractVersion === EXTRONDOL_VRH_PROGRAMSKOG_EKVILADENTA_CONTRACT_VERSION, 'vrh contract mismatch');
     assert(report.vrhProgramskogEkviladenta.technicalSignalSource === '/api/extrimli/extrem', 'vrh technical source mismatch');
@@ -471,7 +472,18 @@ async function runTests(): Promise<void> {
     assert(report.b2bReadiness.downstreamSync.syncedFields.includes('vrhProgramskogEkviladenta.waweImpact'), 'vrh WAWE impact must sync downstream');
     assert(report.startProject.mandatoryOutputs.includes('vrhProgramskogEkviladenta'), 'vrh governance must be mandatory output');
     assert(report.spajaKod.publicSignals.vrhProgramskogEkviladentaStatus === report.extremProfiler.vrhProgramskogEkviladenta.readiness.status, 'SPAJA KOD vrh summary mismatch');
-    assert(report.releaseReadinessScorecard.checks.some((check) => check.id === 'vrh-programskog-ekviladenta-governance'), 'vrh scorecard check missing');
+    assert(scorecardCheck != null, 'vrh scorecard check missing');
+    assert(
+      scorecardCheck.status === (
+        report.vrhProgramskogEkviladenta.status === 'READY'
+          ? 'PASS'
+          : report.vrhProgramskogEkviladenta.status === 'WATCH'
+            ? 'WARN'
+            : 'FAIL'
+      ),
+      'vrh scorecard status mismatch',
+    );
+    assert(scorecardCheck.details === report.vrhProgramskogEkviladenta.reasons.join('; '), 'vrh scorecard details mismatch');
     assert(report.acceptanceCriteria.some((item) => item.id === 'vrh-programskog-ekviladenta-governance' && item.passed), 'vrh acceptance criterion must pass');
   });
 
