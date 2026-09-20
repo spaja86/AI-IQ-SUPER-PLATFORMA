@@ -232,9 +232,9 @@ const EXTRIMLI_EXTREM_PROPORCIONALNO_PROGRAMIRANJE_OBJECT_SOURCE_TRACKS = [
 ] as const;
 
 const EXTRIMLI_EXTREM_RADNI_TAKT_MOZGA_MISLILAC_EPILOGIJA_COVECNOSTI_CITAT =
-  'Učenje u današnjem vremenu je element koji se izbegava u društvenom poretku. Biti učen je zakonodavno pravo građanstva i put ka ostvarenju ciljeva. Početak je u jednoj rečenici i dubokom razumevanju; učenje i trening se međusobno uzdižu, a čovek kroz samodisciplinu i etičko razlikovanje dobra i zla gradi beskonačnu gradaciju sopstvenog napretka. Kada Sunce i Sunčanica gore bez razumevanja prirodnih odnosa, čovečanstvo dobija opomenu: ljubav bez odgovornosti prelazi u pakao posledica.';
+  'Život je igra, ako previše zaigraš možeš se izgubiti u životnom okruženju pa se odrekneš života olako. Kroz životne igre uvek ideš sitnim koracima - glavni adut; ako napraviš veliki korak - loš adut, previše šupljina ima (pa sam odraz je pogrešan život). Šupljine su odraz slabosti; ako ih drugi osete možda se zaslade.';
 const EXTRIMLI_EXTREM_RADNI_TAKT_MOZGA_MISLILAC_EPILOGIJA_COVECNOSTI_CANONICAL_NARRATIVE_ID =
-  'sunce-suncanica-prirodni-odnosi-opomena' as const;
+  'zivot-je-igra-sitni-koraci-covecanstvo' as const;
 
 const EXTRIMLI_EXTREM_SPAJINO_PROPORCIONALNO_PROGRAMIRANJE_UNIVERZITET_NARRATIVE_TITLE =
   'Spreg funkcionalnog i objektno programiranja sa mnoštvo novih petlji' as const;
@@ -3355,10 +3355,10 @@ function buildRadniTaktMozgaMislilacSignal(
     },
     profileInput,
     epilogijaCovecnosti: {
-      title: 'EPILOGIJA ČOVEČNOSTI',
+      title: 'EPILOGIJA ČOVEČANSTVA',
       canonicalNarrativeId: EXTRIMLI_EXTREM_RADNI_TAKT_MOZGA_MISLILAC_EPILOGIJA_COVECNOSTI_CANONICAL_NARRATIVE_ID,
       citation: EXTRIMLI_EXTREM_RADNI_TAKT_MOZGA_MISLILAC_EPILOGIJA_COVECNOSTI_CITAT,
-      interpretation: 'Formalized interpretation layer for disciplined learning, mind-body training reciprocity, continuous progress, and ethical responsibility.',
+      interpretation: 'Formalized ČOVEČANSTVO interpretation layer for disciplined learning through small steps, risk awareness, and responsibility without changing DOK/DIK/FOR versus DAK/DUK ownership boundaries.',
     },
     readiness: {
       score,
@@ -6686,12 +6686,12 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
     },
     {
       id: 'radni-takt-mozga-mislilac-domain-model',
-      description: 'RADNI TAKT MOZGA (MISLILAC) defines beginner learning, mental-physical synergy, continuous progress, humanistic ethics, and epilogija čovečnosti as audit-ready additive interpretation.',
+      description: 'RADNI TAKT MOZGA (MISLILAC) defines beginner learning, mental-physical synergy, continuous progress, humanistic ethics, and epilogija čovečanstva as audit-ready additive interpretation.',
       passed: radniTaktMozgaMislilac.learningDomains.pocetnickoUcenje.semanticLock === 'jedna-recenica-duboko-razumevanje'
         && radniTaktMozgaMislilac.learningDomains.mentalnoFizickaSinergija.semanticLock === 'ucenje-i-trening-u-obostranom-jacanju'
         && radniTaktMozgaMislilac.learningDomains.kontinuiraniNapredak.semanticLock === 'kontinualna-gradacija-sopstvenog-razvoja'
         && radniTaktMozgaMislilac.learningDomains.humanistickiCilj.semanticLock === 'covecnost-odgovornost-samopouzdanje'
-        && radniTaktMozgaMislilac.epilogijaCovecnosti.title === 'EPILOGIJA ČOVEČNOSTI'
+        && radniTaktMozgaMislilac.epilogijaCovecnosti.title === 'EPILOGIJA ČOVEČANSTVA'
         && radniTaktMozgaMislilac.readiness.status !== undefined,
     },
 
