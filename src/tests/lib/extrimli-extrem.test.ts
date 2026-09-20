@@ -230,6 +230,7 @@ async function runTests(): Promise<void> {
     assert(signal.ownershipEvidence.dakDeferredToGovernance, 'radni takt must defer DAK to governance');
     assert(signal.ownershipEvidence.dukDeferredToGovernance, 'radni takt must defer DUK to governance');
     assert(signal.epilogijaCovecnosti.title === 'EPILOGIJA ČOVEČNOSTI', 'radni takt epilog title mismatch');
+    assert(signal.epilogijaCovecnosti.canonicalNarrativeId === 'sunce-suncanica-prirodni-odnosi-opomena', 'radni takt canonical narrative id mismatch');
     assert(signal.epilogijaCovecnosti.citation.includes('Učenje u današnjem vremenu je element koji se izbegava'), 'radni takt epilog citation mismatch');
     assert(signal.epilogijaCovecnosti.citation.includes('Sunce i Sunčanica'), 'radni takt canonical epilog narrative missing');
     assert(signal.epilogijaCovecnosti.citation.includes('prirodnih odnosa'), 'radni takt natural-relations epilog segment missing');

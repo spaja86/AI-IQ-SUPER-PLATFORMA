@@ -1619,9 +1619,8 @@ function buildRadniTaktMozgaMislilacGovernance(params: {
   const signal = params.extremProfiler.radniTaktMozgaMislilac;
   const scoreAdjustment = getRadniTaktMozgaMislilacAdjustment(signal.readiness.status);
   const postureReasons = buildRadniTaktMozgaMislilacReasons(signal);
-  const canonicalEpilogNarrativePresent = signal.epilogijaCovecnosti.citation.includes('Sunce')
-    && signal.epilogijaCovecnosti.citation.includes('Sunčanica')
-    && signal.epilogijaCovecnosti.citation.includes('prirodnih odnosa');
+  const canonicalEpilogNarrativePresent =
+    signal.epilogijaCovecnosti.canonicalNarrativeId === 'sunce-suncanica-prirodni-odnosi-opomena';
   const reasons = [
     ...postureReasons.governanceReasons,
     ...(canonicalEpilogNarrativePresent
@@ -1664,6 +1663,7 @@ function buildRadniTaktMozgaMislilacGovernance(params: {
     },
     epilogijaCovecnosti: {
       title: 'EPILOGIJA ČOVEČNOSTI',
+      canonicalNarrativeId: signal.epilogijaCovecnosti.canonicalNarrativeId,
       includedInAuditSummary: true,
       citationPresent: signal.epilogijaCovecnosti.citation.trim().length > 0,
       interpretationLayer: 'educational-development-learning-discipline-ethics-signal',
@@ -2764,6 +2764,7 @@ function buildSpajaKodFacade(params: {
     },
     epilogijaCovecnosti: {
       title: 'EPILOGIJA ČOVEČNOSTI',
+      canonicalNarrativeId: params.extremProfiler.radniTaktMozgaMislilac.epilogijaCovecnosti.canonicalNarrativeId,
       citation: params.extremProfiler.radniTaktMozgaMislilac.epilogijaCovecnosti.citation,
       interpretation: params.extremProfiler.radniTaktMozgaMislilac.epilogijaCovecnosti.interpretation,
     },
@@ -3840,6 +3841,7 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
       watchReasons: [...extremProfiler.radniTaktMozgaMislilac.readiness.watchReasons],
       epilogijaCovecnosti: {
         title: 'EPILOGIJA ČOVEČNOSTI',
+        canonicalNarrativeId: extremProfiler.radniTaktMozgaMislilac.epilogijaCovecnosti.canonicalNarrativeId,
         citation: extremProfiler.radniTaktMozgaMislilac.epilogijaCovecnosti.citation,
         interpretation: extremProfiler.radniTaktMozgaMislilac.epilogijaCovecnosti.interpretation,
       },
@@ -5238,6 +5240,7 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
         watchReasons: [...extremProfiler.radniTaktMozgaMislilac.readiness.watchReasons],
         epilogijaCovecnosti: {
           title: 'EPILOGIJA ČOVEČNOSTI',
+          canonicalNarrativeId: extremProfiler.radniTaktMozgaMislilac.epilogijaCovecnosti.canonicalNarrativeId,
           citation: extremProfiler.radniTaktMozgaMislilac.epilogijaCovecnosti.citation,
           interpretation: extremProfiler.radniTaktMozgaMislilac.epilogijaCovecnosti.interpretation,
         },

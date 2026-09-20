@@ -233,6 +233,8 @@ const EXTRIMLI_EXTREM_PROPORCIONALNO_PROGRAMIRANJE_OBJECT_SOURCE_TRACKS = [
 
 const EXTRIMLI_EXTREM_RADNI_TAKT_MOZGA_MISLILAC_EPILOGIJA_COVECNOSTI_CITAT =
   'Učenje u današnjem vremenu je element koji se izbegava u društvenom poretku. Biti učen je zakonodavno pravo građanstva i put ka ostvarenju ciljeva. Početak je u jednoj rečenici i dubokom razumevanju; učenje i trening se međusobno uzdižu, a čovek kroz samodisciplinu i etičko razlikovanje dobra i zla gradi beskonačnu gradaciju sopstvenog napretka. Kada Sunce i Sunčanica gore bez razumevanja prirodnih odnosa, čovečanstvo dobija opomenu: ljubav bez odgovornosti prelazi u pakao posledica.';
+const EXTRIMLI_EXTREM_RADNI_TAKT_MOZGA_MISLILAC_EPILOGIJA_COVECNOSTI_CANONICAL_NARRATIVE_ID =
+  'sunce-suncanica-prirodni-odnosi-opomena' as const;
 
 const EXTRIMLI_EXTREM_SPAJINO_PROPORCIONALNO_PROGRAMIRANJE_UNIVERZITET_NARRATIVE_TITLE =
   'Spreg funkcionalnog i objektno programiranja sa mnoštvo novih petlji' as const;
@@ -3354,6 +3356,7 @@ function buildRadniTaktMozgaMislilacSignal(
     profileInput,
     epilogijaCovecnosti: {
       title: 'EPILOGIJA ČOVEČNOSTI',
+      canonicalNarrativeId: EXTRIMLI_EXTREM_RADNI_TAKT_MOZGA_MISLILAC_EPILOGIJA_COVECNOSTI_CANONICAL_NARRATIVE_ID,
       citation: EXTRIMLI_EXTREM_RADNI_TAKT_MOZGA_MISLILAC_EPILOGIJA_COVECNOSTI_CITAT,
       interpretation: 'Formalized interpretation layer for disciplined learning, mind-body training reciprocity, continuous progress, and ethical responsibility.',
     },

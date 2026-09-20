@@ -557,7 +557,7 @@ async function runTests(): Promise<void> {
           spajinoProporcionalnoProgramiranjeUniverzitetStatus: string;
           vrhProgramskogEkviladentaStatus: string;
         };
-        epilogijaCovecnosti: { title: string; citation: string; interpretation: string };
+        epilogijaCovecnosti: { title: string; canonicalNarrativeId: string; citation: string; interpretation: string };
         dokerKuratIzekDokarTrack: { boundarySurface: string; publicStatus: string; tokenSummaries: Array<{ token: string; status: string }> };
         blockers: string[];
       };
@@ -580,6 +580,7 @@ async function runTests(): Promise<void> {
     assert(['READY', 'WATCH', 'BLOCKED'].includes(body.data.publicSignals.spajinoProporcionalnoProgramiranjeUniverzitetStatus), 'unexpected SPAJA KOD university summary status');
     assert(['READY', 'WATCH', 'BLOCKED'].includes(body.data.publicSignals.vrhProgramskogEkviladentaStatus), 'unexpected SPAJA KOD vrh summary status');
     assert(body.data.epilogijaCovecnosti.title === 'EPILOGIJA ČOVEČNOSTI', 'unexpected SPAJA KOD epilog title');
+    assert(body.data.epilogijaCovecnosti.canonicalNarrativeId === 'sunce-suncanica-prirodni-odnosi-opomena', 'unexpected SPAJA KOD canonical epilog narrative id');
     assert(body.data.epilogijaCovecnosti.citation.includes('Sunce i Sunčanica'), 'SPAJA KOD epilog citation should preserve canonical narrative');
     assert(body.data.epilogijaCovecnosti.interpretation.length > 0, 'SPAJA KOD epilog interpretation should be present');
     assert(body.data.dokerKuratIzekDokarTrack.boundarySurface === 'SPAJA KOD', 'unexpected quartet boundary surface');
