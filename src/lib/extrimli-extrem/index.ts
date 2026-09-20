@@ -6272,8 +6272,8 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
         : 'READY';
   dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.deterministicFallbackRequired =
     radniTaktMozgaMislilac.readiness.degraded
-    || metrikoProgramiranje.readiness.deterministicFallbackRequired
-    || sinemetrickoProgramiranje.readiness.deterministicFallbackRequired
+    || metrikoProgramiranje.readiness.degraded
+    || sinemetrickoProgramiranje.readiness.degraded
     || paradijogonalnoProgrimiranje.readiness.degraded
     || vrhProgramskogEkviladenta.readiness.deterministicFallbackRequired
     || !dokDikDakDukConsistencyHealth.consistent;
