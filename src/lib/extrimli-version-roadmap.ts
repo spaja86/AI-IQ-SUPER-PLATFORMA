@@ -90,7 +90,7 @@ export type ExtrimliDeveloperCreateLockedCoreArtifact = typeof EXTRIMLI_DEVELOPE
 export interface ExtrimliDeveloperCreateProgramLock {
   sourceProgramDoc: 'docs/EXTRIMLI-DEVELOPER-CREATE-PROGRAM.md';
   additiveOnly: true;
-  sourceOfTruthRoutes: readonly ['/api/extrimli/extrem', '/api/extrimli/extrondol'];
+  sourceOfTruthRoutes: readonly ['/api/extrimli/extrem', '/api/extrimli/extrondol', '/api/extrimli/spaja-kod'];
   lockedCoreArtifacts: readonly ExtrimliDeveloperCreateLockedCoreArtifact[];
   mandatoryArtifacts: ExtrimliDeveloperCreateMandatoryArtifacts;
   ownershipBoundary: {
@@ -204,7 +204,8 @@ export interface ExtrimliVersionRoadmap {
     '/api/extrimli/health',
     '/api/extrimli-3/health',
     '/api/extrimli/extrem',
-    '/api/extrimli/extrondol'
+    '/api/extrimli/extrondol',
+    '/api/extrimli/spaja-kod'
   ];
   versions: readonly [
     ExtrimliVersionRoadmapStage,
@@ -245,7 +246,7 @@ export interface ExtrimliVersionRoadmap {
 const EXTRIMLI_DEVELOPER_CREATE_LOCK: ExtrimliDeveloperCreateProgramLock = {
   sourceProgramDoc: 'docs/EXTRIMLI-DEVELOPER-CREATE-PROGRAM.md',
   additiveOnly: true,
-  sourceOfTruthRoutes: ['/api/extrimli/extrem', '/api/extrimli/extrondol'],
+  sourceOfTruthRoutes: ['/api/extrimli/extrem', '/api/extrimli/extrondol', '/api/extrimli/spaja-kod'],
   lockedCoreArtifacts: [...EXTRIMLI_DEVELOPER_CREATE_LOCKED_CORE_ARTIFACTS],
   mandatoryArtifacts: EXTRIMLI_DEVELOPER_CREATE_MANDATORY_ARTIFACTS,
   ownershipBoundary: {
@@ -347,6 +348,7 @@ const EXTRIMLI_VERSION_ROADMAP: ExtrimliVersionRoadmap = {
     '/api/extrimli-3/health',
     '/api/extrimli/extrem',
     '/api/extrimli/extrondol',
+    '/api/extrimli/spaja-kod',
   ],
   versions: [
     {

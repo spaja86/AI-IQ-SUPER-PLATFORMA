@@ -161,7 +161,7 @@ async function runTests(): Promise<void> {
     const report = getExtrimliExtrondolReport();
     const lock = report.versionRoadmap.developerCreateLock;
     assert(lock.sourceProgramDoc === 'docs/EXTRIMLI-DEVELOPER-CREATE-PROGRAM.md', 'developer/create doc mismatch');
-    assert(lock.sourceOfTruthRoutes.join(',') === '/api/extrimli/extrem,/api/extrimli/extrondol', 'developer/create source routes mismatch');
+    assert(lock.sourceOfTruthRoutes.join(',') === '/api/extrimli/extrem,/api/extrimli/extrondol,/api/extrimli/spaja-kod', 'developer/create source routes mismatch');
     assert(lock.driftZeroLayers.join(',') === 'docs,types,routes,tests,workflows', 'developer/create drift-zero layers mismatch');
     assert(lock.ownershipBoundary.dik === 'EXTREM' && lock.ownershipBoundary.for === 'EXTREM' && lock.ownershipBoundary.duk === 'EXTRONDOL', 'DIK/FOR/DUK ownership split mismatch');
     assert(lock.prExecutionLock.singleRoadmapStagePerPr, 'single-roadmap-stage-per-PR lock must be enabled');
@@ -520,7 +520,7 @@ async function runTests(): Promise<void> {
     const report = getExtrimliExtrondolReport();
     assert(report.releaseReadinessScorecard.sourceOfTruth === '/api/extrimli/extrondol', 'scorecard source mismatch');
     assert(report.releaseReadinessScorecard.coreDomains.join(',') === 'EXTRIMLI,EXTREM,EXTRONDOL', 'scorecard core domains mismatch');
-    assert(report.releaseReadinessScorecard.sourceOfTruthRoutes.join(',') === '/api/extrimli/extrem,/api/extrimli/extrondol', 'scorecard source routes mismatch');
+    assert(report.releaseReadinessScorecard.sourceOfTruthRoutes.join(',') === '/api/extrimli/extrem,/api/extrimli/extrondol,/api/extrimli/spaja-kod', 'scorecard source routes mismatch');
     assert(report.releaseReadinessScorecard.totalChecks >= 5, 'scorecard checks should be >= 5');
     assert(
       report.releaseReadinessScorecard.totalChecks

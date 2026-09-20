@@ -4576,7 +4576,7 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
     sourceOfTruth: '/api/extrimli/extrondol' as const,
     generatedAt: paymentVerification.auditTimestamp,
     coreDomains: ['EXTRIMLI', 'EXTREM', 'EXTRONDOL'] as const,
-    sourceOfTruthRoutes: ['/api/extrimli/extrem', '/api/extrimli/extrondol'] as const,
+    sourceOfTruthRoutes: ['/api/extrimli/extrem', '/api/extrimli/extrondol', '/api/extrimli/spaja-kod'] as const,
     status: scorecardFailedChecks > 0 ? 'BLOCKED' as const : scorecardWarningChecks > 0 ? 'WATCH' as const : 'READY' as const,
     totalChecks: releaseReadinessScorecardChecks.length,
     passedChecks: scorecardPassedChecks,
@@ -5606,7 +5606,7 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
       id: 'release-readiness-scorecard',
       description: 'Release readiness scorecard is published as a single-pane governance view for EXTRIMLI/EXTREM/EXTRONDOL lock domains.',
       passed: releaseReadinessScorecard.coreDomains.join(',') === 'EXTRIMLI,EXTREM,EXTRONDOL'
-        && releaseReadinessScorecard.sourceOfTruthRoutes.join(',') === '/api/extrimli/extrem,/api/extrimli/extrondol'
+        && releaseReadinessScorecard.sourceOfTruthRoutes.join(',') === '/api/extrimli/extrem,/api/extrimli/extrondol,/api/extrimli/spaja-kod'
         && releaseReadinessScorecard.totalChecks >= 5,
     },
     {

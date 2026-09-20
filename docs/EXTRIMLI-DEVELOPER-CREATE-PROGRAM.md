@@ -1,7 +1,7 @@
 # EXTRIMLI + EXTRONDOL + EXTREM — Developer/Create Program
 
 > Program type: additive-only initiative (no breaking changes)  
-> Source-of-truth routes: `/api/extrimli/extrem`, `/api/extrimli/extrondol`
+> Source-of-truth routes: `/api/extrimli/extrem`, `/api/extrimli/extrondol`, `/api/extrimli/spaja-kod`
 > Marker: `PROGRAM_LOCK_SOURCE_OF_TRUTH`
 
 ## 1) Unified goal and scope
@@ -186,7 +186,7 @@ Bez kompletnog audit paketa release ostaje u freeze režimu.
 
 ## PROGRAMSKI JEZIK INFORMACIONIH TOKOVA LOCK
 
-- `PROGRAM_LOCK_SOURCE_OF_TRUTH`: `PROGRAMSKI JEZIK INFORMACIONIH TOKOVA` koristi samo `/api/extrimli/extrem` i `/api/extrimli/extrondol` kao source-of-truth rute.
+- `PROGRAM_LOCK_SOURCE_OF_TRUTH`: `PROGRAMSKI JEZIK INFORMACIONIH TOKOVA` koristi samo `/api/extrimli/extrem`, `/api/extrimli/extrondol` i `/api/extrimli/spaja-kod` kao source-of-truth surface-ove (tehnički signal + governance + audit-safe javni boundary).
 - `PROGRAM_LOCK_DRIFT_ZERO`: docs + types + routes + tests + workflows moraju ostati usklađeni za `FOR` signal i `DOK/DIK/DAK/DUK/FOR` ownership split.
 - `PROGRAM_LOCK_MACHINE_DOD`: acceptance zahteva deterministički izlaz za iste numeričke tokove, audit-ready konsolidovani status i samo audit-safe downstream reference.
 - `PROGRAMSKI JEZIK PROUČAVANJA`, `PROGRAMSKI EKANALOG` i `PROGRAMSKI JEZIK INFORMACIONIH TOKOVA` dele additive-only governance model bez paralelnog runtime-a.
@@ -195,7 +195,7 @@ Bez kompletnog audit paketa release ostaje u freeze režimu.
 
 ## PROGRAMSKI JEZIK PARADIGMA I OBLIKOVANJE TELA LOCK
 
-- `PROGRAM_LOCK_SOURCE_OF_TRUTH`: `PROGRAMSKI JEZIK PARADIGMA I OBLIKOVANJE TELA` koristi samo `/api/extrimli/extrem` i `/api/extrimli/extrondol` kao source-of-truth rute.
+- `PROGRAM_LOCK_SOURCE_OF_TRUTH`: `PROGRAMSKI JEZIK PARADIGMA I OBLIKOVANJE TELA` koristi samo `/api/extrimli/extrem`, `/api/extrimli/extrondol` i `/api/extrimli/spaja-kod` kao source-of-truth surface-ove.
 - `PROGRAM_LOCK_DRIFT_ZERO`: docs + types + routes + tests + workflows moraju ostati poravnati za `programskiJezikParadigmaOblikovanjeTela` contract, release audit i SPAJA KOD summary.
 - `PROGRAM_LOCK_MACHINE_DOD`: obavezni dokaz ostaju `src/tests/lib/extrimli-extrem.test.ts`, `src/tests/lib/extrimli-extrondol.test.ts`, `src/tests/api/extrimli-route.test.ts` i `.github/workflows/extrimli-governance-conformance.yml`.
 - `PROGRAMSKI JEZIK PARADIGMA I OBLIKOVANJE TELA` deli additive-only governance model sa `PROGRAMSKI JEZIK INFORMACIONIH TOKOVA`, `PROGRAMSKI JEZIK PRETPOSTAVKA`, `PROGRAMSKI JEZIK PROUČAVANJA` i `PROGRAMSKI EKANALOG`.

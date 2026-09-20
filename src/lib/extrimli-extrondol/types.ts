@@ -1693,7 +1693,7 @@ export interface ExtrimliExtrondolReleaseReadinessScorecard {
   sourceOfTruth: '/api/extrimli/extrondol';
   generatedAt: string;
   coreDomains: readonly ['EXTRIMLI', 'EXTREM', 'EXTRONDOL'];
-  sourceOfTruthRoutes: readonly ['/api/extrimli/extrem', '/api/extrimli/extrondol'];
+  sourceOfTruthRoutes: readonly ['/api/extrimli/extrem', '/api/extrimli/extrondol', '/api/extrimli/spaja-kod'];
   status: 'READY' | 'WATCH' | 'BLOCKED';
   totalChecks: number;
   passedChecks: number;

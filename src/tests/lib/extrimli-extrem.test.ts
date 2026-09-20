@@ -104,7 +104,7 @@ async function runTests(): Promise<void> {
   await test('default report exposes Developer/Create lock through the shared roadmap', () => {
     const report = getExtrimliExtremProfilerReport();
     const lock = report.versionRoadmap.developerCreateLock;
-    assert(lock.sourceOfTruthRoutes.join(',') === '/api/extrimli/extrem,/api/extrimli/extrondol', 'developer/create source-of-truth routes mismatch');
+    assert(lock.sourceOfTruthRoutes.join(',') === '/api/extrimli/extrem,/api/extrimli/extrondol,/api/extrimli/spaja-kod', 'developer/create source-of-truth routes mismatch');
     assert(lock.lockedCoreArtifacts.includes('src/lib/extrimli-extrem/**'), 'locked EXTREM core artifact missing');
     assert(lock.lockedCoreArtifacts.includes('src/tests/lib/extrimli-extrondol.test.ts'), 'locked EXTRONDOL test artifact missing');
     assert(lock.lockedCoreArtifacts.includes('docs/EXTRIMLI-VRH-PROGRAMSKOG-EKVILADENTA.md'), 'locked VRH doc artifact missing');

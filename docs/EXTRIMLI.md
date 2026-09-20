@@ -930,7 +930,7 @@ Ownership split:
 
 - Roadmap model: `single-ecosystem-phased-roadmap`
 - Shared roadmap contract: `v1-7-roadmap`
-- Locked source-of-truth surfaces: `/api/extrimli/health`, `/api/extrimli-3/health`, `/api/extrimli/extrem`, `/api/extrimli/extrondol`
+- Locked source-of-truth surfaces: `/api/extrimli/health`, `/api/extrimli-3/health`, `/api/extrimli/extrem`, `/api/extrimli/extrondol`, `/api/extrimli/spaja-kod`
 
 ### Version map
 
@@ -1217,7 +1217,7 @@ KORON je novi EXTRIMLI capability koji radi kao readiness overlay nad postojeći
 
 ### Release readiness scorecard + conformance
 
-- `releaseReadinessScorecard` je single-pane prikaz za zaključana jezgra `EXTRIMLI`, `EXTREM`, `EXTRONDOL` i zaključane source-of-truth rute (`/api/extrimli/extrem`, `/api/extrimli/extrondol`).
+- `releaseReadinessScorecard` je single-pane prikaz za zaključana jezgra `EXTRIMLI`, `EXTREM`, `EXTRONDOL` i zaključane source-of-truth surface-ove (`/api/extrimli/extrem`, `/api/extrimli/extrondol`, `/api/extrimli/spaja-kod`).
 - Kada je relevantan, scorecard i `releaseAuditSummary` moraju uključiti FUNKCINALNO PROGRAMIRANJE ENERGETSKOG MISAONOG TOKA, FUNKCIONALNO PROGRAMIRANJE EKSPLICITNOG MISAONOG TOKA, FUNKIONALNO PROGRAMIRANJE PRAVNOG MISAONOG TOKA, PROPORCIONALNO PROGRAMIRANJE i METRIČKO PROGRAMIRANJE posture, rollout impact, downstream reference i human-review/rollback coupling.
 - Kada je aktivan Železara pretplata track, scorecard i `releaseAuditSummary` moraju uključiti kanonski identitet, restore-old-name status, split-client rizik i public-safe summary signal.
 - `canaryRingMetrics` prati ring sekvencu `RING-0-CONTRACT → RING-4-RESILIENCE` i auto-freeze posture pre promocije.
