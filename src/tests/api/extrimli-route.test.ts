@@ -163,7 +163,11 @@ async function runTests(): Promise<void> {
         programskiJezikPretpostavka: { term: string; status: string; technicalSignalSource: string; flowMetrics: { forStatus: string } };
         programskiJezikSpecijalizovanZaIgrice: { term: string; status: string; technicalSignalSource: string; gamingDomainMetrics: { forStatus: string } };
         releaseAuditSummary: {
-          developerAndCreateRepoWideReflectionGovernance: { sourceOfTruth: string; status: string };
+          developerAndCreateRepoWideReflectionGovernance: {
+            sourceOfTruth: string;
+            status: string;
+            dailyOperationalCadence: { taskPriorities: number[] };
+          };
           funkcinalnoProgramiranjeEnergetskogMisaonogTokaGovernance: { sourceOfTruth: string; status: string };
           funkcionalnoProgramiranjeUzvisenogMisanogTokaGovernance: { sourceOfTruth: string; status: string };
           funkcionalnoProgramiranjePravednogMisaonogTokaGovernance: { sourceOfTruth: string; status: string };
