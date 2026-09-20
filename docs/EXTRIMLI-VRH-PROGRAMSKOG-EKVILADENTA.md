@@ -34,15 +34,15 @@ Referenced component specs:
 
 Traženi apstraktni delovi ostaju vezani za postojeće repo-kontrakte:
 
-- `analize` → `PROGRAMSKI JEZIK ANALIZA` → `docs/AI-IQ-PROGRAMSKI-JEZIK.md`
-- `proučavanja` → `PROGRAMSKI JEZIK PROUČAVANJA` → `docs/AI-IQ-PROGRAMSKI-JEZIK.md`
-- `informacioni tokovi` → `PROGRAMSKI JEZIK INFORMACIONIH TOKOVA` → `docs/PROGRAMSKI-JEZIK-INFORMACIONIH-TOKOVA.md`
-- `pretpostavke` → `PROGRAMSKI JEZIK PRETPOSTAVKA` → `docs/AI-IQ-PROGRAMSKI-JEZIK.md`
-- `apstrakcije` → `AI IQ PROGRAMSKI JEZIK` apstrakcioni profil → `docs/AI-IQ-PROGRAMSKI-JEZIK.md`
-- `paradigmijalno oblikovanje tela` → `PROGRAMSKI JEZIK PARADIGMA I OBLIKOVANJE TELA` → `docs/PROGRAMSKI-JEZIK-PARADIGMA-I-OBLIKOVANJE-TELA.md` (`programskiJezikParadigmaOblikovanjeTela` contract)
-- `ekstremne igrice` → `PROGRAMSKI JEZIK SPECIJALIZOVAN ZA IGRICE` → `docs/AI-IQ-PROGRAMSKI-JEZIK.md`
-- `prosparitet deklariše matrice u ekstazi` → `PROGRAMSKI JEZIK PO PROSPARITETU DEKLASIRANE MATRICE U EKSTAZI` → `docs/PROGRAMSKI-JEZIK-PO-PROSPARITETU-DEKLASIRANE-MATRICE-U-EKSTAZI.md`
-- `dekoracija običnih primesa` → `PROGRAMSKI JEZIK DEKORACIJE OBJEKTNIH PRIMESA` → `docs/AI-IQ-PROGRAMSKI-JEZIK.md`
+- `PROGRAMSKI JEZIK ANALIZA` (`analize`) → `docs/AI-IQ-PROGRAMSKI-JEZIK.md`
+- `PROGRAMSKI JEZIK PROUČAVANJA` (`proučavanja`) → `docs/AI-IQ-PROGRAMSKI-JEZIK.md`
+- `PROGRAMSKI JEZIK INFORMACIONIH TOKOVA` (`informacioni tokovi`) → `docs/PROGRAMSKI-JEZIK-INFORMACIONIH-TOKOVA.md`
+- `PROGRAMSKI JEZIK PRETPOSTAVKA` (`pretpostavke`) → `docs/AI-IQ-PROGRAMSKI-JEZIK.md`
+- `AI IQ PROGRAMSKI JEZIK` apstrakcioni profil (`apstrakcije`) → `docs/AI-IQ-PROGRAMSKI-JEZIK.md`
+- `PROGRAMSKI JEZIK PARADIGMA I OBLIKOVANJE TELA` (`paradigmijalno oblikovanje tela`) → `docs/PROGRAMSKI-JEZIK-PARADIGMA-I-OBLIKOVANJE-TELA.md` (`programskiJezikParadigmaOblikovanjeTela` contract)
+- `PROGRAMSKI JEZIK SPECIJALIZOVAN ZA IGRICE` (`ekstremne igrice`) → `docs/AI-IQ-PROGRAMSKI-JEZIK.md`
+- `PROGRAMSKI JEZIK PO PROSPARITETU DEKLASIRANE MATRICE U EKSTAZI` (`prosparitet deklariše matrice u ekstazi`) → `docs/PROGRAMSKI-JEZIK-PO-PROSPARITETU-DEKLASIRANE-MATRICE-U-EKSTAZI.md`
+- `PROGRAMSKI JEZIK DEKORACIJE OBJEKTNIH PRIMESA` (`dekoracija običnih primesa`) → `docs/AI-IQ-PROGRAMSKI-JEZIK.md`
 
 ## Ownership split
 
