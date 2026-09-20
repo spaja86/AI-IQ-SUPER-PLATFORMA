@@ -5046,7 +5046,7 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
         'versionRoadmap.developerCreateLock.driftZeroLayers',
         'versionRoadmap.developerCreateLock.definitionOfDone',
         'extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection',
-        'dokDikDakDukConsistencyHealth.programskiJezikProucavanja',
+        'extremProfiler.dokDikDakDukConsistencyHealth.programskiJezikProucavanja',
         'versionRoadmap.deliverySequence',
         'rollout.currentWawe',
         'rollout.eligibleNextWawe',
