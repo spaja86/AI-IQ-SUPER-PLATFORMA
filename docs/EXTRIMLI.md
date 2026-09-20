@@ -657,13 +657,13 @@ Canonical role split:
 - `PROPORCIONALNO PROGRAMIRANJE` = parent disciplina i centralna ravnoteža funkcionalnog i objektnog sloja
 - `METRIČKO PROGRAMIRANJE` = sloj satnice, vremenskog ritma i deklarativno-instancijske metrike
 - `SINEMETRIČKO PROGRAMIRANJE` = vokalni/narativni deo i audit-safe explainability signal
-- `PARADIJOGONALNO PROGRIMIRANJE` = instrument tabla za operativni pregled, analize i signalnu kontrolu
+- `paradijogonalni instrument-table sloj` = instrument tabla za operativni pregled, analize i signalnu kontrolu
 
 Referenced component specs:
 
 - `METRIČKO PROGRAMIRANJE` → `docs/EXTRIMLI-METRICKO-PROGRAMIRANJE.md`
 - `SINEMETRIČKO PROGRAMIRANJE` → `docs/EXTRIMLI-SINEMETRICKO-PROGRAMIRANJE.md`
-- `PARADIJOGONALNO PROGRIMIRANJE` → `docs/EXTRIMLI-PARADIJOGONALNO-PROGRIMIRANJE.md`
+- `paradijogonalni instrument-table sloj` → `docs/EXTRIMLI-PARADIJOGONALNO-PROGRIMIRANJE.md`
 
 Existing-contract mapping:
 
