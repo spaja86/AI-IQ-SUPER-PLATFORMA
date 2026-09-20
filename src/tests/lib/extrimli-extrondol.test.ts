@@ -386,10 +386,13 @@ async function runTests(): Promise<void> {
     assert(report.radniTaktMozgaMislilac.scoreAdjustment === expectedAdjustment, 'radni takt score adjustment mismatch');
     assert(report.releaseAuditSummary.radniTaktMozgaMislilacGovernance.sourceOfTruth === '/api/extrimli/extrem', 'radni takt audit source mismatch');
     assert(report.releaseAuditSummary.radniTaktMozgaMislilacGovernance.epilogijaCovecnosti.title === 'EPILOGIJA ČOVEČNOSTI', 'radni takt epilog title mismatch');
+    assert(report.releaseAuditSummary.radniTaktMozgaMislilacGovernance.epilogijaCovecnosti.canonicalNarrativeId === 'sunce-suncanica-prirodni-odnosi-opomena', 'radni takt canonical narrative id mismatch');
+    assert(report.releaseAuditSummary.radniTaktMozgaMislilacGovernance.epilogijaCovecnosti.citation.includes('Sunce i Sunčanica'), 'radni takt audit epilog citation mismatch');
     assert(report.b2bReadiness.downstreamSync.syncedFields.includes('extremProfiler.radniTaktMozgaMislilac.readiness.status'), 'radni takt status must sync downstream');
     assert(report.b2bReadiness.downstreamSync.syncedFields.includes('radniTaktMozgaMislilac.waweImpact'), 'radni takt WAWE impact must sync downstream');
     assert(report.spajaKod.publicSignals.radniTaktMozgaMislilacStatus === report.extremProfiler.radniTaktMozgaMislilac.readiness.status, 'SPAJA KOD radni takt summary mismatch');
     assert(report.spajaKod.epilogijaCovecnosti.title === 'EPILOGIJA ČOVEČNOSTI', 'SPAJA KOD epilog title mismatch');
+    assert(report.radniTaktMozgaMislilac.reasons.includes('epilog:canonical-sunce-suncanica-prirodni-odnosi'), 'radni takt canonical epilog governance reason missing');
     assert(report.acceptanceCriteria.some((item) => item.id === 'radni-takt-mozga-mislilac-governance' && item.passed), 'radni takt acceptance criterion must pass');
   });
 

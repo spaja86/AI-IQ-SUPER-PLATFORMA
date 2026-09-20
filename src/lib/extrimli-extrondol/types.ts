@@ -596,6 +596,7 @@ export interface ExtrimliExtrondolRadniTaktMozgaMislilacGovernance {
   };
   epilogijaCovecnosti: {
     title: 'EPILOGIJA ČOVEČNOSTI';
+    canonicalNarrativeId: 'sunce-suncanica-prirodni-odnosi-opomena';
     includedInAuditSummary: true;
     citationPresent: true;
     interpretationLayer: 'educational-development-learning-discipline-ethics-signal';
@@ -1402,6 +1403,7 @@ export interface ExtrimliExtrondolReleaseAuditSummary {
     watchReasons: string[];
     epilogijaCovecnosti: {
       title: 'EPILOGIJA ČOVEČNOSTI';
+      canonicalNarrativeId: 'sunce-suncanica-prirodni-odnosi-opomena';
       citation: string;
       interpretation: string;
     };
@@ -2051,6 +2053,7 @@ export interface ExtrimliSpajaKodPublicFacade {
   };
   epilogijaCovecnosti: {
     title: 'EPILOGIJA ČOVEČNOSTI';
+    canonicalNarrativeId: 'sunce-suncanica-prirodni-odnosi-opomena';
     citation: string;
     interpretation: string;
   };

@@ -221,7 +221,7 @@ async function runTests(): Promise<void> {
     assert(signal.term === 'RADNI TAKT MOZGA (MISLILAC)', 'radni takt term mismatch');
     assert(signal.contractVersion === EXTRIMLI_EXTREM_RADNI_TAKT_MOZGA_MISLILAC_CONTRACT_VERSION, 'radni takt contract mismatch');
     assert(signal.sourceOfTruth === '/api/extrimli/extrem', 'radni takt source mismatch');
-    assert(signal.meaningLock.statement === 'Additive educational-development signal that models learning discipline, mental-physical synergy, continuous progress, and ethical good-vs-evil discernment.', 'radni takt interpretation mismatch');
+    assert(signal.meaningLock.statement === 'Additive educational-development signal that models learning discipline, natural-relationship responsibility, mental-physical synergy, continuous progress, and ethical good-vs-evil discernment.', 'radni takt interpretation mismatch');
     assert(signal.ownershipModel.extrem === 'technical-learning-routine-signal', 'radni takt EXTREM ownership mismatch');
     assert(signal.ownershipModel.extrondol === 'wawe-orchestration-audit-consumer', 'radni takt EXTRONDOL ownership mismatch');
     assert(signal.ownershipModel.spajaKod === 'public-encapsulated-boundary', 'radni takt SPAJA KOD ownership mismatch');
@@ -230,7 +230,10 @@ async function runTests(): Promise<void> {
     assert(signal.ownershipEvidence.dakDeferredToGovernance, 'radni takt must defer DAK to governance');
     assert(signal.ownershipEvidence.dukDeferredToGovernance, 'radni takt must defer DUK to governance');
     assert(signal.epilogijaCovecnosti.title === 'EPILOGIJA ČOVEČNOSTI', 'radni takt epilog title mismatch');
+    assert(signal.epilogijaCovecnosti.canonicalNarrativeId === 'sunce-suncanica-prirodni-odnosi-opomena', 'radni takt canonical narrative id mismatch');
     assert(signal.epilogijaCovecnosti.citation.includes('Učenje u današnjem vremenu je element koji se izbegava'), 'radni takt epilog citation mismatch');
+    assert(signal.epilogijaCovecnosti.citation.includes('Sunce i Sunčanica'), 'radni takt canonical epilog narrative missing');
+    assert(signal.epilogijaCovecnosti.citation.includes('prirodnih odnosa'), 'radni takt natural-relations epilog segment missing');
     assert(['READY', 'WATCH', 'BLOCKED'].includes(signal.readiness.status), 'unexpected radni takt status');
     assert(Number.isFinite(signal.readiness.score), 'radni takt score must be finite');
     assert(signal.readiness.score >= 0 && signal.readiness.score <= 100, 'radni takt score must be bounded');
