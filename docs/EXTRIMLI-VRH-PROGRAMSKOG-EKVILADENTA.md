@@ -34,7 +34,7 @@ Traženi apstraktni delovi ostaju vezani za postojeće repo-kontrakte:
 - `apstrakcije` → `AI IQ PROGRAMSKI JEZIK` apstrakcioni profil
 - `paradigmijalno oblikovanje tela` → `PROGRAMSKI JEZIK PARADIGMA I OBLIKOVANJE TELA`
 - `ekstremne igrice` → `PROGRAMSKI JEZIK SPECIJALIZOVAN ZA IGRICE`
-- `prosporitet deklariše matrice u ekstazi` → `PROGRAMSKI JEZIK PO PROSPARITETU DEKLASIRANE MATRICE U EKSTAZI`
+- `prosparitet deklariše matrice u ekstazi` → `PROGRAMSKI JEZIK PO PROSPARITETU DEKLASIRANE MATRICE U EKSTAZI`
 - `dekoracija običnih primesa` → `PROGRAMSKI JEZIK DEKORACIJE OBJEKTNIH PRIMESA`
 
 ## Ownership split
