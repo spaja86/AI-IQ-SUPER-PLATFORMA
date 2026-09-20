@@ -4,6 +4,10 @@
 
 `METRIČKO PROGRAMIRANJE` je additive-only EXTRIMLI track za metričku procenu deklaracija koda i instanci bez otvaranja novih source-of-truth ruta.
 
+- Source-of-truth rute ostaju zaključane na `/api/extrimli/extrem`, `/api/extrimli/extrondol` i `/api/extrimli/spaja-kod`.
+- `DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == RADNI TAKT MOZGA (MISLILAC)` ostaje repo-wide reflection i nad METRIČKO slojem.
+- Centralni dokaz ostaje `dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection`.
+
 ## Locked semantics
 
 - `matrica` = deklaracije koda u izvornom opsegu
@@ -13,8 +17,8 @@
 
 ## Ownership model
 
-- **EXTREM**: tehnički signal, declaration-matrix scoring, instance-positioning scoring, degraded-safe posture
-- **EXTRONDOL**: WAWE progression, promotion freeze, release audit summary, readiness scorecard, human-review/rollback coupling
+- **EXTREM**: tehnički signal, declaration-matrix scoring, instance-positioning scoring, degraded-safe posture i zaključani `DOK + DIK + FOR`
+- **EXTRONDOL**: WAWE progression, promotion freeze, release audit summary, readiness scorecard, human-review/rollback coupling i zaključani `DAK + DUK` governance sloj nad metričkim signalom
 - **SPAJA KOD**: audit-safe final status bez internih matrica i instance detalja
 
 ## Technical shape
@@ -43,11 +47,18 @@ EXTRONDOL koristi isti signal za:
 - downstream sync reference
 - human-review zahtev
 
-`DAK` i `DUK` ostaju governance interpretacija metričkog signala i ne postaju tehnički izvor.
+`DAK` i `DUK` ostaju governance interpretacija metričkog signala i ne postaju tehnički izvor, dok `FOR` ostaje u EXTREM tehničkom ownership split-u zajedno sa `DOK + DIK`.
 
 ## Public boundary
 
 `/api/extrimli/spaja-kod` objavljuje samo `metrikoProgramiranjeStatus`. Raw matrix/instance scoring ostaje unutar EXTREM + EXTRONDOL sloja.
+
+## Repo-wide reflection lock
+
+- `METRIČKO PROGRAMIRANJE` ostaje kanonski satnica/vremenski ritam sloj unutar `DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == RADNI TAKT MOZGA (MISLILAC)` repo-wide reflection modela.
+- Dozvoljeni statusi ostaju `READY | WATCH | BLOCKED`.
+- Deterministički fallback ostaje obavezan za `NaN`, `Infinity`, prazne i konfliktne ulaze.
+- Nema novih runtime modula niti paralelnog source-of-truth sistema.
 
 ## Drift-zero lock
 

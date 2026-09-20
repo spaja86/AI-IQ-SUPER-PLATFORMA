@@ -4,6 +4,10 @@
 
 `PARADIJOGONALNO PROGRAMIRANJE (INSTRUMENTALNI VID U SIHOFIZI PROSPARITET OBLAČNOG/CLOUD PREDELA)` je additive-only EXTRIMLI track.
 
+- Source-of-truth rute ostaju zaključane na `/api/extrimli/extrem`, `/api/extrimli/extrondol` i `/api/extrimli/spaja-kod`.
+- `DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == RADNI TAKT MOZGA (MISLILAC)` ostaje repo-wide reflection i nad PARADIJOGONALNO slojem.
+- Centralni dokaz ostaje `dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection`.
+
 - `EXTREM` je tehnički source-of-truth za readiness signal.
 - `EXTRONDOL` je governance source-of-truth za WAWE, audit, freeze/promotion, rollback i human-review.
 - `SPAJA KOD` ostaje public-safe boundary i izlaže samo završni audit-safe status.
@@ -12,6 +16,7 @@
 
 - `DOK` = tehnički dokaz stabilnosti i bounded cloud-prosperity posture
 - `DIK` = sekvencijalni/operativni dokaz instrumentalnog toka i signalne kohezije
+- `FOR` = EXTREM sekvencijalni ulazni tok za repo-wide reflection i signalnu kontrolu
 - `DAK` = EXTRONDOL promotion odluka po WAWE pravilima
 - `DUK` = EXTRONDOL human-review, audit i rollback gate
 
@@ -43,3 +48,4 @@ EXTRONDOL koristi paradijogonalno signal za:
 - Nema novog runtime public source-of-truth endpointa.
 - PROSPARITET ostaje repo-local ulazni domen.
 - Nema novog cross-repo runtime coupling-a bez eksplicitnog downstream follow-up-a.
+- Dozvoljeni statusi ostaju `READY | WATCH | BLOCKED`, uz obavezan deterministic fallback za `NaN`, `Infinity`, prazne i konfliktne ulaze.

@@ -14,6 +14,9 @@ on:
       - 'docs/EXTRIMLI.md'
       - 'docs/EXTRIMLI-DEVELOPER-CREATE-PROGRAM.md'
       - 'docs/EXTRIMLI-VRH-PROGRAMSKOG-EKVILADENTA.md'
+      - 'docs/EXTRIMLI-METRICKO-PROGRAMIRANJE.md'
+      - 'docs/EXTRIMLI-SINEMETRICKO-PROGRAMIRANJE.md'
+      - 'docs/EXTRIMLI-PARADIJOGONALNO-PROGRAMIRANJE.md'
       - 'docs/AI-IQ-PROGRAMSKI-JEZIK.md'
       - 'docs/PROGRAMSKI-JEZIK-INFORMACIONIH-TOKOVA.md'
       - 'docs/PROGRAMSKI-JEZIK-PARADIGMA-I-OBLIKOVANJE-TELA.md'
@@ -64,6 +67,9 @@ jobs:
           const paradigmaDoc = fs.readFileSync('docs/PROGRAMSKI-JEZIK-PARADIGMA-I-OBLIKOVANJE-TELA.md', 'utf8');
           const developerCreateProgramDoc = fs.readFileSync('docs/EXTRIMLI-DEVELOPER-CREATE-PROGRAM.md', 'utf8');
           const vrhDoc = fs.readFileSync('docs/EXTRIMLI-VRH-PROGRAMSKOG-EKVILADENTA.md', 'utf8');
+          const metrikoDoc = fs.readFileSync('docs/EXTRIMLI-METRICKO-PROGRAMIRANJE.md', 'utf8');
+          const sinemetrickoDoc = fs.readFileSync('docs/EXTRIMLI-SINEMETRICKO-PROGRAMIRANJE.md', 'utf8');
+          const paradijogonalnoDoc = fs.readFileSync('docs/EXTRIMLI-PARADIJOGONALNO-PROGRAMIRANJE.md', 'utf8');
           const externalDoc = fs.readFileSync('docs/EXTRIMLI-EXTERNAL-GITHUB.md', 'utf8');
           const links = fs.readFileSync('docs/MULTI-REPO-LINKS.md', 'utf8');
           const versionRoadmap = fs.readFileSync('src/lib/extrimli-version-roadmap.ts', 'utf8');
@@ -120,6 +126,19 @@ jobs:
           assert(developerCreateProgramDoc.includes('docs + types + routes + tests + workflows'), 'Developer/Create program doc must lock docs/types/routes/tests/workflows');
           assert(developerCreateProgramDoc.includes('DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == RADNI TAKT MOZGA (MISLILAC)'), 'Developer/Create program doc must lock repo-wide equality mapping');
           assert(vrhDoc.includes('DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == RADNI TAKT MOZGA (MISLILAC)'), 'VRH doc must lock repo-wide equality mapping');
+          assert(metrikoDoc.includes('/api/extrimli/extrem') && metrikoDoc.includes('/api/extrimli/extrondol') && metrikoDoc.includes('/api/extrimli/spaja-kod'), 'METRIČKO doc must keep source-of-truth routes locked');
+          assert(metrikoDoc.includes('dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection'), 'METRIČKO doc must reference the central repo-wide reflection proof');
+          assert(metrikoDoc.includes('DOK + DIK + FOR') && metrikoDoc.includes('DAK + DUK'), 'METRIČKO doc must lock technical/governance ownership split');
+          assert(metrikoDoc.includes('READY | WATCH | BLOCKED') && metrikoDoc.includes('NaN') && metrikoDoc.includes('Infinity'), 'METRIČKO doc must keep deterministic fallback semantics');
+          assert(sinemetrickoDoc.includes('DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == RADNI TAKT MOZGA (MISLILAC)'), 'SINEMETRIČKO doc must lock repo-wide equality mapping');
+          assert(sinemetrickoDoc.includes('dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection'), 'SINEMETRIČKO doc must reference the central repo-wide reflection proof');
+          assert(sinemetrickoDoc.includes('DOK + DIK + FOR') && sinemetrickoDoc.includes('DAK + DUK'), 'SINEMETRIČKO doc must lock technical/governance ownership split');
+          assert(sinemetrickoDoc.includes('READY | WATCH | BLOCKED') && sinemetrickoDoc.includes('NaN/Infinity'), 'SINEMETRIČKO doc must keep deterministic fallback semantics');
+          assert(paradijogonalnoDoc.includes('/api/extrimli/extrem') && paradijogonalnoDoc.includes('/api/extrimli/extrondol') && paradijogonalnoDoc.includes('/api/extrimli/spaja-kod'), 'PARADIJOGONALNO doc must keep source-of-truth routes locked');
+          assert(paradijogonalnoDoc.includes('DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == RADNI TAKT MOZGA (MISLILAC)'), 'PARADIJOGONALNO doc must lock repo-wide equality mapping');
+          assert(paradijogonalnoDoc.includes('dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection'), 'PARADIJOGONALNO doc must reference the central repo-wide reflection proof');
+          assert(paradijogonalnoDoc.includes('FOR') && paradijogonalnoDoc.includes('DAK') && paradijogonalnoDoc.includes('DUK'), 'PARADIJOGONALNO doc must lock technical/governance ownership split');
+          assert(paradijogonalnoDoc.includes('READY | WATCH | BLOCKED') && paradijogonalnoDoc.includes('NaN') && paradijogonalnoDoc.includes('Infinity'), 'PARADIJOGONALNO doc must keep deterministic fallback semantics');
           assert(types.includes('developerAndCreateRepoWideReflection') && extrondolIndex.includes('developerAndCreateRepoWideReflection'), 'types and EXTRONDOL index must include developer/create repo-wide reflection contract fields');
           assert(extrimliDoc.includes('dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection'), 'EXTRIMLI doc must include developer/create consistency proof field');
           assert(versionRoadmap.includes('mandatoryArtifacts') && versionRoadmap.includes('implementationStreams') && versionRoadmap.includes('acceptanceLock'), 'roadmap lock must include mandatory artifacts, streams, and acceptance lock');
@@ -137,10 +156,16 @@ jobs:
           assert(links.includes('PR execution lock') && links.includes('roadmapStageId') && links.includes('measurableOutput') && links.includes('acceptanceEvidence'), 'multi-repo links must sync PR execution lock fields');
           assert(links.includes('Audit package lock') && links.includes('rolloutPlan') && links.includes('rollbackPlan') && links.includes('kpiImpact') && links.includes('humanReviewStatus') && links.includes('downstreamReference'), 'multi-repo links must sync operational audit package fields');
           assert(validatorWorkflow.includes('docs/EXTRIMLI-DEVELOPER-CREATE-PROGRAM.md'), 'validator workflow must watch Developer/Create program doc');
+          assert(validatorWorkflow.includes('docs/EXTRIMLI-METRICKO-PROGRAMIRANJE.md'), 'validator workflow must watch METRIČKO doc');
+          assert(validatorWorkflow.includes('docs/EXTRIMLI-SINEMETRICKO-PROGRAMIRANJE.md'), 'validator workflow must watch SINEMETRIČKO doc');
+          assert(validatorWorkflow.includes('docs/EXTRIMLI-PARADIJOGONALNO-PROGRAMIRANJE.md'), 'validator workflow must watch PARADIJOGONALNO doc');
           assert(validatorWorkflow.includes('docs/PROGRAMSKI-JEZIK-PARADIGMA-I-OBLIKOVANJE-TELA.md'), 'validator workflow must watch paradigma/body-shaping doc');
           assert(validatorWorkflow.includes('src/tests/lib/extrimli-extrem.test.ts'), 'validator workflow must watch EXTREM profiler tests');
           assert(validatorWorkflow.includes('.github/workflows/extrimli-governance-conformance.yml'), 'validator workflow must watch governance conformance workflow');
           assert(externalWorkflow.includes('docs/EXTRIMLI-DEVELOPER-CREATE-PROGRAM.md'), 'external workflow must watch Developer/Create program doc');
+          assert(externalWorkflow.includes('docs/EXTRIMLI-METRICKO-PROGRAMIRANJE.md'), 'external workflow must watch METRIČKO doc');
+          assert(externalWorkflow.includes('docs/EXTRIMLI-SINEMETRICKO-PROGRAMIRANJE.md'), 'external workflow must watch SINEMETRIČKO doc');
+          assert(externalWorkflow.includes('docs/EXTRIMLI-PARADIJOGONALNO-PROGRAMIRANJE.md'), 'external workflow must watch PARADIJOGONALNO doc');
           assert(externalWorkflow.includes('docs/PROGRAMSKI-JEZIK-PARADIGMA-I-OBLIKOVANJE-TELA.md'), 'external workflow must watch paradigma/body-shaping doc');
           assert(externalWorkflow.includes('src/tests/lib/extrimli-extrem.test.ts'), 'external workflow must watch EXTREM profiler tests');
           assert(externalWorkflow.includes('.github/workflows/extrimli-governance-conformance.yml'), 'external workflow must watch governance conformance workflow');

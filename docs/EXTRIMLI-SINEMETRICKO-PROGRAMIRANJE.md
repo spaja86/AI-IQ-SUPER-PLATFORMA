@@ -4,6 +4,8 @@
 
 - Canonical term: `SINEMETRIČKO PROGRAMIRANJE`
 - Model: additive-only extension over existing EXTRIMLI/EXTREM/EXTRONDOL surfaces
+- `DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == RADNI TAKT MOZGA (MISLILAC)` ostaje repo-wide reflection i nad SINEMETRIČKO slojem
+- Centralni dokaz ostaje `dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection`
 - No new routes:
   - `/api/extrimli/extrem`
   - `/api/extrimli/extrondol`
@@ -23,15 +25,16 @@
 - **EXTRONDOL** owns governance consumption (WAWE freeze/promotion, human review, release-audit coupling).
 - **SPAJA KOD** remains public audit-safe boundary and must not expose raw matrices/formulas.
 - Signal split lock remains immutable:
-  - `DOK + DIK` in EXTREM
+  - `DOK + DIK + FOR` in EXTREM
   - `DAK + DUK` in EXTRONDOL
 
 ## Acceptance criteria
 
 - Deterministic output on identical inputs.
-- NaN/Infinity/invalid-range inputs degrade safely without route breakage.
+- NaN/Infinity/invalid-range, empty, and conflict inputs degrade safely without route breakage.
 - Oktavni sequencing and 1ms cadence constraints are validated.
 - DOK/DIK/DAK/DUK consistency health remains aligned across EXTREM and EXTRONDOL.
+- Public repo-wide reflection language remains `READY | WATCH | BLOCKED`.
 
 ## Audit-safe downstream sync
 
@@ -40,5 +43,6 @@ For downstream (`spaja86/IO-OPENUI-AO`), sync only audit-safe summarized fields:
 - `extremProfiler.sinemetrickoProgramiranje.readiness`
 - `sinemetrickoProgramiranje.waweImpact`
 - `releaseAuditSummary.sinemetrickoProgramiranjeGovernance`
+- `dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection`
 
 Do not sync raw matrix formulas or internal derivation details.
