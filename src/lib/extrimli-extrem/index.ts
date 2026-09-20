@@ -3885,13 +3885,9 @@ function buildVrhProgramskogEkviladentaSignal(params: {
     ...(params.sinemetrickoProgramiranje.readiness.status === 'WATCH' ? ['sinemetric-track-watch'] : []),
     ...(params.programskiJezikInformacionihTokova.readiness.status === 'WATCH' ? ['informational-flow-watch'] : []),
     ...(params.spajinoProporcionalnoProgramiranjeUniverzitet.readiness.status === 'WATCH' ? ['university-track-watch'] : []),
-    ...(params.dokSignal.status == null ? ['dok-technical-missing'] : params.dokSignal.status === 'WATCH' ? ['dok-technical-watch'] : []),
-    ...(params.dikSignal.status == null ? ['dik-technical-missing'] : params.dikSignal.status === 'WATCH' ? ['dik-technical-watch'] : []),
-    ...(params.forSignal.status == null
-      ? ['for-technical-missing']
-      : params.forSignal.status === 'WATCH'
-        ? ['for-technical-watch']
-        : []),
+    ...(params.dokSignal.status === 'WATCH' ? ['dok-technical-watch'] : []),
+    ...(params.dikSignal.status === 'WATCH' ? ['dik-technical-watch'] : []),
+    ...(params.forSignal.status === 'WATCH' ? ['for-technical-watch'] : []),
   ];
   const blockerReasons = [
     ...(profileInput.exponentialProgressionPercent < 58 ? [`exponential-progression-blocked:${profileInput.exponentialProgressionPercent}`] : []),
@@ -3905,11 +3901,8 @@ function buildVrhProgramskogEkviladentaSignal(params: {
     ...(params.sinemetrickoProgramiranje.conflict.evidenceRequired ? ['sinemetric-conflict-evidence-required'] : []),
     ...(params.programskiJezikInformacionihTokova.readiness.status === 'BLOCKED' ? ['informational-flow-blocked'] : []),
     ...(params.spajinoProporcionalnoProgramiranjeUniverzitet.readiness.status === 'BLOCKED' ? ['university-track-blocked'] : []),
-    ...(params.dokSignal.status == null ? ['dok-technical-evidence-missing'] : []),
-    ...(params.dikSignal.status == null ? ['dik-technical-evidence-missing'] : []),
     ...(params.dokSignal.status === 'BLOCKED' ? ['dok-technical-blocked'] : []),
     ...(params.dikSignal.status === 'BLOCKED' ? ['dik-technical-blocked'] : []),
-    ...(params.forSignal.status == null ? ['for-technical-evidence-missing'] : []),
     ...(params.forSignal.status === 'BLOCKED' ? ['for-technical-blocked'] : []),
   ];
   const aggregateStatus = classifyVrhProgramskogEkviladentaStatus(score);
@@ -5548,16 +5541,20 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
     sinemetrickoProgramiranjeDegradedSources.length > 0,
   );
   const vrhProgramskogEkviladentaInput = resolveVrhProgramskogEkviladentaInput(degradedSources);
+  const vrhDokSignal = { kind: 'DOK PETLJA' as const, status: dokSignal?.status ?? null, readinessScore: dokSignal?.readinessScore ?? null };
+  const vrhDikSignal = { kind: 'DIK PETLJA' as const, status: dikSignal?.status ?? null, readinessScore: dikSignal?.readinessScore ?? null };
+  const vrhForSignal = {
+    kind: 'FOR PETLJA' as const,
+    status: forSignal?.status ?? programskiJezikInformacionihTokova.forLoopBinding.forEvidence.status ?? null,
+    readinessScore: forSignal?.readinessScore ?? programskiJezikInformacionihTokova.forLoopBinding.forEvidence.readinessScore ?? null,
+  };
   const vrhProgramskogEkviladentaDegraded =
     degradedSources.some((source) => source.startsWith('invalid-env:EXTRIMLI_EXTREM_VRH_'))
     || proporcionalnoProgramiranje.readiness.degraded
     || metrikoProgramiranje.readiness.degraded
     || sinemetrickoProgramiranje.readiness.degraded
     || programskiJezikInformacionihTokova.readiness.degraded
-    || spajinoProporcionalnoProgramiranjeUniverzitet.readiness.degraded
-    || dokSignal == null
-    || dikSignal == null
-    || forSignal == null;
+    || spajinoProporcionalnoProgramiranjeUniverzitet.readiness.degraded;
   const vrhProgramskogEkviladenta = buildVrhProgramskogEkviladentaSignal({
     profileInput: vrhProgramskogEkviladentaInput,
     proporcionalnoProgramiranje,
@@ -5565,9 +5562,9 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
     sinemetrickoProgramiranje,
     programskiJezikInformacionihTokova,
     spajinoProporcionalnoProgramiranjeUniverzitet,
-    dokSignal: { kind: 'DOK PETLJA', status: dokSignal?.status ?? null, readinessScore: dokSignal?.readinessScore ?? null },
-    dikSignal: { kind: 'DIK PETLJA', status: dikSignal?.status ?? null, readinessScore: dikSignal?.readinessScore ?? null },
-    forSignal: { kind: 'FOR PETLJA', status: forSignal?.status ?? null, readinessScore: forSignal?.readinessScore ?? null },
+    dokSignal: vrhDokSignal,
+    dikSignal: vrhDikSignal,
+    forSignal: vrhForSignal,
     degraded: vrhProgramskogEkviladentaDegraded,
   });
   const semaMuSemaFormula = buildSemaMuSemaFormula(profileInput, resolutionInput, degradedSources);
