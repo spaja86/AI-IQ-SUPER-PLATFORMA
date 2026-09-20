@@ -167,6 +167,9 @@ async function runTests(): Promise<void> {
     assert(lock.prExecutionLock.singleRoadmapStagePerPr, 'single-roadmap-stage-per-PR lock must be enabled');
     assert(lock.prExecutionLock.measurableOutputRequired, 'measurable-output lock must be enabled');
     assert(lock.prExecutionLock.requiredFields.join(',') === 'roadmapStageId,measurableOutput,acceptanceEvidence', 'PR execution required fields mismatch');
+    assert(lock.dailyOperationalCadence.cadenceBlocks.join(',') === 'morning-startup,deep-focus-block,midday-checkpoint,end-of-day-closeout', 'daily cadence blocks mismatch');
+    assert(lock.dailyOperationalCadence.taskPriorities.join(',') === '1,2,3', 'daily cadence priorities mismatch');
+    assert(lock.dailyOperationalCadence.endOfDayStatuses.join(',') === 'completed,carried-over,blocked', 'daily cadence closeout statuses mismatch');
     assert(lock.operationalAuditPackage.required, 'operational audit package must be required');
     assert(lock.operationalAuditPackage.standardizedPrDescription, 'operational audit package must standardize PR description');
     assert(lock.operationalAuditPackage.requiredFields.join(',') === 'rolloutPlan,rollbackPlan,kpiImpact,humanReviewStatus,downstreamReference', 'operational audit package required fields mismatch');
@@ -177,8 +180,11 @@ async function runTests(): Promise<void> {
     assert(lock.mandatoryArtifacts.tests.includes('src/tests/api/extrimli-route.test.ts'), 'route test mandatory artifact missing');
     assert(lock.acceptanceLock.degradedPolicy === 'partial-payload-no-500', 'developer/create degraded policy mismatch');
     assert(report.startProject.mandatoryOutputs.includes('versionRoadmap.developerCreateLock'), 'developer/create lock must be a START mandatory output');
+    assert(report.startProject.mandatoryOutputs.includes('extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.dailyOperationalCadence'), 'developer/create cadence must be a START mandatory output');
     assert(report.startProject.downstreamSync.syncedContractFields.includes('versionRoadmap.developerCreateLock'), 'developer/create lock must be synced downstream');
+    assert(report.startProject.downstreamSync.syncedContractFields.includes('extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.dailyOperationalCadence'), 'developer/create cadence must sync downstream');
     assert(report.b2bReadiness.downstreamSync.syncedFields.includes('versionRoadmap.developerCreateLock.driftZeroLayers'), 'developer/create drift-zero layers must be synced downstream');
+    assert(report.b2bReadiness.downstreamSync.syncedFields.includes('versionRoadmap.developerCreateLock.dailyOperationalCadence'), 'developer/create cadence lock must be synced downstream');
     assert(report.b2bReadiness.downstreamSync.syncedFields.includes('versionRoadmap.developerCreateLock.definitionOfDone'), 'developer/create DoD must be synced downstream');
     assert(report.roadmapAlignment.primaryVersion === 'Verzija 5', 'EXTRONDOL should align to Verzija 5');
   });
@@ -209,6 +215,8 @@ async function runTests(): Promise<void> {
     assert(report.releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.sourceOfTruth === '/api/extrimli/extrem', 'developer/create release audit source mismatch');
     assert(report.releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.readinessScore >= 0 && report.releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.readinessScore <= 100, 'developer/create release audit readiness score must be bounded');
     assert(report.releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.reviewRequiredBeforeWideRollout === (report.releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.status !== 'READY'), 'developer/create release audit review requirement mismatch');
+    assert(report.releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.dailyOperationalCadence.cadenceBlocks.join(',') === 'morning-startup,deep-focus-block,midday-checkpoint,end-of-day-closeout', 'developer/create release audit cadence blocks mismatch');
+    assert(report.releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.dailyOperationalCadence.taskPriorities.join(',') === '1,2,3', 'developer/create release audit priorities mismatch');
   });
 
   await test('report maps KRALJEVSKI PRAVNI UNIVERZITET governance into WAWE, audit, downstream sync, and SPAJA KOD summary', () => {
@@ -653,6 +661,10 @@ async function runTests(): Promise<void> {
     assert(report.developerAndCreateRepoWideReflection.publicBoundary === '/api/extrimli/spaja-kod', 'developer/create public boundary mismatch');
     assert(report.spajaKod.publicSignals.developerAndCreateStatus === report.developerAndCreateRepoWideReflection.status, 'SPAJA KOD developer/create status mismatch');
     assert(report.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.status === report.developerAndCreateRepoWideReflection.status, 'developer/create consistency mismatch');
+    assert(report.developerAndCreateRepoWideReflection.dailyOperationalCadence.status === report.developerAndCreateRepoWideReflection.status, 'developer/create cadence status mismatch');
+    assert(report.developerAndCreateRepoWideReflection.dailyOperationalCadence.activeRoadmapStagePolicy === 'single-active-roadmap-stage-per-day', 'developer/create cadence roadmap policy mismatch');
+    assert(report.developerAndCreateRepoWideReflection.dailyOperationalCadence.cadenceBlocks.join(',') === 'morning-startup,deep-focus-block,midday-checkpoint,end-of-day-closeout', 'developer/create cadence blocks mismatch');
+    assert(report.developerAndCreateRepoWideReflection.dailyOperationalCadence.endOfDayStatuses.join(',') === 'completed,carried-over,blocked', 'developer/create cadence closeout statuses mismatch');
     assert(report.dokDikDakDukConsistencyHealth.consistent, 'consistency health should be consistent');
     assert(['READY', 'WATCH', 'BLOCKED'].includes(report.dokDikDakDukConsistencyHealth.status), 'invalid consistency health status');
     assert(report.acceptanceCriteria.some((item) => item.id === 'dok-dik-dak-duk-consistency-health' && item.passed), 'consistency acceptance criterion must pass');
