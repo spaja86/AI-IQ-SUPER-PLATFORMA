@@ -1028,7 +1028,7 @@ AI-IQ-SUPER-PLATFORMA#EXTRIMLI-TRANCE-001 -> IO-OPENUI-AO#<follow-up issue>
 | Date | 2026-09-17 |
 | Owner | @spaja86 |
 | Program doc | `docs/EXTRIMLI-DEVELOPER-CREATE-PROGRAM.md` |
-| Source-of-truth routes | `/api/extrimli/extrem`, `/api/extrimli/extrondol` |
+| Source-of-truth routes | `/api/extrimli/extrem`, `/api/extrimli/extrondol`, `/api/extrimli/spaja-kod` |
 | Change model | additive-only (no breaking changes) |
 | Drift policy | drift-zero (`docs + types + routes + tests + workflows`) |
 | PR execution lock | One PR = one roadmap stage + measurable output (`roadmapStageId`, `measurableOutput`, `acceptanceEvidence`) |
