@@ -3785,7 +3785,13 @@ function resolveVrhProgramskogEkviladentaForSignalResolution(params: {
     2,
   );
   const fallbackStatus = classifyVrhProgramskogEkviladentaStatus(fallbackReadinessScore);
-  const fallbackRequired = params.forSignal?.status == null || params.forSignal?.readinessScore == null;
+  const fallbackRequired = (
+    params.forSignal?.status == null
+    || params.forSignal?.readinessScore == null
+  ) && (
+    params.informationalForEvidence?.status == null
+    || params.informationalForEvidence?.readinessScore == null
+  );
   return {
     signal: {
       kind: 'FOR PETLJA',
