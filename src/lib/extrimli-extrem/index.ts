@@ -3791,7 +3791,7 @@ function resolveVrhProgramskogEkviladentaForSignalResolution(params: {
   signal: ExtrimliDokDikDakDukConsistencyHealth['signals']['for'];
   fallbackRequired: boolean;
 } {
-  const fallbackRequired = params.forSignal == null;
+  const fallbackRequired = params.forSignal?.status == null || params.forSignal?.readinessScore == null;
   return {
     signal: {
     kind: 'FOR PETLJA',
