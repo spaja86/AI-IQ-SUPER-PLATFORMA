@@ -5543,10 +5543,30 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
   const vrhProgramskogEkviladentaInput = resolveVrhProgramskogEkviladentaInput(degradedSources);
   const vrhDokSignal = { kind: 'DOK PETLJA' as const, status: dokSignal?.status ?? null, readinessScore: dokSignal?.readinessScore ?? null };
   const vrhDikSignal = { kind: 'DIK PETLJA' as const, status: dikSignal?.status ?? null, readinessScore: dikSignal?.readinessScore ?? null };
+  const vrhForFallbackReadinessScore = round(
+    clamp(
+      (forPetljaResult.completed ? 86 : 34)
+      + Math.max(0, 10 - forPetljaResult.iterations) * 1.6
+      - forPetljaResult.warnings.length * 8
+      - (forPetljaResult.reason === 'invalid-input' ? 28 : 0)
+      - (forPetljaResult.reason === 'blocked-status' ? 36 : 0)
+      - (forPetljaResult.reason === 'max-iterations' ? 18 : 0)
+      - (forPetljaResult.reason === 'time-limit' ? 16 : 0),
+      0,
+      100,
+    ),
+    2,
+  );
+  const vrhForFallbackStatus =
+    vrhForFallbackReadinessScore >= EXTRIMLI_EXTREM_PETLJE_READY_MIN_SCORE
+      ? 'READY'
+      : vrhForFallbackReadinessScore >= EXTRIMLI_EXTREM_PETLJE_WATCH_MIN_SCORE
+        ? 'WATCH'
+        : 'BLOCKED';
   const vrhForSignal = {
     kind: 'FOR PETLJA' as const,
-    status: forSignal?.status ?? programskiJezikInformacionihTokova.forLoopBinding.forEvidence.status ?? null,
-    readinessScore: forSignal?.readinessScore ?? programskiJezikInformacionihTokova.forLoopBinding.forEvidence.readinessScore ?? null,
+    status: forSignal?.status ?? programskiJezikInformacionihTokova.forLoopBinding.forEvidence.status ?? vrhForFallbackStatus,
+    readinessScore: forSignal?.readinessScore ?? programskiJezikInformacionihTokova.forLoopBinding.forEvidence.readinessScore ?? vrhForFallbackReadinessScore,
   };
   const vrhProgramskogEkviladentaDegraded =
     degradedSources.some((source) => source.startsWith('invalid-env:EXTRIMLI_EXTREM_VRH_'))
