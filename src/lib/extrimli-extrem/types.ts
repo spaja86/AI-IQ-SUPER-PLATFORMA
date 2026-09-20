@@ -2282,10 +2282,10 @@ export interface ExtrimliExtremKraljevskiPravniTrack {
 
 export interface ExtrimliDeveloperCreateRepoWideReflectionDailyTask {
   priority: 1 | 2 | 3;
-  roadmapStageIdRequired: true;
-  measurableOutputRequired: true;
-  acceptanceEvidenceRequired: true;
-  endOfDayStatusRequired: true;
+  roadmapStageId: ExtrimliVersionRoadmapVersionId;
+  measurableOutput: string;
+  acceptanceEvidence: string;
+  endOfDayStatus: (typeof EXTRIMLI_DEVELOPER_CREATE_DAILY_CLOSEOUT_STATUSES)[number];
   derivedFrom: 'existing-modules-validators-and-workflows';
 }
 

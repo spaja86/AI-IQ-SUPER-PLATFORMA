@@ -5266,6 +5266,10 @@ function buildZelezaraPretplataIdentityTrack(): ExtrimliExtremZelezaraPretplataI
 
 export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport {
   const versionRoadmap = getExtrimliVersionRoadmap();
+  const activeRoadmapStage =
+    versionRoadmap.versions.find(
+      (stage) => stage.status === 'ACTIVE-BASELINE' || stage.status === 'ACTIVE-EXPANSION',
+    ) ?? versionRoadmap.versions[0];
   const degradedSources: string[] = [];
   const profileInput = resolveProfileInput(degradedSources);
   const resolutionInput = resolveResolutionInput(degradedSources);
@@ -6055,32 +6059,14 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
         cadenceBlocks: EXTRIMLI_DEVELOPER_CREATE_DAILY_CADENCE_BLOCKS,
         taskPriorities: EXTRIMLI_DEVELOPER_CREATE_DAILY_TASK_PRIORITIES,
         endOfDayStatuses: EXTRIMLI_DEVELOPER_CREATE_DAILY_CLOSEOUT_STATUSES,
-        dailyTasks: [
-          {
-            priority: 1,
-            roadmapStageIdRequired: true,
-            measurableOutputRequired: true,
-            acceptanceEvidenceRequired: true,
-            endOfDayStatusRequired: true,
-            derivedFrom: 'existing-modules-validators-and-workflows',
-          },
-          {
-            priority: 2,
-            roadmapStageIdRequired: true,
-            measurableOutputRequired: true,
-            acceptanceEvidenceRequired: true,
-            endOfDayStatusRequired: true,
-            derivedFrom: 'existing-modules-validators-and-workflows',
-          },
-          {
-            priority: 3,
-            roadmapStageIdRequired: true,
-            measurableOutputRequired: true,
-            acceptanceEvidenceRequired: true,
-            endOfDayStatusRequired: true,
-            derivedFrom: 'existing-modules-validators-and-workflows',
-          },
-        ],
+        dailyTasks: versionRoadmap.developerCreateLock.dailyOperationalCadence.taskTemplate.map((taskTemplate, index) => ({
+          priority: taskTemplate.priority,
+          roadmapStageId: activeRoadmapStage.id,
+          measurableOutput: `${activeRoadmapStage.id} :: ${taskTemplate.focus}`,
+          acceptanceEvidence: `docs+tests+workflow alignment for ${taskTemplate.focus}`,
+          endOfDayStatus: EXTRIMLI_DEVELOPER_CREATE_DAILY_CLOSEOUT_STATUSES[index] ?? 'blocked',
+          derivedFrom: 'existing-modules-validators-and-workflows',
+        })),
       },
       readiness: {
         score: 0,
