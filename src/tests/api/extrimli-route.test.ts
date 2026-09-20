@@ -561,6 +561,7 @@ async function runTests(): Promise<void> {
         publicSignals: {
           auditStatus: string;
           degraded: boolean;
+          developerAndCreateStatus: string;
           funkcinalnoProgramiranjeEnergetskogMisaonogTokaStatus: string;
           funkcionalnoProgramiranjeUzvisenogMisanogTokaStatus: string;
           funkcionalnoProgramiranjePravednogMisaonogTokaStatus: string;
@@ -584,6 +585,7 @@ async function runTests(): Promise<void> {
     assert(['ALLOW', 'WARN', 'FREEZE'].includes(body.data.readiness.governanceOutcome), 'unexpected SPAJA KOD governance outcome');
     assert(typeof body.data.readiness.promotionFreeze === 'boolean', 'SPAJA KOD promotionFreeze should be boolean');
     assert(['READY', 'BLOCKED'].includes(body.data.publicSignals.auditStatus), 'unexpected SPAJA KOD audit status');
+    assert(['READY', 'WATCH', 'BLOCKED'].includes(body.data.publicSignals.developerAndCreateStatus), 'unexpected SPAJA KOD developer/create summary status');
     assert(['READY', 'WATCH', 'BLOCKED'].includes(body.data.publicSignals.funkcinalnoProgramiranjeEnergetskogMisaonogTokaStatus), 'unexpected SPAJA KOD functional energy-flow summary status');
     assert(['READY', 'WATCH', 'BLOCKED'].includes(body.data.publicSignals.funkcionalnoProgramiranjeUzvisenogMisanogTokaStatus), 'unexpected SPAJA KOD elevated thought-flow summary status');
     assert(['READY', 'WATCH', 'BLOCKED'].includes(body.data.publicSignals.funkcionalnoProgramiranjePravednogMisaonogTokaStatus), 'unexpected SPAJA KOD fair thought-flow summary status');
