@@ -553,6 +553,77 @@ Epilog boundary:
 - Kanonski epilog signal je propagiran kroz EXTREM → EXTRONDOL → SPAJA KOD bez novih ruta i bez promene `DOK/DIK/FOR` (EXTREM) i `DAK/DUK` (EXTRONDOL) ownership modela.
 - Citat ostaje formalizovan kao narativni zaključak i ne otvara novi source-of-truth runtime surface.
 
+## PRIRODA == ZDRAV ŽIVOT (EXTRIMLI EXTRONDOL EXTREM DOK DUK DAK DIK FOR)
+
+- Canonical term: `PRIRODA == ZDRAV ŽIVOT`
+- Contract mode: additive-only
+- Technical source of truth: `/api/extrimli/extrem`
+- Governance source of truth: `/api/extrimli/extrondol`
+- Public boundary: `/api/extrimli/spaja-kod`
+- Scope lock: nema novih runtime ruta i nema promene ownership split-a.
+
+Ownership split lock:
+
+- **EXTREM** ostaje tehnički sloj za `DOK/DIK/FOR`, uključujući interpretaciju narativa `osoba-biljka`, ekosistemsku raznovrsnost i prirodni balans.
+- **EXTRONDOL** ostaje governance sloj za `DAK/DUK`, uključujući WAWE promotion/freeze odluke, release audit, rollback disciplinu i human-review zahteve.
+- **SPAJA KOD** ostaje audit-safe summary granica i ne izlaže sirove narativne formule.
+
+Domain contract (narativni signal):
+
+- `epilogNarrativeText` (ulaz): kanonski epilog za ovaj track glasi:
+  - `Priroda izum samoživost gde je svaka "osoba-biljka" poseban život u ekosistemima mnogobrojnih subjekata. Zato sam prizor na prirodu i njene ne istražene pejzaže je nezamisliv doživljaj. Obogaćuj se "PRIRODOM" == "ZDRAV ŽIVOT". UBACUJEM OVAJ EPILOG U "ČOVEČANSTVO".`
+- Normalizovane tematske ose (0–100):
+  - `prirodaAxisPercent`
+  - `zdravZivotAxisPercent`
+  - `ekosistemAxisPercent`
+  - `humanitetAxisPercent`
+- Izlazni compatibility status:
+  - tehnički readiness signal ostaje `READY | WATCH | BLOCKED` (EXTREM)
+  - governance/audit status ostaje WAWE-kompatibilan i additive-only (EXTRONDOL)
+  - `dokDikDakDukConsistencyHealth` ostaje obavezni zajednički health lock
+
+Epilog boundary:
+
+- `ČOVEČANSTVO` je interpretativni epilog sloj i ne predstavlja novi runtime source-of-truth.
+- Epilog se propagira samo kroz postojeći EXTREM → EXTRONDOL → SPAJA KOD tok.
+- Nema promene u postojećem razdvajanju `DOK/DIK/FOR` (technical) i `DAK/DUK` (governance).
+
+Governance acceptance checklist (DAK/DUK + WAWE):
+
+1. WAWE 1–5 orkestracija koristi postojeći EXTRONDOL model bez novih governance ruta.
+2. Promotion freeze je obavezan kada EXTREM signal i EXTRONDOL governance signal nisu konzistentni.
+3. Mandatory `operationalAuditPackage` shape (u PR opisu) je zaključan na:
+   - `rolloutPlan`
+   - `rollbackPlan`
+   - `kpiImpact`
+   - `humanReviewStatus`
+   - `downstreamReference`
+4. `releaseAuditSummary` mora sadržati rollout snapshot, KPI impact, downstream reference, human-review status i rollback zahtev i mora biti evidentiran u:
+   - PR opisu kroz `versionRoadmap.developerCreateLock.operationalAuditPackage` polja (`rolloutPlan`, `rollbackPlan`, `kpiImpact`, `humanReviewStatus`, `downstreamReference`)
+   - workflow summary izlazu aktivnog EXTRIMLI governance workflow-a (npr. `extrimli-external-github` kada je taj tok aktivan)
+   - canonical shape reference ostaje zaključan u sekciji `DOK / DIK / DAK / DUK consistency health lock` (stavka `versionRoadmap.developerCreateLock.operationalAuditPackage`).
+5. Human review je obavezan pre bilo kog promotion koraka.
+6. Audit trail mora eksplicitno beležiti mapiranje narativnog epiloga u governance odluku u PR opisu i workflow summary-u (isti source-of-truth zapis).
+
+Test/validation acceptance checklist (DOK/DIK/FOR + regresija):
+
+1. Deterministički mapping istog `epilogNarrativeText` ulaza u iste normalizovane ose i isti readiness status.
+2. Edge-case validacija:
+   - prazan epilog tekst
+   - kontradiktoran epilog signal
+   - predugačak epilog tekst
+3. Degraded-safe fallback ostaje obavezan za nevalidne ulaze.
+4. Potvrda da postojeći EXTRIMLI API surface i ownership granice ostaju stabilni (additive-only bez breaking promena).
+5. Verifikacioni artefakti za ovaj track ostaju mapirani na postojeće EXTRIMLI gate-ove:
+   - test suites: `src/tests/lib/extrimli-extrem.test.ts`, `src/tests/lib/extrimli-extrondol.test.ts`
+   - governance validator workflow: `.github/workflows/extrimli-validator.yml`
+
+Finalni artefakti (zaključani izlaz):
+
+1. Ažuriran spec: narativ + signal contract (`PRIRODA == ZDRAV ŽIVOT`).
+2. Governance acceptance checklist: `DAK/DUK + WAWE` freeze/promotion pravila.
+3. Test acceptance checklist: `DOK/DIK/FOR` kompatibilnost + regresiona validacija.
+
 ## PROPORCIONALNO PROGRAMIRANJE
 
 - Canonical term: `PROPORCIONALNO PROGRAMIRANJE`
