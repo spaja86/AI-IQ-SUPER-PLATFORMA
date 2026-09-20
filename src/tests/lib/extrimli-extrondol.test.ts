@@ -217,6 +217,8 @@ async function runTests(): Promise<void> {
     assert(report.releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.reviewRequiredBeforeWideRollout === (report.releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.status !== 'READY'), 'developer/create release audit review requirement mismatch');
     assert(report.releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.dailyOperationalCadence.cadenceBlocks.join(',') === 'morning-startup,deep-focus-block,midday-checkpoint,end-of-day-closeout', 'developer/create release audit cadence blocks mismatch');
     assert(report.releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.dailyOperationalCadence.taskPriorities.join(',') === '1,2,3', 'developer/create release audit priorities mismatch');
+    assert(new Set(report.releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.dailyOperationalCadence.dailyTasks.map((task) => task.roadmapStageId)).size === 1, 'developer/create release audit daily tasks must bind to one roadmap stage');
+    assert(report.releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.dailyOperationalCadence.dailyTasks.every((task) => task.acceptanceEvidence.length > 0), 'developer/create release audit daily tasks must include acceptance evidence');
   });
 
   await test('report maps KRALJEVSKI PRAVNI UNIVERZITET governance into WAWE, audit, downstream sync, and SPAJA KOD summary', () => {

@@ -1470,6 +1470,7 @@ export interface ExtrimliExtrondolReleaseAuditSummary {
       cadenceBlocks: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['dailyOperationalCadence']['cadenceBlocks'];
       taskPriorities: readonly [1, 2, 3];
       endOfDayStatuses: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['dailyOperationalCadence']['endOfDayStatuses'];
+      dailyTasks: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['dailyOperationalCadence']['dailyTasks'];
       reviewRequiredBeforeWideRollout: boolean;
     };
   };

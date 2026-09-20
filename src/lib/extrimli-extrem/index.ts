@@ -5266,10 +5266,15 @@ function buildZelezaraPretplataIdentityTrack(): ExtrimliExtremZelezaraPretplataI
 
 export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport {
   const versionRoadmap = getExtrimliVersionRoadmap();
+  const activeRoadmapStages = versionRoadmap.versions.filter(
+    (stage) => stage.status === 'ACTIVE-BASELINE' || stage.status === 'ACTIVE-EXPANSION',
+  );
+  const activeRoadmapStageCount = activeRoadmapStages.length;
   const activeRoadmapStage =
-    versionRoadmap.versions.find(
-      (stage) => stage.status === 'ACTIVE-BASELINE' || stage.status === 'ACTIVE-EXPANSION',
-    ) ?? versionRoadmap.versions[0];
+    (activeRoadmapStageCount === 1
+      ? activeRoadmapStages[0]
+      : activeRoadmapStages[activeRoadmapStages.length - 1])
+    ?? versionRoadmap.versions[0];
   const degradedSources: string[] = [];
   const profileInput = resolveProfileInput(degradedSources);
   const resolutionInput = resolveResolutionInput(degradedSources);
@@ -6292,6 +6297,7 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
   ) / 100;
   dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.status =
     developerAndCreateReflectionStatuses.includes('BLOCKED')
+    || activeRoadmapStageCount !== 1
     || dokDikDakDukConsistencyHealth.status === 'BLOCKED'
       ? 'BLOCKED'
       : developerAndCreateReflectionStatuses.includes('WATCH')
@@ -6304,13 +6310,27 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
     || sinemetrickoProgramiranje.readiness.deterministicFallbackRequired
     || paradijogonalnoProgrimiranje.readiness.degraded
     || vrhProgramskogEkviladenta.readiness.deterministicFallbackRequired
+    || activeRoadmapStageCount !== 1
     || !dokDikDakDukConsistencyHealth.consistent;
+  dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.dailyOperationalCadence.dailyTasks =
+    dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.dailyOperationalCadence.dailyTasks.map((task) => ({
+      ...task,
+      endOfDayStatus:
+        dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.status === 'READY'
+          ? 'completed'
+          : dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.status === 'WATCH'
+            ? 'carried-over'
+            : 'blocked',
+    }));
   dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.reasons = [
     'DEVELOPER AND CREATE ostaje additive-only repo-wide interpretativni lock preko postojećih EXTRIMLI / EXTREM / EXTRONDOL kontrakata.',
     'VRH PROGRAMSKOG EKVILADENTA ostaje vršni sloj, RADNI TAKT MOZGA (MISLILAC) ostaje zajednički ritam/readiness signal, a METRIČKO / SINEMETRIČKO / PARADIJOGONALNO ostaju kanonski prateći track-ovi.',
     'Repo-wide odraz ostaje validan samo kada su docs, types, routes, tests i workflows drift-zero poravnati bez novih runtime ruta.',
     'Dnevni operativni sloj ostaje governance artefakt: isti dan mora zaključati jednu aktivnu roadmap fazu, prioritete 1–3, merljiv izlaz, acceptance evidence i closeout status completed/carried-over/blocked.',
     'Jutarnji start, deep-focus blok, midday checkpoint i end-of-day closeout ostaju obavezni cadence blokovi izvedeni iz postojećih modula, validatora i workflow-a.',
+    ...(activeRoadmapStageCount !== 1
+      ? [`Single-active-roadmap-stage-per-day drift: expected 1 active stage, found ${activeRoadmapStageCount}.`]
+      : []),
     ...(dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.deterministicFallbackRequired
       ? ['Deterministic fallback ostaje obavezan za NaN, Infinity, prazne i konfliktne ulaze.']
       : []),
