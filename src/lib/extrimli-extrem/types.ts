@@ -665,8 +665,8 @@ export interface ExtrimliExtremRadniTaktMozgaMislilacSignal {
   };
   profileInput: ExtrimliExtremRadniTaktMozgaMislilacProfileInput;
   epilogijaCovecnosti: {
-    title: 'EPILOGIJA ČOVEČNOSTI';
-    canonicalNarrativeId: 'sunce-suncanica-prirodni-odnosi-opomena';
+    title: 'EPILOGIJA ČOVEČANSTVA';
+    canonicalNarrativeId: 'zivot-je-igra-sitni-koraci-covecanstvo';
     citation: string;
     interpretation: string;
   };

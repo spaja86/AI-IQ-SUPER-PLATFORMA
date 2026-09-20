@@ -1620,11 +1620,11 @@ function buildRadniTaktMozgaMislilacGovernance(params: {
   const scoreAdjustment = getRadniTaktMozgaMislilacAdjustment(signal.readiness.status);
   const postureReasons = buildRadniTaktMozgaMislilacReasons(signal);
   const canonicalEpilogNarrativePresent =
-    signal.epilogijaCovecnosti.canonicalNarrativeId === 'sunce-suncanica-prirodni-odnosi-opomena';
+    signal.epilogijaCovecnosti.canonicalNarrativeId === 'zivot-je-igra-sitni-koraci-covecanstvo';
   const reasons = [
     ...postureReasons.governanceReasons,
     ...(canonicalEpilogNarrativePresent
-      ? ['epilog:canonical-sunce-suncanica-prirodni-odnosi']
+      ? ['epilog:canonical-zivot-je-igra-sitni-koraci-covecanstvo']
       : ['epilog:canonical-narrative-missing']),
     ...(!params.downstreamSyncComplete ? ['governance:downstream-sync-follow-up-required'] : []),
     ...(!params.humanReviewComplete ? ['governance:human-review-required'] : []),
@@ -1662,7 +1662,7 @@ function buildRadniTaktMozgaMislilacGovernance(params: {
       downstreamSyncRequired: true,
     },
     epilogijaCovecnosti: {
-      title: 'EPILOGIJA ČOVEČNOSTI',
+      title: 'EPILOGIJA ČOVEČANSTVA',
       canonicalNarrativeId: signal.epilogijaCovecnosti.canonicalNarrativeId,
       includedInAuditSummary: true,
       citationPresent: signal.epilogijaCovecnosti.citation.trim().length > 0,
@@ -2763,7 +2763,7 @@ function buildSpajaKodFacade(params: {
       degraded: params.degraded,
     },
     epilogijaCovecnosti: {
-      title: 'EPILOGIJA ČOVEČNOSTI',
+      title: 'EPILOGIJA ČOVEČANSTVA',
       canonicalNarrativeId: params.extremProfiler.radniTaktMozgaMislilac.epilogijaCovecnosti.canonicalNarrativeId,
       citation: params.extremProfiler.radniTaktMozgaMislilac.epilogijaCovecnosti.citation,
       interpretation: params.extremProfiler.radniTaktMozgaMislilac.epilogijaCovecnosti.interpretation,
@@ -3840,7 +3840,7 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
       blockerReasons: [...extremProfiler.radniTaktMozgaMislilac.readiness.blockerReasons],
       watchReasons: [...extremProfiler.radniTaktMozgaMislilac.readiness.watchReasons],
       epilogijaCovecnosti: {
-        title: 'EPILOGIJA ČOVEČNOSTI',
+        title: 'EPILOGIJA ČOVEČANSTVA',
         canonicalNarrativeId: extremProfiler.radniTaktMozgaMislilac.epilogijaCovecnosti.canonicalNarrativeId,
         citation: extremProfiler.radniTaktMozgaMislilac.epilogijaCovecnosti.citation,
         interpretation: extremProfiler.radniTaktMozgaMislilac.epilogijaCovecnosti.interpretation,
@@ -5239,7 +5239,7 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
         blockerReasons: [...extremProfiler.radniTaktMozgaMislilac.readiness.blockerReasons],
         watchReasons: [...extremProfiler.radniTaktMozgaMislilac.readiness.watchReasons],
         epilogijaCovecnosti: {
-          title: 'EPILOGIJA ČOVEČNOSTI',
+          title: 'EPILOGIJA ČOVEČANSTVA',
           canonicalNarrativeId: extremProfiler.radniTaktMozgaMislilac.epilogijaCovecnosti.canonicalNarrativeId,
           citation: extremProfiler.radniTaktMozgaMislilac.epilogijaCovecnosti.citation,
           interpretation: extremProfiler.radniTaktMozgaMislilac.epilogijaCovecnosti.interpretation,
@@ -5619,7 +5619,7 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
         && releaseAuditSummary.radniTaktMozgaMislilacGovernance.status === extremProfiler.radniTaktMozgaMislilac.readiness.status
         && b2bReadiness.downstreamSync.syncedFields.includes('extremProfiler.radniTaktMozgaMislilac.readiness.status')
         && spajaKod.publicSignals.radniTaktMozgaMislilacStatus === extremProfiler.radniTaktMozgaMislilac.readiness.status
-        && releaseAuditSummary.radniTaktMozgaMislilacGovernance.epilogijaCovecnosti.title === 'EPILOGIJA ČOVEČNOSTI',
+        && releaseAuditSummary.radniTaktMozgaMislilacGovernance.epilogijaCovecnosti.title === 'EPILOGIJA ČOVEČANSTVA',
     },
     {
       id: 'paradijogonalno-progrimiranje-governance',
@@ -5834,8 +5834,8 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
     },
     {
       id: 'spaja-kod-epilogija-covecnosti',
-      description: 'SPAJA KOD exposes EPILOGIJA ČOVEČNOSTI as an audit-safe narrative layer without leaking internal formulas.',
-      passed: spajaKod.epilogijaCovecnosti.title === 'EPILOGIJA ČOVEČNOSTI'
+      description: 'SPAJA KOD exposes EPILOGIJA ČOVEČANSTVA as an audit-safe narrative layer without leaking internal formulas.',
+      passed: spajaKod.epilogijaCovecnosti.title === 'EPILOGIJA ČOVEČANSTVA'
         && spajaKod.epilogijaCovecnosti.citation.length > 0
         && spajaKod.epilogijaCovecnosti.interpretation.length > 0
         && spajaKod.rawPatternVisibility === 'HIDDEN',

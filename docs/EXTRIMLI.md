@@ -538,7 +538,7 @@ Canonical domains:
 - `mentalnoFizickaSinergija` — učenje ↔ trening i energetski balans (`learningTrainingSynergyPercent`)
 - `kontinuiraniNapredak` — stabilnost rutine i kontinuitet (`routineConsistencyPercent`)
 - `humanistickiCilj` — čovečnost, odgovornost, samopouzdanje i etičko razlikovanje dobra/zla (`ethicalClarityPercent`, `selfConfidenceDisciplinePercent`)
-- `epilogijaCovecnosti` — kanonski narativ ostaje additive-only i audit-ready: `Sunce + Sunčanica` služe kao upozoravajuća metafora da nerazumevanje prirodnih odnosa i ljubavi bez odgovornosti vodi u posledice (`PAKAO`), bez promene source-of-truth ownership granica.
+- `epilogijaCovecnosti` — kanonski narativ **ČOVEČANSTVO** ostaje additive-only i audit-ready: `Život je igra` signal zaključava disciplinu `sitnim koracima` kao glavni adut, upozorava da `veliki korak` proizvodi šupljine/slabosti i da se taj signal propagira bez promene source-of-truth ownership granica.
 
 Readiness and governance mapping:
 

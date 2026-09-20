@@ -432,7 +432,7 @@ async function runTests(): Promise<void> {
     assert(body.data.radniTaktMozgaMislilac.contractVersion === EXTRIMLI_EXTREM_RADNI_TAKT_MOZGA_MISLILAC_CONTRACT_VERSION, 'unexpected EXTREM radni takt contract');
     assert(['READY', 'WATCH', 'BLOCKED'].includes(body.data.radniTaktMozgaMislilac.readiness.status), 'unexpected EXTREM radni takt status');
     assert(Number.isFinite(body.data.radniTaktMozgaMislilac.readiness.score), 'radni takt score must be finite');
-    assert(body.data.radniTaktMozgaMislilac.epilogijaCovecnosti.title === 'EPILOGIJA ČOVEČNOSTI', 'unexpected EXTREM radni takt epilog title');
+    assert(body.data.radniTaktMozgaMislilac.epilogijaCovecnosti.title === 'EPILOGIJA ČOVEČANSTVA', 'unexpected EXTREM radni takt epilog title');
     assert(body.data.paradijogonalnoProgrimiranje.term === 'PARADIJOGONALNO PROGRIMIRANJE (INSTRUMENTALNI VID U SIHOFIZI PROSPARITET OBLAČNOG/CLOUD PREDELA)', 'unexpected EXTREM paradijogonalno term');
     assert(['READY', 'WATCH', 'BLOCKED'].includes(body.data.paradijogonalnoProgrimiranje.readiness.status), 'unexpected EXTREM paradijogonalno status');
     assert(Number.isFinite(body.data.paradijogonalnoProgrimiranje.readiness.score), 'paradijogonalno score must be finite');
@@ -579,9 +579,9 @@ async function runTests(): Promise<void> {
     assert(['READY', 'WATCH', 'BLOCKED'].includes(body.data.publicSignals.proporcionalnoProgramiranjeStatus), 'unexpected SPAJA KOD proportional programming summary status');
     assert(['READY', 'WATCH', 'BLOCKED'].includes(body.data.publicSignals.spajinoProporcionalnoProgramiranjeUniverzitetStatus), 'unexpected SPAJA KOD university summary status');
     assert(['READY', 'WATCH', 'BLOCKED'].includes(body.data.publicSignals.vrhProgramskogEkviladentaStatus), 'unexpected SPAJA KOD vrh summary status');
-    assert(body.data.epilogijaCovecnosti.title === 'EPILOGIJA ČOVEČNOSTI', 'unexpected SPAJA KOD epilog title');
-    assert(body.data.epilogijaCovecnosti.canonicalNarrativeId === 'sunce-suncanica-prirodni-odnosi-opomena', 'unexpected SPAJA KOD canonical epilog narrative id');
-    assert(body.data.epilogijaCovecnosti.citation.includes('Sunce i Sunčanica'), 'SPAJA KOD epilog citation should preserve canonical narrative');
+    assert(body.data.epilogijaCovecnosti.title === 'EPILOGIJA ČOVEČANSTVA', 'unexpected SPAJA KOD epilog title');
+    assert(body.data.epilogijaCovecnosti.canonicalNarrativeId === 'zivot-je-igra-sitni-koraci-covecanstvo', 'unexpected SPAJA KOD canonical epilog narrative id');
+    assert(body.data.epilogijaCovecnosti.citation.includes('Život je igra'), 'SPAJA KOD epilog citation should preserve canonical narrative');
     assert(body.data.epilogijaCovecnosti.interpretation.length > 0, 'SPAJA KOD epilog interpretation should be present');
     assert(body.data.dokerKuratIzekDokarTrack.boundarySurface === 'SPAJA KOD', 'unexpected quartet boundary surface');
     assert(['READY', 'WATCH', 'BLOCKED'].includes(body.data.dokerKuratIzekDokarTrack.publicStatus), 'unexpected quartet public status');
