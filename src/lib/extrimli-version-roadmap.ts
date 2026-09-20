@@ -40,7 +40,7 @@ export interface ExtrimliDeveloperCreateDailyOperationalCadence {
   noNewRuntimeDomain: true;
   cadenceBlocks: readonly ['morning-startup', 'deep-focus-block', 'midday-checkpoint', 'end-of-day-closeout'];
   taskPriorities: readonly [1, 2, 3];
-  requiredTaskFields: readonly ['priority', 'roadmapStageId', 'measurableOutput', 'acceptanceEvidence'];
+  requiredTaskFields: readonly ['priority', 'roadmapStageId', 'measurableOutput', 'acceptanceEvidence', 'endOfDayStatus'];
   endOfDayStatuses: readonly ['completed', 'carried-over', 'blocked'];
   qualityGatesInheritedFromCiBot: readonly ['lint', 'test', 'smoke', 'predeploy', 'build'];
   taskTemplate: readonly [
@@ -299,7 +299,7 @@ const EXTRIMLI_DEVELOPER_CREATE_LOCK: ExtrimliDeveloperCreateProgramLock = {
     noNewRuntimeDomain: true,
     cadenceBlocks: ['morning-startup', 'deep-focus-block', 'midday-checkpoint', 'end-of-day-closeout'],
     taskPriorities: [1, 2, 3],
-    requiredTaskFields: ['priority', 'roadmapStageId', 'measurableOutput', 'acceptanceEvidence'],
+    requiredTaskFields: ['priority', 'roadmapStageId', 'measurableOutput', 'acceptanceEvidence', 'endOfDayStatus'],
     endOfDayStatuses: ['completed', 'carried-over', 'blocked'],
     qualityGatesInheritedFromCiBot: ['lint', 'test', 'smoke', 'predeploy', 'build'],
     taskTemplate: [

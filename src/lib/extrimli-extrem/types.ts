@@ -2275,6 +2275,15 @@ export interface ExtrimliExtremKraljevskiPravniTrack {
   };
 }
 
+export interface ExtrimliDeveloperCreateRepoWideReflectionDailyTask {
+  priority: 1 | 2 | 3;
+  roadmapStageIdRequired: true;
+  measurableOutputRequired: true;
+  acceptanceEvidenceRequired: true;
+  endOfDayStatusRequired: true;
+  derivedFrom: 'existing-modules-validators-and-workflows';
+}
+
 export interface ExtrimliDokDikDakDukConsistencyHealth {
   sourceOfTruth: string;
   scopeLock: readonly ['DOK', 'DIK', 'DAK', 'DUK', 'FOR'];
@@ -2437,30 +2446,9 @@ export interface ExtrimliDokDikDakDukConsistencyHealth {
       cadenceBlocks: readonly ['morning-startup', 'deep-focus-block', 'midday-checkpoint', 'end-of-day-closeout'];
       endOfDayStatuses: readonly ['completed', 'carried-over', 'blocked'];
       dailyTasks: readonly [
-        {
-          priority: 1;
-          roadmapStageIdRequired: true;
-          measurableOutputRequired: true;
-          acceptanceEvidenceRequired: true;
-          endOfDayStatusRequired: true;
-          derivedFrom: 'existing-modules-validators-and-workflows';
-        },
-        {
-          priority: 2;
-          roadmapStageIdRequired: true;
-          measurableOutputRequired: true;
-          acceptanceEvidenceRequired: true;
-          endOfDayStatusRequired: true;
-          derivedFrom: 'existing-modules-validators-and-workflows';
-        },
-        {
-          priority: 3;
-          roadmapStageIdRequired: true;
-          measurableOutputRequired: true;
-          acceptanceEvidenceRequired: true;
-          endOfDayStatusRequired: true;
-          derivedFrom: 'existing-modules-validators-and-workflows';
-        }
+        ExtrimliDeveloperCreateRepoWideReflectionDailyTask & { priority: 1 },
+        ExtrimliDeveloperCreateRepoWideReflectionDailyTask & { priority: 2 },
+        ExtrimliDeveloperCreateRepoWideReflectionDailyTask & { priority: 3 }
       ];
     };
     readiness: {
