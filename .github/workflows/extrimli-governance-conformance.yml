@@ -83,6 +83,7 @@ jobs:
           assert(extremRoute.includes("getExtrimliExtremProfilerReport") && extremRoute.includes("surface: 'extrimli-extrem'"), 'route must expose canonical EXTREM surface');
           assert(extrimliDoc.includes('releaseReadinessScorecard') && extrimliDoc.includes('canaryRingMetrics') && extrimliDoc.includes('contractDriftReport') && extrimliDoc.includes('governanceConformance'), 'EXTRIMLI doc must include governance conformance fields');
           assert(extrimliDoc.includes('versionRoadmap.developerCreateLock'), 'EXTRIMLI doc must reference the shared Developer/Create lock');
+          assert(extrimliDoc.includes('DOK + DIK + FOR'), 'EXTRIMLI doc must lock FOR inside the technical ownership boundary');
           assert(extrimliDoc.includes('programskiJezikProucavanja') && extrimliDoc.includes('programskiEkanalog'), 'EXTRIMLI doc must include Programski jezik proučavanja + programski ekanalog additive fields');
           assert(aiIqDoc.includes('PROGRAMSKI JEZIK PROUČAVANJA') && aiIqDoc.includes('PROGRAMSKI EKANALOG'), 'AI IQ doc must include Programski jezik proučavanja + programski ekanalog profile');
           assert(aiIqDoc.includes('PROGRAMSKI JEZIK INFORMACIONIH TOKOVA') && aiIqDoc.includes('FOR PETLJA'), 'AI IQ doc must include informational-flow DSL profile');
@@ -98,9 +99,11 @@ jobs:
             developerCreateProgramDoc.includes('PROGRAM_LOCK_MACHINE_DOD'),
             'Developer/Create program doc must keep governance lock markers for source-of-truth, drift-zero, and machine-checked DoD'
           );
+          assert(developerCreateProgramDoc.includes('DOK + DIK + FOR') && developerCreateProgramDoc.includes('DOK/DIK/DAK/DUK/FOR'), 'Developer/Create program doc must lock FOR across ownership and drift-zero language');
           assert(developerCreateProgramDoc.includes('PROGRAMSKI JEZIK PROUČAVANJA') && developerCreateProgramDoc.includes('PROGRAMSKI EKANALOG'), 'Developer/Create program doc must lock Programski jezik proučavanja + programski ekanalog');
           assert(developerCreateProgramDoc.includes('PROGRAMSKI JEZIK PARADIGMA I OBLIKOVANJE TELA'), 'Developer/Create program doc must lock paradigma/body-shaping track');
           assert(developerCreateProgramDoc.includes('docs + types + routes + tests + workflows'), 'Developer/Create program doc must lock docs/types/routes/tests/workflows');
+          assert(versionRoadmap.includes('mandatoryArtifacts') && versionRoadmap.includes('implementationStreams') && versionRoadmap.includes('acceptanceLock'), 'roadmap lock must include mandatory artifacts, streams, and acceptance lock');
           assert(externalDoc.includes('.github/workflows/extrimli-governance-conformance.yml'), 'external governance doc must reference conformance workflow');
           assert(links.includes('EXTRIMLI governance conformance audit'), 'multi-repo links must include conformance audit mapping');
           assert(links.includes('PROGRAMSKI JEZIK PARADIGMA I OBLIKOVANJE TELA'), 'multi-repo links must include paradigma/body-shaping downstream mapping');
@@ -129,5 +132,5 @@ jobs:
           echo "" >> "$GITHUB_STEP_SUMMARY"
           echo "- Scope lock: EXTRIMLI + EXTREM + EXTRONDOL" >> "$GITHUB_STEP_SUMMARY"
           echo "- Source-of-truth routes: /api/extrimli/extrem + /api/extrimli/extrondol" >> "$GITHUB_STEP_SUMMARY"
-          echo "- Drift checks: docs/types/routes/workflows" >> "$GITHUB_STEP_SUMMARY"
+          echo "- Drift checks: docs/types/routes/tests/workflows" >> "$GITHUB_STEP_SUMMARY"
           echo "- Schedule: weekly (Mon 04:00 UTC)" >> "$GITHUB_STEP_SUMMARY"

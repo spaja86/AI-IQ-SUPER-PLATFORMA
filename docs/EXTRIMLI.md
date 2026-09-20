@@ -101,7 +101,7 @@ Promotion freeze je obavezan kada KPI/audit/sync nije potpun, uz rollback na pre
 
 ## DOK / DIK / DAK / DUK consistency health lock
 
-- EXTREM (`/api/extrimli/extrem`) ostaje tehnički source-of-truth za `DOK PETLJA` i `DIK PETLJA`.
+- EXTREM (`/api/extrimli/extrem`) ostaje tehnički source-of-truth za `DOK PETLJA`, `DIK PETLJA` i `FOR PETLJA`.
 - EXTRONDOL (`/api/extrimli/extrondol`) ostaje governance source-of-truth za `DAKOR` (promotion) i `DUKAR` (human review).
 - Oba izlaza objavljuju `dokDikDakDukConsistencyHealth` kao deterministički audit-ready health signal.
 - Health signal je additive-only i služi kao drift-zero kontrola između tehničkog (EXTREM) i governance (EXTRONDOL) sloja.
@@ -742,7 +742,7 @@ Canonical vocabulary lock:
 
 Signal split lock remains mandatory:
 
-- `DOK + DIK` stay in EXTREM technical layer
+- `DOK + DIK + FOR` stay in EXTREM technical layer
 - `DAK + DUK` stay in EXTRONDOL governance layer
 - `PROGRAMSKI JEZIK PROUČAVANJA` ostaje additive-only iznad istog ownership split-a i ne uvodi nove source-of-truth rute.
 - `PROGRAMSKI EKANALOG` ostaje audit-safe interpretacioni sloj (razumevanje logike) bez izlaganja internih formula van postojećih surface-ova.
@@ -752,7 +752,7 @@ Acceptance criteria:
 - deterministic output for identical input payloads
 - degraded-safe handling for NaN/Infinity/out-of-range inputs
 - octaval sequence + 1ms cadence constraints validated
-- DOK/DIK/DAK/DUK consistency health remains aligned across EXTREM and EXTRONDOL
+- DOK/DIK/DAK/DUK/FOR consistency health remains aligned across EXTREM and EXTRONDOL
 
 ## KRALJEVSKI PRAVNI UNIVERZITET
 

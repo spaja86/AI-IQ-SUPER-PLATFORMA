@@ -44,7 +44,7 @@ Ownership hard lock:
 - `EXTRIMLI` = bazni runtime domen
 - `EXTREM` = tehnički signal i profiler
 - `EXTRONDOL` = WAWE orkestracija, audit, freeze/promotion
-- `DOK + DIK` ostaju u EXTREM tehničkom sloju
+- `DOK + DIK + FOR` ostaju u EXTREM tehničkom sloju
 - `DAK + DUK` ostaju u EXTRONDOL governance sloju
 - `SPAJA KOD` ostaje javni audit-safe boundary bez internih detalja
 
@@ -62,12 +62,12 @@ Ownership hard lock:
 ### Stream C — Governance freeze/promotion signali
 - Freeze i promotion odluke ostaju determinističke i auditabilne.
 - WAWE gate razlozi ostaju eksplicitni i traceable.
-- DOK/DIK/DAK/DUK signalni model ostaje zaključan: **DOK+DIK** u EXTREM tehničkom sloju, **DAK+DUK** u EXTRONDOL governance sloju.
+- DOK/DIK/DAK/DUK/FOR signalni model ostaje zaključan: **DOK+DIK+FOR** u EXTREM tehničkom sloju, **DAK+DUK** u EXTRONDOL governance sloju.
 - `METRIČKO PROGRAMIRANJE` koristi isti ownership model i ne uvodi paralelni governance source izvan postojećih ruta.
 - Svaki rollout mora izložiti jedinstveni `dokDikDakDukConsistencyHealth` izlaz i test konzistentnosti između tehničkog i governance sloja.
 - SINEMETRIČKO PROGRAMIRANJE ostaje additive-only signal (bez novih ruta): EXTREM objavljuje readiness/conflict/evidence, EXTRONDOL koristi signal za WAWE freeze/promotion i release-audit odluke.
 - `PROGRAMSKI JEZIK ANALIZA (ispitivanje eskalacije kodesnog zapleta)` je obavezni additive audit sloj u `dokDikDakDukConsistencyHealth`: mora objediniti tehničke conflict/readiness indikatore i governance freeze/promotion/escalation odluke u jedan score/status izlaz.
-- `PROGRAMSKI JEZIK PROUČAVANJA` je obavezni additive laboratorijski sloj: ulazni profil slučaja + determinističke metrike + konsolidovani status (`READY | WATCH | BLOCKED`) uz zaključan ownership split (`DOK/DIK` tehnički, `DAK/DUK` governance).
+- `PROGRAMSKI JEZIK PROUČAVANJA` je obavezni additive laboratorijski sloj: ulazni profil slučaja + determinističke metrike + konsolidovani status (`READY | WATCH | BLOCKED`) uz zaključan ownership split (`DOK/DIK/FOR` tehnički, `DAK/DUK` governance).
 - `PROGRAMSKI EKANALOG (razumevanje logike)` je obavezni audit-ready interpretacioni sloj nad laboratorijskim rezultatima bez novih source-of-truth ruta.
 - `VRH PROGRAMSKOG EKVILADENTA` ostaje additive-only interpretativni vršni sloj nad `PROPORCIONALNO PROGRAMIRANJE`: satnica se mapira na `METRIČKO PROGRAMIRANJE`, vokalni/narativni deo na `SINEMETRIČKO PROGRAMIRANJE`, a instrument tabla na `PARADIJOGONALNO PROGRAMIRANJE` (`docs/EXTRIMLI-PARADIJOGONALNO-PROGRAMIRANJE.md`), bez uvođenja novih runtime ruta.
 
@@ -133,7 +133,7 @@ Rollback procedura i audit konvencija moraju biti spremni pre svake promocije.
 Uvodi se pravilo **drift-zero**:
 
 - svaka contract promena mora biti sinhronizovana kroz **docs + types + routes + workflows**
-- za DOK/DIK/DAK/DUK promene dodatno je obavezna sinhronizacija kroz **docs + types + routes + tests + workflows** bez drift-a
+- za DOK/DIK/DAK/DUK/FOR promene dodatno je obavezna sinhronizacija kroz **docs + types + routes + tests + workflows** bez drift-a
 - nema merge-a ako postoji drift između tih slojeva
 - governance conformance workflow je obavezni enforcement sloj
 - Marker: `PROGRAM_LOCK_DRIFT_ZERO`
@@ -166,7 +166,7 @@ Uvodi se pravilo **drift-zero**:
 ## PROGRAMSKI JEZIK INFORMACIONIH TOKOVA LOCK
 
 - `PROGRAM_LOCK_SOURCE_OF_TRUTH`: `PROGRAMSKI JEZIK INFORMACIONIH TOKOVA` koristi samo `/api/extrimli/extrem` i `/api/extrimli/extrondol` kao source-of-truth rute.
-- `PROGRAM_LOCK_DRIFT_ZERO`: docs + types + routes + tests + workflows moraju ostati usklađeni za `FOR` signal i `DOK/DIK/DAK/DUK` ownership split.
+- `PROGRAM_LOCK_DRIFT_ZERO`: docs + types + routes + tests + workflows moraju ostati usklađeni za `FOR` signal i `DOK/DIK/DAK/DUK/FOR` ownership split.
 - `PROGRAM_LOCK_MACHINE_DOD`: acceptance zahteva deterministički izlaz za iste numeričke tokove, audit-ready konsolidovani status i samo audit-safe downstream reference.
 - `PROGRAMSKI JEZIK PROUČAVANJA`, `PROGRAMSKI EKANALOG` i `PROGRAMSKI JEZIK INFORMACIONIH TOKOVA` dele additive-only governance model bez paralelnog runtime-a.
 - Realization sequence ostaje: documentation lock, contract/type alignment, health/readiness outputs, test + governance conformance, downstream sync + public summary.
