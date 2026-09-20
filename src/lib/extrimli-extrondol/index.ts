@@ -3881,7 +3881,8 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
           extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.dailyOperationalCadence.activeRoadmapStagePolicy,
         cadenceBlocks:
           extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.dailyOperationalCadence.cadenceBlocks,
-        taskPriorities: [1, 2, 3],
+        taskPriorities:
+          extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.dailyOperationalCadence.dailyTasks.map((task) => task.priority) as [1, 2, 3],
         endOfDayStatuses:
           extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.dailyOperationalCadence.endOfDayStatuses,
       },
