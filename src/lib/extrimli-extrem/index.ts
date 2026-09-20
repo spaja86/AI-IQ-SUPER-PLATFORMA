@@ -3780,10 +3780,25 @@ export function resolveVrhProgramskogEkviladentaForSignal(params: {
         ? 'WATCH'
         : 'BLOCKED';
 
+  return resolveVrhProgramskogEkviladentaForSignalResolution(params).signal;
+}
+
+function resolveVrhProgramskogEkviladentaForSignalResolution(params: {
+  forSignal?: ExtrimliDokDikDakDukConsistencyHealth['signals']['for'];
+  informationalForEvidence?: ExtrimliExtremProgramskiJezikInformacionihTokovaSignal['forLoopBinding']['forEvidence'];
+  forPetljaResult: ReturnType<typeof runForPetlja>;
+}): {
+  signal: ExtrimliDokDikDakDukConsistencyHealth['signals']['for'];
+  fallbackRequired: boolean;
+} {
+  const fallbackRequired = params.forSignal == null;
   return {
+    signal: {
     kind: 'FOR PETLJA',
     status: params.forSignal?.status ?? params.informationalForEvidence?.status ?? fallbackStatus,
     readinessScore: params.forSignal?.readinessScore ?? params.informationalForEvidence?.readinessScore ?? fallbackReadinessScore,
+    },
+    fallbackRequired,
   };
 }
 
@@ -3797,6 +3812,7 @@ function buildVrhProgramskogEkviladentaSignal(params: {
   dokSignal: ExtrimliDokDikDakDukConsistencyHealth['signals']['dok'];
   dikSignal: ExtrimliDokDikDakDukConsistencyHealth['signals']['dik'];
   forSignal: ExtrimliDokDikDakDukConsistencyHealth['signals']['for'];
+  forFallbackRequired: boolean;
   degraded: boolean;
 }): ExtrimliExtremVrhProgramskogEkviladentaSignal {
   const { profileInput } = params;
@@ -4081,7 +4097,7 @@ function buildVrhProgramskogEkviladentaSignal(params: {
       degraded: params.degraded,
       watchReasons: resolvedWatchReasons,
       blockerReasons: resolvedBlockerReasons,
-      deterministicFallbackRequired: params.degraded,
+      deterministicFallbackRequired: params.forFallbackRequired,
     },
   };
 }
@@ -5576,13 +5592,14 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
   const vrhProgramskogEkviladentaInput = resolveVrhProgramskogEkviladentaInput(degradedSources);
   const vrhDokSignal = { kind: 'DOK PETLJA' as const, status: dokSignal?.status ?? null, readinessScore: dokSignal?.readinessScore ?? null };
   const vrhDikSignal = { kind: 'DIK PETLJA' as const, status: dikSignal?.status ?? null, readinessScore: dikSignal?.readinessScore ?? null };
-  const vrhForSignal = resolveVrhProgramskogEkviladentaForSignal({
+  const vrhForSignalResolution = resolveVrhProgramskogEkviladentaForSignalResolution({
     forSignal: forSignal == null
       ? undefined
       : { kind: 'FOR PETLJA', status: forSignal.status, readinessScore: forSignal.readinessScore },
     informationalForEvidence: programskiJezikInformacionihTokova.forLoopBinding.forEvidence,
     forPetljaResult,
   });
+  const vrhForSignal = vrhForSignalResolution.signal;
   const vrhProgramskogEkviladentaDegraded =
     degradedSources.some((source) => source.startsWith('invalid-env:EXTRIMLI_EXTREM_VRH_'))
     || proporcionalnoProgramiranje.readiness.degraded
@@ -5603,6 +5620,7 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
     dokSignal: vrhDokSignal,
     dikSignal: vrhDikSignal,
     forSignal: vrhForSignal,
+    forFallbackRequired: vrhForSignalResolution.fallbackRequired,
     degraded: vrhProgramskogEkviladentaDegraded,
   });
   const semaMuSemaFormula = buildSemaMuSemaFormula(profileInput, resolutionInput, degradedSources);
