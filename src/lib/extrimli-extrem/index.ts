@@ -6059,12 +6059,12 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
         cadenceBlocks: EXTRIMLI_DEVELOPER_CREATE_DAILY_CADENCE_BLOCKS,
         taskPriorities: EXTRIMLI_DEVELOPER_CREATE_DAILY_TASK_PRIORITIES,
         endOfDayStatuses: EXTRIMLI_DEVELOPER_CREATE_DAILY_CLOSEOUT_STATUSES,
-        dailyTasks: versionRoadmap.developerCreateLock.dailyOperationalCadence.taskTemplate.map((taskTemplate, index) => ({
+        dailyTasks: versionRoadmap.developerCreateLock.dailyOperationalCadence.taskTemplate.map((taskTemplate) => ({
           priority: taskTemplate.priority,
           roadmapStageId: activeRoadmapStage.id,
           measurableOutput: `${activeRoadmapStage.id} :: ${taskTemplate.focus}`,
           acceptanceEvidence: `docs+tests+workflow alignment for ${taskTemplate.focus}`,
-          endOfDayStatus: EXTRIMLI_DEVELOPER_CREATE_DAILY_CLOSEOUT_STATUSES[index] ?? 'blocked',
+          endOfDayStatus: 'carried-over',
           derivedFrom: 'existing-modules-validators-and-workflows',
         })),
       },
