@@ -6251,15 +6251,17 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
     paradijogonalnoProgrimiranje.readiness.status,
     vrhProgramskogEkviladenta.readiness.status,
   ];
-  dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.score = roundToTwoDecimals(
+  dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.score = Math.round(
     (
-      radniTaktMozgaMislilac.readiness.score
-      + metrikoProgramiranje.readiness.score
-      + sinemetrickoProgramiranje.readiness.score
-      + paradijogonalnoProgrimiranje.readiness.score
-      + vrhProgramskogEkviladenta.readiness.score
-    ) / 5,
-  );
+      (
+        radniTaktMozgaMislilac.readiness.score
+        + metrikoProgramiranje.readiness.score
+        + sinemetrickoProgramiranje.readiness.score
+        + paradijogonalnoProgrimiranje.readiness.score
+        + vrhProgramskogEkviladenta.readiness.score
+      ) / 5
+    ) * 100,
+  ) / 100;
   dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.status =
     developerAndCreateReflectionStatuses.includes('BLOCKED')
     || dokDikDakDukConsistencyHealth.status === 'BLOCKED'
