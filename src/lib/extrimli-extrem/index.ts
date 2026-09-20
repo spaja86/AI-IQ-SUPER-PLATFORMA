@@ -5554,7 +5554,10 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
     || metrikoProgramiranje.readiness.degraded
     || sinemetrickoProgramiranje.readiness.degraded
     || programskiJezikInformacionihTokova.readiness.degraded
-    || spajinoProporcionalnoProgramiranjeUniverzitet.readiness.degraded;
+    || spajinoProporcionalnoProgramiranjeUniverzitet.readiness.degraded
+    || petljeSignals.summary.degradedSignals.includes('DOK PETLJA')
+    || petljeSignals.summary.degradedSignals.includes('DIK PETLJA')
+    || petljeSignals.summary.degradedSignals.includes('FOR PETLJA');
   const vrhProgramskogEkviladenta = buildVrhProgramskogEkviladentaSignal({
     profileInput: vrhProgramskogEkviladentaInput,
     proporcionalnoProgramiranje,
