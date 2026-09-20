@@ -3884,6 +3884,13 @@ function buildVrhProgramskogEkviladentaSignal(params: {
     ...(params.sinemetrickoProgramiranje.readiness.status === 'WATCH' ? ['sinemetric-track-watch'] : []),
     ...(params.programskiJezikInformacionihTokova.readiness.status === 'WATCH' ? ['informational-flow-watch'] : []),
     ...(params.spajinoProporcionalnoProgramiranjeUniverzitet.readiness.status === 'WATCH' ? ['university-track-watch'] : []),
+    ...(params.dokSignal.status == null ? ['dok-technical-missing'] : params.dokSignal.status === 'WATCH' ? ['dok-technical-watch'] : []),
+    ...(params.dikSignal.status == null ? ['dik-technical-missing'] : params.dikSignal.status === 'WATCH' ? ['dik-technical-watch'] : []),
+    ...(params.programskiJezikInformacionihTokova.forLoopBinding.forEvidence.status == null
+      ? ['for-technical-missing']
+      : params.programskiJezikInformacionihTokova.forLoopBinding.forEvidence.status === 'WATCH'
+        ? ['for-technical-watch']
+        : []),
   ];
   const blockerReasons = [
     ...(profileInput.exponentialProgressionPercent < 58 ? [`exponential-progression-blocked:${profileInput.exponentialProgressionPercent}`] : []),
@@ -3897,8 +3904,11 @@ function buildVrhProgramskogEkviladentaSignal(params: {
     ...(params.sinemetrickoProgramiranje.conflict.evidenceRequired ? ['sinemetric-conflict-evidence-required'] : []),
     ...(params.programskiJezikInformacionihTokova.readiness.status === 'BLOCKED' ? ['informational-flow-blocked'] : []),
     ...(params.spajinoProporcionalnoProgramiranjeUniverzitet.readiness.status === 'BLOCKED' ? ['university-track-blocked'] : []),
+    ...(params.dokSignal.status == null ? ['dok-technical-evidence-missing'] : []),
+    ...(params.dikSignal.status == null ? ['dik-technical-evidence-missing'] : []),
     ...(params.dokSignal.status === 'BLOCKED' ? ['dok-technical-blocked'] : []),
     ...(params.dikSignal.status === 'BLOCKED' ? ['dik-technical-blocked'] : []),
+    ...(params.programskiJezikInformacionihTokova.forLoopBinding.forEvidence.status == null ? ['for-technical-evidence-missing'] : []),
     ...(params.programskiJezikInformacionihTokova.forLoopBinding.forEvidence.status === 'BLOCKED' ? ['for-technical-blocked'] : []),
   ];
   const aggregateStatus = classifyVrhProgramskogEkviladentaStatus(score);

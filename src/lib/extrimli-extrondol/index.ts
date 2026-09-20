@@ -3584,6 +3584,7 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
     || (extremProfiler.sinemetrickoProgramiranje.readiness.status === 'WATCH' && !humanReviewComplete)
     || extremProfiler.sinemetrickoProgramiranje.readiness.status === 'BLOCKED'
     || extremProfiler.sinemetrickoProgramiranje.conflict.evidenceRequired
+    || (extremProfiler.vrhProgramskogEkviladenta.readiness.status === 'WATCH' && !humanReviewComplete)
     || extremProfiler.vrhProgramskogEkviladenta.readiness.status === 'BLOCKED'
     || (extremProfiler.objektnoOrijentisanaReprodukcija.readiness.status === 'WATCH' && !humanReviewComplete)
     || extremProfiler.objektnoOrijentisanaReprodukcija.readiness.status === 'BLOCKED'
