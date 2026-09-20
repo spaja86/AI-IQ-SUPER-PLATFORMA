@@ -1031,12 +1031,15 @@ AI-IQ-SUPER-PLATFORMA#EXTRIMLI-TRANCE-001 -> IO-OPENUI-AO#<follow-up issue>
 | Source-of-truth routes | `/api/extrimli/extrem`, `/api/extrimli/extrondol` |
 | Change model | additive-only (no breaking changes) |
 | Drift policy | drift-zero (`docs + types + routes + tests + workflows`) |
+| PR execution lock | One PR = one roadmap stage + measurable output (`roadmapStageId`, `measurableOutput`, `acceptanceEvidence`) |
+| Audit package lock | Standardized PR audit fields (`rolloutPlan`, `rollbackPlan`, `kpiImpact`, `humanReviewStatus`, `downstreamReference`) |
 
 | Source (AI-IQ-SUPER-PLATFORMA) | Target (IO-OPENUI-AO) | Sync |
 |---|---|---|
 | Developer/Create roadmap lock (Verzije 1–7) | `spaja86/IO-OPENUI-AO` — Follow-up required | Mirror staged roadmap contract, `versionRoadmap.developerCreateLock`, and governance checkpoints in downstream runbooks |
 | EXTREM freeze/warning separation and DISKVIT governance signal posture | `spaja86/IO-OPENUI-AO` — Follow-up required | Sync runbook interpretation for warning vs blocked freeze triggers |
 | EXTRONDOL orchestration core (`releaseAuditSummary`, `releaseReadinessScorecard`, `contractDriftReport`, `governanceConformance`) | `spaja86/IO-OPENUI-AO` — Follow-up required | Keep downstream governance consumers aligned with mandatory payload |
+| Developer/Create PR execution + audit package lock | `spaja86/IO-OPENUI-AO` — Follow-up required | Mirror one-stage-per-PR mapping and standardized audit package fields in downstream PR governance |
 | DOKER/KURAT/IZEK/DOKAR additive quartet track | `spaja86/IO-OPENUI-AO` — Follow-up required | Sync public-safe quartet summary and downstream-sync interpretation without exposing internal mapping |
 | Program expansion proposals (canary dashboard, PR single-pane summary, contract evolution log, rehearsal, KPI alarms) | `spaja86/IO-OPENUI-AO` — Follow-up required | Track implementation status and compatibility notes as additive governance features |
 
@@ -1045,6 +1048,8 @@ AI-IQ-SUPER-PLATFORMA#EXTRIMLI-TRANCE-001 -> IO-OPENUI-AO#<follow-up issue>
 - Keep WAWE 1–5 + human-review hard gate alignment
 - Confirm drift-zero enforcement expectations in downstream contract-change process, including `docs + types + routes + tests + workflows`
 - Track proposal adoption as optional additive governance enhancements
+- Mirror PR execution lock (`roadmapStageId`, `measurableOutput`, `acceptanceEvidence`) in downstream issue/PR templates
+- Mirror operational audit package lock (`rolloutPlan`, `rollbackPlan`, `kpiImpact`, `humanReviewStatus`, `downstreamReference`) in downstream release workflow templates
 
 ```text
 AI-IQ-SUPER-PLATFORMA#EXTRIMLI-DEVELOPER-CREATE-001 -> IO-OPENUI-AO#<follow-up issue>

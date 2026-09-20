@@ -108,6 +108,8 @@ Promotion freeze je obavezan kada KPI/audit/sync nije potpun, uz rollback na pre
 - Health signal sada uključuje i `programskiJezikAnaliza` metriku za ispitivanje eskalacije kodesnog zapleta (konflikt/readiness + freeze/promotion/escalation u jednom audit-ready score/status izlazu).
 - Health signal uključuje i additive `programskiJezikProucavanja` laboratorijski profil (ulazni slučaj, determinističke metrike, konsolidovani status) i `programskiEkanalog` audit-ready interpretaciju razumevanja logike.
 - Shared roadmap `versionRoadmap.developerCreateLock` dodatno zaključava jezgro artefakata, ownership split i obavezne drift-zero slojeve (`docs + types + routes + tests + workflows`).
+- Shared roadmap `versionRoadmap.developerCreateLock.prExecutionLock` obavezuje da svaki PR mapira tačno jednu roadmap fazu uz merljiv izlaz (`roadmapStageId`, `measurableOutput`, `acceptanceEvidence`).
+- Shared roadmap `versionRoadmap.developerCreateLock.operationalAuditPackage` standardizuje audit-ready PR opis (`rolloutPlan`, `rollbackPlan`, `kpiImpact`, `humanReviewStatus`, `downstreamReference`).
 - KORON overlay route: `src/app/api/extrimli/koron/route.ts`
 - DUEL KING route: `src/app/api/extrimli/duel-king/route.ts`
 

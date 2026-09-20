@@ -88,6 +88,12 @@ Ownership hard lock:
 4. test i governance conformance
 5. downstream sync i public-safe summary
 
+## 3.2) PR execution lock (obavezno mapiranje)
+
+- Svaki PR mora mapirati **tačno jednu** roadmap fazu (`Verzija 1` do `Verzija 7`).
+- Svaki PR mora sadržati jedan jasno merljiv izlaz: `roadmapStageId`, `measurableOutput`, `acceptanceEvidence`.
+- PR bez ove mape se tretira kao governance drift i ne ide u promotion.
+
 ## 4) EXTREM priorities
 
 - Održati DISKVIT conflict profil i resolution readiness signal set.
@@ -146,6 +152,18 @@ Uvodi se pravilo **drift-zero**:
 3. Formalni contract evolution log (additive-only history)  
 4. Incident rehearsal (simulirani freeze/rollback) pre većih release-eva  
 5. KPI budget alarms (`eval/api/build`) sa trend praćenjem po verziji
+
+## 10.1) Standardizovani operativni audit paket (PR opis)
+
+Svaka veća izmena mora imati audit-ready PR opis sa obaveznim poljima:
+
+- `rolloutPlan`
+- `rollbackPlan`
+- `kpiImpact`
+- `humanReviewStatus`
+- `downstreamReference`
+
+Bez kompletnog audit paketa release ostaje u freeze režimu.
 
 ## 11) Definition of Done
 
