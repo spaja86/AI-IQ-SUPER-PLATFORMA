@@ -2,7 +2,7 @@
 
 ## Scope
 
-`PARADIJOGONALNO PROGRAMIRANJE (INSTRUMENTALNI VID U SIHOFIZI PROSPARITET OBLAČNOG/CLOUD PREDELA)` je additive-only EXTRIMLI track.
+`PARADIJOGONALNO PROGRIMIRANJE (INSTRUMENTALNI VID U SIHOFIZI PROSPARITET OBLAČNOG/CLOUD PREDELA)` je additive-only EXTRIMLI track (tačan runtime contract term koji EXTREM/EXTRONDOL emituju u `paradijogonalnoProgrimiranje.term`).
 
 - `EXTREM` je tehnički source-of-truth za readiness signal.
 - `EXTRONDOL` je governance source-of-truth za WAWE, audit, freeze/promotion, rollback i human-review.

@@ -113,7 +113,7 @@ Promotion freeze je obavezan kada KPI/audit/sync nije potpun, uz rollback na pre
 
 ## PARADIJOGONALNO PROGRAMIRANJE
 
-- Kanonski naziv/spelling je zaključan na `PARADIJOGONALNO PROGRAMIRANJE (INSTRUMENTALNI VID U SIHOFIZI PROSPARITET OBLAČNOG/CLOUD PREDELA)`.
+- Kanonski naziv/spelling je zaključan na `PARADIJOGONALNO PROGRIMIRANJE (INSTRUMENTALNI VID U SIHOFIZI PROSPARITET OBLAČNOG/CLOUD PREDELA)` (tačan runtime contract term koji EXTREM/EXTRONDOL emituju u `paradijogonalnoProgrimiranje.term`).
 - Track je additive-only i ostaje unutar postojećih EXTRIMLI / EXTREM / EXTRONDOL / SPAJA KOD granica bez novog public runtime source-of-truth sloja.
 - `EXTREM` objavljuje tehnički readiness signal sa statusom `READY | WATCH | BLOCKED` i bounded razlozima za flow stability, instrumental vision precision, sihofizi-prosparitet alignment, cloud-field cohesion i conflict/degradation pressure.
 - `PROSPARITET` ostaje repo-local interpretacioni domen ulaza; cloud/predela sloj je operativni kontekst nad prosperity signalom, ne novi governance izvor.
