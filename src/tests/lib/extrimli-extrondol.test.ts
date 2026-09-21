@@ -244,7 +244,7 @@ async function runTests(): Promise<void> {
     assert(report.releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.roadmapExecution.roadmapStageId === 'v5-extrondol-release-audit-and-orchestration', 'developer/create release audit roadmap stage mismatch');
     assert(
       report.releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.roadmapExecution.acceptanceEvidence.join(',') ===
-        'developerAndCreateRepoWideReflection,releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance,releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.covecnostAuditVisualReference.supplementalVisualReferences,releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.covecnostAuditVisualReference.companionAuditVisualReferences,spajaKod.publicSignals.developerAndCreateStatus',
+        'developerAndCreateRepoWideReflection,releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance,releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.covecnostAuditVisualReference.supplementalVisualReferences,releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.covecnostAuditVisualReference.companionAuditVisualReferences,spajaKod.publicSignals.developerAndCreateStatus,spajaKod.publicSignals.aiPlateStatus',
       'developer/create release audit acceptance evidence mismatch',
     );
     assert(report.releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.covecnostAuditVisualGovernance.auditVisibility === 'audit-safe-readiness-only', 'developer/create release audit visual governance visibility mismatch');
