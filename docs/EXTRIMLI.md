@@ -1223,6 +1223,14 @@ KORON je novi EXTRIMLI capability koji radi kao readiness overlay nad postojeći
   - `billingOwner` zaključan na operativni owner
   - `contractStatus = required-before-activation`
   - `paymentCycle = monthly-or-annual`
+  - `aiPlateEnterprisePackage = DEVELOPER AND CREATE / VRH PROGRAMSKOG EKVILADENTA / AI PLATE`
+  - `aiPlateEnterprisePackage.pricing = 12.000 EUR weekly`
+  - `aiPlateEnterprisePackage.weeklyCadenceDecision = premium-rollout-regime`
+  - `aiPlateEnterprisePackage.masterBillingCycle = monthly-or-annual`
+  - `aiPlateEnterprisePackage.segment = enterprise / organization-level`
+  - `aiPlateEnterprisePackage` ostaje additive-only V7 enterprise operating model sloj nad postojećim `EXTRIMLI + EXTREM + EXTRONDOL + SPAJA KOD` surface-ovima.
+  - EXTREM ostaje readiness/profiler signal, EXTRONDOL ostaje commercial/governance/orchestration source-of-truth, a SPAJA KOD objavljuje samo audit-safe `aiPlateEnterprisePackageStatus`.
+  - Aktivacija weekly enterprise paketa traži `contract approval`, `compliance review`, `human review`, `payment verification`, `downstream sync`, `rollback plan` i `FinOps guardrails`.
   - compliance + human review su hard gate pre aktivacije
 - `b2bReadiness.compliance.humanReviewComplete` mora eksplicitno ostati `false` dok governance layer ne poseduje dokaz o review-u; tada rollout ostaje frozen.
 - `b2bReadiness.downstreamSync.status` i `b2bReadiness.compliance.blockers` moraju ostati konzervativni dok `multi-repo-sync-agent` ne potvrdi stvarni downstream sync.

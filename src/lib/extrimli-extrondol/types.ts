@@ -120,6 +120,51 @@ export interface ExtrimliExtrondolMobilnaLinijaReadiness {
   freezeReasons: string[];
 }
 
+export interface ExtrimliExtrondolAiPlateEnterprisePackage {
+  canonicalName: 'DEVELOPER AND CREATE / VRH PROGRAMSKOG EKVILADENTA / AI PLATE';
+  packageGoal: 'GitHub operating layer for AI agents, Copilots, and supporting automation';
+  segment: 'enterprise-organization-level';
+  pricing: {
+    amountEur: 12000;
+    cadence: 'weekly';
+    quoteModel: 'public-enterprise-quote';
+  };
+  scopeLock: {
+    seats: true;
+    copilotAiRights: true;
+    privateRepositoryAccess: true;
+    governance: true;
+    supportSla: true;
+    humanReview: true;
+    compliance: true;
+  };
+  weeklyCadenceDecision: {
+    decisionMode: 'premium-rollout-regime';
+    masterBillingCycle: 'monthly-or-annual';
+    rolloutMode: 'pilot-first';
+    rationale: string;
+    requiresExplicitApproval: true;
+  };
+  roadmapExecution: {
+    roadmapStageId: 'Verzija 7';
+    measurableOutput: string;
+    acceptanceEvidence: readonly string[];
+  };
+}
+
+export interface ExtrimliExtrondolAiPlateEnterprisePackageReadiness {
+  status: 'READY' | 'BLOCKED';
+  decisionMode: 'premium-rollout-regime';
+  contractApprovalRequired: true;
+  complianceReviewRequired: true;
+  humanReviewRequired: true;
+  paymentVerificationRequired: true;
+  downstreamSyncRequired: true;
+  rollbackPlanRequired: true;
+  finopsGuardrailsRequired: true;
+  blockers: string[];
+}
+
 export interface ExtrimliExtrondolB2bScope {
   consumerModel: 'organization-level';
   subscriptionPackage: {
@@ -143,6 +188,7 @@ export interface ExtrimliExtrondolB2bScope {
       complianceRequiredBeforeActivation: true;
       humanReviewRequiredBeforeActivation: true;
     };
+    aiPlateEnterprisePackage: ExtrimliExtrondolAiPlateEnterprisePackage;
   };
   accountOwnership: {
     owner: string;
@@ -231,6 +277,7 @@ export interface ExtrimliExtrondolB2bReadiness {
       formulaHolds: boolean;
       blockerReasons: string[];
     };
+    aiPlateEnterprisePackage: ExtrimliExtrondolAiPlateEnterprisePackageReadiness;
     petljeGovernance: {
       sourceOfTruth: '/api/extrimli/extrem';
       readinessScore: number;
@@ -315,9 +362,11 @@ export interface ExtrimliExtrondolB2bReadiness {
 
 export interface ExtrimliExtrondolGovernanceEvidence {
   auditTrailComplete?: boolean;
+  complianceReviewComplete?: boolean;
   downstreamSyncComplete?: boolean;
   humanReviewComplete?: boolean;
   onboardingComplete?: boolean;
+  rollbackPlanComplete?: boolean;
 }
 
 export interface ExtrimliExtrondolObjektnaProngilacijaGovernance {
@@ -1513,6 +1562,22 @@ export interface ExtrimliExtrondolReleaseAuditSummary {
     roadmapExecution: ExtrimliExtrondolDeveloperAndCreateRepoWideReflectionGovernance['roadmapExecution'];
     covecnostAuditVisualGovernance: ExtrimliExtrondolDeveloperAndCreateRepoWideReflectionGovernance['covecnostAuditVisualGovernance'];
   };
+  aiPlateEnterprisePackageGovernance: {
+    sourceOfTruth: '/api/extrimli/extrondol';
+    status: 'READY' | 'BLOCKED';
+    canonicalName: 'DEVELOPER AND CREATE / VRH PROGRAMSKOG EKVILADENTA / AI PLATE';
+    weeklyPriceEur: 12000;
+    weeklyCadenceDecision: 'premium-rollout-regime';
+    masterBillingCycle: 'monthly-or-annual';
+    roadmapStageId: 'Verzija 7';
+    measurableOutput: string;
+    acceptanceEvidence: readonly string[];
+    reviewRequiredBeforeActivation: true;
+    paymentVerificationRequired: true;
+    downstreamSyncRequired: true;
+    rollbackPlanRequired: true;
+    blockers: string[];
+  };
   paradijogonalnoProgrimiranjeGovernance: {
     sourceOfTruth: '/api/extrimli/extrem';
     status: ExtrimliExtremProfilerReport['paradijogonalnoProgrimiranje']['readiness']['status'];
@@ -1937,6 +2002,8 @@ export interface ExtrimliExtrondolStartProject {
     'extremProfiler.resolutionReadiness',
     'extremProfiler.semaMuSemaFormula',
     'b2bReadiness.globalLicensing',
+    'b2bScope.subscriptionPackage.aiPlateEnterprisePackage',
+    'b2bReadiness.governanceDecisions.aiPlateEnterprisePackage',
     'funkcinalnoProgramiranjeEnergetskogMisaonogToka',
     'funkcionalnoProgramiranjeUzvisenogMisanogToka',
     'funkcionalnoProgramiranjeEksplicitnogMisaonogToka',
@@ -1961,7 +2028,9 @@ export interface ExtrimliExtrondolStartProject {
     'canaryRingMetrics',
     'incidentPlaybook',
     'contractDriftReport',
-    'governanceConformance'
+    'governanceConformance',
+    'releaseAuditSummary.aiPlateEnterprisePackageGovernance',
+    'spajaKod.publicSignals.aiPlateEnterprisePackageStatus'
   ];
   downstreamSync: {
     linkedRepo: 'spaja86/IO-OPENUI-AO';
@@ -1975,8 +2044,10 @@ export interface ExtrimliExtrondolStartProject {
       'spajaproTrack',
       'b2bScope',
       'b2bScope.subscriptionPackage',
+      'b2bScope.subscriptionPackage.aiPlateEnterprisePackage',
       'b2bScope.unlimitedUseGuardrails',
       'b2bReadiness',
+      'b2bReadiness.governanceDecisions.aiPlateEnterprisePackage',
       'nivoDuet',
       'dinkos',
       'distanceRatioEkvilaterTable',
@@ -2031,7 +2102,9 @@ export interface ExtrimliExtrondolStartProject {
       'canaryRingMetrics',
       'incidentPlaybook',
       'contractDriftReport',
-      'governanceConformance'
+      'governanceConformance',
+      'releaseAuditSummary.aiPlateEnterprisePackageGovernance',
+      'spajaKod.publicSignals.aiPlateEnterprisePackageStatus'
     ];
   };
   qualityGates: {
@@ -2160,6 +2233,7 @@ export interface ExtrimliSpajaKodPublicFacade {
     spajinoProporcionalnoProgramiranjeUniverzitetStatus: ExtrimliExtremProfilerReport['spajinoProporcionalnoProgramiranjeUniverzitet']['readiness']['status'];
     vrhProgramskogEkviladentaStatus: ExtrimliExtremProfilerReport['vrhProgramskogEkviladenta']['readiness']['status'];
     developerAndCreateStatus: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['readiness']['status'];
+    aiPlateEnterprisePackageStatus: 'READY' | 'BLOCKED';
     humanReviewRequired: true;
     rollbackPlanRequired: true;
     degraded: boolean;

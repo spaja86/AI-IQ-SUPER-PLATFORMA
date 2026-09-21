@@ -127,7 +127,11 @@ jobs:
           assert(doc.includes('WAWE 1') && doc.includes('WAWE 5'), 'canonical doc must define WAWE 1-5 rollout phases');
           assert(doc.includes('Promotion freeze'), 'canonical doc must define promotion freeze guard');
           assert(doc.includes('docs/EXTRIMLI.md') && doc.includes('docs/MULTI-REPO-LINKS.md'), 'canonical doc must lock source-of-truth docs');
+          assert(doc.includes('DEVELOPER AND CREATE / VRH PROGRAMSKOG EKVILADENTA / AI PLATE'), 'canonical doc must declare AI PLATE enterprise package');
+          assert(doc.includes('12.000 EUR') && doc.includes('premium-rollout-regime'), 'canonical doc must lock weekly AI PLATE pricing governance');
+          assert(doc.includes('paymentCycle=monthly-or-annual'), 'canonical doc must preserve the enterprise master billing lock');
           assert(developerCreateProgramDoc.includes('docs + types + routes + tests + workflows'), 'Developer/Create program doc must lock docs/types/routes/tests/workflows');
+          assert(developerCreateProgramDoc.includes('roadmapStageId=Verzija 7') && developerCreateProgramDoc.includes('premium-rollout-regime'), 'Developer/Create program doc must lock V7 AI PLATE execution and pricing governance');
           assert(developerCreateProgramDoc.includes('src/tests/lib/extrimli-extrem.test.ts') && developerCreateProgramDoc.includes('src/tests/lib/extrimli-extrondol.test.ts'), 'Developer/Create program doc must lock EXTREM/EXTRONDOL tests');
           assert(developerCreateProgramDoc.includes('DOK + DIK + FOR') && developerCreateProgramDoc.includes('DOK/DIK/DAK/DUK/FOR'), 'Developer/Create program doc must include FOR in the ownership and consistency lock');
           assert(doc.includes('EXTRIMLI_EXTENDOL_CONTRACT_VERSION'), 'canonical doc must declare EXTRIMLI Extendol contract');
@@ -142,8 +146,10 @@ jobs:
           assert(links.includes('EXTRIMLI NIVO DUET / DINKOS signal contract'), 'multi-repo links must include NIVO DUET / DINKOS section');
           assert(links.includes('EXTRIMLI EXTEMEL/EXTREMOL WAWE map'), 'multi-repo links must include EXTRIMLI WAWE map');
           assert(links.includes('EXTRIMLI governance conformance audit'), 'multi-repo links must include governance conformance section');
+          assert(links.includes('AI PLATE enterprise package') && links.includes('audit-safe snapshot'), 'multi-repo links must define AI PLATE downstream audit-safe sync');
           assert(links.includes('IO-OPENUI-AO#<follow-up issue> -> AI-IQ-SUPER-PLATFORMA#EXTRIMLI-EXTERNAL-GITHUB'), 'multi-repo links must include bidirectional audit convention');
           assert(extrimli.includes('docs/EXTRIMLI-EXTERNAL-GITHUB.md'), 'EXTRIMLI doc must reference canonical external GitHub plan');
+          assert(extrimli.includes('aiPlateEnterprisePackage') && extrimli.includes('12.000 EUR weekly'), 'EXTRIMLI doc must expose AI PLATE governance fields');
           assert(extrimli.includes('KORON'), 'EXTRIMLI doc must declare KORON scope');
           assert(extrimli.includes('RADNI TAKT MOZGA (MISLILAC)'), 'EXTRIMLI doc must declare RADNI TAKT MOZGA (MISLILAC) additive governance track');
           assert(extrimli.includes('Locked source-of-truth set'), 'EXTRIMLI doc must lock source-of-truth artifact set');
