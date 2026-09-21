@@ -29,6 +29,7 @@ Narativ mora jasno pokazati kako tehnički signali i governance gate-ovi zajedno
    - releaseAuditSummary kao obavezni audit artefakt.
    - Human review kao obavezna kontrola pre publish/promocije.
    - Rollback spremnost kao release uslov.
+   - Završni kadar mora zaključati epilog `ČOVEČANSTVU`: čovek želi čudo, `Sunce` i `Sunčanica` se spajaju, prirodni odnos prelazi u opasnost, a poruka ostaje `čuvati prirodu`.
 
 ## 3) Kreativna mapa scena
 
@@ -58,6 +59,26 @@ Fraza **"RIKEL KAGER DEKOR NUTER DIKSAZ KIPOR"** koristi se kao zaključani rasp
   - Vizuel: release checklist + downstream reference (`spaja86/IO-OPENUI-AO`).
   - Poruka: "Release je validan tek kada postoji audit trag i potvrđen downstream alignment."
 
+## 3.1) ČOVEČANSTVU epilog package lock
+
+- Ovaj video plan koristi korisnički dostavljenu sliku kao referentni narativni artefakt za additive `ČOVEČANSTVU` epilog package.
+- Paket ostaje media/output sloj nad postojećim EXTRIMLI / EXTREM / EXTRONDOL ugovorima i ne uvodi novi runtime source-of-truth.
+- Zaključani epilog blokovi:
+  - **Master epilog** — duža narativna verzija za full cut.
+  - **Poster epilog** — kratki public-safe tekst za hero frame / carousel / thumbnail.
+  - **Audit short** — sažetak za PR/release/workflow summary bez sirovih internih formula.
+- DOK / DIK / DAK / DUK / FOR interpretacija mora biti eksplicitna:
+  - `DOK`: ključne scene i tehnički narativni signal.
+  - `DIK`: konflikt i intenzitet posledice.
+  - `FOR`: fiksni tok `slika -> spajanje -> posledica -> epilog`.
+  - `DAK`: odluka da li asset ide u širu objavu.
+  - `DUK`: human-review gate pre finalnog publish-a.
+- DOKER / KURAT / IZEK / DOKAR overlay:
+  - `DOKER`: downstream reference prema `spaja86/IO-OPENUI-AO`.
+  - `KURAT`: public-safe boundary check za vizuel i voiceover.
+  - `IZEK`: audit + review checkpoint za tekst, sliku i video.
+  - `DOKAR`: rollback plan ako final cut ili poster ne prođe gate.
+
 ## 4) Obavezne poruke (contract lock)
 
 U videu moraju eksplicitno postojati sledeće poruke:
@@ -79,20 +100,25 @@ U videu moraju eksplicitno postojati sledeće poruke:
 ### A) Storyboard paket
 - Scene-by-scene tabela za RIKEL → KIPOR.
 - Za svaku scenu: cilj poruke, vizuelni fokus, ulaz/izlaz u sledeći blok.
+- Mora da uključi posebnu `ČOVEČANSTVU` završnicu sa četiri zaključana koraka: želja, spajanje, opasnost, opomena.
 
 ### B) Voiceover skripta
 - Biznis sloj: vrednost i governance razlog.
 - Tehnički sloj: EXTREM signal, EXTRONDOL WAWE odluke, freeze kriterijumi.
 - Finalni CTA: publish samo uz audit i human review gate.
+- Voiceover mora završiti javno bezbednim CTA-om: `čuvati prirodu / razumeti prirodne odnose`.
 
 ### C) Vizuelni overlay set
 - WAWE mapa (1→5) sa promotion/freeze grananjem.
 - Freeze trigger overlay (KPI breach, degraded, missing evidence, payment/compliance blockers).
 - Readiness snapshot overlay (EXTREM + EXTRONDOL signal summary).
+- `KURAT` overlay mora jasno obeležiti da poster/video izlaz ne prenosi sirove interne EXTREM/EXTRONDOL formule.
 
 ### D) Finalni output
 - **Final cut**: puna SPAJAPRO narativna verzija.
 - **Audit short cut**: kratka verzija za PR/release kontekst sa ključnim governance dokazima.
+- **Poster / hero frame cut**: slikovni paket sa master citatom i epilogom `ČOVEČANSTVU`.
+- **Public-safe summary cut**: kratka spoljašnja poruka koja prenosi samo završni status, epilog i audit-safe CTA.
 
 ## 6) Validacija pre objave
 
@@ -109,3 +135,9 @@ Pre objave proveriti sledeće:
 
 4. **Governance poruke bez odstupanja**
    - Endpointi, KPI granice, degraded policy i promotion freeze pravilo prikazani su eksplicitno.
+
+5. **ČOVEČANSTVU narrative lock**
+   - U svim asset paketima ostaje ista centralna poruka: čovek želi čudo, `Sunce` i `Sunčanica` se spajaju, priroda prelazi u opasnost, čovečanstvo mora da čuva prirodu.
+
+6. **Public-safe boundary**
+   - Finalni poster/video/output ne sme otkrivati sirove interne mapping-e, formule ili privatne governance detalje iz EXTREM/EXTRONDOL sloja.

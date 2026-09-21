@@ -52,6 +52,18 @@ Audit reference convention:
 
 `AI-IQ-SUPER-PLATFORMA#EXTRIMLI-DOK-DIK-DAK-DUK-CONSISTENCY -> IO-OPENUI-AO#<follow-up issue>`
 
+## EXTRIMLI ČOVEČANSTVU epilog package downstream reference
+
+- This repo: `AI-IQ-SUPER-PLATFORMA` — `ČOVEČANSTVU` additive media track over EXTRIMLI / EXTREM / EXTRONDOL
+- Linked repo: `spaja86/IO-OPENUI-AO` — Follow-up required
+- Note: Downstream sync must consume only audit-safe outputs from the epilog package (`masterEpilog`, `posterSummary`, `videoStoryboardSummary`, `auditShortSummary`, `governanceChecklistStatus`); raw EXTREM/EXTRONDOL internals, formulas, and private governance mapping remain repo-local
+- Narrative lock: user-facing package must preserve the same message across image/video/public summary — čovek želi čudo, `Sunce` i `Sunčanica` se spajaju, prirodni odnos prelazi u opasnost, čovečanstvo mora da čuva prirodu
+- Governance lock: linked-repo publication remains blocked until human review, downstream reference, and rollback readiness are all explicit
+
+Audit reference convention:
+
+`AI-IQ-SUPER-PLATFORMA#EXTRIMLI-COVECANSTVU-EPILOG -> IO-OPENUI-AO#<follow-up issue>`
+
 ## EXTRIMLI SINEMETRIČKO PROGRAMIRANJE downstream reference
 
 - This repo: `AI-IQ-SUPER-PLATFORMA` — SINEMETRIČKO PROGRAMIRANJE additive track over EXTRIMLI/EXTREM/EXTRONDOL
