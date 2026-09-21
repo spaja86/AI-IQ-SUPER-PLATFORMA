@@ -2502,11 +2502,12 @@ export interface ExtrimliDokDikDakDukConsistencyHealth {
     };
     currentImplementationStage: {
       roadmapStageId: 'v5-extrondol-release-audit-and-orchestration';
-      measurableOutput: 'audit-safe repo-wide reflection status and additive ČOVEČNOST/ČOVEČANSTVO visual package are published only through existing EXTRIMLI/EXTREM/EXTRONDOL/SPAJA KOD surfaces';
+      measurableOutput: 'audit-safe repo-wide reflection status plus primary ČOVEČNOST, supplemental ČOVEČANSTVO, and companion ČOVEČANSTVO / OSEĆAJ OSEBENOSTI visual metadata are published only through existing EXTRIMLI/EXTREM/EXTRONDOL/SPAJA KOD surfaces';
       acceptanceEvidence: readonly [
         'dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection',
         'dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.covecnostAuditVisualReference',
         'dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.covecnostAuditVisualReference.supplementalVisualReferences',
+        'dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.covecnostAuditVisualReference.companionAuditVisualReferences',
         'spajaKod.publicSignals.developerAndCreateStatus',
         'radniTaktMozgaMislilac.readiness',
         'metrikoProgramiranje.readiness',
@@ -2576,6 +2577,43 @@ export interface ExtrimliDokDikDakDukConsistencyHealth {
         publicSummary: string;
         governanceChecklistStatus: string;
       };
+      companionAuditVisualReferences: readonly [
+        {
+          title: 'ČOVEČANSTVO / OSEĆAJ OSEBENOSTI';
+          canonicalNarrativeId: 'covecanstvo-osecaj-osebenosti-developer-create-vrh-radni-takt';
+          citation: string;
+          visualReference: string;
+          interpretation: string;
+          thematicSignals: readonly [
+            'self-knowledge',
+            'brain-and-mind-understanding',
+            'feeling',
+            'humanity',
+            'shared-world',
+            'epilog-guidance'
+          ];
+          imageToSignalProfile: {
+            scenarioId: 'covecanstvo-osecaj-osebenosti-developer-create-vrh-radni-takt';
+            theme: 'ČOVEČANSTVO / OSEĆAJ OSEBENOSTI';
+            narrativeInput: string;
+            ownershipLock: {
+              dokDikFor: 'EXTREM';
+              dakDuk: 'EXTRONDOL';
+              spajaKod: 'audit-safe-summary-only';
+            };
+            signalOutputs: {
+              readinessScore: number;
+              readinessStatus: 'READY' | 'WATCH' | 'BLOCKED';
+              conflictPressurePercent: number;
+              deterministicFallbackRequired: boolean;
+            };
+          };
+          packageOutputs: {
+            auditShortSummary: string;
+            publicSummary: string;
+          };
+        }
+      ];
     };
     repoWideReflection: {
       docs: boolean;
