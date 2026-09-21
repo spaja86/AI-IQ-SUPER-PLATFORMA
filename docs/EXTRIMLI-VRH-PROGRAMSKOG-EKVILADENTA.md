@@ -20,6 +20,8 @@
 
 Repo-wide reflection sada obavezno uključuje i dnevni operativni cadence: `morning-startup`, `deep-focus-block`, `midday-checkpoint` i `end-of-day-closeout`, uz dnevni task set prioriteta `1–3` vezan za jednu aktivnu roadmap fazu.
 
+Supplied image `https://github.com/user-attachments/assets/aed223ed-aa19-4821-9f0e-dbf0ffd56f7a` ostaje additive-only audit vizuel za `ČOVEČNOST` i mapira se na `developerAndCreateRepoWideReflection.covecnostAuditVisualReference` sa `scenarioId=covecnost-developer-create-vrh-radni-takt`, bez novih ruta i bez zamene postojećeg `priroda-zdrav-zivot-covecanstvo` epilog narativa.
+
 ## Kanonsko terminološko mapiranje
 
 - `DOK + DIK + FOR` ostaju tehnički EXTREM sloj.
@@ -47,6 +49,8 @@ Ove trake su dozvoljene samo kao additive interpretativni slojevi unutar postoje
 - **V5** — EXTRONDOL release orkestracija kroz WAWE uticaj, freeze/promotion razloge, release-audit i downstream summary
 
 Aktivni execution lock za trenutnu realizaciju ostaje `roadmapStageId=v5-extrondol-release-audit-and-orchestration`: EXTREM drži tehnički `technicalReadinessProfile` za repo-wide “radni takt”, a EXTRONDOL izlaže samo audit-safe orkestraciju i SPAJA KOD summary bez novih runtime ruta.
+
+Isti execution lock pokriva i `ČOVEČNOST` audit vizuel: EXTREM objavljuje bounded readiness/conflict signal, EXTRONDOL ga prenosi samo kao governance evidence, a SPAJA KOD ga objavljuje samo kroz audit-safe public summary.
 
 ## Canonical role split
 
@@ -100,6 +104,7 @@ Implementacioni redosled ostaje zaključan:
 - Nema novih source-of-truth ruta.
 - Nema breaking promena.
 - Nema novih javnih formula ni paralelnog runtime contract-a.
+- `ČOVEČNOST` vizuel sme postojati samo kao audit/documentation evidence unutar `dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.covecnostAuditVisualReference`; `DOK + DIK + FOR` ostaju u EXTREM, `DAK + DUK` ostaju u EXTRONDOL, a `SPAJA KOD` izlaže samo audit-safe summary.
 - Buduća realizacija, ako bude potrebna, sme ići samo kao additive proširenje u:
   - EXTREM tehničkom izveštaju
   - EXTRONDOL governance i `releaseAuditSummary`

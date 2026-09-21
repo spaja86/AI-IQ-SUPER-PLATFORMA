@@ -2501,16 +2501,55 @@ export interface ExtrimliDokDikDakDukConsistencyHealth {
       consolidatedRhythmStatus: 'READY' | 'WATCH' | 'BLOCKED';
     };
     currentImplementationStage: {
-      roadmapStageId: 'v4-extrem-repo-wide-rhythm-readiness-expansion';
-      measurableOutput: 'repo-wide technical readiness profile is published through existing EXTRIMLI/EXTREM/EXTRONDOL surfaces';
+      roadmapStageId: 'v5-extrondol-release-audit-and-orchestration';
+      measurableOutput: 'audit-safe repo-wide reflection status and ČOVEČNOST visual reference are published only through existing EXTRIMLI/EXTREM/EXTRONDOL/SPAJA KOD surfaces';
       acceptanceEvidence: readonly [
         'dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection',
+        'dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.covecnostAuditVisualReference',
+        'spajaKod.publicSignals.developerAndCreateStatus',
         'radniTaktMozgaMislilac.readiness',
         'metrikoProgramiranje.readiness',
         'sinemetrickoProgramiranje.readiness',
         'paradijogonalnoProgrimiranje.readiness',
         'vrhProgramskogEkviladenta.readiness'
       ];
+    };
+    covecnostAuditVisualReference: {
+      title: 'ČOVEČNOST';
+      canonicalNarrativeId: 'covecnost-developer-create-vrh-radni-takt';
+      citation: string;
+      visualReference: string;
+      interpretation: string;
+      sourceStatement: 'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == RADNI TAKT MOZGA (MISLILAC)';
+      imageToSignalProfile: {
+        scenarioId: 'covecnost-developer-create-vrh-radni-takt';
+        theme: 'ČOVEČNOST';
+        narrativeInput: string;
+        ownershipLock: {
+          dokDikFor: 'EXTREM';
+          dakDuk: 'EXTRONDOL';
+          spajaKod: 'audit-safe-summary-only';
+        };
+        signalOutputs: {
+          readinessScore: number;
+          readinessStatus: 'READY' | 'WATCH' | 'BLOCKED';
+          conflictPressurePercent: number;
+          deterministicFallbackRequired: boolean;
+        };
+      };
+      flowLock: {
+        sequence: readonly ['image', 'developer-create', 'vrh', 'radni-takt', 'epilog'];
+        dok: string;
+        dik: string;
+        forPetlja: string;
+        dak: string;
+        duk: string;
+      };
+      packageOutputs: {
+        auditShortSummary: string;
+        publicSummary: string;
+        governanceChecklistStatus: string;
+      };
     };
     repoWideReflection: {
       docs: boolean;
