@@ -366,6 +366,7 @@ export interface ExtrimliExtrondolGovernanceEvidence {
   downstreamSyncComplete?: boolean;
   humanReviewComplete?: boolean;
   onboardingComplete?: boolean;
+  rollbackPlanComplete?: boolean;
 }
 
 export interface ExtrimliExtrondolObjektnaProngilacijaGovernance {

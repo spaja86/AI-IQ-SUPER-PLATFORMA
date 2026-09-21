@@ -2855,6 +2855,7 @@ function resolveGovernanceEvidence(evidence?: ExtrimliExtrondolGovernanceEvidenc
     downstreamSyncComplete: evidence?.downstreamSyncComplete ?? process.env.EXTRONDOL_DOWNSTREAM_SYNC_COMPLETE === 'true',
     humanReviewComplete: evidence?.humanReviewComplete ?? process.env.EXTRONDOL_HUMAN_REVIEW_COMPLETE === 'true',
     onboardingComplete: evidence?.onboardingComplete ?? process.env.EXTRONDOL_ONBOARDING_COMPLETE === 'true',
+    rollbackPlanComplete: evidence?.rollbackPlanComplete ?? process.env.EXTRONDOL_ROLLBACK_PLAN_COMPLETE === 'true',
   } as const;
 }
 
@@ -3499,6 +3500,7 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
   const complianceReviewComplete = governanceEvidence.complianceReviewComplete;
   const downstreamSyncComplete = governanceEvidence.downstreamSyncComplete;
   const operationalApproval = currentWawe !== 'WAWE-1' && currentWawe !== 'WAWE-2';
+  const rollbackPlanComplete = governanceEvidence.rollbackPlanComplete;
   const humanReviewComplete = governanceEvidence.humanReviewComplete;
   const rolloutRing = currentWawe === 'WAWE-1'
     ? 'RING-0-CONTRACT'
@@ -3691,6 +3693,7 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
     ...(!operationalApproval ? ['operational-approval'] : []),
     ...(!humanReviewComplete ? ['human-review-complete'] : []),
     ...(!auditTrailComplete ? ['audit-trail-complete'] : []),
+    ...(!rollbackPlanComplete ? ['rollback-plan-complete'] : []),
     ...(paymentVerification.status !== 'VERIFIED' ? ['payment-verification'] : []),
   ];
   const promotionFreeze = degraded
