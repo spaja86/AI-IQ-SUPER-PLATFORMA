@@ -3932,8 +3932,7 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
         sourceOfTruth: '/api/extrimli/extrem',
         status:
           extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.aiPlateOffer.boundedReadinessProfile.consolidatedStatus,
-        readinessScore:
-          extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.aiPlateOffer.boundedReadinessProfile.readinessScore,
+        readinessScore: extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.score,
         deterministicFallbackRequired: extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.deterministicFallbackRequired,
         reviewRequiredBeforeWideRollout:
           extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.status !== 'READY',
@@ -3981,8 +3980,8 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
               extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.aiPlateOffer.boundedReadinessProfile.consolidatedStatus !== 'READY',
           },
           downstreamSync: extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.aiPlateOffer.downstreamSync,
-          currentWawe,
-          eligibleNextWawe: nextWawe(currentWawe),
+          currentWave: currentWawe,
+          eligibleNextWave: nextWawe(currentWawe),
           promotionFreeze,
           humanReviewRequired: true,
           rollbackPlanRequired: true,
@@ -5043,7 +5042,8 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
         extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.dailyOperationalCadence,
       readiness: {
         score: extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.score,
-        status: extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.aiPlateOffer.boundedReadinessProfile.consolidatedStatus,
+        status:
+          extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.aiPlateOffer.boundedReadinessProfile.consolidatedStatus,
         deterministicFallbackRequired: extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.deterministicFallbackRequired,
         reasons: [...extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.reasons],
       },
@@ -5507,8 +5507,8 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
                 extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.aiPlateOffer.boundedReadinessProfile.consolidatedStatus !== 'READY',
             },
             downstreamSync: extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.aiPlateOffer.downstreamSync,
-            currentWawe,
-            eligibleNextWawe: nextWawe(currentWawe),
+            currentWave: currentWawe,
+            eligibleNextWave: nextWawe(currentWawe),
             promotionFreeze,
             humanReviewRequired: true,
             rollbackPlanRequired: true,
@@ -6257,8 +6257,8 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
             extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.aiPlateOffer.boundedReadinessProfile.consolidatedStatus !== 'READY',
         },
         downstreamSync: extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.aiPlateOffer.downstreamSync,
-        currentWawe,
-        eligibleNextWawe: nextWawe(currentWawe),
+        currentWave: currentWawe,
+        eligibleNextWave: nextWawe(currentWawe),
         promotionFreeze,
         humanReviewRequired: true,
         rollbackPlanRequired: true,

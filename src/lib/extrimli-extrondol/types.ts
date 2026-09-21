@@ -334,8 +334,8 @@ export interface ExtrimliExtrondolObjektnaProngilacijaGovernance {
     spajaKod: 'public-encapsulated-boundary';
   };
   waweImpact: {
-    currentWawe: ExtrimliExtrondolWaweStage;
-    eligibleNextWawe: ExtrimliExtrondolWaweStage;
+    currentWave: ExtrimliExtrondolWaweStage;
+    eligibleNextWave: ExtrimliExtrondolWaweStage;
     promotionFreeze: boolean;
     stageRules: readonly [
       { stage: 'WAWE-1'; requirement: string },
@@ -437,8 +437,8 @@ export interface ExtrimliExtrondolSinemetrickoProgramiranjeGovernance {
     dakDuk: 'EXTRONDOL';
   };
   waweImpact: {
-    currentWawe: ExtrimliExtrondolWaweStage;
-    eligibleNextWawe: ExtrimliExtrondolWaweStage;
+    currentWave: ExtrimliExtrondolWaweStage;
+    eligibleNextWave: ExtrimliExtrondolWaweStage;
     promotionFreeze: boolean;
     reviewRequiredBeforeWideRollout: boolean;
   };
@@ -659,8 +659,8 @@ export interface ExtrimliExtrondolDeveloperAndCreateRepoWideReflectionGovernance
       reviewRequiredBeforeWideRollout: boolean;
     };
     downstreamSync: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['aiPlateOffer']['downstreamSync'];
-    currentWawe: ExtrimliExtrondolWaweStage;
-    eligibleNextWawe: ExtrimliExtrondolWaweStage;
+    currentWave: ExtrimliExtrondolWaweStage;
+    eligibleNextWave: ExtrimliExtrondolWaweStage;
     promotionFreeze: boolean;
     humanReviewRequired: true;
     rollbackPlanRequired: true;
