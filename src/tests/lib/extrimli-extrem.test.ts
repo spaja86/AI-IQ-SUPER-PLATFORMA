@@ -244,9 +244,17 @@ async function runTests(): Promise<void> {
     assert(signal.epilogijaCovecnosti.title === 'EPILOGIJA ČOVEČANSTVA', 'radni takt epilog title mismatch');
     assert(signal.epilogijaCovecnosti.canonicalNarrativeId === 'zivot-je-igra-sitni-koraci-covecanstvo', 'radni takt canonical narrative id mismatch');
     assert(signal.epilogijaCovecnosti.citation.includes('Život je igra'), 'radni takt epilog citation mismatch');
-    assert(signal.epilogijaCovecnosti.visualReference.includes('e7fe3fd0-5dae-4ba9-8e96-939eb6fd5565'), 'radni takt epilog visual reference mismatch');
+    assert(signal.epilogijaCovecnosti.visualReference.includes('a1346923-892c-47ab-bd58-d9ef9fcbabff'), 'radni takt epilog visual reference mismatch');
     assert(signal.epilogijaCovecnosti.citation.includes('sitnim koracima - glavni adut'), 'radni takt canonical epilog narrative missing');
     assert(signal.epilogijaCovecnosti.citation.includes('Šupljine su odraz slabosti'), 'radni takt epilog weakness segment missing');
+    assert(signal.epilogijaCovecnosti.flowLock.sequence.join(' -> ') === 'image -> spajanje -> posledica -> epilog', 'radni takt epilog flow lock mismatch');
+    assert(signal.epilogijaCovecnosti.packageOutputs.masterEpilog.includes('čovečanstvo mora'), 'radni takt master epilog summary mismatch');
+    assert(signal.epilogijaCovecnosti.packageOutputs.posterSummary.includes('čuvaj ljude i prirodu'), 'radni takt poster summary mismatch');
+    assert(signal.epilogijaCovecnosti.packageOutputs.videoStoryboardSummary.includes('image -> spajanje -> posledica -> epilog'), 'radni takt storyboard summary mismatch');
+    assert(signal.epilogijaCovecnosti.packageOutputs.auditShortSummary.includes('audit-safe'), 'radni takt audit short summary mismatch');
+    assert(signal.epilogijaCovecnosti.packageOutputs.governanceChecklistStatus.includes('DOKER downstream reference locked'), 'radni takt governance checklist summary mismatch');
+    assert(signal.epilogijaCovecnosti.dokerKuratIzekDokarOverlay.DOKER.includes('spaja86/IO-OPENUI-AO'), 'radni takt DOKER overlay mismatch');
+    assert(signal.epilogijaCovecnosti.dokerKuratIzekDokarOverlay.DOKAR.includes('Rollback readiness'), 'radni takt DOKAR overlay mismatch');
     assert(['READY', 'WATCH', 'BLOCKED'].includes(signal.readiness.status), 'unexpected radni takt status');
     assert(Number.isFinite(signal.readiness.score), 'radni takt score must be finite');
     assert(signal.readiness.score >= 0 && signal.readiness.score <= 100, 'radni takt score must be bounded');

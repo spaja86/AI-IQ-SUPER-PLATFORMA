@@ -612,6 +612,9 @@ export interface ExtrimliExtrondolRadniTaktMozgaMislilacGovernance {
     citationPresent: true;
     visualReferencePresent: true;
     interpretationLayer: 'educational-development-learning-discipline-ethics-signal';
+    flowLockPreserved: true;
+    packageOutputs: readonly string[];
+    quartetOverlay: readonly string[];
   };
   reasons: string[];
 }
@@ -638,6 +641,7 @@ export interface ExtrimliExtrondolDeveloperAndCreateRepoWideReflectionGovernance
   dailyOperationalCadence: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['dailyOperationalCadence'] & {
     status: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['readiness']['status'];
     reviewRequiredBeforeWideRollout: boolean;
+  };
   roadmapExecution: {
     roadmapStageId: 'v5-extrondol-release-audit-and-orchestration';
     measurableOutput: 'EXTRONDOL consumes the repo-wide technical profile and publishes only audit-safe WAWE/review/rollback governance';
@@ -1466,6 +1470,9 @@ export interface ExtrimliExtrondolReleaseAuditSummary {
       citation: string;
       visualReference: string;
       interpretation: string;
+      flowLock: ExtrimliExtremProfilerReport['radniTaktMozgaMislilac']['epilogijaCovecnosti']['flowLock'];
+      packageOutputs: ExtrimliExtremProfilerReport['radniTaktMozgaMislilac']['epilogijaCovecnosti']['packageOutputs'];
+      dokerKuratIzekDokarOverlay: ExtrimliExtremProfilerReport['radniTaktMozgaMislilac']['epilogijaCovecnosti']['dokerKuratIzekDokarOverlay'];
     };
   };
   developerAndCreateRepoWideReflectionGovernance: {
@@ -2145,6 +2152,9 @@ export interface ExtrimliSpajaKodPublicFacade {
     citation: string;
     visualReference: string;
     interpretation: string;
+    flowLock: ExtrimliExtremProfilerReport['radniTaktMozgaMislilac']['epilogijaCovecnosti']['flowLock'];
+    packageOutputs: ExtrimliExtremProfilerReport['radniTaktMozgaMislilac']['epilogijaCovecnosti']['packageOutputs'];
+    dokerKuratIzekDokarOverlay: ExtrimliExtremProfilerReport['radniTaktMozgaMislilac']['epilogijaCovecnosti']['dokerKuratIzekDokarOverlay'];
   };
   platformTrack: ExtrimliSpajaproPublicBoundaryStatus;
   dokerKuratIzekDokarTrack: ExtrimliDokerKuratIzekDokarPublicBoundaryStatus;

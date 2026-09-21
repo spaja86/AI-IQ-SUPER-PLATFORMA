@@ -237,7 +237,7 @@ const EXTRIMLI_EXTREM_PROPORCIONALNO_PROGRAMIRANJE_OBJECT_SOURCE_TRACKS = [
 const EXTRIMLI_EXTREM_RADNI_TAKT_MOZGA_MISLILAC_EPILOGIJA_COVECNOSTI_CITAT =
   'Život je igra, ako previše zaigraš možeš se izgubiti u životnom okruženju pa se odrekneš života olako. Kroz životne igre uvek ideš sitnim koracima - glavni adut; ako napraviš veliki korak - loš adut, previše šupljina ima (pa sam odraz je pogrešan život). Šupljine su odraz slabosti; ako ih drugi osete možda se zaslade.';
 const EXTRIMLI_EXTREM_RADNI_TAKT_MOZGA_MISLILAC_EPILOGIJA_COVECNOSTI_VISUAL_REFERENCE =
-  'https://github.com/user-attachments/assets/e7fe3fd0-5dae-4ba9-8e96-939eb6fd5565' as const;
+  'https://github.com/user-attachments/assets/a1346923-892c-47ab-bd58-d9ef9fcbabff' as const;
 const EXTRIMLI_EXTREM_RADNI_TAKT_MOZGA_MISLILAC_EPILOGIJA_COVECNOSTI_CANONICAL_NARRATIVE_ID =
   'zivot-je-igra-sitni-koraci-covecanstvo' as const;
 
@@ -3365,6 +3365,27 @@ function buildRadniTaktMozgaMislilacSignal(
       citation: EXTRIMLI_EXTREM_RADNI_TAKT_MOZGA_MISLILAC_EPILOGIJA_COVECNOSTI_CITAT,
       visualReference: EXTRIMLI_EXTREM_RADNI_TAKT_MOZGA_MISLILAC_EPILOGIJA_COVECNOSTI_VISUAL_REFERENCE,
       interpretation: 'Formalized ČOVEČANSTVO interpretation layer for disciplined learning through small steps, risk awareness, and responsibility without changing DOK/DIK/FOR versus DAK/DUK ownership boundaries.',
+      flowLock: {
+        sequence: ['image', 'spajanje', 'posledica', 'epilog'],
+        dok: 'Key visual scenes and the primary life-as-game message remain technical narrative evidence in EXTREM.',
+        dik: 'Conflict intensity warns that excessive play, large jumps, and weakness exposure can turn a natural relationship into danger.',
+        forPetlja: 'Narrative order is fixed as image -> spajanje -> posledica -> epilog.',
+        dak: 'Wider-publication readiness remains a governance decision in EXTRONDOL.',
+        duk: 'Human review remains mandatory before final publication in EXTRONDOL.',
+      },
+      packageOutputs: {
+        masterEpilog: 'Čovek želi čudo i kreće putem svetlosti, ali kada igru života pretvori u veliki skok nastaju šupljine, slabosti i opasnost; zato čovečanstvo mora da bira mudrost, strpljenje, sitne korake i očuvanje ljudi i prirode.',
+        posterSummary: 'Čovek želi čudo. Sunce i Sunčanica se spajaju. Igraj pametno, živi svesno, čuvaj ljude i prirodu.',
+        videoStoryboardSummary: 'image -> spajanje -> posledica -> epilog: usamljeni putnik ka svetlosti, spajanje nade i života, prelazak prirodnog odnosa u opasnost, završna opomena čovečanstvu da čuva ljude i prirodu.',
+        auditShortSummary: 'audit-safe ČOVEČANSTVU epilog package: additive-only media artifact, EXTREM keeps DOK/DIK/FOR technical framing, EXTRONDOL keeps DAK/DUK governance, and SPAJA KOD exposes only public-safe summary outputs.',
+        governanceChecklistStatus: 'DOKER downstream reference locked; KURAT public-safe boundary confirmed; IZEK review checkpoint required; DOKAR rollback readiness required before wider publication.',
+      },
+      dokerKuratIzekDokarOverlay: {
+        DOKER: 'Downstream reference remains locked to spaja86/IO-OPENUI-AO.',
+        KURAT: 'Poster, image, video, and voiceover must stay public-safe and must not expose raw EXTREM/EXTRONDOL formulas.',
+        IZEK: 'Audit and review checkpoint applies to image, text, storyboard, and final publication package.',
+        DOKAR: 'Rollback readiness remains mandatory if the final cut, poster, or governance package fails review.',
+      },
     },
     readiness: {
       score,
@@ -6875,6 +6896,11 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
         && radniTaktMozgaMislilac.learningDomains.humanistickiCilj.semanticLock === 'covecnost-odgovornost-samopouzdanje'
         && radniTaktMozgaMislilac.epilogijaCovecnosti.title === 'EPILOGIJA ČOVEČANSTVA'
         && radniTaktMozgaMislilac.epilogijaCovecnosti.visualReference.length > 0
+        && radniTaktMozgaMislilac.epilogijaCovecnosti.packageOutputs.masterEpilog.length > 0
+        && radniTaktMozgaMislilac.epilogijaCovecnosti.packageOutputs.posterSummary.length > 0
+        && radniTaktMozgaMislilac.epilogijaCovecnosti.packageOutputs.videoStoryboardSummary.length > 0
+        && radniTaktMozgaMislilac.epilogijaCovecnosti.packageOutputs.auditShortSummary.length > 0
+        && radniTaktMozgaMislilac.epilogijaCovecnosti.packageOutputs.governanceChecklistStatus.length > 0
         && radniTaktMozgaMislilac.readiness.status !== undefined,
     },
 

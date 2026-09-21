@@ -1668,11 +1668,28 @@ function buildRadniTaktMozgaMislilacGovernance(params: {
       citationPresent: signal.epilogijaCovecnosti.citation.trim().length > 0,
       visualReferencePresent: signal.epilogijaCovecnosti.visualReference.trim().length > 0,
       interpretationLayer: 'educational-development-learning-discipline-ethics-signal',
+      flowLockPreserved: true,
+      packageOutputs: ['masterEpilog', 'posterSummary', 'videoStoryboardSummary', 'auditShortSummary', 'governanceChecklistStatus'],
+      quartetOverlay: ['DOKER', 'KURAT', 'IZEK', 'DOKAR'],
     },
     reasons,
   };
 }
 
+function mapCovecanstvoEpilog(
+  epilog: ExtrimliExtrondolReport['extremProfiler']['radniTaktMozgaMislilac']['epilogijaCovecnosti'],
+) {
+  return {
+    title: epilog.title,
+    canonicalNarrativeId: epilog.canonicalNarrativeId,
+    citation: epilog.citation,
+    visualReference: epilog.visualReference,
+    interpretation: epilog.interpretation,
+    flowLock: epilog.flowLock,
+    packageOutputs: { ...epilog.packageOutputs },
+    dokerKuratIzekDokarOverlay: { ...epilog.dokerKuratIzekDokarOverlay },
+  };
+}
 
 function buildParadijogonalnoProgrimiranjeGovernance(params: {
   extremProfiler: ExtrimliExtrondolReport['extremProfiler'];
@@ -2767,11 +2784,7 @@ function buildSpajaKodFacade(params: {
       degraded: params.degraded,
     },
     epilogijaCovecnosti: {
-      title: 'EPILOGIJA ČOVEČANSTVA',
-      canonicalNarrativeId: params.extremProfiler.radniTaktMozgaMislilac.epilogijaCovecnosti.canonicalNarrativeId,
-      citation: params.extremProfiler.radniTaktMozgaMislilac.epilogijaCovecnosti.citation,
-      visualReference: params.extremProfiler.radniTaktMozgaMislilac.epilogijaCovecnosti.visualReference,
-      interpretation: params.extremProfiler.radniTaktMozgaMislilac.epilogijaCovecnosti.interpretation,
+      ...mapCovecanstvoEpilog(params.extremProfiler.radniTaktMozgaMislilac.epilogijaCovecnosti),
     },
     platformTrack,
     dokerKuratIzekDokarTrack,
@@ -3855,11 +3868,7 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
       blockerReasons: [...extremProfiler.radniTaktMozgaMislilac.readiness.blockerReasons],
       watchReasons: [...extremProfiler.radniTaktMozgaMislilac.readiness.watchReasons],
       epilogijaCovecnosti: {
-        title: 'EPILOGIJA ČOVEČANSTVA',
-        canonicalNarrativeId: extremProfiler.radniTaktMozgaMislilac.epilogijaCovecnosti.canonicalNarrativeId,
-        citation: extremProfiler.radniTaktMozgaMislilac.epilogijaCovecnosti.citation,
-        visualReference: extremProfiler.radniTaktMozgaMislilac.epilogijaCovecnosti.visualReference,
-        interpretation: extremProfiler.radniTaktMozgaMislilac.epilogijaCovecnosti.interpretation,
+        ...mapCovecanstvoEpilog(extremProfiler.radniTaktMozgaMislilac.epilogijaCovecnosti),
       },
     },
     developerAndCreateRepoWideReflectionGovernance: {
@@ -3889,6 +3898,7 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
           extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.dailyOperationalCadence.dailyTasks,
         reviewRequiredBeforeWideRollout:
           extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.status !== 'READY',
+      },
       technicalReadinessProfile: extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.technicalReadinessProfile,
       roadmapExecution: {
         roadmapStageId: 'v5-extrondol-release-audit-and-orchestration',
@@ -5337,10 +5347,7 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
         blockerReasons: [...extremProfiler.radniTaktMozgaMislilac.readiness.blockerReasons],
         watchReasons: [...extremProfiler.radniTaktMozgaMislilac.readiness.watchReasons],
         epilogijaCovecnosti: {
-          title: 'EPILOGIJA ČOVEČANSTVA',
-          canonicalNarrativeId: extremProfiler.radniTaktMozgaMislilac.epilogijaCovecnosti.canonicalNarrativeId,
-          citation: extremProfiler.radniTaktMozgaMislilac.epilogijaCovecnosti.citation,
-          interpretation: extremProfiler.radniTaktMozgaMislilac.epilogijaCovecnosti.interpretation,
+          ...mapCovecanstvoEpilog(extremProfiler.radniTaktMozgaMislilac.epilogijaCovecnosti),
         },
       },
       developerAndCreateRepoWideReflectionGovernance: {
@@ -5367,6 +5374,7 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
           status: extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.status,
           reviewRequiredBeforeWideRollout:
             extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.status !== 'READY',
+        },
         roadmapExecution: {
           roadmapStageId: 'v5-extrondol-release-audit-and-orchestration',
           measurableOutput: 'EXTRONDOL consumes the repo-wide technical profile and publishes only audit-safe WAWE/review/rollback governance',
@@ -5766,7 +5774,24 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
         && releaseAuditSummary.radniTaktMozgaMislilacGovernance.status === extremProfiler.radniTaktMozgaMislilac.readiness.status
         && b2bReadiness.downstreamSync.syncedFields.includes('extremProfiler.radniTaktMozgaMislilac.readiness.status')
         && spajaKod.publicSignals.radniTaktMozgaMislilacStatus === extremProfiler.radniTaktMozgaMislilac.readiness.status
-        && releaseAuditSummary.radniTaktMozgaMislilacGovernance.epilogijaCovecnosti.title === 'EPILOGIJA ČOVEČANSTVA',
+        && releaseAuditSummary.radniTaktMozgaMislilacGovernance.epilogijaCovecnosti.title === 'EPILOGIJA ČOVEČANSTVA'
+        && releaseAuditSummary.radniTaktMozgaMislilacGovernance.epilogijaCovecnosti.flowLock.sequence.join(' -> ') === 'image -> spajanje -> posledica -> epilog'
+        && releaseAuditSummary.radniTaktMozgaMislilacGovernance.epilogijaCovecnosti.packageOutputs.masterEpilog.length > 0
+        && releaseAuditSummary.radniTaktMozgaMislilacGovernance.epilogijaCovecnosti.packageOutputs.videoStoryboardSummary.length > 0
+        && releaseAuditSummary.radniTaktMozgaMislilacGovernance.epilogijaCovecnosti.packageOutputs.auditShortSummary.length > 0
+        && releaseAuditSummary.radniTaktMozgaMislilacGovernance.epilogijaCovecnosti.packageOutputs.governanceChecklistStatus.length > 0
+        && releaseAuditSummary.radniTaktMozgaMislilacGovernance.epilogijaCovecnosti.dokerKuratIzekDokarOverlay.DOKER.length > 0
+        && releaseAuditSummary.radniTaktMozgaMislilacGovernance.epilogijaCovecnosti.dokerKuratIzekDokarOverlay.KURAT.length > 0
+        && releaseAuditSummary.radniTaktMozgaMislilacGovernance.epilogijaCovecnosti.dokerKuratIzekDokarOverlay.IZEK.length > 0
+        && releaseAuditSummary.radniTaktMozgaMislilacGovernance.epilogijaCovecnosti.dokerKuratIzekDokarOverlay.DOKAR.length > 0
+        && spajaKod.epilogijaCovecnosti.packageOutputs.posterSummary.length > 0
+        && spajaKod.epilogijaCovecnosti.packageOutputs.videoStoryboardSummary.length > 0
+        && spajaKod.epilogijaCovecnosti.packageOutputs.auditShortSummary.length > 0
+        && spajaKod.epilogijaCovecnosti.packageOutputs.governanceChecklistStatus.length > 0
+        && spajaKod.epilogijaCovecnosti.dokerKuratIzekDokarOverlay.DOKER.length > 0
+        && spajaKod.epilogijaCovecnosti.dokerKuratIzekDokarOverlay.KURAT.length > 0
+        && spajaKod.epilogijaCovecnosti.dokerKuratIzekDokarOverlay.IZEK.length > 0
+        && spajaKod.epilogijaCovecnosti.dokerKuratIzekDokarOverlay.DOKAR.length > 0,
     },
     {
       id: 'paradijogonalno-progrimiranje-governance',
@@ -6059,6 +6084,7 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
         status: extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.status,
         reviewRequiredBeforeWideRollout:
           extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.status !== 'READY',
+      },
       roadmapExecution: {
         roadmapStageId: 'v5-extrondol-release-audit-and-orchestration',
         measurableOutput: 'EXTRONDOL consumes the repo-wide technical profile and publishes only audit-safe WAWE/review/rollback governance',

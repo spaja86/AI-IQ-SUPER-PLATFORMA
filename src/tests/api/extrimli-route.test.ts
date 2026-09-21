@@ -447,6 +447,9 @@ async function runTests(): Promise<void> {
     assert(['READY', 'WATCH', 'BLOCKED'].includes(body.data.radniTaktMozgaMislilac.readiness.status), 'unexpected EXTREM radni takt status');
     assert(Number.isFinite(body.data.radniTaktMozgaMislilac.readiness.score), 'radni takt score must be finite');
     assert(body.data.radniTaktMozgaMislilac.epilogijaCovecnosti.title === 'EPILOGIJA ČOVEČANSTVA', 'unexpected EXTREM radni takt epilog title');
+    assert(body.data.radniTaktMozgaMislilac.epilogijaCovecnosti.visualReference.includes('a1346923-892c-47ab-bd58-d9ef9fcbabff'), 'unexpected EXTREM radni takt epilog visual reference');
+    assert(body.data.radniTaktMozgaMislilac.epilogijaCovecnosti.packageOutputs.posterSummary.includes('čuvaj ljude i prirodu'), 'unexpected EXTREM radni takt poster summary');
+    assert(body.data.radniTaktMozgaMislilac.epilogijaCovecnosti.dokerKuratIzekDokarOverlay.IZEK.includes('review checkpoint'), 'unexpected EXTREM radni takt IZEK overlay');
     assert(body.data.paradijogonalnoProgrimiranje.term === 'PARADIJOGONALNO PROGRIMIRANJE (INSTRUMENTALNI VID U SIHOFIZI PROSPARITET OBLAČNOG/CLOUD PREDELA)', 'unexpected EXTREM paradijogonalno term');
     assert(['READY', 'WATCH', 'BLOCKED'].includes(body.data.paradijogonalnoProgrimiranje.readiness.status), 'unexpected EXTREM paradijogonalno status');
     assert(Number.isFinite(body.data.paradijogonalnoProgrimiranje.readiness.score), 'paradijogonalno score must be finite');
@@ -575,7 +578,16 @@ async function runTests(): Promise<void> {
           spajinoProporcionalnoProgramiranjeUniverzitetStatus: string;
           vrhProgramskogEkviladentaStatus: string;
         };
-        epilogijaCovecnosti: { title: string; canonicalNarrativeId: string; citation: string; visualReference: string; interpretation: string };
+        epilogijaCovecnosti: {
+          title: string;
+          canonicalNarrativeId: string;
+          citation: string;
+          visualReference: string;
+          interpretation: string;
+          flowLock: { sequence: string[] };
+          packageOutputs: { masterEpilog: string; posterSummary: string; videoStoryboardSummary: string; auditShortSummary: string; governanceChecklistStatus: string };
+          dokerKuratIzekDokarOverlay: { DOKER: string; KURAT: string; IZEK: string; DOKAR: string };
+        };
         dokerKuratIzekDokarTrack: { boundarySurface: string; publicStatus: string; tokenSummaries: Array<{ token: string; status: string }> };
         blockers: string[];
       };
@@ -602,8 +614,12 @@ async function runTests(): Promise<void> {
     assert(body.data.epilogijaCovecnosti.title === 'EPILOGIJA ČOVEČANSTVA', 'unexpected SPAJA KOD epilog title');
     assert(body.data.epilogijaCovecnosti.canonicalNarrativeId === 'zivot-je-igra-sitni-koraci-covecanstvo', 'unexpected SPAJA KOD canonical epilog narrative id');
     assert(body.data.epilogijaCovecnosti.citation.includes('Život je igra'), 'SPAJA KOD epilog citation should preserve canonical narrative');
-    assert(body.data.epilogijaCovecnosti.visualReference.includes('e7fe3fd0-5dae-4ba9-8e96-939eb6fd5565'), 'SPAJA KOD epilog visual reference should preserve canonical image');
+    assert(body.data.epilogijaCovecnosti.visualReference.includes('a1346923-892c-47ab-bd58-d9ef9fcbabff'), 'SPAJA KOD epilog visual reference should preserve canonical image');
     assert(body.data.epilogijaCovecnosti.interpretation.length > 0, 'SPAJA KOD epilog interpretation should be present');
+    assert(body.data.epilogijaCovecnosti.flowLock.sequence.join(' -> ') === 'image -> spajanje -> posledica -> epilog', 'SPAJA KOD epilog flow lock should stay fixed');
+    assert(body.data.epilogijaCovecnosti.packageOutputs.auditShortSummary.includes('audit-safe'), 'SPAJA KOD audit short summary should stay public-safe');
+    assert(body.data.epilogijaCovecnosti.packageOutputs.governanceChecklistStatus.includes('DOKAR rollback readiness required'), 'SPAJA KOD governance checklist should preserve rollback note');
+    assert(body.data.epilogijaCovecnosti.dokerKuratIzekDokarOverlay.DOKER.includes('spaja86/IO-OPENUI-AO'), 'SPAJA KOD DOKER overlay should preserve downstream reference');
     assert(body.data.dokerKuratIzekDokarTrack.boundarySurface === 'SPAJA KOD', 'unexpected quartet boundary surface');
     assert(['READY', 'WATCH', 'BLOCKED'].includes(body.data.dokerKuratIzekDokarTrack.publicStatus), 'unexpected quartet public status');
     assert(body.data.dokerKuratIzekDokarTrack.tokenSummaries.map((item) => item.token).join(',') === 'DOKER,KURAT,IZEK,DOKAR', 'unexpected quartet public token order');

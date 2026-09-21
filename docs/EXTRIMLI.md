@@ -263,11 +263,12 @@ Promotion freeze je obavezan kada KPI/audit/sync nije potpun, uz rollback na pre
 
 - `ČOVEČANSTVU` is an additive EXTRIMLI / EXTREM / EXTRONDOL media track and must not become a new runtime source-of-truth surface.
 - Scope is limited to narrative packaging for image, poster, carousel, storyboard, voiceover, audit short summary, and public-safe publication guidance.
+- Canonical hero/poster image lock: `https://github.com/user-attachments/assets/a1346923-892c-47ab-bd58-d9ef9fcbabff`
 - Central narrative lock:
   1. čovek želi čudo,
-  2. `Sunce` i `Sunčanica` se spajaju,
+  2. spajanje svetlosti/nade i života (`Sunce` i `Sunčanica` se spajaju),
   3. prirodni odnos prelazi u opasnost,
-  4. epilog ostaje opomena čovečanstvu da čuva prirodu.
+  4. epilog ostaje opomena čovečanstvu da čuva ljude i prirodu.
 - Ownership split:
   - `EXTRIMLI` owns the domain story and the master epilog package.
   - `EXTREM` owns the technical signal framing for scene sequencing, conflict intensity, and DOK/DIK/FOR interpretation.
@@ -290,6 +291,12 @@ Promotion freeze je obavezan kada KPI/audit/sync nije potpun, uz rollback na pre
   - video storyboard + voiceover package,
   - audit short summary,
   - governance checklist.
+- Locked audit-safe package field names remain:
+  - `masterEpilog`
+  - `posterSummary`
+  - `videoStoryboardSummary`
+  - `auditShortSummary`
+  - `governanceChecklistStatus`
 - Publication rule: this track can move through WAWE only as an additive media artifact under existing EXTRONDOL governance rules; no new public API route, workflow source-of-truth, or exposed internal formula is introduced.
 
 ## EXTRIMLI v1 capabilities
@@ -578,6 +585,7 @@ Canonical domains:
 - `kontinuiraniNapredak` — stabilnost rutine i kontinuitet (`routineConsistencyPercent`)
 - `humanistickiCilj` — čovečnost, odgovornost, samopouzdanje i etičko razlikovanje dobra/zla (`ethicalClarityPercent`, `selfConfidenceDisciplinePercent`)
 - `epilogijaCovecnosti` — kanonski narativ **ČOVEČANSTVO** ostaje additive-only i audit-ready: `Život je igra` signal zaključava disciplinu `sitnim koracima` kao glavni adut, upozorava da `veliki korak` proizvodi šupljine/slabosti i da se taj signal propagira bez promene source-of-truth ownership granica.
+- Kanonski poster/hero vizuel koristi korisnički dostavljeni asset `a1346923-892c-47ab-bd58-d9ef9fcbabff` kao determinističku referencu za image/storyboard/public-safe summary paket.
 
 Readiness and governance mapping:
 
@@ -593,6 +601,7 @@ Epilog boundary:
 - Kanonski epilog signal je propagiran kroz EXTREM → EXTRONDOL → SPAJA KOD bez novih ruta i bez promene `DOK/DIK/FOR` (EXTREM) i `DAK/DUK` (EXTRONDOL) ownership modela.
 - Citat ostaje formalizovan kao narativni zaključak i ne otvara novi source-of-truth runtime surface.
 - Audit-safe epilog sada nosi i `visualReference` kako bi svaki citat imao determinističku vizuelizaciju bez menjanja ownership granica.
+- Audit-safe epilog paket sada eksplicitno zaključava i `flowLock` (`image -> spajanje -> posledica -> epilog`), `packageOutputs` (`masterEpilog`, `posterSummary`, `videoStoryboardSummary`, `auditShortSummary`, `governanceChecklistStatus`) i `dokerKuratIzekDokarOverlay` bez izlaganja sirovih EXTREM/EXTRONDOL formula.
 
 ## PRIRODA == ZDRAV ŽIVOT (EXTRIMLI EXTRONDOL EXTREM DOK DUK DAK DIK FOR)
 
