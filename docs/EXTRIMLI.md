@@ -259,40 +259,40 @@ Promotion freeze je obavezan kada KPI/audit/sync nije potpun, uz rollback na pre
   - `SPAJA KOD` may expose only a public-safe quartet summary.
 - Canonical spec: `docs/EXTRIMLI-DOKER-KURAT-IZEK-DOKAR.md`.
 
-  ## ČOVEČANSTVU epilog media track
+## ČOVEČANSTVU epilog media track
 
-  - `ČOVEČANSTVU` is an additive EXTRIMLI / EXTREM / EXTRONDOL media track and must not become a new runtime source-of-truth surface.
-  - Scope is limited to narrative packaging for image, poster, carousel, storyboard, voiceover, audit short summary, and public-safe publication guidance.
-  - Central narrative lock:
-    1. čovek želi čudo,
-    2. `Sunce` i `Sunčanica` se spajaju,
-    3. prirodni odnos prelazi u opasnost,
-    4. epilog ostaje opomena čovečanstvu da čuva prirodu.
-  - Ownership split:
-    - `EXTRIMLI` owns the domain story and the master epilog package.
-    - `EXTREM` owns the technical signal framing for scene sequencing, conflict intensity, and DOK/DIK/FOR interpretation.
-    - `EXTRONDOL` owns governance, WAWE publication posture, human-review requirement, audit short summary, and downstream-sync readiness.
-    - `SPAJA KOD` may expose only final public-safe status plus an audit-safe epilog summary, never raw EXTREM/EXTRONDOL internals.
-  - DOK / DIK / DAK / DUK / FOR lock for this track:
-    - `DOK` — primary technical narrative signal and key-scene definition.
-    - `DIK` — escalation, conflict, and consequence intensity.
-    - `FOR` — fixed sequence `image -> spajanje -> posledica -> epilog`.
-    - `DAK` — promotion decision for wider publication.
-    - `DUK` — mandatory human-review gate before publish.
-  - DOKER / KURAT / IZEK / DOKAR overlay for this track:
-    - `DOKER` — downstream reference and sync toward `spaja86/IO-OPENUI-AO`.
-    - `KURAT` — public-safe boundary risk for text, image, and video messaging.
-    - `IZEK` — audit + review checkpoint across poster, storyboard, and voiceover assets.
-    - `DOKAR` — rollback preservation if the final epilog package fails review or governance checks.
-  - Required outputs:
-    - master epilog text,
-    - poster / carousel / hero-frame package,
-    - video storyboard + voiceover package,
-    - audit short summary,
-    - governance checklist.
-  - Publication rule: this track can move through WAWE only as an additive media artifact under existing EXTRONDOL governance rules; no new public API route, workflow source-of-truth, or exposed internal formula is introduced.
+- `ČOVEČANSTVU` is an additive EXTRIMLI / EXTREM / EXTRONDOL media track and must not become a new runtime source-of-truth surface.
+- Scope is limited to narrative packaging for image, poster, carousel, storyboard, voiceover, audit short summary, and public-safe publication guidance.
+- Central narrative lock:
+  1. čovek želi čudo,
+  2. `Sunce` i `Sunčanica` se spajaju,
+  3. prirodni odnos prelazi u opasnost,
+  4. epilog ostaje opomena čovečanstvu da čuva prirodu.
+- Ownership split:
+  - `EXTRIMLI` owns the domain story and the master epilog package.
+  - `EXTREM` owns the technical signal framing for scene sequencing, conflict intensity, and DOK/DIK/FOR interpretation.
+  - `EXTRONDOL` owns governance, WAWE publication posture, human-review requirement, audit short summary, and downstream-sync readiness.
+  - `SPAJA KOD` may expose only final public-safe status plus an audit-safe epilog summary, never raw EXTREM/EXTRONDOL internals.
+- DOK / DIK / DAK / DUK / FOR lock for this track:
+  - `DOK` — primary technical narrative signal and key-scene definition.
+  - `DIK` — escalation, conflict, and consequence intensity.
+  - `FOR` — fixed sequence `image -> spajanje -> posledica -> epilog`.
+  - `DAK` — promotion decision for wider publication.
+  - `DUK` — mandatory human-review gate before publish.
+- DOKER / KURAT / IZEK / DOKAR overlay for this track:
+  - `DOKER` — downstream reference and sync toward `spaja86/IO-OPENUI-AO`.
+  - `KURAT` — public-safe boundary risk for text, image, and video messaging.
+  - `IZEK` — audit + review checkpoint across poster, storyboard, and voiceover assets.
+  - `DOKAR` — rollback preservation if the final epilog package fails review or governance checks.
+- Required outputs:
+  - master epilog text,
+  - poster / carousel / hero-frame package,
+  - video storyboard + voiceover package,
+  - audit short summary,
+  - governance checklist.
+- Publication rule: this track can move through WAWE only as an additive media artifact under existing EXTRONDOL governance rules; no new public API route, workflow source-of-truth, or exposed internal formula is introduced.
 
-  ## EXTRIMLI v1 capabilities
+## EXTRIMLI v1 capabilities
 
 - Sport registry
 - Composite risk engine
