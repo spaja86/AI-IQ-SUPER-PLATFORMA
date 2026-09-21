@@ -3496,12 +3496,12 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
   const degraded = degradedSources.length > 0;
   const currentWawe = pickWawe(orchestrationReadinessScore, degraded);
   const contractApproved = !degraded && domainStrategy.valid;
-  const onboardingComplete = governanceEvidence.onboardingComplete;
-  const complianceReviewComplete = governanceEvidence.complianceReviewComplete;
-  const downstreamSyncComplete = governanceEvidence.downstreamSyncComplete;
+  const onboardingComplete = Boolean(governanceEvidence.onboardingComplete);
+  const complianceReviewComplete = Boolean(governanceEvidence.complianceReviewComplete);
+  const downstreamSyncComplete = Boolean(governanceEvidence.downstreamSyncComplete);
   const operationalApproval = currentWawe !== 'WAWE-1' && currentWawe !== 'WAWE-2';
-  const rollbackPlanComplete = governanceEvidence.rollbackPlanComplete;
-  const humanReviewComplete = governanceEvidence.humanReviewComplete;
+  const rollbackPlanComplete = Boolean(governanceEvidence.rollbackPlanComplete);
+  const humanReviewComplete = Boolean(governanceEvidence.humanReviewComplete);
   const rolloutRing = currentWawe === 'WAWE-1'
     ? 'RING-0-CONTRACT'
     : currentWawe === 'WAWE-2'
@@ -3684,7 +3684,7 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
       : []),
     ...(mobilnaLinija.activationStatus === 'BLOCKED' ? ['mobilna-linija-activation-ready'] : []),
   ];
-  const auditTrailComplete = governanceEvidence.auditTrailComplete;
+  const auditTrailComplete = Boolean(governanceEvidence.auditTrailComplete);
   const aiPlateEnterprisePackageBlockers = [
     ...(!contractApproved ? ['contract-approved'] : []),
     ...(!onboardingComplete ? ['onboarding-complete'] : []),
