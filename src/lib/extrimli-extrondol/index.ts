@@ -2851,6 +2851,7 @@ function buildSpajaKodFacade(params: {
 function resolveGovernanceEvidence(evidence?: ExtrimliExtrondolGovernanceEvidence) {
   return {
     auditTrailComplete: evidence?.auditTrailComplete ?? process.env.EXTRONDOL_AUDIT_TRAIL_COMPLETE !== 'false',
+    complianceReviewComplete: evidence?.complianceReviewComplete ?? process.env.EXTRONDOL_COMPLIANCE_REVIEW_COMPLETE === 'true',
     downstreamSyncComplete: evidence?.downstreamSyncComplete ?? process.env.EXTRONDOL_DOWNSTREAM_SYNC_COMPLETE === 'true',
     humanReviewComplete: evidence?.humanReviewComplete ?? process.env.EXTRONDOL_HUMAN_REVIEW_COMPLETE === 'true',
     onboardingComplete: evidence?.onboardingComplete ?? process.env.EXTRONDOL_ONBOARDING_COMPLETE === 'true',
@@ -3495,7 +3496,7 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
   const currentWawe = pickWawe(orchestrationReadinessScore, degraded);
   const contractApproved = !degraded && domainStrategy.valid;
   const onboardingComplete = governanceEvidence.onboardingComplete;
-  const complianceReviewComplete = currentWawe !== 'WAWE-1';
+  const complianceReviewComplete = governanceEvidence.complianceReviewComplete;
   const downstreamSyncComplete = governanceEvidence.downstreamSyncComplete;
   const operationalApproval = currentWawe !== 'WAWE-1' && currentWawe !== 'WAWE-2';
   const humanReviewComplete = governanceEvidence.humanReviewComplete;
