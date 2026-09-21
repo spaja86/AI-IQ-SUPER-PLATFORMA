@@ -1676,6 +1676,20 @@ function buildRadniTaktMozgaMislilacGovernance(params: {
   };
 }
 
+function mapCovecanstvoEpilog(
+  epilog: ExtrimliExtrondolReport['extremProfiler']['radniTaktMozgaMislilac']['epilogijaCovecnosti'],
+) {
+  return {
+    title: 'EPILOGIJA ČOVEČANSTVA' as const,
+    canonicalNarrativeId: epilog.canonicalNarrativeId,
+    citation: epilog.citation,
+    visualReference: epilog.visualReference,
+    interpretation: epilog.interpretation,
+    flowLock: epilog.flowLock,
+    packageOutputs: epilog.packageOutputs,
+    dokerKuratIzekDokarOverlay: epilog.dokerKuratIzekDokarOverlay,
+  };
+}
 
 function buildParadijogonalnoProgrimiranjeGovernance(params: {
   extremProfiler: ExtrimliExtrondolReport['extremProfiler'];
@@ -2770,14 +2784,7 @@ function buildSpajaKodFacade(params: {
       degraded: params.degraded,
     },
     epilogijaCovecnosti: {
-      title: 'EPILOGIJA ČOVEČANSTVA',
-      canonicalNarrativeId: params.extremProfiler.radniTaktMozgaMislilac.epilogijaCovecnosti.canonicalNarrativeId,
-      citation: params.extremProfiler.radniTaktMozgaMislilac.epilogijaCovecnosti.citation,
-      visualReference: params.extremProfiler.radniTaktMozgaMislilac.epilogijaCovecnosti.visualReference,
-      interpretation: params.extremProfiler.radniTaktMozgaMislilac.epilogijaCovecnosti.interpretation,
-      flowLock: params.extremProfiler.radniTaktMozgaMislilac.epilogijaCovecnosti.flowLock,
-      packageOutputs: params.extremProfiler.radniTaktMozgaMislilac.epilogijaCovecnosti.packageOutputs,
-      dokerKuratIzekDokarOverlay: params.extremProfiler.radniTaktMozgaMislilac.epilogijaCovecnosti.dokerKuratIzekDokarOverlay,
+      ...mapCovecanstvoEpilog(params.extremProfiler.radniTaktMozgaMislilac.epilogijaCovecnosti),
     },
     platformTrack,
     dokerKuratIzekDokarTrack,
@@ -3861,14 +3868,7 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
       blockerReasons: [...extremProfiler.radniTaktMozgaMislilac.readiness.blockerReasons],
       watchReasons: [...extremProfiler.radniTaktMozgaMislilac.readiness.watchReasons],
       epilogijaCovecnosti: {
-        title: 'EPILOGIJA ČOVEČANSTVA',
-        canonicalNarrativeId: extremProfiler.radniTaktMozgaMislilac.epilogijaCovecnosti.canonicalNarrativeId,
-        citation: extremProfiler.radniTaktMozgaMislilac.epilogijaCovecnosti.citation,
-        visualReference: extremProfiler.radniTaktMozgaMislilac.epilogijaCovecnosti.visualReference,
-        interpretation: extremProfiler.radniTaktMozgaMislilac.epilogijaCovecnosti.interpretation,
-        flowLock: extremProfiler.radniTaktMozgaMislilac.epilogijaCovecnosti.flowLock,
-        packageOutputs: extremProfiler.radniTaktMozgaMislilac.epilogijaCovecnosti.packageOutputs,
-        dokerKuratIzekDokarOverlay: extremProfiler.radniTaktMozgaMislilac.epilogijaCovecnosti.dokerKuratIzekDokarOverlay,
+        ...mapCovecanstvoEpilog(extremProfiler.radniTaktMozgaMislilac.epilogijaCovecnosti),
       },
     },
     developerAndCreateRepoWideReflectionGovernance: {
@@ -5347,14 +5347,7 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
         blockerReasons: [...extremProfiler.radniTaktMozgaMislilac.readiness.blockerReasons],
         watchReasons: [...extremProfiler.radniTaktMozgaMislilac.readiness.watchReasons],
         epilogijaCovecnosti: {
-          title: 'EPILOGIJA ČOVEČANSTVA',
-          canonicalNarrativeId: extremProfiler.radniTaktMozgaMislilac.epilogijaCovecnosti.canonicalNarrativeId,
-          citation: extremProfiler.radniTaktMozgaMislilac.epilogijaCovecnosti.citation,
-          visualReference: extremProfiler.radniTaktMozgaMislilac.epilogijaCovecnosti.visualReference,
-          interpretation: extremProfiler.radniTaktMozgaMislilac.epilogijaCovecnosti.interpretation,
-          flowLock: extremProfiler.radniTaktMozgaMislilac.epilogijaCovecnosti.flowLock,
-          packageOutputs: extremProfiler.radniTaktMozgaMislilac.epilogijaCovecnosti.packageOutputs,
-          dokerKuratIzekDokarOverlay: extremProfiler.radniTaktMozgaMislilac.epilogijaCovecnosti.dokerKuratIzekDokarOverlay,
+          ...mapCovecanstvoEpilog(extremProfiler.radniTaktMozgaMislilac.epilogijaCovecnosti),
         },
       },
       developerAndCreateRepoWideReflectionGovernance: {
