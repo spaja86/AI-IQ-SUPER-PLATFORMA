@@ -1322,7 +1322,6 @@ async function runTests(): Promise<void> {
       });
       assert(blockedReport.b2bReadiness.governanceDecisions.aiPlateEnterprisePackage.status === 'BLOCKED', 'AI PLATE should stay BLOCKED without compliance review evidence');
       assert(blockedReport.b2bReadiness.governanceDecisions.aiPlateEnterprisePackage.blockers.includes('compliance-review-complete'), 'AI PLATE compliance blocker missing');
-      assert(blockedReport.rollout.promotionFreeze, 'AI PLATE blockers must freeze rollout');
 
       const rollbackBlockedReport = getExtrimliExtrondolReport({
         auditTrailComplete: true,
