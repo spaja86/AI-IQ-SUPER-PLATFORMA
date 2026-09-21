@@ -3735,16 +3735,7 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
     || mobilnaLinija.activationStatus === 'BLOCKED';
   const aiPlateEnterprisePackageStatus = aiPlateEnterprisePackageBlockers.length === 0
     ? 'READY' as const
-    : !contractApproved
-        || !onboardingComplete
-        || !downstreamSyncComplete
-        || !operationalApproval
-        || !humanReviewComplete
-        || !auditTrailComplete
-        || paymentVerification.status !== 'VERIFIED'
-        || promotionFreeze
-      ? 'BLOCKED' as const
-      : 'WATCH' as const;
+    : 'BLOCKED' as const;
   const objektnaProngilacijaPostureReasons = buildObjektnaProngilacijaPostureReasons(
     extremProfiler.objektnoOrijentisanaProngilacija,
   );
