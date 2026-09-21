@@ -62,11 +62,14 @@ Fraza **"RIKEL KAGER DEKOR NUTER DIKSAZ KIPOR"** koristi se kao zaključani rasp
 ## 3.1) ČOVEČANSTVU epilog package lock
 
 - Ovaj video plan koristi korisnički dostavljenu sliku kao referentni narativni artefakt za additive `ČOVEČANSTVU` epilog package.
+- Kanonska hero/poster referenca je zaključana na `https://github.com/user-attachments/assets/a1346923-892c-47ab-bd58-d9ef9fcbabff`.
 - Paket ostaje media/output sloj nad postojećim EXTRIMLI / EXTREM / EXTRONDOL ugovorima i ne uvodi novi runtime source-of-truth.
 - Zaključani epilog blokovi:
   - **Master epilog** — duža narativna verzija za full cut.
   - **Poster epilog** — kratki public-safe tekst za hero frame / carousel / thumbnail.
+  - **Video storyboard summary** — audit-safe sekvenca `image -> spajanje -> posledica -> epilog`.
   - **Audit short** — sažetak za PR/release/workflow summary bez sirovih internih formula.
+  - **Governance checklist status** — javno bezbedan pregled `DOKER / KURAT / IZEK / DOKAR` gate-ova.
 - DOK / DIK / DAK / DUK / FOR interpretacija mora biti eksplicitna:
   - `DOK`: ključne scene i tehnički narativni signal.
   - `DIK`: konflikt i intenzitet posledice.
@@ -78,6 +81,7 @@ Fraza **"RIKEL KAGER DEKOR NUTER DIKSAZ KIPOR"** koristi se kao zaključani rasp
   - `KURAT`: public-safe boundary check za vizuel i voiceover.
   - `IZEK`: audit + review checkpoint za tekst, sliku i video.
   - `DOKAR`: rollback plan ako final cut ili poster ne prođe gate.
+- Centralni narativ mora ostati isti u svim paketima: čovek želi čudo, spajanje svetlosti/nade i života, prirodni odnos prelazi u opasnost, čovečanstvo mora da čuva ljude i prirodu.
 
 ## 4) Obavezne poruke (contract lock)
 

@@ -1668,6 +1668,9 @@ function buildRadniTaktMozgaMislilacGovernance(params: {
       citationPresent: signal.epilogijaCovecnosti.citation.trim().length > 0,
       visualReferencePresent: signal.epilogijaCovecnosti.visualReference.trim().length > 0,
       interpretationLayer: 'educational-development-learning-discipline-ethics-signal',
+      flowLockPreserved: true,
+      packageOutputs: ['masterEpilog', 'posterSummary', 'videoStoryboardSummary', 'auditShortSummary', 'governanceChecklistStatus'],
+      quartetOverlay: ['DOKER', 'KURAT', 'IZEK', 'DOKAR'],
     },
     reasons,
   };
@@ -2772,6 +2775,9 @@ function buildSpajaKodFacade(params: {
       citation: params.extremProfiler.radniTaktMozgaMislilac.epilogijaCovecnosti.citation,
       visualReference: params.extremProfiler.radniTaktMozgaMislilac.epilogijaCovecnosti.visualReference,
       interpretation: params.extremProfiler.radniTaktMozgaMislilac.epilogijaCovecnosti.interpretation,
+      flowLock: params.extremProfiler.radniTaktMozgaMislilac.epilogijaCovecnosti.flowLock,
+      packageOutputs: params.extremProfiler.radniTaktMozgaMislilac.epilogijaCovecnosti.packageOutputs,
+      dokerKuratIzekDokarOverlay: params.extremProfiler.radniTaktMozgaMislilac.epilogijaCovecnosti.dokerKuratIzekDokarOverlay,
     },
     platformTrack,
     dokerKuratIzekDokarTrack,
@@ -3860,6 +3866,9 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
         citation: extremProfiler.radniTaktMozgaMislilac.epilogijaCovecnosti.citation,
         visualReference: extremProfiler.radniTaktMozgaMislilac.epilogijaCovecnosti.visualReference,
         interpretation: extremProfiler.radniTaktMozgaMislilac.epilogijaCovecnosti.interpretation,
+        flowLock: extremProfiler.radniTaktMozgaMislilac.epilogijaCovecnosti.flowLock,
+        packageOutputs: extremProfiler.radniTaktMozgaMislilac.epilogijaCovecnosti.packageOutputs,
+        dokerKuratIzekDokarOverlay: extremProfiler.radniTaktMozgaMislilac.epilogijaCovecnosti.dokerKuratIzekDokarOverlay,
       },
     },
     developerAndCreateRepoWideReflectionGovernance: {
@@ -5340,7 +5349,11 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
           title: 'EPILOGIJA ČOVEČANSTVA',
           canonicalNarrativeId: extremProfiler.radniTaktMozgaMislilac.epilogijaCovecnosti.canonicalNarrativeId,
           citation: extremProfiler.radniTaktMozgaMislilac.epilogijaCovecnosti.citation,
+          visualReference: extremProfiler.radniTaktMozgaMislilac.epilogijaCovecnosti.visualReference,
           interpretation: extremProfiler.radniTaktMozgaMislilac.epilogijaCovecnosti.interpretation,
+          flowLock: extremProfiler.radniTaktMozgaMislilac.epilogijaCovecnosti.flowLock,
+          packageOutputs: extremProfiler.radniTaktMozgaMislilac.epilogijaCovecnosti.packageOutputs,
+          dokerKuratIzekDokarOverlay: extremProfiler.radniTaktMozgaMislilac.epilogijaCovecnosti.dokerKuratIzekDokarOverlay,
         },
       },
       developerAndCreateRepoWideReflectionGovernance: {
@@ -5766,7 +5779,9 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
         && releaseAuditSummary.radniTaktMozgaMislilacGovernance.status === extremProfiler.radniTaktMozgaMislilac.readiness.status
         && b2bReadiness.downstreamSync.syncedFields.includes('extremProfiler.radniTaktMozgaMislilac.readiness.status')
         && spajaKod.publicSignals.radniTaktMozgaMislilacStatus === extremProfiler.radniTaktMozgaMislilac.readiness.status
-        && releaseAuditSummary.radniTaktMozgaMislilacGovernance.epilogijaCovecnosti.title === 'EPILOGIJA ČOVEČANSTVA',
+        && releaseAuditSummary.radniTaktMozgaMislilacGovernance.epilogijaCovecnosti.title === 'EPILOGIJA ČOVEČANSTVA'
+        && releaseAuditSummary.radniTaktMozgaMislilacGovernance.epilogijaCovecnosti.packageOutputs.masterEpilog.length > 0
+        && spajaKod.epilogijaCovecnosti.packageOutputs.posterSummary.length > 0,
     },
     {
       id: 'paradijogonalno-progrimiranje-governance',

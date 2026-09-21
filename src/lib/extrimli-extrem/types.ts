@@ -675,6 +675,27 @@ export interface ExtrimliExtremRadniTaktMozgaMislilacSignal {
     citation: string;
     visualReference: string;
     interpretation: string;
+    flowLock: {
+      sequence: readonly ['image', 'spajanje', 'posledica', 'epilog'];
+      dok: string;
+      dik: string;
+      forPetlja: string;
+      dak: string;
+      duk: string;
+    };
+    packageOutputs: {
+      masterEpilog: string;
+      posterSummary: string;
+      videoStoryboardSummary: string;
+      auditShortSummary: string;
+      governanceChecklistStatus: string;
+    };
+    dokerKuratIzekDokarOverlay: {
+      DOKER: string;
+      KURAT: string;
+      IZEK: string;
+      DOKAR: string;
+    };
   };
   readiness: {
     score: number;

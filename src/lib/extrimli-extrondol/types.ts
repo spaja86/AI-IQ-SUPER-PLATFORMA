@@ -612,6 +612,9 @@ export interface ExtrimliExtrondolRadniTaktMozgaMislilacGovernance {
     citationPresent: true;
     visualReferencePresent: true;
     interpretationLayer: 'educational-development-learning-discipline-ethics-signal';
+    flowLockPreserved: true;
+    packageOutputs: readonly ['masterEpilog', 'posterSummary', 'videoStoryboardSummary', 'auditShortSummary', 'governanceChecklistStatus'];
+    quartetOverlay: readonly ['DOKER', 'KURAT', 'IZEK', 'DOKAR'];
   };
   reasons: string[];
 }
@@ -1466,6 +1469,9 @@ export interface ExtrimliExtrondolReleaseAuditSummary {
       citation: string;
       visualReference: string;
       interpretation: string;
+      flowLock: ExtrimliExtremProfilerReport['radniTaktMozgaMislilac']['epilogijaCovecnosti']['flowLock'];
+      packageOutputs: ExtrimliExtremProfilerReport['radniTaktMozgaMislilac']['epilogijaCovecnosti']['packageOutputs'];
+      dokerKuratIzekDokarOverlay: ExtrimliExtremProfilerReport['radniTaktMozgaMislilac']['epilogijaCovecnosti']['dokerKuratIzekDokarOverlay'];
     };
   };
   developerAndCreateRepoWideReflectionGovernance: {
@@ -2145,6 +2151,9 @@ export interface ExtrimliSpajaKodPublicFacade {
     citation: string;
     visualReference: string;
     interpretation: string;
+    flowLock: ExtrimliExtremProfilerReport['radniTaktMozgaMislilac']['epilogijaCovecnosti']['flowLock'];
+    packageOutputs: ExtrimliExtremProfilerReport['radniTaktMozgaMislilac']['epilogijaCovecnosti']['packageOutputs'];
+    dokerKuratIzekDokarOverlay: ExtrimliExtremProfilerReport['radniTaktMozgaMislilac']['epilogijaCovecnosti']['dokerKuratIzekDokarOverlay'];
   };
   platformTrack: ExtrimliSpajaproPublicBoundaryStatus;
   dokerKuratIzekDokarTrack: ExtrimliDokerKuratIzekDokarPublicBoundaryStatus;
