@@ -3161,6 +3161,8 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
       'incidentPlaybook',
       'contractDriftReport',
       'governanceConformance',
+      'releaseAuditSummary.aiPlateEnterprisePackageGovernance',
+      'spajaKod.publicSignals.aiPlateEnterprisePackageStatus',
     ],
     downstreamSync: {
       linkedRepo: 'spaja86/IO-OPENUI-AO',
@@ -3210,6 +3212,8 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
         'extremProfiler.objektnoOrijentisanaReprodukcija.readiness',
         'extremProfiler.objektnoOrijentusanoUzdizanjeEpskihElikvadenata.readiness',
         'b2bReadiness.globalLicensing',
+        'releaseAuditSummary.aiPlateEnterprisePackageGovernance',
+        'spajaKod.publicSignals.aiPlateEnterprisePackageStatus',
         'kraljevskiPravniUniverzitetGovernance',
         'funkcinalnoProgramiranjeEnergetskogMisaonogToka',
         'funkcionalnoProgramiranjeUzvisenogMisanogToka',
@@ -3731,7 +3735,14 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
     || mobilnaLinija.activationStatus === 'BLOCKED';
   const aiPlateEnterprisePackageStatus = aiPlateEnterprisePackageBlockers.length === 0
     ? 'READY' as const
-    : !contractApproved || paymentVerification.status !== 'VERIFIED' || !humanReviewComplete || promotionFreeze
+    : !contractApproved
+        || !onboardingComplete
+        || !downstreamSyncComplete
+        || !operationalApproval
+        || !humanReviewComplete
+        || !auditTrailComplete
+        || paymentVerification.status !== 'VERIFIED'
+        || promotionFreeze
       ? 'BLOCKED' as const
       : 'WATCH' as const;
   const objektnaProngilacijaPostureReasons = buildObjektnaProngilacijaPostureReasons(
@@ -5403,8 +5414,10 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
         'spajaKod.publicSignals.vrhProgramskogEkviladentaStatus',
         'spajaKod.publicSignals.radniTaktMozgaMislilacStatus',
         'spajaKod.publicSignals.zelezaraPretplataIdentityStatus',
+        'spajaKod.publicSignals.aiPlateEnterprisePackageStatus',
         'spajaKod.platformTrack.finalPublicStatusToken',
         'spajaKod.platformTrack.publicStatus',
+        'releaseAuditSummary.aiPlateEnterprisePackageGovernance',
         'releaseReadinessScorecard',
         'canaryRingMetrics',
         'incidentPlaybook',
