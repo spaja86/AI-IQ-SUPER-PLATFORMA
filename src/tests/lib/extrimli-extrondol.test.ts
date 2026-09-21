@@ -1296,6 +1296,48 @@ async function runTests(): Promise<void> {
     assert(report.acceptanceCriteria.some((item) => item.id === 'mobilna-linija-package-governance' && item.passed), 'mobilna acceptance criterion must pass');
   });
 
+  await test('AI PLATE governance status follows evidence and payment gates', async () => {
+    await withEnv({
+      SPAJA_VERCEL_BILLING_OWNER: EXPECTED_VERCEL_BILLING_OWNER,
+      SPAJA_VERCEL_BILLING_OWNER_LOCKED: 'true',
+      SPAJA_VERCEL_CURRENT_INVOICE_NUMBER: EXPECTED_VERCEL_INVOICE_NUMBER,
+      SPAJA_VERCEL_CURRENT_INVOICE_AMOUNT: EXPECTED_VERCEL_INVOICE_AMOUNT,
+      SPAJA_VERCEL_INVOICE_REQUESTED: 'true',
+      SPAJA_VERCEL_CURRENT_INVOICE_PAID: 'true',
+      SPAJA_VERCEL_CURRENT_INVOICE_EVIDENCE_CAPTURED: 'true',
+      SPAJA_VERCEL_BANK_STATEMENT_CAPTURED: 'true',
+      SPAJA_VERCEL_PAYMENT_REFERENCE_CAPTURED: 'true',
+      SPAJA_VERCEL_PAYMENT_REFERENCE_CLASSIFICATION: 'internal-only',
+      SPAJA_VERCEL_PAYMENT_REFERENCE_PUBLIC_SAFE_APPROVED: 'false',
+      SPAJA_VERCEL_PUBLIC_ANNOUNCEMENT_REDACTED: 'true',
+      SPAJA_VERCEL_PUBLIC_ANNOUNCEMENT_PUBLISHED: 'false',
+    }, () => {
+      const blockedReport = getExtrimliExtrondolReport({
+        auditTrailComplete: true,
+        complianceReviewComplete: false,
+        downstreamSyncComplete: true,
+        humanReviewComplete: true,
+        onboardingComplete: true,
+        rollbackPlanComplete: true,
+      });
+      assert(blockedReport.b2bReadiness.governanceDecisions.aiPlateEnterprisePackage.status === 'BLOCKED', 'AI PLATE should stay BLOCKED without compliance review evidence');
+      assert(blockedReport.b2bReadiness.governanceDecisions.aiPlateEnterprisePackage.blockers.includes('compliance-review-complete'), 'AI PLATE compliance blocker missing');
+      assert(blockedReport.rollout.promotionFreeze, 'AI PLATE blockers must freeze rollout');
+
+      const rollbackBlockedReport = getExtrimliExtrondolReport({
+        auditTrailComplete: true,
+        complianceReviewComplete: true,
+        downstreamSyncComplete: true,
+        humanReviewComplete: true,
+        onboardingComplete: true,
+        rollbackPlanComplete: false,
+      });
+      assert(rollbackBlockedReport.paymentVerification.status === 'VERIFIED', 'AI PLATE rollback test requires verified payment');
+      assert(rollbackBlockedReport.b2bReadiness.governanceDecisions.aiPlateEnterprisePackage.status === 'BLOCKED', 'AI PLATE should stay BLOCKED without rollback evidence');
+      assert(rollbackBlockedReport.b2bReadiness.governanceDecisions.aiPlateEnterprisePackage.blockers.includes('rollback-plan-complete'), 'AI PLATE rollback blocker missing');
+    });
+  });
+
   await test('report exposes START PROJEKAT rollout governance metadata', () => {
     const report = getExtrimliExtrondolReport();
     assert(report.startProject.initiativeId === 'OKRID-2026-EXTRIMLI-START-001', 'START project OKRID mismatch');

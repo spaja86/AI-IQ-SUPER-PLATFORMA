@@ -3696,7 +3696,7 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
     ...(!rollbackPlanComplete ? ['rollback-plan-complete'] : []),
     ...(paymentVerification.status !== 'VERIFIED' ? ['payment-verification'] : []),
   ];
-  const promotionFreeze = degraded
+  const promotionFreezeBase = degraded
     || complianceBlockers.length > 0
     || currentWawe === 'WAWE-1'
     || extremProfiler.governanceSignal.freezeRequired
@@ -3739,6 +3739,7 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
     || extremProfiler.objektnoOrijentusanoUzdizanjeEpskihElikvadenata.readiness.status === 'BLOCKED'
     || extremProfiler.semaMuSemaFormula.status === 'BLOCKED'
     || mobilnaLinija.activationStatus === 'BLOCKED';
+  const promotionFreeze = promotionFreezeBase || aiPlateEnterprisePackageBlockers.length > 0;
   const aiPlateEnterprisePackageStatus = aiPlateEnterprisePackageBlockers.length === 0
     ? 'READY' as const
     : 'BLOCKED' as const;
