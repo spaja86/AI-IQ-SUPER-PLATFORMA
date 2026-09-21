@@ -635,6 +635,9 @@ export interface ExtrimliExtrondolDeveloperAndCreateRepoWideReflectionGovernance
   mappedTracks: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['mappedTracks'];
   technicalReadinessProfile: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['technicalReadinessProfile'];
   repoWideReflection: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['repoWideReflection'];
+  dailyOperationalCadence: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['dailyOperationalCadence'] & {
+    status: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['readiness']['status'];
+    reviewRequiredBeforeWideRollout: boolean;
   roadmapExecution: {
     roadmapStageId: 'v5-extrondol-release-audit-and-orchestration';
     measurableOutput: 'EXTRONDOL consumes the repo-wide technical profile and publishes only audit-safe WAWE/review/rollback governance';
@@ -1474,6 +1477,14 @@ export interface ExtrimliExtrondolReleaseAuditSummary {
     blockerReasons: string[];
     watchReasons: string[];
     mappedTracks: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['mappedTracks'];
+    dailyOperationalCadence: {
+      activeRoadmapStagePolicy: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['dailyOperationalCadence']['activeRoadmapStagePolicy'];
+      cadenceBlocks: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['dailyOperationalCadence']['cadenceBlocks'];
+      taskPriorities: readonly [1, 2, 3];
+      endOfDayStatuses: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['dailyOperationalCadence']['endOfDayStatuses'];
+      dailyTasks: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['dailyOperationalCadence']['dailyTasks'];
+      reviewRequiredBeforeWideRollout: boolean;
+    };
     technicalReadinessProfile: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['technicalReadinessProfile'];
     roadmapExecution: ExtrimliExtrondolDeveloperAndCreateRepoWideReflectionGovernance['roadmapExecution'];
   };

@@ -18,6 +18,8 @@
 
 `VRH PROGRAMSKOG EKVILADENTA` nije novi modul, već vršni plan koji orkestrira postojeće proporcionalne, metričke, sinemetričke, paradijogonalne i AI-IQ jezičke slojeve u jednu governance priču.
 
+Repo-wide reflection sada obavezno uključuje i dnevni operativni cadence: `morning-startup`, `deep-focus-block`, `midday-checkpoint` i `end-of-day-closeout`, uz dnevni task set prioriteta `1–3` vezan za jednu aktivnu roadmap fazu.
+
 ## Kanonsko terminološko mapiranje
 
 - `DOK + DIK + FOR` ostaju tehnički EXTREM sloj.
@@ -90,7 +92,8 @@ Implementacioni redosled ostaje zaključan:
 2. parent-child odnos sa `PROPORCIONALNO PROGRAMIRANJE`
 3. mapiranje satnica/vokal/instrument tabla na postojeće track-ove
 4. governance pravila i public boundary
-5. downstream reference samo ako linked-repo dokumentacija zaista usvoji ovaj interpretativni sloj
+5. dnevni task cadence i repo-wide radni takt disciplina
+6. downstream reference samo ako linked-repo dokumentacija zaista usvoji ovaj interpretativni sloj
 
 ## Runtime and implementation boundary
 
@@ -109,6 +112,7 @@ Implementacioni redosled ostaje zaključan:
 - obavezan fallback za `NaN`, `Infinity`, prazne ili konfliktne ulaze
 - javni izlaz ostaje audit-safe i ne izlaže interne formule
 - ownership split `DOK + DIK + FOR` naspram `DAK + DUK` mora ostati nepromenjen
+- dnevni task cadence mora ostati governance artefakt, ne novi runtime domen
 
 ## Downstream boundary
 

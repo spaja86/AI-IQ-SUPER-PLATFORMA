@@ -50,3 +50,4 @@ EXTRONDOL koristi paradijogonalno signal za:
 - Nema novog cross-repo runtime coupling-a bez eksplicitnog downstream follow-up-a.
 - PARADIJOGONALNO status ulazi u `dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.technicalReadinessProfile` samo kao postojeći instrumentalni readiness doprinos; repo-wide javni odraz ostaje audit-safe summary preko EXTRONDOL/SPAJA KOD boundary-ja.
 - Dozvoljeni statusi ostaju `READY | WATCH | BLOCKED`, uz obavezan deterministic fallback za `NaN`, `Infinity`, prazne i konfliktne ulaze.
+- PARADIJOGONALNO ostaje kanonska checkpoint tabla za dnevni cadence (`midday-checkpoint` i `end-of-day-closeout`) uz isti audit-safe proof u `dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection`.

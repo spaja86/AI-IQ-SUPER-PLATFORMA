@@ -1,3 +1,8 @@
+import {
+  EXTRIMLI_DEVELOPER_CREATE_DAILY_CADENCE_BLOCKS,
+  EXTRIMLI_DEVELOPER_CREATE_DAILY_CLOSEOUT_STATUSES,
+  EXTRIMLI_DEVELOPER_CREATE_DAILY_TASK_PRIORITIES,
+} from '../extrimli-version-roadmap';
 import type { ExtrimliVersionRoadmap, ExtrimliVersionRoadmapVersionId } from '../extrimli-version-roadmap';
 import type { ExtrimliDokerKuratIzekDokarExtremTrack } from '../extrimli-doker-kurat-izek-dokar-track';
 import type { ExtrimliSpajaproExtremTrack } from '../extrimli-spajapro-track';
@@ -2275,6 +2280,15 @@ export interface ExtrimliExtremKraljevskiPravniTrack {
   };
 }
 
+export interface ExtrimliDeveloperCreateRepoWideReflectionDailyTask {
+  priority: 1 | 2 | 3;
+  roadmapStageId: ExtrimliVersionRoadmapVersionId;
+  measurableOutput: string;
+  acceptanceEvidence: string;
+  endOfDayStatus: (typeof EXTRIMLI_DEVELOPER_CREATE_DAILY_CLOSEOUT_STATUSES)[number];
+  derivedFrom: 'existing-modules-validators-and-workflows';
+}
+
 export interface ExtrimliDokDikDakDukConsistencyHealth {
   sourceOfTruth: string;
   scopeLock: readonly ['DOK', 'DIK', 'DAK', 'DUK', 'FOR'];
@@ -2462,6 +2476,17 @@ export interface ExtrimliDokDikDakDukConsistencyHealth {
       routes: boolean;
       tests: boolean;
       workflows: boolean;
+    };
+    dailyOperationalCadence: {
+      technicalSignalOwner: 'EXTREM';
+      governanceArtifact: true;
+      derivedFromExistingModulesValidatorsAndWorkflows: true;
+      noNewRuntimeDomain: true;
+      activeRoadmapStagePolicy: 'single-active-roadmap-stage-per-day';
+      cadenceBlocks: typeof EXTRIMLI_DEVELOPER_CREATE_DAILY_CADENCE_BLOCKS;
+      taskPriorities: typeof EXTRIMLI_DEVELOPER_CREATE_DAILY_TASK_PRIORITIES;
+      endOfDayStatuses: typeof EXTRIMLI_DEVELOPER_CREATE_DAILY_CLOSEOUT_STATUSES;
+      dailyTasks: readonly ExtrimliDeveloperCreateRepoWideReflectionDailyTask[];
     };
     readiness: {
       score: number;

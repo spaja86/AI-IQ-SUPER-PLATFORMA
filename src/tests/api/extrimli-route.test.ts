@@ -165,7 +165,7 @@ async function runTests(): Promise<void> {
         releaseAuditSummary: {
           developerAndCreateRepoWideReflectionGovernance: {
             sourceOfTruth: string;
-            status: string;
+            status: string;            dailyOperationalCadence: { taskPriorities: number[] };
             technicalReadinessProfile: { consolidatedRhythmStatus: string };
             roadmapExecution: { roadmapStageId: string };
           };
@@ -226,6 +226,7 @@ async function runTests(): Promise<void> {
     assert(body.data.dokDikDakDukConsistencyHealth.programskiJezikProucavanja.programskiEkanalog.meaning === 'razumevanje logike', 'unexpected programski ekanalog meaning');
     assert(body.data.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.canonicalName === 'DEVELOPER AND CREATE', 'unexpected developer/create reflection name');
     assert(body.data.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readinessModel.join(',') === 'READY,WATCH,BLOCKED', 'unexpected developer/create readiness model');
+    assert(body.data.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.dailyOperationalCadence.cadenceBlocks.join(',') === 'morning-startup,deep-focus-block,midday-checkpoint,end-of-day-closeout', 'unexpected developer/create cadence blocks');
     assert(['READY', 'WATCH', 'BLOCKED'].includes(body.data.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.status), 'unexpected developer/create reflection status');
     assert(body.data.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.technicalReadinessProfile.consolidatedRhythmStatus === body.data.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.status, 'unexpected developer/create consolidated rhythm status');
     assert(body.data.dokDikDakDukConsistencyHealth.signals.dok.kind === 'DOK PETLJA', 'unexpected DOK consistency signal');
@@ -345,6 +346,7 @@ async function runTests(): Promise<void> {
     assert(body.data.releaseAuditSummary.spajinoProporcionalnoProgramiranjeUniverzitetGovernance.sourceOfTruth === '/api/extrimli/extrem', 'missing university governance source');
     assert(body.data.releaseAuditSummary.vrhProgramskogEkviladentaGovernance.sourceOfTruth === '/api/extrimli/extrem', 'missing vrh governance source');
     assert(body.data.releaseAuditSummary.petljeGovernance.sourceOfTruth === '/api/extrimli/extrem', 'missing petlje governance source');
+    assert(body.data.releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.dailyOperationalCadence.taskPriorities.join(',') === '1,2,3', 'missing developer/create cadence priorities');
     assert(typeof body.data.releaseAuditSummary.petljeGovernance.freezeRequired === 'boolean', 'petlje governance freeze should be boolean');
     assert(['READY', 'WATCH', 'BLOCKED'].includes(body.data.releaseAuditSummary.funkcinalnoProgramiranjeEnergetskogMisaonogTokaGovernance.status), 'unexpected functional energy-flow governance status');
     assert(['READY', 'WATCH', 'BLOCKED'].includes(body.data.releaseAuditSummary.funkcionalnoProgramiranjeUzvisenogMisanogTokaGovernance.status), 'unexpected elevated thought-flow governance status');
@@ -521,6 +523,7 @@ async function runTests(): Promise<void> {
     assert(body.data.dokDikDakDukConsistencyHealth.programskiJezikProucavanja.programskiEkanalog.meaning === 'razumevanje logike', 'unexpected EXTREM programski ekanalog meaning');
     assert(body.data.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.equalityLock === 'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == RADNI TAKT MOZGA (MISLILAC)', 'unexpected EXTREM developer/create equality lock');
     assert(body.data.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.driftZeroLayers.join(',') === 'docs,types,routes,tests,workflows', 'unexpected EXTREM developer/create drift-zero layers');
+    assert(body.data.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.dailyOperationalCadence.endOfDayStatuses.join(',') === 'completed,carried-over,blocked', 'unexpected EXTREM developer/create cadence closeout statuses');
     assert(body.data.dokDikDakDukConsistencyHealth.signals.dok.kind === 'DOK PETLJA', 'unexpected EXTREM DOK consistency signal');
     assert(body.data.dokDikDakDukConsistencyHealth.signals.dik.kind === 'DIK PETLJA', 'unexpected EXTREM DIK consistency signal');
     assert(body.data.dokDikDakDukConsistencyHealth.signals.for.kind === 'FOR PETLJA', 'unexpected EXTREM FOR consistency signal');
@@ -562,6 +565,7 @@ async function runTests(): Promise<void> {
         publicSignals: {
           auditStatus: string;
           degraded: boolean;
+          developerAndCreateStatus: string;
           funkcinalnoProgramiranjeEnergetskogMisaonogTokaStatus: string;
           funkcionalnoProgramiranjeUzvisenogMisanogTokaStatus: string;
           funkcionalnoProgramiranjePravednogMisaonogTokaStatus: string;
@@ -585,6 +589,7 @@ async function runTests(): Promise<void> {
     assert(['ALLOW', 'WARN', 'FREEZE'].includes(body.data.readiness.governanceOutcome), 'unexpected SPAJA KOD governance outcome');
     assert(typeof body.data.readiness.promotionFreeze === 'boolean', 'SPAJA KOD promotionFreeze should be boolean');
     assert(['READY', 'BLOCKED'].includes(body.data.publicSignals.auditStatus), 'unexpected SPAJA KOD audit status');
+    assert(['READY', 'WATCH', 'BLOCKED'].includes(body.data.publicSignals.developerAndCreateStatus), 'unexpected SPAJA KOD developer/create summary status');
     assert(['READY', 'WATCH', 'BLOCKED'].includes(body.data.publicSignals.funkcinalnoProgramiranjeEnergetskogMisaonogTokaStatus), 'unexpected SPAJA KOD functional energy-flow summary status');
     assert(['READY', 'WATCH', 'BLOCKED'].includes(body.data.publicSignals.funkcionalnoProgramiranjeUzvisenogMisanogTokaStatus), 'unexpected SPAJA KOD elevated thought-flow summary status');
     assert(['READY', 'WATCH', 'BLOCKED'].includes(body.data.publicSignals.funkcionalnoProgramiranjePravednogMisaonogTokaStatus), 'unexpected SPAJA KOD fair thought-flow summary status');

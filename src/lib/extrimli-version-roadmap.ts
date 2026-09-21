@@ -23,6 +23,48 @@ export interface ExtrimliVersionRoadmapPrinciple {
   statement: string;
 }
 
+export interface ExtrimliDeveloperCreateDailyTaskTemplate {
+  priority: 1 | 2 | 3;
+  required: true;
+  roadmapStageBinding: 'single-active-roadmap-stage';
+  measurableOutputRequired: true;
+  acceptanceEvidenceRequired: true;
+  endOfDayStatusRequired: true;
+  derivedFrom: 'existing-modules-validators-and-workflows';
+  focus: string;
+}
+
+export const EXTRIMLI_DEVELOPER_CREATE_DAILY_CADENCE_BLOCKS = [
+  'morning-startup',
+  'deep-focus-block',
+  'midday-checkpoint',
+  'end-of-day-closeout',
+] as const;
+
+export const EXTRIMLI_DEVELOPER_CREATE_DAILY_TASK_PRIORITIES = [1, 2, 3] as const;
+
+export const EXTRIMLI_DEVELOPER_CREATE_DAILY_CLOSEOUT_STATUSES = [
+  'completed',
+  'carried-over',
+  'blocked',
+] as const;
+
+export interface ExtrimliDeveloperCreateDailyOperationalCadence {
+  governanceArtifact: true;
+  derivedFromExistingModulesValidatorsAndWorkflows: true;
+  noNewRuntimeDomain: true;
+  cadenceBlocks: typeof EXTRIMLI_DEVELOPER_CREATE_DAILY_CADENCE_BLOCKS;
+  taskPriorities: typeof EXTRIMLI_DEVELOPER_CREATE_DAILY_TASK_PRIORITIES;
+  requiredTaskFields: readonly ['priority', 'roadmapStageId', 'measurableOutput', 'acceptanceEvidence', 'endOfDayStatus'];
+  endOfDayStatuses: typeof EXTRIMLI_DEVELOPER_CREATE_DAILY_CLOSEOUT_STATUSES;
+  qualityGatesInheritedFromCiBot: readonly ['lint', 'test', 'smoke', 'predeploy', 'build'];
+  taskTemplate: readonly [
+    ExtrimliDeveloperCreateDailyTaskTemplate,
+    ExtrimliDeveloperCreateDailyTaskTemplate,
+    ExtrimliDeveloperCreateDailyTaskTemplate
+  ];
+}
+
 export interface ExtrimliVersionRoadmapDeliveryWave {
   wave: 'FOUNDATION' | 'GOVERNANCE' | 'OPERATING-MODEL';
   versions: readonly ExtrimliVersionRoadmapVersionId[];
@@ -105,11 +147,14 @@ export interface ExtrimliDeveloperCreateProgramLock {
     spajaKod: 'public-audit-safe-boundary';
   };
   driftZeroLayers: readonly ['docs', 'types', 'routes', 'tests', 'workflows'];
+  dailyOperationalCadence: ExtrimliDeveloperCreateDailyOperationalCadence;
   realizationSequence: readonly [
     'documentation-lock-and-roadmap',
+    'terminology-and-ownership-alignment',
     'type-contract-alignment',
     'route-and-health-outputs',
     'test-and-governance-conformance',
+    'daily-task-cadence',
     'downstream-sync-and-public-summary',
     ...ExtrimliDeveloperCreateRealizationStep[]
   ];
@@ -166,9 +211,11 @@ export interface ExtrimliDeveloperCreateProgramLock {
 
 export type ExtrimliDeveloperCreateRealizationStep =
   | 'documentation-lock-and-roadmap'
+  | 'terminology-and-ownership-alignment'
   | 'type-contract-alignment'
   | 'route-and-health-outputs'
   | 'test-and-governance-conformance'
+  | 'daily-task-cadence'
   | 'downstream-sync-and-public-summary';
 
 export type ExtrimliDeveloperCreateImplementationStreamId =
@@ -261,11 +308,55 @@ const EXTRIMLI_DEVELOPER_CREATE_LOCK: ExtrimliDeveloperCreateProgramLock = {
     spajaKod: 'public-audit-safe-boundary',
   },
   driftZeroLayers: ['docs', 'types', 'routes', 'tests', 'workflows'],
+  dailyOperationalCadence: {
+    governanceArtifact: true,
+    derivedFromExistingModulesValidatorsAndWorkflows: true,
+    noNewRuntimeDomain: true,
+    cadenceBlocks: EXTRIMLI_DEVELOPER_CREATE_DAILY_CADENCE_BLOCKS,
+    taskPriorities: EXTRIMLI_DEVELOPER_CREATE_DAILY_TASK_PRIORITIES,
+    requiredTaskFields: ['priority', 'roadmapStageId', 'measurableOutput', 'acceptanceEvidence', 'endOfDayStatus'],
+    endOfDayStatuses: EXTRIMLI_DEVELOPER_CREATE_DAILY_CLOSEOUT_STATUSES,
+    qualityGatesInheritedFromCiBot: ['lint', 'test', 'smoke', 'predeploy', 'build'],
+    taskTemplate: [
+      {
+        priority: 1,
+        required: true,
+        roadmapStageBinding: 'single-active-roadmap-stage',
+        measurableOutputRequired: true,
+        acceptanceEvidenceRequired: true,
+        endOfDayStatusRequired: true,
+        derivedFrom: 'existing-modules-validators-and-workflows',
+        focus: 'Dokumentacioni lock i terminološko/ownership poravnanje za aktivnu roadmap fazu.',
+      },
+      {
+        priority: 2,
+        required: true,
+        roadmapStageBinding: 'single-active-roadmap-stage',
+        measurableOutputRequired: true,
+        acceptanceEvidenceRequired: true,
+        endOfDayStatusRequired: true,
+        derivedFrom: 'existing-modules-validators-and-workflows',
+        focus: 'Contract/type i route/health izlaz za istu roadmap fazu bez novih runtime ruta.',
+      },
+      {
+        priority: 3,
+        required: true,
+        roadmapStageBinding: 'single-active-roadmap-stage',
+        measurableOutputRequired: true,
+        acceptanceEvidenceRequired: true,
+        endOfDayStatusRequired: true,
+        derivedFrom: 'existing-modules-validators-and-workflows',
+        focus: 'Test/workflow enforcement, audit summary i closeout status za istu roadmap fazu.',
+      },
+    ],
+  },
   realizationSequence: [
     'documentation-lock-and-roadmap',
+    'terminology-and-ownership-alignment',
     'type-contract-alignment',
     'route-and-health-outputs',
     'test-and-governance-conformance',
+    'daily-task-cadence',
     'downstream-sync-and-public-summary',
   ],
   implementationStreams: [

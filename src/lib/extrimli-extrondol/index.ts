@@ -3058,6 +3058,7 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
       'extremProfiler.spajinoProporcionalnoProgramiranjeUniverzitet',
       'extremProfiler.vrhProgramskogEkviladenta',
       'extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection',
+      'extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.dailyOperationalCadence',
       'extremProfiler.dokDikDakDukConsistencyHealth.programskiJezikProucavanja',
       'extremProfiler.sinemetrickoProgramiranje',
       'extremProfiler.objektnoOrijentisanaProngilacija',
@@ -3134,6 +3135,7 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
         'extremProfiler.proporcionalnoProgramiranje.readiness',
         'extremProfiler.spajinoProporcionalnoProgramiranjeUniverzitet.readiness',
         'extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection',
+        'extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.dailyOperationalCadence',
         'extremProfiler.dokDikDakDukConsistencyHealth.programskiJezikProucavanja',
         'extremProfiler.sinemetrickoProgramiranje.readiness',
         'extremProfiler.resolutionReadiness',
@@ -3873,6 +3875,20 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
       watchReasons: extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.status === 'WATCH'
         ? [...extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.reasons]
         : [],
+      mappedTracks: extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.mappedTracks,
+      dailyOperationalCadence: {
+        activeRoadmapStagePolicy:
+          extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.dailyOperationalCadence.activeRoadmapStagePolicy,
+        cadenceBlocks:
+          extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.dailyOperationalCadence.cadenceBlocks,
+        taskPriorities:
+          extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.dailyOperationalCadence.taskPriorities,
+        endOfDayStatuses:
+          extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.dailyOperationalCadence.endOfDayStatuses,
+        dailyTasks:
+          extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.dailyOperationalCadence.dailyTasks,
+        reviewRequiredBeforeWideRollout:
+          extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.status !== 'READY',
       technicalReadinessProfile: extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.technicalReadinessProfile,
       roadmapExecution: {
         roadmapStageId: 'v5-extrondol-release-audit-and-orchestration',
@@ -4904,6 +4920,8 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
       technicalReadinessProfile: extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.technicalReadinessProfile,
       currentImplementationStage: extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.currentImplementationStage,
       repoWideReflection: extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.repoWideReflection,
+      dailyOperationalCadence:
+        extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.dailyOperationalCadence,
       readiness: {
         score: extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.score,
         status: extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.status,
@@ -5060,8 +5078,10 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
       syncedFields: [
         'versionRoadmap.contractVersion',
         'versionRoadmap.developerCreateLock.driftZeroLayers',
+        'versionRoadmap.developerCreateLock.dailyOperationalCadence',
         'versionRoadmap.developerCreateLock.definitionOfDone',
         'extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection',
+        'extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.dailyOperationalCadence',
         'extremProfiler.dokDikDakDukConsistencyHealth.programskiJezikProucavanja',
         'versionRoadmap.deliverySequence',
         'rollout.currentWawe',
@@ -5342,6 +5362,11 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
         mappedTracks: extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.mappedTracks,
         technicalReadinessProfile: extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.technicalReadinessProfile,
         repoWideReflection: extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.repoWideReflection,
+        dailyOperationalCadence: {
+          ...extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.dailyOperationalCadence,
+          status: extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.status,
+          reviewRequiredBeforeWideRollout:
+            extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.status !== 'READY',
         roadmapExecution: {
           roadmapStageId: 'v5-extrondol-release-audit-and-orchestration',
           measurableOutput: 'EXTRONDOL consumes the repo-wide technical profile and publishes only audit-safe WAWE/review/rollback governance',
@@ -6029,6 +6054,11 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
       mappedTracks: extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.mappedTracks,
       technicalReadinessProfile: extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.technicalReadinessProfile,
       repoWideReflection: extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.repoWideReflection,
+      dailyOperationalCadence: {
+        ...extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.dailyOperationalCadence,
+        status: extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.status,
+        reviewRequiredBeforeWideRollout:
+          extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.status !== 'READY',
       roadmapExecution: {
         roadmapStageId: 'v5-extrondol-release-audit-and-orchestration',
         measurableOutput: 'EXTRONDOL consumes the repo-wide technical profile and publishes only audit-safe WAWE/review/rollback governance',

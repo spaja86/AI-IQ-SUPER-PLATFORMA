@@ -125,7 +125,10 @@ async function runTests(): Promise<void> {
     assert(lock.mandatoryArtifacts.governance.includes('.github/workflows/extrimli-external-github.yml'), 'external governance workflow artifact missing');
     assert(lock.acceptanceLock.allowedStatuses.join(',') === 'READY,WATCH,BLOCKED', 'acceptance status lock mismatch');
     assert(lock.driftZeroLayers.join(',') === 'docs,types,routes,tests,workflows', 'developer/create drift-zero layers mismatch');
-    assert(lock.realizationSequence.join(',') === 'documentation-lock-and-roadmap,type-contract-alignment,route-and-health-outputs,test-and-governance-conformance,downstream-sync-and-public-summary', 'developer/create realization sequence mismatch');
+    assert(lock.dailyOperationalCadence.cadenceBlocks.join(',') === 'morning-startup,deep-focus-block,midday-checkpoint,end-of-day-closeout', 'developer/create cadence blocks mismatch');
+    assert(lock.dailyOperationalCadence.taskPriorities.join(',') === '1,2,3', 'developer/create task priorities mismatch');
+    assert(lock.dailyOperationalCadence.endOfDayStatuses.join(',') === 'completed,carried-over,blocked', 'developer/create closeout statuses mismatch');
+    assert(lock.realizationSequence.join(',') === 'documentation-lock-and-roadmap,terminology-and-ownership-alignment,type-contract-alignment,route-and-health-outputs,test-and-governance-conformance,daily-task-cadence,downstream-sync-and-public-summary', 'developer/create realization sequence mismatch');
     assert(lock.definitionOfDone.docsTypesRoutesTestsWorkflowsAligned, 'developer/create DoD alignment must be required');
     assert(lock.definitionOfDone.securityRequired && lock.definitionOfDone.rollbackRequired, 'developer/create DoD security/rollback requirements missing');
   });
@@ -660,6 +663,14 @@ async function runTests(): Promise<void> {
     assert(report.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.equalityLock === 'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == RADNI TAKT MOZGA (MISLILAC)', 'developer/create equality lock mismatch');
     assert(report.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readinessModel.join(',') === 'READY,WATCH,BLOCKED', 'developer/create readiness model mismatch');
     assert(report.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.driftZeroLayers.join(',') === 'docs,types,routes,tests,workflows', 'developer/create drift-zero layers mismatch');
+    assert(report.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.dailyOperationalCadence.activeRoadmapStagePolicy === 'single-active-roadmap-stage-per-day', 'developer/create active roadmap stage policy mismatch');
+    assert(report.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.dailyOperationalCadence.cadenceBlocks.join(',') === 'morning-startup,deep-focus-block,midday-checkpoint,end-of-day-closeout', 'developer/create cadence blocks mismatch');
+    assert(report.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.dailyOperationalCadence.dailyTasks.map((task) => task.priority).join(',') === '1,2,3', 'developer/create daily task priorities mismatch');
+    assert(new Set(report.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.dailyOperationalCadence.dailyTasks.map((task) => task.roadmapStageId)).size === 1, 'developer/create daily tasks must bind to one roadmap stage');
+    assert(report.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.dailyOperationalCadence.dailyTasks.every((task) => task.measurableOutput.length > 0), 'developer/create daily tasks must include measurable outputs');
+    assert(report.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.dailyOperationalCadence.dailyTasks.every((task) => task.acceptanceEvidence.length > 0), 'developer/create daily tasks must include acceptance evidence');
+    assert(report.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.dailyOperationalCadence.dailyTasks.every((task) => ['completed', 'carried-over', 'blocked'].includes(task.endOfDayStatus)), 'developer/create daily tasks must include closeout statuses');
+    assert(report.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.dailyOperationalCadence.endOfDayStatuses.join(',') === 'completed,carried-over,blocked', 'developer/create closeout statuses mismatch');
     assert(['READY', 'WATCH', 'BLOCKED'].includes(report.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.status), 'developer/create readiness status mismatch');
     assert(report.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.technicalReadinessProfile.radniTaktMozgaMislilac.status === report.radniTaktMozgaMislilac.readiness.status, 'developer/create radni takt profile mismatch');
     assert(report.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.technicalReadinessProfile.metrikoProgramiranje.status === report.metrikoProgramiranje.readiness.status, 'developer/create METRIČKO profile mismatch');
