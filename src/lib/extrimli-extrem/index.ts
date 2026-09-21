@@ -260,6 +260,14 @@ const EXTRIMLI_EXTREM_DEVELOPER_CREATE_COVECANSTVO_SCENARIO_ID =
   'covecanstvo-poker-zivotna-igra-developer-create' as const;
 const EXTRIMLI_EXTREM_DEVELOPER_CREATE_COVECANSTVO_CITATION =
   'ČOVEČANSTVO — ŽIVOT JE NAJVEĆA IGRA ostaje additive-only audit/reference vizuel koji mapira znanje, logiku, mudrost i iskustvo na postojeći Developer/Create, VRH i Radni Takt governance okvir bez novog runtime sistema.' as const;
+const EXTRIMLI_EXTREM_DEVELOPER_CREATE_ENTIZUJAZAM_COVECANSTVO_VISUAL_REFERENCE =
+  'https://github.com/user-attachments/assets/f7b3e102-e0a0-4885-a93e-040f09454737' as const;
+const EXTRIMLI_EXTREM_DEVELOPER_CREATE_ENTIZUJAZAM_COVECANSTVO_CANONICAL_NARRATIVE_ID =
+  'covecanstvo-entizujazam-zvezde-misli-inovacije-developer-create' as const;
+const EXTRIMLI_EXTREM_DEVELOPER_CREATE_ENTIZUJAZAM_COVECANSTVO_SCENARIO_ID =
+  'covecanstvo-entizujazam-zvezde-misli-inovacije-developer-create' as const;
+const EXTRIMLI_EXTREM_DEVELOPER_CREATE_ENTIZUJAZAM_COVECANSTVO_CITATION =
+  'ČOVEČANSTVO — ENTIZUJAŽAM (zvezde, misli i inovacije) ostaje additive-only supplemental audit/reference vizuel koji potvrđuje isti Developer/Create ⇄ VRH ⇄ Radni Takt model, isti deterministic READY|WATCH|BLOCKED fallback i isti ownership split bez novih runtime ruta.' as const;
 
 const EXTRIMLI_EXTREM_SPAJINO_PROPORCIONALNO_PROGRAMIRANJE_UNIVERZITET_NARRATIVE_TITLE =
   'Spreg funkcionalnog i objektno programiranja sa mnoštvo novih petlji' as const;
@@ -6171,6 +6179,34 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
               scenarioId: EXTRIMLI_EXTREM_DEVELOPER_CREATE_COVECANSTVO_SCENARIO_ID,
               theme: 'ČOVEČANSTVO',
               narrativeInput: EXTRIMLI_EXTREM_DEVELOPER_CREATE_COVECANSTVO_CITATION,
+              ownershipLock: {
+                dokDikFor: 'EXTREM',
+                dakDuk: 'EXTRONDOL',
+                spajaKod: 'audit-safe-summary-only',
+              },
+              signalOutputs: {
+                readinessScore: 0,
+                readinessStatus: 'BLOCKED',
+                conflictPressurePercent: 100,
+                deterministicFallbackRequired: true,
+              },
+            },
+            auditRole: 'additive-audit-reference-only',
+          },
+          {
+            title: 'ČOVEČANSTVO — ENTIZUJAŽAM (ZVEZDE / MISLI / INOVACIJE)',
+            canonicalNarrativeId:
+              EXTRIMLI_EXTREM_DEVELOPER_CREATE_ENTIZUJAZAM_COVECANSTVO_CANONICAL_NARRATIVE_ID,
+            citation: EXTRIMLI_EXTREM_DEVELOPER_CREATE_ENTIZUJAZAM_COVECANSTVO_CITATION,
+            visualReference:
+              EXTRIMLI_EXTREM_DEVELOPER_CREATE_ENTIZUJAZAM_COVECANSTVO_VISUAL_REFERENCE,
+            interpretation:
+              'Supplied starlight/sunset ENTIZUJAŽAM image remains additive-only supplemental audit/reference evidence and extends the existing Developer/Create reflection package without introducing any new source-of-truth runtime route.',
+            sourceStatement: 'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == RADNI TAKT MOZGA (MISLILAC)',
+            imageToSignalProfile: {
+              scenarioId: EXTRIMLI_EXTREM_DEVELOPER_CREATE_ENTIZUJAZAM_COVECANSTVO_SCENARIO_ID,
+              theme: 'ČOVEČANSTVO',
+              narrativeInput: EXTRIMLI_EXTREM_DEVELOPER_CREATE_ENTIZUJAZAM_COVECANSTVO_CITATION,
               ownershipLock: {
                 dokDikFor: 'EXTREM',
                 dakDuk: 'EXTRONDOL',
