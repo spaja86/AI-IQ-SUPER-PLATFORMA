@@ -631,9 +631,15 @@ async function runTests(): Promise<void> {
           dokerKuratIzekDokarOverlay: { DOKER: string; KURAT: string; IZEK: string; DOKAR: string };
         };
         developerAndCreateVisualReflection: {
+          title: string;
           canonicalNarrativeId: string;
+          citation: string;
           visualReference: string;
+          interpretation: string;
+          sourceStatement: string;
           imageToSignalProfile: { ownershipLock: { spajaKod: string } };
+          flowLock: { sequence: string[] };
+          packageOutputs: { auditShortSummary: string };
         };
         dokerKuratIzekDokarTrack: { boundarySurface: string; publicStatus: string; tokenSummaries: Array<{ token: string; status: string }> };
         blockers: string[];
