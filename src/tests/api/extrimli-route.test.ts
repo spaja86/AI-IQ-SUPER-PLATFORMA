@@ -169,7 +169,15 @@ async function runTests(): Promise<void> {
             dailyOperationalCadence: { taskPriorities: number[] };
             technicalReadinessProfile: { consolidatedRhythmStatus: string };
             covecnostAuditVisualReference: { canonicalNarrativeId: string; visualReference: string };
-            covecnostAuditVisualGovernance: { auditVisibility: string };
+            covecnostAuditVisualGovernance: {
+              auditVisibility: string;
+              currentWawe: string;
+              eligibleNextWawe: string;
+              promotionFreeze: boolean;
+              humanReviewRequired: boolean;
+              rollbackPlanRequired: boolean;
+              downstreamSync: string;
+            };
             roadmapExecution: { roadmapStageId: string };
           };
           funkcinalnoProgramiranjeEnergetskogMisaonogTokaGovernance: { sourceOfTruth: string; status: string };
@@ -262,6 +270,12 @@ async function runTests(): Promise<void> {
     assert(body.data.releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.technicalReadinessProfile.consolidatedRhythmStatus === body.data.releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.status, 'unexpected release-audit developer/create consolidated rhythm status');
     assert(body.data.releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.covecnostAuditVisualReference.canonicalNarrativeId === 'covecnost-developer-create-vrh-radni-takt', 'unexpected release-audit developer/create ČOVEČNOST narrative id');
     assert(body.data.releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.covecnostAuditVisualGovernance.auditVisibility === 'audit-safe-readiness-only', 'unexpected release-audit developer/create ČOVEČNOST visual governance visibility');
+    assert(body.data.releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.covecnostAuditVisualGovernance.currentWawe === body.data.rollout.currentWawe, 'unexpected release-audit developer/create ČOVEČNOST current WAWE');
+    assert(body.data.releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.covecnostAuditVisualGovernance.eligibleNextWawe === body.data.rollout.eligibleNextWawe, 'unexpected release-audit developer/create ČOVEČNOST next WAWE');
+    assert(body.data.releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.covecnostAuditVisualGovernance.promotionFreeze === body.data.rollout.promotionFreeze, 'unexpected release-audit developer/create ČOVEČNOST promotion freeze');
+    assert(body.data.releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.covecnostAuditVisualGovernance.humanReviewRequired === true, 'unexpected release-audit developer/create ČOVEČNOST human review requirement');
+    assert(body.data.releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.covecnostAuditVisualGovernance.rollbackPlanRequired === true, 'unexpected release-audit developer/create ČOVEČNOST rollback requirement');
+    assert(body.data.releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.covecnostAuditVisualGovernance.downstreamSync === 'follow-up-only-until-io-openui-ao-adopts-audit-safe-summary', 'unexpected release-audit developer/create ČOVEČNOST downstream sync policy');
     assert(body.data.releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.roadmapExecution.roadmapStageId === 'v5-extrondol-release-audit-and-orchestration', 'unexpected release-audit developer/create roadmap stage');
     assert(body.data.objektnoOrijentisanaProngilacija.term === 'Objektno orijentisana prongilacija', 'unexpected object-oriented prongilacija term');
     assert(body.data.objektnoOrijentisanaProngilacija.technicalSignalSource === '/api/extrimli/extrem', 'unexpected object-oriented prongilacija source');
