@@ -257,7 +257,10 @@ async function runTests(): Promise<void> {
     assert(signal.epilogijaCovecnosti.imageToSignalProfile.scenarioId === 'priroda-zdrav-zivot-covecanstvo', 'radni takt image profile scenario mismatch');
     assert(signal.epilogijaCovecnosti.imageToSignalProfile.ownershipLock.dokDikFor === 'EXTREM', 'radni takt image profile DOK/DIK/FOR ownership mismatch');
     assert(signal.epilogijaCovecnosti.imageToSignalProfile.ownershipLock.dakDuk === 'EXTRONDOL', 'radni takt image profile DAK/DUK ownership mismatch');
+    assert(signal.epilogijaCovecnosti.imageToSignalProfile.signalOutputs.readinessScore === signal.readiness.score, 'radni takt image profile readiness score mismatch');
     assert(signal.epilogijaCovecnosti.imageToSignalProfile.signalOutputs.readinessStatus === signal.readiness.status, 'radni takt image profile readiness status mismatch');
+    assert(signal.epilogijaCovecnosti.imageToSignalProfile.signalOutputs.conflictPressurePercent === signal.profileInput.conflictPressurePercent, 'radni takt image profile conflict pressure mismatch');
+    assert(signal.epilogijaCovecnosti.imageToSignalProfile.signalOutputs.deterministicFallbackRequired === (signal.readiness.status === 'BLOCKED'), 'radni takt image profile deterministic fallback mismatch');
     assert(['READY', 'WATCH', 'BLOCKED'].includes(signal.readiness.status), 'unexpected radni takt status');
     assert(Number.isFinite(signal.readiness.score), 'radni takt score must be finite');
     assert(signal.readiness.score >= 0 && signal.readiness.score <= 100, 'radni takt score must be bounded');

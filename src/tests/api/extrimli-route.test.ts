@@ -410,7 +410,13 @@ async function runTests(): Promise<void> {
           term: string;
           contractVersion: string;
           readiness: { status: string; score: number };
-          epilogijaCovecnosti: { title: string; imageToSignalProfile: { scenarioId: string } };
+          epilogijaCovecnosti: {
+            title: string;
+            visualReference: string;
+            packageOutputs: { posterSummary: string };
+            dokerKuratIzekDokarOverlay: { IZEK: string };
+            imageToSignalProfile: { scenarioId: string; signalOutputs: { readinessScore: number; conflictPressurePercent: number; deterministicFallbackRequired: boolean } };
+          };
         };
         paradijogonalnoProgrimiranje: { term: string; contractVersion: string; readiness: { status: string; score: number } };
         funkionalnoProgramiranjePravnogMisaonogToka: { term: string; contractVersion: string; readiness: { status: string; score: number }; legalCoupling: { sourceTrack: string } };
@@ -455,6 +461,9 @@ async function runTests(): Promise<void> {
     assert(body.data.radniTaktMozgaMislilac.epilogijaCovecnosti.visualReference.includes('b485b700-f670-4f71-9f54-47b29a4155ec'), 'unexpected EXTREM radni takt epilog visual reference');
     assert(body.data.radniTaktMozgaMislilac.epilogijaCovecnosti.packageOutputs.posterSummary.includes('Obogaćuj se prirodom'), 'unexpected EXTREM radni takt poster summary');
     assert(body.data.radniTaktMozgaMislilac.epilogijaCovecnosti.imageToSignalProfile.scenarioId === 'priroda-zdrav-zivot-covecanstvo', 'unexpected EXTREM image-to-signal scenario');
+    assert(Number.isFinite(body.data.radniTaktMozgaMislilac.epilogijaCovecnosti.imageToSignalProfile.signalOutputs.readinessScore), 'unexpected EXTREM image-to-signal readiness score');
+    assert(body.data.radniTaktMozgaMislilac.epilogijaCovecnosti.imageToSignalProfile.signalOutputs.conflictPressurePercent >= 0, 'unexpected EXTREM image-to-signal conflict pressure');
+    assert(typeof body.data.radniTaktMozgaMislilac.epilogijaCovecnosti.imageToSignalProfile.signalOutputs.deterministicFallbackRequired === 'boolean', 'unexpected EXTREM image-to-signal deterministic fallback type');
     assert(body.data.radniTaktMozgaMislilac.epilogijaCovecnosti.dokerKuratIzekDokarOverlay.IZEK.includes('review checkpoint'), 'unexpected EXTREM radni takt IZEK overlay');
     assert(body.data.paradijogonalnoProgrimiranje.term === 'PARADIJOGONALNO PROGRIMIRANJE (INSTRUMENTALNI VID U SIHOFIZI PROSPARITET OBLAČNOG/CLOUD PREDELA)', 'unexpected EXTREM paradijogonalno term');
     assert(['READY', 'WATCH', 'BLOCKED'].includes(body.data.paradijogonalnoProgrimiranje.readiness.status), 'unexpected EXTREM paradijogonalno status');

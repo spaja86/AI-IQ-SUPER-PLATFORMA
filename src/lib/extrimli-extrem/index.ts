@@ -3383,7 +3383,7 @@ function buildRadniTaktMozgaMislilacSignal(
           readinessScore: score,
           readinessStatus: status,
           conflictPressurePercent: profileInput.conflictPressurePercent,
-          deterministicFallbackRequired: status !== 'READY',
+          deterministicFallbackRequired: status === 'BLOCKED',
         },
       },
       flowLock: {
