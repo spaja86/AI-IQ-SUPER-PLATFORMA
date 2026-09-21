@@ -681,7 +681,8 @@ export interface ExtrimliExtrondolDeveloperAndCreateRepoWideReflectionGovernance
       'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.covecnostAuditVisualReference.supplementalVisualReferences',
       'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.covecnostAuditVisualReference.companionAuditVisualReferences',
       'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.aiPlateGovernance',
-      'spajaKod.publicSignals.developerAndCreateStatus'
+      'spajaKod.publicSignals.developerAndCreateStatus',
+      'spajaKod.publicSignals.aiPlateStatus'
     ];
     downstreamSync: 'follow-up-only-until-io-openui-ao-adopts-audit-safe-summary';
   };

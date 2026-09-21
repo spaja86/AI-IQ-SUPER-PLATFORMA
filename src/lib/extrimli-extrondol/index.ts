@@ -3962,7 +3962,7 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
           runtimeProvider: extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.aiPlateOffer.runtimeProvider,
           packageMode: extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.aiPlateOffer.packageMode,
           offerScope: extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.aiPlateOffer.offerScope,
-          status: extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.aiPlateOffer.boundedReadinessProfile.consolidatedStatus,
+          status: extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.status,
           readinessScore: extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.score,
           deterministicFallbackRequired:
             extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.aiPlateOffer.boundedReadinessProfile.deterministicFallbackRequired,
@@ -3996,6 +3996,7 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
             'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance',
             'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.covecnostAuditVisualReference.supplementalVisualReferences',
             'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.covecnostAuditVisualReference.companionAuditVisualReferences',
+            'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.aiPlateGovernance',
             'spajaKod.publicSignals.developerAndCreateStatus',
             'spajaKod.publicSignals.aiPlateStatus',
           ],
@@ -5485,7 +5486,7 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
             runtimeProvider: extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.aiPlateOffer.runtimeProvider,
             packageMode: extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.aiPlateOffer.packageMode,
             offerScope: extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.aiPlateOffer.offerScope,
-            status: extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.aiPlateOffer.boundedReadinessProfile.consolidatedStatus,
+            status: extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.status,
             readinessScore: extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.score,
             deterministicFallbackRequired:
               extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.aiPlateOffer.boundedReadinessProfile.deterministicFallbackRequired,
@@ -5526,6 +5527,7 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
               'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance',
               'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.covecnostAuditVisualReference.supplementalVisualReferences',
               'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.covecnostAuditVisualReference.companionAuditVisualReferences',
+              'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.aiPlateGovernance',
               'spajaKod.publicSignals.developerAndCreateStatus',
               'spajaKod.publicSignals.aiPlateStatus',
             ],
@@ -6230,7 +6232,7 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
         runtimeProvider: extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.aiPlateOffer.runtimeProvider,
         packageMode: extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.aiPlateOffer.packageMode,
         offerScope: extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.aiPlateOffer.offerScope,
-        status: extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.aiPlateOffer.boundedReadinessProfile.consolidatedStatus,
+        status: extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.status,
         readinessScore: extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.score,
         deterministicFallbackRequired:
           extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.aiPlateOffer.boundedReadinessProfile.deterministicFallbackRequired,
