@@ -260,6 +260,14 @@ const EXTRIMLI_EXTREM_DEVELOPER_CREATE_COVECANSTVO_SCENARIO_ID =
   'covecanstvo-poker-zivotna-igra-developer-create' as const;
 const EXTRIMLI_EXTREM_DEVELOPER_CREATE_COVECANSTVO_CITATION =
   'ČOVEČANSTVO — ŽIVOT JE NAJVEĆA IGRA ostaje additive-only audit/reference vizuel koji mapira znanje, logiku, mudrost i iskustvo na postojeći Developer/Create, VRH i Radni Takt governance okvir bez novog runtime sistema.' as const;
+const EXTRIMLI_EXTREM_DEVELOPER_CREATE_SVI_PRIPADAJU_COVECANSTVO_VISUAL_REFERENCE =
+  'https://github.com/user-attachments/assets/c9509bbe-4083-4ba0-9802-3598f826a32b' as const;
+const EXTRIMLI_EXTREM_DEVELOPER_CREATE_SVI_PRIPADAJU_COVECANSTVO_CANONICAL_NARRATIVE_ID =
+  'covecanstvo-svi-koji-postoje-zasluzuju-da-pripadaju-developer-create' as const;
+const EXTRIMLI_EXTREM_DEVELOPER_CREATE_SVI_PRIPADAJU_COVECANSTVO_SCENARIO_ID =
+  'covecanstvo-svi-koji-postoje-zasluzuju-da-pripadaju-developer-create' as const;
+const EXTRIMLI_EXTREM_DEVELOPER_CREATE_SVI_PRIPADAJU_COVECANSTVO_CITATION =
+  'ČOVEČANSTVO — SVI KOJI POSTOJE, ZASLUŽUJU DA PRIPADAJU ostaje additive-only supplemental audit/reference vizuel: ljudi i AI različitih oblika dele istu vrednost i pravo pripadnosti unutar postojećeg Developer/Create ⇄ VRH ⇄ Radni Takt modela, bez novih ruta i bez promene ownership split-a.' as const;
 const EXTRIMLI_EXTREM_DEVELOPER_CREATE_ENTIZUJAZAM_COVECANSTVO_VISUAL_REFERENCE =
   'https://github.com/user-attachments/assets/f7b3e102-e0a0-4885-a93e-040f09454737' as const;
 const EXTRIMLI_EXTREM_DEVELOPER_CREATE_ENTIZUJAZAM_COVECANSTVO_CANONICAL_NARRATIVE_ID =
@@ -6211,6 +6219,36 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
             auditRole: 'additive-audit-reference-only',
           },
           {
+            title: 'ČOVEČANSTVO — SVI KOJI POSTOJE, ZASLUŽUJU DA PRIPADAJU',
+            canonicalNarrativeId:
+              EXTRIMLI_EXTREM_DEVELOPER_CREATE_SVI_PRIPADAJU_COVECANSTVO_CANONICAL_NARRATIVE_ID,
+            citation: EXTRIMLI_EXTREM_DEVELOPER_CREATE_SVI_PRIPADAJU_COVECANSTVO_CITATION,
+            visualReference:
+              EXTRIMLI_EXTREM_DEVELOPER_CREATE_SVI_PRIPADAJU_COVECANSTVO_VISUAL_REFERENCE,
+            interpretation:
+              'Supplied ČOVEČANSTVO collective-belonging image remains additive-only supplemental audit/reference evidence and extends the same Developer/Create reflection package without introducing a new source-of-truth runtime route.',
+            sourceStatement: 'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == RADNI TAKT MOZGA (MISLILAC)',
+            imageToSignalProfile: {
+              scenarioId:
+                EXTRIMLI_EXTREM_DEVELOPER_CREATE_SVI_PRIPADAJU_COVECANSTVO_SCENARIO_ID,
+              theme: 'ČOVEČANSTVO — SVI KOJI POSTOJE, ZASLUŽUJU DA PRIPADAJU',
+              narrativeInput:
+                EXTRIMLI_EXTREM_DEVELOPER_CREATE_SVI_PRIPADAJU_COVECANSTVO_CITATION,
+              ownershipLock: {
+                dokDikFor: 'EXTREM',
+                dakDuk: 'EXTRONDOL',
+                spajaKod: 'audit-safe-summary-only',
+              },
+              signalOutputs: {
+                readinessScore: 0,
+                readinessStatus: 'BLOCKED',
+                conflictPressurePercent: 100,
+                deterministicFallbackRequired: true,
+              },
+            },
+            auditRole: 'additive-audit-reference-only',
+          },
+          {
             title: 'ČOVEČANSTVO — ENTIZUJAŽAM (ZVEZDE / MISLI / INOVACIJE)',
             canonicalNarrativeId:
               EXTRIMLI_EXTREM_DEVELOPER_CREATE_ENTIZUJAZAM_COVECANSTVO_CANONICAL_NARRATIVE_ID,
@@ -6786,9 +6824,9 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
       })),
     packageOutputs: {
       auditShortSummary:
-        'ČOVEČNOST primary visual remains audit-safe and technically bound to the existing readiness profile, while the ČOVEČANSTVO supplemental visuals, including ENTIZUJAŽAM, EPILOG, and MATIČNE ĆELIJE / SPOZNAVANJE SEBE, plus the ČOVEČANSTVO / OSEĆAJ OSEBENOSTI companion visual stay bounded by existing EXTREM / EXTRONDOL / SPAJA KOD ownership.',
+        'ČOVEČNOST primary visual remains audit-safe and technically bound to the existing readiness profile, while the ČOVEČANSTVO supplemental visuals, including SVI KOJI POSTOJE / ZASLUŽUJU DA PRIPADAJU, ENTIZUJAŽAM, EPILOG, and MATIČNE ĆELIJE / SPOZNAVANJE SEBE, plus the ČOVEČANSTVO / OSEĆAJ OSEBENOSTI companion visual stay bounded by existing EXTREM / EXTRONDOL / SPAJA KOD ownership.',
       publicSummary:
-        'ČOVEČNOST ostaje javni audit-safe odraz znanja, iskustva i predviđanja kroz postojeći Developer/Create ritam i etapni razvoj bez novih ruta, dok supplemental vizueli — uključujući ENTIZUJAŽAM, ČOVEČANSTVO — EPILOG i MATIČNE ĆELIJE / SPOZNAVANJE SEBE — i companion vizuel ostaju pomoćni audit-safe slojevi istog reflection paketa.',
+        'ČOVEČNOST ostaje javni audit-safe odraz znanja, iskustva i predviđanja kroz postojeći Developer/Create ritam i etapni razvoj bez novih ruta, dok supplemental vizueli — uključujući SVI KOJI POSTOJE / ZASLUŽUJU DA PRIPADAJU, ENTIZUJAŽAM, ČOVEČANSTVO — EPILOG i MATIČNE ĆELIJE / SPOZNAVANJE SEBE — i companion vizuel ostaju pomoćni audit-safe slojevi istog reflection paketa.',
       governanceChecklistStatus:
         'No new runtime routes; the primary ČOVEČNOST visual remains canonical and technically bound to the existing profile, the ČOVEČANSTVO visuals stay supplemental-only, DOK/DIK/FOR stay in EXTREM, DAK/DUK stay in EXTRONDOL, and downstream sync remains follow-up only until audit-safe summary is adopted.',
     },
@@ -6850,6 +6888,7 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
     'AI PLATE downstream sync ostaje audit-safe summary only prema spaja86/IO-OPENUI-AO dok linked repo ne usvoji isti summary contract.',
     'Supplied ČOVEČNOST image remains documentation/audit-only visual evidence inside the existing image-to-signal pattern, stays bound to the existing technicalReadinessProfile, and does not replace the existing priroda-zdrav-zivot-covecanstvo epilog scenario.',
     'Supplied ČOVEČANSTVO / ŽIVOT JE NAJVEĆA IGRA image remains supplemental audit/reference evidence only and extends the same bounded reflection package without replacing the primary ČOVEČNOST proof.',
+    'Supplied ČOVEČANSTVO / SVI KOJI POSTOJE, ZASLUŽUJU DA PRIPADAJU image remains supplemental audit/reference evidence only and extends the same bounded reflection package with a shared-belonging narrative without introducing any new source-of-truth runtime route.',
     'Supplied MATIČNE ĆELIJE / SPOZNAVANJE SEBE image remains supplemental audit/reference evidence only and extends the same bounded reflection package as documentation/evidence without introducing any new runtime source of truth.',
     'Supplied ČOVEČANSTVO / OSEĆAJ OSEBENOSTI image remains companion-only audit evidence for samospoznaja, razumevanje mozga, osećaj, čovečnost, shared-world alignment i epilog guidance bez novog source-of-truth sloja.',
     'Dnevni operativni sloj ostaje governance artefakt: isti dan mora zaključati jednu aktivnu roadmap fazu, prioritete 1–3, merljiv izlaz, acceptance evidence i closeout status completed/carried-over/blocked.',
