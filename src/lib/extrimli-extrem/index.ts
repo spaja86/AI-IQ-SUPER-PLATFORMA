@@ -276,6 +276,14 @@ const EXTRIMLI_EXTREM_DEVELOPER_CREATE_EPILOG_COVECANSTVO_SCENARIO_ID =
   'covecanstvo-epilog-rad-energija-stvaranja-developer-create' as const;
 const EXTRIMLI_EXTREM_DEVELOPER_CREATE_EPILOG_COVECANSTVO_CITATION =
   'ČOVEČANSTVO — EPILOG ostaje additive-only supplemental audit/reference vizuel u kome iskustvo, rad, energija stvaranja i ljudsko jedinstvo potvrđuju isti Developer/Create ⇄ VRH ⇄ Radni Takt model bez novih ruta, novih formula ili promena ownership split-a.' as const;
+const EXTRIMLI_EXTREM_DEVELOPER_CREATE_MATICNE_CELIJE_SPOZNAVANJE_SEBE_VISUAL_REFERENCE =
+  'https://github.com/user-attachments/assets/908ab1a4-5a00-4f93-971a-2cd8e331119d' as const;
+const EXTRIMLI_EXTREM_DEVELOPER_CREATE_MATICNE_CELIJE_SPOZNAVANJE_SEBE_CANONICAL_NARRATIVE_ID =
+  'covecanstvo-maticne-celije-i-spoznavanje-sebe-developer-create' as const;
+const EXTRIMLI_EXTREM_DEVELOPER_CREATE_MATICNE_CELIJE_SPOZNAVANJE_SEBE_SCENARIO_ID =
+  'covecanstvo-maticne-celije-i-spoznavanje-sebe-developer-create' as const;
+const EXTRIMLI_EXTREM_DEVELOPER_CREATE_MATICNE_CELIJE_SPOZNAVANJE_SEBE_CITATION =
+  'ČOVEČANSTVO — MATIČNE ĆELIJE I SPOZNAVANJE SEBE ostaje additive-only supplemental audit/reference vizuel: biološko-metaforički sadržaj i samospoznaja mapiraju se isključivo kao documentation/evidence sloj unutar postojećeg Developer/Create ⇄ VRH ⇄ Radni Takt modela, uz isti READY|WATCH|BLOCKED fallback i bez novih runtime ruta.' as const;
 
 const EXTRIMLI_EXTREM_SPAJINO_PROPORCIONALNO_PROGRAMIRANJE_UNIVERZITET_NARRATIVE_TITLE =
   'Spreg funkcionalnog i objektno programiranja sa mnoštvo novih petlji' as const;
@@ -6256,6 +6264,36 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
             },
             auditRole: 'additive-audit-reference-only',
           },
+          {
+            title: 'ČOVEČANSTVO — MATIČNE ĆELIJE I SPOZNAVANJE SEBE',
+            canonicalNarrativeId:
+              EXTRIMLI_EXTREM_DEVELOPER_CREATE_MATICNE_CELIJE_SPOZNAVANJE_SEBE_CANONICAL_NARRATIVE_ID,
+            citation: EXTRIMLI_EXTREM_DEVELOPER_CREATE_MATICNE_CELIJE_SPOZNAVANJE_SEBE_CITATION,
+            visualReference:
+              EXTRIMLI_EXTREM_DEVELOPER_CREATE_MATICNE_CELIJE_SPOZNAVANJE_SEBE_VISUAL_REFERENCE,
+            interpretation:
+              'Supplied MATIČNE ĆELIJE / SPOZNAVANJE SEBE image remains additive-only supplemental audit/reference evidence and extends the same bounded Developer/Create reflection package without introducing any new source-of-truth runtime route.',
+            sourceStatement: 'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == RADNI TAKT MOZGA (MISLILAC)',
+            imageToSignalProfile: {
+              scenarioId:
+                EXTRIMLI_EXTREM_DEVELOPER_CREATE_MATICNE_CELIJE_SPOZNAVANJE_SEBE_SCENARIO_ID,
+              theme: 'ČOVEČANSTVO — MATIČNE ĆELIJE I SPOZNAVANJE SEBE',
+              narrativeInput:
+                EXTRIMLI_EXTREM_DEVELOPER_CREATE_MATICNE_CELIJE_SPOZNAVANJE_SEBE_CITATION,
+              ownershipLock: {
+                dokDikFor: 'EXTREM',
+                dakDuk: 'EXTRONDOL',
+                spajaKod: 'audit-safe-summary-only',
+              },
+              signalOutputs: {
+                readinessScore: 0,
+                readinessStatus: 'BLOCKED',
+                conflictPressurePercent: 100,
+                deterministicFallbackRequired: true,
+              },
+            },
+            auditRole: 'additive-audit-reference-only',
+          },
         ],
         flowLock: {
           sequence: ['image', 'developer-create', 'vrh', 'radni-takt', 'epilog'],
@@ -6637,9 +6675,9 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
       })),
     packageOutputs: {
       auditShortSummary:
-        'ČOVEČNOST primary visual remains audit-safe and technically bound to the existing readiness profile, while the ČOVEČANSTVO supplemental visuals, including ENTIZUJAŽAM and EPILOG, plus the ČOVEČANSTVO / OSEĆAJ OSEBENOSTI companion visual stay bounded by existing EXTREM / EXTRONDOL / SPAJA KOD ownership.',
+        'ČOVEČNOST primary visual remains audit-safe and technically bound to the existing readiness profile, while the ČOVEČANSTVO supplemental visuals, including ENTIZUJAŽAM, EPILOG, and MATIČNE ĆELIJE / SPOZNAVANJE SEBE, plus the ČOVEČANSTVO / OSEĆAJ OSEBENOSTI companion visual stay bounded by existing EXTREM / EXTRONDOL / SPAJA KOD ownership.',
       publicSummary:
-        'ČOVEČNOST ostaje javni audit-safe odraz znanja, iskustva i predviđanja kroz postojeći Developer/Create ritam i etapni razvoj bez novih ruta, dok supplemental vizueli — uključujući ENTIZUJAŽAM i ČOVEČANSTVO — EPILOG — i companion vizuel ostaju pomoćni audit-safe slojevi istog reflection paketa.',
+        'ČOVEČNOST ostaje javni audit-safe odraz znanja, iskustva i predviđanja kroz postojeći Developer/Create ritam i etapni razvoj bez novih ruta, dok supplemental vizueli — uključujući ENTIZUJAŽAM, ČOVEČANSTVO — EPILOG i MATIČNE ĆELIJE / SPOZNAVANJE SEBE — i companion vizuel ostaju pomoćni audit-safe slojevi istog reflection paketa.',
       governanceChecklistStatus:
         'No new runtime routes; the primary ČOVEČNOST visual remains canonical and technically bound to the existing profile, the ČOVEČANSTVO visuals stay supplemental-only, DOK/DIK/FOR stay in EXTREM, DAK/DUK stay in EXTRONDOL, and downstream sync remains follow-up only until audit-safe summary is adopted.',
     },
@@ -6696,6 +6734,7 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
     'Repo-wide odraz ostaje validan samo kada su docs, types, routes, tests i workflows drift-zero poravnati bez novih runtime ruta.',
     'Supplied ČOVEČNOST image remains documentation/audit-only visual evidence inside the existing image-to-signal pattern, stays bound to the existing technicalReadinessProfile, and does not replace the existing priroda-zdrav-zivot-covecanstvo epilog scenario.',
     'Supplied ČOVEČANSTVO / ŽIVOT JE NAJVEĆA IGRA image remains supplemental audit/reference evidence only and extends the same bounded reflection package without replacing the primary ČOVEČNOST proof.',
+    'Supplied MATIČNE ĆELIJE / SPOZNAVANJE SEBE image remains supplemental audit/reference evidence only and extends the same bounded reflection package as documentation/evidence without introducing any new runtime source of truth.',
     'Supplied ČOVEČANSTVO / OSEĆAJ OSEBENOSTI image remains companion-only audit evidence for samospoznaja, razumevanje mozga, osećaj, čovečnost, shared-world alignment i epilog guidance bez novog source-of-truth sloja.',
     'Dnevni operativni sloj ostaje governance artefakt: isti dan mora zaključati jednu aktivnu roadmap fazu, prioritete 1–3, merljiv izlaz, acceptance evidence i closeout status completed/carried-over/blocked.',
     'Jutarnji start, deep-focus blok, midday checkpoint i end-of-day closeout ostaju obavezni cadence blokovi izvedeni iz postojećih modula, validatora i workflow-a.',
