@@ -140,3 +140,10 @@ Implementacioni redosled ostaje zaključan:
 
 - Linked-repo follow-up nije obavezan u ovoj fazi.
 - Ako downstream dokumentacija bude uvedena, sinhronizuju se samo audit-safe readiness/governance summary polja.
+
+## AI PLATE interpretative lock
+
+- `AI PLATE` pripada `DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == RADNI TAKT MOZGA (MISLILAC)` repo-wide reflection-u kao additive-only komercijalni/runtime paket na Vercel-u.
+- `AI PLATE` nije novi runtime modul i ne uvodi novu rutu; bounded readiness profil ostaje izveden iz postojećeg `developerAndCreateRepoWideReflection`.
+- `12000 EURA nedeljno` ostaje business/finops target i mora proći billing approval, Vercel sales alignment, audit evidence i legal/tax review pre WAWE promocije.
+- Public boundary ostaje zaključan na `SPAJA KOD` audit-safe summary bez finansijskih detalja, sirovih governance mapa ili internih formula.

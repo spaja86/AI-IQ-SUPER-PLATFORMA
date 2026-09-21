@@ -52,6 +52,17 @@ Audit reference convention:
 
 `AI-IQ-SUPER-PLATFORMA#EXTRIMLI-DOK-DIK-DAK-DUK-CONSISTENCY -> IO-OPENUI-AO#<follow-up issue>`
 
+## AI PLATE downstream reference
+
+- This repo: `AI-IQ-SUPER-PLATFORMA` — `AI PLATE` additive-only Vercel commercial/runtime package over EXTRIMLI / EXTREM / EXTRONDOL / SPAJA KOD
+- Linked repo: `spaja86/IO-OPENUI-AO` — Follow-up required
+- Note: Sync only audit-safe summary outputs (`developerAndCreateRepoWideReflection.aiPlateOffer.packageOutputs`, `releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.aiPlateGovernance`, `spajaKod.publicSignals.aiPlateStatus`); invoices, payment methods, raw billing evidence, secrets, and internal governance formulas remain repo-local
+- Downstream adoption remains follow-up only until the linked repo accepts the same summary contract
+
+Audit reference convention:
+
+`AI-IQ-SUPER-PLATFORMA#AI-PLATE-VERCEL-PACKAGE -> IO-OPENUI-AO#<follow-up issue>`
+
 ## EXTRIMLI ČOVEČANSTVU epilog package downstream reference
 
 - This repo: `AI-IQ-SUPER-PLATFORMA` — `ČOVEČANSTVU` additive media track over EXTRIMLI / EXTREM / EXTRONDOL

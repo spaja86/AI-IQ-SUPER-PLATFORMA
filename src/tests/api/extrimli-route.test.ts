@@ -698,6 +698,8 @@ async function runTests(): Promise<void> {
     assert(['READY', 'WATCH', 'BLOCKED'].includes(body.data.publicSignals.spajinoProporcionalnoProgramiranjeUniverzitetStatus), 'unexpected SPAJA KOD university summary status');
     assert(['READY', 'WATCH', 'BLOCKED'].includes(body.data.publicSignals.vrhProgramskogEkviladentaStatus), 'unexpected SPAJA KOD vrh summary status');
     assert(['READY', 'WATCH', 'BLOCKED'].includes(body.data.publicSignals.developerAndCreateStatus), 'unexpected SPAJA KOD developer/create summary status');
+    assert(['READY', 'WATCH', 'BLOCKED'].includes(body.data.publicSignals.aiPlateStatus), 'unexpected SPAJA KOD AI PLATE summary status');
+    assert(body.data.publicSignals.aiPlateStatus === body.data.publicSignals.developerAndCreateStatus, 'unexpected SPAJA KOD AI PLATE/developer-create mismatch');
     assert(body.data.epilogijaCovecnosti.title === 'EPILOGIJA ČOVEČANSTVA', 'unexpected SPAJA KOD epilog title');
     assert(body.data.epilogijaCovecnosti.canonicalNarrativeId === 'priroda-zdrav-zivot-covecanstvo', 'unexpected SPAJA KOD canonical epilog narrative id');
     assert(body.data.epilogijaCovecnosti.citation.includes('Priroda izum samoživost'), 'SPAJA KOD epilog citation should preserve canonical narrative');

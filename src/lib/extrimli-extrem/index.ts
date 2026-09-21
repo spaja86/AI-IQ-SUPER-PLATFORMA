@@ -6647,6 +6647,116 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
     },
     consolidatedRhythmStatus: dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.status,
   };
+  dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.aiPlateOffer = {
+    canonicalName: 'AI PLATE',
+    runtimeProvider: 'Vercel',
+    additiveOnly: true,
+    packageMode: 'commercial-runtime-package',
+    offerScope: 'AI, agente, copilote i sve ostale',
+    businessTarget: {
+      amountEur: 12000,
+      cadence: 'weekly',
+      classification: 'business-finops-target-only',
+      hardcodedRuntimeFact: false,
+      billingApprovalRequired: true,
+      vercelSalesAlignmentRequired: true,
+      auditEvidenceRequired: true,
+      legalTaxReviewRequired: true,
+      financialDataBoundary: 'outside-git',
+    },
+    targetUsers: ['internal-ai-agents', 'copilot-style-assistants', 'external-automation-clients'],
+    packageTiers: {
+      launchTier: 'AI-PLATE-GOVERNED-RUNTIME',
+      supportedTiers: [
+        'AI-PLATE-FOUNDATION',
+        'AI-PLATE-GOVERNED-RUNTIME',
+        'AI-PLATE-ENTERPRISE-EXTENSION',
+      ],
+    },
+    launchScope: {
+      inScopeAgentFamilies: [
+        'EXTRIMLI',
+        'EXTRONDOL',
+        'EXTREM',
+        'SPAJA KOD',
+        'ci-bot',
+        'human-review',
+        'security-scanner',
+      ],
+      followUpAgentFamilies: [
+        'multi-repo-sync-agent',
+        'deploy-bot',
+        'analytics-bot',
+        'nova-generacija-agent',
+      ],
+    },
+    usageModel: {
+      usageBoundary: 'governed-runtime-capacity-with-allowlisted-tenants',
+      supportScope: 'business-critical-governed-support',
+      slaExpectation: 'bounded-by-existing-wawe-kpi-and-human-review-gates',
+      onboardingPath: [
+        'billing-approval',
+        'vercel-sales-alignment',
+        'audit-evidence-check',
+        'legal-tax-review',
+        'tenant-onboarding',
+        'wawe-promotion',
+      ],
+    },
+    boundedReadinessProfile: {
+      consolidatedStatus: dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.status,
+      readinessScore: dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.score,
+      deterministicFallbackRequired:
+        dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.deterministicFallbackRequired,
+      reasons: [...dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.reasons],
+      mappedRuntimeSurfaces: ['/api/extrimli/extrem', '/api/extrimli/extrondol', '/api/extrimli/spaja-kod'],
+      ownership: {
+        technical: 'DOK+DIK+FOR->EXTREM',
+        governance: 'DAK+DUK->EXTRONDOL',
+        publicBoundary: 'SPAJA KOD',
+      },
+      flowBindings: {
+        dokStatus: dokDikDakDukConsistencyHealth.signals.dok.status,
+        dikStatus: dokDikDakDukConsistencyHealth.signals.dik.status,
+        forStatus: vrhProgramskogEkviladenta.technicalEvidence.forLoopBinding.forEvidence.status,
+        dakDukGovernedIn: '/api/extrimli/extrondol',
+      },
+    },
+    vercelRuntimeModel: {
+      runtimeSourceOfTruth: 'Vercel',
+      governanceLayer: 'GitHub Actions',
+      environmentStrategy: ['preview', 'staging', 'production'],
+      requiredGates: ['preview', 'staging', 'smoke', 'rollback', 'observability'],
+      canonicalDomainStrategy: 'spaja.nivo-spaja + *.spaja.nivo-spaja',
+    },
+    securityAndCompliance: {
+      secretManagementBoundary: 'no-invoices-payment-methods-or-secrets-in-git',
+      dependencySecurityScanRequired: true,
+      secretScanRequired: true,
+      tenantIsolation: 'bounded-tenant-separation-required',
+      accessModel: 'allowlist-and-governed-onboarding',
+      auditLogging: 'mandatory',
+      abuseProtection: 'rate-limit-and-fair-use-required',
+    },
+    downstreamSync: {
+      linkedRepo: 'spaja86/IO-OPENUI-AO',
+      syncPolicy: 'audit-safe-summary-only',
+      adoptionMode: 'follow-up-only-until-downstream-adopts-summary',
+      syncedFields: [
+        'developerAndCreateRepoWideReflection.aiPlateOffer.packageOutputs',
+        'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.aiPlateGovernance',
+        'spajaKod.publicSignals.aiPlateStatus',
+      ],
+    },
+    packageOutputs: {
+      auditShortSummary:
+        'AI PLATE is defined as an additive-only Vercel commercial/runtime package over the existing Developer/Create reflection and does not create a new runtime source of truth.',
+      publicSummary:
+        'AI PLATE objedinjuje AI, agente, copilote i ostale automatizovane klijente kroz postojeće EXTRIMLI / EXTREM / EXTRONDOL / SPAJA KOD surface-ove uz audit-safe Vercel operativni model.',
+      governanceChecklistStatus:
+        '12000 EUR weekly target remains a business/finops target only; billing approval, Vercel sales alignment, audit evidence, legal/tax review, security scans, and downstream follow-up remain mandatory before promotion.',
+    },
+  };
   dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.covecnostAuditVisualReference = {
     ...dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.covecnostAuditVisualReference,
     imageToSignalProfile: {
@@ -6721,6 +6831,7 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
       'dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.covecnostAuditVisualReference',
       'dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.covecnostAuditVisualReference.supplementalVisualReferences',
       'dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.covecnostAuditVisualReference.companionAuditVisualReferences',
+      'dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.aiPlateOffer',
       'spajaKod.publicSignals.developerAndCreateStatus',
       'radniTaktMozgaMislilac.readiness',
       'metrikoProgramiranje.readiness',
@@ -6733,6 +6844,10 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
     'DEVELOPER AND CREATE ostaje additive-only repo-wide interpretativni lock preko postojećih EXTRIMLI / EXTREM / EXTRONDOL kontrakata.',
     'VRH PROGRAMSKOG EKVILADENTA ostaje vršni sloj, RADNI TAKT MOZGA (MISLILAC) ostaje zajednički ritam/readiness signal, a METRIČKO / SINEMETRIČKO / PARADIJOGONALNO ostaju kanonski prateći track-ovi.',
     'Repo-wide odraz ostaje validan samo kada su docs, types, routes, tests i workflows drift-zero poravnati bez novih runtime ruta.',
+    'AI PLATE ostaje additive-only commercial/runtime paket na Vercel-u: 12000 EUR weekly target je poslovni/finops cilj, a ne hardcoded runtime billing činjenica.',
+    'AI PLATE launch obuhvata interne AI agente, Copilot-style asistente i spoljne automation klijente kroz isti bounded readiness profil; billing approval, Vercel sales alignment, audit evidence i legal/tax review ostaju hard gate uslovi pre promocije.',
+    'AI PLATE Vercel operativni model ostaje zaključan na preview/staging/production okruženja sa smoke, rollback i observability gate-ovima, dok GitHub Actions ostaje audit/governance sloj.',
+    'AI PLATE downstream sync ostaje audit-safe summary only prema spaja86/IO-OPENUI-AO dok linked repo ne usvoji isti summary contract.',
     'Supplied ČOVEČNOST image remains documentation/audit-only visual evidence inside the existing image-to-signal pattern, stays bound to the existing technicalReadinessProfile, and does not replace the existing priroda-zdrav-zivot-covecanstvo epilog scenario.',
     'Supplied ČOVEČANSTVO / ŽIVOT JE NAJVEĆA IGRA image remains supplemental audit/reference evidence only and extends the same bounded reflection package without replacing the primary ČOVEČNOST proof.',
     'Supplied MATIČNE ĆELIJE / SPOZNAVANJE SEBE image remains supplemental audit/reference evidence only and extends the same bounded reflection package as documentation/evidence without introducing any new runtime source of truth.',

@@ -2750,6 +2750,7 @@ function buildSpajaKodFacade(params: {
   spajinoProporcionalnoProgramiranjeUniverzitetStatus: ExtrimliExtrondolReport['extremProfiler']['spajinoProporcionalnoProgramiranjeUniverzitet']['readiness']['status'];
   vrhProgramskogEkviladentaStatus: ExtrimliExtrondolReport['extremProfiler']['vrhProgramskogEkviladenta']['readiness']['status'];
   developerAndCreateStatus: ExtrimliExtrondolReport['extremProfiler']['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['readiness']['status'];
+  aiPlateStatus: ExtrimliExtrondolReport['extremProfiler']['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['aiPlateOffer']['boundedReadinessProfile']['consolidatedStatus'];
   aiPlateEnterprisePackageStatus: ExtrimliExtrondolReport['releaseAuditSummary']['aiPlateEnterprisePackageGovernance']['status'];
 }): ExtrimliSpajaKodPublicFacade {
   const completeness = {
@@ -2824,6 +2825,7 @@ function buildSpajaKodFacade(params: {
       spajinoProporcionalnoProgramiranjeUniverzitetStatus: params.spajinoProporcionalnoProgramiranjeUniverzitetStatus,
       vrhProgramskogEkviladentaStatus: params.vrhProgramskogEkviladentaStatus,
       developerAndCreateStatus: params.developerAndCreateStatus,
+      aiPlateStatus: params.aiPlateStatus,
       aiPlateEnterprisePackageStatus: params.aiPlateEnterprisePackageStatus,
       humanReviewRequired: true,
       rollbackPlanRequired: true,
@@ -3495,6 +3497,8 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
 
   const degraded = degradedSources.length > 0;
   const currentWawe = pickWawe(orchestrationReadinessScore, degraded);
+  const currentWave = currentWawe;
+  const eligibleNextWave = nextWawe(currentWawe);
   const contractApproved = !degraded && domainStrategy.valid;
   const onboardingComplete = Boolean(governanceEvidence.onboardingComplete);
   const complianceReviewComplete = Boolean(governanceEvidence.complianceReviewComplete);
@@ -3996,16 +4000,21 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
 
       return {
         sourceOfTruth: '/api/extrimli/extrem',
-        status: extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.status,
-        readinessScore: extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.score,
-        deterministicFallbackRequired: extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.deterministicFallbackRequired,
+        status:
+          extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.aiPlateOffer.boundedReadinessProfile.consolidatedStatus,
+        readinessScore:
+          extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.aiPlateOffer.boundedReadinessProfile.readinessScore,
+        deterministicFallbackRequired:
+          extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.aiPlateOffer.boundedReadinessProfile.deterministicFallbackRequired,
         reviewRequiredBeforeWideRollout:
-          extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.status !== 'READY',
-        blockerReasons: extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.status === 'BLOCKED'
-          ? [...extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.reasons]
+          extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.aiPlateOffer.boundedReadinessProfile.consolidatedStatus !== 'READY',
+        blockerReasons:
+          extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.aiPlateOffer.boundedReadinessProfile.consolidatedStatus === 'BLOCKED'
+          ? [...extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.aiPlateOffer.boundedReadinessProfile.reasons]
           : [],
-        watchReasons: extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.status === 'WATCH'
-          ? [...extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.reasons]
+        watchReasons:
+          extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.aiPlateOffer.boundedReadinessProfile.consolidatedStatus === 'WATCH'
+          ? [...extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.aiPlateOffer.boundedReadinessProfile.reasons]
           : [],
         mappedTracks: extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.mappedTracks,
         dailyOperationalCadence: {
@@ -4023,6 +4032,35 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
             extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.status !== 'READY',
         },
         technicalReadinessProfile: extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.technicalReadinessProfile,
+        aiPlateGovernance: {
+          canonicalName: extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.aiPlateOffer.canonicalName,
+          runtimeProvider: extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.aiPlateOffer.runtimeProvider,
+          packageMode: extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.aiPlateOffer.packageMode,
+          offerScope: extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.aiPlateOffer.offerScope,
+          status: extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.aiPlateOffer.boundedReadinessProfile.consolidatedStatus,
+          readinessScore: extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.aiPlateOffer.boundedReadinessProfile.readinessScore,
+          deterministicFallbackRequired:
+            extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.aiPlateOffer.boundedReadinessProfile.deterministicFallbackRequired,
+          businessTarget: extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.aiPlateOffer.businessTarget,
+          launchTier: extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.aiPlateOffer.packageTiers.launchTier,
+          targetUsers: extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.aiPlateOffer.targetUsers,
+          launchScope: extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.aiPlateOffer.launchScope,
+          usageModel: extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.aiPlateOffer.usageModel,
+          boundedReadinessProfile: extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.aiPlateOffer.boundedReadinessProfile,
+          vercelRuntimeModel: extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.aiPlateOffer.vercelRuntimeModel,
+          securityAndCompliance: {
+            ...extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.aiPlateOffer.securityAndCompliance,
+            reviewRequiredBeforeWideRollout:
+              extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.aiPlateOffer.boundedReadinessProfile.consolidatedStatus !== 'READY',
+          },
+          downstreamSync: extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.aiPlateOffer.downstreamSync,
+          currentWave,
+          eligibleNextWave,
+          promotionFreeze,
+          humanReviewRequired: true,
+          rollbackPlanRequired: true,
+          packageOutputs: extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.aiPlateOffer.packageOutputs,
+        },
         covecnostAuditVisualReference: mappedDeveloperCreateCovecnostAuditVisualReference,
         roadmapExecution: {
           roadmapStageId: 'v5-extrondol-release-audit-and-orchestration',
@@ -4033,7 +4071,9 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
             'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance',
             'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.covecnostAuditVisualReference.supplementalVisualReferences',
             'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.covecnostAuditVisualReference.companionAuditVisualReferences',
+            'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.aiPlateGovernance',
             'spajaKod.publicSignals.developerAndCreateStatus',
+            'spajaKod.publicSignals.aiPlateStatus',
           ],
           downstreamSync: 'follow-up-only-until-io-openui-ao-adopts-audit-safe-summary',
         },
@@ -4901,6 +4941,7 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
     spajinoProporcionalnoProgramiranjeUniverzitetStatus: extremProfiler.spajinoProporcionalnoProgramiranjeUniverzitet.readiness.status,
     vrhProgramskogEkviladentaStatus: extremProfiler.vrhProgramskogEkviladenta.readiness.status,
     developerAndCreateStatus: extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.status,
+    aiPlateStatus: extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.aiPlateOffer.boundedReadinessProfile.consolidatedStatus,
     aiPlateEnterprisePackageStatus,
   });
   const spajaproTrack = buildSpajaproGovernanceTrack({
@@ -5088,6 +5129,7 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
       driftZeroLayers: ['docs', 'types', 'routes', 'tests', 'workflows'],
       roadmapStageMapping: extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.roadmapStageMapping,
       technicalReadinessProfile: extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.technicalReadinessProfile,
+      aiPlateOffer: extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.aiPlateOffer,
       covecnostAuditVisualReference: mapDeveloperCreateCovecnostAuditVisualReference(
         extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.covecnostAuditVisualReference,
       ),
@@ -5096,10 +5138,14 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
       dailyOperationalCadence:
         extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.dailyOperationalCadence,
       readiness: {
-        score: extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.score,
-        status: extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.status,
-        deterministicFallbackRequired: extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.deterministicFallbackRequired,
-        reasons: [...extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.reasons],
+        score:
+          extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.aiPlateOffer.boundedReadinessProfile.readinessScore,
+        status:
+          extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.aiPlateOffer.boundedReadinessProfile.consolidatedStatus,
+        deterministicFallbackRequired:
+          extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.aiPlateOffer.boundedReadinessProfile.deterministicFallbackRequired,
+        reasons:
+          [...extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.aiPlateOffer.boundedReadinessProfile.reasons],
       },
     },
     reasons: [],
@@ -5542,9 +5588,10 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
           publicBoundary: '/api/extrimli/spaja-kod',
           additiveOnly: true,
           governanceVisibility: 'audit-safe-readiness-only',
-          status: extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.status,
-          readinessScore: extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.score,
-          deterministicFallbackRequired: extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.deterministicFallbackRequired,
+          status: extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.aiPlateOffer.boundedReadinessProfile.consolidatedStatus,
+          readinessScore: extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.aiPlateOffer.boundedReadinessProfile.readinessScore,
+          deterministicFallbackRequired:
+            extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.aiPlateOffer.boundedReadinessProfile.deterministicFallbackRequired,
           ownershipModel: {
             dokDikFor: 'EXTREM',
             dakDuk: 'EXTRONDOL',
@@ -5552,6 +5599,37 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
           },
           mappedTracks: extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.mappedTracks,
           technicalReadinessProfile: extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.technicalReadinessProfile,
+          aiPlateGovernance: {
+            canonicalName: extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.aiPlateOffer.canonicalName,
+            runtimeProvider: extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.aiPlateOffer.runtimeProvider,
+            packageMode: extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.aiPlateOffer.packageMode,
+            offerScope: extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.aiPlateOffer.offerScope,
+            status:
+              extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.aiPlateOffer.boundedReadinessProfile.consolidatedStatus,
+            readinessScore:
+              extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.aiPlateOffer.boundedReadinessProfile.readinessScore,
+            deterministicFallbackRequired:
+              extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.aiPlateOffer.boundedReadinessProfile.deterministicFallbackRequired,
+            businessTarget: extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.aiPlateOffer.businessTarget,
+            launchTier: extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.aiPlateOffer.packageTiers.launchTier,
+            targetUsers: extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.aiPlateOffer.targetUsers,
+            launchScope: extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.aiPlateOffer.launchScope,
+            usageModel: extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.aiPlateOffer.usageModel,
+            boundedReadinessProfile: extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.aiPlateOffer.boundedReadinessProfile,
+            vercelRuntimeModel: extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.aiPlateOffer.vercelRuntimeModel,
+            securityAndCompliance: {
+              ...extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.aiPlateOffer.securityAndCompliance,
+              reviewRequiredBeforeWideRollout:
+                extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.aiPlateOffer.boundedReadinessProfile.consolidatedStatus !== 'READY',
+            },
+            downstreamSync: extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.aiPlateOffer.downstreamSync,
+            currentWave,
+            eligibleNextWave,
+            promotionFreeze,
+            humanReviewRequired: true,
+            rollbackPlanRequired: true,
+            packageOutputs: extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.aiPlateOffer.packageOutputs,
+          },
           covecnostAuditVisualReference: mappedDeveloperCreateCovecnostAuditVisualReference,
           repoWideReflection: extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.repoWideReflection,
           dailyOperationalCadence: {
@@ -5569,7 +5647,9 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
               'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance',
               'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.covecnostAuditVisualReference.supplementalVisualReferences',
               'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.covecnostAuditVisualReference.companionAuditVisualReferences',
+              'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.aiPlateGovernance',
               'spajaKod.publicSignals.developerAndCreateStatus',
+              'spajaKod.publicSignals.aiPlateStatus',
             ],
             downstreamSync: 'follow-up-only-until-io-openui-ao-adopts-audit-safe-summary',
           },
@@ -6269,9 +6349,12 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
       publicBoundary: '/api/extrimli/spaja-kod',
       additiveOnly: true,
       governanceVisibility: 'audit-safe-readiness-only',
-      status: extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.status,
-      readinessScore: extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.score,
-      deterministicFallbackRequired: extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.deterministicFallbackRequired,
+      status:
+        extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.aiPlateOffer.boundedReadinessProfile.consolidatedStatus,
+      readinessScore:
+        extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.aiPlateOffer.boundedReadinessProfile.readinessScore,
+      deterministicFallbackRequired:
+        extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.aiPlateOffer.boundedReadinessProfile.deterministicFallbackRequired,
       ownershipModel: {
         dokDikFor: 'EXTREM',
         dakDuk: 'EXTRONDOL',
@@ -6279,6 +6362,37 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
       },
       mappedTracks: extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.mappedTracks,
       technicalReadinessProfile: extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.technicalReadinessProfile,
+      aiPlateGovernance: {
+        canonicalName: extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.aiPlateOffer.canonicalName,
+        runtimeProvider: extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.aiPlateOffer.runtimeProvider,
+        packageMode: extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.aiPlateOffer.packageMode,
+        offerScope: extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.aiPlateOffer.offerScope,
+        status:
+          extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.aiPlateOffer.boundedReadinessProfile.consolidatedStatus,
+        readinessScore:
+          extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.aiPlateOffer.boundedReadinessProfile.readinessScore,
+        deterministicFallbackRequired:
+          extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.aiPlateOffer.boundedReadinessProfile.deterministicFallbackRequired,
+        businessTarget: extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.aiPlateOffer.businessTarget,
+        launchTier: extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.aiPlateOffer.packageTiers.launchTier,
+        targetUsers: extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.aiPlateOffer.targetUsers,
+        launchScope: extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.aiPlateOffer.launchScope,
+        usageModel: extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.aiPlateOffer.usageModel,
+        boundedReadinessProfile: extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.aiPlateOffer.boundedReadinessProfile,
+        vercelRuntimeModel: extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.aiPlateOffer.vercelRuntimeModel,
+        securityAndCompliance: {
+          ...extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.aiPlateOffer.securityAndCompliance,
+          reviewRequiredBeforeWideRollout:
+            extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.aiPlateOffer.boundedReadinessProfile.consolidatedStatus !== 'READY',
+        },
+        downstreamSync: extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.aiPlateOffer.downstreamSync,
+        currentWave,
+        eligibleNextWave,
+        promotionFreeze,
+        humanReviewRequired: true,
+        rollbackPlanRequired: true,
+        packageOutputs: extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.aiPlateOffer.packageOutputs,
+      },
       covecnostAuditVisualReference: mapDeveloperCreateCovecnostAuditVisualReference(
         extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.covecnostAuditVisualReference,
       ),
@@ -6298,7 +6412,9 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
           'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance',
           'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.covecnostAuditVisualReference.supplementalVisualReferences',
           'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.covecnostAuditVisualReference.companionAuditVisualReferences',
+          'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.aiPlateGovernance',
           'spajaKod.publicSignals.developerAndCreateStatus',
+          'spajaKod.publicSignals.aiPlateStatus',
         ],
         downstreamSync: 'follow-up-only-until-io-openui-ao-adopts-audit-safe-summary',
       },

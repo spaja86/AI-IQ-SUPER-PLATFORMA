@@ -32,6 +32,7 @@ This repository now exposes five aligned surfaces:
 | **World Bank Persona Bridge** | `src/lib/extrimli-world-bank-persona/`, `src/app/api/extrimli/world-bank-persona/` | Active | Maps AI IQ World Bank business context + EXTRIMLI/EXTRONDOL readiness into persona-centric output and Persona Bank lifecycle updates |
 
 - `DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == RADNI TAKT MOZGA (MISLILAC)` ostaje additive-only repo-wide reflection nad postojećim `VRH`, `RADNI TAKT`, `METRIČKO`, `SINEMETRIČKO` i `PARADIJOGONALNO` track-ovima.
+- `AI PLATE` je additive-only Vercel commercial/runtime package nad tim istim repo-wide reflection-om za `AI, agente, copilote i sve ostale`; ne uvodi novi runtime source of truth i zadržava zaključan split `DOK + DIK + FOR -> EXTREM`, `DAK + DUK -> EXTRONDOL`, `SPAJA KOD -> public-safe summary only`.
 - Kanonski dokaz tog odraza objavljuje se kroz `dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection`, sa istim `READY | WATCH | BLOCKED` modelom i istim deterministic fallback pravilima za `NaN`, `Infinity`, prazne i konfliktne ulaze.
 - Tehnički “radni takt” odraz repo-wide ostaje strukturisan kroz `dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.technicalReadinessProfile`, koji sabira samo postojeće `RADNI TAKT`, `METRIČKO`, `SINEMETRIČKO`, `PARADIJOGONALNO` i `VRH` readiness signale.
 - Primarni asset `https://github.com/user-attachments/assets/4790f4ea-4271-4d2a-ae0a-d9bec5bc8b8a` ostaje additive-only audit/documentation vizuel za `ČOVEČNOST` i objavljuje se isključivo kroz `dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.covecnostAuditVisualReference`, bez zamene postojećeg `priroda-zdrav-zivot-covecanstvo` epilog scenarija.
@@ -102,6 +103,16 @@ EXTRIMLI koristi kontrolisan WAWE rollout iz Vercel deploy toka ka Digitalna Ind
 5. WAWE 5 — Post-release resilience + analytics potvrda
 
 Promotion freeze je obavezan kada KPI/audit/sync nije potpun, uz rollback na prethodni known-good Vercel deployment.
+
+## AI PLATE Vercel package
+
+- Runtime/deploy source of truth: Vercel
+- Governance/audit layer: GitHub Actions
+- Launch environments: `preview`, `staging`, `production`
+- Obavezni gate-ovi: `preview`, `staging`, `smoke`, `rollback`, `observability`
+- Poslovni cilj: `12000 EURA nedeljno` kao business/finops target only
+- Aktivacioni hard gate-ovi: billing approval, Vercel sales alignment, audit evidence, legal/tax review, security scans, downstream follow-up
+- Downstream sync: samo audit-safe summary polja ka `spaja86/IO-OPENUI-AO`
 
 ## Locked source-of-truth set
 
