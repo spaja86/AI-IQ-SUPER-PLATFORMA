@@ -58,6 +58,25 @@ Cilj je da EXTRIMLI ostane podeljen na dva jasno odvojena sloja:
 - **Runtime source of truth:** Vercel Git integracija
 - **GitHub Actions role:** audit, governance i downstream coordination
 
+### 4.0 ČOVEČANSTVU media publication lock
+
+- `ČOVEČANSTVU` epilog package je additive EXTRIMLI / EXTREM / EXTRONDOL media track i nije novi runtime source-of-truth.
+- Paket obuhvata samo:
+  - master epilog text,
+  - poster / carousel / hero-frame asset,
+  - video storyboard + voiceover asset,
+  - audit short summary,
+  - governance checklist.
+- Ownership split ostaje zaključan:
+  - `EXTRIMLI` = domen priče i master paket,
+  - `EXTREM` = tehnički signalni okvir (DOK/DIK/FOR),
+  - `EXTRONDOL` = WAWE publication, audit, DAK/DUK governance,
+  - `SPAJA KOD` = audit-safe public summary boundary.
+- Public-safe boundary je obavezna:
+  - dozvoljen je samo završni status, epilog i sažeta audit-safe poruka,
+  - zabranjeno je objavljivanje sirovih EXTREM/EXTRONDOL formula, internih mapping-a ili privatnih governance detalja.
+- Publish/promotion je dozvoljen samo kroz postojeći WAWE model i tek nakon eksplicitnog human-review checkpoint-a.
+
 ### 4.2 Seven-version operating envelope
 
 - `Verzija 1–3` zatvaraju runtime/readiness osnovu
@@ -137,6 +156,7 @@ EXTRIMLI GitHub sloj iznosi sledeće signale i snapshot-e:
 - instrukcija registry
 - instrukcija export bundle
 - KPI summary (eval, API, build, sync, audit coverage)
+- `ČOVEČANSTVU` epilog package summary (master text, poster, storyboard, audit short, governance checklist) kada je track aktiviran kao release/publication artifact
 
 ## 8. EXTRIMLI ↔ MAKSIMUS alignment
 
@@ -151,6 +171,7 @@ EXTRIMLI GitHub sloj iznosi sledeće signale i snapshot-e:
 - DUEL KING surface `/api/extrimli/duel-king` mora ostati uključen u EXTRIMLI health story i downstream snapshot plan kada je first-class surface aktivan.
 - Ako EXTRIMLI surface pređe KPI limit ili uđe u degraded mode, MAKSIMUS mora prijaviti preporuku za sanaciju.
 - Governance evidencija mora sadržati oba gate-a: `extrimli-validator` i `maksimus-validator`.
+- Kada `ČOVEČANSTVU` epilog package ide u objavu, governance evidencija mora dodatno potvrditi: narrative lock, human-review status, downstream reference, i rollback readiness za slikovni/video paket.
 
 ## 8.1 Naming lock
 
