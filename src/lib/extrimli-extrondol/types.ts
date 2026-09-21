@@ -647,10 +647,11 @@ export interface ExtrimliExtrondolDeveloperAndCreateRepoWideReflectionGovernance
   };
   roadmapExecution: {
     roadmapStageId: 'v5-extrondol-release-audit-and-orchestration';
-    measurableOutput: 'EXTRONDOL consumes the repo-wide technical profile and publishes only audit-safe WAWE/review/rollback governance';
+    measurableOutput: 'EXTRONDOL consumes the repo-wide technical profile and publishes only audit-safe WAWE/review/rollback governance for the additive ČOVEČNOST/ČOVEČANSTVO visual package';
     acceptanceEvidence: readonly [
       'developerAndCreateRepoWideReflection',
       'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance',
+      'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.covecnostAuditVisualReference.supplementalVisualReferences',
       'spajaKod.publicSignals.developerAndCreateStatus'
     ];
     downstreamSync: 'follow-up-only-until-io-openui-ao-adopts-audit-safe-summary';
