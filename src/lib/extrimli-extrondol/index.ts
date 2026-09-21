@@ -3690,7 +3690,6 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
     ...(!onboardingComplete ? ['onboarding-complete'] : []),
     ...(!complianceReviewComplete ? ['compliance-review-complete'] : []),
     ...(!downstreamSyncComplete ? ['downstream-sync-complete'] : []),
-    ...(!operationalApproval ? ['operational-approval'] : []),
     ...(!humanReviewComplete ? ['human-review-complete'] : []),
     ...(!auditTrailComplete ? ['audit-trail-complete'] : []),
     ...(!rollbackPlanComplete ? ['rollback-plan-complete'] : []),
