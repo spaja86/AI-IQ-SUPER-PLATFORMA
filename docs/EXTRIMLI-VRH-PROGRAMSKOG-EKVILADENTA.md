@@ -54,7 +54,7 @@ Ove trake su dozvoljene samo kao additive interpretativni slojevi unutar postoje
 - **V4** — governance hardening nad tim signalima sa determinističkim `READY | WATCH | BLOCKED` pravilima i fallback-om za `NaN`, `Infinity`, prazne ili konfliktne ulaze
 - **V5** — EXTRONDOL release orkestracija kroz WAWE uticaj, freeze/promotion razloge, release-audit i downstream summary
 
-Aktivni execution lock za trenutnu realizaciju ostaje `roadmapStageId=v5-extrondol-release-audit-and-orchestration`: EXTREM drži tehnički `technicalReadinessProfile` za repo-wide “radni takt”, a EXTRONDOL izlaže samo audit-safe orkestraciju i SPAJA KOD summary bez novih runtime ruta.
+Aktivni execution lock ostaje podeljen: repo-wide reflection i dalje ostaje `roadmapStageId=v5-extrondol-release-audit-and-orchestration`, dok AI PLATE enterprise operating model mora biti vezan za `roadmapStageId=Verzija 7`. U oba slučaja EXTREM drži tehnički `technicalReadinessProfile`, EXTRONDOL izlaže audit-safe orkestraciju, a SPAJA KOD samo summary bez novih runtime ruta.
 
 ## AI PLATE enterprise additive package
 

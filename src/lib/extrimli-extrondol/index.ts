@@ -3495,6 +3495,7 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
   const currentWawe = pickWawe(orchestrationReadinessScore, degraded);
   const contractApproved = !degraded && domainStrategy.valid;
   const onboardingComplete = governanceEvidence.onboardingComplete;
+  const complianceReviewComplete = currentWawe !== 'WAWE-1';
   const downstreamSyncComplete = governanceEvidence.downstreamSyncComplete;
   const operationalApproval = currentWawe !== 'WAWE-1' && currentWawe !== 'WAWE-2';
   const humanReviewComplete = governanceEvidence.humanReviewComplete;
@@ -3684,6 +3685,7 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
   const aiPlateEnterprisePackageBlockers = [
     ...(!contractApproved ? ['contract-approved'] : []),
     ...(!onboardingComplete ? ['onboarding-complete'] : []),
+    ...(!complianceReviewComplete ? ['compliance-review-complete'] : []),
     ...(!downstreamSyncComplete ? ['downstream-sync-complete'] : []),
     ...(!operationalApproval ? ['operational-approval'] : []),
     ...(!humanReviewComplete ? ['human-review-complete'] : []),
