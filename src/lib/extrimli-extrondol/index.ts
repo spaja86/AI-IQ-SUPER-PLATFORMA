@@ -1686,8 +1686,8 @@ function mapCovecanstvoEpilog(
     visualReference: epilog.visualReference,
     interpretation: epilog.interpretation,
     flowLock: epilog.flowLock,
-    packageOutputs: epilog.packageOutputs,
-    dokerKuratIzekDokarOverlay: epilog.dokerKuratIzekDokarOverlay,
+    packageOutputs: { ...epilog.packageOutputs },
+    dokerKuratIzekDokarOverlay: { ...epilog.dokerKuratIzekDokarOverlay },
   };
 }
 
