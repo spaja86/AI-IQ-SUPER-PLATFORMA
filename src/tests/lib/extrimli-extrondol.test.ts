@@ -227,7 +227,11 @@ async function runTests(): Promise<void> {
     assert(report.releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.covecnostAuditVisualReference.companionAuditVisualReferences[0].visualReference.includes('9273c07f-5c03-4db4-a469-d22d456596f9'), 'developer/create release audit companion visual reference mismatch');
     assert(report.releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.covecnostAuditVisualReference.companionAuditVisualReferences[0].imageToSignalProfile.signalOutputs.readinessStatus === report.releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.status, 'developer/create release audit companion readiness status mismatch');
     assert(report.releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.roadmapExecution.roadmapStageId === 'v5-extrondol-release-audit-and-orchestration', 'developer/create release audit roadmap stage mismatch');
-    assert(report.releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.roadmapExecution.acceptanceEvidence.join(',') === 'developerAndCreateRepoWideReflection,releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance,spajaKod.publicSignals.developerAndCreateStatus', 'developer/create release audit acceptance evidence mismatch');
+    assert(
+      report.releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.roadmapExecution.acceptanceEvidence.join(',') ===
+        'developerAndCreateRepoWideReflection,releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance,releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.covecnostAuditVisualReference.companionAuditVisualReferences,spajaKod.publicSignals.developerAndCreateStatus',
+      'developer/create release audit acceptance evidence mismatch',
+    );
     assert(report.spajaKod.developerAndCreateVisualReflection.visualReference.includes('19687ee8-363f-4c10-ba2d-bd451598b4df'), 'SPAJA KOD developer/create ČOVEČNOST visual reference mismatch');
     assert(report.spajaKod.developerAndCreateVisualReflection.imageToSignalProfile.ownershipLock.spajaKod === 'audit-safe-summary-only', 'SPAJA KOD developer/create ČOVEČNOST boundary mismatch');
     assert(report.spajaKod.developerAndCreateVisualReflection.companionAuditVisualReferences[0].visualReference.includes('9273c07f-5c03-4db4-a469-d22d456596f9'), 'SPAJA KOD developer/create companion visual reference mismatch');
