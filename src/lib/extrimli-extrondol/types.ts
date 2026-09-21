@@ -153,7 +153,7 @@ export interface ExtrimliExtrondolAiPlateEnterprisePackage {
 }
 
 export interface ExtrimliExtrondolAiPlateEnterprisePackageReadiness {
-  status: 'READY' | 'WATCH' | 'BLOCKED';
+  status: 'READY' | 'BLOCKED';
   decisionMode: 'premium-rollout-regime';
   contractApprovalRequired: true;
   complianceReviewRequired: true;
@@ -1562,7 +1562,7 @@ export interface ExtrimliExtrondolReleaseAuditSummary {
   };
   aiPlateEnterprisePackageGovernance: {
     sourceOfTruth: '/api/extrimli/extrondol';
-    status: 'READY' | 'WATCH' | 'BLOCKED';
+    status: 'READY' | 'BLOCKED';
     canonicalName: 'DEVELOPER AND CREATE / VRH PROGRAMSKOG EKVILADENTA / AI PLATE';
     weeklyPriceEur: 12000;
     weeklyCadenceDecision: 'premium-rollout-regime';
@@ -2231,7 +2231,7 @@ export interface ExtrimliSpajaKodPublicFacade {
     spajinoProporcionalnoProgramiranjeUniverzitetStatus: ExtrimliExtremProfilerReport['spajinoProporcionalnoProgramiranjeUniverzitet']['readiness']['status'];
     vrhProgramskogEkviladentaStatus: ExtrimliExtremProfilerReport['vrhProgramskogEkviladenta']['readiness']['status'];
     developerAndCreateStatus: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['readiness']['status'];
-    aiPlateEnterprisePackageStatus: 'READY' | 'WATCH' | 'BLOCKED';
+    aiPlateEnterprisePackageStatus: 'READY' | 'BLOCKED';
     humanReviewRequired: true;
     rollbackPlanRequired: true;
     degraded: boolean;

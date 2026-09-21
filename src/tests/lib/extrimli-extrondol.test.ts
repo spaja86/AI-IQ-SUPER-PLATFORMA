@@ -1259,7 +1259,7 @@ async function runTests(): Promise<void> {
     assert(report.b2bReadiness.downstreamSync.syncedFields.includes('releaseAuditSummary.aiPlateEnterprisePackageGovernance'), 'AI PLATE release audit sync field missing');
     assert(report.b2bReadiness.downstreamSync.syncedFields.includes('spajaKod.publicSignals.aiPlateEnterprisePackageStatus'), 'AI PLATE SPAJA KOD sync field missing');
     assert(report.b2bReadiness.governanceDecisions.rolloutFreeze === report.rollout.promotionFreeze, 'B2B rollout freeze must mirror rollout freeze');
-    assert(['READY', 'WATCH', 'BLOCKED'].includes(report.b2bReadiness.governanceDecisions.aiPlateEnterprisePackage.status), 'AI PLATE readiness status mismatch');
+    assert(['READY', 'BLOCKED'].includes(report.b2bReadiness.governanceDecisions.aiPlateEnterprisePackage.status), 'AI PLATE readiness status mismatch');
     assert(report.b2bReadiness.governanceDecisions.aiPlateEnterprisePackage.decisionMode === 'premium-rollout-regime', 'AI PLATE readiness decision mode mismatch');
     assert(report.b2bReadiness.governanceDecisions.aiPlateEnterprisePackage.contractApprovalRequired, 'AI PLATE contract approval must be required');
     assert(report.b2bReadiness.governanceDecisions.aiPlateEnterprisePackage.complianceReviewRequired, 'AI PLATE compliance review must be required');
