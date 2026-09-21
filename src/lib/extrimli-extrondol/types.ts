@@ -607,10 +607,12 @@ export interface ExtrimliExtrondolRadniTaktMozgaMislilacGovernance {
   };
   epilogijaCovecnosti: {
     title: 'EPILOGIJA ČOVEČANSTVA';
-    canonicalNarrativeId: 'zivot-je-igra-sitni-koraci-covecanstvo';
+    canonicalNarrativeId: 'priroda-zdrav-zivot-covecanstvo';
     includedInAuditSummary: true;
     citationPresent: true;
     visualReferencePresent: true;
+    imageToSignalProfilePresent: true;
+    ownershipLockPreserved: true;
     interpretationLayer: 'educational-development-learning-discipline-ethics-signal';
     flowLockPreserved: true;
     packageOutputs: readonly string[];
@@ -1466,10 +1468,11 @@ export interface ExtrimliExtrondolReleaseAuditSummary {
     watchReasons: string[];
     epilogijaCovecnosti: {
       title: 'EPILOGIJA ČOVEČANSTVA';
-      canonicalNarrativeId: 'zivot-je-igra-sitni-koraci-covecanstvo';
+      canonicalNarrativeId: 'priroda-zdrav-zivot-covecanstvo';
       citation: string;
       visualReference: string;
       interpretation: string;
+      imageToSignalProfile: ExtrimliExtremProfilerReport['radniTaktMozgaMislilac']['epilogijaCovecnosti']['imageToSignalProfile'];
       flowLock: ExtrimliExtremProfilerReport['radniTaktMozgaMislilac']['epilogijaCovecnosti']['flowLock'];
       packageOutputs: ExtrimliExtremProfilerReport['radniTaktMozgaMislilac']['epilogijaCovecnosti']['packageOutputs'];
       dokerKuratIzekDokarOverlay: ExtrimliExtremProfilerReport['radniTaktMozgaMislilac']['epilogijaCovecnosti']['dokerKuratIzekDokarOverlay'];
@@ -2148,10 +2151,11 @@ export interface ExtrimliSpajaKodPublicFacade {
   };
   epilogijaCovecnosti: {
     title: 'EPILOGIJA ČOVEČANSTVA';
-    canonicalNarrativeId: 'zivot-je-igra-sitni-koraci-covecanstvo';
+    canonicalNarrativeId: 'priroda-zdrav-zivot-covecanstvo';
     citation: string;
     visualReference: string;
     interpretation: string;
+    imageToSignalProfile: ExtrimliExtremProfilerReport['radniTaktMozgaMislilac']['epilogijaCovecnosti']['imageToSignalProfile'];
     flowLock: ExtrimliExtremProfilerReport['radniTaktMozgaMislilac']['epilogijaCovecnosti']['flowLock'];
     packageOutputs: ExtrimliExtremProfilerReport['radniTaktMozgaMislilac']['epilogijaCovecnosti']['packageOutputs'];
     dokerKuratIzekDokarOverlay: ExtrimliExtremProfilerReport['radniTaktMozgaMislilac']['epilogijaCovecnosti']['dokerKuratIzekDokarOverlay'];

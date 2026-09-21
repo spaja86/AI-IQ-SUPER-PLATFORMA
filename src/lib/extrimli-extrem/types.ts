@@ -671,10 +671,31 @@ export interface ExtrimliExtremRadniTaktMozgaMislilacSignal {
   profileInput: ExtrimliExtremRadniTaktMozgaMislilacProfileInput;
   epilogijaCovecnosti: {
     title: 'EPILOGIJA ČOVEČANSTVA';
-    canonicalNarrativeId: 'zivot-je-igra-sitni-koraci-covecanstvo';
+    canonicalNarrativeId: 'priroda-zdrav-zivot-covecanstvo';
     citation: string;
     visualReference: string;
     interpretation: string;
+    imageToSignalProfile: {
+      scenarioId: 'priroda-zdrav-zivot-covecanstvo';
+      theme: 'PRIRODA == ZDRAV ŽIVOT';
+      narrativeInput: string;
+      axes: {
+        prirodaAxisPercent: number;
+        zdravZivotAxisPercent: number;
+        ekosistemAxisPercent: number;
+        humanitetAxisPercent: number;
+      };
+      ownershipLock: {
+        dokDikFor: 'EXTREM';
+        dakDuk: 'EXTRONDOL';
+      };
+      signalOutputs: {
+        readinessScore: number;
+        readinessStatus: ExtrimliExtremRadniTaktMozgaMislilacStatus;
+        conflictPressurePercent: number;
+        deterministicFallbackRequired: boolean;
+      };
+    };
     flowLock: {
       sequence: readonly ['image', 'spajanje', 'posledica', 'epilog'];
       dok: string;

@@ -61,6 +61,12 @@ Signal mapiranje:
 - `DUK` → EXTRONDOL human-review tok (`DUKAR`)
 - `FOR` → EXTREM/EXTRONDOL sekvencijalni numerički tok (`FOR PETLJA`, `PROGRAMSKI JEZIK INFORMACIONIH TOKOVA`)
 
+Vizuelni PRIRODA/ZDRAV ŽIVOT profil:
+- Canonical scenario: `priroda-zdrav-zivot-covecanstvo`
+- Asset: `https://github.com/user-attachments/assets/b485b700-f670-4f71-9f54-47b29a4155ec`
+- `DOK/DIK/FOR` mapiranje ostaje tehnički signal u EXTREM (`epilogijaCovecnosti.imageToSignalProfile.signalOutputs`)
+- `DAK/DUK` mapiranje ostaje governance signal u EXTRONDOL (WAWE freeze/promotion/human-review + release audit summary)
+
 PROGRAMSKI JEZIK ANALIZA (ispitivanje eskalacije kodesnog zapleta):
 - additive-only pod-profil unutar `EXTRIMLI-EXTRONDOL-EXTREM`
 - objedinjuje `DOK + DIK` tehnički konflikt/readiness signal (EXTREM) sa `DAK + DUK` governance freeze/promotion/human-review signalom (EXTRONDOL)

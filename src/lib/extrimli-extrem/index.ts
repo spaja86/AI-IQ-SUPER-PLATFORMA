@@ -235,11 +235,11 @@ const EXTRIMLI_EXTREM_PROPORCIONALNO_PROGRAMIRANJE_OBJECT_SOURCE_TRACKS = [
 ] as const;
 
 const EXTRIMLI_EXTREM_RADNI_TAKT_MOZGA_MISLILAC_EPILOGIJA_COVECNOSTI_CITAT =
-  'Život je igra, ako previše zaigraš možeš se izgubiti u životnom okruženju pa se odrekneš života olako. Kroz životne igre uvek ideš sitnim koracima - glavni adut; ako napraviš veliki korak - loš adut, previše šupljina ima (pa sam odraz je pogrešan život). Šupljine su odraz slabosti; ako ih drugi osete možda se zaslade.';
+  'Priroda izum samoživost gde je svaka "osoba-biljka" poseban život u ekosistemima mnogobrojnih subjekata. Zato sam prizor na prirodu i njene ne istražene pejzaže nezamisliv doživljaj. Obogaćuj se "PRIRODOM" = "ZDRAV ŽIVOT".';
 const EXTRIMLI_EXTREM_RADNI_TAKT_MOZGA_MISLILAC_EPILOGIJA_COVECNOSTI_VISUAL_REFERENCE =
-  'https://github.com/user-attachments/assets/a1346923-892c-47ab-bd58-d9ef9fcbabff' as const;
+  'https://github.com/user-attachments/assets/b485b700-f670-4f71-9f54-47b29a4155ec' as const;
 const EXTRIMLI_EXTREM_RADNI_TAKT_MOZGA_MISLILAC_EPILOGIJA_COVECNOSTI_CANONICAL_NARRATIVE_ID =
-  'zivot-je-igra-sitni-koraci-covecanstvo' as const;
+  'priroda-zdrav-zivot-covecanstvo' as const;
 
 const EXTRIMLI_EXTREM_SPAJINO_PROPORCIONALNO_PROGRAMIRANJE_UNIVERZITET_NARRATIVE_TITLE =
   'Spreg funkcionalnog i objektno programiranja sa mnoštvo novih petlji' as const;
@@ -3364,27 +3364,48 @@ function buildRadniTaktMozgaMislilacSignal(
       canonicalNarrativeId: EXTRIMLI_EXTREM_RADNI_TAKT_MOZGA_MISLILAC_EPILOGIJA_COVECNOSTI_CANONICAL_NARRATIVE_ID,
       citation: EXTRIMLI_EXTREM_RADNI_TAKT_MOZGA_MISLILAC_EPILOGIJA_COVECNOSTI_CITAT,
       visualReference: EXTRIMLI_EXTREM_RADNI_TAKT_MOZGA_MISLILAC_EPILOGIJA_COVECNOSTI_VISUAL_REFERENCE,
-      interpretation: 'Formalized ČOVEČANSTVO interpretation layer for disciplined learning through small steps, risk awareness, and responsibility without changing DOK/DIK/FOR versus DAK/DUK ownership boundaries.',
+      interpretation: 'Formalized ČOVEČANSTVO interpretation layer for PRIRODA == ZDRAV ŽIVOT where ecosystem balance and human responsibility remain additive and preserve DOK/DIK/FOR technical ownership in EXTREM while DAK/DUK stays governance-only in EXTRONDOL.',
+      imageToSignalProfile: {
+        scenarioId: 'priroda-zdrav-zivot-covecanstvo',
+        theme: 'PRIRODA == ZDRAV ŽIVOT',
+        narrativeInput: 'Priroda, zdrav život i čovečanstvo kroz osoba-biljka ekosistemsku raznovrsnost.',
+        axes: {
+          prirodaAxisPercent: 96,
+          zdravZivotAxisPercent: 94,
+          ekosistemAxisPercent: 95,
+          humanitetAxisPercent: 93,
+        },
+        ownershipLock: {
+          dokDikFor: 'EXTREM',
+          dakDuk: 'EXTRONDOL',
+        },
+        signalOutputs: {
+          readinessScore: score,
+          readinessStatus: status,
+          conflictPressurePercent: profileInput.conflictPressurePercent,
+          deterministicFallbackRequired: status !== 'READY',
+        },
+      },
       flowLock: {
         sequence: ['image', 'spajanje', 'posledica', 'epilog'],
-        dok: 'Key visual scenes and the primary life-as-game message remain technical narrative evidence in EXTREM.',
-        dik: 'Conflict intensity warns that excessive play, large jumps, and weakness exposure can turn a natural relationship into danger.',
+        dok: 'Key visual scenes for PRIRODA/ZDRAV ŽIVOT remain technical narrative evidence in EXTREM.',
+        dik: 'Conflict intensity tracks ecosystem imbalance risk, health drift, and humanity-pressure escalation.',
         forPetlja: 'Narrative order is fixed as image -> spajanje -> posledica -> epilog.',
         dak: 'Wider-publication readiness remains a governance decision in EXTRONDOL.',
         duk: 'Human review remains mandatory before final publication in EXTRONDOL.',
       },
       packageOutputs: {
-        masterEpilog: 'Čovek želi čudo i kreće putem svetlosti, ali kada igru života pretvori u veliki skok nastaju šupljine, slabosti i opasnost; zato čovečanstvo mora da bira mudrost, strpljenje, sitne korake i očuvanje ljudi i prirode.',
-        posterSummary: 'Čovek želi čudo. Sunce i Sunčanica se spajaju. Igraj pametno, živi svesno, čuvaj ljude i prirodu.',
-        videoStoryboardSummary: 'image -> spajanje -> posledica -> epilog: usamljeni putnik ka svetlosti, spajanje nade i života, prelazak prirodnog odnosa u opasnost, završna opomena čovečanstvu da čuva ljude i prirodu.',
-        auditShortSummary: 'audit-safe ČOVEČANSTVU epilog package: additive-only media artifact, EXTREM keeps DOK/DIK/FOR technical framing, EXTRONDOL keeps DAK/DUK governance, and SPAJA KOD exposes only public-safe summary outputs.',
+        masterEpilog: 'Priroda i zdrav život ostaju zajednički signal čovečanstva: ekosistem je mnoštvo života, pa razvoj mora da prati balans, odgovornost i očuvanje ljudi i prirode kroz male, proverljive korake.',
+        posterSummary: 'Obogaćuj se prirodom — zdrav život je signal čovečanstva. Čuvaj ekosistem, ljude i odgovoran ritam razvoja.',
+        videoStoryboardSummary: 'image -> spajanje -> posledica -> epilog: prirodni pejzaž i biodiverzitet, spajanje prirode i zdravog života, posledice narušenog balansa, završna opomena čovečanstvu da čuva ljude i prirodu.',
+        auditShortSummary: 'audit-safe PRIRODA/ZDRAV ŽIVOT epilog package: additive-only visual artifact, EXTREM keeps DOK/DIK/FOR technical framing, EXTRONDOL keeps DAK/DUK governance, and SPAJA KOD exposes only public-safe summary outputs.',
         governanceChecklistStatus: 'DOKER downstream reference locked; KURAT public-safe boundary confirmed; IZEK review checkpoint required; DOKAR rollback readiness required before wider publication.',
       },
       dokerKuratIzekDokarOverlay: {
-        DOKER: 'Downstream reference remains locked to spaja86/IO-OPENUI-AO.',
-        KURAT: 'Poster, image, video, and voiceover must stay public-safe and must not expose raw EXTREM/EXTRONDOL formulas.',
-        IZEK: 'Audit and review checkpoint applies to image, text, storyboard, and final publication package.',
-        DOKAR: 'Rollback readiness remains mandatory if the final cut, poster, or governance package fails review.',
+        DOKER: 'Downstream reference remains locked to spaja86/IO-OPENUI-AO for PRIRODA == ZDRAV ŽIVOT narrative sync.',
+        KURAT: 'Poster, image, and storyboard stay public-safe and must not expose raw EXTREM/EXTRONDOL formulas.',
+        IZEK: 'Audit and human-review checkpoint applies to visual, narrative, and governance evidence before promotion.',
+        DOKAR: 'Rollback readiness remains mandatory if visual-narrative governance checks fail at release time.',
       },
     },
     readiness: {

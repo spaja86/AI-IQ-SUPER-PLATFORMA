@@ -62,7 +62,7 @@ Fraza **"RIKEL KAGER DEKOR NUTER DIKSAZ KIPOR"** koristi se kao zaključani rasp
 ## 3.1) ČOVEČANSTVU epilog package lock
 
 - Ovaj video plan koristi korisnički dostavljenu sliku kao referentni narativni artefakt za additive `ČOVEČANSTVU` epilog package.
-- Kanonska hero/poster referenca je zaključana na `https://github.com/user-attachments/assets/a1346923-892c-47ab-bd58-d9ef9fcbabff`.
+- Kanonska hero/poster referenca je zaključana na `https://github.com/user-attachments/assets/b485b700-f670-4f71-9f54-47b29a4155ec`.
 - Paket ostaje media/output sloj nad postojećim EXTRIMLI / EXTREM / EXTRONDOL ugovorima i ne uvodi novi runtime source-of-truth.
 - Zaključani epilog blokovi:
   - **Master epilog** — duža narativna verzija za full cut.
