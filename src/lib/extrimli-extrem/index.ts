@@ -241,11 +241,11 @@ const EXTRIMLI_EXTREM_RADNI_TAKT_MOZGA_MISLILAC_EPILOGIJA_COVECNOSTI_VISUAL_REFE
 const EXTRIMLI_EXTREM_RADNI_TAKT_MOZGA_MISLILAC_EPILOGIJA_COVECNOSTI_CANONICAL_NARRATIVE_ID =
   'priroda-zdrav-zivot-covecanstvo' as const;
 const EXTRIMLI_EXTREM_DEVELOPER_CREATE_COVECNOST_VISUAL_REFERENCE =
-  'https://github.com/user-attachments/assets/aed223ed-aa19-4821-9f0e-dbf0ffd56f7a' as const;
+  'https://github.com/user-attachments/assets/4790f4ea-4271-4d2a-ae0a-d9bec5bc8b8a' as const;
 const EXTRIMLI_EXTREM_DEVELOPER_CREATE_COVECNOST_CANONICAL_NARRATIVE_ID =
   'covecnost-developer-create-vrh-radni-takt' as const;
 const EXTRIMLI_EXTREM_DEVELOPER_CREATE_COVECNOST_CITATION =
-  'ČOVEČNOST — bolji ljudi, bolji svet, bez granica; hrabrost, znanje, univerzitet i stvaranje boljeg sutra ostaju additive-only audit-safe dokaz DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == RADNI TAKT MOZGA (MISLILAC).' as const;
+  'ČOVEČANSTVO — znanjem, iskustvom i predviđanjem do bolje budućnosti; instinkt, znanje, iskustvo i predviđanje, zajedno sa etapama učenje → trening → iskustvo → procena → odluka → uspeh, ostaju additive-only audit-safe dokaz DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == RADNI TAKT MOZGA (MISLILAC).' as const;
 
 const EXTRIMLI_EXTREM_SPAJINO_PROPORCIONALNO_PROGRAMIRANJE_UNIVERZITET_NARRATIVE_TITLE =
   'Spreg funkcionalnog i objektno programiranja sa mnoštvo novih petlji' as const;
@@ -6102,8 +6102,19 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
         citation: EXTRIMLI_EXTREM_DEVELOPER_CREATE_COVECNOST_CITATION,
         visualReference: EXTRIMLI_EXTREM_DEVELOPER_CREATE_COVECNOST_VISUAL_REFERENCE,
         interpretation:
-          'Supplied image stays documentation/audit-only and is interpreted as a bounded ČOVEČNOST reflection over the existing Developer/Create, VRH, and Radni Takt readiness model.',
+          'Supplied image stays documentation/audit-only and is interpreted as a bounded ČOVEČNOST reflection over the existing Developer/Create, VRH, and Radni Takt readiness model, with cognitive anchors and staged growth remaining interpretative evidence only.',
         sourceStatement: 'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == RADNI TAKT MOZGA (MISLILAC)',
+        visualSemantics: {
+          cognitiveAnchors: ['INSTINKT', 'ZNANJE', 'ISKUSTVO', 'PREDVIĐANJE'] as const,
+          developmentStages: [
+            '1. ETAPA UČENJE',
+            '2. ETAPA TRENING',
+            '3. ETAPA ISKUSTVO',
+            '4. ETAPA PROCENA',
+            '5. ETAPA ODLUKA',
+            '6. ETAPA USPEH',
+          ] as const,
+        },
         imageToSignalProfile: {
           scenarioId: EXTRIMLI_EXTREM_DEVELOPER_CREATE_COVECNOST_CANONICAL_NARRATIVE_ID,
           theme: 'ČOVEČNOST',
@@ -6119,6 +6130,19 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
             conflictPressurePercent: 100,
             deterministicFallbackRequired: true,
           },
+        },
+        technicalReadinessBinding: {
+          sourceProfile: 'dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.technicalReadinessProfile',
+          contributingSignals: [
+            'radniTaktMozgaMislilac',
+            'metrikoProgramiranje',
+            'sinemetrickoProgramiranje',
+            'paradijogonalnoProgramiranje',
+            'vrhProgramskogEkviladenta',
+          ] as const,
+          boundedInterpretation: 'audit-only-no-new-runtime-routes',
+          readinessStatusMirrorsReflection: true,
+          conflictPressureDerivedFromReflection: true,
         },
         flowLock: {
           sequence: ['image', 'developer-create', 'vrh', 'radni-takt', 'epilog'],
@@ -6445,11 +6469,11 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
     },
     packageOutputs: {
       auditShortSummary:
-        'ČOVEČNOST visual reference remains audit-safe and bounded by existing EXTREM / EXTRONDOL / SPAJA KOD readiness ownership.',
+        'ČOVEČNOST visual reference remains audit-safe, technically bound to the existing readiness profile, and bounded by existing EXTREM / EXTRONDOL / SPAJA KOD ownership.',
       publicSummary:
-        'ČOVEČNOST ostaje javni audit-safe odraz hrabrosti, znanja, univerziteta i stvaranja boljeg sutra kroz postojeći Developer/Create ritam.',
+        'ČOVEČNOST ostaje javni audit-safe odraz znanja, iskustva i predviđanja kroz postojeći Developer/Create ritam i etapni razvoj bez novih ruta.',
       governanceChecklistStatus:
-        'No new runtime routes; DOK/DIK/FOR stay in EXTREM, DAK/DUK stay in EXTRONDOL, and downstream sync remains follow-up only until audit-safe summary is adopted.',
+        'No new runtime routes; technical readiness stays bound to the existing profile, DOK/DIK/FOR stay in EXTREM, DAK/DUK stay in EXTRONDOL, and downstream sync remains follow-up only until audit-safe summary is adopted.',
     },
   };
   dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.currentImplementationStage = {
@@ -6470,7 +6494,7 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
     'DEVELOPER AND CREATE ostaje additive-only repo-wide interpretativni lock preko postojećih EXTRIMLI / EXTREM / EXTRONDOL kontrakata.',
     'VRH PROGRAMSKOG EKVILADENTA ostaje vršni sloj, RADNI TAKT MOZGA (MISLILAC) ostaje zajednički ritam/readiness signal, a METRIČKO / SINEMETRIČKO / PARADIJOGONALNO ostaju kanonski prateći track-ovi.',
     'Repo-wide odraz ostaje validan samo kada su docs, types, routes, tests i workflows drift-zero poravnati bez novih runtime ruta.',
-    'Supplied ČOVEČNOST image remains documentation/audit-only visual evidence inside the existing image-to-signal pattern and does not replace the existing priroda-zdrav-zivot-covecanstvo epilog scenario.',
+    'Supplied ČOVEČNOST image remains documentation/audit-only visual evidence inside the existing image-to-signal pattern, stays bound to the existing technicalReadinessProfile, and does not replace the existing priroda-zdrav-zivot-covecanstvo epilog scenario.',
     'Dnevni operativni sloj ostaje governance artefakt: isti dan mora zaključati jednu aktivnu roadmap fazu, prioritete 1–3, merljiv izlaz, acceptance evidence i closeout status completed/carried-over/blocked.',
     'Jutarnji start, deep-focus blok, midday checkpoint i end-of-day closeout ostaju obavezni cadence blokovi izvedeni iz postojećih modula, validatora i workflow-a.',
     ...(activeRoadmapStageCount !== 1

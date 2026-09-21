@@ -365,7 +365,7 @@ function mapDeveloperCreateCovecnostAuditVisualReference(
       ownershipLock: { ...reflection.imageToSignalProfile.ownershipLock },
       signalOutputs: { ...reflection.imageToSignalProfile.signalOutputs },
     },
-    flowLock: reflection.flowLock,
+    flowLock: { ...reflection.flowLock, sequence: [...reflection.flowLock.sequence] },
     packageOutputs: { ...reflection.packageOutputs },
   };
 }
@@ -3940,6 +3940,15 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
           'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance',
           'spajaKod.publicSignals.developerAndCreateStatus',
         ],
+        downstreamSync: 'follow-up-only-until-io-openui-ao-adopts-audit-safe-summary',
+      },
+      covecnostAuditVisualGovernance: {
+        auditVisibility: 'audit-safe-readiness-only',
+        currentWawe,
+        eligibleNextWawe: nextWawe(currentWawe),
+        promotionFreeze,
+        humanReviewRequired: true,
+        rollbackPlanRequired: true,
         downstreamSync: 'follow-up-only-until-io-openui-ao-adopts-audit-safe-summary',
       },
     },
