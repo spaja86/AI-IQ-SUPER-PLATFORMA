@@ -22,6 +22,8 @@ Repo-wide reflection sada obavezno uključuje i dnevni operativni cadence: `morn
 
 Supplied image `https://github.com/user-attachments/assets/19687ee8-363f-4c10-ba2d-bd451598b4df` ostaje additive-only audit vizuel za `ČOVEČNOST` i mapira se na `developerAndCreateRepoWideReflection.covecnostAuditVisualReference` sa `scenarioId=covecnost-developer-create-vrh-radni-takt`, bez novih ruta i bez zamene postojećeg `priroda-zdrav-zivot-covecanstvo` epilog narativa.
 
+Supplied image `https://github.com/user-attachments/assets/9273c07f-5c03-4db4-a469-d22d456596f9` ostaje companion additive-only audit vizuel za `ČOVEČANSTVO / OSEĆAJ OSEBENOSTI` i mapira se na `developerAndCreateRepoWideReflection.covecnostAuditVisualReference.companionAuditVisualReferences` sa `scenarioId=covecanstvo-osecaj-osebenosti-developer-create-vrh-radni-takt`, uz audit-safe teme `self-knowledge`, `brain-and-mind-understanding`, `feeling`, `humanity`, `shared-world` i `epilog-guidance`.
+
 ## Kanonsko terminološko mapiranje
 
 - `DOK + DIK + FOR` ostaju tehnički EXTREM sloj.
@@ -105,6 +107,7 @@ Implementacioni redosled ostaje zaključan:
 - Nema breaking promena.
 - Nema novih javnih formula ni paralelnog runtime contract-a.
 - `ČOVEČNOST` vizuel sme postojati samo kao audit/documentation evidence unutar `dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.covecnostAuditVisualReference`; `DOK + DIK + FOR` ostaju u EXTREM, `DAK + DUK` ostaju u EXTRONDOL, a `SPAJA KOD` izlaže samo audit-safe summary.
+- `ČOVEČANSTVO / OSEĆAJ OSEBENOSTI` companion vizuel sme postojati samo kao audit/documentation evidence unutar `dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.covecnostAuditVisualReference.companionAuditVisualReferences`; `DOK + DIK + FOR` ostaju u EXTREM, `DAK + DUK` ostaju u EXTRONDOL, a `SPAJA KOD` izlaže samo audit-safe summary metadata.
 - Buduća realizacija, ako bude potrebna, sme ići samo kao additive proširenje u:
   - EXTREM tehničkom izveštaju
   - EXTRONDOL governance i `releaseAuditSummary`

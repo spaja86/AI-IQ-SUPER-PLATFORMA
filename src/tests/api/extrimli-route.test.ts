@@ -168,7 +168,8 @@ async function runTests(): Promise<void> {
             status: string;
             dailyOperationalCadence: { taskPriorities: number[] };
             technicalReadinessProfile: { consolidatedRhythmStatus: string };
-            covecnostAuditVisualReference: { canonicalNarrativeId: string; visualReference: string };
+            covecnostAuditVisualReference: { canonicalNarrativeId: string; visualReference: string; companionAuditVisualReferences: Array<{ canonicalNarrativeId: string; visualReference: string }> };
+            companionAuditVisualReferences: Array<{ canonicalNarrativeId: string; visualReference: string }>;
             roadmapExecution: { roadmapStageId: string };
           };
           funkcinalnoProgramiranjeEnergetskogMisaonogTokaGovernance: { sourceOfTruth: string; status: string };
@@ -260,6 +261,8 @@ async function runTests(): Promise<void> {
     assert(Array.isArray(body.data.paymentVerification.blockers), 'payment verification blockers should be array');
     assert(body.data.releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.technicalReadinessProfile.consolidatedRhythmStatus === body.data.releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.status, 'unexpected release-audit developer/create consolidated rhythm status');
     assert(body.data.releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.covecnostAuditVisualReference.canonicalNarrativeId === 'covecnost-developer-create-vrh-radni-takt', 'unexpected release-audit developer/create ČOVEČNOST narrative id');
+    assert(body.data.releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.companionAuditVisualReferences[0].canonicalNarrativeId === 'covecanstvo-osecaj-osebenosti-developer-create-vrh-radni-takt', 'unexpected release-audit developer/create companion narrative id');
+    assert(body.data.releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.companionAuditVisualReferences[0].visualReference.includes('9273c07f-5c03-4db4-a469-d22d456596f9'), 'unexpected release-audit developer/create companion visual reference');
     assert(body.data.releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.roadmapExecution.roadmapStageId === 'v5-extrondol-release-audit-and-orchestration', 'unexpected release-audit developer/create roadmap stage');
     assert(body.data.objektnoOrijentisanaProngilacija.term === 'Objektno orijentisana prongilacija', 'unexpected object-oriented prongilacija term');
     assert(body.data.objektnoOrijentisanaProngilacija.technicalSignalSource === '/api/extrimli/extrem', 'unexpected object-oriented prongilacija source');
@@ -613,6 +616,7 @@ async function runTests(): Promise<void> {
           canonicalNarrativeId: string;
           visualReference: string;
           imageToSignalProfile: { ownershipLock: { spajaKod: string } };
+          companionAuditVisualReferences: Array<{ canonicalNarrativeId: string; visualReference: string; thematicSignals: string[] }>;
         };
         dokerKuratIzekDokarTrack: { boundarySurface: string; publicStatus: string; tokenSummaries: Array<{ token: string; status: string }> };
         blockers: string[];
@@ -650,6 +654,9 @@ async function runTests(): Promise<void> {
     assert(body.data.developerAndCreateVisualReflection.canonicalNarrativeId === 'covecnost-developer-create-vrh-radni-takt', 'unexpected SPAJA KOD developer/create ČOVEČNOST narrative id');
     assert(body.data.developerAndCreateVisualReflection.visualReference.includes('19687ee8-363f-4c10-ba2d-bd451598b4df'), 'unexpected SPAJA KOD developer/create ČOVEČNOST visual reference');
     assert(body.data.developerAndCreateVisualReflection.imageToSignalProfile.ownershipLock.spajaKod === 'audit-safe-summary-only', 'unexpected SPAJA KOD developer/create ČOVEČNOST boundary');
+    assert(body.data.developerAndCreateVisualReflection.companionAuditVisualReferences[0].canonicalNarrativeId === 'covecanstvo-osecaj-osebenosti-developer-create-vrh-radni-takt', 'unexpected SPAJA KOD developer/create companion narrative id');
+    assert(body.data.developerAndCreateVisualReflection.companionAuditVisualReferences[0].visualReference.includes('9273c07f-5c03-4db4-a469-d22d456596f9'), 'unexpected SPAJA KOD developer/create companion visual reference');
+    assert(body.data.developerAndCreateVisualReflection.companionAuditVisualReferences[0].thematicSignals.join(',') === 'self-knowledge,brain-and-mind-understanding,feeling,humanity,shared-world,epilog-guidance', 'unexpected SPAJA KOD developer/create companion thematic signals');
     assert(body.data.dokerKuratIzekDokarTrack.boundarySurface === 'SPAJA KOD', 'unexpected quartet boundary surface');
     assert(['READY', 'WATCH', 'BLOCKED'].includes(body.data.dokerKuratIzekDokarTrack.publicStatus), 'unexpected quartet public status');
     assert(body.data.dokerKuratIzekDokarTrack.tokenSummaries.map((item) => item.token).join(',') === 'DOKER,KURAT,IZEK,DOKAR', 'unexpected quartet public token order');

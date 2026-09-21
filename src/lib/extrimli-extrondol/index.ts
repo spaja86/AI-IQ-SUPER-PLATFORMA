@@ -367,6 +367,16 @@ function mapDeveloperCreateCovecnostAuditVisualReference(
     },
     flowLock: reflection.flowLock,
     packageOutputs: { ...reflection.packageOutputs },
+    companionAuditVisualReferences: reflection.companionAuditVisualReferences.map((reference) => ({
+      ...reference,
+      thematicSignals: [...reference.thematicSignals],
+      imageToSignalProfile: {
+        ...reference.imageToSignalProfile,
+        ownershipLock: { ...reference.imageToSignalProfile.ownershipLock },
+        signalOutputs: { ...reference.imageToSignalProfile.signalOutputs },
+      },
+      packageOutputs: { ...reference.packageOutputs },
+    })),
   };
 }
 
@@ -3932,6 +3942,10 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
       covecnostAuditVisualReference: mapDeveloperCreateCovecnostAuditVisualReference(
         extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.covecnostAuditVisualReference,
       ),
+      companionAuditVisualReferences:
+        mapDeveloperCreateCovecnostAuditVisualReference(
+          extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.covecnostAuditVisualReference,
+        ).companionAuditVisualReferences,
       roadmapExecution: {
         roadmapStageId: 'v5-extrondol-release-audit-and-orchestration',
         measurableOutput: 'EXTRONDOL consumes the repo-wide technical profile and publishes only audit-safe WAWE/review/rollback governance',
@@ -5403,6 +5417,10 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
         },
         mappedTracks: extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.mappedTracks,
         technicalReadinessProfile: extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.technicalReadinessProfile,
+        companionAuditVisualReferences:
+          mapDeveloperCreateCovecnostAuditVisualReference(
+            extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.covecnostAuditVisualReference,
+          ).companionAuditVisualReferences,
         covecnostAuditVisualReference: mapDeveloperCreateCovecnostAuditVisualReference(
           extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.covecnostAuditVisualReference,
         ),

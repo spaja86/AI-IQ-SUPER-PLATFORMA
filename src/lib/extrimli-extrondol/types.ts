@@ -1498,6 +1498,7 @@ export interface ExtrimliExtrondolReleaseAuditSummary {
     };
     technicalReadinessProfile: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['technicalReadinessProfile'];
     covecnostAuditVisualReference: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['covecnostAuditVisualReference'];
+    companionAuditVisualReferences: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['covecnostAuditVisualReference']['companionAuditVisualReferences'];
     roadmapExecution: ExtrimliExtrondolDeveloperAndCreateRepoWideReflectionGovernance['roadmapExecution'];
   };
   paradijogonalnoProgrimiranjeGovernance: {
