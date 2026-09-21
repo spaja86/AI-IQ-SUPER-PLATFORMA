@@ -647,10 +647,12 @@ export interface ExtrimliExtrondolDeveloperAndCreateRepoWideReflectionGovernance
   };
   roadmapExecution: {
     roadmapStageId: 'v5-extrondol-release-audit-and-orchestration';
-    measurableOutput: 'EXTRONDOL consumes the repo-wide technical profile and publishes only audit-safe WAWE/review/rollback governance';
+    measurableOutput: 'EXTRONDOL consumes the repo-wide technical profile plus primary/supplemental/companion audit visual metadata and publishes only audit-safe WAWE/review/rollback governance';
     acceptanceEvidence: readonly [
       'developerAndCreateRepoWideReflection',
       'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance',
+      'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.covecnostAuditVisualReference.supplementalVisualReferences',
+      'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.covecnostAuditVisualReference.companionAuditVisualReferences',
       'spajaKod.publicSignals.developerAndCreateStatus'
     ];
     downstreamSync: 'follow-up-only-until-io-openui-ao-adopts-audit-safe-summary';
@@ -1508,6 +1510,7 @@ export interface ExtrimliExtrondolReleaseAuditSummary {
     technicalReadinessProfile: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['technicalReadinessProfile'];
     covecnostAuditVisualReference: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['covecnostAuditVisualReference'];
     roadmapExecution: ExtrimliExtrondolDeveloperAndCreateRepoWideReflectionGovernance['roadmapExecution'];
+    covecnostAuditVisualGovernance: ExtrimliExtrondolDeveloperAndCreateRepoWideReflectionGovernance['covecnostAuditVisualGovernance'];
   };
   paradijogonalnoProgrimiranjeGovernance: {
     sourceOfTruth: '/api/extrimli/extrem';
@@ -2179,8 +2182,17 @@ export interface ExtrimliSpajaKodPublicFacade {
     interpretation: string;
     sourceStatement: 'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == RADNI TAKT MOZGA (MISLILAC)';
     imageToSignalProfile: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['covecnostAuditVisualReference']['imageToSignalProfile'];
+    supplementalVisualReferences: Array<{
+      canonicalNarrativeId: string;
+      visualReference: string;
+    }>;
     flowLock: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['covecnostAuditVisualReference']['flowLock'];
     packageOutputs: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['covecnostAuditVisualReference']['packageOutputs'];
+    companionAuditVisualReferences: Array<{
+      canonicalNarrativeId: string;
+      visualReference: string;
+      thematicSignals: string[];
+    }>;
   };
   platformTrack: ExtrimliSpajaproPublicBoundaryStatus;
   dokerKuratIzekDokarTrack: ExtrimliDokerKuratIzekDokarPublicBoundaryStatus;

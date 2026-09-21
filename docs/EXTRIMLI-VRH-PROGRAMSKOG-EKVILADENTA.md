@@ -22,6 +22,7 @@ Repo-wide reflection sada obavezno uključuje i dnevni operativni cadence: `morn
 
 Supplied image `https://github.com/user-attachments/assets/4790f4ea-4271-4d2a-ae0a-d9bec5bc8b8a` ostaje additive-only audit vizuel za `ČOVEČNOST` i mapira se na `developerAndCreateRepoWideReflection.covecnostAuditVisualReference` sa `scenarioId=covecnost-developer-create-vrh-radni-takt`, bez novih ruta i bez zamene postojećeg `priroda-zdrav-zivot-covecanstvo` epilog narativa.
 Vizuel ostaje strogo interpretativan: motivi `INSTINKT`, `ZNANJE`, `ISKUSTVO`, `PREDVIĐANJE` i šest etapa razvoja samo potvrđuju postojeći Developer/Create cadence, postojeći `technicalReadinessProfile` i postojeći EXTREM↔EXTRONDOL ownership split.
+Supplied image `https://github.com/user-attachments/assets/9273c07f-5c03-4db4-a469-d22d456596f9` ostaje companion additive-only audit vizuel za `ČOVEČANSTVO / OSEĆAJ OSEBENOSTI` i mapira se na `developerAndCreateRepoWideReflection.covecnostAuditVisualReference.companionAuditVisualReferences` sa `scenarioId=covecanstvo-osecaj-osebenosti-developer-create-vrh-radni-takt`, uz audit-safe teme `self-knowledge`, `brain-and-mind-understanding`, `feeling`, `humanity`, `shared-world` i `epilog-guidance`.
 
 ## Kanonsko terminološko mapiranje
 
@@ -105,8 +106,9 @@ Implementacioni redosled ostaje zaključan:
 - Nema novih source-of-truth ruta.
 - Nema breaking promena.
 - Nema novih javnih formula ni paralelnog runtime contract-a.
-- `ČOVEČNOST` vizuel sme postojati samo kao audit/documentation evidence unutar `dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.covecnostAuditVisualReference`; `DOK + DIK + FOR` ostaju u EXTREM, `DAK + DUK` ostaju u EXTRONDOL, a `SPAJA KOD` izlaže samo audit-safe summary.
-- Vizuel ne sme uvoditi nove metrike izvan bounded readiness/conflict interpretacije postojećeg `technicalReadinessProfile`; javni boundary ostaje samo audit-safe summary bez dodatnog public contract sloja.
+- Primarni `ČOVEČNOST` vizuel sme postojati samo kao audit/documentation evidence unutar `dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.covecnostAuditVisualReference`, a dodatni `ČOVEČANSTVO` vizuel samo unutar `dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.covecnostAuditVisualReference.supplementalVisualReferences`; `DOK + DIK + FOR` ostaju u EXTREM, `DAK + DUK` ostaju u EXTRONDOL, a `SPAJA KOD` izlaže samo audit-safe summary.
+- `ČOVEČANSTVO / OSEĆAJ OSEBENOSTI` companion vizuel sme postojati samo kao audit/documentation evidence unutar `dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.covecnostAuditVisualReference.companionAuditVisualReferences`; `DOK + DIK + FOR` ostaju u EXTREM, `DAK + DUK` ostaju u EXTRONDOL, a `SPAJA KOD` izlaže samo audit-safe summary metadata.
+- Primarni `ČOVEČNOST` vizuel ne sme uvoditi nove metrike izvan bounded readiness/conflict interpretacije postojećeg `technicalReadinessProfile`; javni boundary ostaje samo audit-safe summary bez dodatnog public contract sloja.
 - Buduća realizacija, ako bude potrebna, sme ići samo kao additive proširenje u:
   - EXTREM tehničkom izveštaju
   - EXTRONDOL governance i `releaseAuditSummary`
