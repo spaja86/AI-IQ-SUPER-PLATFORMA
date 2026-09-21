@@ -1239,7 +1239,7 @@ async function runTests(): Promise<void> {
     assert(report.b2bReadiness.downstreamSync.syncedFields.includes('versionRoadmap.contractVersion'), 'roadmap contract sync field missing');
     assert(report.startProject.mandatoryOutputs.includes('versionRoadmap'), 'versionRoadmap must be a START mandatory output');
     assert(report.startProject.downstreamSync.syncedContractFields.includes('versionRoadmap'), 'versionRoadmap must be synced downstream');
-    assert(report.b2bReadiness.downstreamSync.syncedFields.includes('rollout.currentWawe'), 'WAWE sync field missing');
+    assert(report.b2bReadiness.downstreamSync.syncedFields.includes('rollout.currentWawe'), 'canonical currentWawe sync field missing');
     assert(report.b2bReadiness.downstreamSync.syncedFields.includes('b2bScope.subscriptionPackage'), 'subscription sync field missing');
     assert(report.b2bReadiness.downstreamSync.syncedFields.includes('b2bScope.subscriptionPackage.aiPlateEnterprisePackage'), 'AI PLATE subscription sync field missing');
     assert(report.b2bReadiness.downstreamSync.syncedFields.includes('b2bScope.unlimitedUseGuardrails'), 'guardrails sync field missing');
