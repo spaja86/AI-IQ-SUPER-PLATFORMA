@@ -2523,6 +2523,17 @@ export interface ExtrimliDokDikDakDukConsistencyHealth {
       visualReference: string;
       interpretation: string;
       sourceStatement: 'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == RADNI TAKT MOZGA (MISLILAC)';
+      visualSemantics: {
+        cognitiveAnchors: readonly ['INSTINKT', 'ZNANJE', 'ISKUSTVO', 'PREDVIĐANJE'];
+        developmentStages: readonly [
+          '1. ETAPA UČENJE',
+          '2. ETAPA TRENING',
+          '3. ETAPA ISKUSTVO',
+          '4. ETAPA PROCENA',
+          '5. ETAPA ODLUKA',
+          '6. ETAPA USPEH'
+        ];
+      };
       imageToSignalProfile: {
         scenarioId: 'covecnost-developer-create-vrh-radni-takt';
         theme: 'ČOVEČNOST';
@@ -2538,6 +2549,19 @@ export interface ExtrimliDokDikDakDukConsistencyHealth {
           conflictPressurePercent: number;
           deterministicFallbackRequired: boolean;
         };
+      };
+      technicalReadinessBinding: {
+        sourceProfile: 'dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.technicalReadinessProfile';
+        contributingSignals: readonly [
+          'radniTaktMozgaMislilac',
+          'metrikoProgramiranje',
+          'sinemetrickoProgramiranje',
+          'paradijogonalnoProgramiranje',
+          'vrhProgramskogEkviladenta'
+        ];
+        boundedInterpretation: 'audit-only-no-new-runtime-routes';
+        readinessStatusMirrorsReflection: true;
+        conflictPressureDerivedFromReflection: true;
       };
       supplementalVisualReferences: readonly Array<{
         title: string;

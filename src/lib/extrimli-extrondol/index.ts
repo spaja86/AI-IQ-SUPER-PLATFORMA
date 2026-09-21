@@ -365,6 +365,7 @@ function mapDeveloperCreateCovecnostAuditVisualReference(
       ownershipLock: { ...reflection.imageToSignalProfile.ownershipLock },
       signalOutputs: { ...reflection.imageToSignalProfile.signalOutputs },
     },
+    flowLock: { ...reflection.flowLock, sequence: [...reflection.flowLock.sequence] },
     supplementalVisualReferences: reflection.supplementalVisualReferences.map((reference) => ({
       ...reference,
       imageToSignalProfile: {
@@ -373,7 +374,7 @@ function mapDeveloperCreateCovecnostAuditVisualReference(
         signalOutputs: { ...reference.imageToSignalProfile.signalOutputs },
       },
     })),
-    flowLock: reflection.flowLock,
+    flowLock: { ...reflection.flowLock, sequence: [...reflection.flowLock.sequence] },
     packageOutputs: { ...reflection.packageOutputs },
     companionAuditVisualReferences: reflection.companionAuditVisualReferences.map((reference) => ({
       ...reference,
@@ -3965,6 +3966,15 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
             'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.covecnostAuditVisualReference.companionAuditVisualReferences',
             'spajaKod.publicSignals.developerAndCreateStatus',
           ],
+          downstreamSync: 'follow-up-only-until-io-openui-ao-adopts-audit-safe-summary',
+        },
+        covecnostAuditVisualGovernance: {
+          auditVisibility: 'audit-safe-readiness-only',
+          currentWawe,
+          eligibleNextWawe: nextWawe(currentWawe),
+          promotionFreeze,
+          humanReviewRequired: true,
+          rollbackPlanRequired: true,
           downstreamSync: 'follow-up-only-until-io-openui-ao-adopts-audit-safe-summary',
         },
       };

@@ -657,6 +657,15 @@ export interface ExtrimliExtrondolDeveloperAndCreateRepoWideReflectionGovernance
     ];
     downstreamSync: 'follow-up-only-until-io-openui-ao-adopts-audit-safe-summary';
   };
+  covecnostAuditVisualGovernance: {
+    auditVisibility: 'audit-safe-readiness-only';
+    currentWawe: ExtrimliExtrondolWaweStage;
+    eligibleNextWawe: ExtrimliExtrondolWaweStage;
+    promotionFreeze: boolean;
+    humanReviewRequired: true;
+    rollbackPlanRequired: true;
+    downstreamSync: 'follow-up-only-until-io-openui-ao-adopts-audit-safe-summary';
+  };
   waweImpact: {
     currentWawe: ExtrimliExtrondolWaweStage;
     eligibleNextWawe: ExtrimliExtrondolWaweStage;
@@ -1501,6 +1510,7 @@ export interface ExtrimliExtrondolReleaseAuditSummary {
     technicalReadinessProfile: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['technicalReadinessProfile'];
     covecnostAuditVisualReference: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['covecnostAuditVisualReference'];
     roadmapExecution: ExtrimliExtrondolDeveloperAndCreateRepoWideReflectionGovernance['roadmapExecution'];
+    covecnostAuditVisualGovernance: ExtrimliExtrondolDeveloperAndCreateRepoWideReflectionGovernance['covecnostAuditVisualGovernance'];
   };
   paradijogonalnoProgrimiranjeGovernance: {
     sourceOfTruth: '/api/extrimli/extrem';
@@ -2164,7 +2174,26 @@ export interface ExtrimliSpajaKodPublicFacade {
     packageOutputs: ExtrimliExtremProfilerReport['radniTaktMozgaMislilac']['epilogijaCovecnosti']['packageOutputs'];
     dokerKuratIzekDokarOverlay: ExtrimliExtremProfilerReport['radniTaktMozgaMislilac']['epilogijaCovecnosti']['dokerKuratIzekDokarOverlay'];
   };
-  developerAndCreateVisualReflection: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['covecnostAuditVisualReference'];
+  developerAndCreateVisualReflection: {
+    title: 'ČOVEČNOST';
+    canonicalNarrativeId: 'covecnost-developer-create-vrh-radni-takt';
+    citation: string;
+    visualReference: string;
+    interpretation: string;
+    sourceStatement: 'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == RADNI TAKT MOZGA (MISLILAC)';
+    imageToSignalProfile: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['covecnostAuditVisualReference']['imageToSignalProfile'];
+    supplementalVisualReferences: Array<{
+      canonicalNarrativeId: string;
+      visualReference: string;
+    }>;
+    flowLock: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['covecnostAuditVisualReference']['flowLock'];
+    packageOutputs: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['covecnostAuditVisualReference']['packageOutputs'];
+    companionAuditVisualReferences: Array<{
+      canonicalNarrativeId: string;
+      visualReference: string;
+      thematicSignals: string[];
+    }>;
+  };
   platformTrack: ExtrimliSpajaproPublicBoundaryStatus;
   dokerKuratIzekDokarTrack: ExtrimliDokerKuratIzekDokarPublicBoundaryStatus;
   blockers: string[];

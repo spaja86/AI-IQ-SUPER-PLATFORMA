@@ -221,7 +221,7 @@ async function runTests(): Promise<void> {
     assert(report.releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.dailyOperationalCadence.dailyTasks.every((task) => task.acceptanceEvidence.length > 0), 'developer/create release audit daily tasks must include acceptance evidence');
     assert(report.releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.technicalReadinessProfile.consolidatedRhythmStatus === report.releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.status, 'developer/create release audit profile mismatch');
     assert(report.releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.covecnostAuditVisualReference.canonicalNarrativeId === 'covecnost-developer-create-vrh-radni-takt', 'developer/create release audit ČOVEČNOST narrative id mismatch');
-    assert(report.releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.covecnostAuditVisualReference.visualReference.includes('19687ee8-363f-4c10-ba2d-bd451598b4df'), 'developer/create release audit ČOVEČNOST visual reference mismatch');
+    assert(report.releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.covecnostAuditVisualReference.visualReference.includes('4790f4ea-4271-4d2a-ae0a-d9bec5bc8b8a'), 'developer/create release audit ČOVEČNOST visual reference mismatch');
     assert(report.releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.covecnostAuditVisualReference.imageToSignalProfile.signalOutputs.readinessStatus === report.releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.status, 'developer/create release audit ČOVEČNOST readiness status mismatch');
     assert(report.releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.covecnostAuditVisualReference.supplementalVisualReferences[0].canonicalNarrativeId === 'covecanstvo-zivot-je-najveca-igra', 'developer/create release audit supplemental narrative id mismatch');
     assert(report.releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.covecnostAuditVisualReference.supplementalVisualReferences[0].visualReference.includes('27ef7575-9ef6-425e-bdbf-75feb722bad2'), 'developer/create release audit supplemental visual reference mismatch');
@@ -235,10 +235,13 @@ async function runTests(): Promise<void> {
         'developerAndCreateRepoWideReflection,releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance,releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.covecnostAuditVisualReference.supplementalVisualReferences,releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.covecnostAuditVisualReference.companionAuditVisualReferences,spajaKod.publicSignals.developerAndCreateStatus',
       'developer/create release audit acceptance evidence mismatch',
     );
-    assert(report.spajaKod.developerAndCreateVisualReflection.visualReference.includes('19687ee8-363f-4c10-ba2d-bd451598b4df'), 'SPAJA KOD developer/create ČOVEČNOST visual reference mismatch');
+    assert(report.releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.covecnostAuditVisualGovernance.auditVisibility === 'audit-safe-readiness-only', 'developer/create release audit visual governance visibility mismatch');
+    assert(report.releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.covecnostAuditVisualGovernance.downstreamSync === 'follow-up-only-until-io-openui-ao-adopts-audit-safe-summary', 'developer/create release audit visual governance downstream mismatch');
+    assert(report.spajaKod.developerAndCreateVisualReflection.visualReference.includes('4790f4ea-4271-4d2a-ae0a-d9bec5bc8b8a'), 'SPAJA KOD developer/create ČOVEČNOST visual reference mismatch');
     assert(report.spajaKod.developerAndCreateVisualReflection.imageToSignalProfile.ownershipLock.spajaKod === 'audit-safe-summary-only', 'SPAJA KOD developer/create ČOVEČNOST boundary mismatch');
     assert(report.spajaKod.developerAndCreateVisualReflection.supplementalVisualReferences[0].visualReference.includes('27ef7575-9ef6-425e-bdbf-75feb722bad2'), 'SPAJA KOD developer/create supplemental visual reference mismatch');
     assert(report.spajaKod.developerAndCreateVisualReflection.companionAuditVisualReferences[0].visualReference.includes('9273c07f-5c03-4db4-a469-d22d456596f9'), 'SPAJA KOD developer/create companion visual reference mismatch');
+    assert(!('technicalReadinessBinding' in report.spajaKod.developerAndCreateVisualReflection), 'SPAJA KOD developer/create visual must not expose internal technical binding');
   });
 
   await test('report maps KRALJEVSKI PRAVNI UNIVERZITET governance into WAWE, audit, downstream sync, and SPAJA KOD summary', () => {
