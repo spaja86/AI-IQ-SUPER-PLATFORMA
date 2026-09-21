@@ -6534,6 +6534,7 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
     acceptanceEvidence: [
       'dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection',
       'dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.covecnostAuditVisualReference',
+      'dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.covecnostAuditVisualReference.companionAuditVisualReferences',
       'spajaKod.publicSignals.developerAndCreateStatus',
       'radniTaktMozgaMislilac.readiness',
       'metrikoProgramiranje.readiness',
