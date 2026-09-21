@@ -544,6 +544,7 @@ async function runTests(): Promise<void> {
     assert(report.b2bReadiness.downstreamSync.syncedFields.includes('vrhProgramskogEkviladenta.waweImpact'), 'vrh WAWE impact must sync downstream');
     assert(report.startProject.mandatoryOutputs.includes('vrhProgramskogEkviladenta'), 'vrh governance must be mandatory output');
     assert(report.spajaKod.publicSignals.vrhProgramskogEkviladentaStatus === report.extremProfiler.vrhProgramskogEkviladenta.readiness.status, 'SPAJA KOD vrh summary mismatch');
+    assert(report.vrhProgramskogEkviladenta.canonicalUniversityTracks.kraljevskaMehanikaUniverzitetStatus === report.vrhProgramskogEkviladenta.canonicalUniversityTracks.kraljevskiMasinskiUniverzitetStatus, 'vrh mehanika/mašinski mapping mismatch');
     assert(scorecardCheck != null, 'vrh scorecard check missing');
     assert(
       scorecardCheck.status === (

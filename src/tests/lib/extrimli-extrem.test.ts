@@ -407,6 +407,7 @@ async function runTests(): Promise<void> {
     assert(signal.canonicalUniversityTracks.kraljevskiMatematickiUniverzitet.term === 'KRALJEVSKI MATEMATIČKI UNIVERZITET', 'vrh math track mismatch');
     assert(signal.canonicalUniversityTracks.kraljevskaFizikaUniverzitet.term === 'KRALJEVSKA FIZIKA UNIVERZITET', 'vrh physics track mismatch');
     assert(signal.canonicalUniversityTracks.kraljevskiMasinskiUniverzitet.term === 'KRALJEVSKI MAŠINSKI UNIVERZITET', 'vrh mechanical track mismatch');
+    assert(signal.canonicalUniversityTracks.kraljevskiMasinskiUniverzitet.interpretativeAlias === 'KRALJEVSKA MEHANIKA UNIVERZITET', 'vrh mechanical alias mismatch');
     assert(['READY', 'WATCH', 'BLOCKED'].includes(signal.readiness.status), 'unexpected vrh status');
     assert(Number.isFinite(signal.readiness.score), 'vrh score must be finite');
     assert(report.acceptanceCriteria.some((item) => item.id === 'vrh-programskog-ekviladenta-lock' && item.passed), 'vrh lock criterion must pass');

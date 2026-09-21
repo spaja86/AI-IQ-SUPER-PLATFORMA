@@ -397,6 +397,7 @@ export interface ExtrimliExtrondolVrhProgramskogEkviladentaGovernance {
     kraljevskiMatematickiUniverzitetStatus: ExtrimliExtremProfilerReport['vrhProgramskogEkviladenta']['canonicalUniversityTracks']['kraljevskiMatematickiUniverzitet']['status'];
     kraljevskaFizikaUniverzitetStatus: ExtrimliExtremProfilerReport['vrhProgramskogEkviladenta']['canonicalUniversityTracks']['kraljevskaFizikaUniverzitet']['status'];
     kraljevskiMasinskiUniverzitetStatus: ExtrimliExtremProfilerReport['vrhProgramskogEkviladenta']['canonicalUniversityTracks']['kraljevskiMasinskiUniverzitet']['status'];
+    kraljevskaMehanikaUniverzitetStatus: ExtrimliExtremProfilerReport['vrhProgramskogEkviladenta']['canonicalUniversityTracks']['kraljevskiMasinskiUniverzitet']['status'];
   };
   waweImpact: {
     currentWawe: ExtrimliExtrondolWaweStage;

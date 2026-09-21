@@ -43,6 +43,7 @@ Supplied image `https://github.com/user-attachments/assets/9273c07f-5c03-4db4-a4
 - `KRALJEVSKI MATEMATIČKI UNIVERZITET` — eksponencijalno, proporcionalno i sekvencijalno modelovanje
 - `KRALJEVSKA FIZIKA UNIVERZITET` — exposure, energija, dinamika i konfliktna propagacija
 - `KRALJEVSKI MAŠINSKI UNIVERZITET` — obrtni moment, mehanička stabilnost i izvršno kretanje signala
+- `KRALJEVSKA MEHANIKA UNIVERZITET` je zaključan interpretativni alias i mapira se na postojeći `KRALJEVSKI MAŠINSKI UNIVERZITET` track (isti torque/mehanička stabilnost smisao).
 
 Ove trake su dozvoljene samo kao additive interpretativni slojevi unutar postojećih EXTREM/EXTRONDOL kontrakata, bez novih API modula.
 
