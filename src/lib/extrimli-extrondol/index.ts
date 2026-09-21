@@ -3448,7 +3448,7 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
   const degraded = degradedSources.length > 0;
   const currentWawe = pickWawe(orchestrationReadinessScore, degraded);
   const currentWave = currentWawe;
-  const nextWave = nextWawe(currentWawe);
+  const eligibleNextWave = nextWawe(currentWawe);
   const contractApproved = !degraded && domainStrategy.valid;
   const onboardingComplete = governanceEvidence.onboardingComplete;
   const downstreamSyncComplete = governanceEvidence.downstreamSyncComplete;
@@ -3942,11 +3942,11 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
           extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.aiPlateOffer.boundedReadinessProfile.consolidatedStatus !== 'READY',
         blockerReasons:
           extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.aiPlateOffer.boundedReadinessProfile.consolidatedStatus === 'BLOCKED'
-          ? [...extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.reasons]
+          ? [...extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.aiPlateOffer.boundedReadinessProfile.reasons]
           : [],
         watchReasons:
           extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.aiPlateOffer.boundedReadinessProfile.consolidatedStatus === 'WATCH'
-          ? [...extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.reasons]
+          ? [...extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.aiPlateOffer.boundedReadinessProfile.reasons]
           : [],
         mappedTracks: extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.mappedTracks,
         dailyOperationalCadence: {
@@ -3987,7 +3987,7 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
           },
           downstreamSync: extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.aiPlateOffer.downstreamSync,
           currentWave,
-          eligibleNextWave: nextWave,
+          eligibleNextWave,
           promotionFreeze,
           humanReviewRequired: true,
           rollbackPlanRequired: true,
@@ -5053,7 +5053,8 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
           extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.aiPlateOffer.boundedReadinessProfile.consolidatedStatus,
         deterministicFallbackRequired:
           extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.aiPlateOffer.boundedReadinessProfile.deterministicFallbackRequired,
-        reasons: [...extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.reasons],
+        reasons:
+          [...extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.aiPlateOffer.boundedReadinessProfile.reasons],
       },
     },
     reasons: [],
@@ -5517,7 +5518,7 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
             },
             downstreamSync: extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.aiPlateOffer.downstreamSync,
             currentWave,
-            eligibleNextWave: nextWave,
+            eligibleNextWave,
             promotionFreeze,
             humanReviewRequired: true,
             rollbackPlanRequired: true,
@@ -6268,7 +6269,7 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
         },
         downstreamSync: extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.aiPlateOffer.downstreamSync,
         currentWave,
-        eligibleNextWave: nextWave,
+        eligibleNextWave,
         promotionFreeze,
         humanReviewRequired: true,
         rollbackPlanRequired: true,

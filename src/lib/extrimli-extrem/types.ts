@@ -2565,6 +2565,7 @@ export interface ExtrimliDokDikDakDukConsistencyHealth {
         consolidatedStatus: 'READY' | 'WATCH' | 'BLOCKED';
         readinessScore: number;
         deterministicFallbackRequired: boolean;
+        reasons: string[];
         mappedRuntimeSurfaces: readonly ['/api/extrimli/extrem', '/api/extrimli/extrondol', '/api/extrimli/spaja-kod'];
         ownership: {
           technical: 'DOK+DIK+FOR->EXTREM';

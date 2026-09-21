@@ -6708,6 +6708,7 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
       readinessScore: dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.score,
       deterministicFallbackRequired:
         dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.deterministicFallbackRequired,
+      reasons: [...dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.reasons],
       mappedRuntimeSurfaces: ['/api/extrimli/extrem', '/api/extrimli/extrondol', '/api/extrimli/spaja-kod'],
       ownership: {
         technical: 'DOK+DIK+FOR->EXTREM',
