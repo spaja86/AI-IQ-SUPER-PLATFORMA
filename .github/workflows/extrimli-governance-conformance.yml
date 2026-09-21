@@ -176,7 +176,7 @@ jobs:
           assert(links.includes('daily cadence lock') && links.includes('morning-startup') && links.includes('completed | carried-over | blocked'), 'multi-repo links must sync daily cadence governance fields');
           assert(types.includes('dailyOperationalCadence') && extrondolIndex.includes('dailyOperationalCadence'), 'types and EXTRONDOL index must include daily operational cadence fields');
           assert(types.includes('covecnostAuditVisualReference') && extrondolIndex.includes('covecnostAuditVisualReference'), 'types and EXTRONDOL index must include the ČOVEČNOST audit visual reference fields');
-          assert(types.includes('companionAuditVisualReferences') && extrondolIndex.includes('companionAuditVisualReferences'), 'types and EXTRONDOL index must include the companion developer/create audit visual fields');
+          assert(types.includes('companionAuditVisualReferences') && extrondolIndex.includes('covecnostAuditVisualReference') && extrondolIndex.includes('companionAuditVisualReferences'), 'types and EXTRONDOL index must include the companion developer/create audit visual fields under the shared ČOVEČNOST visual contract');
           assert(validatorWorkflow.includes('docs/EXTRIMLI-DEVELOPER-CREATE-PROGRAM.md'), 'validator workflow must watch Developer/Create program doc');
           assert(validatorWorkflow.includes('docs/EXTRIMLI-METRICKO-PROGRAMIRANJE.md'), 'validator workflow must watch METRIČKO doc');
           assert(validatorWorkflow.includes('docs/EXTRIMLI-SINEMETRICKO-PROGRAMIRANJE.md'), 'validator workflow must watch SINEMETRIČKO doc');

@@ -6491,9 +6491,9 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
     },
     packageOutputs: {
       auditShortSummary:
-        'ČOVEČNOST visual reference remains audit-safe and bounded by existing EXTREM / EXTRONDOL / SPAJA KOD readiness ownership.',
+        'ČOVEČNOST visual reference and the ČOVEČANSTVO / OSEĆAJ OSEBENOSTI companion visual remain audit-safe and bounded by existing EXTREM / EXTRONDOL / SPAJA KOD readiness ownership.',
       publicSummary:
-        'ČOVEČNOST ostaje javni audit-safe odraz hrabrosti, znanja, univerziteta i stvaranja boljeg sutra kroz postojeći Developer/Create ritam.',
+        'ČOVEČNOST ostaje javni audit-safe odraz hrabrosti, znanja, univerziteta i stvaranja boljeg sutra, dok companion ČOVEČANSTVO / OSEĆAJ OSEBENOSTI vizuel audit-safe dodaje samospoznaju, razumevanje mozga, osećaj i zajednički svet kroz postojeći Developer/Create ritam.',
       governanceChecklistStatus:
         'No new runtime routes; DOK/DIK/FOR stay in EXTREM, DAK/DUK stay in EXTRONDOL, and downstream sync remains follow-up only until audit-safe summary is adopted.',
     },
@@ -6530,7 +6530,7 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
   };
   dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.currentImplementationStage = {
     roadmapStageId: 'v5-extrondol-release-audit-and-orchestration',
-    measurableOutput: 'audit-safe repo-wide reflection status and ČOVEČNOST visual reference are published only through existing EXTRIMLI/EXTREM/EXTRONDOL/SPAJA KOD surfaces',
+    measurableOutput: 'audit-safe repo-wide reflection status plus ČOVEČNOST and companion ČOVEČANSTVO / OSEĆAJ OSEBENOSTI visual metadata are published only through existing EXTRIMLI/EXTREM/EXTRONDOL/SPAJA KOD surfaces',
     acceptanceEvidence: [
       'dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection',
       'dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.covecnostAuditVisualReference',

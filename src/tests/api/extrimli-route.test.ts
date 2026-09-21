@@ -169,7 +169,6 @@ async function runTests(): Promise<void> {
             dailyOperationalCadence: { taskPriorities: number[] };
             technicalReadinessProfile: { consolidatedRhythmStatus: string };
             covecnostAuditVisualReference: { canonicalNarrativeId: string; visualReference: string; companionAuditVisualReferences: Array<{ canonicalNarrativeId: string; visualReference: string }> };
-            companionAuditVisualReferences: Array<{ canonicalNarrativeId: string; visualReference: string }>;
             roadmapExecution: { roadmapStageId: string };
           };
           funkcinalnoProgramiranjeEnergetskogMisaonogTokaGovernance: { sourceOfTruth: string; status: string };
@@ -261,8 +260,8 @@ async function runTests(): Promise<void> {
     assert(Array.isArray(body.data.paymentVerification.blockers), 'payment verification blockers should be array');
     assert(body.data.releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.technicalReadinessProfile.consolidatedRhythmStatus === body.data.releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.status, 'unexpected release-audit developer/create consolidated rhythm status');
     assert(body.data.releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.covecnostAuditVisualReference.canonicalNarrativeId === 'covecnost-developer-create-vrh-radni-takt', 'unexpected release-audit developer/create ČOVEČNOST narrative id');
-    assert(body.data.releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.companionAuditVisualReferences[0].canonicalNarrativeId === 'covecanstvo-osecaj-osebenosti-developer-create-vrh-radni-takt', 'unexpected release-audit developer/create companion narrative id');
-    assert(body.data.releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.companionAuditVisualReferences[0].visualReference.includes('9273c07f-5c03-4db4-a469-d22d456596f9'), 'unexpected release-audit developer/create companion visual reference');
+    assert(body.data.releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.covecnostAuditVisualReference.companionAuditVisualReferences[0].canonicalNarrativeId === 'covecanstvo-osecaj-osebenosti-developer-create-vrh-radni-takt', 'unexpected release-audit developer/create companion narrative id');
+    assert(body.data.releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.covecnostAuditVisualReference.companionAuditVisualReferences[0].visualReference.includes('9273c07f-5c03-4db4-a469-d22d456596f9'), 'unexpected release-audit developer/create companion visual reference');
     assert(body.data.releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.roadmapExecution.roadmapStageId === 'v5-extrondol-release-audit-and-orchestration', 'unexpected release-audit developer/create roadmap stage');
     assert(body.data.objektnoOrijentisanaProngilacija.term === 'Objektno orijentisana prongilacija', 'unexpected object-oriented prongilacija term');
     assert(body.data.objektnoOrijentisanaProngilacija.technicalSignalSource === '/api/extrimli/extrem', 'unexpected object-oriented prongilacija source');
