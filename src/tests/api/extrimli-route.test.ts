@@ -168,7 +168,15 @@ async function runTests(): Promise<void> {
             status: string;
             dailyOperationalCadence: { taskPriorities: number[] };
             technicalReadinessProfile: { consolidatedRhythmStatus: string };
-            covecnostAuditVisualReference: { canonicalNarrativeId: string; visualReference: string; companionAuditVisualReferences: Array<{ canonicalNarrativeId: string; visualReference: string }> };
+            covecnostAuditVisualReference: {
+              canonicalNarrativeId: string;
+              visualReference: string;
+              companionAuditVisualReferences: Array<{
+                canonicalNarrativeId: string;
+                visualReference: string;
+                thematicSignals: string[];
+              }>;
+            };
             roadmapExecution: { roadmapStageId: string };
           };
           funkcinalnoProgramiranjeEnergetskogMisaonogTokaGovernance: { sourceOfTruth: string; status: string };
