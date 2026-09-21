@@ -2501,6 +2501,114 @@ export interface ExtrimliDokDikDakDukConsistencyHealth {
       };
       consolidatedRhythmStatus: 'READY' | 'WATCH' | 'BLOCKED';
     };
+    aiPlateOffer: {
+      canonicalName: 'AI PLATE';
+      runtimeProvider: 'Vercel';
+      additiveOnly: true;
+      packageMode: 'commercial-runtime-package';
+      offerScope: 'AI, agente, copilote i sve ostale';
+      businessTarget: {
+        amountEur: 12000;
+        cadence: 'weekly';
+        classification: 'business-finops-target-only';
+        hardcodedRuntimeFact: false;
+        billingApprovalRequired: true;
+        vercelSalesAlignmentRequired: true;
+        auditEvidenceRequired: true;
+        legalTaxReviewRequired: true;
+        financialDataBoundary: 'outside-git';
+      };
+      targetUsers: readonly [
+        'internal-ai-agents',
+        'copilot-style-assistants',
+        'external-automation-clients'
+      ];
+      packageTiers: {
+        launchTier: 'AI-PLATE-GOVERNED-RUNTIME';
+        supportedTiers: readonly [
+          'AI-PLATE-FOUNDATION',
+          'AI-PLATE-GOVERNED-RUNTIME',
+          'AI-PLATE-ENTERPRISE-EXTENSION'
+        ];
+      };
+      launchScope: {
+        inScopeAgentFamilies: readonly [
+          'EXTRIMLI',
+          'EXTRONDOL',
+          'EXTREM',
+          'SPAJA KOD',
+          'ci-bot',
+          'human-review',
+          'security-scanner'
+        ];
+        followUpAgentFamilies: readonly [
+          'multi-repo-sync-agent',
+          'deploy-bot',
+          'analytics-bot',
+          'nova-generacija-agent'
+        ];
+      };
+      usageModel: {
+        usageBoundary: 'governed-runtime-capacity-with-allowlisted-tenants';
+        supportScope: 'business-critical-governed-support';
+        slaExpectation: 'bounded-by-existing-wawe-kpi-and-human-review-gates';
+        onboardingPath: readonly [
+          'billing-approval',
+          'vercel-sales-alignment',
+          'audit-evidence-check',
+          'legal-tax-review',
+          'tenant-onboarding',
+          'wawe-promotion'
+        ];
+      };
+      boundedReadinessProfile: {
+        consolidatedStatus: 'READY' | 'WATCH' | 'BLOCKED';
+        deterministicFallbackRequired: boolean;
+        mappedRuntimeSurfaces: readonly ['/api/extrimli/extrem', '/api/extrimli/extrondol', '/api/extrimli/spaja-kod'];
+        ownership: {
+          technical: 'DOK+DIK+FOR->EXTREM';
+          governance: 'DAK+DUK->EXTRONDOL';
+          publicBoundary: 'SPAJA KOD';
+        };
+        flowBindings: {
+          dokStatus: ExtrimliDokDikDakDukConsistencyHealth['signals']['dok']['status'] | null;
+          dikStatus: ExtrimliDokDikDakDukConsistencyHealth['signals']['dik']['status'] | null;
+          forStatus: ExtrimliExtremVrhProgramskogEkviladentaSignal['technicalEvidence']['forLoopBinding']['forEvidence']['status'];
+          dakDukGovernedIn: '/api/extrimli/extrondol';
+        };
+      };
+      vercelRuntimeModel: {
+        runtimeSourceOfTruth: 'Vercel';
+        governanceLayer: 'GitHub Actions';
+        environmentStrategy: readonly ['preview', 'staging', 'production'];
+        requiredGates: readonly ['preview', 'staging', 'smoke', 'rollback', 'observability'];
+        canonicalDomainStrategy: 'spaja.nivo-spaja + *.spaja.nivo-spaja';
+      };
+      securityAndCompliance: {
+        secretManagementBoundary: 'no-invoices-payment-methods-or-secrets-in-git';
+        dependencySecurityScanRequired: true;
+        secretScanRequired: true;
+        tenantIsolation: 'bounded-tenant-separation-required';
+        accessModel: 'allowlist-and-governed-onboarding';
+        auditLogging: 'mandatory';
+        abuseProtection: 'rate-limit-and-fair-use-required';
+      };
+      downstreamSync: {
+        linkedRepo: 'spaja86/IO-OPENUI-AO';
+        syncPolicy: 'audit-safe-summary-only';
+        adoptionMode: 'follow-up-only-until-downstream-adopts-summary';
+        syncedFields: readonly [
+          'developerAndCreateRepoWideReflection.aiPlateOffer.packageOutputs',
+          'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.aiPlateGovernance',
+          'spajaKod.publicSignals.aiPlateStatus'
+        ];
+      };
+      packageOutputs: {
+        auditShortSummary: string;
+        publicSummary: string;
+        governanceChecklistStatus: string;
+      };
+    };
     currentImplementationStage: {
       roadmapStageId: 'v5-extrondol-release-audit-and-orchestration';
       measurableOutput: 'audit-safe repo-wide reflection status plus primary ČOVEČNOST, supplemental ČOVEČANSTVO, and companion ČOVEČANSTVO / OSEĆAJ OSEBENOSTI visual metadata are published only through existing EXTRIMLI/EXTREM/EXTRONDOL/SPAJA KOD surfaces';
