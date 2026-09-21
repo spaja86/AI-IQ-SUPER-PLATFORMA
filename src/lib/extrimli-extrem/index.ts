@@ -240,6 +240,12 @@ const EXTRIMLI_EXTREM_RADNI_TAKT_MOZGA_MISLILAC_EPILOGIJA_COVECNOSTI_VISUAL_REFE
   'https://github.com/user-attachments/assets/b485b700-f670-4f71-9f54-47b29a4155ec' as const;
 const EXTRIMLI_EXTREM_RADNI_TAKT_MOZGA_MISLILAC_EPILOGIJA_COVECNOSTI_CANONICAL_NARRATIVE_ID =
   'priroda-zdrav-zivot-covecanstvo' as const;
+const EXTRIMLI_EXTREM_DEVELOPER_CREATE_COVECNOST_VISUAL_REFERENCE =
+  'https://github.com/user-attachments/assets/aed223ed-aa19-4821-9f0e-dbf0ffd56f7a' as const;
+const EXTRIMLI_EXTREM_DEVELOPER_CREATE_COVECNOST_CANONICAL_NARRATIVE_ID =
+  'covecnost-developer-create-vrh-radni-takt' as const;
+const EXTRIMLI_EXTREM_DEVELOPER_CREATE_COVECNOST_CITATION =
+  'ČOVEČNOST — bolji ljudi, bolji svet, bez granica; hrabrost, znanje, univerzitet i stvaranje boljeg sutra ostaju additive-only audit-safe dokaz DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == RADNI TAKT MOZGA (MISLILAC).' as const;
 
 const EXTRIMLI_EXTREM_SPAJINO_PROPORCIONALNO_PROGRAMIRANJE_UNIVERZITET_NARRATIVE_TITLE =
   'Spreg funkcionalnog i objektno programiranja sa mnoštvo novih petlji' as const;
@@ -6090,6 +6096,44 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
         v5: 'extrondol-release-audit-and-orchestration',
         v6: 'downstream-and-multi-repo-alignment',
       },
+      covecnostAuditVisualReference: {
+        title: 'ČOVEČNOST',
+        canonicalNarrativeId: EXTRIMLI_EXTREM_DEVELOPER_CREATE_COVECNOST_CANONICAL_NARRATIVE_ID,
+        citation: EXTRIMLI_EXTREM_DEVELOPER_CREATE_COVECNOST_CITATION,
+        visualReference: EXTRIMLI_EXTREM_DEVELOPER_CREATE_COVECNOST_VISUAL_REFERENCE,
+        interpretation:
+          'Supplied image stays documentation/audit-only and is interpreted as a bounded ČOVEČNOST reflection over the existing Developer/Create, VRH, and Radni Takt readiness model.',
+        sourceStatement: 'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == RADNI TAKT MOZGA (MISLILAC)',
+        imageToSignalProfile: {
+          scenarioId: EXTRIMLI_EXTREM_DEVELOPER_CREATE_COVECNOST_CANONICAL_NARRATIVE_ID,
+          theme: 'ČOVEČNOST',
+          narrativeInput: EXTRIMLI_EXTREM_DEVELOPER_CREATE_COVECNOST_CITATION,
+          ownershipLock: {
+            dokDikFor: 'EXTREM',
+            dakDuk: 'EXTRONDOL',
+            spajaKod: 'audit-safe-summary-only',
+          },
+          signalOutputs: {
+            readinessScore: 0,
+            readinessStatus: 'BLOCKED',
+            conflictPressurePercent: 100,
+            deterministicFallbackRequired: true,
+          },
+        },
+        flowLock: {
+          sequence: ['image', 'developer-create', 'vrh', 'radni-takt', 'epilog'],
+          dok: 'DOK keeps the technical proof for the visual reflection in EXTREM.',
+          dik: 'DIK keeps the sequence discipline for the visual reflection in EXTREM.',
+          forPetlja: 'FOR remains the bounded numerical flow that stabilizes the additive-only reflection.',
+          dak: 'DAK promotion remains deferred to EXTRONDOL governance only.',
+          duk: 'DUK human review remains deferred to EXTRONDOL governance only.',
+        },
+        packageOutputs: {
+          auditShortSummary: '',
+          publicSummary: '',
+          governanceChecklistStatus: '',
+        },
+      },
       repoWideReflection: {
         docs: true,
         types: true,
@@ -6387,11 +6431,34 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
     },
     consolidatedRhythmStatus: dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.status,
   };
+  dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.covecnostAuditVisualReference = {
+    ...dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.covecnostAuditVisualReference,
+    imageToSignalProfile: {
+      ...dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.covecnostAuditVisualReference.imageToSignalProfile,
+      signalOutputs: {
+        readinessScore: dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.score,
+        readinessStatus: dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.status,
+        conflictPressurePercent: round(100 - dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.score, 2),
+        deterministicFallbackRequired:
+          dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.deterministicFallbackRequired,
+      },
+    },
+    packageOutputs: {
+      auditShortSummary:
+        'ČOVEČNOST visual reference remains audit-safe and bounded by existing EXTREM / EXTRONDOL / SPAJA KOD readiness ownership.',
+      publicSummary:
+        'ČOVEČNOST ostaje javni audit-safe odraz hrabrosti, znanja, univerziteta i stvaranja boljeg sutra kroz postojeći Developer/Create ritam.',
+      governanceChecklistStatus:
+        'No new runtime routes; DOK/DIK/FOR stay in EXTREM, DAK/DUK stay in EXTRONDOL, and downstream sync remains follow-up only until audit-safe summary is adopted.',
+    },
+  };
   dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.currentImplementationStage = {
-    roadmapStageId: 'v4-extrem-repo-wide-rhythm-readiness-expansion',
-    measurableOutput: 'repo-wide technical readiness profile is published through existing EXTRIMLI/EXTREM/EXTRONDOL surfaces',
+    roadmapStageId: 'v5-extrondol-release-audit-and-orchestration',
+    measurableOutput: 'audit-safe repo-wide reflection status and ČOVEČNOST visual reference are published only through existing EXTRIMLI/EXTREM/EXTRONDOL/SPAJA KOD surfaces',
     acceptanceEvidence: [
       'dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection',
+      'dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.covecnostAuditVisualReference',
+      'spajaKod.publicSignals.developerAndCreateStatus',
       'radniTaktMozgaMislilac.readiness',
       'metrikoProgramiranje.readiness',
       'sinemetrickoProgramiranje.readiness',
@@ -6403,6 +6470,7 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
     'DEVELOPER AND CREATE ostaje additive-only repo-wide interpretativni lock preko postojećih EXTRIMLI / EXTREM / EXTRONDOL kontrakata.',
     'VRH PROGRAMSKOG EKVILADENTA ostaje vršni sloj, RADNI TAKT MOZGA (MISLILAC) ostaje zajednički ritam/readiness signal, a METRIČKO / SINEMETRIČKO / PARADIJOGONALNO ostaju kanonski prateći track-ovi.',
     'Repo-wide odraz ostaje validan samo kada su docs, types, routes, tests i workflows drift-zero poravnati bez novih runtime ruta.',
+    'Supplied ČOVEČNOST image remains documentation/audit-only visual evidence inside the existing image-to-signal pattern and does not replace the existing priroda-zdrav-zivot-covecanstvo epilog scenario.',
     'Dnevni operativni sloj ostaje governance artefakt: isti dan mora zaključati jednu aktivnu roadmap fazu, prioritete 1–3, merljiv izlaz, acceptance evidence i closeout status completed/carried-over/blocked.',
     'Jutarnji start, deep-focus blok, midday checkpoint i end-of-day closeout ostaju obavezni cadence blokovi izvedeni iz postojećih modula, validatora i workflow-a.',
     ...(activeRoadmapStageCount !== 1

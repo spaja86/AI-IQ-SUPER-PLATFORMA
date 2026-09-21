@@ -350,6 +350,26 @@ function buildDistanceRatioEkvilaterTable(scores: {
   };
 }
 
+function mapDeveloperCreateCovecnostAuditVisualReference(
+  reflection: ExtrimliExtrondolReport['extremProfiler']['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['covecnostAuditVisualReference'],
+) {
+  return {
+    title: reflection.title,
+    canonicalNarrativeId: reflection.canonicalNarrativeId,
+    citation: reflection.citation,
+    visualReference: reflection.visualReference,
+    interpretation: reflection.interpretation,
+    sourceStatement: reflection.sourceStatement,
+    imageToSignalProfile: {
+      ...reflection.imageToSignalProfile,
+      ownershipLock: { ...reflection.imageToSignalProfile.ownershipLock },
+      signalOutputs: { ...reflection.imageToSignalProfile.signalOutputs },
+    },
+    flowLock: reflection.flowLock,
+    packageOutputs: { ...reflection.packageOutputs },
+  };
+}
+
 function buildMobilnaLinijaReadiness(
   extremProfiler: ExtrimliExtrondolReport['extremProfiler'],
 ): ExtrimliExtrondolReport['mobilnaLinija'] {
@@ -2790,6 +2810,11 @@ function buildSpajaKodFacade(params: {
     epilogijaCovecnosti: {
       ...mapCovecanstvoEpilog(params.extremProfiler.radniTaktMozgaMislilac.epilogijaCovecnosti),
     },
+    developerAndCreateVisualReflection: {
+      ...mapDeveloperCreateCovecnostAuditVisualReference(
+        params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.covecnostAuditVisualReference,
+      ),
+    },
     platformTrack,
     dokerKuratIzekDokarTrack,
     blockers,
@@ -3904,6 +3929,9 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
           extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.status !== 'READY',
       },
       technicalReadinessProfile: extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.technicalReadinessProfile,
+      covecnostAuditVisualReference: mapDeveloperCreateCovecnostAuditVisualReference(
+        extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.covecnostAuditVisualReference,
+      ),
       roadmapExecution: {
         roadmapStageId: 'v5-extrondol-release-audit-and-orchestration',
         measurableOutput: 'EXTRONDOL consumes the repo-wide technical profile and publishes only audit-safe WAWE/review/rollback governance',
@@ -5372,6 +5400,9 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
         },
         mappedTracks: extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.mappedTracks,
         technicalReadinessProfile: extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.technicalReadinessProfile,
+        covecnostAuditVisualReference: mapDeveloperCreateCovecnostAuditVisualReference(
+          extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.covecnostAuditVisualReference,
+        ),
         repoWideReflection: extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.repoWideReflection,
         dailyOperationalCadence: {
           ...extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.dailyOperationalCadence,
