@@ -245,7 +245,7 @@ const EXTRIMLI_EXTREM_DEVELOPER_CREATE_COVECNOST_VISUAL_REFERENCE =
 const EXTRIMLI_EXTREM_DEVELOPER_CREATE_COVECNOST_CANONICAL_NARRATIVE_ID =
   'covecnost-developer-create-vrh-radni-takt' as const;
 const EXTRIMLI_EXTREM_DEVELOPER_CREATE_COVECNOST_CITATION =
-  'ČOVEČANSTVO — znanjem, iskustvom i predviđanjem do bolje budućnosti; instinkt, znanje, iskustvo i predviđanje, zajedno sa etapama učenje → trening → iskustvo → procena → odluka → uspeh, ostaju additive-only audit-safe dokaz DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == RADNI TAKT MOZGA (MISLILAC).' as const;
+  'ČOVEČNOST — znanjem, iskustvom i predviđanjem do bolje budućnosti; instinkt, znanje, iskustvo i predviđanje, zajedno sa etapama učenje → trening → iskustvo → procena → odluka → uspeh, ostaju additive-only audit-safe dokaz DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == RADNI TAKT MOZGA (MISLILAC).' as const;
 
 const EXTRIMLI_EXTREM_SPAJINO_PROPORCIONALNO_PROGRAMIRANJE_UNIVERZITET_NARRATIVE_TITLE =
   'Spreg funkcionalnog i objektno programiranja sa mnoštvo novih petlji' as const;
