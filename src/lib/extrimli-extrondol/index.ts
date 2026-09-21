@@ -365,6 +365,14 @@ function mapDeveloperCreateCovecnostAuditVisualReference(
       ownershipLock: { ...reflection.imageToSignalProfile.ownershipLock },
       signalOutputs: { ...reflection.imageToSignalProfile.signalOutputs },
     },
+    supplementalVisualReferences: reflection.supplementalVisualReferences.map((reference) => ({
+      ...reference,
+      imageToSignalProfile: {
+        ...reference.imageToSignalProfile,
+        ownershipLock: { ...reference.imageToSignalProfile.ownershipLock },
+        signalOutputs: { ...reference.imageToSignalProfile.signalOutputs },
+      },
+    })),
     flowLock: reflection.flowLock,
     packageOutputs: { ...reflection.packageOutputs },
     companionAuditVisualReferences: reflection.companionAuditVisualReferences.map((reference) => ({
@@ -3949,10 +3957,11 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
         roadmapExecution: {
           roadmapStageId: 'v5-extrondol-release-audit-and-orchestration',
           measurableOutput:
-            'EXTRONDOL consumes the repo-wide technical profile plus canonical/companion audit visual metadata and publishes only audit-safe WAWE/review/rollback governance',
+            'EXTRONDOL consumes the repo-wide technical profile plus primary/supplemental/companion audit visual metadata and publishes only audit-safe WAWE/review/rollback governance',
           acceptanceEvidence: [
             'developerAndCreateRepoWideReflection',
             'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance',
+            'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.covecnostAuditVisualReference.supplementalVisualReferences',
             'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.covecnostAuditVisualReference.companionAuditVisualReferences',
             'spajaKod.publicSignals.developerAndCreateStatus',
           ],
@@ -5437,10 +5446,11 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
           roadmapExecution: {
             roadmapStageId: 'v5-extrondol-release-audit-and-orchestration',
             measurableOutput:
-              'EXTRONDOL consumes the repo-wide technical profile plus canonical/companion audit visual metadata and publishes only audit-safe WAWE/review/rollback governance',
+              'EXTRONDOL consumes the repo-wide technical profile plus primary/supplemental/companion audit visual metadata and publishes only audit-safe WAWE/review/rollback governance',
             acceptanceEvidence: [
               'developerAndCreateRepoWideReflection',
               'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance',
+              'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.covecnostAuditVisualReference.supplementalVisualReferences',
               'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.covecnostAuditVisualReference.companionAuditVisualReferences',
               'spajaKod.publicSignals.developerAndCreateStatus',
             ],
@@ -6153,10 +6163,11 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
       roadmapExecution: {
         roadmapStageId: 'v5-extrondol-release-audit-and-orchestration',
         measurableOutput:
-          'EXTRONDOL consumes the repo-wide technical profile plus canonical/companion audit visual metadata and publishes only audit-safe WAWE/review/rollback governance',
+          'EXTRONDOL consumes the repo-wide technical profile plus primary/supplemental/companion audit visual metadata and publishes only audit-safe WAWE/review/rollback governance',
         acceptanceEvidence: [
           'developerAndCreateRepoWideReflection',
           'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance',
+          'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.covecnostAuditVisualReference.supplementalVisualReferences',
           'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.covecnostAuditVisualReference.companionAuditVisualReferences',
           'spajaKod.publicSignals.developerAndCreateStatus',
         ],

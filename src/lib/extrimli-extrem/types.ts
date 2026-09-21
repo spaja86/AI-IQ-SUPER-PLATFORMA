@@ -2502,10 +2502,11 @@ export interface ExtrimliDokDikDakDukConsistencyHealth {
     };
     currentImplementationStage: {
       roadmapStageId: 'v5-extrondol-release-audit-and-orchestration';
-      measurableOutput: 'audit-safe repo-wide reflection status plus ČOVEČNOST and companion ČOVEČANSTVO / OSEĆAJ OSEBENOSTI visual metadata are published only through existing EXTRIMLI/EXTREM/EXTRONDOL/SPAJA KOD surfaces';
+      measurableOutput: 'audit-safe repo-wide reflection status plus primary ČOVEČNOST, supplemental ČOVEČANSTVO, and companion ČOVEČANSTVO / OSEĆAJ OSEBENOSTI visual metadata are published only through existing EXTRIMLI/EXTREM/EXTRONDOL/SPAJA KOD surfaces';
       acceptanceEvidence: readonly [
         'dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection',
         'dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.covecnostAuditVisualReference',
+        'dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.covecnostAuditVisualReference.supplementalVisualReferences',
         'dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.covecnostAuditVisualReference.companionAuditVisualReferences',
         'spajaKod.publicSignals.developerAndCreateStatus',
         'radniTaktMozgaMislilac.readiness',
@@ -2538,6 +2539,31 @@ export interface ExtrimliDokDikDakDukConsistencyHealth {
           deterministicFallbackRequired: boolean;
         };
       };
+      supplementalVisualReferences: readonly Array<{
+        title: string;
+        canonicalNarrativeId: string;
+        citation: string;
+        visualReference: string;
+        interpretation: string;
+        sourceStatement: 'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == RADNI TAKT MOZGA (MISLILAC)';
+        imageToSignalProfile: {
+          scenarioId: string;
+          theme: string;
+          narrativeInput: string;
+          ownershipLock: {
+            dokDikFor: 'EXTREM';
+            dakDuk: 'EXTRONDOL';
+            spajaKod: 'audit-safe-summary-only';
+          };
+          signalOutputs: {
+            readinessScore: number;
+            readinessStatus: 'READY' | 'WATCH' | 'BLOCKED';
+            conflictPressurePercent: number;
+            deterministicFallbackRequired: boolean;
+          };
+        };
+        auditRole: 'additive-audit-reference-only';
+      }>;
       flowLock: {
         sequence: readonly ['image', 'developer-create', 'vrh', 'radni-takt', 'epilog'];
         dok: string;

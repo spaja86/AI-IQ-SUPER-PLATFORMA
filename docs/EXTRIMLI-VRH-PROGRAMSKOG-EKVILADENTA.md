@@ -106,7 +106,7 @@ Implementacioni redosled ostaje zaključan:
 - Nema novih source-of-truth ruta.
 - Nema breaking promena.
 - Nema novih javnih formula ni paralelnog runtime contract-a.
-- `ČOVEČNOST` vizuel sme postojati samo kao audit/documentation evidence unutar `dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.covecnostAuditVisualReference`; `DOK + DIK + FOR` ostaju u EXTREM, `DAK + DUK` ostaju u EXTRONDOL, a `SPAJA KOD` izlaže samo audit-safe summary.
+- Primarni `ČOVEČNOST` vizuel sme postojati samo kao audit/documentation evidence unutar `dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.covecnostAuditVisualReference`, a dodatni `ČOVEČANSTVO` vizuel samo unutar `dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.covecnostAuditVisualReference.supplementalVisualReferences`; `DOK + DIK + FOR` ostaju u EXTREM, `DAK + DUK` ostaju u EXTRONDOL, a `SPAJA KOD` izlaže samo audit-safe summary.
 - `ČOVEČANSTVO / OSEĆAJ OSEBENOSTI` companion vizuel sme postojati samo kao audit/documentation evidence unutar `dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.covecnostAuditVisualReference.companionAuditVisualReferences`; `DOK + DIK + FOR` ostaju u EXTREM, `DAK + DUK` ostaju u EXTRONDOL, a `SPAJA KOD` izlaže samo audit-safe summary metadata.
 - Buduća realizacija, ako bude potrebna, sme ići samo kao additive proširenje u:
   - EXTREM tehničkom izveštaju

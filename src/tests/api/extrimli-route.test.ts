@@ -171,6 +171,11 @@ async function runTests(): Promise<void> {
             covecnostAuditVisualReference: {
               canonicalNarrativeId: string;
               visualReference: string;
+              supplementalVisualReferences: Array<{
+                canonicalNarrativeId: string;
+                visualReference: string;
+                thematicSignals: string[];
+              }>;
               companionAuditVisualReferences: Array<{
                 canonicalNarrativeId: string;
                 visualReference: string;
@@ -241,6 +246,8 @@ async function runTests(): Promise<void> {
     assert(body.data.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.technicalReadinessProfile.consolidatedRhythmStatus === body.data.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.status, 'unexpected developer/create consolidated rhythm status');
     assert(body.data.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.covecnostAuditVisualReference.canonicalNarrativeId === 'covecnost-developer-create-vrh-radni-takt', 'unexpected developer/create ČOVEČNOST narrative id');
     assert(body.data.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.covecnostAuditVisualReference.visualReference.includes('19687ee8-363f-4c10-ba2d-bd451598b4df'), 'unexpected developer/create ČOVEČNOST visual reference');
+    assert(body.data.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.covecnostAuditVisualReference.supplementalVisualReferences[0].canonicalNarrativeId === 'covecanstvo-zivot-je-najveca-igra', 'unexpected developer/create supplemental narrative id');
+    assert(body.data.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.covecnostAuditVisualReference.supplementalVisualReferences[0].visualReference.includes('27ef7575-9ef6-425e-bdbf-75feb722bad2'), 'unexpected developer/create supplemental visual reference');
     assert(body.data.dokDikDakDukConsistencyHealth.signals.dok.kind === 'DOK PETLJA', 'unexpected DOK consistency signal');
     assert(body.data.dokDikDakDukConsistencyHealth.signals.dik.kind === 'DIK PETLJA', 'unexpected DIK consistency signal');
     assert(body.data.dokDikDakDukConsistencyHealth.signals.for.kind === 'FOR PETLJA', 'unexpected FOR consistency signal');
@@ -268,6 +275,8 @@ async function runTests(): Promise<void> {
     assert(Array.isArray(body.data.paymentVerification.blockers), 'payment verification blockers should be array');
     assert(body.data.releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.technicalReadinessProfile.consolidatedRhythmStatus === body.data.releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.status, 'unexpected release-audit developer/create consolidated rhythm status');
     assert(body.data.releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.covecnostAuditVisualReference.canonicalNarrativeId === 'covecnost-developer-create-vrh-radni-takt', 'unexpected release-audit developer/create ČOVEČNOST narrative id');
+    assert(body.data.releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.covecnostAuditVisualReference.supplementalVisualReferences[0].canonicalNarrativeId === 'covecanstvo-zivot-je-najveca-igra', 'unexpected release-audit developer/create supplemental narrative id');
+    assert(body.data.releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.covecnostAuditVisualReference.supplementalVisualReferences[0].visualReference.includes('27ef7575-9ef6-425e-bdbf-75feb722bad2'), 'unexpected release-audit developer/create supplemental visual reference');
     assert(body.data.releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.covecnostAuditVisualReference.companionAuditVisualReferences[0].canonicalNarrativeId === 'covecanstvo-osecaj-osebenosti-developer-create-vrh-radni-takt', 'unexpected release-audit developer/create companion narrative id');
     assert(body.data.releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.covecnostAuditVisualReference.companionAuditVisualReferences[0].visualReference.includes('9273c07f-5c03-4db4-a469-d22d456596f9'), 'unexpected release-audit developer/create companion visual reference');
     assert(body.data.releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.roadmapExecution.roadmapStageId === 'v5-extrondol-release-audit-and-orchestration', 'unexpected release-audit developer/create roadmap stage');
