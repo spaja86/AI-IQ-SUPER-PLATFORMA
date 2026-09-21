@@ -241,7 +241,7 @@ const EXTRIMLI_EXTREM_RADNI_TAKT_MOZGA_MISLILAC_EPILOGIJA_COVECNOSTI_VISUAL_REFE
 const EXTRIMLI_EXTREM_RADNI_TAKT_MOZGA_MISLILAC_EPILOGIJA_COVECNOSTI_CANONICAL_NARRATIVE_ID =
   'priroda-zdrav-zivot-covecanstvo' as const;
 const EXTRIMLI_EXTREM_DEVELOPER_CREATE_COVECNOST_VISUAL_REFERENCE =
-  'https://github.com/user-attachments/assets/aed223ed-aa19-4821-9f0e-dbf0ffd56f7a' as const;
+  'https://github.com/user-attachments/assets/19687ee8-363f-4c10-ba2d-bd451598b4df' as const;
 const EXTRIMLI_EXTREM_DEVELOPER_CREATE_COVECNOST_CANONICAL_NARRATIVE_ID =
   'covecnost-developer-create-vrh-radni-takt' as const;
 const EXTRIMLI_EXTREM_DEVELOPER_CREATE_COVECNOST_CITATION =
