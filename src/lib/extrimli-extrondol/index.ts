@@ -5782,8 +5782,23 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
         && b2bReadiness.downstreamSync.syncedFields.includes('extremProfiler.radniTaktMozgaMislilac.readiness.status')
         && spajaKod.publicSignals.radniTaktMozgaMislilacStatus === extremProfiler.radniTaktMozgaMislilac.readiness.status
         && releaseAuditSummary.radniTaktMozgaMislilacGovernance.epilogijaCovecnosti.title === 'EPILOGIJA ČOVEČANSTVA'
+        && releaseAuditSummary.radniTaktMozgaMislilacGovernance.epilogijaCovecnosti.flowLock.sequence.join(' -> ') === 'image -> spajanje -> posledica -> epilog'
         && releaseAuditSummary.radniTaktMozgaMislilacGovernance.epilogijaCovecnosti.packageOutputs.masterEpilog.length > 0
-        && spajaKod.epilogijaCovecnosti.packageOutputs.posterSummary.length > 0,
+        && releaseAuditSummary.radniTaktMozgaMislilacGovernance.epilogijaCovecnosti.packageOutputs.videoStoryboardSummary.length > 0
+        && releaseAuditSummary.radniTaktMozgaMislilacGovernance.epilogijaCovecnosti.packageOutputs.auditShortSummary.length > 0
+        && releaseAuditSummary.radniTaktMozgaMislilacGovernance.epilogijaCovecnosti.packageOutputs.governanceChecklistStatus.length > 0
+        && releaseAuditSummary.radniTaktMozgaMislilacGovernance.epilogijaCovecnosti.dokerKuratIzekDokarOverlay.DOKER.length > 0
+        && releaseAuditSummary.radniTaktMozgaMislilacGovernance.epilogijaCovecnosti.dokerKuratIzekDokarOverlay.KURAT.length > 0
+        && releaseAuditSummary.radniTaktMozgaMislilacGovernance.epilogijaCovecnosti.dokerKuratIzekDokarOverlay.IZEK.length > 0
+        && releaseAuditSummary.radniTaktMozgaMislilacGovernance.epilogijaCovecnosti.dokerKuratIzekDokarOverlay.DOKAR.length > 0
+        && spajaKod.epilogijaCovecnosti.packageOutputs.posterSummary.length > 0
+        && spajaKod.epilogijaCovecnosti.packageOutputs.videoStoryboardSummary.length > 0
+        && spajaKod.epilogijaCovecnosti.packageOutputs.auditShortSummary.length > 0
+        && spajaKod.epilogijaCovecnosti.packageOutputs.governanceChecklistStatus.length > 0
+        && spajaKod.epilogijaCovecnosti.dokerKuratIzekDokarOverlay.DOKER.length > 0
+        && spajaKod.epilogijaCovecnosti.dokerKuratIzekDokarOverlay.KURAT.length > 0
+        && spajaKod.epilogijaCovecnosti.dokerKuratIzekDokarOverlay.IZEK.length > 0
+        && spajaKod.epilogijaCovecnosti.dokerKuratIzekDokarOverlay.DOKAR.length > 0,
     },
     {
       id: 'paradijogonalno-progrimiranje-governance',
