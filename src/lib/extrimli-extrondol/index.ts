@@ -2850,7 +2850,7 @@ function buildSpajaKodFacade(params: {
 
 function resolveGovernanceEvidence(evidence?: ExtrimliExtrondolGovernanceEvidence) {
   return {
-    auditTrailComplete: evidence?.auditTrailComplete ?? process.env.EXTRONDOL_AUDIT_TRAIL_COMPLETE !== 'false',
+    auditTrailComplete: evidence?.auditTrailComplete ?? process.env.EXTRONDOL_AUDIT_TRAIL_COMPLETE === 'true',
     complianceReviewComplete: evidence?.complianceReviewComplete ?? process.env.EXTRONDOL_COMPLIANCE_REVIEW_COMPLETE === 'true',
     downstreamSyncComplete: evidence?.downstreamSyncComplete ?? process.env.EXTRONDOL_DOWNSTREAM_SYNC_COMPLETE === 'true',
     humanReviewComplete: evidence?.humanReviewComplete ?? process.env.EXTRONDOL_HUMAN_REVIEW_COMPLETE === 'true',
@@ -3695,6 +3695,7 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
     ...(!rollbackPlanComplete ? ['rollback-plan-complete'] : []),
     ...(paymentVerification.status !== 'VERIFIED' ? ['payment-verification'] : []),
   ];
+  const aiPlateEnterprisePackageAffectsPromotion = false;
   const promotionFreezeBase = degraded
     || complianceBlockers.length > 0
     || currentWawe === 'WAWE-1'
@@ -3738,7 +3739,8 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
     || extremProfiler.objektnoOrijentusanoUzdizanjeEpskihElikvadenata.readiness.status === 'BLOCKED'
     || extremProfiler.semaMuSemaFormula.status === 'BLOCKED'
     || mobilnaLinija.activationStatus === 'BLOCKED';
-  const promotionFreeze = promotionFreezeBase;
+  const promotionFreeze = promotionFreezeBase
+    || (aiPlateEnterprisePackageAffectsPromotion && aiPlateEnterprisePackageBlockers.length > 0);
   const aiPlateEnterprisePackageStatus = aiPlateEnterprisePackageBlockers.length === 0
     ? 'READY' as const
     : 'BLOCKED' as const;

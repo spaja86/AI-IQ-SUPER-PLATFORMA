@@ -1229,12 +1229,12 @@ async function runTests(): Promise<void> {
     assert(report.b2bReadiness.compliance.secretsInGitAllowed === false, 'secrets must not be allowed in git');
     assert(report.b2bReadiness.compliance.onboardingComplete === false, 'onboarding must remain incomplete without explicit evidence');
     assert(report.b2bReadiness.compliance.humanReviewComplete === false, 'human review must remain incomplete without explicit evidence');
-    assert(report.b2bReadiness.compliance.auditTrailComplete === true, 'audit trail should default to present governance evidence');
+    assert(report.b2bReadiness.compliance.auditTrailComplete === false, 'audit trail should require explicit governance evidence');
     assert(report.b2bReadiness.downstreamSync.status === 'FOLLOW_UP_REQUIRED', 'downstream sync must require explicit evidence');
     assert(report.b2bReadiness.compliance.blockers.includes('onboarding-complete'), 'onboarding blocker must be present');
     assert(report.b2bReadiness.compliance.blockers.includes('downstream-sync-complete'), 'downstream sync blocker must be present');
     assert(report.b2bReadiness.compliance.blockers.includes('human-review-complete'), 'human review blocker must be present');
-    assert(!report.b2bReadiness.compliance.blockers.includes('audit-trail-complete'), 'audit blocker should not appear when audit evidence is present');
+    assert(report.b2bReadiness.compliance.blockers.includes('audit-trail-complete'), 'audit blocker should appear without explicit evidence');
     assert(report.b2bReadiness.downstreamSync.linkedRepo === 'spaja86/IO-OPENUI-AO', 'linked repo mismatch');
     assert(report.b2bReadiness.downstreamSync.syncedFields.includes('versionRoadmap.contractVersion'), 'roadmap contract sync field missing');
     assert(report.startProject.mandatoryOutputs.includes('versionRoadmap'), 'versionRoadmap must be a START mandatory output');
