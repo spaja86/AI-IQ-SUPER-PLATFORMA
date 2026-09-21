@@ -2751,6 +2751,7 @@ function buildSpajaKodFacade(params: {
   vrhProgramskogEkviladentaStatus: ExtrimliExtrondolReport['extremProfiler']['vrhProgramskogEkviladenta']['readiness']['status'];
   developerAndCreateStatus: ExtrimliExtrondolReport['extremProfiler']['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['readiness']['status'];
   aiPlateStatus: ExtrimliExtrondolReport['extremProfiler']['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['aiPlateOffer']['boundedReadinessProfile']['consolidatedStatus'];
+  aiPlateEnterprisePackageStatus: ExtrimliExtrondolReport['releaseAuditSummary']['aiPlateEnterprisePackageGovernance']['status'];
 }): ExtrimliSpajaKodPublicFacade {
   const completeness = {
     extremSignalPresent: params.extremProfiler.spajaKodEncapsulation.surfaceName === 'SPAJA KOD',
@@ -2825,6 +2826,7 @@ function buildSpajaKodFacade(params: {
       vrhProgramskogEkviladentaStatus: params.vrhProgramskogEkviladentaStatus,
       developerAndCreateStatus: params.developerAndCreateStatus,
       aiPlateStatus: params.aiPlateStatus,
+      aiPlateEnterprisePackageStatus: params.aiPlateEnterprisePackageStatus,
       humanReviewRequired: true,
       rollbackPlanRequired: true,
       degraded: params.degraded,
@@ -2850,10 +2852,12 @@ function buildSpajaKodFacade(params: {
 
 function resolveGovernanceEvidence(evidence?: ExtrimliExtrondolGovernanceEvidence) {
   return {
-    auditTrailComplete: evidence?.auditTrailComplete ?? process.env.EXTRONDOL_AUDIT_TRAIL_COMPLETE !== 'false',
+    auditTrailComplete: evidence?.auditTrailComplete ?? process.env.EXTRONDOL_AUDIT_TRAIL_COMPLETE === 'true',
+    complianceReviewComplete: evidence?.complianceReviewComplete ?? process.env.EXTRONDOL_COMPLIANCE_REVIEW_COMPLETE === 'true',
     downstreamSyncComplete: evidence?.downstreamSyncComplete ?? process.env.EXTRONDOL_DOWNSTREAM_SYNC_COMPLETE === 'true',
     humanReviewComplete: evidence?.humanReviewComplete ?? process.env.EXTRONDOL_HUMAN_REVIEW_COMPLETE === 'true',
     onboardingComplete: evidence?.onboardingComplete ?? process.env.EXTRONDOL_ONBOARDING_COMPLETE === 'true',
+    rollbackPlanComplete: evidence?.rollbackPlanComplete ?? process.env.EXTRONDOL_ROLLBACK_PLAN_COMPLETE === 'true',
   } as const;
 }
 
@@ -3161,6 +3165,8 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
       'incidentPlaybook',
       'contractDriftReport',
       'governanceConformance',
+      'releaseAuditSummary.aiPlateEnterprisePackageGovernance',
+      'spajaKod.publicSignals.aiPlateEnterprisePackageStatus',
     ],
     downstreamSync: {
       linkedRepo: 'spaja86/IO-OPENUI-AO',
@@ -3174,8 +3180,10 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
         'spajaproTrack',
         'b2bScope',
         'b2bScope.subscriptionPackage',
+        'b2bScope.subscriptionPackage.aiPlateEnterprisePackage',
         'b2bScope.unlimitedUseGuardrails',
         'b2bReadiness',
+        'b2bReadiness.governanceDecisions.aiPlateEnterprisePackage',
         'nivoDuet',
         'dinkos',
         'distanceRatioEkvilaterTable',
@@ -3208,6 +3216,8 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
         'extremProfiler.objektnoOrijentisanaReprodukcija.readiness',
         'extremProfiler.objektnoOrijentusanoUzdizanjeEpskihElikvadenata.readiness',
         'b2bReadiness.globalLicensing',
+        'releaseAuditSummary.aiPlateEnterprisePackageGovernance',
+        'spajaKod.publicSignals.aiPlateEnterprisePackageStatus',
         'kraljevskiPravniUniverzitetGovernance',
         'funkcinalnoProgramiranjeEnergetskogMisaonogToka',
         'funkcionalnoProgramiranjeUzvisenogMisanogToka',
@@ -3239,6 +3249,8 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
         'incidentPlaybook',
         'contractDriftReport',
         'governanceConformance',
+        'releaseAuditSummary.aiPlateEnterprisePackageGovernance',
+        'spajaKod.publicSignals.aiPlateEnterprisePackageStatus',
       ],
     },
     qualityGates: {
@@ -3399,6 +3411,44 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
         complianceRequiredBeforeActivation: true,
         humanReviewRequiredBeforeActivation: true,
       },
+      aiPlateEnterprisePackage: {
+        canonicalName: 'DEVELOPER AND CREATE / VRH PROGRAMSKOG EKVILADENTA / AI PLATE',
+        packageGoal: 'GitHub operating layer for AI agents, Copilots, and supporting automation',
+        segment: 'enterprise-organization-level',
+        pricing: {
+          amountEur: 12000,
+          cadence: 'weekly',
+          quoteModel: 'public-enterprise-quote',
+        },
+        scopeLock: {
+          seats: true,
+          copilotAiRights: true,
+          privateRepositoryAccess: true,
+          governance: true,
+          supportSla: true,
+          humanReview: true,
+          compliance: true,
+        },
+        weeklyCadenceDecision: {
+          decisionMode: 'premium-rollout-regime',
+          masterBillingCycle: 'monthly-or-annual',
+          rolloutMode: 'pilot-first',
+          rationale:
+            '12.000 EUR weekly pricing is approved only as an additive premium rollout regime layered on the existing monthly-or-annual enterprise master agreement.',
+          requiresExplicitApproval: true,
+        },
+        roadmapExecution: {
+          roadmapStageId: 'Verzija 7',
+          measurableOutput:
+            'EXTRONDOL publishes an additive weekly enterprise AI PLATE package inside the existing B2B scope/readiness model without adding new runtime routes.',
+          acceptanceEvidence: [
+            'b2bScope.subscriptionPackage.aiPlateEnterprisePackage',
+            'b2bReadiness.governanceDecisions.aiPlateEnterprisePackage',
+            'releaseAuditSummary.aiPlateEnterprisePackageGovernance',
+            'spajaKod.publicSignals.aiPlateEnterprisePackageStatus',
+          ],
+        },
+      },
     },
     accountOwnership: {
       owner: '@spaja86',
@@ -3450,10 +3500,12 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
   const currentWave = currentWawe;
   const eligibleNextWave = nextWawe(currentWawe);
   const contractApproved = !degraded && domainStrategy.valid;
-  const onboardingComplete = governanceEvidence.onboardingComplete;
-  const downstreamSyncComplete = governanceEvidence.downstreamSyncComplete;
+  const onboardingComplete = Boolean(governanceEvidence.onboardingComplete);
+  const complianceReviewComplete = Boolean(governanceEvidence.complianceReviewComplete);
+  const downstreamSyncComplete = Boolean(governanceEvidence.downstreamSyncComplete);
   const operationalApproval = currentWawe !== 'WAWE-1' && currentWawe !== 'WAWE-2';
-  const humanReviewComplete = governanceEvidence.humanReviewComplete;
+  const rollbackPlanComplete = Boolean(governanceEvidence.rollbackPlanComplete);
+  const humanReviewComplete = Boolean(governanceEvidence.humanReviewComplete);
   const rolloutRing = currentWawe === 'WAWE-1'
     ? 'RING-0-CONTRACT'
     : currentWawe === 'WAWE-2'
@@ -3636,8 +3688,19 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
       : []),
     ...(mobilnaLinija.activationStatus === 'BLOCKED' ? ['mobilna-linija-activation-ready'] : []),
   ];
-  const auditTrailComplete = governanceEvidence.auditTrailComplete;
-  const promotionFreeze = degraded
+  const auditTrailComplete = Boolean(governanceEvidence.auditTrailComplete);
+  const aiPlateEnterprisePackageBlockers = [
+    ...(!contractApproved ? ['contract-approved'] : []),
+    ...(!onboardingComplete ? ['onboarding-complete'] : []),
+    ...(!complianceReviewComplete ? ['compliance-review-complete'] : []),
+    ...(!downstreamSyncComplete ? ['downstream-sync-complete'] : []),
+    ...(!humanReviewComplete ? ['human-review-complete'] : []),
+    ...(!auditTrailComplete ? ['audit-trail-complete'] : []),
+    ...(!rollbackPlanComplete ? ['rollback-plan-complete'] : []),
+    ...(paymentVerification.status !== 'VERIFIED' ? ['payment-verification'] : []),
+  ];
+  const aiPlateEnterprisePackageAffectsPromotion = false;
+  const promotionFreezeBase = degraded
     || complianceBlockers.length > 0
     || currentWawe === 'WAWE-1'
     || extremProfiler.governanceSignal.freezeRequired
@@ -3680,6 +3743,11 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
     || extremProfiler.objektnoOrijentusanoUzdizanjeEpskihElikvadenata.readiness.status === 'BLOCKED'
     || extremProfiler.semaMuSemaFormula.status === 'BLOCKED'
     || mobilnaLinija.activationStatus === 'BLOCKED';
+  const promotionFreeze = promotionFreezeBase
+    || (aiPlateEnterprisePackageAffectsPromotion && aiPlateEnterprisePackageBlockers.length > 0);
+  const aiPlateEnterprisePackageStatus = aiPlateEnterprisePackageBlockers.length === 0
+    ? 'READY' as const
+    : 'BLOCKED' as const;
   const objektnaProngilacijaPostureReasons = buildObjektnaProngilacijaPostureReasons(
     extremProfiler.objektnoOrijentisanaProngilacija,
   );
@@ -4020,6 +4088,28 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
         },
       };
     })(),
+    aiPlateEnterprisePackageGovernance: {
+      sourceOfTruth: '/api/extrimli/extrondol',
+      status: aiPlateEnterprisePackageStatus,
+      canonicalName: 'DEVELOPER AND CREATE / VRH PROGRAMSKOG EKVILADENTA / AI PLATE',
+      weeklyPriceEur: 12000,
+      weeklyCadenceDecision: 'premium-rollout-regime',
+      masterBillingCycle: 'monthly-or-annual',
+      roadmapStageId: 'Verzija 7',
+      measurableOutput:
+        'Enterprise GitHub AI governance and pricing is published as an additive EXTRONDOL package without adding new source-of-truth routes.',
+      acceptanceEvidence: [
+        'b2bScope.subscriptionPackage.aiPlateEnterprisePackage',
+        'b2bReadiness.governanceDecisions.aiPlateEnterprisePackage',
+        'releaseAuditSummary.aiPlateEnterprisePackageGovernance',
+        'spajaKod.publicSignals.aiPlateEnterprisePackageStatus',
+      ],
+      reviewRequiredBeforeActivation: true,
+      paymentVerificationRequired: true,
+      downstreamSyncRequired: true,
+      rollbackPlanRequired: true,
+      blockers: [...aiPlateEnterprisePackageBlockers],
+    },
     paradijogonalnoProgrimiranjeGovernance: {
       sourceOfTruth: '/api/extrimli/extrem',
       status: extremProfiler.paradijogonalnoProgrimiranje.readiness.status,
@@ -4852,6 +4942,7 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
     vrhProgramskogEkviladentaStatus: extremProfiler.vrhProgramskogEkviladenta.readiness.status,
     developerAndCreateStatus: extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.status,
     aiPlateStatus: extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.aiPlateOffer.boundedReadinessProfile.consolidatedStatus,
+    aiPlateEnterprisePackageStatus,
   });
   const spajaproTrack = buildSpajaproGovernanceTrack({
     technicalState: technicalState === 'WATCH' || technicalState === 'BLOCKED' ? technicalState : 'READY',
@@ -5218,6 +5309,7 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
         'dokerKuratIzekDokarTrack.sequenceStates',
         'spajaproTrack.sequenceStates',
         'b2bScope.subscriptionPackage',
+        'b2bScope.subscriptionPackage.aiPlateEnterprisePackage',
         'b2bScope.unlimitedUseGuardrails',
         'nivoDuet.signal.valid',
         'nivoDuet.signal.status',
@@ -5367,8 +5459,10 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
         'spajaKod.publicSignals.vrhProgramskogEkviladentaStatus',
         'spajaKod.publicSignals.radniTaktMozgaMislilacStatus',
         'spajaKod.publicSignals.zelezaraPretplataIdentityStatus',
+        'spajaKod.publicSignals.aiPlateEnterprisePackageStatus',
         'spajaKod.platformTrack.finalPublicStatusToken',
         'spajaKod.platformTrack.publicStatus',
+        'releaseAuditSummary.aiPlateEnterprisePackageGovernance',
         'releaseReadinessScorecard',
         'canaryRingMetrics',
         'incidentPlaybook',
@@ -5411,6 +5505,18 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
         muSemaConclusion: extremProfiler.semaMuSemaFormula.muSemaConclusion,
         formulaHolds: extremProfiler.semaMuSemaFormula.formulaHolds,
         blockerReasons: [...extremProfiler.semaMuSemaFormula.blockerReasons],
+      },
+      aiPlateEnterprisePackage: {
+        status: aiPlateEnterprisePackageStatus,
+        decisionMode: 'premium-rollout-regime',
+        contractApprovalRequired: true,
+        complianceReviewRequired: true,
+        humanReviewRequired: true,
+        paymentVerificationRequired: true,
+        downstreamSyncRequired: true,
+        rollbackPlanRequired: true,
+        finopsGuardrailsRequired: true,
+        blockers: [...aiPlateEnterprisePackageBlockers],
       },
       resolutionReadiness: {
         rezolucijaScore: extremProfiler.resolutionReadiness.rezolucijaScore,
@@ -5762,6 +5868,18 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
         && b2bScope.subscriptionPackage.commercialAndLegalModel.paymentCycle === 'monthly-or-annual'
         && b2bScope.subscriptionPackage.commercialAndLegalModel.complianceRequiredBeforeActivation
         && b2bScope.subscriptionPackage.commercialAndLegalModel.humanReviewRequiredBeforeActivation,
+    },
+    {
+      id: 'ai-plate-enterprise-package',
+      description: 'AI PLATE stays additive-only inside EXTRONDOL as a weekly premium rollout regime with audit package, payment verification, and downstream-safe status only.',
+      passed: b2bScope.subscriptionPackage.aiPlateEnterprisePackage.canonicalName === 'DEVELOPER AND CREATE / VRH PROGRAMSKOG EKVILADENTA / AI PLATE'
+        && b2bScope.subscriptionPackage.aiPlateEnterprisePackage.pricing.amountEur === 12000
+        && b2bScope.subscriptionPackage.aiPlateEnterprisePackage.pricing.cadence === 'weekly'
+        && b2bScope.subscriptionPackage.aiPlateEnterprisePackage.weeklyCadenceDecision.decisionMode === 'premium-rollout-regime'
+        && b2bScope.subscriptionPackage.aiPlateEnterprisePackage.weeklyCadenceDecision.masterBillingCycle === 'monthly-or-annual'
+        && releaseAuditSummary.aiPlateEnterprisePackageGovernance.reviewRequiredBeforeActivation
+        && releaseAuditSummary.aiPlateEnterprisePackageGovernance.downstreamSyncRequired
+        && spajaKod.publicSignals.aiPlateEnterprisePackageStatus === releaseAuditSummary.aiPlateEnterprisePackageGovernance.status,
     },
     {
       id: 'b2b-scope',

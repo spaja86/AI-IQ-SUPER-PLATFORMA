@@ -249,6 +249,17 @@ async function runTests(): Promise<void> {
     );
     assert(report.releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.covecnostAuditVisualGovernance.auditVisibility === 'audit-safe-readiness-only', 'developer/create release audit visual governance visibility mismatch');
     assert(report.releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.covecnostAuditVisualGovernance.downstreamSync === 'follow-up-only-until-io-openui-ao-adopts-audit-safe-summary', 'developer/create release audit visual governance downstream mismatch');
+    assert(report.releaseAuditSummary.aiPlateEnterprisePackageGovernance.sourceOfTruth === '/api/extrimli/extrondol', 'AI PLATE release audit source mismatch');
+    assert(report.releaseAuditSummary.aiPlateEnterprisePackageGovernance.canonicalName === 'DEVELOPER AND CREATE / VRH PROGRAMSKOG EKVILADENTA / AI PLATE', 'AI PLATE canonical name mismatch');
+    assert(report.releaseAuditSummary.aiPlateEnterprisePackageGovernance.weeklyPriceEur === 12000, 'AI PLATE weekly price mismatch');
+    assert(report.releaseAuditSummary.aiPlateEnterprisePackageGovernance.weeklyCadenceDecision === 'premium-rollout-regime', 'AI PLATE cadence decision mismatch');
+    assert(report.releaseAuditSummary.aiPlateEnterprisePackageGovernance.masterBillingCycle === 'monthly-or-annual', 'AI PLATE master billing cycle mismatch');
+    assert(report.releaseAuditSummary.aiPlateEnterprisePackageGovernance.roadmapStageId === 'Verzija 7', 'AI PLATE roadmap stage mismatch');
+    assert(report.releaseAuditSummary.aiPlateEnterprisePackageGovernance.reviewRequiredBeforeActivation, 'AI PLATE must require review before activation');
+    assert(report.releaseAuditSummary.aiPlateEnterprisePackageGovernance.paymentVerificationRequired, 'AI PLATE must require payment verification');
+    assert(report.releaseAuditSummary.aiPlateEnterprisePackageGovernance.downstreamSyncRequired, 'AI PLATE must require downstream sync');
+    assert(report.releaseAuditSummary.aiPlateEnterprisePackageGovernance.rollbackPlanRequired, 'AI PLATE must require rollback plan');
+    assert(report.spajaKod.publicSignals.aiPlateEnterprisePackageStatus === report.releaseAuditSummary.aiPlateEnterprisePackageGovernance.status, 'AI PLATE SPAJA KOD status mismatch');
     assert(report.spajaKod.developerAndCreateVisualReflection.visualReference.includes('4790f4ea-4271-4d2a-ae0a-d9bec5bc8b8a'), 'SPAJA KOD developer/create ČOVEČNOST visual reference mismatch');
     assert(report.spajaKod.developerAndCreateVisualReflection.imageToSignalProfile.ownershipLock.spajaKod === 'audit-safe-summary-only', 'SPAJA KOD developer/create ČOVEČNOST boundary mismatch');
     assert(report.spajaKod.developerAndCreateVisualReflection.supplementalVisualReferences[0].visualReference.includes('27ef7575-9ef6-425e-bdbf-75feb722bad2'), 'SPAJA KOD developer/create supplemental visual reference mismatch');
@@ -1197,6 +1208,18 @@ async function runTests(): Promise<void> {
     assert(report.b2bScope.subscriptionPackage.commercialAndLegalModel.paymentCycle === 'monthly-or-annual', 'payment cycle mismatch');
     assert(report.b2bScope.subscriptionPackage.commercialAndLegalModel.complianceRequiredBeforeActivation, 'compliance activation gate missing');
     assert(report.b2bScope.subscriptionPackage.commercialAndLegalModel.humanReviewRequiredBeforeActivation, 'human review activation gate missing');
+    assert(report.b2bScope.subscriptionPackage.aiPlateEnterprisePackage.canonicalName === 'DEVELOPER AND CREATE / VRH PROGRAMSKOG EKVILADENTA / AI PLATE', 'AI PLATE package name mismatch');
+    assert(report.b2bScope.subscriptionPackage.aiPlateEnterprisePackage.pricing.amountEur === 12000, 'AI PLATE price mismatch');
+    assert(report.b2bScope.subscriptionPackage.aiPlateEnterprisePackage.pricing.cadence === 'weekly', 'AI PLATE cadence mismatch');
+    assert(report.b2bScope.subscriptionPackage.aiPlateEnterprisePackage.weeklyCadenceDecision.decisionMode === 'premium-rollout-regime', 'AI PLATE decision mode mismatch');
+    assert(report.b2bScope.subscriptionPackage.aiPlateEnterprisePackage.weeklyCadenceDecision.masterBillingCycle === 'monthly-or-annual', 'AI PLATE billing lock mismatch');
+    assert(report.b2bScope.subscriptionPackage.aiPlateEnterprisePackage.scopeLock.seats, 'AI PLATE seats scope missing');
+    assert(report.b2bScope.subscriptionPackage.aiPlateEnterprisePackage.scopeLock.copilotAiRights, 'AI PLATE Copilot scope missing');
+    assert(report.b2bScope.subscriptionPackage.aiPlateEnterprisePackage.scopeLock.privateRepositoryAccess, 'AI PLATE private repo scope missing');
+    assert(report.b2bScope.subscriptionPackage.aiPlateEnterprisePackage.scopeLock.governance, 'AI PLATE governance scope missing');
+    assert(report.b2bScope.subscriptionPackage.aiPlateEnterprisePackage.scopeLock.supportSla, 'AI PLATE SLA scope missing');
+    assert(report.b2bScope.subscriptionPackage.aiPlateEnterprisePackage.scopeLock.humanReview, 'AI PLATE human review scope missing');
+    assert(report.b2bScope.subscriptionPackage.aiPlateEnterprisePackage.scopeLock.compliance, 'AI PLATE compliance scope missing');
     assert(report.b2bScope.accountOwnership.owner === '@spaja86', 'B2B owner mismatch');
     assert(report.b2bScope.accountOwnership.mandatoryHumanReview, 'human review must remain mandatory');
     assert(report.b2bScope.partnerOperatorRoles.partners.includes('spaja86/IO-OPENUI-AO'), 'linked repo partner missing');
@@ -1216,18 +1239,19 @@ async function runTests(): Promise<void> {
     assert(report.b2bReadiness.compliance.secretsInGitAllowed === false, 'secrets must not be allowed in git');
     assert(report.b2bReadiness.compliance.onboardingComplete === false, 'onboarding must remain incomplete without explicit evidence');
     assert(report.b2bReadiness.compliance.humanReviewComplete === false, 'human review must remain incomplete without explicit evidence');
-    assert(report.b2bReadiness.compliance.auditTrailComplete === true, 'audit trail should default to present governance evidence');
+    assert(report.b2bReadiness.compliance.auditTrailComplete === false, 'audit trail should require explicit governance evidence');
     assert(report.b2bReadiness.downstreamSync.status === 'FOLLOW_UP_REQUIRED', 'downstream sync must require explicit evidence');
     assert(report.b2bReadiness.compliance.blockers.includes('onboarding-complete'), 'onboarding blocker must be present');
     assert(report.b2bReadiness.compliance.blockers.includes('downstream-sync-complete'), 'downstream sync blocker must be present');
     assert(report.b2bReadiness.compliance.blockers.includes('human-review-complete'), 'human review blocker must be present');
-    assert(!report.b2bReadiness.compliance.blockers.includes('audit-trail-complete'), 'audit blocker should not appear when audit evidence is present');
+    assert(report.b2bReadiness.compliance.blockers.includes('audit-trail-complete'), 'audit blocker should appear without explicit evidence');
     assert(report.b2bReadiness.downstreamSync.linkedRepo === 'spaja86/IO-OPENUI-AO', 'linked repo mismatch');
     assert(report.b2bReadiness.downstreamSync.syncedFields.includes('versionRoadmap.contractVersion'), 'roadmap contract sync field missing');
     assert(report.startProject.mandatoryOutputs.includes('versionRoadmap'), 'versionRoadmap must be a START mandatory output');
     assert(report.startProject.downstreamSync.syncedContractFields.includes('versionRoadmap'), 'versionRoadmap must be synced downstream');
-    assert(report.b2bReadiness.downstreamSync.syncedFields.includes('rollout.currentWawe'), 'WAWE sync field missing');
+    assert(report.b2bReadiness.downstreamSync.syncedFields.includes('rollout.currentWawe'), 'canonical currentWawe sync field missing');
     assert(report.b2bReadiness.downstreamSync.syncedFields.includes('b2bScope.subscriptionPackage'), 'subscription sync field missing');
+    assert(report.b2bReadiness.downstreamSync.syncedFields.includes('b2bScope.subscriptionPackage.aiPlateEnterprisePackage'), 'AI PLATE subscription sync field missing');
     assert(report.b2bReadiness.downstreamSync.syncedFields.includes('b2bScope.unlimitedUseGuardrails'), 'guardrails sync field missing');
     assert(report.b2bReadiness.downstreamSync.syncedFields.includes('nivoDuet.signal.warnings'), 'DUET warnings sync field missing');
     assert(report.b2bReadiness.downstreamSync.syncedFields.includes('dinkos.triggerLabel'), 'DINKOS sync field missing');
@@ -1242,7 +1266,18 @@ async function runTests(): Promise<void> {
     assert(report.b2bReadiness.downstreamSync.syncedFields.includes('incidentPlaybook'), 'incident playbook sync field missing');
     assert(report.b2bReadiness.downstreamSync.syncedFields.includes('contractDriftReport'), 'contract drift report sync field missing');
     assert(report.b2bReadiness.downstreamSync.syncedFields.includes('governanceConformance'), 'governance conformance sync field missing');
+    assert(report.b2bReadiness.downstreamSync.syncedFields.includes('releaseAuditSummary.aiPlateEnterprisePackageGovernance'), 'AI PLATE release audit sync field missing');
+    assert(report.b2bReadiness.downstreamSync.syncedFields.includes('spajaKod.publicSignals.aiPlateEnterprisePackageStatus'), 'AI PLATE SPAJA KOD sync field missing');
     assert(report.b2bReadiness.governanceDecisions.rolloutFreeze === report.rollout.promotionFreeze, 'B2B rollout freeze must mirror rollout freeze');
+    assert(['READY', 'BLOCKED'].includes(report.b2bReadiness.governanceDecisions.aiPlateEnterprisePackage.status), 'AI PLATE readiness status mismatch');
+    assert(report.b2bReadiness.governanceDecisions.aiPlateEnterprisePackage.decisionMode === 'premium-rollout-regime', 'AI PLATE readiness decision mode mismatch');
+    assert(report.b2bReadiness.governanceDecisions.aiPlateEnterprisePackage.contractApprovalRequired, 'AI PLATE contract approval must be required');
+    assert(report.b2bReadiness.governanceDecisions.aiPlateEnterprisePackage.complianceReviewRequired, 'AI PLATE compliance review must be required');
+    assert(report.b2bReadiness.governanceDecisions.aiPlateEnterprisePackage.humanReviewRequired, 'AI PLATE human review must be required');
+    assert(report.b2bReadiness.governanceDecisions.aiPlateEnterprisePackage.paymentVerificationRequired, 'AI PLATE payment verification must be required');
+    assert(report.b2bReadiness.governanceDecisions.aiPlateEnterprisePackage.downstreamSyncRequired, 'AI PLATE downstream sync must be required');
+    assert(report.b2bReadiness.governanceDecisions.aiPlateEnterprisePackage.rollbackPlanRequired, 'AI PLATE rollback plan must be required');
+    assert(report.b2bReadiness.governanceDecisions.aiPlateEnterprisePackage.finopsGuardrailsRequired, 'AI PLATE FinOps guardrails must be required');
     assert(Number.isFinite(report.b2bReadiness.governanceDecisions.resolutionReadiness.rezolucijaScore), 'resolution readiness score must be finite');
     assert(report.b2bReadiness.governanceDecisions.semaFormulaGate.canonicalExpression === 'ŠEMA + ŠEMA + ALL ŠEMA == MUŠEMA', 'B2B formula expression mismatch');
     assert(['PASSED', 'BLOCKED'].includes(report.b2bReadiness.governanceDecisions.semaFormulaGate.status), 'B2B formula status mismatch');
@@ -1253,6 +1288,7 @@ async function runTests(): Promise<void> {
     assert(report.b2bReadiness.globalLicensing.criticalGlobalGapCount >= 0, 'critical global gap count mismatch');
     assert(report.acceptanceCriteria.some((item) => item.id === 'b2b-scope' && item.passed), 'b2b-scope criterion must pass');
     assert(report.acceptanceCriteria.some((item) => item.id === 'github-enterprise-subscription-package' && item.passed), 'github-enterprise-subscription-package criterion must pass');
+    assert(report.acceptanceCriteria.some((item) => item.id === 'ai-plate-enterprise-package' && item.passed), 'ai-plate-enterprise-package criterion must pass');
     assert(report.acceptanceCriteria.some((item) => item.id === 'unlimited-guardrails' && item.passed), 'unlimited-guardrails criterion must pass');
     assert(report.acceptanceCriteria.some((item) => item.id === 'b2b-controls' && item.passed), 'b2b-controls criterion must pass');
     assert(report.acceptanceCriteria.some((item) => item.id === 'schema-mushema-governance' && item.passed), 'schema-mushema-governance criterion must pass');
@@ -1268,6 +1304,47 @@ async function runTests(): Promise<void> {
     assert(report.b2bReadiness.downstreamSync.syncedFields.includes('mobilnaLinija.activationStatus'), 'mobilna activation status must be synced');
     assert(report.startProject.mandatoryOutputs.includes('mobilnaLinija'), 'mobilna output must be mandatory in START');
     assert(report.acceptanceCriteria.some((item) => item.id === 'mobilna-linija-package-governance' && item.passed), 'mobilna acceptance criterion must pass');
+  });
+
+  await test('AI PLATE governance status follows evidence and payment gates', async () => {
+    await withEnv({
+      SPAJA_VERCEL_BILLING_OWNER: EXPECTED_VERCEL_BILLING_OWNER,
+      SPAJA_VERCEL_BILLING_OWNER_LOCKED: 'true',
+      SPAJA_VERCEL_CURRENT_INVOICE_NUMBER: EXPECTED_VERCEL_INVOICE_NUMBER,
+      SPAJA_VERCEL_CURRENT_INVOICE_AMOUNT: EXPECTED_VERCEL_INVOICE_AMOUNT,
+      SPAJA_VERCEL_INVOICE_REQUESTED: 'true',
+      SPAJA_VERCEL_CURRENT_INVOICE_PAID: 'true',
+      SPAJA_VERCEL_CURRENT_INVOICE_EVIDENCE_CAPTURED: 'true',
+      SPAJA_VERCEL_BANK_STATEMENT_CAPTURED: 'true',
+      SPAJA_VERCEL_PAYMENT_REFERENCE_CAPTURED: 'true',
+      SPAJA_VERCEL_PAYMENT_REFERENCE_CLASSIFICATION: 'internal-only',
+      SPAJA_VERCEL_PAYMENT_REFERENCE_PUBLIC_SAFE_APPROVED: 'false',
+      SPAJA_VERCEL_PUBLIC_ANNOUNCEMENT_REDACTED: 'true',
+      SPAJA_VERCEL_PUBLIC_ANNOUNCEMENT_PUBLISHED: 'false',
+    }, () => {
+      const blockedReport = getExtrimliExtrondolReport({
+        auditTrailComplete: true,
+        complianceReviewComplete: false,
+        downstreamSyncComplete: true,
+        humanReviewComplete: true,
+        onboardingComplete: true,
+        rollbackPlanComplete: true,
+      });
+      assert(blockedReport.b2bReadiness.governanceDecisions.aiPlateEnterprisePackage.status === 'BLOCKED', 'AI PLATE should stay BLOCKED without compliance review evidence');
+      assert(blockedReport.b2bReadiness.governanceDecisions.aiPlateEnterprisePackage.blockers.includes('compliance-review-complete'), 'AI PLATE compliance blocker missing');
+
+      const rollbackBlockedReport = getExtrimliExtrondolReport({
+        auditTrailComplete: true,
+        complianceReviewComplete: true,
+        downstreamSyncComplete: true,
+        humanReviewComplete: true,
+        onboardingComplete: true,
+        rollbackPlanComplete: false,
+      });
+      assert(rollbackBlockedReport.paymentVerification.status === 'VERIFIED', 'AI PLATE rollback test requires verified payment');
+      assert(rollbackBlockedReport.b2bReadiness.governanceDecisions.aiPlateEnterprisePackage.status === 'BLOCKED', 'AI PLATE should stay BLOCKED without rollback evidence');
+      assert(rollbackBlockedReport.b2bReadiness.governanceDecisions.aiPlateEnterprisePackage.blockers.includes('rollback-plan-complete'), 'AI PLATE rollback blocker missing');
+    });
   });
 
   await test('report exposes START PROJEKAT rollout governance metadata', () => {
@@ -1290,6 +1367,8 @@ async function runTests(): Promise<void> {
     assert(report.startProject.domainStrategyLock.canonicalWildcard === EXTRONDOL_CANONICAL_WILDCARD_DOMAIN, 'canonical wildcard mismatch');
     assert(report.startProject.domainStrategyLock.rejectPatternsLike.includes('spaja.nivo*spaja'), 'reject pattern missing');
     assert(report.startProject.mandatoryOutputs.includes('spajaproTrack'), 'SPAJAPRO output missing');
+    assert(report.startProject.mandatoryOutputs.includes('releaseAuditSummary.aiPlateEnterprisePackageGovernance'), 'AI PLATE release audit output missing');
+    assert(report.startProject.mandatoryOutputs.includes('spajaKod.publicSignals.aiPlateEnterprisePackageStatus'), 'AI PLATE SPAJA KOD output missing');
     assert(report.startProject.mandatoryOutputs.includes('distanceRatioEkvilaterTable'), 'distance ratio output missing');
     assert(report.startProject.mandatoryOutputs.includes('paymentVerification'), 'payment verification output missing');
     assert(report.startProject.mandatoryOutputs.includes('extremProfiler'), 'extrem profiler output missing');
@@ -1305,6 +1384,7 @@ async function runTests(): Promise<void> {
     assert(report.startProject.downstreamSync.syncRequired, 'downstream sync must remain required');
     assert(report.startProject.downstreamSync.syncedContractFields.includes('b2bReadiness'), 'b2bReadiness sync missing');
     assert(report.startProject.downstreamSync.syncedContractFields.includes('b2bScope.subscriptionPackage'), 'B2B subscription sync missing');
+    assert(report.startProject.downstreamSync.syncedContractFields.includes('b2bScope.subscriptionPackage.aiPlateEnterprisePackage'), 'AI PLATE subscription sync missing');
     assert(report.startProject.downstreamSync.syncedContractFields.includes('b2bScope.unlimitedUseGuardrails'), 'B2B guardrails sync missing');
     assert(report.startProject.downstreamSync.syncedContractFields.includes('paymentVerification'), 'payment verification sync missing');
     assert(report.startProject.downstreamSync.syncedContractFields.includes('extremProfiler'), 'extrem profiler sync missing');
@@ -1312,6 +1392,8 @@ async function runTests(): Promise<void> {
     assert(report.startProject.downstreamSync.syncedContractFields.includes('extremProfiler.resolutionReadiness'), 'resolution readiness sync missing');
     assert(report.startProject.downstreamSync.syncedContractFields.includes('extremProfiler.semaMuSemaFormula'), 'formula sync missing');
     assert(report.startProject.downstreamSync.syncedContractFields.includes('spajaKod.platformTrack'), 'SPAJAPRO public sync missing');
+    assert(report.startProject.downstreamSync.syncedContractFields.includes('releaseAuditSummary.aiPlateEnterprisePackageGovernance'), 'AI PLATE release audit sync missing');
+    assert(report.startProject.downstreamSync.syncedContractFields.includes('spajaKod.publicSignals.aiPlateEnterprisePackageStatus'), 'AI PLATE SPAJA KOD sync missing');
     assert(report.startProject.downstreamSync.syncedContractFields.includes('releaseReadinessScorecard'), 'release readiness scorecard sync missing');
     assert(report.startProject.downstreamSync.syncedContractFields.includes('canaryRingMetrics'), 'canary ring metrics sync missing');
     assert(report.startProject.downstreamSync.syncedContractFields.includes('incidentPlaybook'), 'incident playbook sync missing');

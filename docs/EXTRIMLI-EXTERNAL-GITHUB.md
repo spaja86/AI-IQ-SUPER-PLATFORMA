@@ -104,6 +104,11 @@ Cilj je da EXTRIMLI ostane podeljen na dva jasno odvojena sloja:
 - Partner model: `spaja86/IO-OPENUI-AO` je obavezni downstream B2B consumer kada koristi EXTRONDOL snapshot.
 - Activation policy: nema B2B aktivacije bez contract approval, compliance review, downstream sync, i human review evidence.
 - Commercial/legal model lock: `primarySegment=privreda`, `supportedSegments=[privreda, gradjanstvo]`, `contractStatus=required-before-activation`, `paymentCycle=monthly-or-annual`.
+- Additive-only V7 enterprise operating model uvodi `DEVELOPER AND CREATE / VRH PROGRAMSKOG EKVILADENTA / AI PLATE` kao GitHub organization-level paket za AI agente, Copilote i prateću automatizaciju, bez novih source-of-truth ruta.
+- Paket zaključava razdvojene scope stubove: `seats`, `Copilot/AI prava`, `private repo pristup`, `governance`, `support SLA`, `human review`, `compliance`.
+- `12.000 EUR nedeljno` nije nova master pretplata već `premium-rollout-regime` / `pilot-first` odluka unutar postojećeg `paymentCycle=monthly-or-annual` enterprise ugovora.
+- Promocija weekly enterprise ponude je blokirana bez `contract approval`, `compliance review`, `human review`, `payment verification`, `downstream sync prema spaja86/IO-OPENUI-AO`, `rollback plan` i `FinOps guardrails` za unlimited interpretaciju.
+- Linked repo preuzima samo audit-safe snapshot: `aiPlateEnterprisePackageStatus`, release audit status, roadmapStageId=`Verzija 7` i acceptance evidence; nikada paralelni source-of-truth za komercijalne detalje.
 - `b2bReadiness.compliance.humanReviewComplete` je obavezno polje u EXTRONDOL B2B readiness sloju i mora blokirati promociju dok evidence nije prisutan.
 - `b2bReadiness.downstreamSync.status` ne sme biti inferred iz lokalnog health stanja; ostaje `FOLLOW_UP_REQUIRED` dok linked-repo sync evidence nije eksplicitno potvrđen.
 - `b2bReadiness.compliance.onboardingComplete` mora doći iz onboarding evidence; DUET signal ostaje governance input za onboarding hold, escalation i partner warnings.
