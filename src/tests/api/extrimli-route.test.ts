@@ -406,7 +406,18 @@ async function runTests(): Promise<void> {
           readiness: { status: string; score: number };
         };
         funkcionalnoProgramiranjePravednogMisaonogToka: { term: string; contractVersion: string; readiness: { status: string; score: number } };
-        radniTaktMozgaMislilac: { term: string; contractVersion: string; readiness: { status: string; score: number }; epilogijaCovecnosti: { title: string } };
+        radniTaktMozgaMislilac: {
+          term: string;
+          contractVersion: string;
+          readiness: { status: string; score: number };
+          epilogijaCovecnosti: {
+            title: string;
+            visualReference: string;
+            packageOutputs: { posterSummary: string };
+            dokerKuratIzekDokarOverlay: { IZEK: string };
+            imageToSignalProfile: { scenarioId: string; signalOutputs: { readinessScore: number; conflictPressurePercent: number; deterministicFallbackRequired: boolean } };
+          };
+        };
         paradijogonalnoProgrimiranje: { term: string; contractVersion: string; readiness: { status: string; score: number } };
         funkionalnoProgramiranjePravnogMisaonogToka: { term: string; contractVersion: string; readiness: { status: string; score: number }; legalCoupling: { sourceTrack: string } };
         objektnoOrijentisanaProngilacija: { term: string; contractVersion: string; readiness: { status: string; score: number } };
@@ -447,8 +458,12 @@ async function runTests(): Promise<void> {
     assert(['READY', 'WATCH', 'BLOCKED'].includes(body.data.radniTaktMozgaMislilac.readiness.status), 'unexpected EXTREM radni takt status');
     assert(Number.isFinite(body.data.radniTaktMozgaMislilac.readiness.score), 'radni takt score must be finite');
     assert(body.data.radniTaktMozgaMislilac.epilogijaCovecnosti.title === 'EPILOGIJA ČOVEČANSTVA', 'unexpected EXTREM radni takt epilog title');
-    assert(body.data.radniTaktMozgaMislilac.epilogijaCovecnosti.visualReference.includes('a1346923-892c-47ab-bd58-d9ef9fcbabff'), 'unexpected EXTREM radni takt epilog visual reference');
-    assert(body.data.radniTaktMozgaMislilac.epilogijaCovecnosti.packageOutputs.posterSummary.includes('čuvaj ljude i prirodu'), 'unexpected EXTREM radni takt poster summary');
+    assert(body.data.radniTaktMozgaMislilac.epilogijaCovecnosti.visualReference.includes('b485b700-f670-4f71-9f54-47b29a4155ec'), 'unexpected EXTREM radni takt epilog visual reference');
+    assert(body.data.radniTaktMozgaMislilac.epilogijaCovecnosti.packageOutputs.posterSummary.includes('Obogaćuj se prirodom'), 'unexpected EXTREM radni takt poster summary');
+    assert(body.data.radniTaktMozgaMislilac.epilogijaCovecnosti.imageToSignalProfile.scenarioId === 'priroda-zdrav-zivot-covecanstvo', 'unexpected EXTREM image-to-signal scenario');
+    assert(Number.isFinite(body.data.radniTaktMozgaMislilac.epilogijaCovecnosti.imageToSignalProfile.signalOutputs.readinessScore), 'unexpected EXTREM image-to-signal readiness score');
+    assert(body.data.radniTaktMozgaMislilac.epilogijaCovecnosti.imageToSignalProfile.signalOutputs.conflictPressurePercent >= 0, 'unexpected EXTREM image-to-signal conflict pressure');
+    assert(typeof body.data.radniTaktMozgaMislilac.epilogijaCovecnosti.imageToSignalProfile.signalOutputs.deterministicFallbackRequired === 'boolean', 'unexpected EXTREM image-to-signal deterministic fallback type');
     assert(body.data.radniTaktMozgaMislilac.epilogijaCovecnosti.dokerKuratIzekDokarOverlay.IZEK.includes('review checkpoint'), 'unexpected EXTREM radni takt IZEK overlay');
     assert(body.data.paradijogonalnoProgrimiranje.term === 'PARADIJOGONALNO PROGRIMIRANJE (INSTRUMENTALNI VID U SIHOFIZI PROSPARITET OBLAČNOG/CLOUD PREDELA)', 'unexpected EXTREM paradijogonalno term');
     assert(['READY', 'WATCH', 'BLOCKED'].includes(body.data.paradijogonalnoProgrimiranje.readiness.status), 'unexpected EXTREM paradijogonalno status');
@@ -584,6 +599,7 @@ async function runTests(): Promise<void> {
           citation: string;
           visualReference: string;
           interpretation: string;
+          imageToSignalProfile: { ownershipLock: { dokDikFor: string } };
           flowLock: { sequence: string[] };
           packageOutputs: { masterEpilog: string; posterSummary: string; videoStoryboardSummary: string; auditShortSummary: string; governanceChecklistStatus: string };
           dokerKuratIzekDokarOverlay: { DOKER: string; KURAT: string; IZEK: string; DOKAR: string };
@@ -612,9 +628,10 @@ async function runTests(): Promise<void> {
     assert(['READY', 'WATCH', 'BLOCKED'].includes(body.data.publicSignals.vrhProgramskogEkviladentaStatus), 'unexpected SPAJA KOD vrh summary status');
     assert(['READY', 'WATCH', 'BLOCKED'].includes(body.data.publicSignals.developerAndCreateStatus), 'unexpected SPAJA KOD developer/create summary status');
     assert(body.data.epilogijaCovecnosti.title === 'EPILOGIJA ČOVEČANSTVA', 'unexpected SPAJA KOD epilog title');
-    assert(body.data.epilogijaCovecnosti.canonicalNarrativeId === 'zivot-je-igra-sitni-koraci-covecanstvo', 'unexpected SPAJA KOD canonical epilog narrative id');
-    assert(body.data.epilogijaCovecnosti.citation.includes('Život je igra'), 'SPAJA KOD epilog citation should preserve canonical narrative');
-    assert(body.data.epilogijaCovecnosti.visualReference.includes('a1346923-892c-47ab-bd58-d9ef9fcbabff'), 'SPAJA KOD epilog visual reference should preserve canonical image');
+    assert(body.data.epilogijaCovecnosti.canonicalNarrativeId === 'priroda-zdrav-zivot-covecanstvo', 'unexpected SPAJA KOD canonical epilog narrative id');
+    assert(body.data.epilogijaCovecnosti.citation.includes('Priroda izum samoživost'), 'SPAJA KOD epilog citation should preserve canonical narrative');
+    assert(body.data.epilogijaCovecnosti.visualReference.includes('b485b700-f670-4f71-9f54-47b29a4155ec'), 'SPAJA KOD epilog visual reference should preserve canonical image');
+    assert(body.data.epilogijaCovecnosti.imageToSignalProfile.ownershipLock.dokDikFor === 'EXTREM', 'SPAJA KOD image profile should preserve DOK/DIK/FOR ownership');
     assert(body.data.epilogijaCovecnosti.interpretation.length > 0, 'SPAJA KOD epilog interpretation should be present');
     assert(body.data.epilogijaCovecnosti.flowLock.sequence.join(' -> ') === 'image -> spajanje -> posledica -> epilog', 'SPAJA KOD epilog flow lock should stay fixed');
     assert(body.data.epilogijaCovecnosti.packageOutputs.auditShortSummary.includes('audit-safe'), 'SPAJA KOD audit short summary should stay public-safe');

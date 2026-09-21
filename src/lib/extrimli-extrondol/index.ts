@@ -1620,11 +1620,11 @@ function buildRadniTaktMozgaMislilacGovernance(params: {
   const scoreAdjustment = getRadniTaktMozgaMislilacAdjustment(signal.readiness.status);
   const postureReasons = buildRadniTaktMozgaMislilacReasons(signal);
   const canonicalEpilogNarrativePresent =
-    signal.epilogijaCovecnosti.canonicalNarrativeId === 'zivot-je-igra-sitni-koraci-covecanstvo';
+    signal.epilogijaCovecnosti.canonicalNarrativeId === 'priroda-zdrav-zivot-covecanstvo';
   const reasons = [
     ...postureReasons.governanceReasons,
     ...(canonicalEpilogNarrativePresent
-      ? ['epilog:canonical-zivot-je-igra-sitni-koraci-covecanstvo']
+      ? ['epilog:canonical-priroda-zdrav-zivot-covecanstvo']
       : ['epilog:canonical-narrative-missing']),
     ...(!params.downstreamSyncComplete ? ['governance:downstream-sync-follow-up-required'] : []),
     ...(!params.humanReviewComplete ? ['governance:human-review-required'] : []),
@@ -1667,6 +1667,9 @@ function buildRadniTaktMozgaMislilacGovernance(params: {
       includedInAuditSummary: true,
       citationPresent: signal.epilogijaCovecnosti.citation.trim().length > 0,
       visualReferencePresent: signal.epilogijaCovecnosti.visualReference.trim().length > 0,
+      imageToSignalProfilePresent: signal.epilogijaCovecnosti.imageToSignalProfile.scenarioId === 'priroda-zdrav-zivot-covecanstvo',
+      ownershipLockPreserved: signal.epilogijaCovecnosti.imageToSignalProfile.ownershipLock.dokDikFor === 'EXTREM'
+        && signal.epilogijaCovecnosti.imageToSignalProfile.ownershipLock.dakDuk === 'EXTRONDOL',
       interpretationLayer: 'educational-development-learning-discipline-ethics-signal',
       flowLockPreserved: true,
       packageOutputs: ['masterEpilog', 'posterSummary', 'videoStoryboardSummary', 'auditShortSummary', 'governanceChecklistStatus'],
@@ -1685,6 +1688,7 @@ function mapCovecanstvoEpilog(
     citation: epilog.citation,
     visualReference: epilog.visualReference,
     interpretation: epilog.interpretation,
+    imageToSignalProfile: { ...epilog.imageToSignalProfile },
     flowLock: epilog.flowLock,
     packageOutputs: { ...epilog.packageOutputs },
     dokerKuratIzekDokarOverlay: { ...epilog.dokerKuratIzekDokarOverlay },

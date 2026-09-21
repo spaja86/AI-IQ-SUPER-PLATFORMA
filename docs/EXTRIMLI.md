@@ -263,7 +263,7 @@ Promotion freeze je obavezan kada KPI/audit/sync nije potpun, uz rollback na pre
 
 - `ČOVEČANSTVU` is an additive EXTRIMLI / EXTREM / EXTRONDOL media track and must not become a new runtime source-of-truth surface.
 - Scope is limited to narrative packaging for image, poster, carousel, storyboard, voiceover, audit short summary, and public-safe publication guidance.
-- Canonical hero/poster image lock: `https://github.com/user-attachments/assets/a1346923-892c-47ab-bd58-d9ef9fcbabff`
+- Canonical hero/poster image lock: `https://github.com/user-attachments/assets/b485b700-f670-4f71-9f54-47b29a4155ec`
 - Central narrative lock:
   1. čovek želi čudo,
   2. spajanje svetlosti/nade i života (`Sunce` i `Sunčanica` se spajaju),
@@ -584,8 +584,8 @@ Canonical domains:
 - `mentalnoFizickaSinergija` — učenje ↔ trening i energetski balans (`learningTrainingSynergyPercent`)
 - `kontinuiraniNapredak` — stabilnost rutine i kontinuitet (`routineConsistencyPercent`)
 - `humanistickiCilj` — čovečnost, odgovornost, samopouzdanje i etičko razlikovanje dobra/zla (`ethicalClarityPercent`, `selfConfidenceDisciplinePercent`)
-- `epilogijaCovecnosti` — kanonski narativ **ČOVEČANSTVO** ostaje additive-only i audit-ready: `Život je igra` signal zaključava disciplinu `sitnim koracima` kao glavni adut, upozorava da `veliki korak` proizvodi šupljine/slabosti i da se taj signal propagira bez promene source-of-truth ownership granica.
-- Kanonski poster/hero vizuel koristi korisnički dostavljeni asset `a1346923-892c-47ab-bd58-d9ef9fcbabff` kao determinističku referencu za image/storyboard/public-safe summary paket.
+- `epilogijaCovecnosti` — kanonski narativ **ČOVEČANSTVO** ostaje additive-only i audit-ready: `PRIRODA == ZDRAV ŽIVOT` signal zaključava ekosistemski balans, zdrav život i odgovornost čovečanstva bez promene source-of-truth ownership granica.
+- Kanonski poster/hero vizuel koristi korisnički dostavljeni asset `b485b700-f670-4f71-9f54-47b29a4155ec` kao determinističku referencu za image/storyboard/public-safe summary paket.
 
 Readiness and governance mapping:
 
@@ -627,6 +627,7 @@ Domain contract (narativni signal):
   - `zdravZivotAxisPercent`
   - `ekosistemAxisPercent`
   - `humanitetAxisPercent`
+- Image-to-signal profil je audit-vidljiv kroz `epilogijaCovecnosti.imageToSignalProfile` sa zaključanim `scenarioId=priroda-zdrav-zivot-covecanstvo` i ownership lock mapom (`dokDikFor=EXTREM`, `dakDuk=EXTRONDOL`).
 - Izlazni compatibility status:
   - tehnički readiness signal ostaje `READY | WATCH | BLOCKED` (EXTREM)
   - governance/audit status ostaje WAWE-kompatibilan i additive-only (EXTRONDOL)
