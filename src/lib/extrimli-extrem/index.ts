@@ -268,6 +268,14 @@ const EXTRIMLI_EXTREM_DEVELOPER_CREATE_ENTIZUJAZAM_COVECANSTVO_SCENARIO_ID =
   'covecanstvo-entizujazam-zvezde-misli-inovacije-developer-create' as const;
 const EXTRIMLI_EXTREM_DEVELOPER_CREATE_ENTIZUJAZAM_COVECANSTVO_CITATION =
   'ČOVEČANSTVO — ENTIZUJAŽAM (zvezde, misli i inovacije) ostaje additive-only supplemental audit/reference vizuel koji potvrđuje isti Developer/Create ⇄ VRH ⇄ Radni Takt model, isti deterministic READY|WATCH|BLOCKED fallback i isti ownership split bez novih runtime ruta.' as const;
+const EXTRIMLI_EXTREM_DEVELOPER_CREATE_EPILOG_COVECANSTVO_VISUAL_REFERENCE =
+  'https://github.com/user-attachments/assets/36ce7570-103e-4097-b903-fbe0efaf4026' as const;
+const EXTRIMLI_EXTREM_DEVELOPER_CREATE_EPILOG_COVECANSTVO_CANONICAL_NARRATIVE_ID =
+  'covecanstvo-epilog-rad-energija-stvaranja-developer-create' as const;
+const EXTRIMLI_EXTREM_DEVELOPER_CREATE_EPILOG_COVECANSTVO_SCENARIO_ID =
+  'covecanstvo-epilog-rad-energija-stvaranja-developer-create' as const;
+const EXTRIMLI_EXTREM_DEVELOPER_CREATE_EPILOG_COVECANSTVO_CITATION =
+  'ČOVEČANSTVO — EPILOG ostaje additive-only supplemental audit/reference vizuel u kome iskustvo, rad, energija stvaranja i ljudsko jedinstvo potvrđuju isti Developer/Create ⇄ VRH ⇄ Radni Takt model bez novih ruta, novih formula ili promena ownership split-a.' as const;
 
 const EXTRIMLI_EXTREM_SPAJINO_PROPORCIONALNO_PROGRAMIRANJE_UNIVERZITET_NARRATIVE_TITLE =
   'Spreg funkcionalnog i objektno programiranja sa mnoštvo novih petlji' as const;
@@ -6221,6 +6229,33 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
             },
             auditRole: 'additive-audit-reference-only',
           },
+          {
+            title: 'ČOVEČANSTVO — EPILOG',
+            canonicalNarrativeId:
+              EXTRIMLI_EXTREM_DEVELOPER_CREATE_EPILOG_COVECANSTVO_CANONICAL_NARRATIVE_ID,
+            citation: EXTRIMLI_EXTREM_DEVELOPER_CREATE_EPILOG_COVECANSTVO_CITATION,
+            visualReference: EXTRIMLI_EXTREM_DEVELOPER_CREATE_EPILOG_COVECANSTVO_VISUAL_REFERENCE,
+            interpretation:
+              'Supplied ČOVEČANSTVO — EPILOG image remains additive-only supplemental audit/reference evidence for work, experience, creation energy, and human unity inside the existing Developer/Create reflection package, without creating any new runtime or governance source of truth.',
+            sourceStatement: 'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == RADNI TAKT MOZGA (MISLILAC)',
+            imageToSignalProfile: {
+              scenarioId: EXTRIMLI_EXTREM_DEVELOPER_CREATE_EPILOG_COVECANSTVO_SCENARIO_ID,
+              theme: 'ČOVEČANSTVO — EPILOG',
+              narrativeInput: EXTRIMLI_EXTREM_DEVELOPER_CREATE_EPILOG_COVECANSTVO_CITATION,
+              ownershipLock: {
+                dokDikFor: 'EXTREM',
+                dakDuk: 'EXTRONDOL',
+                spajaKod: 'audit-safe-summary-only',
+              },
+              signalOutputs: {
+                readinessScore: 0,
+                readinessStatus: 'BLOCKED',
+                conflictPressurePercent: 100,
+                deterministicFallbackRequired: true,
+              },
+            },
+            auditRole: 'additive-audit-reference-only',
+          },
         ],
         flowLock: {
           sequence: ['image', 'developer-create', 'vrh', 'radni-takt', 'epilog'],
@@ -6602,11 +6637,11 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
       })),
     packageOutputs: {
       auditShortSummary:
-        'ČOVEČNOST primary visual remains audit-safe and technically bound to the existing readiness profile, while the ČOVEČANSTVO supplemental visual and ČOVEČANSTVO / OSEĆAJ OSEBENOSTI companion visual stay bounded by existing EXTREM / EXTRONDOL / SPAJA KOD ownership.',
+        'ČOVEČNOST primary visual remains audit-safe and technically bound to the existing readiness profile, while the ČOVEČANSTVO supplemental visuals, including ENTIZUJAŽAM and EPILOG, plus the ČOVEČANSTVO / OSEĆAJ OSEBENOSTI companion visual stay bounded by existing EXTREM / EXTRONDOL / SPAJA KOD ownership.',
       publicSummary:
-        'ČOVEČNOST ostaje javni audit-safe odraz znanja, iskustva i predviđanja kroz postojeći Developer/Create ritam i etapni razvoj bez novih ruta, dok supplemental i companion vizueli ostaju pomoćni audit-safe slojevi istog reflection paketa.',
+        'ČOVEČNOST ostaje javni audit-safe odraz znanja, iskustva i predviđanja kroz postojeći Developer/Create ritam i etapni razvoj bez novih ruta, dok supplemental vizueli — uključujući ENTIZUJAŽAM i ČOVEČANSTVO — EPILOG — i companion vizuel ostaju pomoćni audit-safe slojevi istog reflection paketa.',
       governanceChecklistStatus:
-        'No new runtime routes; the primary ČOVEČNOST visual remains canonical and technically bound to the existing profile, the ČOVEČANSTVO visual stays supplemental-only, DOK/DIK/FOR stay in EXTREM, DAK/DUK stay in EXTRONDOL, and downstream sync remains follow-up only until audit-safe summary is adopted.',
+        'No new runtime routes; the primary ČOVEČNOST visual remains canonical and technically bound to the existing profile, the ČOVEČANSTVO visuals stay supplemental-only, DOK/DIK/FOR stay in EXTREM, DAK/DUK stay in EXTRONDOL, and downstream sync remains follow-up only until audit-safe summary is adopted.',
     },
     companionAuditVisualReferences:
       dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.covecnostAuditVisualReference.companionAuditVisualReferences.map(
