@@ -613,8 +613,8 @@ export interface ExtrimliExtrondolRadniTaktMozgaMislilacGovernance {
     visualReferencePresent: true;
     interpretationLayer: 'educational-development-learning-discipline-ethics-signal';
     flowLockPreserved: true;
-    packageOutputs: readonly ['masterEpilog', 'posterSummary', 'videoStoryboardSummary', 'auditShortSummary', 'governanceChecklistStatus'];
-    quartetOverlay: readonly ['DOKER', 'KURAT', 'IZEK', 'DOKAR'];
+    packageOutputs: readonly string[];
+    quartetOverlay: readonly string[];
   };
   reasons: string[];
 }
@@ -641,6 +641,7 @@ export interface ExtrimliExtrondolDeveloperAndCreateRepoWideReflectionGovernance
   dailyOperationalCadence: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['dailyOperationalCadence'] & {
     status: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['readiness']['status'];
     reviewRequiredBeforeWideRollout: boolean;
+  };
   roadmapExecution: {
     roadmapStageId: 'v5-extrondol-release-audit-and-orchestration';
     measurableOutput: 'EXTRONDOL consumes the repo-wide technical profile and publishes only audit-safe WAWE/review/rollback governance';

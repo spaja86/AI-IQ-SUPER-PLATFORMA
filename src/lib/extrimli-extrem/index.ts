@@ -3377,7 +3377,7 @@ function buildRadniTaktMozgaMislilacSignal(
         masterEpilog: 'Čovek želi čudo i kreće putem svetlosti, ali kada igru života pretvori u veliki skok nastaju šupljine, slabosti i opasnost; zato čovečanstvo mora da bira mudrost, strpljenje, sitne korake i očuvanje ljudi i prirode.',
         posterSummary: 'Čovek želi čudo. Sunce i Sunčanica se spajaju. Igraj pametno, živi svesno, čuvaj ljude i prirodu.',
         videoStoryboardSummary: 'image -> spajanje -> posledica -> epilog: usamljeni putnik ka svetlosti, spajanje nade i života, prelazak prirodnog odnosa u opasnost, završna opomena čovečanstvu da čuva ljude i prirodu.',
-        auditShortSummary: 'Audit-safe ČOVEČANSTVU epilog package: additive-only media artifact, EXTREM keeps DOK/DIK/FOR technical framing, EXTRONDOL keeps DAK/DUK governance, and SPAJA KOD exposes only public-safe summary outputs.',
+        auditShortSummary: 'audit-safe ČOVEČANSTVU epilog package: additive-only media artifact, EXTREM keeps DOK/DIK/FOR technical framing, EXTRONDOL keeps DAK/DUK governance, and SPAJA KOD exposes only public-safe summary outputs.',
         governanceChecklistStatus: 'DOKER downstream reference locked; KURAT public-safe boundary confirmed; IZEK review checkpoint required; DOKAR rollback readiness required before wider publication.',
       },
       dokerKuratIzekDokarOverlay: {
