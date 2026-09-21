@@ -36,6 +36,7 @@
 - DOK/DIK/DAK/DUK consistency health remains aligned across EXTREM and EXTRONDOL.
 - Public repo-wide reflection language remains `READY | WATCH | BLOCKED`.
 - Dnevni task cadence ostaje audit-safe narativni sloj: prioriteti `1–3`, `measurableOutput`, `acceptanceEvidence` i closeout `completed | carried-over | blocked` moraju biti objašnjivi bez novih ruta.
+- SINEMETRIČKO stanje se repo-wide odražava samo kroz `dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.technicalReadinessProfile` i audit-safe EXTRONDOL/SPAJA KOD summary, bez novih ruta i bez izlaganja raw matrica/formula.
 
 ## Audit-safe downstream sync
 

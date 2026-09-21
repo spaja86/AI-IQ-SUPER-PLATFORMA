@@ -57,6 +57,7 @@ EXTRONDOL koristi isti signal za:
 
 - `METRIČKO PROGRAMIRANJE` ostaje kanonski satnica/vremenski ritam sloj unutar `DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == RADNI TAKT MOZGA (MISLILAC)` repo-wide reflection modela.
 - Dnevni governance cadence koristi METRIČKO kao kanonski satnični sloj za `morning-startup`, `deep-focus-block`, `midday-checkpoint` i `end-of-day-closeout`.
+- `METRIČKO PROGRAMIRANJE` ulazi u `dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.technicalReadinessProfile` samo kao postojeći readiness/status doprinos, bez novih runtime ruta i bez javnog izlaganja internih matrica.
 - Dozvoljeni statusi ostaju `READY | WATCH | BLOCKED`.
 - Deterministički fallback ostaje obavezan za `NaN`, `Infinity`, prazne i konfliktne ulaze.
 - Nema novih runtime modula niti paralelnog source-of-truth sistema.

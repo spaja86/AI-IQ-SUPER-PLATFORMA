@@ -119,6 +119,13 @@ Ownership hard lock:
   - `carried-over`
   - `blocked`
 - `EXTREM` nosi tehničke signale radnog takta i dnevne discipline, `EXTRONDOL` nosi governance odluku `READY | WATCH | BLOCKED`, a centralni dokaz ostaje `dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection`.
+## 3.3) Current implementation phase lock
+
+- Za repo-wide reflection implementaciju aktivni execution lock ostaje `roadmapStageId=v5-extrondol-release-audit-and-orchestration`.
+- `measurableOutput` ostaje: audit-safe repo-wide reflection status se objavljuje isključivo kroz postojeće `/api/extrimli/extrem`, `/api/extrimli/extrondol` i `/api/extrimli/spaja-kod` surface-ove.
+- `acceptanceEvidence` ostaje: `developerAndCreateRepoWideReflection`, `releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance`, `spajaKod.publicSignals.developerAndCreateStatus`.
+- EXTREM zadržava tehnički `technicalReadinessProfile` za “radni takt”, dok EXTRONDOL zadržava samo WAWE/freeze/promotion/audit/rollback/human-review interpretaciju tog istog signala.
+- Dok linked repo `spaja86/IO-OPENUI-AO` ne usvoji isti audit-safe summary, downstream boundary ostaje eksplicitno `follow-up-only-until-io-openui-ao-adopts-audit-safe-summary`.
 
 ## 4) EXTREM priorities
 

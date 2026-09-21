@@ -2435,6 +2435,41 @@ export interface ExtrimliDokDikDakDukConsistencyHealth {
       v5: 'extrondol-release-audit-and-orchestration';
       v6: 'downstream-and-multi-repo-alignment';
     };
+    technicalReadinessProfile: {
+      radniTaktMozgaMislilac: {
+        status: ExtrimliExtremRadniTaktMozgaMislilacSignal['readiness']['status'];
+        readinessScore: number;
+      };
+      metrikoProgramiranje: {
+        status: ExtrimliExtremMetrickoProgramiranjeSignal['readiness']['status'];
+        readinessScore: number;
+      };
+      sinemetrickoProgramiranje: {
+        status: ExtrimliExtremSinemetrickoProgramiranjeSignal['readiness']['status'];
+        readinessScore: number;
+      };
+      paradijogonalnoProgramiranje: {
+        status: ExtrimliExtremParadijogonalnoProgrimiranjeSignal['readiness']['status'];
+        readinessScore: number;
+      };
+      vrhProgramskogEkviladenta: {
+        status: ExtrimliExtremVrhProgramskogEkviladentaSignal['readiness']['status'];
+        readinessScore: number;
+      };
+      consolidatedRhythmStatus: 'READY' | 'WATCH' | 'BLOCKED';
+    };
+    currentImplementationStage: {
+      roadmapStageId: 'v4-extrem-repo-wide-rhythm-readiness-expansion';
+      measurableOutput: 'repo-wide technical readiness profile is published through existing EXTRIMLI/EXTREM/EXTRONDOL surfaces';
+      acceptanceEvidence: readonly [
+        'dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection',
+        'radniTaktMozgaMislilac.readiness',
+        'metrikoProgramiranje.readiness',
+        'sinemetrickoProgramiranje.readiness',
+        'paradijogonalnoProgrimiranje.readiness',
+        'vrhProgramskogEkviladenta.readiness'
+      ];
+    };
     repoWideReflection: {
       docs: boolean;
       types: boolean;
