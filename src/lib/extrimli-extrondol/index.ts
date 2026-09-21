@@ -1680,7 +1680,7 @@ function mapCovecanstvoEpilog(
   epilog: ExtrimliExtrondolReport['extremProfiler']['radniTaktMozgaMislilac']['epilogijaCovecnosti'],
 ) {
   return {
-    title: 'EPILOGIJA ČOVEČANSTVA' as const,
+    title: epilog.title,
     canonicalNarrativeId: epilog.canonicalNarrativeId,
     citation: epilog.citation,
     visualReference: epilog.visualReference,
