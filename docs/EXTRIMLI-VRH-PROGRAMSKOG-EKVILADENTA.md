@@ -56,6 +56,14 @@ Ove trake su dozvoljene samo kao additive interpretativni slojevi unutar postoje
 
 Aktivni execution lock za trenutnu realizaciju ostaje `roadmapStageId=v5-extrondol-release-audit-and-orchestration`: EXTREM drži tehnički `technicalReadinessProfile` za repo-wide “radni takt”, a EXTRONDOL izlaže samo audit-safe orkestraciju i SPAJA KOD summary bez novih runtime ruta.
 
+## AI PLATE enterprise additive package
+
+- `DEVELOPER AND CREATE / VRH PROGRAMSKOG EKVILADENTA / AI PLATE` je additive-only V7 enterprise operating model paket nad postojećim `EXTRIMLI + EXTREM + EXTRONDOL + SPAJA KOD` slojevima.
+- Paket cilja GitHub organization-level operativni sloj za AI agente, Copilote i prateću automatizaciju.
+- Komercijalni scope mora ostati razdvojen na `seats`, `Copilot/AI prava`, `private repo pristup`, `governance`, `support SLA`, `human review`, `compliance`.
+- `12.000 EUR nedeljno` je dozvoljeno samo kao `premium-rollout-regime` / `pilot-first` odluka unutar postojećeg `paymentCycle=monthly-or-annual` enterprise okvira.
+- SPAJA KOD objavljuje samo finalni audit-safe status; sirove formule i interni komercijalni detalji ostaju izvan javnog sloja.
+
 Isti execution lock pokriva i `ČOVEČNOST` audit vizuel: EXTREM objavljuje bounded readiness/conflict signal, EXTRONDOL ga prenosi samo kao governance evidence, a SPAJA KOD ga objavljuje samo kroz audit-safe public summary.
 
 ## Canonical role split
