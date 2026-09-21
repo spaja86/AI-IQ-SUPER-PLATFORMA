@@ -3930,8 +3930,10 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
 
       return {
         sourceOfTruth: '/api/extrimli/extrem',
-        status: extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.status,
-        readinessScore: extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.score,
+        status:
+          extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.aiPlateOffer.boundedReadinessProfile.consolidatedStatus,
+        readinessScore:
+          extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.aiPlateOffer.boundedReadinessProfile.readinessScore,
         deterministicFallbackRequired: extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.deterministicFallbackRequired,
         reviewRequiredBeforeWideRollout:
           extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.status !== 'READY',
@@ -5486,8 +5488,10 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
             runtimeProvider: extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.aiPlateOffer.runtimeProvider,
             packageMode: extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.aiPlateOffer.packageMode,
             offerScope: extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.aiPlateOffer.offerScope,
-            status: extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.status,
-            readinessScore: extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.score,
+            status:
+              extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.aiPlateOffer.boundedReadinessProfile.consolidatedStatus,
+            readinessScore:
+              extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.aiPlateOffer.boundedReadinessProfile.readinessScore,
             deterministicFallbackRequired:
               extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.aiPlateOffer.boundedReadinessProfile.deterministicFallbackRequired,
             businessTarget: extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.aiPlateOffer.businessTarget,
@@ -6217,8 +6221,10 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
       publicBoundary: '/api/extrimli/spaja-kod',
       additiveOnly: true,
       governanceVisibility: 'audit-safe-readiness-only',
-      status: extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.status,
-      readinessScore: extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.score,
+      status:
+        extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.aiPlateOffer.boundedReadinessProfile.consolidatedStatus,
+      readinessScore:
+        extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.aiPlateOffer.boundedReadinessProfile.readinessScore,
       deterministicFallbackRequired: extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.deterministicFallbackRequired,
       ownershipModel: {
         dokDikFor: 'EXTREM',
