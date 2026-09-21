@@ -365,6 +365,14 @@ function mapDeveloperCreateCovecnostAuditVisualReference(
       ownershipLock: { ...reflection.imageToSignalProfile.ownershipLock },
       signalOutputs: { ...reflection.imageToSignalProfile.signalOutputs },
     },
+    supplementalVisualReferences: reflection.supplementalVisualReferences.map((reference) => ({
+      ...reference,
+      imageToSignalProfile: {
+        ...reference.imageToSignalProfile,
+        ownershipLock: { ...reference.imageToSignalProfile.ownershipLock },
+        signalOutputs: { ...reference.imageToSignalProfile.signalOutputs },
+      },
+    })),
     flowLock: reflection.flowLock,
     packageOutputs: { ...reflection.packageOutputs },
   };
@@ -3934,10 +3942,11 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
       ),
       roadmapExecution: {
         roadmapStageId: 'v5-extrondol-release-audit-and-orchestration',
-        measurableOutput: 'EXTRONDOL consumes the repo-wide technical profile and publishes only audit-safe WAWE/review/rollback governance',
+        measurableOutput: 'EXTRONDOL consumes the repo-wide technical profile and publishes only audit-safe WAWE/review/rollback governance for the additive ČOVEČNOST/ČOVEČANSTVO visual package',
         acceptanceEvidence: [
           'developerAndCreateRepoWideReflection',
           'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance',
+          'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.covecnostAuditVisualReference.supplementalVisualReferences',
           'spajaKod.publicSignals.developerAndCreateStatus',
         ],
         downstreamSync: 'follow-up-only-until-io-openui-ao-adopts-audit-safe-summary',
@@ -5415,10 +5424,11 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
         },
         roadmapExecution: {
           roadmapStageId: 'v5-extrondol-release-audit-and-orchestration',
-          measurableOutput: 'EXTRONDOL consumes the repo-wide technical profile and publishes only audit-safe WAWE/review/rollback governance',
+          measurableOutput: 'EXTRONDOL consumes the repo-wide technical profile and publishes only audit-safe WAWE/review/rollback governance for the additive ČOVEČNOST/ČOVEČANSTVO visual package',
           acceptanceEvidence: [
             'developerAndCreateRepoWideReflection',
             'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance',
+            'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.covecnostAuditVisualReference.supplementalVisualReferences',
             'spajaKod.publicSignals.developerAndCreateStatus',
           ],
           downstreamSync: 'follow-up-only-until-io-openui-ao-adopts-audit-safe-summary',
@@ -6128,10 +6138,11 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
       },
       roadmapExecution: {
         roadmapStageId: 'v5-extrondol-release-audit-and-orchestration',
-        measurableOutput: 'EXTRONDOL consumes the repo-wide technical profile and publishes only audit-safe WAWE/review/rollback governance',
+        measurableOutput: 'EXTRONDOL consumes the repo-wide technical profile and publishes only audit-safe WAWE/review/rollback governance for the additive ČOVEČNOST/ČOVEČANSTVO visual package',
         acceptanceEvidence: [
           'developerAndCreateRepoWideReflection',
           'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance',
+          'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.covecnostAuditVisualReference.supplementalVisualReferences',
           'spajaKod.publicSignals.developerAndCreateStatus',
         ],
         downstreamSync: 'follow-up-only-until-io-openui-ao-adopts-audit-safe-summary',

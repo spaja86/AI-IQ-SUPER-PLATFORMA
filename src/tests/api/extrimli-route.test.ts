@@ -168,7 +168,11 @@ async function runTests(): Promise<void> {
             status: string;
             dailyOperationalCadence: { taskPriorities: number[] };
             technicalReadinessProfile: { consolidatedRhythmStatus: string };
-            covecnostAuditVisualReference: { canonicalNarrativeId: string; visualReference: string };
+            covecnostAuditVisualReference: {
+              canonicalNarrativeId: string;
+              visualReference: string;
+              supplementalVisualReferences: Array<{ canonicalNarrativeId: string; visualReference: string }>;
+            };
             roadmapExecution: { roadmapStageId: string };
           };
           funkcinalnoProgramiranjeEnergetskogMisaonogTokaGovernance: { sourceOfTruth: string; status: string };
@@ -233,6 +237,8 @@ async function runTests(): Promise<void> {
     assert(body.data.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.technicalReadinessProfile.consolidatedRhythmStatus === body.data.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.status, 'unexpected developer/create consolidated rhythm status');
     assert(body.data.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.covecnostAuditVisualReference.canonicalNarrativeId === 'covecnost-developer-create-vrh-radni-takt', 'unexpected developer/create ČOVEČNOST narrative id');
     assert(body.data.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.covecnostAuditVisualReference.visualReference.includes('19687ee8-363f-4c10-ba2d-bd451598b4df'), 'unexpected developer/create ČOVEČNOST visual reference');
+    assert(body.data.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.covecnostAuditVisualReference.supplementalVisualReferences[0]?.canonicalNarrativeId === 'covecanstvo-zivot-je-najveca-igra', 'unexpected developer/create supplemental narrative id');
+    assert(body.data.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.covecnostAuditVisualReference.supplementalVisualReferences[0]?.visualReference.includes('27ef7575-9ef6-425e-bdbf-75feb722bad2'), 'unexpected developer/create supplemental visual reference');
     assert(body.data.dokDikDakDukConsistencyHealth.signals.dok.kind === 'DOK PETLJA', 'unexpected DOK consistency signal');
     assert(body.data.dokDikDakDukConsistencyHealth.signals.dik.kind === 'DIK PETLJA', 'unexpected DIK consistency signal');
     assert(body.data.dokDikDakDukConsistencyHealth.signals.for.kind === 'FOR PETLJA', 'unexpected FOR consistency signal');
@@ -260,6 +266,7 @@ async function runTests(): Promise<void> {
     assert(Array.isArray(body.data.paymentVerification.blockers), 'payment verification blockers should be array');
     assert(body.data.releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.technicalReadinessProfile.consolidatedRhythmStatus === body.data.releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.status, 'unexpected release-audit developer/create consolidated rhythm status');
     assert(body.data.releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.covecnostAuditVisualReference.canonicalNarrativeId === 'covecnost-developer-create-vrh-radni-takt', 'unexpected release-audit developer/create ČOVEČNOST narrative id');
+    assert(body.data.releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.covecnostAuditVisualReference.supplementalVisualReferences[0]?.canonicalNarrativeId === 'covecanstvo-zivot-je-najveca-igra', 'unexpected release-audit developer/create supplemental narrative id');
     assert(body.data.releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.roadmapExecution.roadmapStageId === 'v5-extrondol-release-audit-and-orchestration', 'unexpected release-audit developer/create roadmap stage');
     assert(body.data.objektnoOrijentisanaProngilacija.term === 'Objektno orijentisana prongilacija', 'unexpected object-oriented prongilacija term');
     assert(body.data.objektnoOrijentisanaProngilacija.technicalSignalSource === '/api/extrimli/extrem', 'unexpected object-oriented prongilacija source');
@@ -612,6 +619,7 @@ async function runTests(): Promise<void> {
         developerAndCreateVisualReflection: {
           canonicalNarrativeId: string;
           visualReference: string;
+          supplementalVisualReferences: Array<{ canonicalNarrativeId: string; visualReference: string }>;
           imageToSignalProfile: { ownershipLock: { spajaKod: string } };
         };
         dokerKuratIzekDokarTrack: { boundarySurface: string; publicStatus: string; tokenSummaries: Array<{ token: string; status: string }> };
@@ -649,6 +657,7 @@ async function runTests(): Promise<void> {
     assert(body.data.epilogijaCovecnosti.dokerKuratIzekDokarOverlay.DOKER.includes('spaja86/IO-OPENUI-AO'), 'SPAJA KOD DOKER overlay should preserve downstream reference');
     assert(body.data.developerAndCreateVisualReflection.canonicalNarrativeId === 'covecnost-developer-create-vrh-radni-takt', 'unexpected SPAJA KOD developer/create ČOVEČNOST narrative id');
     assert(body.data.developerAndCreateVisualReflection.visualReference.includes('19687ee8-363f-4c10-ba2d-bd451598b4df'), 'unexpected SPAJA KOD developer/create ČOVEČNOST visual reference');
+    assert(body.data.developerAndCreateVisualReflection.supplementalVisualReferences[0]?.visualReference.includes('27ef7575-9ef6-425e-bdbf-75feb722bad2'), 'unexpected SPAJA KOD developer/create supplemental visual reference');
     assert(body.data.developerAndCreateVisualReflection.imageToSignalProfile.ownershipLock.spajaKod === 'audit-safe-summary-only', 'unexpected SPAJA KOD developer/create ČOVEČNOST boundary');
     assert(body.data.dokerKuratIzekDokarTrack.boundarySurface === 'SPAJA KOD', 'unexpected quartet boundary surface');
     assert(['READY', 'WATCH', 'BLOCKED'].includes(body.data.dokerKuratIzekDokarTrack.publicStatus), 'unexpected quartet public status');

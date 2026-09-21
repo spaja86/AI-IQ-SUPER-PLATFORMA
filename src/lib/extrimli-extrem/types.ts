@@ -2502,10 +2502,11 @@ export interface ExtrimliDokDikDakDukConsistencyHealth {
     };
     currentImplementationStage: {
       roadmapStageId: 'v5-extrondol-release-audit-and-orchestration';
-      measurableOutput: 'audit-safe repo-wide reflection status and ČOVEČNOST visual reference are published only through existing EXTRIMLI/EXTREM/EXTRONDOL/SPAJA KOD surfaces';
+      measurableOutput: 'audit-safe repo-wide reflection status and additive ČOVEČNOST/ČOVEČANSTVO visual package are published only through existing EXTRIMLI/EXTREM/EXTRONDOL/SPAJA KOD surfaces';
       acceptanceEvidence: readonly [
         'dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection',
         'dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.covecnostAuditVisualReference',
+        'dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.covecnostAuditVisualReference.supplementalVisualReferences',
         'spajaKod.publicSignals.developerAndCreateStatus',
         'radniTaktMozgaMislilac.readiness',
         'metrikoProgramiranje.readiness',
@@ -2537,6 +2538,31 @@ export interface ExtrimliDokDikDakDukConsistencyHealth {
           deterministicFallbackRequired: boolean;
         };
       };
+      supplementalVisualReferences: readonly Array<{
+        title: string;
+        canonicalNarrativeId: string;
+        citation: string;
+        visualReference: string;
+        interpretation: string;
+        sourceStatement: 'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == RADNI TAKT MOZGA (MISLILAC)';
+        imageToSignalProfile: {
+          scenarioId: string;
+          theme: string;
+          narrativeInput: string;
+          ownershipLock: {
+            dokDikFor: 'EXTREM';
+            dakDuk: 'EXTRONDOL';
+            spajaKod: 'audit-safe-summary-only';
+          };
+          signalOutputs: {
+            readinessScore: number;
+            readinessStatus: 'READY' | 'WATCH' | 'BLOCKED';
+            conflictPressurePercent: number;
+            deterministicFallbackRequired: boolean;
+          };
+        };
+        auditRole: 'additive-audit-reference-only';
+      }>;
       flowLock: {
         sequence: readonly ['image', 'developer-create', 'vrh', 'radni-takt', 'epilog'];
         dok: string;
