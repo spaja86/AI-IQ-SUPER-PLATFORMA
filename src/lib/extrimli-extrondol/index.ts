@@ -2484,6 +2484,7 @@ function buildVrhProgramskogEkviladentaGovernance(params: {
       kraljevskiMatematickiUniverzitetStatus: signal.canonicalUniversityTracks.kraljevskiMatematickiUniverzitet.status,
       kraljevskaFizikaUniverzitetStatus: signal.canonicalUniversityTracks.kraljevskaFizikaUniverzitet.status,
       kraljevskiMasinskiUniverzitetStatus: signal.canonicalUniversityTracks.kraljevskiMasinskiUniverzitet.status,
+      kraljevskaMehanikaUniverzitetStatus: signal.canonicalUniversityTracks.kraljevskiMasinskiUniverzitet.status,
     },
     waweImpact: {
       currentWawe: params.currentWawe,

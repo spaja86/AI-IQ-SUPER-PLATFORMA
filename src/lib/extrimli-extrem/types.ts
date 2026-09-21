@@ -1963,6 +1963,7 @@ export interface ExtrimliExtremVrhProgramskogEkviladentaSignal {
     };
     kraljevskiMasinskiUniverzitet: {
       term: 'KRALJEVSKI MAŠINSKI UNIVERZITET';
+      interpretativeAlias: 'KRALJEVSKA MEHANIKA UNIVERZITET';
       focus: 'obrtni-moment-mehanicka-stabilnost-izvrsno-kretanje-signala';
       readinessScore: number;
       status: ExtrimliExtremVrhProgramskogEkviladentaStatus;
