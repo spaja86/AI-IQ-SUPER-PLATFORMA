@@ -3447,6 +3447,8 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
 
   const degraded = degradedSources.length > 0;
   const currentWawe = pickWawe(orchestrationReadinessScore, degraded);
+  const currentWave = currentWawe;
+  const nextWave = nextWawe(currentWawe);
   const contractApproved = !degraded && domainStrategy.valid;
   const onboardingComplete = governanceEvidence.onboardingComplete;
   const downstreamSyncComplete = governanceEvidence.downstreamSyncComplete;
@@ -3980,8 +3982,8 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
               extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.aiPlateOffer.boundedReadinessProfile.consolidatedStatus !== 'READY',
           },
           downstreamSync: extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.aiPlateOffer.downstreamSync,
-          currentWave: currentWawe,
-          eligibleNextWave: nextWawe(currentWawe),
+          currentWave,
+          eligibleNextWave: nextWave,
           promotionFreeze,
           humanReviewRequired: true,
           rollbackPlanRequired: true,
@@ -5507,8 +5509,8 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
                 extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.aiPlateOffer.boundedReadinessProfile.consolidatedStatus !== 'READY',
             },
             downstreamSync: extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.aiPlateOffer.downstreamSync,
-            currentWave: currentWawe,
-            eligibleNextWave: nextWawe(currentWawe),
+            currentWave,
+            eligibleNextWave: nextWave,
             promotionFreeze,
             humanReviewRequired: true,
             rollbackPlanRequired: true,
@@ -6257,8 +6259,8 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
             extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.aiPlateOffer.boundedReadinessProfile.consolidatedStatus !== 'READY',
         },
         downstreamSync: extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.aiPlateOffer.downstreamSync,
-        currentWave: currentWawe,
-        eligibleNextWave: nextWawe(currentWawe),
+        currentWave,
+        eligibleNextWave: nextWave,
         promotionFreeze,
         humanReviewRequired: true,
         rollbackPlanRequired: true,

@@ -717,7 +717,11 @@ async function runTests(): Promise<void> {
     assert(report.developerAndCreateRepoWideReflection.aiPlateGovernance.canonicalName === 'AI PLATE', 'AI PLATE governance canonical name mismatch');
     assert(report.developerAndCreateRepoWideReflection.aiPlateGovernance.runtimeProvider === 'Vercel', 'AI PLATE governance runtime provider mismatch');
     assert(report.developerAndCreateRepoWideReflection.aiPlateGovernance.businessTarget.amountEur === 12000, 'AI PLATE governance weekly target mismatch');
-    assert(report.developerAndCreateRepoWideReflection.aiPlateGovernance.currentWave === report.rollout.currentWawe, 'AI PLATE governance WAWE mismatch');
+    assert(
+      report.developerAndCreateRepoWideReflection.aiPlateGovernance.currentWave
+        === report.releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.aiPlateGovernance.currentWave,
+      'AI PLATE governance wave mismatch',
+    );
     assert(report.developerAndCreateRepoWideReflection.roadmapExecution.roadmapStageId === 'v5-extrondol-release-audit-and-orchestration', 'developer/create governance roadmap stage mismatch');
     assert(report.developerAndCreateRepoWideReflection.roadmapExecution.downstreamSync === 'follow-up-only-until-io-openui-ao-adopts-audit-safe-summary', 'developer/create governance downstream boundary mismatch');
     assert(report.spajaKod.publicSignals.developerAndCreateStatus === report.developerAndCreateRepoWideReflection.status, 'SPAJA KOD developer/create status mismatch');
