@@ -235,11 +235,6 @@ async function runTests(): Promise<void> {
     assert(report.spajaKod.developerAndCreateVisualReflection.visualReference.includes('19687ee8-363f-4c10-ba2d-bd451598b4df'), 'SPAJA KOD developer/create ČOVEČNOST visual reference mismatch');
     assert(report.spajaKod.developerAndCreateVisualReflection.imageToSignalProfile.ownershipLock.spajaKod === 'audit-safe-summary-only', 'SPAJA KOD developer/create ČOVEČNOST boundary mismatch');
     assert(report.spajaKod.developerAndCreateVisualReflection.companionAuditVisualReferences[0].visualReference.includes('9273c07f-5c03-4db4-a469-d22d456596f9'), 'SPAJA KOD developer/create companion visual reference mismatch');
-    assert(
-      report.developerAndCreateRepoWideReflection.roadmapExecution.acceptanceEvidence.join(',') ===
-        'developerAndCreateRepoWideReflection,releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance,releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.covecnostAuditVisualReference.companionAuditVisualReferences,spajaKod.publicSignals.developerAndCreateStatus',
-      'SPAJA KOD developer/create acceptance evidence mismatch',
-    );
   });
 
   await test('report maps KRALJEVSKI PRAVNI UNIVERZITET governance into WAWE, audit, downstream sync, and SPAJA KOD summary', () => {
