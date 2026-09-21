@@ -269,6 +269,11 @@ async function runTests(): Promise<void> {
     assert(Array.isArray(body.data.paymentVerification.blockers), 'payment verification blockers should be array');
     assert(body.data.releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.technicalReadinessProfile.consolidatedRhythmStatus === body.data.releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.status, 'unexpected release-audit developer/create consolidated rhythm status');
     assert(body.data.releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.covecnostAuditVisualReference.canonicalNarrativeId === 'covecnost-developer-create-vrh-radni-takt', 'unexpected release-audit developer/create ČOVEČNOST narrative id');
+    assert(
+      Object.keys(body.data.releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.covecnostAuditVisualGovernance).sort().join(',') ===
+        'auditVisibility,currentWawe,downstreamSync,eligibleNextWawe,humanReviewRequired,promotionFreeze,rollbackPlanRequired',
+      'unexpected release-audit developer/create ČOVEČNOST visual governance contract shape',
+    );
     assert(body.data.releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.covecnostAuditVisualGovernance.auditVisibility === 'audit-safe-readiness-only', 'unexpected release-audit developer/create ČOVEČNOST visual governance visibility');
     assert(body.data.releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.covecnostAuditVisualGovernance.currentWawe === body.data.rollout.currentWawe, 'unexpected release-audit developer/create ČOVEČNOST current WAWE');
     assert(body.data.releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.covecnostAuditVisualGovernance.eligibleNextWawe === body.data.rollout.eligibleNextWawe, 'unexpected release-audit developer/create ČOVEČNOST next WAWE');
