@@ -714,9 +714,15 @@ async function runTests(): Promise<void> {
     assert(report.developerAndCreateRepoWideReflection.equalityLock === 'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == RADNI TAKT MOZGA (MISLILAC)', 'developer/create governance equality lock mismatch');
     assert(report.developerAndCreateRepoWideReflection.publicBoundary === '/api/extrimli/spaja-kod', 'developer/create public boundary mismatch');
     assert(report.developerAndCreateRepoWideReflection.technicalReadinessProfile.radniTaktMozgaMislilac.status === report.extremProfiler.radniTaktMozgaMislilac.readiness.status, 'developer/create governance radni takt profile mismatch');
+    assert(report.developerAndCreateRepoWideReflection.aiPlateGovernance.canonicalName === 'AI PLATE', 'AI PLATE governance canonical name mismatch');
+    assert(report.developerAndCreateRepoWideReflection.aiPlateGovernance.runtimeProvider === 'Vercel', 'AI PLATE governance runtime provider mismatch');
+    assert(report.developerAndCreateRepoWideReflection.aiPlateGovernance.businessTarget.amountEur === 12000, 'AI PLATE governance weekly target mismatch');
+    assert(report.developerAndCreateRepoWideReflection.aiPlateGovernance.currentWawe === report.rollout.currentWawe, 'AI PLATE governance WAWE mismatch');
     assert(report.developerAndCreateRepoWideReflection.roadmapExecution.roadmapStageId === 'v5-extrondol-release-audit-and-orchestration', 'developer/create governance roadmap stage mismatch');
     assert(report.developerAndCreateRepoWideReflection.roadmapExecution.downstreamSync === 'follow-up-only-until-io-openui-ao-adopts-audit-safe-summary', 'developer/create governance downstream boundary mismatch');
     assert(report.spajaKod.publicSignals.developerAndCreateStatus === report.developerAndCreateRepoWideReflection.status, 'SPAJA KOD developer/create status mismatch');
+    assert(report.spajaKod.publicSignals.aiPlateStatus === report.developerAndCreateRepoWideReflection.aiPlateGovernance.status, 'SPAJA KOD AI PLATE status mismatch');
+    assert(report.releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.aiPlateGovernance.packageOutputs.auditShortSummary.includes('AI PLATE'), 'AI PLATE release-audit summary mismatch');
     assert(report.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.status === report.developerAndCreateRepoWideReflection.status, 'developer/create consistency mismatch');
     assert(report.developerAndCreateRepoWideReflection.dailyOperationalCadence.status === report.developerAndCreateRepoWideReflection.status, 'developer/create cadence status mismatch');
     assert(report.developerAndCreateRepoWideReflection.dailyOperationalCadence.activeRoadmapStagePolicy === 'single-active-roadmap-stage-per-day', 'developer/create cadence roadmap policy mismatch');

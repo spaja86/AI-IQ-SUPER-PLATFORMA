@@ -218,6 +218,51 @@ Bez kompletnog audit paketa release ostaje u freeze režimu.
 - Governance conformance je green
 - Source-of-truth routes i drift-zero pravila ostaju usklađeni
 - docs, types, routes, tests i workflows ostaju međusobno usklađeni
+
+## 12) AI PLATE package lock
+
+- `AI PLATE` je additive-only komercijalni/runtime paket na Vercel-u za `AI, agente, copilote i sve ostale`.
+- Paket ne uvodi novi source-of-truth: koristi samo postojeće `/api/extrimli/extrem`, `/api/extrimli/extrondol` i `/api/extrimli/spaja-kod` surface-ove.
+- Ownership split ostaje zaključan:
+  - `DOK + DIK + FOR` = tehnička readiness/profiling odgovornost u `EXTREM`
+  - `DAK + DUK` = rollout, freeze/promotion, audit, human-review i rollback odluke u `EXTRONDOL`
+  - `SPAJA KOD` = public-safe summary boundary
+- `12000 EURA nedeljno` ostaje poslovni/finops cilj, nikada hardcoded runtime činjenica.
+
+### 12.1) Package definition
+
+- Ciljni korisnici pri launch-u: interni AI agenti, Copilot-style asistenti i spoljni automation klijenti.
+- Launch tier: `AI-PLATE-GOVERNED-RUNTIME`.
+- Podržani tier-ovi:
+  - `AI-PLATE-FOUNDATION`
+  - `AI-PLATE-GOVERNED-RUNTIME`
+  - `AI-PLATE-ENTERPRISE-EXTENSION`
+- Usage boundary ostaje governed runtime capacity sa allowlisted tenantima, bounded support scope-om i onboarding tokom:
+  - billing approval
+  - Vercel sales alignment
+  - audit evidence check
+  - legal/tax review
+  - tenant onboarding
+  - WAWE promotion
+
+### 12.2) Vercel + governance lock
+
+- Vercel ostaje runtime/deploy source of truth.
+- GitHub Actions ostaje audit/governance layer.
+- Obavezni gate-ovi pre pune promocije:
+  - preview
+  - staging
+  - smoke
+  - rollback
+  - observability
+- Release freeze ostaje aktivan kad nedostaju billing, security, KPI ili downstream dokazi.
+
+### 12.3) Security, compliance, billing
+
+- Invoices, payment methods i ostali finansijski podaci ostaju van Git-a.
+- Aktivacija paketa zahteva billing approval, Vercel sales alignment, audit evidence i legal/tax review.
+- Secret-management boundary, dependency/security scan i secret scan ostaju obavezni pre promocije.
+- Tenant isolation, allowlisted access model, audit logging i abuse/rate-limit politika ostaju mandatory za sve AI PLATE potrošače.
 - Marker: `PROGRAM_LOCK_MACHINE_DOD`
 
 ### Operational DoD (human governance gate)
