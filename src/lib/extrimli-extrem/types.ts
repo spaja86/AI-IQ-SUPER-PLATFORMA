@@ -2563,6 +2563,7 @@ export interface ExtrimliDokDikDakDukConsistencyHealth {
       };
       boundedReadinessProfile: {
         consolidatedStatus: 'READY' | 'WATCH' | 'BLOCKED';
+        readinessScore: number;
         deterministicFallbackRequired: boolean;
         mappedRuntimeSurfaces: readonly ['/api/extrimli/extrem', '/api/extrimli/extrondol', '/api/extrimli/spaja-kod'];
         ownership: {
