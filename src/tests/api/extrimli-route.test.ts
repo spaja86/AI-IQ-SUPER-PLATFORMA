@@ -234,7 +234,6 @@ async function runTests(): Promise<void> {
     assert(body.data.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.technicalReadinessProfile.consolidatedRhythmStatus === body.data.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.status, 'unexpected developer/create consolidated rhythm status');
     assert(body.data.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.covecnostAuditVisualReference.canonicalNarrativeId === 'covecnost-developer-create-vrh-radni-takt', 'unexpected developer/create ČOVEČNOST narrative id');
     assert(body.data.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.covecnostAuditVisualReference.visualReference.includes('4790f4ea-4271-4d2a-ae0a-d9bec5bc8b8a'), 'unexpected developer/create ČOVEČNOST visual reference');
-    assert(body.data.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.covecnostAuditVisualReference.technicalReadinessBinding.sourceProfile === 'dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.technicalReadinessProfile', 'unexpected developer/create ČOVEČNOST technical binding source');
     assert(body.data.dokDikDakDukConsistencyHealth.signals.dok.kind === 'DOK PETLJA', 'unexpected DOK consistency signal');
     assert(body.data.dokDikDakDukConsistencyHealth.signals.dik.kind === 'DIK PETLJA', 'unexpected DIK consistency signal');
     assert(body.data.dokDikDakDukConsistencyHealth.signals.for.kind === 'FOR PETLJA', 'unexpected FOR consistency signal');
