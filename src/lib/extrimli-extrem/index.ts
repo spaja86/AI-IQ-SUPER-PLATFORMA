@@ -6676,7 +6676,7 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
             visualReference:
               EXTRIMLI_EXTREM_DEVELOPER_CREATE_PRAVOSLAVLJE_AKT_REVOLUCIJE_COVECANSTVO_VISUAL_REFERENCE,
             interpretation:
-              'Supplied PRAVOSLAVLJE / AKT REVOLUCIJE NAD HRIŠĆANSTVOM image remains additive-only supplemental audit/reference evidence and extends the same bounded Developer/Create reflection package through right/ethics/sacrifice/civilizational continuity themes without introducing any new source-of-truth runtime route.',
+              'Supplied PRAVOSLAVLJE / AKT REVOLUCIJE NAD HRIŠĆANSTVOM image remains additive-only supplemental audit/reference evidence within the same bounded Developer/Create reflection model (no new runtime routes).',
             sourceStatement: 'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == RADNI TAKT MOZGA (MISLILAC)',
             imageToSignalProfile: {
               scenarioId:
