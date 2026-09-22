@@ -372,6 +372,14 @@ const EXTRIMLI_EXTREM_DEVELOPER_CREATE_KRALJEVSTVO_SCENARIO_ID =
   'kraljevstvo-zajedno-gradimo-kraljevstvo-za-sve-generacije-developer-create' as const;
 const EXTRIMLI_EXTREM_DEVELOPER_CREATE_KRALJEVSTVO_CITATION =
   'KRALJEVSTVO — LJUDI / ZNANJE / PRIRODA / TEHNOLOGIJA / BUDUĆNOST ostaje additive-only supplemental audit/reference vizuel: zajedništvo, budućnost, znanje, humanost, pravda i tehnologija u službi života mapiraju se isključivo na postojeći Developer/Create ⇄ VRH ⇄ Radni Takt model, uz bounded vezu ka KRALJEVSKI PRAVNI UNIVERZITET governance/epilog narativu, bez novih ruta i bez novog source-of-truth sistema.' as const;
+const EXTRIMLI_EXTREM_DEVELOPER_CREATE_KRALJEVSTVO_COVECANSTVO_PRAVO_BICA_VISUAL_REFERENCE =
+  'https://github.com/user-attachments/assets/c7ebacdd-d239-425f-9b3c-ab3d807bbb92' as const;
+const EXTRIMLI_EXTREM_DEVELOPER_CREATE_KRALJEVSTVO_COVECANSTVO_PRAVO_BICA_CANONICAL_NARRATIVE_ID =
+  'kraljevstvo-covecanstvo-pravo-bica-jedna-porodica-jedan-svet-developer-create' as const;
+const EXTRIMLI_EXTREM_DEVELOPER_CREATE_KRALJEVSTVO_COVECANSTVO_PRAVO_BICA_SCENARIO_ID =
+  'kraljevstvo-covecanstvo-pravo-bica-znanje-tehnologija-ravnoteza-developer-create' as const;
+const EXTRIMLI_EXTREM_DEVELOPER_CREATE_KRALJEVSTVO_COVECANSTVO_PRAVO_BICA_CITATION =
+  'KRALJEVSTVO / ČOVEČANSTVO — PRAVO BIĆA / JEDAN SVET / JEDNA PORODICA ostaje additive-only supplemental audit/reference vizuel: pravo bića i postojanje, zajedništvo jednog sveta/jedne porodice, znanje/inovacija/tehnologija, produktivnost/razvoj/bolji svet i priroda/čovek/tehnologija u ravnoteži mapiraju se isključivo kao bounded documentation/evidence sloj unutar postojećeg Developer/Create ⇄ VRH ⇄ Radni Takt modela, bez novih ruta, novih formula ili promene ownership split-a.' as const;
 const EXTRIMLI_EXTREM_DEVELOPER_CREATE_SVITAK_BOZANSTVA_COVECANSTVO_VISUAL_REFERENCE =
   'https://github.com/user-attachments/assets/752ba75d-86b3-4d65-a6d7-e4f126c303ae' as const;
 const EXTRIMLI_EXTREM_DEVELOPER_CREATE_SVITAK_BOZANSTVA_COVECANSTVO_CANONICAL_NARRATIVE_ID =
@@ -6898,6 +6906,44 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
               'znanje',
               'humanost',
               'tehnologija-u-sluzbi-zivota',
+            ],
+            auditRole: 'additive-audit-reference-only',
+          },
+          {
+            title: 'KRALJEVSTVO / ČOVEČANSTVO — PRAVO BIĆA / JEDAN SVET / JEDNA PORODICA',
+            canonicalNarrativeId:
+              EXTRIMLI_EXTREM_DEVELOPER_CREATE_KRALJEVSTVO_COVECANSTVO_PRAVO_BICA_CANONICAL_NARRATIVE_ID,
+            citation:
+              EXTRIMLI_EXTREM_DEVELOPER_CREATE_KRALJEVSTVO_COVECANSTVO_PRAVO_BICA_CITATION,
+            visualReference:
+              EXTRIMLI_EXTREM_DEVELOPER_CREATE_KRALJEVSTVO_COVECANSTVO_PRAVO_BICA_VISUAL_REFERENCE,
+            interpretation:
+              'Supplied KRALJEVSTVO / ČOVEČANSTVO image remains additive-only supplemental audit/reference evidence and binds pravo bića/postojanje, zajedništvo jednog sveta/jedne porodice, znanje/inovacija/tehnologija, produktivnost/razvoj/bolji svet, and priroda/čovek/tehnologija u ravnoteži to the same bounded Developer/Create reflection package without introducing any new source-of-truth runtime route.',
+            sourceStatement: 'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == RADNI TAKT MOZGA (MISLILAC)',
+            imageToSignalProfile: {
+              scenarioId:
+                EXTRIMLI_EXTREM_DEVELOPER_CREATE_KRALJEVSTVO_COVECANSTVO_PRAVO_BICA_SCENARIO_ID,
+              theme: 'KRALJEVSTVO / ČOVEČANSTVO',
+              narrativeInput:
+                EXTRIMLI_EXTREM_DEVELOPER_CREATE_KRALJEVSTVO_COVECANSTVO_PRAVO_BICA_CITATION,
+              ownershipLock: {
+                dokDikFor: 'EXTREM',
+                dakDuk: 'EXTRONDOL',
+                spajaKod: 'audit-safe-summary-only',
+              },
+              signalOutputs: {
+                readinessScore: 0,
+                readinessStatus: 'BLOCKED',
+                conflictPressurePercent: 100,
+                deterministicFallbackRequired: true,
+              },
+            },
+            thematicSignals: [
+              'pravo-bica-postojanje',
+              'zajednistvo-jedna-porodica-jedan-svet',
+              'znanje-inovacija-tehnologija',
+              'produktivnost-razvoj-bolji-svet',
+              'priroda-covek-tehnologija-u-ravnotezi',
             ],
             auditRole: 'additive-audit-reference-only',
           },
