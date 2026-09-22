@@ -404,6 +404,20 @@ async function runTests(): Promise<void> {
     assert(signal.parentTrack === 'PROPORCIONALNO PROGRAMIRANJE', 'vrh parent track mismatch');
     assert(signal.meaningLock.noNewRoutes === true, 'vrh must stay additive-only without new routes');
     assert(signal.meaningLock.chatGptSharePolicy === 'documentation-only', 'vrh share link policy mismatch');
+    assert(
+      signal.meaningLock.chatGptShareReferences.some(
+        (reference) =>
+          reference.url === 'https://chatgpt.com/share/6ab2f88d-23b0-83eb-b708-b880bdb7fc11?ogimg=plain'
+          && reference.usage === 'documentation-only-reference'
+          && reference.runtimeInputAllowed === false,
+      ),
+      'vrh chatgpt share references must stay documentation-only',
+    );
+    assert(signal.meaningLock.languageLayer.primaryCanonicalLanguage === 'srpski', 'vrh primary canonical language mismatch');
+    assert(
+      signal.meaningLock.languageLayer.interoperabilityMapping === 'english-technical-labels-for-review-and-integration',
+      'vrh interoperability mapping mismatch',
+    );
     assert(signal.canonicalUniversityTracks.kraljevskiMatematickiUniverzitet.term === 'KRALJEVSKI MATEMATIČKI UNIVERZITET', 'vrh math track mismatch');
     assert(signal.canonicalUniversityTracks.kraljevskaFizikaUniverzitet.term === 'KRALJEVSKA FIZIKA UNIVERZITET', 'vrh physics track mismatch');
     assert(signal.canonicalUniversityTracks.kraljevskiMasinskiUniverzitet.term === 'KRALJEVSKI MAŠINSKI UNIVERZITET', 'vrh mechanical track mismatch');

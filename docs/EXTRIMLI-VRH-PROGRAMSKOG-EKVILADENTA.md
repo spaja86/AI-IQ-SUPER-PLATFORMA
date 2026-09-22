@@ -52,6 +52,8 @@ Supplied image `https://github.com/user-attachments/assets/9273c07f-5c03-4db4-a4
 - `EXTRIMLI EXTRONDOL EXTREM` ostaje zaključani additive-only governance vokabular za ovaj vršni sloj.
 - `KRALJEVSKI PRAVNI UNIVERZITET` ostaje legal-governance traka: EXTREM drži readiness signal, EXTRONDOL drži WAWE/audit odluke, SPAJA KOD objavljuje samo audit-safe summary.
 - ChatGPT share link i sličan spoljašnji materijal tretiraju se isključivo kao **documentation-only** izvor, nikada kao runtime source of truth.
+- Zaključani ChatGPT documentation-only izvor za ovaj profil je `https://chatgpt.com/share/6ab2f88d-23b0-83eb-b708-b880bdb7fc11?ogimg=plain` i dozvoljen je samo kao audit/evidence referenca.
+- Jezički lock ostaje: srpski je primarni kanonski izraz domena, dok se engleske tehničke oznake koriste samo za interoperabilnost, review i integracione mape.
 - `eksponencijalne funkcije` mapiraju se na readiness/progression signal.
 - `oktavna topologija` i `sekvencionalni oktavni sistem reprodukcije` mapiraju se na sekvencijalni/orchestration model unutar EXTREM signala.
 - `ekspozje / exposure` mapira se na auditabilni intenzitet ili opterećenje.

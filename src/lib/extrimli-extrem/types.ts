@@ -1869,6 +1869,17 @@ export interface ExtrimliExtremVrhProgramskogEkviladentaSignal {
     parentedInterpretiveLayer: true;
     noNewRoutes: true;
     chatGptSharePolicy: 'documentation-only';
+    chatGptShareReferences: readonly [
+      {
+        url: 'https://chatgpt.com/share/6ab2f88d-23b0-83eb-b708-b880bdb7fc11?ogimg=plain';
+        usage: 'documentation-only-reference';
+        runtimeInputAllowed: false;
+      }
+    ];
+    languageLayer: {
+      primaryCanonicalLanguage: 'srpski';
+      interoperabilityMapping: 'english-technical-labels-for-review-and-integration';
+    };
     dokDikForRole: 'technical-extrem-layer';
     dakDukRole: 'extrondol-governance-layer';
   };

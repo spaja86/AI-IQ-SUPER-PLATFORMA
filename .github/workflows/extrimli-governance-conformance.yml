@@ -124,9 +124,13 @@ jobs:
           assert(developerCreateProgramDoc.includes('PROGRAMSKI JEZIK PROUČAVANJA') && developerCreateProgramDoc.includes('PROGRAMSKI EKANALOG'), 'Developer/Create program doc must lock Programski jezik proučavanja + programski ekanalog');
           assert(developerCreateProgramDoc.includes('PROGRAMSKI JEZIK PARADIGMA I OBLIKOVANJE TELA'), 'Developer/Create program doc must lock paradigma/body-shaping track');
           assert(developerCreateProgramDoc.includes('docs + types + routes + tests + workflows'), 'Developer/Create program doc must lock docs/types/routes/tests/workflows');
+          assert(developerCreateProgramDoc.includes('PROGRAM_LOCK_CHATGPT_REFERENCE') && developerCreateProgramDoc.includes('6ab2f88d-23b0-83eb-b708-b880bdb7fc11'), 'Developer/Create program doc must lock the documentation-only ChatGPT share reference');
+          assert(developerCreateProgramDoc.includes('PROGRAM_LOCK_LANGUAGE_LAYER') && developerCreateProgramDoc.includes('srpski je primarni kanonski logički izraz'), 'Developer/Create program doc must lock Serbian-first language layer');
           assert(developerCreateProgramDoc.includes('DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == RADNI TAKT MOZGA (MISLILAC)'), 'Developer/Create program doc must lock repo-wide equality mapping');
           assert(developerCreateProgramDoc.includes('roadmapStageId=Verzija 7') && developerCreateProgramDoc.includes('premium-rollout-regime'), 'Developer/Create program doc must lock AI PLATE V7 execution and pricing governance');
           assert(vrhDoc.includes('DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == RADNI TAKT MOZGA (MISLILAC)'), 'VRH doc must lock repo-wide equality mapping');
+          assert(vrhDoc.includes('6ab2f88d-23b0-83eb-b708-b880bdb7fc11') && vrhDoc.includes('documentation-only'), 'VRH doc must lock documentation-only ChatGPT share reference');
+          assert(vrhDoc.includes('srpski je primarni kanonski izraz domena'), 'VRH doc must lock Serbian-primary language rule');
           assert(vrhDoc.includes('AI PLATE') && vrhDoc.includes('12.000 EUR nedeljno'), 'VRH doc must lock AI PLATE enterprise package');
           assert(vrhDoc.includes('v5-extrondol-release-audit-and-orchestration'), 'VRH doc must lock the active Developer/Create execution stage');
           assert(metrikoDoc.includes('/api/extrimli/extrem') && metrikoDoc.includes('/api/extrimli/extrondol') && metrikoDoc.includes('/api/extrimli/spaja-kod'), 'METRIČKO doc must keep source-of-truth routes locked');
@@ -146,10 +150,12 @@ jobs:
           assert(paradijogonalnoDoc.includes('FOR') && paradijogonalnoDoc.includes('DAK') && paradijogonalnoDoc.includes('DUK'), 'PARADIJOGONALNO doc must lock technical/governance ownership split');
           assert(paradijogonalnoDoc.includes('READY | WATCH | BLOCKED') && paradijogonalnoDoc.includes('NaN') && paradijogonalnoDoc.includes('Infinity'), 'PARADIJOGONALNO doc must keep deterministic fallback semantics');
           assert(types.includes('developerAndCreateRepoWideReflection') && extrondolIndex.includes('developerAndCreateRepoWideReflection'), 'types and EXTRONDOL index must include developer/create repo-wide reflection contract fields');
+          assert(types.includes('chatGptShareReferences') && types.includes('primaryCanonicalLanguage'), 'types must lock documentation-only ChatGPT references and Serbian-primary language layer');
           assert(types.includes('aiPlateEnterprisePackage') && extrondolIndex.includes('aiPlateEnterprisePackage'), 'types and EXTRONDOL index must include AI PLATE enterprise package contract fields');
           assert(types.includes('technicalReadinessProfile') && extrondolIndex.includes('technicalReadinessProfile'), 'types and EXTRONDOL index must include technical readiness profile fields for repo-wide reflection');
           assert(types.includes('roadmapExecution') && extrondolIndex.includes('roadmapExecution'), 'types and EXTRONDOL index must include roadmap execution fields for repo-wide reflection');
           assert(extrimliDoc.includes('dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection'), 'EXTRIMLI doc must include developer/create consistency proof field');
+          assert(extrimliDoc.includes('6ab2f88d-23b0-83eb-b708-b880bdb7fc11') && extrimliDoc.includes('srpski je primarni kanonski izraz domena'), 'EXTRIMLI doc must lock documentation-only ChatGPT share reference and Serbian-primary language layer');
           assert(extrimliDoc.includes('technicalReadinessProfile') && extrimliDoc.includes('v5-extrondol-release-audit-and-orchestration'), 'EXTRIMLI doc must include the technical readiness profile and active execution stage');
           assert(versionRoadmap.includes('mandatoryArtifacts') && versionRoadmap.includes('implementationStreams') && versionRoadmap.includes('acceptanceLock'), 'roadmap lock must include mandatory artifacts, streams, and acceptance lock');
           assert(versionRoadmap.includes('prExecutionLock') && versionRoadmap.includes('operationalAuditPackage'), 'roadmap lock must include PR execution and operational audit package requirements');
