@@ -380,6 +380,14 @@ const EXTRIMLI_EXTREM_DEVELOPER_CREATE_KRALJEVSTVO_ZVANICNO_MOJE_PRAVO_LICE_SCEN
   'kraljevstvo-zvanicno-moje-pravo-lice-developer-create' as const;
 const EXTRIMLI_EXTREM_DEVELOPER_CREATE_KRALJEVSTVO_ZVANICNO_MOJE_PRAVO_LICE_CITATION =
   'KRALJEVSTVO — ZVANIČNO MOJE PRAVO LICE ostaje additive-only supplemental audit/reference vizuel: kraljevstvo, zajedništvo, znanje, priroda, tehnologija i humanost mapiraju se isključivo na postojeći Developer/Create ⇄ VRH ⇄ Radni Takt model, uz isti READY|WATCH|BLOCKED fallback i isti ownership split bez novih ruta i bez novog source-of-truth sistema.' as const;
+const EXTRIMLI_EXTREM_DEVELOPER_CREATE_CARNEVALE_MASKNBALE_VISUAL_REFERENCE =
+  'documentation-only://carnevale-masknbale-prirodni-portret-lica' as const;
+const EXTRIMLI_EXTREM_DEVELOPER_CREATE_CARNEVALE_MASKNBALE_CANONICAL_NARRATIVE_ID =
+  'carnevale-masknbale-prirodni-portret-lica-developer-create' as const;
+const EXTRIMLI_EXTREM_DEVELOPER_CREATE_CARNEVALE_MASKNBALE_SCENARIO_ID =
+  'carnevale-masknbale-umetnost-lica-dostojanstvo-identitet-developer-create' as const;
+const EXTRIMLI_EXTREM_DEVELOPER_CREATE_CARNEVALE_MASKNBALE_CITATION =
+  '„Lice je prirodni portret bića, a Carnevale Masknbale umetnost kojom se njegova lepota izražava sa poštovanjem i originalnošću.” Termin “Make-up” u ovom reflection paketu zamenjuje se originalnim nazivom Carnevale Masknbale i ostaje additive-only supplemental audit/reference narativ: umetnost oblikovanja izgleda lica, originalnost, kreativnost, dostojanstvo i lični identitet mapiraju se isključivo kao bounded documentation/evidence sloj unutar postojećeg Developer/Create ⇄ VRH ⇄ Radni Takt modela, bez novih ruta, novih formula ili promene ownership split-a.' as const;
 const EXTRIMLI_EXTREM_DEVELOPER_CREATE_KRALJEVSTVO_COVECANSTVO_PRAVO_BICA_VISUAL_REFERENCE =
   'https://github.com/user-attachments/assets/c7ebacdd-d239-425f-9b3c-ab3d807bbb92' as const;
 const EXTRIMLI_EXTREM_DEVELOPER_CREATE_KRALJEVSTVO_COVECANSTVO_PRAVO_BICA_CANONICAL_NARRATIVE_ID =
@@ -6953,6 +6961,40 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
               'priroda',
               'tehnologija',
               'humanost',
+            ],
+            auditRole: 'additive-audit-reference-only',
+          },
+          {
+            title: 'Carnevale Masknbale — PRIRODNI PORTRET LICA',
+            canonicalNarrativeId: EXTRIMLI_EXTREM_DEVELOPER_CREATE_CARNEVALE_MASKNBALE_CANONICAL_NARRATIVE_ID,
+            citation: EXTRIMLI_EXTREM_DEVELOPER_CREATE_CARNEVALE_MASKNBALE_CITATION,
+            visualReference: EXTRIMLI_EXTREM_DEVELOPER_CREATE_CARNEVALE_MASKNBALE_VISUAL_REFERENCE,
+            interpretation:
+              'Carnevale Masknbale remains an additive-only supplemental audit/reference narrative that replaces generic Make-up terminology with an art-forward, ceremonial, and dignity-preserving face-expression reflection inside the existing Developer/Create package, without introducing any new source-of-truth runtime route.',
+            sourceStatement: 'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == RADNI TAKT MOZGA (MISLILAC)',
+            imageToSignalProfile: {
+              scenarioId: EXTRIMLI_EXTREM_DEVELOPER_CREATE_CARNEVALE_MASKNBALE_SCENARIO_ID,
+              theme: 'Carnevale Masknbale',
+              narrativeInput: EXTRIMLI_EXTREM_DEVELOPER_CREATE_CARNEVALE_MASKNBALE_CITATION,
+              ownershipLock: {
+                dokDikFor: 'EXTREM',
+                dakDuk: 'EXTRONDOL',
+                spajaKod: 'audit-safe-summary-only',
+              },
+              signalOutputs: {
+                readinessScore: 0,
+                readinessStatus: 'BLOCKED',
+                conflictPressurePercent: 100,
+                deterministicFallbackRequired: true,
+              },
+            },
+            thematicSignals: [
+              'umetnost-lica',
+              'svecanost',
+              'dostojanstvo',
+              'originalnost',
+              'licni-identitet',
+              'prirodni-portret',
             ],
             auditRole: 'additive-audit-reference-only',
           },
