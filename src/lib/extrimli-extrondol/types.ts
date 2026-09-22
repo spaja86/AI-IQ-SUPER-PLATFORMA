@@ -687,6 +687,8 @@ export interface ExtrimliExtrondolDeveloperAndCreateRepoWideReflectionGovernance
     dakDuk: 'EXTRONDOL';
     spajaKod: 'audit-safe-summary-only';
   };
+  canonicalGovernanceVocabulary: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['canonicalGovernanceVocabulary'];
+  osnoveRispektProtocol: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['osnoveRispektProtocol'];
   mappedTracks: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['mappedTracks'];
   technicalReadinessProfile: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['technicalReadinessProfile'];
   aiPlateGovernance: {
@@ -729,6 +731,7 @@ export interface ExtrimliExtrondolDeveloperAndCreateRepoWideReflectionGovernance
       'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance',
       'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.covecnostAuditVisualReference.supplementalVisualReferences',
       'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.covecnostAuditVisualReference.companionAuditVisualReferences',
+      'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.osnoveRispektProtocol',
       'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.aiPlateGovernance',
       'spajaKod.publicSignals.developerAndCreateStatus',
       'spajaKod.publicSignals.aiPlateStatus'

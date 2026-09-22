@@ -4016,6 +4016,10 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
           extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.aiPlateOffer.boundedReadinessProfile.consolidatedStatus === 'WATCH'
           ? [...extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.aiPlateOffer.boundedReadinessProfile.reasons]
           : [],
+        canonicalGovernanceVocabulary:
+          extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.canonicalGovernanceVocabulary,
+        osnoveRispektProtocol:
+          extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.osnoveRispektProtocol,
         mappedTracks: extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.mappedTracks,
         dailyOperationalCadence: {
           activeRoadmapStagePolicy:
@@ -4065,12 +4069,13 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
         roadmapExecution: {
           roadmapStageId: 'v5-extrondol-release-audit-and-orchestration',
           measurableOutput:
-            'EXTRONDOL consumes the repo-wide technical profile plus primary/supplemental/companion audit visual metadata and publishes only audit-safe WAWE/review/rollback governance',
+            'EXTRONDOL consumes the repo-wide technical profile plus primary/supplemental/companion audit visual metadata and OSNOVE / RISPEKT protocol evidence, then publishes only audit-safe WAWE/review/rollback governance',
           acceptanceEvidence: [
             'developerAndCreateRepoWideReflection',
             'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance',
             'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.covecnostAuditVisualReference.supplementalVisualReferences',
             'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.covecnostAuditVisualReference.companionAuditVisualReferences',
+            'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.osnoveRispektProtocol',
             'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.aiPlateGovernance',
             'spajaKod.publicSignals.developerAndCreateStatus',
             'spajaKod.publicSignals.aiPlateStatus',

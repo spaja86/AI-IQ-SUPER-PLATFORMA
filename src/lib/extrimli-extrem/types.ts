@@ -2469,6 +2469,40 @@ export interface ExtrimliDokDikDakDukConsistencyHealth {
       sinemetrickoProgramiranje: 'SINEMETRIČKO PROGRAMIRANJE';
       paradijogonalnoProgrimiranje: 'PARADIJOGONALNO PROGRAMIRANJE';
     };
+    canonicalGovernanceVocabulary: {
+      extremExtrimliExtrondol: 'EXTRIMLI EXTRONDOL EXTREM';
+      dokDikDakDukFor: 'DOK DIK DAK DUK FOR';
+      kraljevskiPravniUniverzitet: 'KRALJEVSKI PRAVNI UNIVERZITET';
+    };
+    osnoveRispektProtocol: {
+      title: 'OSNOVE / RISPEKT';
+      additiveOnly: true;
+      executionDomain: 'documentation-and-governance-evidence-only';
+      noNewRuntimeDomain: true;
+      communicationCulture: {
+        usvojiUSvojeKljuse: string;
+        apologyReciprocity: string;
+        householdGreetingProtocol: string;
+        blessingReciprocity: string;
+      };
+      evidentiaryScenarios: readonly [
+        'izvinjenje',
+        'pozdrav-u-kuci',
+        'blagodarnost',
+        'covecanstvo-epilog'
+      ];
+      signalOutputs: {
+        readinessScore: number;
+        readinessStatus: 'READY' | 'WATCH' | 'BLOCKED';
+        deterministicFallbackRequired: boolean;
+      };
+      governanceEvidence: {
+        sourceOfTruthRoutes: readonly ['/api/extrimli/extrem', '/api/extrimli/extrondol', '/api/extrimli/spaja-kod'];
+        ownershipLockPreserved: true;
+        driftZeroLayers: readonly ['docs', 'types', 'routes', 'tests', 'workflows'];
+        publicBoundary: 'audit-safe-summary-only';
+      };
+    };
     readinessModel: readonly ['READY', 'WATCH', 'BLOCKED'];
     driftZeroLayers: readonly ['docs', 'types', 'routes', 'tests', 'workflows'];
     roadmapStageMapping: {
@@ -2619,6 +2653,7 @@ export interface ExtrimliDokDikDakDukConsistencyHealth {
         'dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.covecnostAuditVisualReference',
         'dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.covecnostAuditVisualReference.supplementalVisualReferences',
         'dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.covecnostAuditVisualReference.companionAuditVisualReferences',
+        'dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.osnoveRispektProtocol',
         'spajaKod.publicSignals.developerAndCreateStatus',
         'radniTaktMozgaMislilac.readiness',
         'metrikoProgramiranje.readiness',
