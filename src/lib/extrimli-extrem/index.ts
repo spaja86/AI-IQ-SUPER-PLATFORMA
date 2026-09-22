@@ -292,6 +292,14 @@ const EXTRIMLI_EXTREM_DEVELOPER_CREATE_MATICNE_CELIJE_SPOZNAVANJE_SEBE_SCENARIO_
   'covecanstvo-maticne-celije-i-spoznavanje-sebe-developer-create' as const;
 const EXTRIMLI_EXTREM_DEVELOPER_CREATE_MATICNE_CELIJE_SPOZNAVANJE_SEBE_CITATION =
   'ČOVEČANSTVO — MATIČNE ĆELIJE I SPOZNAVANJE SEBE ostaje additive-only supplemental audit/reference vizuel: biološko-metaforički sadržaj i samospoznaja mapiraju se isključivo kao documentation/evidence sloj unutar postojećeg Developer/Create ⇄ VRH ⇄ Radni Takt modela, uz isti READY|WATCH|BLOCKED fallback i bez novih runtime ruta.' as const;
+const EXTRIMLI_EXTREM_DEVELOPER_CREATE_SNOVI_PRIRODE_INOVACIJE_COVECANSTVO_VISUAL_REFERENCE =
+  'https://github.com/user-attachments/assets/92ae3dd8-75b3-4611-a8d3-27e9a0b3a9e3' as const;
+const EXTRIMLI_EXTREM_DEVELOPER_CREATE_SNOVI_PRIRODE_INOVACIJE_COVECANSTVO_CANONICAL_NARRATIVE_ID =
+  'covecanstvo-snovi-prirode-inovacije-developer-create' as const;
+const EXTRIMLI_EXTREM_DEVELOPER_CREATE_SNOVI_PRIRODE_INOVACIJE_COVECANSTVO_SCENARIO_ID =
+  'covecanstvo-snovi-prirode-inovacije-developer-create' as const;
+const EXTRIMLI_EXTREM_DEVELOPER_CREATE_SNOVI_PRIRODE_INOVACIJE_COVECANSTVO_CITATION =
+  'ČOVEČANSTVO — SNOVI PRIRODE / IDEJE / INOVACIJE ostaje additive-only supplemental audit/reference vizuel: snovi, znanje, ideje i inovacije mapiraju se isključivo kao bounded documentation/evidence sloj unutar postojećeg Developer/Create ⇄ VRH ⇄ Radni Takt modela, uz isti READY|WATCH|BLOCKED fallback i bez novih runtime ruta.' as const;
 
 const EXTRIMLI_EXTREM_SPAJINO_PROPORCIONALNO_PROGRAMIRANJE_UNIVERZITET_NARRATIVE_TITLE =
   'Spreg funkcionalnog i objektno programiranja sa mnoštvo novih petlji' as const;
@@ -6352,6 +6360,37 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
               theme: 'ČOVEČANSTVO — MATIČNE ĆELIJE I SPOZNAVANJE SEBE',
               narrativeInput:
                 EXTRIMLI_EXTREM_DEVELOPER_CREATE_MATICNE_CELIJE_SPOZNAVANJE_SEBE_CITATION,
+              ownershipLock: {
+                dokDikFor: 'EXTREM',
+                dakDuk: 'EXTRONDOL',
+                spajaKod: 'audit-safe-summary-only',
+              },
+              signalOutputs: {
+                readinessScore: 0,
+                readinessStatus: 'BLOCKED',
+                conflictPressurePercent: 100,
+                deterministicFallbackRequired: true,
+              },
+            },
+            auditRole: 'additive-audit-reference-only',
+          },
+          {
+            title: 'ČOVEČANSTVO — SNOVI PRIRODE / IDEJE / INOVACIJE',
+            canonicalNarrativeId:
+              EXTRIMLI_EXTREM_DEVELOPER_CREATE_SNOVI_PRIRODE_INOVACIJE_COVECANSTVO_CANONICAL_NARRATIVE_ID,
+            citation:
+              EXTRIMLI_EXTREM_DEVELOPER_CREATE_SNOVI_PRIRODE_INOVACIJE_COVECANSTVO_CITATION,
+            visualReference:
+              EXTRIMLI_EXTREM_DEVELOPER_CREATE_SNOVI_PRIRODE_INOVACIJE_COVECANSTVO_VISUAL_REFERENCE,
+            interpretation:
+              'Supplied SNOVI PRIRODE / IDEJE / INOVACIJE image remains additive-only supplemental audit/reference evidence and extends the same bounded Developer/Create reflection package without introducing any new source-of-truth runtime route.',
+            sourceStatement: 'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == RADNI TAKT MOZGA (MISLILAC)',
+            imageToSignalProfile: {
+              scenarioId:
+                EXTRIMLI_EXTREM_DEVELOPER_CREATE_SNOVI_PRIRODE_INOVACIJE_COVECANSTVO_SCENARIO_ID,
+              theme: 'ČOVEČANSTVO — SNOVI PRIRODE / IDEJE / INOVACIJE',
+              narrativeInput:
+                EXTRIMLI_EXTREM_DEVELOPER_CREATE_SNOVI_PRIRODE_INOVACIJE_COVECANSTVO_CITATION,
               ownershipLock: {
                 dokDikFor: 'EXTREM',
                 dakDuk: 'EXTRONDOL',
