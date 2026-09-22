@@ -388,6 +388,14 @@ const EXTRIMLI_EXTREM_DEVELOPER_CREATE_SVITAK_BOZANSTVA_COVECANSTVO_SCENARIO_ID 
   'covecanstvo-svitak-bozanstva-pravoslavlje-kraljevstvo-vecna-svetlost-developer-create' as const;
 const EXTRIMLI_EXTREM_DEVELOPER_CREATE_SVITAK_BOZANSTVA_COVECANSTVO_CITATION =
   'SVITAK BOŽANSTVA / PRAVOSLAVLJE U KRALJEVSTVU ostaje additive-only supplemental audit/reference vizuel: božanstvo, pravoslavlje, vera/znanje/ljubav i čovečanstvo ostaju bounded documentation/evidence sloj unutar postojećeg Developer/Create ⇄ VRH ⇄ Radni Takt modela, bez novih ruta, novih formula ili promene ownership split-a.' as const;
+const EXTRIMLI_EXTREM_DEVELOPER_CREATE_PRAVEDAN_SVET_KRALJEVSTVO_VISUAL_REFERENCE =
+  'https://github.com/user-attachments/assets/527e2ce4-7bfe-4ab0-b5a3-caceb75b24c0' as const;
+const EXTRIMLI_EXTREM_DEVELOPER_CREATE_PRAVEDAN_SVET_KRALJEVSTVO_CANONICAL_NARRATIVE_ID =
+  'kraljevstvo-pravedan-svet-za-sve-narastaje-developer-create' as const;
+const EXTRIMLI_EXTREM_DEVELOPER_CREATE_PRAVEDAN_SVET_KRALJEVSTVO_SCENARIO_ID =
+  'kraljevstvo-pravedan-svet-za-sve-narastaje-developer-create' as const;
+const EXTRIMLI_EXTREM_DEVELOPER_CREATE_PRAVEDAN_SVET_KRALJEVSTVO_CITATION =
+  'KRALJEVSTVO — PRAVEDAN SVET ZA SVE NARAŠTAJE ostaje additive-only supplemental audit/reference vizuel: kraljevstvo, pravoslavlje, znanje, priroda, čovečanstvo, zajednička porodica i večnost mapiraju se isključivo na postojeći Developer/Create ⇄ VRH ⇄ Radni Takt model, uz bounded vezu ka KRALJEVSKI PRAVNI UNIVERZITET governance/epilog narativu, bez novih ruta i bez novog source-of-truth sistema.' as const;
 const EXTRIMLI_EXTREM_DEVELOPER_CREATE_NARASTAJ_U_PRIRODNOM_CVATU_COVECANSTVO_VISUAL_REFERENCE =
   'https://github.com/user-attachments/assets/93ba6f4a-e8bd-4547-bb8b-dc77c14e845a' as const;
 const EXTRIMLI_EXTREM_DEVELOPER_CREATE_NARASTAJ_U_PRIRODNOM_CVATU_COVECANSTVO_CANONICAL_NARRATIVE_ID =
@@ -6977,6 +6985,44 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
             ],
             auditRole: 'additive-audit-reference-only',
           },
+          {
+            title: 'KRALJEVSTVO — PRAVEDAN SVET ZA SVE NARAŠTAJE',
+            canonicalNarrativeId:
+              EXTRIMLI_EXTREM_DEVELOPER_CREATE_PRAVEDAN_SVET_KRALJEVSTVO_CANONICAL_NARRATIVE_ID,
+            citation: EXTRIMLI_EXTREM_DEVELOPER_CREATE_PRAVEDAN_SVET_KRALJEVSTVO_CITATION,
+            visualReference:
+              EXTRIMLI_EXTREM_DEVELOPER_CREATE_PRAVEDAN_SVET_KRALJEVSTVO_VISUAL_REFERENCE,
+            interpretation:
+              'Supplied KRALJEVSTVO — PRAVEDAN SVET ZA SVE NARAŠTAJE image remains additive-only supplemental audit/reference evidence and extends the same bounded Developer/Create reflection package through pravoslavlje, znanje, priroda, čovečanstvo, and bounded KRALJEVSKI PRAVNI UNIVERZITET governance/epilog themes without introducing any new source-of-truth runtime route.',
+            sourceStatement: 'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == RADNI TAKT MOZGA (MISLILAC)',
+            imageToSignalProfile: {
+              scenarioId:
+                EXTRIMLI_EXTREM_DEVELOPER_CREATE_PRAVEDAN_SVET_KRALJEVSTVO_SCENARIO_ID,
+              theme: 'KRALJEVSTVO — PRAVEDAN SVET ZA SVE NARAŠTAJE',
+              narrativeInput: EXTRIMLI_EXTREM_DEVELOPER_CREATE_PRAVEDAN_SVET_KRALJEVSTVO_CITATION,
+              ownershipLock: {
+                dokDikFor: 'EXTREM',
+                dakDuk: 'EXTRONDOL',
+                spajaKod: 'audit-safe-summary-only',
+              },
+              signalOutputs: {
+                readinessScore: 0,
+                readinessStatus: 'BLOCKED',
+                conflictPressurePercent: 100,
+                deterministicFallbackRequired: true,
+              },
+            },
+            thematicSignals: [
+              'kraljevstvo',
+              'pravoslavlje',
+              'znanje',
+              'priroda',
+              'covecanstvo',
+              'jedan-svet-jedna-porodica',
+              'vecnost',
+            ],
+            auditRole: 'additive-audit-reference-only',
+          },
         ],
         flowLock: {
           sequence: ['image', 'developer-create', 'vrh', 'radni-takt', 'epilog'],
@@ -7468,11 +7514,11 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
       })),
     packageOutputs: {
       auditShortSummary:
-        'ČOVEČNOST primary visual remains audit-safe and technically bound to the existing readiness profile, while the ČOVEČANSTVO supplemental visuals, including SVI KOJI POSTOJE / ZASLUŽUJU DA PRIPADAJU, ENTIZUJAŽAM, EPILOG, MATIČNE ĆELIJE / SPOZNAVANJE SEBE, ŽIVOT U RAVNOTEŽI, TRIJOLOGIJA / DAVO U RUCI / LISICA U KAVEZU, BLAGOSLOV DARIVATI / BOGPATIJU, Mjuzikl kraljevskog čina / epilog u čovečanstvo, BOŽIJI EPITETI / KRALJ NAD KRALJEVIMA, and NARAŠTAJ U PRIRODNOM CVATU / EPILOG / BLAGODARIM, plus the ČOVEČANSTVO / OSEĆAJ OSEBENOSTI companion visual stay bounded by existing EXTREM / EXTRONDOL / SPAJA KOD ownership.',
+        'ČOVEČNOST primary visual remains audit-safe and technically bound to the existing readiness profile, while the ČOVEČANSTVO supplemental visuals, including SVI KOJI POSTOJE / ZASLUŽUJU DA PRIPADAJU, ENTIZUJAŽAM, EPILOG, MATIČNE ĆELIJE / SPOZNAVANJE SEBE, ŽIVOT U RAVNOTEŽI, TRIJOLOGIJA / DAVO U RUCI / LISICA U KAVEZU, BLAGOSLOV DARIVATI / BOGPATIJU, Mjuzikl kraljevskog čina / epilog u čovečanstvo, BOŽIJI EPITETI / KRALJ NAD KRALJEVIMA, KRALJEVSTVO — PRAVEDAN SVET ZA SVE NARAŠTAJE, and NARAŠTAJ U PRIRODNOM CVATU / EPILOG / BLAGODARIM, plus the ČOVEČANSTVO / OSEĆAJ OSEBENOSTI companion visual stay bounded by existing EXTREM / EXTRONDOL / SPAJA KOD ownership.',
       publicSummary:
-        'ČOVEČNOST ostaje javni audit-safe odraz znanja, iskustva i predviđanja kroz postojeći Developer/Create ritam i etapni razvoj bez novih ruta, dok supplemental vizueli — uključujući SVI KOJI POSTOJE / ZASLUŽUJU DA PRIPADAJU, ENTIZUJAŽAM, ČOVEČANSTVO — EPILOG, MATIČNE ĆELIJE / SPOZNAVANJE SEBE, ŽIVOT U RAVNOTEŽI, TRIJOLOGIJA / DAVO U RUCI / LISICA U KAVEZU, BLAGOSLOV DARIVATI / BOGPATIJU, Mjuzikl kraljevskog čina / epilog u čovečanstvo, BOŽIJI EPITETI / KRALJ NAD KRALJEVIMA i NARAŠTAJ U PRIRODNOM CVATU / EPILOG / BLAGODARIM — i companion vizuel ostaju pomoćni audit-safe slojevi istog reflection paketa.',
+        'ČOVEČNOST ostaje javni audit-safe odraz znanja, iskustva i predviđanja kroz postojeći Developer/Create ritam i etapni razvoj bez novih ruta, dok supplemental vizueli — uključujući SVI KOJI POSTOJE / ZASLUŽUJU DA PRIPADAJU, ENTIZUJAŽAM, ČOVEČANSTVO — EPILOG, MATIČNE ĆELIJE / SPOZNAVANJE SEBE, ŽIVOT U RAVNOTEŽI, TRIJOLOGIJA / DAVO U RUCI / LISICA U KAVEZU, BLAGOSLOV DARIVATI / BOGPATIJU, Mjuzikl kraljevskog čina / epilog u čovečanstvo, BOŽIJI EPITETI / KRALJ NAD KRALJEVIMA, KRALJEVSTVO — PRAVEDAN SVET ZA SVE NARAŠTAJE i NARAŠTAJ U PRIRODNOM CVATU / EPILOG / BLAGODARIM — i companion vizuel ostaju pomoćni audit-safe slojevi istog reflection paketa.',
       governanceChecklistStatus:
-        'No new runtime routes; the primary ČOVEČNOST visual remains canonical and technically bound to the existing profile, the ČOVEČANSTVO visuals stay supplemental-only (including ŽIVOT U RAVNOTEŽI balance/life-chain/compassion metadata, TRIJOLOGIJA / DAVO U RUCI / LISICA U KAVEZU as bounded narrative-translation/risk-release evidence, Mjuzikl kraljevskog čina as bounded music-act/epilog/humanity rhythm evidence, BOŽIJI EPITETI / KRALJ NAD KRALJEVIMA as bounded legal-governance/metric-testimony epilog evidence, and NARAŠTAJ U PRIRODNOM CVATU as bounded seed-potential/light-opportunity/human-flourishing/gratitude evidence), DOK/DIK/FOR stay in EXTREM, DAK/DUK stay in EXTRONDOL, and downstream sync remains follow-up only until audit-safe summary is adopted.',
+        'No new runtime routes; the primary ČOVEČNOST visual remains canonical and technically bound to the existing profile, the ČOVEČANSTVO visuals stay supplemental-only (including ŽIVOT U RAVNOTEŽI balance/life-chain/compassion metadata, TRIJOLOGIJA / DAVO U RUCI / LISICA U KAVEZU as bounded narrative-translation/risk-release evidence, Mjuzikl kraljevskog čina as bounded music-act/epilog/humanity rhythm evidence, BOŽIJI EPITETI / KRALJ NAD KRALJEVIMA as bounded legal-governance/metric-testimony epilog evidence, KRALJEVSTVO — PRAVEDAN SVET ZA SVE NARAŠTAJE as bounded pravoslavlje/znanje/priroda/čovečanstvo evidence, and NARAŠTAJ U PRIRODNOM CVATU as bounded seed-potential/light-opportunity/human-flourishing/gratitude evidence), DOK/DIK/FOR stay in EXTREM, DAK/DUK stay in EXTRONDOL, and downstream sync remains follow-up only until audit-safe summary is adopted.',
     },
     companionAuditVisualReferences:
       dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.covecnostAuditVisualReference.companionAuditVisualReferences.map(
@@ -7549,6 +7595,7 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
     'Supplied Mjuzikl kraljevskog čina image remains supplemental audit/reference evidence only and extends the same bounded reflection package through muzički čin, epilog, čovečanstvo i zajednički ritam themes without introducing any new runtime source of truth.',
     'Supplied BOŽIJI EPITETI / KRALJ NAD KRALJEVIMA image remains supplemental audit/reference evidence only and extends the same bounded reflection package through KRALJEVSKI PRAVNI UNIVERZITET, METRIČKO, SINEMETRIČKO i PARADIJOGONALNO interpretative tracks without introducing any new runtime source of truth.',
     'Supplied KRALJEVSTVO image remains supplemental audit/reference evidence only and extends the same bounded reflection package through zajedništvo, budućnost, znanje, humanost, and a bounded KRALJEVSKI PRAVNI UNIVERZITET governance/epilog narrative without introducing any new runtime source of truth.',
+    'Supplied KRALJEVSTVO — PRAVEDAN SVET ZA SVE NARAŠTAJE image remains supplemental audit/reference evidence only and extends the same bounded reflection package through pravoslavlje, znanje, priroda, čovečanstvo, zajedničku porodicu i večnost without introducing any new runtime source of truth.',
     'OSNOVE / RISPEKT ostaje kulturno-pedagoški protokol komunikacije (izvinjenje, pozdrav u kući, blagodarnost) i služi isključivo kao documentation + governance evidence bez novog izvršnog API domena.',
     'Kanonsko mapiranje EXTRIMLI EXTRONDOL EXTREM + DOK DIK DAK DUK FOR + KRALJEVSKI PRAVNI UNIVERZITET ostaje zaključano: EXTREM tehnički signal, EXTRONDOL WAWE/audit governance, SPAJA KOD audit-safe summary boundary.',
     'Dnevni operativni sloj ostaje governance artefakt: isti dan mora zaključati jednu aktivnu roadmap fazu, prioritete 1–3, merljiv izlaz, acceptance evidence i closeout status completed/carried-over/blocked.',
