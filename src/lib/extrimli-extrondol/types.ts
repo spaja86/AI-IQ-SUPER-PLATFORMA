@@ -2292,6 +2292,7 @@ export interface ExtrimliSpajaKodPublicFacade {
     supplementalVisualReferences: Array<{
       canonicalNarrativeId: string;
       visualReference: string;
+      thematicSignals: string[];
     }>;
     flowLock: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['covecnostAuditVisualReference']['flowLock'];
     packageOutputs: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['covecnostAuditVisualReference']['packageOutputs'];
