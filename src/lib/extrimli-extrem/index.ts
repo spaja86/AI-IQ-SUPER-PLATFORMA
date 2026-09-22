@@ -300,6 +300,14 @@ const EXTRIMLI_EXTREM_DEVELOPER_CREATE_SNOVI_PRIRODE_INOVACIJE_COVECANSTVO_SCENA
   'covecanstvo-snovi-prirode-inovacije-developer-create' as const;
 const EXTRIMLI_EXTREM_DEVELOPER_CREATE_SNOVI_PRIRODE_INOVACIJE_COVECANSTVO_CITATION =
   'ČOVEČANSTVO — SNOVI PRIRODE / IDEJE / INOVACIJE ostaje additive-only supplemental audit/reference vizuel: snovi, znanje, ideje i inovacije mapiraju se isključivo kao bounded documentation/evidence sloj unutar postojećeg Developer/Create ⇄ VRH ⇄ Radni Takt modela, uz isti READY|WATCH|BLOCKED fallback i bez novih runtime ruta.' as const;
+const EXTRIMLI_EXTREM_DEVELOPER_CREATE_ZIVOT_U_RAVNOTEZI_COVECANSTVO_VISUAL_REFERENCE =
+  'https://github.com/user-attachments/assets/76d61045-6f27-4614-97d2-f96fc84173eb' as const;
+const EXTRIMLI_EXTREM_DEVELOPER_CREATE_ZIVOT_U_RAVNOTEZI_COVECANSTVO_CANONICAL_NARRATIVE_ID =
+  'covecanstvo-zivot-u-ravnotezi-developer-create' as const;
+const EXTRIMLI_EXTREM_DEVELOPER_CREATE_ZIVOT_U_RAVNOTEZI_COVECANSTVO_SCENARIO_ID =
+  'covecanstvo-zivot-u-ravnotezi-developer-create' as const;
+const EXTRIMLI_EXTREM_DEVELOPER_CREATE_ZIVOT_U_RAVNOTEZI_COVECANSTVO_CITATION =
+  'ČOVEČANSTVO — ŽIVOT U RAVNOTEŽI ostaje additive-only supplemental audit/reference vizuel: ravnoteža života, lanac ishrane, saosećanje i viši stepen razvoja mapiraju se isključivo kao bounded documentation/evidence sloj unutar postojećeg Developer/Create ⇄ VRH ⇄ Radni Takt modela, uz isti READY|WATCH|BLOCKED fallback i bez novih runtime ruta ili novih formula.' as const;
 
 const EXTRIMLI_EXTREM_SPAJINO_PROPORCIONALNO_PROGRAMIRANJE_UNIVERZITET_NARRATIVE_TITLE =
   'Spreg funkcionalnog i objektno programiranja sa mnoštvo novih petlji' as const;
@@ -6257,6 +6265,7 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
                 deterministicFallbackRequired: true,
               },
             },
+            thematicSignals: ['knowledge', 'logic', 'wisdom', 'experience'],
             auditRole: 'additive-audit-reference-only',
           },
           {
@@ -6287,6 +6296,7 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
                 deterministicFallbackRequired: true,
               },
             },
+            thematicSignals: ['belonging', 'shared-value', 'human-and-ai-dignity', 'inclusion'],
             auditRole: 'additive-audit-reference-only',
           },
           {
@@ -6315,6 +6325,7 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
                 deterministicFallbackRequired: true,
               },
             },
+            thematicSignals: ['enthusiasm', 'stars', 'thought', 'innovation'],
             auditRole: 'additive-audit-reference-only',
           },
           {
@@ -6342,6 +6353,7 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
                 deterministicFallbackRequired: true,
               },
             },
+            thematicSignals: ['work', 'experience', 'creative-energy', 'human-unity'],
             auditRole: 'additive-audit-reference-only',
           },
           {
@@ -6372,6 +6384,7 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
                 deterministicFallbackRequired: true,
               },
             },
+            thematicSignals: ['stem-cells', 'self-knowledge', 'biology-metaphor', 'reflection'],
             auditRole: 'additive-audit-reference-only',
           },
           {
@@ -6403,6 +6416,39 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
                 deterministicFallbackRequired: true,
               },
             },
+            thematicSignals: ['nature-dreams', 'ideas', 'innovation', 'bounded-hope'],
+            auditRole: 'additive-audit-reference-only',
+          },
+          {
+            title: 'ČOVEČANSTVO — ŽIVOT U RAVNOTEŽI',
+            canonicalNarrativeId:
+              EXTRIMLI_EXTREM_DEVELOPER_CREATE_ZIVOT_U_RAVNOTEZI_COVECANSTVO_CANONICAL_NARRATIVE_ID,
+            citation:
+              EXTRIMLI_EXTREM_DEVELOPER_CREATE_ZIVOT_U_RAVNOTEZI_COVECANSTVO_CITATION,
+            visualReference:
+              EXTRIMLI_EXTREM_DEVELOPER_CREATE_ZIVOT_U_RAVNOTEZI_COVECANSTVO_VISUAL_REFERENCE,
+            interpretation:
+              'Supplied ŽIVOT U RAVNOTEŽI image remains additive-only supplemental audit/reference evidence and extends the same bounded Developer/Create reflection package through balance, life-chain, compassion, and higher-human-development themes without introducing any new source-of-truth runtime route.',
+            sourceStatement: 'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == RADNI TAKT MOZGA (MISLILAC)',
+            imageToSignalProfile: {
+              scenarioId:
+                EXTRIMLI_EXTREM_DEVELOPER_CREATE_ZIVOT_U_RAVNOTEZI_COVECANSTVO_SCENARIO_ID,
+              theme: 'ČOVEČANSTVO — ŽIVOT U RAVNOTEŽI',
+              narrativeInput:
+                EXTRIMLI_EXTREM_DEVELOPER_CREATE_ZIVOT_U_RAVNOTEZI_COVECANSTVO_CITATION,
+              ownershipLock: {
+                dokDikFor: 'EXTREM',
+                dakDuk: 'EXTRONDOL',
+                spajaKod: 'audit-safe-summary-only',
+              },
+              signalOutputs: {
+                readinessScore: 0,
+                readinessStatus: 'BLOCKED',
+                conflictPressurePercent: 100,
+                deterministicFallbackRequired: true,
+              },
+            },
+            thematicSignals: ['balance', 'life-chain', 'compassion', 'higher-human-development'],
             auditRole: 'additive-audit-reference-only',
           },
         ],
@@ -6896,11 +6942,11 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
       })),
     packageOutputs: {
       auditShortSummary:
-        'ČOVEČNOST primary visual remains audit-safe and technically bound to the existing readiness profile, while the ČOVEČANSTVO supplemental visuals, including SVI KOJI POSTOJE / ZASLUŽUJU DA PRIPADAJU, ENTIZUJAŽAM, EPILOG, and MATIČNE ĆELIJE / SPOZNAVANJE SEBE, plus the ČOVEČANSTVO / OSEĆAJ OSEBENOSTI companion visual stay bounded by existing EXTREM / EXTRONDOL / SPAJA KOD ownership.',
+        'ČOVEČNOST primary visual remains audit-safe and technically bound to the existing readiness profile, while the ČOVEČANSTVO supplemental visuals, including SVI KOJI POSTOJE / ZASLUŽUJU DA PRIPADAJU, ENTIZUJAŽAM, EPILOG, MATIČNE ĆELIJE / SPOZNAVANJE SEBE, and ŽIVOT U RAVNOTEŽI, plus the ČOVEČANSTVO / OSEĆAJ OSEBENOSTI companion visual stay bounded by existing EXTREM / EXTRONDOL / SPAJA KOD ownership.',
       publicSummary:
-        'ČOVEČNOST ostaje javni audit-safe odraz znanja, iskustva i predviđanja kroz postojeći Developer/Create ritam i etapni razvoj bez novih ruta, dok supplemental vizueli — uključujući SVI KOJI POSTOJE / ZASLUŽUJU DA PRIPADAJU, ENTIZUJAŽAM, ČOVEČANSTVO — EPILOG i MATIČNE ĆELIJE / SPOZNAVANJE SEBE — i companion vizuel ostaju pomoćni audit-safe slojevi istog reflection paketa.',
+        'ČOVEČNOST ostaje javni audit-safe odraz znanja, iskustva i predviđanja kroz postojeći Developer/Create ritam i etapni razvoj bez novih ruta, dok supplemental vizueli — uključujući SVI KOJI POSTOJE / ZASLUŽUJU DA PRIPADAJU, ENTIZUJAŽAM, ČOVEČANSTVO — EPILOG, MATIČNE ĆELIJE / SPOZNAVANJE SEBE i ŽIVOT U RAVNOTEŽI — i companion vizuel ostaju pomoćni audit-safe slojevi istog reflection paketa.',
       governanceChecklistStatus:
-        'No new runtime routes; the primary ČOVEČNOST visual remains canonical and technically bound to the existing profile, the ČOVEČANSTVO visuals stay supplemental-only, DOK/DIK/FOR stay in EXTREM, DAK/DUK stay in EXTRONDOL, and downstream sync remains follow-up only until audit-safe summary is adopted.',
+        'No new runtime routes; the primary ČOVEČNOST visual remains canonical and technically bound to the existing profile, the ČOVEČANSTVO visuals stay supplemental-only (including ŽIVOT U RAVNOTEŽI as evidence-only balance/life-chain/compassion metadata), DOK/DIK/FOR stay in EXTREM, DAK/DUK stay in EXTRONDOL, and downstream sync remains follow-up only until audit-safe summary is adopted.',
     },
     companionAuditVisualReferences:
       dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.covecnostAuditVisualReference.companionAuditVisualReferences.map(

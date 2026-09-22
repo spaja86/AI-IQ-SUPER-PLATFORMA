@@ -2732,6 +2732,7 @@ export interface ExtrimliDokDikDakDukConsistencyHealth {
             deterministicFallbackRequired: boolean;
           };
         };
+        thematicSignals: readonly string[];
         auditRole: 'additive-audit-reference-only';
       }>;
       flowLock: {

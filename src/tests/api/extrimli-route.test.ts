@@ -264,6 +264,9 @@ async function runTests(): Promise<void> {
     assert(responseEpilogSupplemental?.visualReference.includes('36ce7570-103e-4097-b903-fbe0efaf4026'), 'unexpected developer/create EPILOG supplemental visual reference');
     const responseMaticneCelijeSupplemental = body.data.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.covecnostAuditVisualReference.supplementalVisualReferences.find((reference: { canonicalNarrativeId: string }) => reference.canonicalNarrativeId === 'covecanstvo-maticne-celije-i-spoznavanje-sebe-developer-create');
     assert(responseMaticneCelijeSupplemental?.visualReference.includes('908ab1a4-5a00-4f93-971a-2cd8e331119d'), 'unexpected developer/create MATIČNE ĆELIJE supplemental visual reference');
+    const responseZivotURavnoteziSupplemental = body.data.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.covecnostAuditVisualReference.supplementalVisualReferences.find((reference: { canonicalNarrativeId: string; thematicSignals: string[] }) => reference.canonicalNarrativeId === 'covecanstvo-zivot-u-ravnotezi-developer-create');
+    assert(responseZivotURavnoteziSupplemental?.visualReference.includes('76d61045-6f27-4614-97d2-f96fc84173eb'), 'unexpected developer/create ŽIVOT U RAVNOTEŽI supplemental visual reference');
+    assert(responseZivotURavnoteziSupplemental?.thematicSignals.join(',') === 'balance,life-chain,compassion,higher-human-development', 'unexpected developer/create ŽIVOT U RAVNOTEŽI thematic signals');
     assert(body.data.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.covecnostAuditVisualReference.companionAuditVisualReferences[0].canonicalNarrativeId === 'covecanstvo-osecaj-osebenosti-developer-create-vrh-radni-takt', 'unexpected developer/create companion narrative id');
     assert(body.data.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.covecnostAuditVisualReference.companionAuditVisualReferences[0].visualReference.includes('9273c07f-5c03-4db4-a469-d22d456596f9'), 'unexpected developer/create companion visual reference');
     assert(body.data.dokDikDakDukConsistencyHealth.signals.dok.kind === 'DOK PETLJA', 'unexpected DOK consistency signal');
@@ -303,6 +306,9 @@ async function runTests(): Promise<void> {
     assert(releaseAuditEpilogSupplemental?.visualReference.includes('36ce7570-103e-4097-b903-fbe0efaf4026'), 'unexpected release-audit developer/create EPILOG supplemental visual reference');
     const releaseAuditMaticneCelijeSupplemental = body.data.releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.covecnostAuditVisualReference.supplementalVisualReferences.find((reference: { canonicalNarrativeId: string }) => reference.canonicalNarrativeId === 'covecanstvo-maticne-celije-i-spoznavanje-sebe-developer-create');
     assert(releaseAuditMaticneCelijeSupplemental?.visualReference.includes('908ab1a4-5a00-4f93-971a-2cd8e331119d'), 'unexpected release-audit developer/create MATIČNE ĆELIJE supplemental visual reference');
+    const releaseAuditZivotURavnoteziSupplemental = body.data.releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.covecnostAuditVisualReference.supplementalVisualReferences.find((reference: { canonicalNarrativeId: string; thematicSignals: string[] }) => reference.canonicalNarrativeId === 'covecanstvo-zivot-u-ravnotezi-developer-create');
+    assert(releaseAuditZivotURavnoteziSupplemental?.visualReference.includes('76d61045-6f27-4614-97d2-f96fc84173eb'), 'unexpected release-audit developer/create ŽIVOT U RAVNOTEŽI supplemental visual reference');
+    assert(releaseAuditZivotURavnoteziSupplemental?.thematicSignals.join(',') === 'balance,life-chain,compassion,higher-human-development', 'unexpected release-audit developer/create ŽIVOT U RAVNOTEŽI thematic signals');
     assert(body.data.releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.covecnostAuditVisualReference.companionAuditVisualReferences[0].canonicalNarrativeId === 'covecanstvo-osecaj-osebenosti-developer-create-vrh-radni-takt', 'unexpected release-audit developer/create companion narrative id');
     assert(body.data.releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.covecnostAuditVisualReference.companionAuditVisualReferences[0].visualReference.includes('9273c07f-5c03-4db4-a469-d22d456596f9'), 'unexpected release-audit developer/create companion visual reference');
     assert(
@@ -674,7 +680,7 @@ async function runTests(): Promise<void> {
           interpretation: string;
           sourceStatement: string;
           imageToSignalProfile: { ownershipLock: { spajaKod: string } };
-          supplementalVisualReferences: Array<{ canonicalNarrativeId: string; visualReference: string }>;
+          supplementalVisualReferences: Array<{ canonicalNarrativeId: string; visualReference: string; thematicSignals: string[] }>;
           companionAuditVisualReferences: Array<{ canonicalNarrativeId: string; visualReference: string; thematicSignals: string[] }>;
           flowLock: { sequence: string[] };
           packageOutputs: { auditShortSummary: string };
@@ -727,6 +733,9 @@ async function runTests(): Promise<void> {
     assert(spajaKodEpilogSupplemental?.visualReference.includes('36ce7570-103e-4097-b903-fbe0efaf4026'), 'unexpected SPAJA KOD developer/create EPILOG supplemental visual reference');
     const spajaKodMaticneCelijeSupplemental = body.data.developerAndCreateVisualReflection.supplementalVisualReferences.find((reference: { canonicalNarrativeId: string }) => reference.canonicalNarrativeId === 'covecanstvo-maticne-celije-i-spoznavanje-sebe-developer-create');
     assert(spajaKodMaticneCelijeSupplemental?.visualReference.includes('908ab1a4-5a00-4f93-971a-2cd8e331119d'), 'unexpected SPAJA KOD developer/create MATIČNE ĆELIJE supplemental visual reference');
+    const spajaKodZivotURavnoteziSupplemental = body.data.developerAndCreateVisualReflection.supplementalVisualReferences.find((reference: { canonicalNarrativeId: string; thematicSignals: string[] }) => reference.canonicalNarrativeId === 'covecanstvo-zivot-u-ravnotezi-developer-create');
+    assert(spajaKodZivotURavnoteziSupplemental?.visualReference.includes('76d61045-6f27-4614-97d2-f96fc84173eb'), 'unexpected SPAJA KOD developer/create ŽIVOT U RAVNOTEŽI supplemental visual reference');
+    assert(spajaKodZivotURavnoteziSupplemental?.thematicSignals.join(',') === 'balance,life-chain,compassion,higher-human-development', 'unexpected SPAJA KOD developer/create ŽIVOT U RAVNOTEŽI thematic signals');
     assert(body.data.developerAndCreateVisualReflection.companionAuditVisualReferences[0].canonicalNarrativeId === 'covecanstvo-osecaj-osebenosti-developer-create-vrh-radni-takt', 'unexpected SPAJA KOD developer/create companion narrative id');
     assert(body.data.developerAndCreateVisualReflection.companionAuditVisualReferences[0].visualReference.includes('9273c07f-5c03-4db4-a469-d22d456596f9'), 'unexpected SPAJA KOD developer/create companion visual reference');
     assert(body.data.developerAndCreateVisualReflection.companionAuditVisualReferences[0].thematicSignals.join(',') === 'self-knowledge,brain-and-mind-understanding,feeling,humanity,shared-world,epilog-guidance', 'unexpected SPAJA KOD developer/create companion thematic signals');

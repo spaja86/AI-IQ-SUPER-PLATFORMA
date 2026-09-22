@@ -368,6 +368,7 @@ function mapDeveloperCreateCovecnostAuditVisualReference(
     flowLock: { ...reflection.flowLock, sequence: [...reflection.flowLock.sequence] },
     supplementalVisualReferences: reflection.supplementalVisualReferences.map((reference) => ({
       ...reference,
+      thematicSignals: [...reference.thematicSignals],
       imageToSignalProfile: {
         ...reference.imageToSignalProfile,
         ownershipLock: { ...reference.imageToSignalProfile.ownershipLock },
