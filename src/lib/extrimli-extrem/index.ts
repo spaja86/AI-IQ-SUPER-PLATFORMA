@@ -380,6 +380,14 @@ const EXTRIMLI_EXTREM_DEVELOPER_CREATE_NARASTAJ_U_PRIRODNOM_CVATU_COVECANSTVO_SC
   'covecanstvo-narastaj-u-prirodnom-cvatu-epilog-blagodarim-developer-create' as const;
 const EXTRIMLI_EXTREM_DEVELOPER_CREATE_NARASTAJ_U_PRIRODNOM_CVATU_COVECANSTVO_CITATION =
   'ČOVEČANSTVO — NARAŠTAJ U PRIRODNOM CVATU ostaje additive-only supplemental audit/reference vizuel: seme, uslovi, rast, procvat, prilika i blagodarnost mapiraju se isključivo kao bounded documentation/evidence sloj unutar postojećeg Developer/Create ⇄ VRH ⇄ Radni Takt modela, bez novih ruta, novih formula ili promene ownership split-a.' as const;
+const EXTRIMLI_EXTREM_DEVELOPER_CREATE_SEME_COVECANSTVO_VISUAL_REFERENCE =
+  'https://github.com/user-attachments/assets/9267f560-0b94-4911-9ac4-783c7c7deb3f' as const;
+const EXTRIMLI_EXTREM_DEVELOPER_CREATE_SEME_COVECANSTVO_CANONICAL_NARRATIVE_ID =
+  'covecanstvo-seme-malo-seme-velika-promena-developer-create' as const;
+const EXTRIMLI_EXTREM_DEVELOPER_CREATE_SEME_COVECANSTVO_SCENARIO_ID =
+  'covecanstvo-seme-zdrava-zemlja-prirodno-dubrivo-developer-create' as const;
+const EXTRIMLI_EXTREM_DEVELOPER_CREATE_SEME_COVECANSTVO_CITATION =
+  'ČOVEČANSTVO — SEME ostaje additive-only supplemental audit/reference vizuel: malo seme, prirodno đubrivo bez veštačkih aditiva, zdrava zemlja/biljke/životinje/ljudi i bolja planeta mapiraju se isključivo kao bounded documentation/evidence sloj unutar postojećeg Developer/Create ⇄ VRH ⇄ Radni Takt modela, uz isti READY|WATCH|BLOCKED fallback i bez novih runtime ruta ili promene ownership split-a.' as const;
 
 const EXTRIMLI_EXTREM_SPAJINO_PROPORCIONALNO_PROGRAMIRANJE_UNIVERZITET_NARRATIVE_TITLE =
   'Spreg funkcionalnog i objektno programiranja sa mnoštvo novih petlji' as const;
@@ -6804,6 +6812,41 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
               'human-flourishing',
               'gratitude',
               'epilog',
+            ],
+            auditRole: 'additive-audit-reference-only',
+          },
+          {
+            title: 'ČOVEČANSTVO — SEME',
+            canonicalNarrativeId:
+              EXTRIMLI_EXTREM_DEVELOPER_CREATE_SEME_COVECANSTVO_CANONICAL_NARRATIVE_ID,
+            citation: EXTRIMLI_EXTREM_DEVELOPER_CREATE_SEME_COVECANSTVO_CITATION,
+            visualReference: EXTRIMLI_EXTREM_DEVELOPER_CREATE_SEME_COVECANSTVO_VISUAL_REFERENCE,
+            interpretation:
+              'Supplied ČOVEČANSTVO — SEME image remains additive-only supplemental audit/reference evidence: seed-growth, clean-input stewardship, shared life, and small-change-large-impact themes stay bounded to the existing Developer/Create reflection package without introducing any new source-of-truth runtime route.',
+            sourceStatement: 'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == RADNI TAKT MOZGA (MISLILAC)',
+            imageToSignalProfile: {
+              scenarioId: EXTRIMLI_EXTREM_DEVELOPER_CREATE_SEME_COVECANSTVO_SCENARIO_ID,
+              theme: 'ČOVEČANSTVO — SEME',
+              narrativeInput: EXTRIMLI_EXTREM_DEVELOPER_CREATE_SEME_COVECANSTVO_CITATION,
+              ownershipLock: {
+                dokDikFor: 'EXTREM',
+                dakDuk: 'EXTRONDOL',
+                spajaKod: 'audit-safe-summary-only',
+              },
+              signalOutputs: {
+                readinessScore: 0,
+                readinessStatus: 'BLOCKED',
+                conflictPressurePercent: 100,
+                deterministicFallbackRequired: true,
+              },
+            },
+            thematicSignals: [
+              'seed-growth',
+              'clean-input',
+              'planetary-stewardship',
+              'shared-world',
+              'small-change-large-impact',
+              'better-tomorrow',
             ],
             auditRole: 'additive-audit-reference-only',
           },
