@@ -316,6 +316,14 @@ const EXTRIMLI_EXTREM_DEVELOPER_CREATE_ZIVOT_U_RAVNOTEZI_COVECANSTVO_SCENARIO_ID
   'covecanstvo-zivot-u-ravnotezi-developer-create' as const;
 const EXTRIMLI_EXTREM_DEVELOPER_CREATE_ZIVOT_U_RAVNOTEZI_COVECANSTVO_CITATION =
   'ČOVEČANSTVO — ŽIVOT U RAVNOTEŽI ostaje additive-only supplemental audit/reference vizuel: ravnoteža života, lanac ishrane, saosećanje i viši stepen razvoja mapiraju se isključivo kao bounded documentation/evidence sloj unutar postojećeg Developer/Create ⇄ VRH ⇄ Radni Takt modela, uz isti READY|WATCH|BLOCKED fallback i bez novih runtime ruta ili novih formula.' as const;
+const EXTRIMLI_EXTREM_DEVELOPER_CREATE_TRIJOLOGIJA_COVECANSTVO_VISUAL_REFERENCE =
+  'https://github.com/user-attachments/assets/e2df2e51-efdf-4171-a356-b7848a04249d' as const;
+const EXTRIMLI_EXTREM_DEVELOPER_CREATE_TRIJOLOGIJA_COVECANSTVO_CANONICAL_NARRATIVE_ID =
+  'covecanstvo-trijologija-davo-u-ruci-lisica-u-kavezu-developer-create' as const;
+const EXTRIMLI_EXTREM_DEVELOPER_CREATE_TRIJOLOGIJA_COVECANSTVO_SCENARIO_ID =
+  'covecanstvo-trijologija-davo-u-ruci-lisica-u-kavezu-developer-create' as const;
+const EXTRIMLI_EXTREM_DEVELOPER_CREATE_TRIJOLOGIJA_COVECANSTVO_CITATION =
+  'ČOVEČANSTVO — TRIJOLOGIJA / DAVO U RUCI / LISICA U KAVEZU ostaje additive-only supplemental audit/reference vizuel: TRIJOLOGIJA ostaje interpretativni narativni okvir, DAVO/VODA U RUCI ostaje bounded signalna transformacija i razumevanje, LISICA U KAVEZU ostaje bounded konflikt/rizik/odgovorno oslobađanje, a epilog ČOVEČANSTVO ostaje audit-safe javni zaključak unutar postojećeg Developer/Create ⇄ VRH ⇄ Radni Takt modela, bez novih ruta ili novih formula.' as const;
 
 const EXTRIMLI_EXTREM_SPAJINO_PROPORCIONALNO_PROGRAMIRANJE_UNIVERZITET_NARRATIVE_TITLE =
   'Spreg funkcionalnog i objektno programiranja sa mnoštvo novih petlji' as const;
@@ -6491,6 +6499,41 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
             thematicSignals: ['balance', 'life-chain', 'compassion', 'higher-human-development'],
             auditRole: 'additive-audit-reference-only',
           },
+          {
+            title: 'ČOVEČANSTVO — TRIJOLOGIJA / DAVO U RUCI / LISICA U KAVEZU',
+            canonicalNarrativeId:
+              EXTRIMLI_EXTREM_DEVELOPER_CREATE_TRIJOLOGIJA_COVECANSTVO_CANONICAL_NARRATIVE_ID,
+            citation: EXTRIMLI_EXTREM_DEVELOPER_CREATE_TRIJOLOGIJA_COVECANSTVO_CITATION,
+            visualReference:
+              EXTRIMLI_EXTREM_DEVELOPER_CREATE_TRIJOLOGIJA_COVECANSTVO_VISUAL_REFERENCE,
+            interpretation:
+              'Supplied TRIJOLOGIJA / DAVO U RUCI / LISICA U KAVEZU image remains additive-only supplemental audit/reference evidence and extends the existing Developer/Create reflection package without introducing a new runtime source of truth: TRIJOLOGIJA stays narrative framing, DAVO/VODA U RUCI stays bounded signal translation, LISICA U KAVEZU stays bounded conflict/risk-release discipline, and ČOVEČANSTVO stays the audit-safe public epilog.',
+            sourceStatement: 'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == RADNI TAKT MOZGA (MISLILAC)',
+            imageToSignalProfile: {
+              scenarioId: EXTRIMLI_EXTREM_DEVELOPER_CREATE_TRIJOLOGIJA_COVECANSTVO_SCENARIO_ID,
+              theme: 'ČOVEČANSTVO — TRIJOLOGIJA / DAVO U RUCI / LISICA U KAVEZU',
+              narrativeInput: EXTRIMLI_EXTREM_DEVELOPER_CREATE_TRIJOLOGIJA_COVECANSTVO_CITATION,
+              ownershipLock: {
+                dokDikFor: 'EXTREM',
+                dakDuk: 'EXTRONDOL',
+                spajaKod: 'audit-safe-summary-only',
+              },
+              signalOutputs: {
+                readinessScore: 0,
+                readinessStatus: 'BLOCKED',
+                conflictPressurePercent: 100,
+                deterministicFallbackRequired: true,
+              },
+            },
+            thematicSignals: [
+              'trijologija-framework',
+              'davo-u-ruci-voda-u-ruci',
+              'lisica-u-kavezu-risk',
+              'freedom-with-responsibility',
+              'covecanstvo-epilog',
+            ],
+            auditRole: 'additive-audit-reference-only',
+          },
         ],
         flowLock: {
           sequence: ['image', 'developer-create', 'vrh', 'radni-takt', 'epilog'],
@@ -6982,11 +7025,11 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
       })),
     packageOutputs: {
       auditShortSummary:
-        'ČOVEČNOST primary visual remains audit-safe and technically bound to the existing readiness profile, while the ČOVEČANSTVO supplemental visuals, including SVI KOJI POSTOJE / ZASLUŽUJU DA PRIPADAJU, ENTIZUJAŽAM, EPILOG, MATIČNE ĆELIJE / SPOZNAVANJE SEBE, and ŽIVOT U RAVNOTEŽI, plus the ČOVEČANSTVO / OSEĆAJ OSEBENOSTI companion visual stay bounded by existing EXTREM / EXTRONDOL / SPAJA KOD ownership.',
+        'ČOVEČNOST primary visual remains audit-safe and technically bound to the existing readiness profile, while the ČOVEČANSTVO supplemental visuals, including SVI KOJI POSTOJE / ZASLUŽUJU DA PRIPADAJU, ENTIZUJAŽAM, EPILOG, MATIČNE ĆELIJE / SPOZNAVANJE SEBE, ŽIVOT U RAVNOTEŽI, and TRIJOLOGIJA / DAVO U RUCI / LISICA U KAVEZU, plus the ČOVEČANSTVO / OSEĆAJ OSEBENOSTI companion visual stay bounded by existing EXTREM / EXTRONDOL / SPAJA KOD ownership.',
       publicSummary:
-        'ČOVEČNOST ostaje javni audit-safe odraz znanja, iskustva i predviđanja kroz postojeći Developer/Create ritam i etapni razvoj bez novih ruta, dok supplemental vizueli — uključujući SVI KOJI POSTOJE / ZASLUŽUJU DA PRIPADAJU, ENTIZUJAŽAM, ČOVEČANSTVO — EPILOG, MATIČNE ĆELIJE / SPOZNAVANJE SEBE i ŽIVOT U RAVNOTEŽI — i companion vizuel ostaju pomoćni audit-safe slojevi istog reflection paketa.',
+        'ČOVEČNOST ostaje javni audit-safe odraz znanja, iskustva i predviđanja kroz postojeći Developer/Create ritam i etapni razvoj bez novih ruta, dok supplemental vizueli — uključujući SVI KOJI POSTOJE / ZASLUŽUJU DA PRIPADAJU, ENTIZUJAŽAM, ČOVEČANSTVO — EPILOG, MATIČNE ĆELIJE / SPOZNAVANJE SEBE, ŽIVOT U RAVNOTEŽI i TRIJOLOGIJA / DAVO U RUCI / LISICA U KAVEZU — i companion vizuel ostaju pomoćni audit-safe slojevi istog reflection paketa.',
       governanceChecklistStatus:
-        'No new runtime routes; the primary ČOVEČNOST visual remains canonical and technically bound to the existing profile, the ČOVEČANSTVO visuals stay supplemental-only (including ŽIVOT U RAVNOTEŽI as evidence-only balance/life-chain/compassion metadata), DOK/DIK/FOR stay in EXTREM, DAK/DUK stay in EXTRONDOL, and downstream sync remains follow-up only until audit-safe summary is adopted.',
+        'No new runtime routes; the primary ČOVEČNOST visual remains canonical and technically bound to the existing profile, the ČOVEČANSTVO visuals stay supplemental-only (including ŽIVOT U RAVNOTEŽI balance/life-chain/compassion metadata and TRIJOLOGIJA / DAVO U RUCI / LISICA U KAVEZU as bounded narrative-translation/risk-release evidence), DOK/DIK/FOR stay in EXTREM, DAK/DUK stay in EXTRONDOL, and downstream sync remains follow-up only until audit-safe summary is adopted.',
     },
     companionAuditVisualReferences:
       dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.covecnostAuditVisualReference.companionAuditVisualReferences.map(
