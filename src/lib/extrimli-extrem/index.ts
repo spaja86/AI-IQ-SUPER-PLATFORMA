@@ -293,7 +293,7 @@ const EXTRIMLI_EXTREM_DEVELOPER_CREATE_POSTOJATI_DOPRINETI_COVECANSTVO_SCENARIO_
 const EXTRIMLI_EXTREM_DEVELOPER_CREATE_POSTOJATI_DOPRINETI_COVECANSTVO_CITATION =
   'ČOVEČANSTVO — EPILOG (POSTOJATI ZNAČI DOPRINETI BOLJEM SVETU) ostaje additive-only supplemental audit/reference vizuel koji potvrđuje isti Developer/Create ⇄ VRH ⇄ Radni Takt model, isti READY|WATCH|BLOCKED fallback i isti ownership split bez novih runtime ruta ili novih formula.' as const;
 const EXTRIMLI_EXTREM_DEVELOPER_CREATE_MATICNE_CELIJE_SPOZNAVANJE_SEBE_VISUAL_REFERENCE =
-  'https://github.com/user-attachments/assets/908ab1a4-5a00-4f93-971a-2cd8e331119d' as const;
+  'https://github.com/user-attachments/assets/ca803ee2-f56e-4aa1-bd7f-18df213228d6' as const;
 const EXTRIMLI_EXTREM_DEVELOPER_CREATE_MATICNE_CELIJE_SPOZNAVANJE_SEBE_CANONICAL_NARRATIVE_ID =
   'covecanstvo-maticne-celije-i-spoznavanje-sebe-developer-create' as const;
 const EXTRIMLI_EXTREM_DEVELOPER_CREATE_MATICNE_CELIJE_SPOZNAVANJE_SEBE_SCENARIO_ID =
