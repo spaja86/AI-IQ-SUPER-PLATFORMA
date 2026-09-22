@@ -356,6 +356,14 @@ const EXTRIMLI_EXTREM_DEVELOPER_CREATE_PRAVOSLAVLJE_AKT_REVOLUCIJE_COVECANSTVO_S
   'covecanstvo-pravoslavlje-akt-revolucije-zrtva-pravo-etika-kontinuitet-developer-create' as const;
 const EXTRIMLI_EXTREM_DEVELOPER_CREATE_PRAVOSLAVLJE_AKT_REVOLUCIJE_COVECANSTVO_CITATION =
   'ČOVEČANSTVO — PRAVOSLAVLJE / AKT REVOLUCIJE NAD HRIŠĆANSTVOM ostaje additive-only supplemental audit/reference vizuel: pravo, etika, žrtva i civilizacijski kontinuitet mapiraju se isključivo kao bounded documentation/evidence sloj unutar postojećeg Developer/Create ⇄ VRH ⇄ Radni Takt modela, bez novih ruta, formula ili promene ownership split-a.' as const;
+const EXTRIMLI_EXTREM_DEVELOPER_CREATE_KRALJEVSKA_PRODUKTIVNOST_COVECANSTVO_VISUAL_REFERENCE =
+  'https://github.com/user-attachments/assets/b02ac97f-d0ec-44b6-aadb-8ae3981127ea' as const;
+const EXTRIMLI_EXTREM_DEVELOPER_CREATE_KRALJEVSKA_PRODUKTIVNOST_COVECANSTVO_CANONICAL_NARRATIVE_ID =
+  'covecanstvo-kraljevska-produktivnost-pravno-gradjanstvo-basta-epilog-developer-create' as const;
+const EXTRIMLI_EXTREM_DEVELOPER_CREATE_KRALJEVSKA_PRODUKTIVNOST_COVECANSTVO_SCENARIO_ID =
+  'covecanstvo-kraljevska-produktivnost-pravno-gradjanstvo-basta-epilog-developer-create' as const;
+const EXTRIMLI_EXTREM_DEVELOPER_CREATE_KRALJEVSKA_PRODUKTIVNOST_COVECANSTVO_CITATION =
+  'KRALJEVSKA PRODUKTIVNOST / PRAVNO GRAĐANSTVO / BAŠTA / EPILOG ČOVEČANSTVU ostaje additive-only supplemental audit/reference vizuel: pravno građanstvo mapira se na KRALJEVSKI PRAVNI UNIVERZITET governance smisao, bašta i porodična samodovoljnost na radni takt produktivnosti, a epilog čovečanstvu ostaje audit-safe završni narativ unutar postojećeg Developer/Create ⇄ VRH ⇄ Radni Takt modela, bez novih ruta, formula ili promene ownership split-a.' as const;
 
 const EXTRIMLI_EXTREM_SPAJINO_PROPORCIONALNO_PROGRAMIRANJE_UNIVERZITET_NARRATIVE_TITLE =
   'Spreg funkcionalnog i objektno programiranja sa mnoštvo novih petlji' as const;
@@ -6702,6 +6710,45 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
               'sacrifice-and-renewal',
               'civilizational-continuity',
               'right-to-exist-and-belong',
+            ],
+            auditRole: 'additive-audit-reference-only',
+          },
+          {
+            title: 'KRALJEVSKA PRODUKTIVNOST / PRAVNO GRAĐANSTVO / BAŠTA / EPILOG ČOVEČANSTVU',
+            canonicalNarrativeId:
+              EXTRIMLI_EXTREM_DEVELOPER_CREATE_KRALJEVSKA_PRODUKTIVNOST_COVECANSTVO_CANONICAL_NARRATIVE_ID,
+            citation:
+              EXTRIMLI_EXTREM_DEVELOPER_CREATE_KRALJEVSKA_PRODUKTIVNOST_COVECANSTVO_CITATION,
+            visualReference:
+              EXTRIMLI_EXTREM_DEVELOPER_CREATE_KRALJEVSKA_PRODUKTIVNOST_COVECANSTVO_VISUAL_REFERENCE,
+            interpretation:
+              'Supplied KRALJEVSKA PRODUKTIVNOST / PRAVNO GRAĐANSTVO / BAŠTA / EPILOG ČOVEČANSTVU image remains additive-only supplemental audit/reference evidence and extends the same bounded Developer/Create reflection package without introducing any new source-of-truth runtime route: legal citizenship stays governance framing, family garden productivity stays a bounded radni-takt metaphor, and the humanity epilog remains public-safe summary only.',
+            sourceStatement: 'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == RADNI TAKT MOZGA (MISLILAC)',
+            imageToSignalProfile: {
+              scenarioId:
+                EXTRIMLI_EXTREM_DEVELOPER_CREATE_KRALJEVSKA_PRODUKTIVNOST_COVECANSTVO_SCENARIO_ID,
+              theme: 'KRALJEVSKA PRODUKTIVNOST / PRAVNO GRAĐANSTVO / BAŠTA / EPILOG ČOVEČANSTVU',
+              narrativeInput:
+                EXTRIMLI_EXTREM_DEVELOPER_CREATE_KRALJEVSKA_PRODUKTIVNOST_COVECANSTVO_CITATION,
+              ownershipLock: {
+                dokDikFor: 'EXTREM',
+                dakDuk: 'EXTRONDOL',
+                spajaKod: 'audit-safe-summary-only',
+              },
+              signalOutputs: {
+                readinessScore: 0,
+                readinessStatus: 'BLOCKED',
+                conflictPressurePercent: 100,
+                deterministicFallbackRequired: true,
+              },
+            },
+            thematicSignals: [
+              'legal-citizenship',
+              'garden-productivity',
+              'family-self-sufficiency',
+              'earth-stewardship',
+              'humanity-epilog',
+              'small-work-large-change',
             ],
             auditRole: 'additive-audit-reference-only',
           },
