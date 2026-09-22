@@ -324,6 +324,14 @@ const EXTRIMLI_EXTREM_DEVELOPER_CREATE_TRIJOLOGIJA_COVECANSTVO_SCENARIO_ID =
   'covecanstvo-trijologija-davo-u-ruci-lisica-u-kavezu-developer-create' as const;
 const EXTRIMLI_EXTREM_DEVELOPER_CREATE_TRIJOLOGIJA_COVECANSTVO_CITATION =
   'ČOVEČANSTVO — TRIJOLOGIJA / DAVO U RUCI / LISICA U KAVEZU ostaje additive-only supplemental audit/reference vizuel: TRIJOLOGIJA ostaje interpretativni narativni okvir, DAVO/VODA U RUCI ostaje bounded signalna transformacija i razumevanje, LISICA U KAVEZU ostaje bounded konflikt/rizik/odgovorno oslobađanje, a epilog ČOVEČANSTVO ostaje audit-safe javni zaključak unutar postojećeg Developer/Create ⇄ VRH ⇄ Radni Takt modela, bez novih ruta ili novih formula.' as const;
+const EXTRIMLI_EXTREM_DEVELOPER_CREATE_BLAGOSLOV_BOGPATIJU_COVECANSTVO_VISUAL_REFERENCE =
+  'https://github.com/user-attachments/assets/dbf91173-c940-4994-b223-b5438feff4a3' as const;
+const EXTRIMLI_EXTREM_DEVELOPER_CREATE_BLAGOSLOV_BOGPATIJU_COVECANSTVO_CANONICAL_NARRATIVE_ID =
+  'covecanstvo-blagoslov-darivati-bogpatiju-developer-create' as const;
+const EXTRIMLI_EXTREM_DEVELOPER_CREATE_BLAGOSLOV_BOGPATIJU_COVECANSTVO_SCENARIO_ID =
+  'covecanstvo-blagoslov-darivati-bogpatiju-epilog-developer-create' as const;
+const EXTRIMLI_EXTREM_DEVELOPER_CREATE_BLAGOSLOV_BOGPATIJU_COVECANSTVO_CITATION =
+  'ČOVEČANSTVO — BLAGOSLOV DARIVATI / BOGPATIJU ostaje additive-only supplemental audit/reference vizuel: blagoslov, darivanje dobrote i zajedničko čovečanstvo ostaju bounded documentation/evidence sloj unutar postojećeg Developer/Create ⇄ VRH ⇄ Radni Takt modela, bez novih ruta, novih formula ili promene ownership split-a.' as const;
 
 const EXTRIMLI_EXTREM_SPAJINO_PROPORCIONALNO_PROGRAMIRANJE_UNIVERZITET_NARRATIVE_TITLE =
   'Spreg funkcionalnog i objektno programiranja sa mnoštvo novih petlji' as const;
@@ -6532,6 +6540,38 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
               'freedom-with-responsibility',
               'covecanstvo-epilog',
             ],
+            auditRole: 'additive-audit-reference-only',
+          },
+          {
+            title: 'ČOVEČANSTVO — BLAGOSLOV DARIVATI / BOGPATIJU',
+            canonicalNarrativeId:
+              EXTRIMLI_EXTREM_DEVELOPER_CREATE_BLAGOSLOV_BOGPATIJU_COVECANSTVO_CANONICAL_NARRATIVE_ID,
+            citation:
+              EXTRIMLI_EXTREM_DEVELOPER_CREATE_BLAGOSLOV_BOGPATIJU_COVECANSTVO_CITATION,
+            visualReference:
+              EXTRIMLI_EXTREM_DEVELOPER_CREATE_BLAGOSLOV_BOGPATIJU_COVECANSTVO_VISUAL_REFERENCE,
+            interpretation:
+              'Supplied BLAGOSLOV DARIVATI / BOGPATIJU image remains additive-only supplemental audit/reference evidence and extends the existing Developer/Create reflection package without introducing a new runtime source of truth or changing the locked ownership split.',
+            sourceStatement: 'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == RADNI TAKT MOZGA (MISLILAC)',
+            imageToSignalProfile: {
+              scenarioId:
+                EXTRIMLI_EXTREM_DEVELOPER_CREATE_BLAGOSLOV_BOGPATIJU_COVECANSTVO_SCENARIO_ID,
+              theme: 'ČOVEČANSTVO — BLAGOSLOV DARIVATI / BOGPATIJU',
+              narrativeInput:
+                EXTRIMLI_EXTREM_DEVELOPER_CREATE_BLAGOSLOV_BOGPATIJU_COVECANSTVO_CITATION,
+              ownershipLock: {
+                dokDikFor: 'EXTREM',
+                dakDuk: 'EXTRONDOL',
+                spajaKod: 'audit-safe-summary-only',
+              },
+              signalOutputs: {
+                readinessScore: 0,
+                readinessStatus: 'BLOCKED',
+                conflictPressurePercent: 100,
+                deterministicFallbackRequired: true,
+              },
+            },
+            thematicSignals: ['blagoslov', 'darivanje', 'bogpatiju', 'zajednicko-covecanstvo'],
             auditRole: 'additive-audit-reference-only',
           },
         ],
