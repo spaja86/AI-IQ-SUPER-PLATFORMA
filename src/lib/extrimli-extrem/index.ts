@@ -6134,6 +6134,39 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
         sinemetrickoProgramiranje: 'SINEMETRIČKO PROGRAMIRANJE',
         paradijogonalnoProgrimiranje: 'PARADIJOGONALNO PROGRAMIRANJE',
       },
+      canonicalGovernanceVocabulary: {
+        extremExtrimliExtrondol: 'EXTRIMLI EXTRONDOL EXTREM',
+        dokDikDakDukFor: 'DOK DIK DAK DUK FOR',
+        kraljevskiPravniUniverzitet: 'KRALJEVSKI PRAVNI UNIVERZITET',
+      },
+      osnoveRispektProtocol: {
+        title: 'OSNOVE / RISPEKT',
+        additiveOnly: true,
+        executionDomain: 'documentation-and-governance-evidence-only',
+        noNewRuntimeDomain: true,
+        communicationCulture: {
+          usvojiUSvojeKljuse:
+            'USE I U SVOJE KLJUSE (da gledaš u svoj život i svojih deset prstiju da stvaraš i gradiš sebe).',
+          apologyReciprocity:
+            'KADA TI SE NEKO IZVINI - TI SE NJEMU IZVINIŠ ŠTO TI SE IZVINJAVA.',
+          householdGreetingProtocol:
+            'KADA UĐEŠ NEKOME U KUĆU kažeš dobar dan/veče/jutro; na pitanje kojim dobrom odgovaraš najboljim/dobrim/lošim uz rispekt i gostoprimstvo.',
+          blessingReciprocity:
+            'KADA TI NEKO ŠALJE BLAGOSLOV (BLAGODARIM) odgovaraš: PRIMAM POZDRAV i uzvraćaš zahvalnost.',
+        },
+        evidentiaryScenarios: ['izvinjenje', 'pozdrav-u-kuci', 'blagodarnost', 'covecanstvo-epilog'] as const,
+        signalOutputs: {
+          readinessScore: 0,
+          readinessStatus: 'BLOCKED',
+          deterministicFallbackRequired: true,
+        },
+        governanceEvidence: {
+          sourceOfTruthRoutes: ['/api/extrimli/extrem', '/api/extrimli/extrondol', '/api/extrimli/spaja-kod'] as const,
+          ownershipLockPreserved: true,
+          driftZeroLayers: ['docs', 'types', 'routes', 'tests', 'workflows'] as const,
+          publicBoundary: 'audit-safe-summary-only',
+        },
+      },
       readinessModel: ['READY', 'WATCH', 'BLOCKED'],
       driftZeroLayers: ['docs', 'types', 'routes', 'tests', 'workflows'],
       roadmapStageMapping: {
@@ -6861,14 +6894,25 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
         }),
       ),
   };
+  dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.osnoveRispektProtocol = {
+    ...dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.osnoveRispektProtocol,
+    signalOutputs: {
+      readinessScore: dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.score,
+      readinessStatus: dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.status,
+      deterministicFallbackRequired:
+        dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness
+          .deterministicFallbackRequired,
+    },
+  };
   dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.currentImplementationStage = {
     roadmapStageId: 'v5-extrondol-release-audit-and-orchestration',
-    measurableOutput: 'audit-safe repo-wide reflection status plus primary ČOVEČNOST, supplemental ČOVEČANSTVO, and companion ČOVEČANSTVO / OSEĆAJ OSEBENOSTI visual metadata are published only through existing EXTRIMLI/EXTREM/EXTRONDOL/SPAJA KOD surfaces',
+    measurableOutput: 'audit-safe repo-wide reflection status plus primary ČOVEČNOST, supplemental ČOVEČANSTVO, companion ČOVEČANSTVO / OSEĆAJ OSEBENOSTI visual metadata, and OSNOVE / RISPEKT protocol evidence are published only through existing EXTRIMLI/EXTREM/EXTRONDOL/SPAJA KOD surfaces',
     acceptanceEvidence: [
       'dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection',
       'dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.covecnostAuditVisualReference',
       'dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.covecnostAuditVisualReference.supplementalVisualReferences',
       'dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.covecnostAuditVisualReference.companionAuditVisualReferences',
+      'dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.osnoveRispektProtocol',
       'dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.aiPlateOffer',
       'spajaKod.publicSignals.developerAndCreateStatus',
       'radniTaktMozgaMislilac.readiness',
@@ -6891,6 +6935,8 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
     'Supplied ČOVEČANSTVO / SVI KOJI POSTOJE, ZASLUŽUJU DA PRIPADAJU image remains supplemental audit/reference evidence only and extends the same bounded reflection package with a shared-belonging narrative without introducing any new source-of-truth runtime route.',
     'Supplied MATIČNE ĆELIJE / SPOZNAVANJE SEBE image remains supplemental audit/reference evidence only and extends the same bounded reflection package as documentation/evidence without introducing any new runtime source of truth.',
     'Supplied ČOVEČANSTVO / OSEĆAJ OSEBENOSTI image remains companion-only audit evidence for samospoznaja, razumevanje mozga, osećaj, čovečnost, shared-world alignment i epilog guidance bez novog source-of-truth sloja.',
+    'OSNOVE / RISPEKT ostaje kulturno-pedagoški protokol komunikacije (izvinjenje, pozdrav u kući, blagodarnost) i služi isključivo kao documentation + governance evidence bez novog izvršnog API domena.',
+    'Kanonsko mapiranje EXTRIMLI EXTRONDOL EXTREM + DOK DIK DAK DUK FOR + KRALJEVSKI PRAVNI UNIVERZITET ostaje zaključano: EXTREM tehnički signal, EXTRONDOL WAWE/audit governance, SPAJA KOD audit-safe summary boundary.',
     'Dnevni operativni sloj ostaje governance artefakt: isti dan mora zaključati jednu aktivnu roadmap fazu, prioritete 1–3, merljiv izlaz, acceptance evidence i closeout status completed/carried-over/blocked.',
     'Jutarnji start, deep-focus blok, midday checkpoint i end-of-day closeout ostaju obavezni cadence blokovi izvedeni iz postojećih modula, validatora i workflow-a.',
     ...(activeRoadmapStageCount !== 1

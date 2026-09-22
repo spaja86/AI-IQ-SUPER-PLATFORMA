@@ -32,6 +32,8 @@ Supplied image `https://github.com/user-attachments/assets/9273c07f-5c03-4db4-a4
 
 - `DOK + DIK + FOR` ostaju tehnički EXTREM sloj.
 - `DAK + DUK` ostaju EXTRONDOL governance sloj.
+- `EXTRIMLI EXTRONDOL EXTREM` ostaje zaključani additive-only governance vokabular za ovaj vršni sloj.
+- `KRALJEVSKI PRAVNI UNIVERZITET` ostaje legal-governance traka: EXTREM drži readiness signal, EXTRONDOL drži WAWE/audit odluke, SPAJA KOD objavljuje samo audit-safe summary.
 - ChatGPT share link i sličan spoljašnji materijal tretiraju se isključivo kao **documentation-only** izvor, nikada kao runtime source of truth.
 - `eksponencijalne funkcije` mapiraju se na readiness/progression signal.
 - `oktavna topologija` i `sekvencionalni oktavni sistem reprodukcije` mapiraju se na sekvencijalni/orchestration model unutar EXTREM signala.
@@ -47,6 +49,12 @@ Supplied image `https://github.com/user-attachments/assets/9273c07f-5c03-4db4-a4
 - `KRALJEVSKA MEHANIKA UNIVERZITET` je zaključan interpretativni alias i mapira se na postojeći `KRALJEVSKI MAŠINSKI UNIVERZITET` track (isti torque/mehanička stabilnost smisao).
 
 Ove trake su dozvoljene samo kao additive interpretativni slojevi unutar postojećih EXTREM/EXTRONDOL kontrakata, bez novih API modula.
+
+## OSNOVE / RISPEKT protokol
+
+- `OSNOVE / RISPEKT` je zaključan kao kulturno-pedagoški protokol komunikacije unutar `developerAndCreateRepoWideReflection` evidence sloja.
+- Obuhvata discipline: `USE I U SVOJE KLJUSE`, reciprocitet izvinjenja, domaćinski pozdrav i reciprocitet blagodarnosti.
+- Ostaje strogo documentation + governance evidence signal bez novih ruta, bez novog source-of-truth domena i bez promene DOK/DIK/FOR ↔ DAK/DUK ownership split-a.
 
 ## V2–V5 realizacioni lock
 

@@ -72,6 +72,8 @@ Ownership hard lock:
 - `PROGRAMSKI EKANALOG (razumevanje logike)` je obavezni audit-ready interpretacioni sloj nad laboratorijskim rezultatima bez novih source-of-truth ruta.
 - `VRH PROGRAMSKOG EKVILADENTA` ostaje additive-only interpretativni vršni sloj nad `PROPORCIONALNO PROGRAMIRANJE`: satnica se mapira na `METRIČKO PROGRAMIRANJE`, vokalni/narativni deo na `SINEMETRIČKO PROGRAMIRANJE`, a instrument tabla na `PARADIJOGONALNO PROGRAMIRANJE` (`docs/EXTRIMLI-PARADIJOGONALNO-PROGRAMIRANJE.md`), bez uvođenja novih runtime ruta.
 - `DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == RADNI TAKT MOZGA (MISLILAC)` ostaje repo-wide reflection lock: isti `READY | WATCH | BLOCKED` jezik, isti deterministic fallback za `NaN`, `Infinity`, prazne i konfliktne ulaze i isti `dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection` dokaz moraju važiti kroz docs + types + routes + tests + workflows.
+- Kanonski governance rečnik ostaje zaključan: `EXTRIMLI EXTRONDOL EXTREM`, `DOK DIK DAK DUK FOR`, `KRALJEVSKI PRAVNI UNIVERZITET` sa istim ownership split-om (`EXTREM` tehnički signal, `EXTRONDOL` WAWE/audit governance, `SPAJA KOD` audit-safe summary).
+- `OSNOVE / RISPEKT` ostaje additive kulturno-pedagoški protokol komunikacije (izvinjenje, pozdrav u kući, blagodarnost) i koristi se isključivo kao documentation + governance evidence, bez novog izvršnog API domena.
 - Primarni `ČOVEČNOST` vizuel (`https://github.com/user-attachments/assets/4790f4ea-4271-4d2a-ae0a-d9bec5bc8b8a`) zaključan je kao additive-only audit/reference sloj unutar postojećeg image-to-signal modela: `scenarioId=covecnost-developer-create-vrh-radni-takt` živi isključivo u `developerAndCreateRepoWideReflection.covecnostAuditVisualReference`, bez novih ruta i bez zamene postojećeg `priroda-zdrav-zivot-covecanstvo` epiloga.
 - Vizuel ostaje bounded interpretacija postojećeg tehničkog profila: `INSTINKT`, `ZNANJE`, `ISKUSTVO` i `PREDVIĐANJE` ostaju audit-only narativni markeri, dok šest etapa (`UČENJE`, `TRENING`, `ISKUSTVO`, `PROCENA`, `ODLUKA`, `USPEH`) samo potvrđuju isti dnevni cadence i isti `READY | WATCH | BLOCKED` model.
 - Dodatni `ČOVEČANSTVO — ŽIVOT JE NAJVEĆA IGRA` vizuel (`https://github.com/user-attachments/assets/27ef7575-9ef6-425e-bdbf-75feb722bad2`) ulazi samo kao supplemental audit/reference dokaz u `developerAndCreateRepoWideReflection.covecnostAuditVisualReference.supplementalVisualReferences`, bez menjanja source-of-truth modela i bez promene ownership split-a.
@@ -107,6 +109,7 @@ Ownership hard lock:
 - Svaki PR mora mapirati **tačno jednu** roadmap fazu (`Verzija 1` do `Verzija 7`).
 - Svaki PR mora sadržati jedan jasno merljiv izlaz: `roadmapStageId`, `measurableOutput`, `acceptanceEvidence`.
 - Svaki dnevni task set mora pratiti isti PR/governance model: prioritet `1`, `2` i `3` moraju biti vezani za istu aktivnu roadmap fazu.
+- `acceptanceEvidence` mora eksplicitno pokriti repo-wide reflection + `OSNOVE / RISPEKT` governance evidence kada je DEVELOPER/CREATE scope aktivan.
 - PR bez ove mape se tretira kao governance drift i ne ide u promotion.
 
 ## 3.3) Dnevni operativni cadence lock
