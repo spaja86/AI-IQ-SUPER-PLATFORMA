@@ -372,6 +372,14 @@ const EXTRIMLI_EXTREM_DEVELOPER_CREATE_KRALJEVSTVO_SCENARIO_ID =
   'kraljevstvo-zajedno-gradimo-kraljevstvo-za-sve-generacije-developer-create' as const;
 const EXTRIMLI_EXTREM_DEVELOPER_CREATE_KRALJEVSTVO_CITATION =
   'KRALJEVSTVO — LJUDI / ZNANJE / PRIRODA / TEHNOLOGIJA / BUDUĆNOST ostaje additive-only supplemental audit/reference vizuel: zajedništvo, budućnost, znanje, humanost, pravda i tehnologija u službi života mapiraju se isključivo na postojeći Developer/Create ⇄ VRH ⇄ Radni Takt model, uz bounded vezu ka KRALJEVSKI PRAVNI UNIVERZITET governance/epilog narativu, bez novih ruta i bez novog source-of-truth sistema.' as const;
+const EXTRIMLI_EXTREM_DEVELOPER_CREATE_KRALJEVSTVO_ZVANICNO_MOJE_PRAVO_LICE_VISUAL_REFERENCE =
+  'https://github.com/user-attachments/assets/82f065a8-3bd7-4c09-8d9f-9c66b8443d66' as const;
+const EXTRIMLI_EXTREM_DEVELOPER_CREATE_KRALJEVSTVO_ZVANICNO_MOJE_PRAVO_LICE_CANONICAL_NARRATIVE_ID =
+  'kraljevstvo-zvanicno-moje-pravo-lice-developer-create' as const;
+const EXTRIMLI_EXTREM_DEVELOPER_CREATE_KRALJEVSTVO_ZVANICNO_MOJE_PRAVO_LICE_SCENARIO_ID =
+  'kraljevstvo-zvanicno-moje-pravo-lice-developer-create' as const;
+const EXTRIMLI_EXTREM_DEVELOPER_CREATE_KRALJEVSTVO_ZVANICNO_MOJE_PRAVO_LICE_CITATION =
+  'KRALJEVSTVO — ZVANIČNO MOJE PRAVO LICE ostaje additive-only supplemental audit/reference vizuel: kraljevstvo, zajedništvo, znanje, priroda, tehnologija i humanost mapiraju se isključivo na postojeći Developer/Create ⇄ VRH ⇄ Radni Takt model, uz isti READY|WATCH|BLOCKED fallback i isti ownership split bez novih ruta i bez novog source-of-truth sistema.' as const;
 const EXTRIMLI_EXTREM_DEVELOPER_CREATE_KRALJEVSTVO_COVECANSTVO_PRAVO_BICA_VISUAL_REFERENCE =
   'https://github.com/user-attachments/assets/c7ebacdd-d239-425f-9b3c-ab3d807bbb92' as const;
 const EXTRIMLI_EXTREM_DEVELOPER_CREATE_KRALJEVSTVO_COVECANSTVO_PRAVO_BICA_CANONICAL_NARRATIVE_ID =
@@ -6906,6 +6914,45 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
               'znanje',
               'humanost',
               'tehnologija-u-sluzbi-zivota',
+            ],
+            auditRole: 'additive-audit-reference-only',
+          },
+          {
+            title: 'KRALJEVSTVO — ZVANIČNO MOJE PRAVO LICE',
+            canonicalNarrativeId:
+              EXTRIMLI_EXTREM_DEVELOPER_CREATE_KRALJEVSTVO_ZVANICNO_MOJE_PRAVO_LICE_CANONICAL_NARRATIVE_ID,
+            citation:
+              EXTRIMLI_EXTREM_DEVELOPER_CREATE_KRALJEVSTVO_ZVANICNO_MOJE_PRAVO_LICE_CITATION,
+            visualReference:
+              EXTRIMLI_EXTREM_DEVELOPER_CREATE_KRALJEVSTVO_ZVANICNO_MOJE_PRAVO_LICE_VISUAL_REFERENCE,
+            interpretation:
+              'Supplied KRALJEVSTVO — ZVANIČNO MOJE PRAVO LICE image remains additive-only supplemental audit/reference evidence and extends the same bounded Developer/Create reflection package through kraljevstvo, zajedništvo, znanje, priroda, tehnologija, and humanost themes without introducing any new source-of-truth runtime route.',
+            sourceStatement: 'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == RADNI TAKT MOZGA (MISLILAC)',
+            imageToSignalProfile: {
+              scenarioId:
+                EXTRIMLI_EXTREM_DEVELOPER_CREATE_KRALJEVSTVO_ZVANICNO_MOJE_PRAVO_LICE_SCENARIO_ID,
+              theme: 'KRALJEVSTVO — ZVANIČNO MOJE PRAVO LICE',
+              narrativeInput:
+                EXTRIMLI_EXTREM_DEVELOPER_CREATE_KRALJEVSTVO_ZVANICNO_MOJE_PRAVO_LICE_CITATION,
+              ownershipLock: {
+                dokDikFor: 'EXTREM',
+                dakDuk: 'EXTRONDOL',
+                spajaKod: 'audit-safe-summary-only',
+              },
+              signalOutputs: {
+                readinessScore: 0,
+                readinessStatus: 'BLOCKED',
+                conflictPressurePercent: 100,
+                deterministicFallbackRequired: true,
+              },
+            },
+            thematicSignals: [
+              'kraljevstvo',
+              'zajednistvo',
+              'znanje',
+              'priroda',
+              'tehnologija',
+              'humanost',
             ],
             auditRole: 'additive-audit-reference-only',
           },
