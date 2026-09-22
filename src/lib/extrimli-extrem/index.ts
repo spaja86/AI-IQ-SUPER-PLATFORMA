@@ -284,6 +284,14 @@ const EXTRIMLI_EXTREM_DEVELOPER_CREATE_EPILOG_COVECANSTVO_SCENARIO_ID =
   'covecanstvo-epilog-rad-energija-stvaranja-developer-create' as const;
 const EXTRIMLI_EXTREM_DEVELOPER_CREATE_EPILOG_COVECANSTVO_CITATION =
   'ČOVEČANSTVO — EPILOG ostaje additive-only supplemental audit/reference vizuel u kome iskustvo, rad, energija stvaranja i ljudsko jedinstvo potvrđuju isti Developer/Create ⇄ VRH ⇄ Radni Takt model bez novih ruta, novih formula ili promena ownership split-a.' as const;
+const EXTRIMLI_EXTREM_DEVELOPER_CREATE_POSTOJATI_DOPRINETI_COVECANSTVO_VISUAL_REFERENCE =
+  'https://github.com/user-attachments/assets/429b7479-7be9-41d3-9e9d-3531b1e9e596' as const;
+const EXTRIMLI_EXTREM_DEVELOPER_CREATE_POSTOJATI_DOPRINETI_COVECANSTVO_CANONICAL_NARRATIVE_ID =
+  'covecanstvo-epilog-postojati-znaci-doprineti-boljem-svetu-developer-create' as const;
+const EXTRIMLI_EXTREM_DEVELOPER_CREATE_POSTOJATI_DOPRINETI_COVECANSTVO_SCENARIO_ID =
+  'covecanstvo-epilog-postojati-znaci-doprineti-boljem-svetu-developer-create' as const;
+const EXTRIMLI_EXTREM_DEVELOPER_CREATE_POSTOJATI_DOPRINETI_COVECANSTVO_CITATION =
+  'ČOVEČANSTVO — EPILOG (POSTOJATI ZNAČI DOPRINETI BOLJEM SVETU) ostaje additive-only supplemental audit/reference vizuel koji potvrđuje isti Developer/Create ⇄ VRH ⇄ Radni Takt model, isti READY|WATCH|BLOCKED fallback i isti ownership split bez novih runtime ruta ili novih formula.' as const;
 const EXTRIMLI_EXTREM_DEVELOPER_CREATE_MATICNE_CELIJE_SPOZNAVANJE_SEBE_VISUAL_REFERENCE =
   'https://github.com/user-attachments/assets/908ab1a4-5a00-4f93-971a-2cd8e331119d' as const;
 const EXTRIMLI_EXTREM_DEVELOPER_CREATE_MATICNE_CELIJE_SPOZNAVANJE_SEBE_CANONICAL_NARRATIVE_ID =
@@ -6354,6 +6362,38 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
               },
             },
             thematicSignals: ['work', 'experience', 'creative-energy', 'human-unity'],
+            auditRole: 'additive-audit-reference-only',
+          },
+          {
+            title: 'ČOVEČANSTVO — EPILOG (POSTOJATI ZNAČI DOPRINETI BOLJEM SVETU)',
+            canonicalNarrativeId:
+              EXTRIMLI_EXTREM_DEVELOPER_CREATE_POSTOJATI_DOPRINETI_COVECANSTVO_CANONICAL_NARRATIVE_ID,
+            citation:
+              EXTRIMLI_EXTREM_DEVELOPER_CREATE_POSTOJATI_DOPRINETI_COVECANSTVO_CITATION,
+            visualReference:
+              EXTRIMLI_EXTREM_DEVELOPER_CREATE_POSTOJATI_DOPRINETI_COVECANSTVO_VISUAL_REFERENCE,
+            interpretation:
+              'Supplied ČOVEČANSTVO — EPILOG (POSTOJATI ZNAČI DOPRINETI BOLJEM SVETU) image remains additive-only supplemental audit/reference evidence and extends the same bounded Developer/Create reflection package without introducing any new source-of-truth runtime route.',
+            sourceStatement: 'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == RADNI TAKT MOZGA (MISLILAC)',
+            imageToSignalProfile: {
+              scenarioId:
+                EXTRIMLI_EXTREM_DEVELOPER_CREATE_POSTOJATI_DOPRINETI_COVECANSTVO_SCENARIO_ID,
+              theme: 'ČOVEČANSTVO — EPILOG',
+              narrativeInput:
+                EXTRIMLI_EXTREM_DEVELOPER_CREATE_POSTOJATI_DOPRINETI_COVECANSTVO_CITATION,
+              ownershipLock: {
+                dokDikFor: 'EXTREM',
+                dakDuk: 'EXTRONDOL',
+                spajaKod: 'audit-safe-summary-only',
+              },
+              signalOutputs: {
+                readinessScore: 0,
+                readinessStatus: 'BLOCKED',
+                conflictPressurePercent: 100,
+                deterministicFallbackRequired: true,
+              },
+            },
+            thematicSignals: ['existence', 'contribution', 'shared-path', 'collective-better-world'],
             auditRole: 'additive-audit-reference-only',
           },
           {
