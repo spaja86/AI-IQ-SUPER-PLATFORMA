@@ -364,6 +364,14 @@ const EXTRIMLI_EXTREM_DEVELOPER_CREATE_KRALJEVSKA_PRODUKTIVNOST_COVECANSTVO_SCEN
   'covecanstvo-kraljevska-produktivnost-pravno-gradjanstvo-basta-epilog-developer-create' as const;
 const EXTRIMLI_EXTREM_DEVELOPER_CREATE_KRALJEVSKA_PRODUKTIVNOST_COVECANSTVO_CITATION =
   'KRALJEVSKA PRODUKTIVNOST / PRAVNO GRAĐANSTVO / BAŠTA / EPILOG ČOVEČANSTVU ostaje additive-only supplemental audit/reference vizuel: pravno građanstvo mapira se na KRALJEVSKI PRAVNI UNIVERZITET governance smisao, bašta i porodična samodovoljnost na radni takt produktivnosti, a epilog čovečanstvu ostaje audit-safe završni narativ unutar postojećeg Developer/Create ⇄ VRH ⇄ Radni Takt modela, bez novih ruta, formula ili promene ownership split-a.' as const;
+const EXTRIMLI_EXTREM_DEVELOPER_CREATE_KRALJEVSTVO_VISUAL_REFERENCE =
+  'https://github.com/user-attachments/assets/6b037ede-14ed-4f02-8939-c112bae773be' as const;
+const EXTRIMLI_EXTREM_DEVELOPER_CREATE_KRALJEVSTVO_CANONICAL_NARRATIVE_ID =
+  'kraljevstvo-ljudi-znanje-priroda-tehnologija-buducnost-developer-create' as const;
+const EXTRIMLI_EXTREM_DEVELOPER_CREATE_KRALJEVSTVO_SCENARIO_ID =
+  'kraljevstvo-zajedno-gradimo-kraljevstvo-za-sve-generacije-developer-create' as const;
+const EXTRIMLI_EXTREM_DEVELOPER_CREATE_KRALJEVSTVO_CITATION =
+  'KRALJEVSTVO — LJUDI / ZNANJE / PRIRODA / TEHNOLOGIJA / BUDUĆNOST ostaje additive-only supplemental audit/reference vizuel: zajedništvo, budućnost, znanje, humanost, pravda i tehnologija u službi života mapiraju se isključivo na postojeći Developer/Create ⇄ VRH ⇄ Radni Takt model, uz bounded vezu ka KRALJEVSKI PRAVNI UNIVERZITET governance/epilog narativu, bez novih ruta i bez novog source-of-truth sistema.' as const;
 const EXTRIMLI_EXTREM_DEVELOPER_CREATE_SVITAK_BOZANSTVA_COVECANSTVO_VISUAL_REFERENCE =
   'https://github.com/user-attachments/assets/752ba75d-86b3-4d65-a6d7-e4f126c303ae' as const;
 const EXTRIMLI_EXTREM_DEVELOPER_CREATE_SVITAK_BOZANSTVA_COVECANSTVO_CANONICAL_NARRATIVE_ID =
@@ -6851,6 +6859,41 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
             auditRole: 'additive-audit-reference-only',
           },
           {
+            title: 'KRALJEVSTVO — LJUDI / ZNANJE / PRIRODA / TEHNOLOGIJA / BUDUĆNOST',
+            canonicalNarrativeId:
+              EXTRIMLI_EXTREM_DEVELOPER_CREATE_KRALJEVSTVO_CANONICAL_NARRATIVE_ID,
+            citation: EXTRIMLI_EXTREM_DEVELOPER_CREATE_KRALJEVSTVO_CITATION,
+            visualReference: EXTRIMLI_EXTREM_DEVELOPER_CREATE_KRALJEVSTVO_VISUAL_REFERENCE,
+            interpretation:
+              'Supplied KRALJEVSTVO image remains additive-only supplemental audit/reference evidence and extends the same bounded Developer/Create reflection package through zajedništvo, budućnost, znanje, humanost, and a bounded KRALJEVSKI PRAVNI UNIVERZITET governance/epilog narrative without introducing any new source-of-truth runtime route.',
+            sourceStatement: 'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == RADNI TAKT MOZGA (MISLILAC)',
+            imageToSignalProfile: {
+              scenarioId: EXTRIMLI_EXTREM_DEVELOPER_CREATE_KRALJEVSTVO_SCENARIO_ID,
+              theme: 'KRALJEVSTVO',
+              narrativeInput: EXTRIMLI_EXTREM_DEVELOPER_CREATE_KRALJEVSTVO_CITATION,
+              ownershipLock: {
+                dokDikFor: 'EXTREM',
+                dakDuk: 'EXTRONDOL',
+                spajaKod: 'audit-safe-summary-only',
+              },
+              signalOutputs: {
+                readinessScore: 0,
+                readinessStatus: 'BLOCKED',
+                conflictPressurePercent: 100,
+                deterministicFallbackRequired: true,
+              },
+            },
+            thematicSignals: [
+              'kraljevstvo',
+              'zajednistvo',
+              'buducnost',
+              'znanje',
+              'humanost',
+              'tehnologija-u-sluzbi-zivota',
+            ],
+            auditRole: 'additive-audit-reference-only',
+          },
+          {
             title: 'SVITAK BOŽANSTVA / PRAVOSLAVLJE U KRALJEVSTVU',
             canonicalNarrativeId:
               EXTRIMLI_EXTREM_DEVELOPER_CREATE_SVITAK_BOZANSTVA_COVECANSTVO_CANONICAL_NARRATIVE_ID,
@@ -7459,6 +7502,7 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
     'Supplied ČOVEČANSTVO / OSEĆAJ OSEBENOSTI image remains companion-only audit evidence for samospoznaja, razumevanje mozga, osećaj, čovečnost, shared-world alignment i epilog guidance bez novog source-of-truth sloja.',
     'Supplied Mjuzikl kraljevskog čina image remains supplemental audit/reference evidence only and extends the same bounded reflection package through muzički čin, epilog, čovečanstvo i zajednički ritam themes without introducing any new runtime source of truth.',
     'Supplied BOŽIJI EPITETI / KRALJ NAD KRALJEVIMA image remains supplemental audit/reference evidence only and extends the same bounded reflection package through KRALJEVSKI PRAVNI UNIVERZITET, METRIČKO, SINEMETRIČKO i PARADIJOGONALNO interpretative tracks without introducing any new runtime source of truth.',
+    'Supplied KRALJEVSTVO image remains supplemental audit/reference evidence only and extends the same bounded reflection package through zajedništvo, budućnost, znanje, humanost, and a bounded KRALJEVSKI PRAVNI UNIVERZITET governance/epilog narrative without introducing any new runtime source of truth.',
     'OSNOVE / RISPEKT ostaje kulturno-pedagoški protokol komunikacije (izvinjenje, pozdrav u kući, blagodarnost) i služi isključivo kao documentation + governance evidence bez novog izvršnog API domena.',
     'Kanonsko mapiranje EXTRIMLI EXTRONDOL EXTREM + DOK DIK DAK DUK FOR + KRALJEVSKI PRAVNI UNIVERZITET ostaje zaključano: EXTREM tehnički signal, EXTRONDOL WAWE/audit governance, SPAJA KOD audit-safe summary boundary.',
     'Dnevni operativni sloj ostaje governance artefakt: isti dan mora zaključati jednu aktivnu roadmap fazu, prioritete 1–3, merljiv izlaz, acceptance evidence i closeout status completed/carried-over/blocked.',
