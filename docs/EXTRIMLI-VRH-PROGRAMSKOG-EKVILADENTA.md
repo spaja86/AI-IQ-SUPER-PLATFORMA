@@ -27,6 +27,13 @@ Repo-wide reflection sada obavezno uključuje i dnevni operativni cadence: `morn
 - `KRALJEVSKI PRAVNI UNIVERZITET` bounded zaključava governance celine za `human review`, `compliance review`, `payment verification`, `anti-abuse`, `duplicate attempt`, `dispute/appeal`, `downstream sync` i `audit trail`.
 - SPAJA KOD objavljuje samo audit-safe rezime: broj položenih oblasti, sertifikacioni status, payout readiness status i audit-safe razlog blokade ili watch posture.
 
+### PRIVREDNI AKT kvartalni režim (additive-only)
+
+- `PRIVREDNI AKT` ostaje policy-gated governance traka unutar postojećeg univerzitetskog reflection paketa (`DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA`).
+- Beneficiary segmenti su zaključani na `poljoprivrednici-sa-gostoprimstvom` i `poljoprivrednici`.
+- Kvartalni signal `cene privrednika po kvartalu` ostaje audit-safe market snapshot i utiče na payout readiness (`READY | WATCH | BLOCKED`) bez novih finansijskih formula, bez KYC i bez realnih bankarskih podataka u Git-u.
+- Ownership split ostaje nepromenjen: `EXTREM` tehnički readiness + bounded ekonomski signal, `EXTRONDOL` governance approval/freeze/promote + payment verification/human review/audit/dispute, `SPAJA KOD` summary-only.
+
 Supplied image `https://github.com/user-attachments/assets/4790f4ea-4271-4d2a-ae0a-d9bec5bc8b8a` ostaje additive-only audit vizuel za `ČOVEČNOST` i mapira se na `developerAndCreateRepoWideReflection.covecnostAuditVisualReference` sa `scenarioId=covecnost-developer-create-vrh-radni-takt`, bez novih ruta i bez zamene postojećeg `priroda-zdrav-zivot-covecanstvo` epilog narativa.
 Vizuel ostaje strogo interpretativan: motivi `INSTINKT`, `ZNANJE`, `ISKUSTVO`, `PREDVIĐANJE` i šest etapa razvoja samo potvrđuju postojeći Developer/Create cadence, postojeći `technicalReadinessProfile` i postojeći EXTREM↔EXTRONDOL ownership split.
 Supplied image `https://github.com/user-attachments/assets/f7b3e102-e0a0-4885-a93e-040f09454737` ostaje supplemental additive-only audit vizuel za `ČOVEČANSTVO — ENTIZUJAŽAM (ZVEZDE / MISLI / INOVACIJE)` i mapira se na `developerAndCreateRepoWideReflection.covecnostAuditVisualReference.supplementalVisualReferences` sa `scenarioId=covecanstvo-entizujazam-zvezde-misli-inovacije-developer-create`, uz isti `READY | WATCH | BLOCKED` model i isti ownership split.

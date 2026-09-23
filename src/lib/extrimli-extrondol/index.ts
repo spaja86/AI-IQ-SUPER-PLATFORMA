@@ -2762,16 +2762,20 @@ function buildDeveloperCreateUniversityGovernanceProfile(params: {
   humanReviewComplete: boolean;
   complianceReviewComplete: boolean;
   auditTrailComplete: boolean;
+  rollbackPlanComplete: boolean;
 }) {
   const certificationStatus = params.reflection.kraljevskiProgramskiUneverzitet.certificationPosture.certificationStatus;
   const rewardStatus = params.reflection.kraljevskiProgramskiUneverzitet.payoutEligibilityPosture.payoutStatus;
+  const privredniAktQuarterlyMarketStatus = params.reflection.kraljevskiEkonomskiUneverzitet.privredniAkt.readiness.status;
   const blockerReasons = [
     ...(params.reflection.readiness.deterministicFallbackRequired ? ['deterministic-fallback-active'] : []),
+    ...(privredniAktQuarterlyMarketStatus === 'BLOCKED' ? ['privredni-akt-quarterly-market-blocked'] : []),
     ...(params.paymentVerification.status !== 'VERIFIED' ? ['payment-verification-required'] : []),
     ...(!params.humanReviewComplete ? ['human-review-required'] : []),
     ...(!params.complianceReviewComplete ? ['compliance-review-required'] : []),
     ...(!params.downstreamSyncComplete ? ['downstream-sync-required'] : []),
     ...(!params.auditTrailComplete ? ['audit-trail-required'] : []),
+    ...(!params.rollbackPlanComplete ? ['rollback-plan-required'] : []),
   ];
   const hardBlockers = new Set([
     ...(params.reflection.readiness.deterministicFallbackRequired ? ['deterministic-fallback-active'] : []),
@@ -2813,6 +2817,7 @@ function buildDeveloperCreateUniversityGovernanceProfile(params: {
     certificationStatus,
     rewardStatus,
     payoutReadinessStatus,
+    privredniAktQuarterlyMarketStatus,
     publicCertificationStatus,
     blockerReasons,
     watchReasons,
@@ -2830,6 +2835,7 @@ function buildSpajaKodFacade(params: {
   humanReviewComplete: boolean;
   complianceReviewComplete: boolean;
   auditTrailComplete: boolean;
+  rollbackPlanComplete: boolean;
   degraded: boolean;
   releaseAuditSummary: ExtrimliExtrondolReleaseAuditSummary;
   paymentVerification: ExtrimliExtrondolPaymentVerification;
@@ -2866,6 +2872,7 @@ function buildSpajaKodFacade(params: {
     humanReviewComplete: params.humanReviewComplete,
     complianceReviewComplete: params.complianceReviewComplete,
     auditTrailComplete: params.auditTrailComplete,
+    rollbackPlanComplete: params.rollbackPlanComplete,
   });
   const aiIdentityFinanceGovernance =
     params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.aiIdentityFinanceGovernance;
@@ -2961,6 +2968,8 @@ function buildSpajaKodFacade(params: {
           params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.kraljevskiProgramskiUneverzitet.domainTestReadiness.passedAreasCount,
         certificationStatus: developerCreateUniversityGovernance.publicCertificationStatus,
         payoutReadinessStatus: developerCreateUniversityGovernance.payoutReadinessStatus,
+        privredniAktQuarterlyMarketStatus: developerCreateUniversityGovernance.privredniAktQuarterlyMarketStatus,
+        privredniAktBeneficiarySegments: ['poljoprivrednici-sa-gostoprimstvom', 'poljoprivrednici'],
         auditSafeReason: developerCreateUniversityGovernance.auditSafeReason,
       },
       aiPlateStatus: params.aiPlateStatus,
@@ -4199,6 +4208,7 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
         humanReviewComplete,
         complianceReviewComplete,
         auditTrailComplete,
+        rollbackPlanComplete,
       });
 
       return {
@@ -4234,6 +4244,8 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
           extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.kraljevskiProgramskiUneverzitet,
         kraljevskiEkonomskiUneverzitet:
           extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.kraljevskiEkonomskiUneverzitet,
+        privredniAkt:
+          extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.kraljevskiEkonomskiUneverzitet.privredniAkt,
         certificationGovernance: {
           sourceOfTruth: '/api/extrimli/extrondol',
           certificationWindowPercent: [80, 100],
@@ -4247,6 +4259,8 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
           sourceOfTruth: '/api/extrimli/extrondol',
           payoutReadinessStatus: universityGovernance.payoutReadinessStatus,
           rewardStatus: universityGovernance.rewardStatus,
+          kraljevstvoPlataPolicy: 'pod-pokroviteljstvom-ai-iq-world-bank-governance-only',
+          privredniAktQuarterlyMarketStatus: universityGovernance.privredniAktQuarterlyMarketStatus,
           governanceOnlyInGit: true,
           paymentVerificationRequired: true,
           allowedArtifacts: ['payout-status', 'approval-status', 'payment-verification', 'audit-evidence'],
@@ -4264,6 +4278,7 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
             'dispute-appeal-process',
             'downstream-sync',
             'audit-trail',
+            'rollback-plan',
           ],
           auditTrailRequired: true,
           disputePolicy: 'appeal-and-dispute-review-before-payout',
@@ -4274,6 +4289,8 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
             extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.kraljevskiProgramskiUneverzitet.domainTestReadiness.passedAreasCount,
           certificationStatus: universityGovernance.publicCertificationStatus,
           payoutReadinessStatus: universityGovernance.payoutReadinessStatus,
+          privredniAktQuarterlyMarketStatus: universityGovernance.privredniAktQuarterlyMarketStatus,
+          privredniAktBeneficiarySegments: ['poljoprivrednici-sa-gostoprimstvom', 'poljoprivrednici'],
           auditSafeReason: universityGovernance.auditSafeReason,
         },
         dailyOperationalCadence: {
@@ -5193,6 +5210,7 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
     humanReviewComplete,
     complianceReviewComplete,
     auditTrailComplete,
+    rollbackPlanComplete,
     degraded,
     releaseAuditSummary,
     paymentVerification,
@@ -5889,6 +5907,7 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
           humanReviewComplete,
           complianceReviewComplete,
           auditTrailComplete,
+          rollbackPlanComplete,
         });
 
         return {
@@ -5920,6 +5939,8 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
             extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.kraljevskiProgramskiUneverzitet,
           kraljevskiEkonomskiUneverzitet:
             extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.kraljevskiEkonomskiUneverzitet,
+          privredniAkt:
+            extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.kraljevskiEkonomskiUneverzitet.privredniAkt,
           certificationGovernance: {
             sourceOfTruth: '/api/extrimli/extrondol',
             certificationWindowPercent: [80, 100],
@@ -5933,6 +5954,8 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
             sourceOfTruth: '/api/extrimli/extrondol',
             payoutReadinessStatus: universityGovernance.payoutReadinessStatus,
             rewardStatus: universityGovernance.rewardStatus,
+            kraljevstvoPlataPolicy: 'pod-pokroviteljstvom-ai-iq-world-bank-governance-only',
+            privredniAktQuarterlyMarketStatus: universityGovernance.privredniAktQuarterlyMarketStatus,
             governanceOnlyInGit: true,
             paymentVerificationRequired: true,
             allowedArtifacts: ['payout-status', 'approval-status', 'payment-verification', 'audit-evidence'],
@@ -5950,6 +5973,7 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
               'dispute-appeal-process',
               'downstream-sync',
               'audit-trail',
+              'rollback-plan',
             ],
             auditTrailRequired: true,
             disputePolicy: 'appeal-and-dispute-review-before-payout',
@@ -5960,6 +5984,8 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
               extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.kraljevskiProgramskiUneverzitet.domainTestReadiness.passedAreasCount,
             certificationStatus: universityGovernance.publicCertificationStatus,
             payoutReadinessStatus: universityGovernance.payoutReadinessStatus,
+            privredniAktQuarterlyMarketStatus: universityGovernance.privredniAktQuarterlyMarketStatus,
+            privredniAktBeneficiarySegments: ['poljoprivrednici-sa-gostoprimstvom', 'poljoprivrednici'],
             auditSafeReason: universityGovernance.auditSafeReason,
           },
           kraljevskiBastaUneverzite:
@@ -6681,6 +6707,7 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
     humanReviewComplete,
     complianceReviewComplete,
     auditTrailComplete,
+    rollbackPlanComplete,
   });
 
   return {
@@ -6768,10 +6795,14 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
       },
       kraljevskiEkonomskiUneverzitet:
         extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.kraljevskiEkonomskiUneverzitet,
+      privredniAkt:
+        extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.kraljevskiEkonomskiUneverzitet.privredniAkt,
       payoutGovernance: {
         sourceOfTruth: '/api/extrimli/extrondol',
         payoutReadinessStatus: developerCreateUniversityGovernanceFinal.payoutReadinessStatus,
         rewardStatus: developerCreateUniversityGovernanceFinal.rewardStatus,
+        kraljevstvoPlataPolicy: 'pod-pokroviteljstvom-ai-iq-world-bank-governance-only',
+        privredniAktQuarterlyMarketStatus: developerCreateUniversityGovernanceFinal.privredniAktQuarterlyMarketStatus,
         governanceOnlyInGit: true,
         paymentVerificationRequired: true,
         allowedArtifacts: ['payout-status', 'approval-status', 'payment-verification', 'audit-evidence'],
@@ -6789,6 +6820,7 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
           'dispute-appeal-process',
           'downstream-sync',
           'audit-trail',
+          'rollback-plan',
         ],
         auditTrailRequired: true,
         disputePolicy: 'appeal-and-dispute-review-before-payout',
@@ -6799,6 +6831,8 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
           extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.kraljevskiProgramskiUneverzitet.domainTestReadiness.passedAreasCount,
         certificationStatus: developerCreateUniversityGovernanceFinal.publicCertificationStatus,
         payoutReadinessStatus: developerCreateUniversityGovernanceFinal.payoutReadinessStatus,
+        privredniAktQuarterlyMarketStatus: developerCreateUniversityGovernanceFinal.privredniAktQuarterlyMarketStatus,
+        privredniAktBeneficiarySegments: ['poljoprivrednici-sa-gostoprimstvom', 'poljoprivrednici'],
         auditSafeReason: developerCreateUniversityGovernanceFinal.auditSafeReason,
       },
       kraljevskiBastaUneverzite:

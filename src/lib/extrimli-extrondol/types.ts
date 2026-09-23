@@ -700,6 +700,7 @@ export interface ExtrimliExtrondolDeveloperAndCreateRepoWideReflectionGovernance
   universityRolloutPhases: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['universityRolloutPhases'];
   kraljevskiProgramskiUneverzitet: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['kraljevskiProgramskiUneverzitet'];
   kraljevskiEkonomskiUneverzitet: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['kraljevskiEkonomskiUneverzitet'];
+  privredniAkt: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['kraljevskiEkonomskiUneverzitet']['privredniAkt'];
   certificationGovernance: {
     sourceOfTruth: '/api/extrimli/extrondol';
     certificationWindowPercent: readonly [80, 100];
@@ -713,6 +714,8 @@ export interface ExtrimliExtrondolDeveloperAndCreateRepoWideReflectionGovernance
     sourceOfTruth: '/api/extrimli/extrondol';
     payoutReadinessStatus: 'READY' | 'WATCH' | 'BLOCKED';
     rewardStatus: 'passed' | 'certified' | 'eligible-for-payout' | 'blocked-for-review';
+    kraljevstvoPlataPolicy: 'pod-pokroviteljstvom-ai-iq-world-bank-governance-only';
+    privredniAktQuarterlyMarketStatus: 'READY' | 'WATCH' | 'BLOCKED';
     governanceOnlyInGit: true;
     paymentVerificationRequired: true;
     allowedArtifacts: readonly ['payout-status', 'approval-status', 'payment-verification', 'audit-evidence'];
@@ -729,7 +732,8 @@ export interface ExtrimliExtrondolDeveloperAndCreateRepoWideReflectionGovernance
       'duplicate-attempt-review',
       'dispute-appeal-process',
       'downstream-sync',
-      'audit-trail'
+      'audit-trail',
+      'rollback-plan'
     ];
     auditTrailRequired: true;
     disputePolicy: 'appeal-and-dispute-review-before-payout';
@@ -739,6 +743,8 @@ export interface ExtrimliExtrondolDeveloperAndCreateRepoWideReflectionGovernance
     passedAreasCount: number;
     certificationStatus: 'passed' | 'certified' | 'certified-with-reward' | 'blocked-for-review';
     payoutReadinessStatus: 'READY' | 'WATCH' | 'BLOCKED';
+    privredniAktQuarterlyMarketStatus: 'READY' | 'WATCH' | 'BLOCKED';
+    privredniAktBeneficiarySegments: readonly ['poljoprivrednici-sa-gostoprimstvom', 'poljoprivrednici'];
     auditSafeReason: string;
   };
   kraljevskiBastaUneverzite: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['kraljevskiBastaUneverzite'];
@@ -2370,6 +2376,8 @@ export interface ExtrimliSpajaKodPublicFacade {
       passedAreasCount: number;
       certificationStatus: 'passed' | 'certified' | 'certified-with-reward' | 'blocked-for-review';
       payoutReadinessStatus: 'READY' | 'WATCH' | 'BLOCKED';
+      privredniAktQuarterlyMarketStatus: 'READY' | 'WATCH' | 'BLOCKED';
+      privredniAktBeneficiarySegments: readonly ['poljoprivrednici-sa-gostoprimstvom', 'poljoprivrednici'];
       auditSafeReason: string;
     };
     aiPlateStatus: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['aiPlateOffer']['boundedReadinessProfile']['consolidatedStatus'];

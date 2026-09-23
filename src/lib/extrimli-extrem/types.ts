@@ -2647,6 +2647,46 @@ export interface ExtrimliDokDikDakDukConsistencyHealth {
         forbiddenGitArtifacts: readonly ['bank-account-number', 'kyc-document', 'payment-secret', 'operational-financial-data'];
         payoutStatuses: readonly ['passed', 'certified', 'eligible-for-payout', 'blocked-for-review'];
       };
+      privredniAkt: {
+        canonicalName: 'PRIVREDNI AKT';
+        additiveOnly: true;
+        governanceTrack: 'policy-gated-quarterly-market-and-beneficiary-governance';
+        beneficiarySegments: readonly ['poljoprivrednici-sa-gostoprimstvom', 'poljoprivrednici'];
+        aiIqWorldBankCoverage: {
+          compensationModel: 'plata-od-kraljevstva-governance-only';
+          sponsor: 'AI IQ WORLD BANK';
+          noRealBankDataInGit: true;
+        };
+        kvartalniTrzisniModel: {
+          auditSafeSignalOnly: true;
+          signalName: 'cene-privrednika-po-kvartalu';
+          sourceProfile: 'dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.technicalReadinessProfile';
+          quarters: readonly Array<{
+            quarter: 'Q1' | 'Q2' | 'Q3' | 'Q4';
+            priceIndex: number;
+            status: 'READY' | 'WATCH' | 'BLOCKED';
+            reason: string;
+          }>;
+          deterministicFallbackInputs: readonly ['NaN', 'Infinity', 'empty', 'conflict'];
+        };
+        readiness: {
+          status: 'READY' | 'WATCH' | 'BLOCKED';
+          score: number;
+          deterministicFallbackRequired: boolean;
+        };
+        payoutImpact: {
+          affectsPayoutReadiness: true;
+          requiredGovernanceGates: readonly [
+            'human-review',
+            'compliance-review',
+            'payment-verification',
+            'anti-abuse-review',
+            'audit-trail',
+            'rollback-plan'
+          ];
+        };
+        summary: string;
+      };
       readiness: {
         status: 'READY' | 'WATCH' | 'BLOCKED';
         score: number;
@@ -2734,7 +2774,8 @@ export interface ExtrimliDokDikDakDukConsistencyHealth {
           'duplicate-attempt-review',
           'dispute-appeal-process',
           'downstream-sync',
-          'audit-trail'
+          'audit-trail',
+          'rollback-plan'
         ];
       };
       intellectualEffortEvidence: {

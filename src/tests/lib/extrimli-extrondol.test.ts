@@ -201,6 +201,12 @@ async function runTests(): Promise<void> {
     assert(report.developerAndCreateRepoWideReflection.universityLifecycle.reviewRequiredBeforePayout, 'developer/create university lifecycle must require review before payout');
     assert(report.developerAndCreateRepoWideReflection.certificationGovernance.certificationWindowPercent.join(',') === '80,100', 'developer/create certification governance score window mismatch');
     assert(report.developerAndCreateRepoWideReflection.payoutGovernance.allowedArtifacts.join(',') === 'payout-status,approval-status,payment-verification,audit-evidence', 'developer/create payout governance artifacts mismatch');
+    assert(report.developerAndCreateRepoWideReflection.payoutGovernance.kraljevstvoPlataPolicy === 'pod-pokroviteljstvom-ai-iq-world-bank-governance-only', 'developer/create payout governance kraljevstvo plata policy mismatch');
+    assert(['READY', 'WATCH', 'BLOCKED'].includes(report.developerAndCreateRepoWideReflection.payoutGovernance.privredniAktQuarterlyMarketStatus), 'developer/create payout governance privredni akt quarterly market status mismatch');
+    assert(report.developerAndCreateRepoWideReflection.privredniAkt.canonicalName === 'PRIVREDNI AKT', 'developer/create privredni akt canonical name mismatch');
+    assert(report.developerAndCreateRepoWideReflection.privredniAkt.beneficiarySegments.join(',') === 'poljoprivrednici-sa-gostoprimstvom,poljoprivrednici', 'developer/create privredni akt beneficiary segment mismatch');
+    assert(report.developerAndCreateRepoWideReflection.privredniAkt.kvartalniTrzisniModel.signalName === 'cene-privrednika-po-kvartalu', 'developer/create privredni akt signal name mismatch');
+    assert(report.developerAndCreateRepoWideReflection.rewardApproval.hardGates.includes('rollback-plan'), 'developer/create reward approval must include rollback plan');
     assert(report.developerAndCreateRepoWideReflection.rewardApproval.hardGates.includes('duplicate-attempt-review'), 'developer/create reward approval must include duplicate attempt review');
     assert(typeof report.developerAndCreateRepoWideReflection.universityPublicSummary.passedAreasCount === 'number', 'developer/create public summary passed areas count mismatch');
   });
@@ -1035,6 +1041,8 @@ async function runTests(): Promise<void> {
     assert(report.spajaKod.publicSignals.kraljevskiProgramskiUneverzitetStatus === report.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.kraljevskiProgramskiUneverzitet.readiness.status, 'SPAJA KOD programmatic summary mismatch');
     assert(report.spajaKod.publicSignals.developerAndCreateUniversitySummary.passedAreasCount === report.developerAndCreateRepoWideReflection.universityPublicSummary.passedAreasCount, 'SPAJA KOD university passed area count mismatch');
     assert(report.spajaKod.publicSignals.developerAndCreateUniversitySummary.certificationStatus === report.developerAndCreateRepoWideReflection.universityPublicSummary.certificationStatus, 'SPAJA KOD university certification summary mismatch');
+    assert(report.spajaKod.publicSignals.developerAndCreateUniversitySummary.privredniAktQuarterlyMarketStatus === report.developerAndCreateRepoWideReflection.universityPublicSummary.privredniAktQuarterlyMarketStatus, 'SPAJA KOD privredni akt quarterly market status summary mismatch');
+    assert(report.spajaKod.publicSignals.developerAndCreateUniversitySummary.privredniAktBeneficiarySegments.join(',') === 'poljoprivrednici-sa-gostoprimstvom,poljoprivrednici', 'SPAJA KOD privredni akt beneficiary segment summary mismatch');
     assert(report.spajaKod.developerAndCreateImplementationPackage.routeSummaryFields.join(',') === 'publicSignals.developerAndCreateStatus,publicSignals.developerAndCreateImplementationStatus,publicSignals.kraljevskiPravniUniverzitetStatus,publicSignals.kraljevskiProgramskiUneverzitetStatus,publicSignals.developerAndCreateUniversitySummary,developerAndCreateVisualReflection.kraljevskiBastaUneverzite,developerAndCreateVisualReflection.packageOutputs,developerAndCreateImplementationPackage.aiIqWorldBankPrepiskaSummary,epilogijaCovecnosti.packageOutputs', 'SPAJA KOD implementation package route summary fields mismatch');
     assert(report.spajaKod.developerAndCreateImplementationPackage.aiIqWorldBankPrepiskaSummary.canonicalName === 'AI IQ WORLD BANK PREPISKA', 'SPAJA KOD AI IQ WORLD BANK prepiska summary name mismatch');
     assert(report.spajaKod.developerAndCreateImplementationPackage.aiIqWorldBankPrepiskaSummary.sourceMaterialPolicy === 'documentation-only', 'SPAJA KOD AI IQ WORLD BANK prepiska summary must remain documentation-only');
@@ -2088,6 +2096,28 @@ async function runTests(): Promise<void> {
       assert(report.spajaKod.publicSignals.zelezaraPretplataIdentityStatus === 'BLOCKED', 'SPAJA KOD should expose blocked Železara summary');
       assert(report.acceptanceCriteria.some((item) => item.id === 'zelezara-pretplata-identity-track' && item.passed), 'Železara identity ownership boundary should stay locked');
       assert(report.acceptanceCriteria.some((item) => item.id === 'zelezara-contract-identity-gate' && !item.passed), 'Železara contract identity gate should fail');
+    });
+  });
+
+  await test('privredni akt and missing governance evidence block payout readiness', async () => {
+    await withEnv({
+      EXTRIMLI_EXTREM_PRIVREDNI_AKT_Q1_PRICE_INDEX: 'NaN',
+      EXTRIMLI_EXTREM_PRIVREDNI_AKT_Q2_PRICE_INDEX: 'Infinity',
+      EXTRIMLI_EXTREM_PRIVREDNI_AKT_Q3_PRICE_INDEX: '-5',
+      EXTRIMLI_EXTREM_PRIVREDNI_AKT_Q4_PRICE_INDEX: '10',
+      EXTRONDOL_ROLLBACK_PLAN_COMPLETE: 'false',
+      EXTRONDOL_HUMAN_REVIEW_COMPLETE: 'false',
+      EXTRONDOL_COMPLIANCE_REVIEW_COMPLETE: 'false',
+      EXTRONDOL_AUDIT_TRAIL_COMPLETE: 'false',
+      EXTRONDOL_DOWNSTREAM_SYNC_COMPLETE: 'false',
+      EXTRONDOL_PAYMENT_VERIFICATION_STATUS: 'PENDING',
+    }, () => {
+      const report = getExtrimliExtrondolReport();
+      assert(report.developerAndCreateRepoWideReflection.payoutGovernance.payoutReadinessStatus === 'BLOCKED', 'blocked privredni akt quarterly signal and missing governance evidence must block payout readiness');
+      assert(report.developerAndCreateRepoWideReflection.payoutGovernance.privredniAktQuarterlyMarketStatus === 'BLOCKED', 'blocked privredni akt quarterly signal must be reflected in payout governance');
+      assert(report.developerAndCreateRepoWideReflection.payoutGovernance.blockerReasons.includes('privredni-akt-quarterly-market-blocked'), 'privredni akt quarterly market blocker must propagate');
+      assert(report.developerAndCreateRepoWideReflection.payoutGovernance.blockerReasons.includes('rollback-plan-required'), 'rollback-plan blocker must propagate');
+      assert(report.developerAndCreateRepoWideReflection.payoutGovernance.blockerReasons.includes('payment-verification-required'), 'payment-verification blocker must propagate');
     });
   });
 

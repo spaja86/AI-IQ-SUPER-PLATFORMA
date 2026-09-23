@@ -1603,6 +1603,46 @@ async function runTests(): Promise<void> {
     });
   });
 
+  await test('privredni akt kvartalni tržišni signal derives READY status from valid quarterly inputs', async () => {
+    await withEnv({
+      EXTRIMLI_EXTREM_PRIVREDNI_AKT_Q1_PRICE_INDEX: '85',
+      EXTRIMLI_EXTREM_PRIVREDNI_AKT_Q2_PRICE_INDEX: '82',
+      EXTRIMLI_EXTREM_PRIVREDNI_AKT_Q3_PRICE_INDEX: '88',
+      EXTRIMLI_EXTREM_PRIVREDNI_AKT_Q4_PRICE_INDEX: '79',
+    }, () => {
+      const privredniAkt =
+        getExtrimliExtremProfilerReport()
+          .dokDikDakDukConsistencyHealth
+          .developerAndCreateRepoWideReflection
+          .kraljevskiEkonomskiUneverzitet
+          .privredniAkt;
+      assert(privredniAkt.kvartalniTrzisniModel.quarters.length === 4, 'privredni akt quarterly model must expose four quarters');
+      assert(privredniAkt.readiness.status === 'READY', 'valid quarterly market inputs should keep privredni akt READY');
+      assert(privredniAkt.readiness.score >= 70, 'valid quarterly market inputs should keep readiness score in READY band');
+      assert(privredniAkt.kvartalniTrzisniModel.quarters.every((quarter) => quarter.status === 'READY'), 'valid quarterly market inputs should keep each quarter READY');
+    });
+  });
+
+  await test('privredni akt kvartalni tržišni signal falls back safely for NaN/Infinity/empty/conflict inputs', async () => {
+    await withEnv({
+      EXTRIMLI_EXTREM_PRIVREDNI_AKT_Q1_PRICE_INDEX: 'NaN',
+      EXTRIMLI_EXTREM_PRIVREDNI_AKT_Q2_PRICE_INDEX: 'Infinity',
+      EXTRIMLI_EXTREM_PRIVREDNI_AKT_Q3_PRICE_INDEX: '',
+      EXTRIMLI_EXTREM_PRIVREDNI_AKT_Q4_PRICE_INDEX: '-15',
+    }, () => {
+      const privredniAkt =
+        getExtrimliExtremProfilerReport()
+          .dokDikDakDukConsistencyHealth
+          .developerAndCreateRepoWideReflection
+          .kraljevskiEkonomskiUneverzitet
+          .privredniAkt;
+      assert(privredniAkt.readiness.deterministicFallbackRequired, 'invalid quarterly inputs must require deterministic fallback');
+      assert(privredniAkt.readiness.status === 'BLOCKED', 'invalid quarterly inputs must block privredni akt readiness');
+      assert(privredniAkt.kvartalniTrzisniModel.quarters.some((quarter) => quarter.status === 'BLOCKED'), 'invalid quarterly inputs must propagate blocked quarter status');
+      assert(privredniAkt.kvartalniTrzisniModel.deterministicFallbackInputs.join(',') === 'NaN,Infinity,empty,conflict', 'fallback input vocabulary mismatch for privredni akt');
+    });
+  });
+
   console.log(`\n📊 Results: ${passed} passed, ${failed} failed\n`);
   if (failed > 0) {
     for (const failure of failures) console.error(`  - ${failure}`);

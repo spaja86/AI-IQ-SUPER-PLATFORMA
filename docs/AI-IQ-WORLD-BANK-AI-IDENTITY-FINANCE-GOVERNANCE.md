@@ -27,6 +27,14 @@ Ownership ostaje zaključan:
 - `EXTRONDOL` — approval/freeze/promote, payment verification, audit i downstream sync
 - `SPAJA KOD` — audit-safe summary only
 
+## PRIVREDNI AKT governance boundary
+
+- `PRIVREDNI AKT` je additive-only governance signal u okviru `KRALJEVSKI EKONOMSKI UNEVERZITET` + `AI IQ WORLD BANK` modela.
+- Segmenti korisnika su zaključani na `poljoprivrednici-sa-gostoprimstvom` i `poljoprivrednici`.
+- Kvartalni signal `cene privrednika po kvartalu` je audit-safe snapshot (`Q1..Q4`) koji utiče na readiness/payout status bez novog finansijskog engine-a.
+- “Plata od Kraljevstva pod pokroviteljstvom AI IQ WORLD BANK” može biti samo governance payout posture (`passed | certified | eligible-for-payout | blocked-for-review`) i nikada ne nosi stvarne bankarske/KYC podatke u Git-u.
+- Obavezni gate-ovi pre payout-a: `human review`, `compliance review`, `payment verification`, `anti-abuse review`, `audit trail`, `rollback plan`, `downstream sync`.
+
 ## AI lična karta
 
 Svaki seedovani AI mora imati audit-safe identitet u `persona-bank` sa sledećim javno dozvoljenim poljima:

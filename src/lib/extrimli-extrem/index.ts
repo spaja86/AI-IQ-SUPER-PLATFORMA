@@ -610,6 +610,70 @@ function parseFormulaScalarEnv(name: string, fallback: number, max: number, degr
   return round(clamp(parsed, 0, max), 2);
 }
 
+function parseQuarterlyPriceIndexEnv(name: string, fallback: number, degradedSources: string[]): number {
+  const raw = process.env[name];
+  if (typeof raw === 'undefined' || raw.trim() === '') return fallback;
+  const parsed = Number(raw);
+  if (!Number.isFinite(parsed)) {
+    degradedSources.push(`invalid-env:${name}`);
+    return fallback;
+  }
+  if (parsed < 0 || parsed > 10000) degradedSources.push(`out-of-range:${name}`);
+  return round(clamp(parsed, 0, 10000), 2);
+}
+
+function resolvePrivredniAktQuarterlyMarketInput(degradedSources: string[]) {
+  const localDegradedSources: string[] = [];
+  const q1 = parseQuarterlyPriceIndexEnv('EXTRIMLI_EXTREM_PRIVREDNI_AKT_Q1_PRICE_INDEX', 78, localDegradedSources);
+  const q2 = parseQuarterlyPriceIndexEnv('EXTRIMLI_EXTREM_PRIVREDNI_AKT_Q2_PRICE_INDEX', 80, localDegradedSources);
+  const q3 = parseQuarterlyPriceIndexEnv('EXTRIMLI_EXTREM_PRIVREDNI_AKT_Q3_PRICE_INDEX', 82, localDegradedSources);
+  const q4 = parseQuarterlyPriceIndexEnv('EXTRIMLI_EXTREM_PRIVREDNI_AKT_Q4_PRICE_INDEX', 79, localDegradedSources);
+
+  const resolveQuarterStatus = (priceIndex: number): 'READY' | 'WATCH' | 'BLOCKED' => {
+    if (priceIndex >= 70) return 'READY';
+    if (priceIndex >= 45) return 'WATCH';
+    return 'BLOCKED';
+  };
+
+  const quarters = ([
+    { quarter: 'Q1', priceIndex: q1 },
+    { quarter: 'Q2', priceIndex: q2 },
+    { quarter: 'Q3', priceIndex: q3 },
+    { quarter: 'Q4', priceIndex: q4 },
+  ] as const).map(({ quarter, priceIndex }) => {
+    const status = resolveQuarterStatus(priceIndex);
+    return {
+      quarter,
+      priceIndex,
+      status,
+      reason:
+        status === 'READY'
+          ? 'kvartalni-trzisni-indeks-usaglasen'
+          : status === 'WATCH'
+            ? 'kvartalni-trzisni-indeks-zahteva-pracenje'
+            : 'kvartalni-trzisni-indeks-blokiran',
+    };
+  });
+
+  degradedSources.push(...localDegradedSources);
+  const score = round((q1 + q2 + q3 + q4) / 4, 2);
+  const statuses = quarters.map((quarter) => quarter.status);
+  const status =
+    localDegradedSources.length > 0 || statuses.includes('BLOCKED')
+      ? 'BLOCKED'
+      : statuses.includes('WATCH')
+        ? 'WATCH'
+        : 'READY';
+
+  return {
+    quarters,
+    score,
+    status,
+    deterministicFallbackRequired: localDegradedSources.length > 0,
+    degradedSources: localDegradedSources,
+  } as const;
+}
+
 function parseIntegerEnv(name: string, fallback: number, min: number, max: number, degradedSources: string[]): number {
   const raw = process.env[name];
   if (typeof raw === 'undefined' || raw.trim() === '') return fallback;
@@ -5678,6 +5742,7 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
   const programskiJezikParadigmaOblikovanjeTelaInput = resolveProgramskiJezikParadigmaOblikovanjeTelaInput(degradedSources);
   const programskiJezikDekoracijeObjektnihPrimesaInput = resolveProgramskiJezikDekoracijeObjektnihPrimesaInput(degradedSources);
   const programskiJezikSpecijalizovanZaIgriceInput = resolveProgramskiJezikSpecijalizovanZaIgriceInput(degradedSources);
+  const privredniAktQuarterlyMarketInput = resolvePrivredniAktQuarterlyMarketInput(degradedSources);
   const pretpostavkaForPetljaResult = runForPetlja(resolveProgramskiJezikPretpostavkaForPetljaInput(degradedSources));
   const deklasiraneMatriceForPetljaResult = runForPetlja(
     resolveProgramskiJezikPoProsparitetuDeklasiraneMatriceUEkstaziForPetljaInput(degradedSources),
@@ -7909,6 +7974,7 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
     || sinemetrickoProgramiranje.readiness.deterministicFallbackRequired
     || paradijogonalnoProgrimiranje.readiness.degraded
     || vrhProgramskogEkviladenta.readiness.deterministicFallbackRequired
+    || privredniAktQuarterlyMarketInput.deterministicFallbackRequired
     || activeRoadmapStageCount !== 1
     || !dokDikDakDukConsistencyHealth.consistent;
   dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.dailyOperationalCadence.dailyTasks =
@@ -8050,6 +8116,42 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
       allowedGitArtifacts: ['payout-status', 'approval-status', 'payment-verification', 'audit-evidence'],
       forbiddenGitArtifacts: ['bank-account-number', 'kyc-document', 'payment-secret', 'operational-financial-data'],
       payoutStatuses: ['passed', 'certified', 'eligible-for-payout', 'blocked-for-review'],
+    },
+    privredniAkt: {
+      canonicalName: 'PRIVREDNI AKT',
+      additiveOnly: true,
+      governanceTrack: 'policy-gated-quarterly-market-and-beneficiary-governance',
+      beneficiarySegments: ['poljoprivrednici-sa-gostoprimstvom', 'poljoprivrednici'],
+      aiIqWorldBankCoverage: {
+        compensationModel: 'plata-od-kraljevstva-governance-only',
+        sponsor: 'AI IQ WORLD BANK',
+        noRealBankDataInGit: true,
+      },
+      kvartalniTrzisniModel: {
+        auditSafeSignalOnly: true,
+        signalName: 'cene-privrednika-po-kvartalu',
+        sourceProfile: 'dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.technicalReadinessProfile',
+        quarters: [...privredniAktQuarterlyMarketInput.quarters],
+        deterministicFallbackInputs: ['NaN', 'Infinity', 'empty', 'conflict'],
+      },
+      readiness: {
+        status: privredniAktQuarterlyMarketInput.status,
+        score: privredniAktQuarterlyMarketInput.score,
+        deterministicFallbackRequired: privredniAktQuarterlyMarketInput.deterministicFallbackRequired,
+      },
+      payoutImpact: {
+        affectsPayoutReadiness: true,
+        requiredGovernanceGates: [
+          'human-review',
+          'compliance-review',
+          'payment-verification',
+          'anti-abuse-review',
+          'audit-trail',
+          'rollback-plan',
+        ],
+      },
+      summary:
+        'PRIVREDNI AKT ostaje additive-only policy-gated governance traka: kvartalni tržišni signal (cene privrednika po kvartalu) utiče na payout readiness kroz postojeće EXTREM/EXTRONDOL/SPAJA KOD granice bez novih finansijskih engine-a i bez realnih bankarskih podataka u Git-u.',
     },
     readiness: {
       status: dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.status,
