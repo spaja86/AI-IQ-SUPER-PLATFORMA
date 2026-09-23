@@ -4076,7 +4076,8 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
           eligibleNextWawe: nextWawe(currentWawe),
           promotionFreeze,
           reviewRequiredBeforeWideRollout:
-            extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.aiIdentityFinanceGovernance.technicalSignals.status !== 'READY',
+            promotionFreeze
+            || extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.aiIdentityFinanceGovernance.technicalSignals.status !== 'READY',
         },
         covecnostAuditVisualReference: mappedDeveloperCreateCovecnostAuditVisualReference,
         roadmapExecution: {
@@ -5658,7 +5659,8 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
              eligibleNextWawe: nextWawe(currentWawe),
              promotionFreeze,
              reviewRequiredBeforeWideRollout:
-               extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.aiIdentityFinanceGovernance.technicalSignals.status !== 'READY',
+               promotionFreeze
+               || extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.aiIdentityFinanceGovernance.technicalSignals.status !== 'READY',
            },
            covecnostAuditVisualReference: mappedDeveloperCreateCovecnostAuditVisualReference,
            repoWideReflection: extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.repoWideReflection,

@@ -259,11 +259,15 @@ export function getExtrimliWorldBankPersonaReport(options: ExtrimliWorldBankPers
     const targetStatus = lifecycle.targetPersonaStatus;
     const primaryPersonaId = personaPayload.id ?? personaPayload.name;
     let primaryPersonaSynced = false;
-    const primaryPersonaMatchesPayload = (persona: NonNullable<ExtrimliWorldBankPersonaReport['writeResult']['persona']>): boolean =>
-      persona.status === targetStatus
-      && JSON.stringify(persona.attributes?.aiIdentityCard ?? null) === JSON.stringify(personaPayload.attributes.aiIdentityCard)
-      && JSON.stringify(persona.attributes?.aiBankAccountGovernance ?? null) === JSON.stringify(personaPayload.attributes.aiBankAccountGovernance)
-      && persona.crossRepoRef === personaPayload.crossRepoRef;
+    const personaMatchesPayload = (
+      persona: NonNullable<ExtrimliWorldBankPersonaReport['writeResult']['persona']>,
+      payload: PersonaRegistrationInput,
+      status: ExtrimliWorldBankPersonaReport['lifecycle']['targetPersonaStatus'],
+    ): boolean =>
+      persona.status === status
+      && JSON.stringify(persona.attributes?.aiIdentityCard ?? null) === JSON.stringify(payload.attributes.aiIdentityCard)
+      && JSON.stringify(persona.attributes?.aiBankAccountGovernance ?? null) === JSON.stringify(payload.attributes.aiBankAccountGovernance)
+      && persona.crossRepoRef === payload.crossRepoRef;
     try {
       const updated = client.update(primaryPersonaId, {
         name: personaPayload.name,
@@ -305,7 +309,7 @@ export function getExtrimliWorldBankPersonaReport(options: ExtrimliWorldBankPers
           if (!(registerError instanceof PersonaLockConflictError)) throw registerError;
           const concurrentPersona = client.get(primaryPersonaId);
           if (!concurrentPersona) throw registerError;
-          const resolved = primaryPersonaMatchesPayload(concurrentPersona);
+          const resolved = personaMatchesPayload(concurrentPersona, personaPayload, targetStatus);
           writeResult = {
             attempted: resolved,
             operation: resolved ? 'update' : 'skipped',
@@ -320,7 +324,7 @@ export function getExtrimliWorldBankPersonaReport(options: ExtrimliWorldBankPers
         }
       } else if (error instanceof PersonaLockConflictError) {
         const concurrentPersona = client.get(primaryPersonaId);
-        const resolved = concurrentPersona ? primaryPersonaMatchesPayload(concurrentPersona) : false;
+        const resolved = concurrentPersona ? personaMatchesPayload(concurrentPersona, personaPayload, targetStatus) : false;
         writeResult = {
           attempted: resolved,
           operation: resolved ? 'update' : 'skipped',
@@ -372,11 +376,12 @@ export function getExtrimliWorldBankPersonaReport(options: ExtrimliWorldBankPers
         },
       };
       const personaId = payload.id ?? payload.name;
+      let personaHandled = false;
       try {
         const existing = client.get(personaId);
         if (existing?.status === 'archived') {
           catalogSync.skippedArchived++;
-          catalogSync.processedPersonas++;
+          personaHandled = true;
           continue;
         }
         if (existing) {
@@ -390,20 +395,26 @@ export function getExtrimliWorldBankPersonaReport(options: ExtrimliWorldBankPers
             crossRepoRef: payload.crossRepoRef,
           });
           catalogSync.updated++;
+          personaHandled = true;
         } else {
           client.register(payload);
           catalogSync.registered++;
+          personaHandled = true;
         }
       } catch (catalogError) {
         if (catalogError instanceof PersonaArchivedError) {
           catalogSync.skippedArchived++;
         } else if (catalogError instanceof PersonaLockConflictError) {
-          catalogSync.recoveredFromLock++;
+          const concurrentPersona = client.get(personaId);
+          if (concurrentPersona && personaMatchesPayload(concurrentPersona, payload, status)) {
+            catalogSync.recoveredFromLock++;
+            personaHandled = true;
+          }
         } else {
           throw catalogError;
         }
       }
-      catalogSync.processedPersonas++;
+      if (personaHandled) catalogSync.processedPersonas++;
     }
     writeResult.catalogSync = catalogSync;
   }

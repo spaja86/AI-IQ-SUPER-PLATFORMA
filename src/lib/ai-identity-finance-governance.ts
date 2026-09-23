@@ -171,7 +171,7 @@ export function buildAiIdentityFinanceGovernancePackage(
   const personas = SEED_PERSONAS.map((persona) => {
     const completenessScore = deriveIdentityCompleteness(persona);
     identityCompletenessTotal += completenessScore;
-    const personaStatus = options.promotionFreeze
+    const personaStatus = options.readinessStatus === 'BLOCKED' || options.promotionFreeze
       ? 'BLOCKED'
       : completenessScore < 100
         ? 'WATCH'
