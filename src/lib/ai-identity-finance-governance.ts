@@ -58,11 +58,25 @@ export interface AiIdentityFinanceGovernancePackage {
     linkedRepo: 'spaja86/IO-OPENUI-AO';
     downstreamSyncPolicy: 'audit-safe-summary-only';
   };
+  identityCard: {
+    canonicalName: 'AI LIČNA KARTA';
+    auditSafePublicView: true;
+    noSensitiveOperationalDataInGit: true;
+    activationApprovalTrackedInAuditLog: true;
+  };
   identityCardPolicy: {
     uniquePersonaIdentityInPersonaBankRequired: true;
     auditSafePublicViewOnly: true;
     noSensitiveOperationalDataInGit: true;
     activationApprovalTrackedInAuditLog: true;
+  };
+  bankAccountGovernance: {
+    canonicalName: 'AI BANKARSKI RAČUN';
+    governanceOnlyModel: true;
+    realBankAccountStoredInGit: false;
+    rawStatementsStoredInGit: false;
+    secretsStoredInGit: false;
+    kycStoredInGit: false;
   };
   bankAccountGovernancePolicy: {
     governanceModelOnly: true;
@@ -74,6 +88,7 @@ export interface AiIdentityFinanceGovernancePackage {
   compensationModel: {
     weeklyTargetEur: 12000;
     cadence: 'weekly';
+    executionMode: 'business-target-only';
     classification: 'business-finops-target-only';
     payoutMode: 'premium-rollout-regime';
     masterBillingCycle: 'monthly-or-annual';
@@ -233,11 +248,25 @@ export function buildAiIdentityFinanceGovernancePackage(
       linkedRepo: options.linkedRepo ?? 'spaja86/IO-OPENUI-AO',
       downstreamSyncPolicy: 'audit-safe-summary-only',
     },
+    identityCard: {
+      canonicalName: 'AI LIČNA KARTA',
+      auditSafePublicView: true,
+      noSensitiveOperationalDataInGit: true,
+      activationApprovalTrackedInAuditLog: true,
+    },
     identityCardPolicy: {
       uniquePersonaIdentityInPersonaBankRequired: true,
       auditSafePublicViewOnly: true,
       noSensitiveOperationalDataInGit: true,
       activationApprovalTrackedInAuditLog: true,
+    },
+    bankAccountGovernance: {
+      canonicalName: 'AI BANKARSKI RAČUN',
+      governanceOnlyModel: true,
+      realBankAccountStoredInGit: false,
+      rawStatementsStoredInGit: false,
+      secretsStoredInGit: false,
+      kycStoredInGit: false,
     },
     bankAccountGovernancePolicy: {
       governanceModelOnly: true,
@@ -249,6 +278,7 @@ export function buildAiIdentityFinanceGovernancePackage(
     compensationModel: {
       weeklyTargetEur: 12000,
       cadence: 'weekly',
+      executionMode: 'business-target-only',
       classification: 'business-finops-target-only',
       payoutMode: 'premium-rollout-regime',
       masterBillingCycle: 'monthly-or-annual',
