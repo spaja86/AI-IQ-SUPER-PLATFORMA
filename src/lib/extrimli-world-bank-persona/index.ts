@@ -258,6 +258,7 @@ export function getExtrimliWorldBankPersonaReport(options: ExtrimliWorldBankPers
     const client = createPersonaBankClient(agentId);
     const targetStatus = lifecycle.targetPersonaStatus;
     const primaryPersonaId = personaPayload.id ?? personaPayload.name;
+    const seededPrimaryPersona = SEED_PERSONAS.some((seedPersona) => (seedPersona.id ?? seedPersona.name) === primaryPersonaId);
     let primaryPersonaSynced = false;
     const personaMatchesPayload = (
       persona: NonNullable<ExtrimliWorldBankPersonaReport['writeResult']['persona']>,
@@ -355,7 +356,7 @@ export function getExtrimliWorldBankPersonaReport(options: ExtrimliWorldBankPers
 
     const catalogSync = {
       ...writeResult.catalogSync,
-      processedPersonas: aiPersonaCatalog.has(primaryPersonaId) && primaryPersonaSynced ? 1 : 0,
+      processedPersonas: seededPrimaryPersona && primaryPersonaSynced ? 1 : 0,
     };
     for (const seedPersona of SEED_PERSONAS) {
       if ((seedPersona.id ?? seedPersona.name) === primaryPersonaId) continue;
