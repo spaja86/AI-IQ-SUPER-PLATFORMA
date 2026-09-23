@@ -943,6 +943,8 @@ Canonical vocabulary:
 Documentation boundary:
 
 - Shared ChatGPT link i već opisane povelje/pravni akti tretiraju se kao **documentation-only** source material.
+- Zaključani documentation-only ChatGPT share izvor za ovaj governance paket je `https://chatgpt.com/share/6ab2f88d-23b0-83eb-b708-b880bdb7fc11?ogimg=plain` i ne sme se koristiti kao runtime ulaz.
+- Jezički sloj je zaključan: srpski je primarni kanonski izraz domena, uz engleske tehničke oznake samo za interoperabilnost i review.
 - `VRH PROGRAMSKOG EKVILADENTA` u V2–V5 zaključava additive-only mapiranje: `eksponencijalne funkcije` → readiness/progression, `oktavna topologija` + `sekvencijalni oktavni sistem reprodukcije` → orchestration model, `ekspozje` → auditabilni intenzitet/opterećenje, `obrtni moment` → torque/momentum, `srazmerno stanje u eksploatacionom nivou` → proporcionalno/governance posture.
 - Primarni sadržajni gap koji mora biti eksplicitno zaključen je `POVELJA O ZAKONODAVNOM PRAVU`.
 
