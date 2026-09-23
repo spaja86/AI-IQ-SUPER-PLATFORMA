@@ -1620,6 +1620,9 @@ async function runTests(): Promise<void> {
       assert(privredniAkt.readiness.status === 'READY', 'valid quarterly market inputs should keep privredni akt READY');
       assert(privredniAkt.readiness.score >= 70, 'valid quarterly market inputs should keep readiness score in READY band');
       assert(privredniAkt.kvartalniTrzisniModel.quarters.every((quarter) => quarter.status === 'READY'), 'valid quarterly market inputs should keep each quarter READY');
+      assert(privredniAkt.zadrugaOperations.readiness.status === 'READY', 'default zadruga readiness should be READY for valid market profile');
+      assert(privredniAkt.zadrugaOperations.canonicalVocabulary.instrumentTabla === 'INSTRUMENT TABLA', 'zadruga canonical instrument tabla vocabulary mismatch');
+      assert(privredniAkt.zadrugaOperations.ownershipLock.dokDikFor === 'EXTREM', 'zadruga ownership lock must preserve EXTREM technical ownership');
     });
   });
 
@@ -1640,6 +1643,8 @@ async function runTests(): Promise<void> {
       assert(privredniAkt.readiness.status === 'BLOCKED', 'invalid quarterly inputs must block privredni akt readiness');
       assert(privredniAkt.kvartalniTrzisniModel.quarters.some((quarter) => quarter.status === 'BLOCKED'), 'invalid quarterly inputs must propagate blocked quarter status');
       assert(privredniAkt.kvartalniTrzisniModel.deterministicFallbackInputs.join(',') === 'NaN,Infinity,empty,conflict', 'fallback input vocabulary mismatch for privredni akt');
+      assert(privredniAkt.zadrugaOperations.readiness.deterministicFallbackRequired, 'privredni akt fallback should cascade into zadruga readiness signal');
+      assert(privredniAkt.zadrugaOperations.readiness.status === 'BLOCKED', 'privredni akt fallback should block zadruga readiness');
     });
   });
 

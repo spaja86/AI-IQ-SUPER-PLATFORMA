@@ -2767,6 +2767,34 @@ function buildDeveloperCreateUniversityGovernanceProfile(params: {
   const certificationStatus = params.reflection.kraljevskiProgramskiUneverzitet.certificationPosture.certificationStatus;
   const rewardStatus = params.reflection.kraljevskiProgramskiUneverzitet.payoutEligibilityPosture.payoutStatus;
   const privredniAktQuarterlyMarketStatus = params.reflection.kraljevskiEkonomskiUneverzitet.privredniAkt.readiness.status;
+  const zadrugaOps = params.reflection.kraljevskiEkonomskiUneverzitet.privredniAkt.zadrugaOperations;
+  const resolveSignalStatus = (value: number): 'READY' | 'WATCH' | 'BLOCKED' => {
+    if (value >= 70) return 'READY';
+    if (value >= 45) return 'WATCH';
+    return 'BLOCKED';
+  };
+  const resolveVlastelaStatus = (queueDepth: number): 'READY' | 'WATCH' | 'BLOCKED' => {
+    if (queueDepth <= 10) return 'READY';
+    if (queueDepth <= 30) return 'WATCH';
+    return 'BLOCKED';
+  };
+  const workerHiringCapacityStatus = resolveSignalStatus(zadrugaOps.operationalSignals.workerHiringCapacityPercent);
+  const radneAkcijeCoordinationStatus = resolveSignalStatus(zadrugaOps.operationalSignals.radneAkcijeCoordinationPercent);
+  const instrumentTablaOperationalStatus = resolveSignalStatus(
+    zadrugaOps.operationalSignals.instrumentTablaOperationalReadinessPercent,
+  );
+  const ekstremnoVisokePlateSustainabilityStatus = resolveSignalStatus(
+    zadrugaOps.operationalSignals.ekstremnoVisokePlateSustainabilityPercent,
+  );
+  const vlastelaRequestStatus = resolveVlastelaStatus(zadrugaOps.operationalSignals.vlastelaRequestQueueDepth);
+  const antiAbuseStatus: 'READY' | 'WATCH' | 'BLOCKED' =
+    zadrugaOps.operationalSignals.vlastelaRequestQueueDepth > 30
+      ? 'BLOCKED'
+      : zadrugaOps.operationalSignals.vlastelaRequestQueueDepth > 10
+        ? 'WATCH'
+        : 'READY';
+  const disputeStatus: 'READY' | 'WATCH' | 'BLOCKED' =
+    zadrugaOps.readiness.status === 'BLOCKED' ? 'WATCH' : 'READY';
   const blockerReasons = [
     ...(params.reflection.readiness.deterministicFallbackRequired ? ['deterministic-fallback-active'] : []),
     ...(privredniAktQuarterlyMarketStatus === 'BLOCKED' ? ['privredni-akt-quarterly-market-blocked'] : []),
@@ -2776,6 +2804,9 @@ function buildDeveloperCreateUniversityGovernanceProfile(params: {
     ...(!params.downstreamSyncComplete ? ['downstream-sync-required'] : []),
     ...(!params.auditTrailComplete ? ['audit-trail-required'] : []),
     ...(!params.rollbackPlanComplete ? ['rollback-plan-required'] : []),
+    ...(zadrugaOps.readiness.status === 'BLOCKED' ? ['zadruga-operational-blocked'] : []),
+    ...(zadrugaOps.readiness.payoutGovernanceStatus === 'BLOCKED' ? ['zadruga-payout-governance-blocked'] : []),
+    ...(vlastelaRequestStatus === 'BLOCKED' ? ['vlastela-request-overflow'] : []),
   ];
   const hardBlockers = new Set([
     ...(params.reflection.readiness.deterministicFallbackRequired ? ['deterministic-fallback-active'] : []),
@@ -2812,6 +2843,26 @@ function buildDeveloperCreateUniversityGovernanceProfile(params: {
     rewardStatus === 'eligible-for-payout'
       ? []
       : ['score-below-payout-threshold', ...payoutGateReasons];
+  const zadrugaWatchReasons = [
+    ...(zadrugaOps.readiness.status === 'WATCH' ? ['zadruga-operational-watch'] : []),
+    ...(zadrugaOps.readiness.payoutGovernanceStatus === 'WATCH' ? ['zadruga-payout-governance-watch'] : []),
+    ...(vlastelaRequestStatus === 'WATCH' ? ['vlastela-request-pressure'] : []),
+    ...(antiAbuseStatus === 'WATCH' ? ['anti-abuse-watch'] : []),
+    ...(disputeStatus === 'WATCH' ? ['dispute-watch'] : []),
+  ];
+  const zadrugaBlockerReasons = [
+    ...(zadrugaOps.readiness.status === 'BLOCKED' ? ['zadruga-operational-blocked'] : []),
+    ...(zadrugaOps.readiness.payoutGovernanceStatus === 'BLOCKED' ? ['zadruga-payout-governance-blocked'] : []),
+    ...(vlastelaRequestStatus === 'BLOCKED' ? ['vlastela-request-overflow'] : []),
+    ...(!params.humanReviewComplete ? ['human-review-required'] : []),
+    ...(!params.complianceReviewComplete ? ['compliance-review-required'] : []),
+    ...(params.paymentVerification.status !== 'VERIFIED' ? ['payment-verification-required'] : []),
+    ...(!params.auditTrailComplete ? ['audit-trail-required'] : []),
+    ...(!params.rollbackPlanComplete ? ['rollback-plan-required'] : []),
+  ];
+  const freezeRequired =
+    zadrugaBlockerReasons.length > 0 || antiAbuseStatus === 'BLOCKED' || disputeStatus === 'BLOCKED';
+  const promotionEligible = !freezeRequired && params.downstreamSyncComplete;
 
   return {
     certificationStatus,
@@ -2822,6 +2873,31 @@ function buildDeveloperCreateUniversityGovernanceProfile(params: {
     blockerReasons,
     watchReasons,
     auditSafeReason,
+    zadrugaGovernance: {
+      additiveOnly: true,
+      sourceOfTruth: '/api/extrimli/extrondol',
+      technicalSignalSource: '/api/extrimli/extrem',
+      boundedOperationalDomain: 'zadruga-instrument-tabla-vlastela-requests',
+      ownershipLockValidated:
+        zadrugaOps.ownershipLock.dokDikFor === 'EXTREM'
+        && zadrugaOps.ownershipLock.dakDuk === 'EXTRONDOL'
+        && zadrugaOps.ownershipLock.spajaKod === 'audit-safe-summary-only',
+      workerHiringCapacityStatus,
+      radneAkcijeCoordinationStatus,
+      instrumentTablaOperationalStatus,
+      ekstremnoVisokePlateSustainabilityStatus,
+      vlastelaRequestStatus,
+      antiAbuseStatus,
+      disputeStatus,
+      freezeRequired,
+      promotionEligible,
+      auditTrailRequired: true,
+      rollbackPlanRequired: true,
+      blockerReasons: zadrugaBlockerReasons,
+      watchReasons: zadrugaWatchReasons,
+      summary:
+        'ZADRUGA governance ostaje additive-only: freeze/promotion zavise od human/compliance/payment verifikacije, anti-abuse/dispute posture i audit/rollback evidencije.',
+    },
   } as const;
 }
 
@@ -2969,6 +3045,14 @@ function buildSpajaKodFacade(params: {
         certificationStatus: developerCreateUniversityGovernance.publicCertificationStatus,
         payoutReadinessStatus: developerCreateUniversityGovernance.payoutReadinessStatus,
         privredniAktQuarterlyMarketStatus: developerCreateUniversityGovernance.privredniAktQuarterlyMarketStatus,
+        zadrugaOperationalStatus: developerCreateUniversityGovernance.zadrugaGovernance.freezeRequired
+          ? 'BLOCKED'
+          : developerCreateUniversityGovernance.zadrugaGovernance.workerHiringCapacityStatus === 'WATCH'
+            || developerCreateUniversityGovernance.zadrugaGovernance.radneAkcijeCoordinationStatus === 'WATCH'
+            ? 'WATCH'
+            : 'READY',
+        instrumentTablaStatus: developerCreateUniversityGovernance.zadrugaGovernance.instrumentTablaOperationalStatus,
+        payoutGovernancePosture: developerCreateUniversityGovernance.payoutReadinessStatus,
         privredniAktBeneficiarySegments: ['poljoprivrednici-sa-gostoprimstvom', 'poljoprivrednici'],
         auditSafeReason: developerCreateUniversityGovernance.auditSafeReason,
       },
@@ -4267,6 +4351,9 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
           forbiddenArtifacts: ['bank-account-number', 'kyc-document', 'payment-secret', 'operational-financial-data'],
           blockerReasons: [...universityGovernance.blockerReasons],
         },
+        zadrugaGovernance: {
+          ...universityGovernance.zadrugaGovernance,
+        },
         rewardApproval: {
           approvalStatus: universityGovernance.payoutReadinessStatus,
           hardGates: [
@@ -4290,6 +4377,14 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
           certificationStatus: universityGovernance.publicCertificationStatus,
           payoutReadinessStatus: universityGovernance.payoutReadinessStatus,
           privredniAktQuarterlyMarketStatus: universityGovernance.privredniAktQuarterlyMarketStatus,
+          zadrugaOperationalStatus: universityGovernance.zadrugaGovernance.freezeRequired
+            ? 'BLOCKED'
+            : universityGovernance.zadrugaGovernance.workerHiringCapacityStatus === 'WATCH'
+              || universityGovernance.zadrugaGovernance.radneAkcijeCoordinationStatus === 'WATCH'
+              ? 'WATCH'
+              : 'READY',
+          instrumentTablaStatus: universityGovernance.zadrugaGovernance.instrumentTablaOperationalStatus,
+          payoutGovernancePosture: universityGovernance.payoutReadinessStatus,
           privredniAktBeneficiarySegments: ['poljoprivrednici-sa-gostoprimstvom', 'poljoprivrednici'],
           auditSafeReason: universityGovernance.auditSafeReason,
         },
@@ -5962,6 +6057,9 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
             forbiddenArtifacts: ['bank-account-number', 'kyc-document', 'payment-secret', 'operational-financial-data'],
             blockerReasons: [...universityGovernance.blockerReasons],
           },
+          zadrugaGovernance: {
+            ...universityGovernance.zadrugaGovernance,
+          },
           rewardApproval: {
             approvalStatus: universityGovernance.payoutReadinessStatus,
             hardGates: [
@@ -5985,6 +6083,14 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
             certificationStatus: universityGovernance.publicCertificationStatus,
             payoutReadinessStatus: universityGovernance.payoutReadinessStatus,
             privredniAktQuarterlyMarketStatus: universityGovernance.privredniAktQuarterlyMarketStatus,
+            zadrugaOperationalStatus: universityGovernance.zadrugaGovernance.freezeRequired
+              ? 'BLOCKED'
+              : universityGovernance.zadrugaGovernance.workerHiringCapacityStatus === 'WATCH'
+                || universityGovernance.zadrugaGovernance.radneAkcijeCoordinationStatus === 'WATCH'
+                ? 'WATCH'
+                : 'READY',
+            instrumentTablaStatus: universityGovernance.zadrugaGovernance.instrumentTablaOperationalStatus,
+            payoutGovernancePosture: universityGovernance.payoutReadinessStatus,
             privredniAktBeneficiarySegments: ['poljoprivrednici-sa-gostoprimstvom', 'poljoprivrednici'],
             auditSafeReason: universityGovernance.auditSafeReason,
           },

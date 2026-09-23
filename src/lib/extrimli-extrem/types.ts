@@ -2498,6 +2498,11 @@ export interface ExtrimliDokDikDakDukConsistencyHealth {
     canonicalGovernanceVocabulary: {
       extremExtrimliExtrondol: 'EXTRIMLI EXTRONDOL EXTREM';
       dokDikDakDukFor: 'DOK DIK DAK DUK FOR';
+      privredniAkt: 'PRIVREDNI AKT';
+      zadruga: 'ZADRUGA';
+      instrumentTabla: 'INSTRUMENT TABLA';
+      vlastelaRequest: 'VLASTELA REQUEST';
+      kraljevstvoAiIqWorldBank: 'KRALJEVSTVO / AI IQ WORLD BANK';
       kraljevskiPravniUniverzitet: 'KRALJEVSKI PRAVNI UNIVERZITET';
       kraljevskiProgramskiUneverzitet: 'KRALJEVSKI PROGRAMSKI UNEVERZITET';
       kraljevskiEkonomskiUneverzitet: 'KRALJEVSKI EKONOMSKI UNEVERZITET';
@@ -2684,6 +2689,46 @@ export interface ExtrimliDokDikDakDukConsistencyHealth {
             'audit-trail',
             'rollback-plan'
           ];
+        };
+        zadrugaOperations: {
+          additiveOnly: true;
+          sourceOfTruthRoutes: readonly ['/api/extrimli/extrem', '/api/extrimli/extrondol', '/api/extrimli/spaja-kod'];
+          canonicalVocabulary: {
+            privredniAkt: 'PRIVREDNI AKT';
+            zadruga: 'ZADRUGA';
+            instrumentTabla: 'INSTRUMENT TABLA';
+            vlastelaRequest: 'VLASTELA REQUEST';
+            kraljevstvoAiIqWorldBank: 'KRALJEVSTVO / AI IQ WORLD BANK';
+          };
+          ownershipLock: {
+            dokDikFor: 'EXTREM';
+            dakDuk: 'EXTRONDOL';
+            spajaKod: 'audit-safe-summary-only';
+          };
+          operationalSignals: {
+            workerHiringCapacityPercent: number;
+            radneAkcijeCoordinationPercent: number;
+            instrumentTablaOperationalReadinessPercent: number;
+            ekstremnoVisokePlateSustainabilityPercent: number;
+            vlastelaRequestQueueDepth: number;
+          };
+          readiness: {
+            zadrugaOperationalStatus: 'READY' | 'WATCH' | 'BLOCKED';
+            instrumentTablaStatus: 'READY' | 'WATCH' | 'BLOCKED';
+            payoutGovernanceStatus: 'READY' | 'WATCH' | 'BLOCKED';
+            vlastelaRequestStatus: 'READY' | 'WATCH' | 'BLOCKED';
+            status: 'READY' | 'WATCH' | 'BLOCKED';
+            score: number;
+            deterministicFallbackRequired: boolean;
+            reasons: string[];
+          };
+          governanceBoundary: {
+            noNewRuntimeModule: true;
+            noNewFinancialEngineInGit: true;
+            noSecretsKycOrBankDataInGit: true;
+            auditSafeSummaryOnly: true;
+          };
+          summary: string;
         };
         summary: string;
       };
