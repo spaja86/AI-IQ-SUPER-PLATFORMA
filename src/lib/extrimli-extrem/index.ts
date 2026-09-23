@@ -7913,9 +7913,21 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
       certificationStatus:
         dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.deterministicFallbackRequired
           ? 'blocked-for-review'
-          : dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.score >= 80
+          : [
+                vrhProgramskogEkviladenta.readiness.score,
+                radniTaktMozgaMislilac.readiness.score,
+                metrikoProgramiranje.readiness.score,
+                sinemetrickoProgramiranje.readiness.score,
+                paradijogonalnoProgrimiranje.readiness.score,
+              ].every((score) => score >= 80)
             ? 'certified'
-            : dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.score >= 60
+            : [
+                  vrhProgramskogEkviladenta.readiness.score,
+                  radniTaktMozgaMislilac.readiness.score,
+                  metrikoProgramiranje.readiness.score,
+                  sinemetrickoProgramiranje.readiness.score,
+                  paradijogonalnoProgrimiranje.readiness.score,
+                ].every((score) => score >= 60)
               ? 'passed'
               : 'blocked-for-review',
       certificationLevelModel: ['passed', 'certified', 'certified-with-reward', 'blocked-for-review'],
@@ -7926,9 +7938,21 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
       payoutStatus:
         dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.deterministicFallbackRequired
           ? 'blocked-for-review'
-          : dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.score >= 80
+          : [
+                vrhProgramskogEkviladenta.readiness.score,
+                radniTaktMozgaMislilac.readiness.score,
+                metrikoProgramiranje.readiness.score,
+                sinemetrickoProgramiranje.readiness.score,
+                paradijogonalnoProgrimiranje.readiness.score,
+              ].every((score) => score >= 80)
             ? 'eligible-for-payout'
-            : dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.score >= 60
+            : [
+                  vrhProgramskogEkviladenta.readiness.score,
+                  radniTaktMozgaMislilac.readiness.score,
+                  metrikoProgramiranje.readiness.score,
+                  sinemetrickoProgramiranje.readiness.score,
+                  paradijogonalnoProgrimiranje.readiness.score,
+                ].every((score) => score >= 60)
               ? 'certified'
               : 'blocked-for-review',
       governanceOnlyInGit: true,

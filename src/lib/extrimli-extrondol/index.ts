@@ -2774,17 +2774,19 @@ function buildDeveloperCreateUniversityGovernanceProfile(params: {
     ...(!params.auditTrailComplete ? ['audit-trail-required'] : []),
   ];
   const hardBlockers = new Set([
-    'deterministic-fallback-active',
+    ...(params.reflection.readiness.deterministicFallbackRequired ? ['deterministic-fallback-active'] : []),
     ...(certificationStatus === 'blocked-for-review' ? ['blocked-for-review'] : []),
   ]);
   const payoutGateReasons = blockerReasons.filter((reason) => !hardBlockers.has(reason));
   const payoutReadinessStatus =
     hardBlockers.size > 0
       ? 'BLOCKED'
+      : rewardStatus === 'blocked-for-review'
+        ? 'BLOCKED'
+      : payoutGateReasons.length > 0
+        ? 'BLOCKED'
       : rewardStatus === 'eligible-for-payout'
-        ? payoutGateReasons.length > 0
-          ? 'BLOCKED'
-          : 'READY'
+        ? 'READY'
         : 'WATCH';
   const publicCertificationStatus =
     certificationStatus === 'blocked-for-review'
