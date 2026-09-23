@@ -773,6 +773,22 @@ async function runTests(): Promise<void> {
     assert(report.vrhProgramskogEkviladenta.technicalSignalSource === '/api/extrimli/extrem', 'vrh technical source mismatch');
     assert(report.vrhProgramskogEkviladenta.parentTrack === 'PROPORCIONALNO PROGRAMIRANJE', 'vrh parent track mismatch');
     assert(report.releaseAuditSummary.vrhProgramskogEkviladentaGovernance.sourceOfTruth === '/api/extrimli/extrem', 'vrh audit source mismatch');
+    assert(
+      report.vrhProgramskogEkviladenta.documentationOnlyReferences.some(
+        (reference) =>
+          reference.url === 'https://chatgpt.com/share/6ab2f88d-23b0-83eb-b708-b880bdb7fc11?ogimg=plain'
+          && reference.runtimeInputAllowed === false,
+      ),
+      'vrh governance must preserve first documentation-only share reference',
+    );
+    assert(
+      report.vrhProgramskogEkviladenta.documentationOnlyReferences.some(
+        (reference) =>
+          reference.url === 'https://chatgpt.com/share/6ab3c696-e9d0-83ed-ab2a-977fd811c82d?ogimg=plain'
+          && reference.runtimeInputAllowed === false,
+      ),
+      'vrh governance must preserve second documentation-only share reference',
+    );
     assert(report.b2bReadiness.downstreamSync.syncedFields.includes('extremProfiler.vrhProgramskogEkviladenta.readiness.status'), 'vrh status must sync downstream');
     assert(report.b2bReadiness.downstreamSync.syncedFields.includes('vrhProgramskogEkviladenta.waweImpact'), 'vrh WAWE impact must sync downstream');
     assert(report.startProject.mandatoryOutputs.includes('vrhProgramskogEkviladenta'), 'vrh governance must be mandatory output');

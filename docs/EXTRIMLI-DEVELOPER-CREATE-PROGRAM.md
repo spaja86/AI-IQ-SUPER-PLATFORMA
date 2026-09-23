@@ -355,7 +355,7 @@ Bez kompletnog audit paketa release ostaje u freeze režimu.
 
 - `PROGRAM_LOCK_SOURCE_OF_TRUTH`: `VRH PROGRAMSKOG EKVILADENTA` koristi samo `/api/extrimli/extrem`, `/api/extrimli/extrondol` i `/api/extrimli/spaja-kod` kao postojeće surface-ove bez novih runtime ruta.
 - `PROGRAM_LOCK_TERMINOLOGY`: `DOK + DIK + FOR` su EXTREM technical ownership; `DAK + DUK` su EXTRONDOL governance ownership; ChatGPT/share materijal ostaje documentation-only.
-- `PROGRAM_LOCK_CHATGPT_REFERENCE`: `https://chatgpt.com/share/6ab2f88d-23b0-83eb-b708-b880bdb7fc11?ogimg=plain` je dozvoljen isključivo kao documentation/evidence referenca (nikad runtime ulaz, nikad source-of-truth).
+- `PROGRAM_LOCK_CHATGPT_REFERENCE`: `https://chatgpt.com/share/6ab2f88d-23b0-83eb-b708-b880bdb7fc11?ogimg=plain` i `https://chatgpt.com/share/6ab3c696-e9d0-83ed-ab2a-977fd811c82d?ogimg=plain` su dozvoljeni isključivo kao documentation/evidence reference (nikad runtime ulaz, nikad source-of-truth).
 - `PROGRAM_LOCK_LANGUAGE_LAYER`: srpski je primarni kanonski logički izraz, a engleske tehničke oznake služe samo za interoperabilnost, integraciju i review.
 - `PROGRAM_LOCK_VRH_TRACKS`: eksponencijalne funkcije, oktavna topologija, sekvencijalna oktavna reprodukcija, exposure, torque i bounded ekonomska koordinacija moraju biti mapirani na postojeće EXTREM/EXTRONDOL discipline, a `KRALJEVSKI MATEMATIČKI UNIVERZITET`, `KRALJEVSKA FIZIKA UNIVERZITET`, `KRALJEVSKI MAŠINSKI UNIVERZITET` i `KRALJEVSKI EKONOMSKI UNEVERZITET` smeju postojati samo kao interpretativne trake.
 - `PROGRAM_LOCK_VRH_TRACKS_ALIAS`: `KRALJEVSKA MEHANIKA UNIVERZITET` je dozvoljen samo kao interpretativni alias koji se mapira na postojeći `KRALJEVSKI MAŠINSKI UNIVERZITET` track, bez novih ruta i bez novog source-of-truth sloja.

@@ -566,6 +566,17 @@ async function runTests(): Promise<void> {
     assert(body.data.vrhProgramskogEkviladenta.technicalSignalSource === '/api/extrimli/extrem', 'unexpected vrh source');
     assert(body.data.vrhProgramskogEkviladenta.parentTrack === 'PROPORCIONALNO PROGRAMIRANJE', 'unexpected vrh parent track');
     assert(['READY', 'WATCH', 'BLOCKED'].includes(body.data.vrhProgramskogEkviladenta.status), 'unexpected vrh status');
+    const vrhDocumentationReferences = (
+      body.data.vrhProgramskogEkviladenta as { documentationOnlyReferences?: Array<{ url: string; runtimeInputAllowed: boolean }> }
+    ).documentationOnlyReferences ?? [];
+    assert(
+      vrhDocumentationReferences.some(
+        (reference) =>
+          reference.url === 'https://chatgpt.com/share/6ab3c696-e9d0-83ed-ab2a-977fd811c82d?ogimg=plain'
+          && reference.runtimeInputAllowed === false,
+      ),
+      'missing second VRH documentation-only reference in EXTRONDOL API output',
+    );
     assert(body.data.epicElikvadenti.term === 'Objektno orijentusano uzdizanje epskih elikvadenata', 'unexpected epic elikvadenti term');
     assert(body.data.epicElikvadenti.technicalSignalSource === '/api/extrimli/extrem', 'unexpected epic elikvadenti source');
     assert(['READY', 'WATCH', 'BLOCKED'].includes(body.data.epicElikvadenti.status), 'unexpected epic elikvadenti status');
@@ -733,6 +744,17 @@ async function runTests(): Promise<void> {
     assert(body.data.vrhProgramskogEkviladenta.contractVersion === EXTRIMLI_EXTREM_VRH_PROGRAMSKOG_EKVILADENTA_CONTRACT_VERSION, 'unexpected EXTREM vrh contract');
     assert(body.data.vrhProgramskogEkviladenta.parentTrack === 'PROPORCIONALNO PROGRAMIRANJE', 'unexpected EXTREM vrh parent track');
     assert(['READY', 'WATCH', 'BLOCKED'].includes(body.data.vrhProgramskogEkviladenta.readiness.status), 'unexpected EXTREM vrh status');
+    const extremVrhChatGptReferences = (
+      body.data.vrhProgramskogEkviladenta as { meaningLock?: { chatGptShareReferences?: Array<{ url: string; runtimeInputAllowed: boolean }> } }
+    ).meaningLock?.chatGptShareReferences ?? [];
+    assert(
+      extremVrhChatGptReferences.some(
+        (reference) =>
+          reference.url === 'https://chatgpt.com/share/6ab3c696-e9d0-83ed-ab2a-977fd811c82d?ogimg=plain'
+          && reference.runtimeInputAllowed === false,
+      ),
+      'missing second VRH documentation-only reference in EXTREM API output',
+    );
     assert(Number.isFinite(body.data.vrhProgramskogEkviladenta.readiness.score), 'vrh score must be finite');
     assert(body.data.objektnoOrijentisanaProngilacija.term === 'Objektno orijentisana prongilacija', 'unexpected EXTREM object-oriented prongilacija term');
     assert(

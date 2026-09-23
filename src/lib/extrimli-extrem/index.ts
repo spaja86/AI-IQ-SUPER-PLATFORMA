@@ -4276,6 +4276,11 @@ function buildVrhProgramskogEkviladentaSignal(params: {
           usage: 'documentation-only-reference',
           runtimeInputAllowed: false,
         },
+        {
+          url: 'https://chatgpt.com/share/6ab3c696-e9d0-83ed-ab2a-977fd811c82d?ogimg=plain',
+          usage: 'documentation-only-reference',
+          runtimeInputAllowed: false,
+        },
       ],
       languageLayer: {
         primaryCanonicalLanguage: 'srpski',

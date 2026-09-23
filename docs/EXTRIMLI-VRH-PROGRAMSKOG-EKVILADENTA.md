@@ -61,7 +61,7 @@ Supplied image `https://github.com/user-attachments/assets/9273c07f-5c03-4db4-a4
 - `KRALJEVSKI PROGRAMSKI UNEVERZITET` ostaje additive-only vršni programski alias: canonical spelling lock je upravo `KRALJEVSKI PROGRAMSKI UNEVERZITET`, parent track ostaje `VRH PROGRAMSKOG EKVILADENTA`, EXTREM objavljuje samo izvedeni technicalReadinessProfile nad postojećim signalima, EXTRONDOL objavljuje samo governance mirror, a SPAJA KOD samo audit-safe summary status.
 - `Arhimedisov princip matematike + tržišni odnos` u okviru `KRALJEVSKI EKONOMSKI UNEVERZITET` ostaje additive-only interpretacija: `roba↔roba` i `novac↔roba` predstavljaju bounded razmenu vrednosti, a množenje/deljenje predstavlja skaliranje postojećih readiness odnosa bez novih runtime ruta i bez novog source-of-truth modula.
 - ChatGPT share link i sličan spoljašnji materijal tretiraju se isključivo kao **documentation-only** izvor, nikada kao runtime source of truth.
-- Zaključani ChatGPT documentation-only izvor za ovaj profil je `https://chatgpt.com/share/6ab2f88d-23b0-83eb-b708-b880bdb7fc11?ogimg=plain` i dozvoljen je samo kao audit/evidence referenca.
+- Zaključani ChatGPT documentation-only izvori za ovaj profil su `https://chatgpt.com/share/6ab2f88d-23b0-83eb-b708-b880bdb7fc11?ogimg=plain` i `https://chatgpt.com/share/6ab3c696-e9d0-83ed-ab2a-977fd811c82d?ogimg=plain` i dozvoljeni su samo kao audit/evidence references.
 - Jezički lock ostaje: srpski je primarni kanonski izraz domena, dok se engleske tehničke oznake koriste samo za interoperabilnost, review i integracione mape.
 - `eksponencijalne funkcije` mapiraju se na readiness/progression signal.
 - `oktavna topologija` i `sekvencionalni oktavni sistem reprodukcije` mapiraju se na sekvencijalni/orchestration model unutar EXTREM signala.

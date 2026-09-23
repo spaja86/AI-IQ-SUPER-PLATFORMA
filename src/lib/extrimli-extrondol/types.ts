@@ -427,6 +427,7 @@ export interface ExtrimliExtrondolVrhProgramskogEkviladentaGovernance {
     ekspozje: 'auditabilni-intenzitet-opterecenja';
     obrtniMoment: 'momentum-torque-signal';
   };
+  documentationOnlyReferences: ExtrimliExtremProfilerReport['vrhProgramskogEkviladenta']['meaningLock']['chatGptShareReferences'];
   ownershipEvidence: {
     forTechnical: true;
     dokTechnical: true;
