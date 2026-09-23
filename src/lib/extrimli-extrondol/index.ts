@@ -6477,6 +6477,7 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
           'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.osnoveRispektProtocol',
           'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.aiPlateGovernance',
           'spajaKod.publicSignals.developerAndCreateStatus',
+          'spajaKod.publicSignals.developerAndCreateImplementationStatus',
           'spajaKod.publicSignals.aiPlateStatus',
         ],
         downstreamSync: 'follow-up-only-until-io-openui-ao-adopts-audit-safe-summary',
