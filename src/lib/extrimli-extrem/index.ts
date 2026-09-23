@@ -7825,9 +7825,9 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
           certificationThresholdPercent: 80,
           payoutThresholdPercent: 80,
           derivedStatus:
-            dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.score >= 80
+            vrhProgramskogEkviladenta.readiness.score >= 80
               ? 'eligible-for-payout'
-              : dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.score >= 60
+              : vrhProgramskogEkviladenta.readiness.score >= 60
                 ? 'passed'
                 : 'blocked-for-review',
         },

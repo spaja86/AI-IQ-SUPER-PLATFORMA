@@ -2777,13 +2777,13 @@ function buildDeveloperCreateUniversityGovernanceProfile(params: {
     'deterministic-fallback-active',
     ...(certificationStatus === 'blocked-for-review' ? ['blocked-for-review'] : []),
   ]);
-  const watchReasons = blockerReasons.filter((reason) => !hardBlockers.has(reason));
+  const payoutGateReasons = blockerReasons.filter((reason) => !hardBlockers.has(reason));
   const payoutReadinessStatus =
     hardBlockers.size > 0
       ? 'BLOCKED'
       : rewardStatus === 'eligible-for-payout'
-        ? watchReasons.length > 0
-          ? 'WATCH'
+        ? payoutGateReasons.length > 0
+          ? 'BLOCKED'
           : 'READY'
         : 'WATCH';
   const publicCertificationStatus =
@@ -2800,6 +2800,10 @@ function buildDeveloperCreateUniversityGovernanceProfile(params: {
     certificationStatus === 'blocked-for-review'
       ? 'blocked-for-review'
       : blockerReasons[0] ?? (rewardStatus === 'eligible-for-payout' ? 'score-band-and-governance-aligned' : 'score-below-payout-threshold');
+  const watchReasons =
+    rewardStatus === 'eligible-for-payout'
+      ? []
+      : ['score-below-payout-threshold', ...payoutGateReasons];
 
   return {
     certificationStatus,
