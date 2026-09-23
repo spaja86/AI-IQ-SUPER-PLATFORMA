@@ -2364,12 +2364,21 @@ export interface ExtrimliSpajaKodPublicFacade {
       'publicSignals.kraljevskiPravniUniverzitetStatus',
       'developerAndCreateVisualReflection.kraljevskiBastaUneverzite',
       'developerAndCreateVisualReflection.packageOutputs',
+      'developerAndCreateImplementationPackage.aiIqWorldBankPrepiskaSummary',
       'epilogijaCovecnosti.packageOutputs'
     ];
     roadmapStageId: 'v5-extrondol-release-audit-and-orchestration';
     validationStatus: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['readiness']['status'];
     covecanstvuPublicOutput: 'summary-only';
     downstreamSyncRepo: 'spaja86/IO-OPENUI-AO';
+    aiIqWorldBankPrepiskaSummary: {
+      canonicalName: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['aiIdentityFinanceGovernance']['aiIqWorldBankPrepiska']['canonicalName'];
+      canonicalSourceDocument: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['aiIdentityFinanceGovernance']['aiIqWorldBankPrepiska']['canonicalSourceDocument'];
+      sourceMaterialPolicy: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['aiIdentityFinanceGovernance']['aiIqWorldBankPrepiska']['sourceMaterialPolicy'];
+      allowedEvidence: string[];
+      forbiddenEvidence: string[];
+      publicSummary: string;
+    };
     downstreamAuditFields: readonly [
       'masterEpilog',
       'posterSummary',

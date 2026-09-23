@@ -114,6 +114,7 @@ Aktivni execution lock ostaje podeljen: repo-wide reflection i dalje ostaje `roa
 - `AI LIČNA KARTA + AI BANKARSKI RAČUN` pripada istom additive-only reflection paketu i ne uvodi novu runtime domenu.
 - `AI LIČNA KARTA` ostaje audit-safe javni identitet svake seedovane AI persone kroz `persona-bank`, uz obavezna polja: `personaId`, `name`, `domain`, `octave`, `hipermrezaNode`, `linkedAgents`, `lifecycleStatus`, `readinessStatus`, `governanceStatus`.
 - `AI BANKARSKI RAČUN` ostaje governance-only finansijski model za mapiranje na `AI IQ WORLD BANK`, approval/compliance/payment/human-review/downstream-sync signale i payout režim.
+- `AI IQ WORLD BANK PREPISKA` ostaje documentation-only governance evidence nad istim signalima; bounded je na approval/compliance/payment/human-review/downstream-sync/payout statuse i nikada ne nosi stvarne bankarske podatke, KYC ili sekrete.
 - `12000 EURA nedeljno` ostaje business/finops cilj i ne sme biti interpretiran kao automatska isplata bez ugovornog, računovodstvenog i audit sloja.
 - Zabrana ostaje zaključana: nema stvarnih brojeva računa, neredigovanih izvoda, KYC podataka, payment secrets ili drugih osetljivih finansijskih inputa u Git-u.
 - Ownership split ostaje nepromenjen: `EXTREM` objavljuje bounded tehničke identity/finance signale, `EXTRONDOL` vodi approval/freeze/promote + payment verification governance, a `SPAJA KOD` ostaje audit-safe summary only.
