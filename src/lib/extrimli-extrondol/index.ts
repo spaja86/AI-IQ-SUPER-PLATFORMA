@@ -2791,7 +2791,7 @@ function buildDeveloperCreateUniversityGovernanceProfile(params: {
       ? 'blocked-for-review'
       : payoutReadinessStatus === 'READY'
         ? 'certified-with-reward'
-        : certificationStatus === 'certified'
+        : certificationStatus === 'certified' || certificationStatus === 'eligible-for-payout'
           ? 'certified'
           : 'passed';
   const auditSafeReason =
