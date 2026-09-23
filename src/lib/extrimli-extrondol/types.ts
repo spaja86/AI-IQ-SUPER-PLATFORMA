@@ -1905,7 +1905,7 @@ export interface ExtrimliExtrondolDeveloperAndCreateRepoWideReflection
       'developerAndCreateRepoWideReflection.implementationPackage',
       'developerAndCreateRepoWideReflection',
       'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance',
-      'developerAndCreateRepoWideReflection.kraljevskiBastaUneverzite',
+      'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.kraljevskiBastaUneverzite',
       'developerAndCreateRepoWideReflection.covecnostAuditVisualReference.supplementalVisualReferences',
       'developerAndCreateRepoWideReflection.covecnostAuditVisualReference.companionAuditVisualReferences',
       'developerAndCreateRepoWideReflection.aiPlateGovernance',
