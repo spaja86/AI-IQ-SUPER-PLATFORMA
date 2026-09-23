@@ -7674,6 +7674,58 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
     },
     consolidatedRhythmStatus: dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.status,
   };
+  dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.universityLifecycle = {
+    additiveOnly: true,
+    sourceOfTruthRoutes: ['/api/extrimli/extrem', '/api/extrimli/extrondol', '/api/extrimli/spaja-kod'],
+    ownershipLock: {
+      dokDikFor: 'EXTREM',
+      dakDuk: 'EXTRONDOL',
+      spajaKod: 'audit-safe-summary-only',
+    },
+    stages: [
+      'prijava-na-oblast',
+      'polaganje',
+      'automatski-score',
+      'sertifikaciona-odluka',
+      'governance-provera',
+      'payout-odluka',
+      'audit-evidencija',
+      'downstream-summary-objava',
+    ],
+    financeBoundary: 'governance-only-no-real-bank-or-kyc-data-in-git',
+  };
+  dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.universityRolloutPhases = [
+    {
+      phaseId: 'faza-1',
+      title: 'dokumentacija-i-terminologija',
+      scope: 'lock terminology for tests, certification, reward, monetization, and additive-only boundaries',
+      owner: 'documentation',
+    },
+    {
+      phaseId: 'faza-2',
+      title: 'extrem-score-i-certification-signali',
+      scope: 'publish technical readiness, score posture, certification posture, and deterministic fallback outputs',
+      owner: 'EXTREM',
+    },
+    {
+      phaseId: 'faza-3',
+      title: 'extrondol-governance-i-payout-gates',
+      scope: 'publish governance review, payment verification, fraud/compliance blockers, and payout freeze rules',
+      owner: 'EXTRONDOL',
+    },
+    {
+      phaseId: 'faza-4',
+      title: 'spaja-kod-audit-safe-summary',
+      scope: 'publish passed-area count, certification status, payout readiness, and audit-safe reasons only',
+      owner: 'SPAJA KOD',
+    },
+    {
+      phaseId: 'faza-5',
+      title: 'testovi-i-downstream-sync',
+      scope: 'validate thresholds, blockers, audit summary, and downstream synchronization',
+      owner: 'tests-and-downstream-sync',
+    },
+  ];
   dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.kraljevskiEkonomskiUneverzitet = {
     canonicalName: 'KRALJEVSKI EKONOMSKI UNEVERZITET',
     additiveOnly: true,
@@ -7707,6 +7759,14 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
       'sustainable-coordination',
       'audit-safe-growth',
     ],
+    monetizationGovernanceModel: {
+      payoutWindowPercent: [80, 100],
+      governanceOnlyInGit: true,
+      rewardBasis: ['trud', 'intelekt', 'logika', 'mudrost', 'znanje', 'inspiracija', 'stimulans'],
+      allowedGitArtifacts: ['payout-status', 'approval-status', 'payment-verification', 'audit-evidence'],
+      forbiddenGitArtifacts: ['bank-account-number', 'kyc-document', 'payment-secret', 'operational-financial-data'],
+      payoutStatuses: ['passed', 'certified', 'eligible-for-payout', 'blocked-for-review'],
+    },
     readiness: {
       status: dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.status,
       score: dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.score,
@@ -7752,6 +7812,170 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
       governanceOwnership: 'DAK+DUK->EXTRONDOL',
       publicBoundary: 'SPAJA KOD',
       reviewSurface: 'audit-freeze-promotion-review-only',
+    },
+    domainTestCatalog: {
+      scoreStatusModel: ['passed', 'certified', 'eligible-for-payout', 'blocked-for-review'],
+      certificationWindowPercent: [80, 100],
+      areas: [
+        {
+          areaId: 'vrh-programskog-ekviladenta',
+          areaLabel: 'VRH PROGRAMSKOG EKVILADENTA',
+          weightPercent: 25,
+          minimumPassPercent: 60,
+          certificationThresholdPercent: 80,
+          payoutThresholdPercent: 80,
+          derivedStatus:
+            vrhProgramskogEkviladenta.readiness.score >= 80
+              ? 'eligible-for-payout'
+              : vrhProgramskogEkviladenta.readiness.score >= 60
+                ? 'passed'
+                : 'blocked-for-review',
+        },
+        {
+          areaId: 'radni-takt-mozga-mislilac',
+          areaLabel: 'RADNI TAKT MOZGA (MISLILAC)',
+          weightPercent: 20,
+          minimumPassPercent: 60,
+          certificationThresholdPercent: 80,
+          payoutThresholdPercent: 80,
+          derivedStatus:
+            radniTaktMozgaMislilac.readiness.score >= 80
+              ? 'eligible-for-payout'
+              : radniTaktMozgaMislilac.readiness.score >= 60
+                ? 'passed'
+                : 'blocked-for-review',
+        },
+        {
+          areaId: 'metriko-programiranje',
+          areaLabel: 'METRIKO PROGRAMIRANJE',
+          weightPercent: 20,
+          minimumPassPercent: 60,
+          certificationThresholdPercent: 80,
+          payoutThresholdPercent: 80,
+          derivedStatus:
+            metrikoProgramiranje.readiness.score >= 80
+              ? 'eligible-for-payout'
+              : metrikoProgramiranje.readiness.score >= 60
+                ? 'passed'
+                : 'blocked-for-review',
+        },
+        {
+          areaId: 'sinemetricko-programiranje',
+          areaLabel: 'SINEMETRIČKO PROGRAMIRANJE',
+          weightPercent: 20,
+          minimumPassPercent: 60,
+          certificationThresholdPercent: 80,
+          payoutThresholdPercent: 80,
+          derivedStatus:
+            sinemetrickoProgramiranje.readiness.score >= 80
+              ? 'eligible-for-payout'
+              : sinemetrickoProgramiranje.readiness.score >= 60
+                ? 'passed'
+                : 'blocked-for-review',
+        },
+        {
+          areaId: 'paradijogonalno-programiranje',
+          areaLabel: 'PARADIJOGONALNO PROGRAMIRANJE',
+          weightPercent: 15,
+          minimumPassPercent: 60,
+          certificationThresholdPercent: 80,
+          payoutThresholdPercent: 80,
+          derivedStatus:
+            paradijogonalnoProgrimiranje.readiness.score >= 80
+              ? 'eligible-for-payout'
+              : paradijogonalnoProgrimiranje.readiness.score >= 60
+                ? 'passed'
+                : 'blocked-for-review',
+        },
+      ],
+    },
+    participantLifecycle: {
+      stages: dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.universityLifecycle.stages,
+      certificationDecisionPoint: 'sertifikaciona-odluka',
+      payoutDecisionPoint: 'payout-odluka',
+    },
+    domainTestReadiness: {
+      sourceProfile: 'dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.technicalReadinessProfile',
+      status: dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.status,
+      readinessScore: dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.score,
+      passedAreasCount: [
+        vrhProgramskogEkviladenta.readiness.score,
+        radniTaktMozgaMislilac.readiness.score,
+        metrikoProgramiranje.readiness.score,
+        sinemetrickoProgramiranje.readiness.score,
+        paradijogonalnoProgrimiranje.readiness.score,
+      ].filter((score) => score >= 60).length,
+      deterministicFallbackRequired:
+        dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.deterministicFallbackRequired,
+    },
+    certificationPosture: {
+      scoreWindowPercent: [80, 100],
+      certificationStatus:
+        dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.deterministicFallbackRequired
+          ? 'blocked-for-review'
+          : [
+                vrhProgramskogEkviladenta.readiness.score,
+                radniTaktMozgaMislilac.readiness.score,
+                metrikoProgramiranje.readiness.score,
+                sinemetrickoProgramiranje.readiness.score,
+                paradijogonalnoProgrimiranje.readiness.score,
+              ].every((score) => score >= 80)
+            ? 'certified'
+            : [
+                  vrhProgramskogEkviladenta.readiness.score,
+                  radniTaktMozgaMislilac.readiness.score,
+                  metrikoProgramiranje.readiness.score,
+                  sinemetrickoProgramiranje.readiness.score,
+                  paradijogonalnoProgrimiranje.readiness.score,
+                ].every((score) => score >= 60)
+              ? 'passed'
+              : 'blocked-for-review',
+      certificationLevelModel: ['passed', 'certified', 'certified-with-reward', 'blocked-for-review'],
+      certificateIssuedOnlyWithinScoreBand: true,
+    },
+    payoutEligibilityPosture: {
+      scoreWindowPercent: [80, 100],
+      payoutStatus:
+        dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.deterministicFallbackRequired
+          ? 'blocked-for-review'
+          : [
+                vrhProgramskogEkviladenta.readiness.score,
+                radniTaktMozgaMislilac.readiness.score,
+                metrikoProgramiranje.readiness.score,
+                sinemetrickoProgramiranje.readiness.score,
+                paradijogonalnoProgrimiranje.readiness.score,
+              ].every((score) => score >= 80)
+            ? 'eligible-for-payout'
+            : [
+                  vrhProgramskogEkviladenta.readiness.score,
+                  radniTaktMozgaMislilac.readiness.score,
+                  metrikoProgramiranje.readiness.score,
+                  sinemetrickoProgramiranje.readiness.score,
+                  paradijogonalnoProgrimiranje.readiness.score,
+                ].every((score) => score >= 60)
+              ? 'certified'
+              : 'blocked-for-review',
+      governanceOnlyInGit: true,
+      requiredGovernanceGates: [
+        'human-review',
+        'compliance-review',
+        'payment-verification',
+        'anti-abuse-review',
+        'duplicate-attempt-review',
+        'dispute-appeal-process',
+        'downstream-sync',
+        'audit-trail',
+      ],
+    },
+    intellectualEffortEvidence: {
+      valuedSignals: ['trud', 'intelekt', 'logika', 'mudrost', 'znanje', 'inspiracija', 'stimulans'],
+      auditRole: 'bounded-effort-evidence-only',
+      interpretation:
+        'Učenje po oblastima se vrednuje kao bounded dokaz truda, intelekta, logike, mudrosti, znanja, inspiracije i stimulansa bez skladištenja ličnih finansijskih podataka u Git-u.',
+    },
+    deterministicFallbackPolicy: {
+      appliesToInputs: ['NaN', 'Infinity', 'empty', 'conflict'],
+      blockedStatus: 'blocked-for-review',
     },
     thematicSignals: [
       'apex-programming',
