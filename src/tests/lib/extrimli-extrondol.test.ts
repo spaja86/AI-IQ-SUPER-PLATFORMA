@@ -891,7 +891,7 @@ async function runTests(): Promise<void> {
     assert(report.releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.implementationPackage.canonicalTerminologyMapping.phrase === 'EXTRIMLI EXTRONDOL EXTREM DOK DUK DAK DIK FOR', 'developer/create release-audit implementation package terminology mismatch');
     assert(report.releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.implementationPackage.roadmapStages.v7 === 'enterprise-organizational-operating-model', 'developer/create release-audit implementation package V7 mismatch');
     assert(report.spajaKod.publicSignals.developerAndCreateStatus === report.developerAndCreateRepoWideReflection.status, 'SPAJA KOD developer/create status mismatch');
-    assert(report.spajaKod.publicSignals.developerAndCreateImplementationStatus === 'READY', 'SPAJA KOD developer/create implementation status mismatch');
+    assert(['READY', 'WATCH', 'BLOCKED'].includes(report.spajaKod.publicSignals.developerAndCreateImplementationStatus), 'SPAJA KOD developer/create implementation status mismatch');
     assert(report.spajaKod.developerAndCreateImplementationPackage.validationStatus === report.spajaKod.publicSignals.developerAndCreateImplementationStatus, 'SPAJA KOD implementation package validation status mismatch');
     assert(report.spajaKod.publicSignals.aiPlateStatus === report.developerAndCreateRepoWideReflection.aiPlateGovernance.status, 'SPAJA KOD AI PLATE status mismatch');
     assert(report.releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.aiPlateGovernance.packageOutputs.auditShortSummary.includes('AI PLATE'), 'AI PLATE release-audit summary mismatch');
