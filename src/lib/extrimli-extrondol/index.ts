@@ -5389,6 +5389,10 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
       driftZeroLayers: ['docs', 'types', 'routes', 'tests', 'workflows'],
       roadmapStageMapping: extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.roadmapStageMapping,
       technicalReadinessProfile: extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.technicalReadinessProfile,
+      universityLifecycle:
+        extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.universityLifecycle,
+      universityRolloutPhases:
+        extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.universityRolloutPhases,
       kraljevskiEkonomskiUneverzitet:
         extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.kraljevskiEkonomskiUneverzitet,
       kraljevskiProgramskiUneverzitet:
@@ -6651,6 +6655,15 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
     },
   ];
 
+  const developerCreateUniversityGovernanceFinal = buildDeveloperCreateUniversityGovernanceProfile({
+    reflection: extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection,
+    paymentVerification,
+    downstreamSyncComplete,
+    humanReviewComplete,
+    complianceReviewComplete,
+    auditTrailComplete,
+  });
+
   return {
     personaId: EXTRONDOL_PERSONA_ID,
     contractVersion: EXTRONDOL_CONTRACT_VERSION,
@@ -6717,8 +6730,58 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
       },
       mappedTracks: extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.mappedTracks,
       technicalReadinessProfile: extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.technicalReadinessProfile,
+      universityLifecycle: {
+        ...extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.universityLifecycle,
+        reviewRequiredBeforePayout: true,
+      },
+      universityRolloutPhases:
+        extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.universityRolloutPhases,
       kraljevskiProgramskiUneverzitet:
         extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.kraljevskiProgramskiUneverzitet,
+      certificationGovernance: {
+        sourceOfTruth: '/api/extrimli/extrondol',
+        certificationWindowPercent: [80, 100],
+        certificationStatus: developerCreateUniversityGovernanceFinal.publicCertificationStatus,
+        reviewRequiredBeforeCertification: true,
+        disputeProcess: 'manual-appeal-and-dispute-review-required',
+        blockerReasons: [...developerCreateUniversityGovernanceFinal.blockerReasons],
+        watchReasons: [...developerCreateUniversityGovernanceFinal.watchReasons],
+      },
+      kraljevskiEkonomskiUneverzitet:
+        extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.kraljevskiEkonomskiUneverzitet,
+      payoutGovernance: {
+        sourceOfTruth: '/api/extrimli/extrondol',
+        payoutReadinessStatus: developerCreateUniversityGovernanceFinal.payoutReadinessStatus,
+        rewardStatus: developerCreateUniversityGovernanceFinal.rewardStatus,
+        governanceOnlyInGit: true,
+        paymentVerificationRequired: true,
+        allowedArtifacts: ['payout-status', 'approval-status', 'payment-verification', 'audit-evidence'],
+        forbiddenArtifacts: ['bank-account-number', 'kyc-document', 'payment-secret', 'operational-financial-data'],
+        blockerReasons: [...developerCreateUniversityGovernanceFinal.blockerReasons],
+      },
+      rewardApproval: {
+        approvalStatus: developerCreateUniversityGovernanceFinal.payoutReadinessStatus,
+        hardGates: [
+          'human-review',
+          'compliance-review',
+          'payment-verification',
+          'anti-abuse-review',
+          'duplicate-attempt-review',
+          'dispute-appeal-process',
+          'downstream-sync',
+          'audit-trail',
+        ],
+        auditTrailRequired: true,
+        disputePolicy: 'appeal-and-dispute-review-before-payout',
+        blockers: [...developerCreateUniversityGovernanceFinal.blockerReasons],
+      },
+      universityPublicSummary: {
+        passedAreasCount:
+          extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.kraljevskiProgramskiUneverzitet.domainTestReadiness.passedAreasCount,
+        certificationStatus: developerCreateUniversityGovernanceFinal.publicCertificationStatus,
+        payoutReadinessStatus: developerCreateUniversityGovernanceFinal.payoutReadinessStatus,
+        auditSafeReason: developerCreateUniversityGovernanceFinal.auditSafeReason,
+      },
       kraljevskiBastaUneverzite:
         extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.kraljevskiBastaUneverzite,
       aiPlateGovernance: {
