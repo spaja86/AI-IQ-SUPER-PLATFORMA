@@ -2789,13 +2789,14 @@ function buildSpajaKodFacade(params: {
     developerAndCreateImplementationPackage.noParallelSourceOfTruth &&
     developerAndCreateImplementationPackage.validationLock.readyWatchBlockedOnly &&
     developerAndCreateImplementationPackage.validationLock.degradedPolicy === 'partial-payload-no-500';
-  const developerAndCreateImplementationStatus = !implementationPackagePolicyLocked
+  const packageSummaryStatus = [params.developerAndCreateStatus, params.aiPlateStatus].includes('BLOCKED')
     ? 'BLOCKED'
-    : params.developerAndCreateStatus === 'BLOCKED'
-      ? 'BLOCKED'
-      : params.developerAndCreateStatus === 'WATCH'
-        ? 'WATCH'
-        : 'READY';
+    : [params.developerAndCreateStatus, params.aiPlateStatus].includes('WATCH')
+      ? 'WATCH'
+      : 'READY';
+  const developerAndCreateImplementationStatus = implementationPackagePolicyLocked
+    ? packageSummaryStatus
+    : 'BLOCKED';
   const completeness = {
     extremSignalPresent: params.extremProfiler.spajaKodEncapsulation.surfaceName === 'SPAJA KOD',
     extrondolGovernancePresent: true,
