@@ -2754,6 +2754,8 @@ function buildSpajaKodFacade(params: {
   aiPlateStatus: ExtrimliExtrondolReport['extremProfiler']['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['aiPlateOffer']['boundedReadinessProfile']['consolidatedStatus'];
   aiPlateEnterprisePackageStatus: ExtrimliExtrondolReport['releaseAuditSummary']['aiPlateEnterprisePackageGovernance']['status'];
 }): ExtrimliSpajaKodPublicFacade {
+  const developerAndCreateImplementationStatus =
+    params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.status;
   const completeness = {
     extremSignalPresent: params.extremProfiler.spajaKodEncapsulation.surfaceName === 'SPAJA KOD',
     extrondolGovernancePresent: true,
@@ -2826,7 +2828,7 @@ function buildSpajaKodFacade(params: {
       spajinoProporcionalnoProgramiranjeUniverzitetStatus: params.spajinoProporcionalnoProgramiranjeUniverzitetStatus,
       vrhProgramskogEkviladentaStatus: params.vrhProgramskogEkviladentaStatus,
       developerAndCreateStatus: params.developerAndCreateStatus,
-      developerAndCreateImplementationStatus: params.developerAndCreateStatus,
+      developerAndCreateImplementationStatus,
       aiPlateStatus: params.aiPlateStatus,
       aiPlateEnterprisePackageStatus: params.aiPlateEnterprisePackageStatus,
       humanReviewRequired: true,
@@ -2855,7 +2857,7 @@ function buildSpajaKodFacade(params: {
         'epilogijaCovecnosti.packageOutputs',
       ],
       roadmapStageId: 'v5-extrondol-release-audit-and-orchestration',
-      validationStatus: params.developerAndCreateStatus,
+      validationStatus: developerAndCreateImplementationStatus,
       covecanstvuPublicOutput: 'summary-only',
       downstreamSyncRepo: 'spaja86/IO-OPENUI-AO',
       downstreamAuditFields: [
