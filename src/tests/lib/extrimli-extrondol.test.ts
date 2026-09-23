@@ -190,7 +190,7 @@ async function runTests(): Promise<void> {
     const implementationPackage = report.developerAndCreateRepoWideReflection.implementationPackage;
     assert(implementationPackage.sourceOfTruthRoutes.join(',') === '/api/extrimli/extrem,/api/extrimli/extrondol,/api/extrimli/spaja-kod', 'developer/create governance implementation package source routes mismatch');
     assert(implementationPackage.currentWawe === report.rollout.currentWawe, 'developer/create governance implementation package current WAWE mismatch');
-    assert(implementationPackage.eligibleNextWave === report.rollout.eligibleNextWawe, 'developer/create governance implementation package next WAWE mismatch');
+    assert(implementationPackage.eligibleNextWawe === report.rollout.eligibleNextWawe, 'developer/create governance implementation package next WAWE mismatch');
     assert(implementationPackage.canonicalOwnershipSplit.spajaKod === 'audit-safe-summary-only', 'developer/create governance implementation package SPAJA KOD boundary mismatch');
     assert(implementationPackage.covecanstvuEpilogBoundary.publicOutput === 'summary-only', 'developer/create governance implementation package ČOVEČANSTVU output mismatch');
     assert(implementationPackage.validationLock.driftZeroLayers.join(',') === 'docs,types,routes,tests,workflows', 'developer/create governance implementation package drift-zero mismatch');
@@ -349,7 +349,7 @@ async function runTests(): Promise<void> {
     assert(report.releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.roadmapExecution.roadmapStageId === 'v5-extrondol-release-audit-and-orchestration', 'developer/create release audit roadmap stage mismatch');
     assert(
       report.releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.roadmapExecution.acceptanceEvidence.join(',') ===
-        'developerAndCreateRepoWideReflection,releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance,releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.covecnostAuditVisualReference.supplementalVisualReferences,releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.covecnostAuditVisualReference.companionAuditVisualReferences,releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.osnoveRispektProtocol,releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.aiPlateGovernance,spajaKod.publicSignals.developerAndCreateStatus,spajaKod.publicSignals.aiPlateStatus',
+        'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.implementationPackage,developerAndCreateRepoWideReflection,releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance,releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.covecnostAuditVisualReference.supplementalVisualReferences,releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.covecnostAuditVisualReference.companionAuditVisualReferences,releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.osnoveRispektProtocol,releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.aiPlateGovernance,spajaKod.publicSignals.developerAndCreateStatus,spajaKod.publicSignals.aiPlateStatus',
       'developer/create release audit acceptance evidence mismatch',
     );
     assert(report.releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.covecnostAuditVisualGovernance.auditVisibility === 'audit-safe-readiness-only', 'developer/create release audit visual governance visibility mismatch');

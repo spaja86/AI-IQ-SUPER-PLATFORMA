@@ -4096,7 +4096,7 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
         implementationPackage: {
           ...extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.implementationPackage,
           currentWawe,
-          eligibleNextWawe,
+          eligibleNextWawe: eligibleNextWave,
           promotionFreeze,
           reviewRequiredBeforeWideRollout:
             extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.status !== 'READY',
@@ -5675,7 +5675,7 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
           implementationPackage: {
             ...extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.implementationPackage,
             currentWawe,
-            eligibleNextWave,
+            eligibleNextWawe: eligibleNextWave,
             promotionFreeze,
             reviewRequiredBeforeWideRollout:
               extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.status !== 'READY',
@@ -5692,11 +5692,12 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
             measurableOutput:
               'EXTRONDOL consumes the repo-wide technical profile plus primary/supplemental/companion audit visual metadata and publishes only audit-safe WAWE/review/rollback governance',
             acceptanceEvidence: [
-              'developerAndCreateRepoWideReflection.implementationPackage',
+              'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.implementationPackage',
               'developerAndCreateRepoWideReflection',
               'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance',
               'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.covecnostAuditVisualReference.supplementalVisualReferences',
               'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.covecnostAuditVisualReference.companionAuditVisualReferences',
+              'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.osnoveRispektProtocol',
               'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.aiPlateGovernance',
               'spajaKod.publicSignals.developerAndCreateStatus',
               'spajaKod.publicSignals.aiPlateStatus',
@@ -6446,6 +6447,14 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
       covecnostAuditVisualReference: mapDeveloperCreateCovecnostAuditVisualReference(
         extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.covecnostAuditVisualReference,
       ),
+      implementationPackage: {
+        ...extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.implementationPackage,
+        currentWawe,
+        eligibleNextWawe: eligibleNextWave,
+        promotionFreeze,
+        reviewRequiredBeforeWideRollout:
+          extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.status !== 'READY',
+      },
       repoWideReflection: extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.repoWideReflection,
       dailyOperationalCadence: {
         ...extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.dailyOperationalCadence,
@@ -6458,10 +6467,12 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
         measurableOutput:
           'EXTRONDOL consumes the repo-wide technical profile plus primary/supplemental/companion audit visual metadata and publishes only audit-safe WAWE/review/rollback governance',
         acceptanceEvidence: [
+          'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.implementationPackage',
           'developerAndCreateRepoWideReflection',
           'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance',
           'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.covecnostAuditVisualReference.supplementalVisualReferences',
           'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.covecnostAuditVisualReference.companionAuditVisualReferences',
+          'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.osnoveRispektProtocol',
           'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.aiPlateGovernance',
           'spajaKod.publicSignals.developerAndCreateStatus',
           'spajaKod.publicSignals.aiPlateStatus',
