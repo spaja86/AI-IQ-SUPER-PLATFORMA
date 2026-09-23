@@ -432,6 +432,15 @@ async function runTests(): Promise<void> {
       ),
       'vrh chatgpt share references must stay documentation-only',
     );
+    assert(
+      signal.meaningLock.chatGptShareReferences.some(
+        (reference) =>
+          reference.url === 'https://chatgpt.com/share/6ab3c696-e9d0-83ed-ab2a-977fd811c82d?ogimg=plain'
+          && reference.usage === 'documentation-only-reference'
+          && reference.runtimeInputAllowed === false,
+      ),
+      'vrh second chatgpt share reference must stay documentation-only',
+    );
     assert(signal.meaningLock.languageLayer.primaryCanonicalLanguage === 'srpski', 'vrh primary canonical language mismatch');
     assert(
       signal.meaningLock.languageLayer.interoperabilityMapping === 'english-technical-labels-for-review-and-integration',
