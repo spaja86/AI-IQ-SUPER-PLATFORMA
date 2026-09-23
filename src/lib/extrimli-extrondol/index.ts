@@ -2789,9 +2789,7 @@ function buildSpajaKodFacade(params: {
     developerAndCreateImplementationPackage.noParallelSourceOfTruth &&
     developerAndCreateImplementationPackage.validationLock.readyWatchBlockedOnly &&
     developerAndCreateImplementationPackage.validationLock.degradedPolicy === 'partial-payload-no-500';
-  const developerAndCreateImplementationStatus = implementationPackagePolicyLocked
-    ? params.developerAndCreateStatus
-    : 'BLOCKED';
+  const developerAndCreateImplementationStatus = implementationPackagePolicyLocked ? 'READY' : 'BLOCKED';
   const completeness = {
     extremSignalPresent: params.extremProfiler.spajaKodEncapsulation.surfaceName === 'SPAJA KOD',
     extrondolGovernancePresent: true,
