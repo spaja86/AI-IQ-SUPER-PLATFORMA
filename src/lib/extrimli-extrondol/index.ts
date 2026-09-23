@@ -2863,6 +2863,24 @@ function buildDeveloperCreateUniversityGovernanceProfile(params: {
   const freezeRequired =
     zadrugaBlockerReasons.length > 0 || antiAbuseStatus === 'BLOCKED' || disputeStatus === 'BLOCKED';
   const promotionEligible = !freezeRequired && params.downstreamSyncComplete;
+  const reviewPosture =
+    freezeRequired || payoutReadinessStatus === 'BLOCKED'
+      ? 'REVIEW_REQUIRED'
+      : payoutReadinessStatus === 'WATCH'
+        ? 'WATCH'
+        : 'ALIGNED';
+  const additiveFacultyAndAgricultureTracks = {
+    stocarstvoStatus: params.reflection.kraljevskiEkonomskiUneverzitet.boundedPrivredniDomains.stocarstvo.readiness.status,
+    vinogradarstvoStatus: params.reflection.kraljevskiEkonomskiUneverzitet.boundedPrivredniDomains.vinogradarstvo.readiness.status,
+    poljoprivredniFakultetStatus:
+      params.reflection.kraljevskiProgramskiUneverzitet.boundedFacultyDomains.poljoprivredniFakultet.readiness.status,
+    gradjevinskiFakultetStatus:
+      params.reflection.kraljevskiProgramskiUneverzitet.boundedFacultyDomains.gradjevinskiFakultet.readiness.status,
+    workforcePosture: workerHiringCapacityStatus,
+    infrastructurePosture: instrumentTablaOperationalStatus,
+    reviewPosture,
+    rolloutFreezeRequired: freezeRequired,
+  } as const;
 
   return {
     certificationStatus,
@@ -2873,6 +2891,7 @@ function buildDeveloperCreateUniversityGovernanceProfile(params: {
     blockerReasons,
     watchReasons,
     auditSafeReason,
+    additiveFacultyAndAgricultureTracks,
     zadrugaGovernance: {
       additiveOnly: true,
       sourceOfTruth: '/api/extrimli/extrondol',
@@ -3054,6 +3073,9 @@ function buildSpajaKodFacade(params: {
         instrumentTablaStatus: developerCreateUniversityGovernance.zadrugaGovernance.instrumentTablaOperationalStatus,
         payoutGovernancePosture: developerCreateUniversityGovernance.payoutReadinessStatus,
         privredniAktBeneficiarySegments: ['poljoprivrednici-sa-gostoprimstvom', 'poljoprivrednici'],
+        additiveFacultyAndAgricultureTracks: {
+          ...developerCreateUniversityGovernance.additiveFacultyAndAgricultureTracks,
+        },
         auditSafeReason: developerCreateUniversityGovernance.auditSafeReason,
       },
       aiPlateStatus: params.aiPlateStatus,
@@ -4386,7 +4408,13 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
           instrumentTablaStatus: universityGovernance.zadrugaGovernance.instrumentTablaOperationalStatus,
           payoutGovernancePosture: universityGovernance.payoutReadinessStatus,
           privredniAktBeneficiarySegments: ['poljoprivrednici-sa-gostoprimstvom', 'poljoprivrednici'],
+          additiveFacultyAndAgricultureTracks: {
+            ...universityGovernance.additiveFacultyAndAgricultureTracks,
+          },
           auditSafeReason: universityGovernance.auditSafeReason,
+        },
+        additiveFacultyAndAgricultureTracks: {
+          ...universityGovernance.additiveFacultyAndAgricultureTracks,
         },
         dailyOperationalCadence: {
           activeRoadmapStagePolicy:
@@ -6092,7 +6120,13 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
             instrumentTablaStatus: universityGovernance.zadrugaGovernance.instrumentTablaOperationalStatus,
             payoutGovernancePosture: universityGovernance.payoutReadinessStatus,
             privredniAktBeneficiarySegments: ['poljoprivrednici-sa-gostoprimstvom', 'poljoprivrednici'],
+            additiveFacultyAndAgricultureTracks: {
+              ...universityGovernance.additiveFacultyAndAgricultureTracks,
+            },
             auditSafeReason: universityGovernance.auditSafeReason,
+          },
+          additiveFacultyAndAgricultureTracks: {
+            ...universityGovernance.additiveFacultyAndAgricultureTracks,
           },
           kraljevskiBastaUneverzite:
             extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.kraljevskiBastaUneverzite,
@@ -6950,7 +6984,13 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
         instrumentTablaStatus: developerCreateUniversityGovernanceFinal.zadrugaGovernance.instrumentTablaOperationalStatus,
         payoutGovernancePosture: developerCreateUniversityGovernanceFinal.payoutReadinessStatus,
         privredniAktBeneficiarySegments: ['poljoprivrednici-sa-gostoprimstvom', 'poljoprivrednici'],
+        additiveFacultyAndAgricultureTracks: {
+          ...developerCreateUniversityGovernanceFinal.additiveFacultyAndAgricultureTracks,
+        },
         auditSafeReason: developerCreateUniversityGovernanceFinal.auditSafeReason,
+      },
+      additiveFacultyAndAgricultureTracks: {
+        ...developerCreateUniversityGovernanceFinal.additiveFacultyAndAgricultureTracks,
       },
       kraljevskiBastaUneverzite:
         extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.kraljevskiBastaUneverzite,

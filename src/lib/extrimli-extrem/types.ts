@@ -2507,6 +2507,10 @@ export interface ExtrimliDokDikDakDukConsistencyHealth {
       kraljevskiProgramskiUneverzitet: 'KRALJEVSKI PROGRAMSKI UNEVERZITET';
       kraljevskiEkonomskiUneverzitet: 'KRALJEVSKI EKONOMSKI UNEVERZITET';
       kraljevskiBastaUneverzite: 'KRALJEVSKI BAŠTA UNEVERZITE';
+      stocarstvo: 'STOČARSTVO';
+      vinogradarstvo: 'VINOGRADARSTVO';
+      poljoprivredniFakultet: 'POLJOPRIVREDNI FAKULTET';
+      gradjevinskiFakultet: 'GRAĐEVINSKI FAKULTET';
     };
     osnoveRispektProtocol: {
       title: 'OSNOVE / RISPEKT';
@@ -2644,6 +2648,66 @@ export interface ExtrimliDokDikDakDukConsistencyHealth {
         'sustainable-coordination',
         'audit-safe-growth'
       ];
+      boundedPrivredniDomains: {
+        stocarstvo: {
+          canonicalName: 'STOČARSTVO';
+          additiveOnly: true;
+          interpretativeRole: 'livestock-readiness-and-gazdinstvo-workforce-track';
+          sourceOfTruthRoutes: readonly ['/api/extrimli/extrem', '/api/extrimli/extrondol', '/api/extrimli/spaja-kod'];
+          technicalReadinessBinding: {
+            sourceProfile: 'dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.technicalReadinessProfile';
+            sourceTrack: 'vrhProgramskogEkviladenta';
+            contributingSignals: readonly ['radniTaktMozgaMislilac', 'vrhProgramskogEkviladenta'];
+            boundedInterpretation: 'existing-readiness-and-zadruga-workforce-signals-only';
+          };
+          governanceBinding: {
+            linkedTracks: readonly ['PRIVREDNI AKT', 'ZADRUGA'];
+            technicalOwnership: 'DOK+DIK+FOR->EXTREM';
+            governanceOwnership: 'DAK+DUK->EXTRONDOL';
+            publicBoundary: 'SPAJA KOD';
+          };
+          workforcePosture: 'READY' | 'WATCH' | 'BLOCKED';
+          infrastructurePosture: 'READY' | 'WATCH' | 'BLOCKED';
+          readiness: {
+            status: 'READY' | 'WATCH' | 'BLOCKED';
+            score: number;
+            deterministicFallbackRequired: boolean;
+          };
+          noNewRuntimeModule: true;
+          noNewSourceOfTruthModule: true;
+          noNewRuntimeFormulas: true;
+          summary: string;
+        };
+        vinogradarstvo: {
+          canonicalName: 'VINOGRADARSTVO';
+          additiveOnly: true;
+          interpretativeRole: 'vineyard-readiness-and-gazdinstvo-infrastructure-track';
+          sourceOfTruthRoutes: readonly ['/api/extrimli/extrem', '/api/extrimli/extrondol', '/api/extrimli/spaja-kod'];
+          technicalReadinessBinding: {
+            sourceProfile: 'dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.technicalReadinessProfile';
+            sourceTrack: 'vrhProgramskogEkviladenta';
+            contributingSignals: readonly ['metrikoProgramiranje', 'vrhProgramskogEkviladenta'];
+            boundedInterpretation: 'existing-readiness-and-zadruga-infrastructure-signals-only';
+          };
+          governanceBinding: {
+            linkedTracks: readonly ['PRIVREDNI AKT', 'ZADRUGA'];
+            technicalOwnership: 'DOK+DIK+FOR->EXTREM';
+            governanceOwnership: 'DAK+DUK->EXTRONDOL';
+            publicBoundary: 'SPAJA KOD';
+          };
+          workforcePosture: 'READY' | 'WATCH' | 'BLOCKED';
+          infrastructurePosture: 'READY' | 'WATCH' | 'BLOCKED';
+          readiness: {
+            status: 'READY' | 'WATCH' | 'BLOCKED';
+            score: number;
+            deterministicFallbackRequired: boolean;
+          };
+          noNewRuntimeModule: true;
+          noNewSourceOfTruthModule: true;
+          noNewRuntimeFormulas: true;
+          summary: string;
+        };
+      };
       monetizationGovernanceModel: {
         payoutWindowPercent: readonly [80, 100];
         governanceOnlyInGit: true;
@@ -2839,6 +2903,68 @@ export interface ExtrimliDokDikDakDukConsistencyHealth {
         'governance-lock',
         'audit-safe-summary'
       ];
+      boundedFacultyDomains: {
+        poljoprivredniFakultet: {
+          canonicalName: 'POLJOPRIVREDNI FAKULTET';
+          additiveOnly: true;
+          facultyRole: 'entry-certification-track-for-agriculture-and-hospitality-beneficiaries';
+          sourceOfTruthRoutes: readonly ['/api/extrimli/extrem', '/api/extrimli/extrondol', '/api/extrimli/spaja-kod'];
+          technicalReadinessBinding: {
+            sourceProfile: 'dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.technicalReadinessProfile';
+            sourceTrack: 'vrhProgramskogEkviladenta';
+            contributingSignals: readonly ['radniTaktMozgaMislilac', 'metrikoProgramiranje', 'vrhProgramskogEkviladenta'];
+            boundedInterpretation: 'existing-readiness-and-economic-track-only';
+          };
+          governanceBinding: {
+            linkedEconomicDomains: readonly ['STOČARSTVO', 'VINOGRADARSTVO'];
+            technicalOwnership: 'DOK+DIK+FOR->EXTREM';
+            governanceOwnership: 'DAK+DUK->EXTRONDOL';
+            publicBoundary: 'SPAJA KOD';
+            certificationSurface: 'audit-safe-certification-and-review-summary-only';
+          };
+          workforcePosture: 'READY' | 'WATCH' | 'BLOCKED';
+          infrastructurePosture: 'READY' | 'WATCH' | 'BLOCKED';
+          readiness: {
+            status: 'READY' | 'WATCH' | 'BLOCKED';
+            score: number;
+            deterministicFallbackRequired: boolean;
+          };
+          noNewRuntimeModule: true;
+          noNewSourceOfTruthModule: true;
+          noNewRuntimeFormulas: true;
+          summary: string;
+        };
+        gradjevinskiFakultet: {
+          canonicalName: 'GRAĐEVINSKI FAKULTET';
+          additiveOnly: true;
+          facultyRole: 'gazdinstvo-design-infrastructure-and-operational-readiness-track';
+          sourceOfTruthRoutes: readonly ['/api/extrimli/extrem', '/api/extrimli/extrondol', '/api/extrimli/spaja-kod'];
+          technicalReadinessBinding: {
+            sourceProfile: 'dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.technicalReadinessProfile';
+            sourceTrack: 'vrhProgramskogEkviladenta';
+            contributingSignals: readonly ['vrhProgramskogEkviladenta', 'metrikoProgramiranje', 'paradijogonalnoProgramiranje'];
+            boundedInterpretation: 'existing-readiness-and-zadruga-infrastructure-only';
+          };
+          governanceBinding: {
+            linkedEconomicDomains: readonly ['STOČARSTVO', 'VINOGRADARSTVO'];
+            technicalOwnership: 'DOK+DIK+FOR->EXTREM';
+            governanceOwnership: 'DAK+DUK->EXTRONDOL';
+            publicBoundary: 'SPAJA KOD';
+            certificationSurface: 'audit-safe-project-and-infrastructure-summary-only';
+          };
+          workforcePosture: 'READY' | 'WATCH' | 'BLOCKED';
+          infrastructurePosture: 'READY' | 'WATCH' | 'BLOCKED';
+          readiness: {
+            status: 'READY' | 'WATCH' | 'BLOCKED';
+            score: number;
+            deterministicFallbackRequired: boolean;
+          };
+          noNewRuntimeModule: true;
+          noNewSourceOfTruthModule: true;
+          noNewRuntimeFormulas: true;
+          summary: string;
+        };
+      };
       readiness: {
         status: 'READY' | 'WATCH' | 'BLOCKED';
         score: number;
@@ -3184,6 +3310,7 @@ export interface ExtrimliDokDikDakDukConsistencyHealth {
         extremPublishes: 'derived-technical-readiness-profile-only';
         extrondolPublishes: 'audit-freeze-promotion-review-summary-only';
         spajaKodPublishes: 'final-audit-safe-status-only';
+        boundedFacultyDomains: readonly ['POLJOPRIVREDNI FAKULTET', 'GRAĐEVINSKI FAKULTET'];
         noNewRuntimeModule: true;
         noParallelSourceOfTruth: true;
         rawInternalsExposed: false;
@@ -3195,6 +3322,7 @@ export interface ExtrimliDokDikDakDukConsistencyHealth {
         spajaKodPublishes: 'final-audit-safe-status-only';
         legalEconomicOrder: 'ekonomska-privreda-stub-podizanja-ekonomije-po-pravnom-poretku';
         bezpovratneSubvencijeMode: 'governance-only-payout-evidence';
+        boundedPrivredniDomains: readonly ['STOČARSTVO', 'VINOGRADARSTVO'];
         arhimedisModelBounded: true;
         noNewRuntimeModule: true;
         rawInternalsExposed: false;
