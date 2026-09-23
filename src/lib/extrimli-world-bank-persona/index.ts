@@ -2,6 +2,7 @@ import { buildAiIqWorldBank } from '../ai-iq-world-bank';
 import {
   buildAiIdentityFinanceGovernancePackage,
   buildAiIdentityFinancePersonaAttributes,
+  mapAiGovernanceStatusToPersonaStatus,
 } from '../ai-identity-finance-governance';
 import { buildAIIQWorldBankLicencniRegistar } from '../aiiq-world-bank-licencni-registar';
 import { EXTRIMLI_PERSONA_ID, getExtrimliAggregateSignals } from '../extrimli';
@@ -364,9 +365,7 @@ export function getExtrimliWorldBankPersonaReport(options: ExtrimliWorldBankPers
       if (!catalogPersona) continue;
       const personaId = seedPersona.id ?? seedPersona.name;
       const existing = client.get(personaId);
-      const status = existing?.status && existing.status !== 'archived'
-        ? existing.status
-        : 'active';
+      const status = mapAiGovernanceStatusToPersonaStatus(catalogPersona.bankAccountGovernance.status);
       const payload = {
         ...seedPersona,
         status,
