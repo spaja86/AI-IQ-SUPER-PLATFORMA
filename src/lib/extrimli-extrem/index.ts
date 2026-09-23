@@ -4237,6 +4237,8 @@ function buildVrhProgramskogEkviladentaSignal(params: {
   const mathStatus = classifyVrhProgramskogEkviladentaStatus(kraljevskiMatematickiUniverzitetReadinessScore);
   const physicsStatus = classifyVrhProgramskogEkviladentaStatus(kraljevskaFizikaUniverzitetReadinessScore);
   const mechanicalStatus = classifyVrhProgramskogEkviladentaStatus(kraljevskiMasinskiUniverzitetReadinessScore);
+  const kraljevskiEkonomskiUneverzitetReadinessScore = score;
+  const economicStatus: ExtrimliExtremVrhProgramskogEkviladentaStatus = status;
 
   return {
     term: 'VRH PROGRAMSKOG EKVILADENTA',
@@ -4365,8 +4367,8 @@ function buildVrhProgramskogEkviladentaSignal(params: {
       kraljevskiEkonomskiUneverzitet: {
         term: 'KRALJEVSKI EKONOMSKI UNEVERZITET',
         focus: 'produktivnost-vrednosna-raspodela-i-odrziva-koordinacija',
-        readinessScore: score,
-        status,
+        readinessScore: kraljevskiEkonomskiUneverzitetReadinessScore,
+        status: economicStatus,
       },
     },
     ownershipEvidence: {
