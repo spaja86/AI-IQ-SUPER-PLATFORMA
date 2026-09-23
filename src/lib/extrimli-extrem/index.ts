@@ -665,12 +665,131 @@ function resolvePrivredniAktQuarterlyMarketInput(degradedSources: string[]) {
         ? 'WATCH'
         : 'READY';
 
+  const workerHiringCapacityPercent = parsePercentEnvWithInvalidFallback(
+    'EXTRIMLI_EXTREM_ZADRUGA_WORKER_HIRING_CAPACITY_PERCENT',
+    84,
+    0,
+    localDegradedSources,
+  );
+  const radneAkcijeCoordinationPercent = parsePercentEnvWithInvalidFallback(
+    'EXTRIMLI_EXTREM_ZADRUGA_RADNE_AKCIJE_COORDINATION_PERCENT',
+    81,
+    0,
+    localDegradedSources,
+  );
+  const instrumentTablaOperationalReadinessPercent = parsePercentEnvWithInvalidFallback(
+    'EXTRIMLI_EXTREM_ZADRUGA_INSTRUMENT_TABLA_OPERATIONAL_READINESS_PERCENT',
+    83,
+    0,
+    localDegradedSources,
+  );
+  const ekstremnoVisokePlateSustainabilityPercent = parsePercentEnvWithInvalidFallback(
+    'EXTRIMLI_EXTREM_ZADRUGA_EKSTREMNO_VISOKE_PLATE_SUSTAINABILITY_PERCENT',
+    76,
+    0,
+    localDegradedSources,
+  );
+  const vlastelaRequestQueueDepth = parseIntegerEnv(
+    'EXTRIMLI_EXTREM_VLASTELA_REQUEST_QUEUE_DEPTH',
+    3,
+    0,
+    999,
+    localDegradedSources,
+  );
+
+  const resolveOpsStatus = (value: number): 'READY' | 'WATCH' | 'BLOCKED' => {
+    if (value >= 70) return 'READY';
+    if (value >= 45) return 'WATCH';
+    return 'BLOCKED';
+  };
+  const resolveVlastelaStatus = (queueDepth: number): 'READY' | 'WATCH' | 'BLOCKED' => {
+    if (queueDepth <= 10) return 'READY';
+    if (queueDepth <= 30) return 'WATCH';
+    return 'BLOCKED';
+  };
+
+  const zadrugaOperationalStatus = resolveOpsStatus(round((workerHiringCapacityPercent + radneAkcijeCoordinationPercent) / 2, 2));
+  const instrumentTablaStatus = resolveOpsStatus(instrumentTablaOperationalReadinessPercent);
+  const payoutGovernanceStatus = resolveOpsStatus(ekstremnoVisokePlateSustainabilityPercent);
+  const vlastelaRequestStatus = resolveVlastelaStatus(vlastelaRequestQueueDepth);
+  const zadrugaStatuses = [
+    zadrugaOperationalStatus,
+    instrumentTablaStatus,
+    payoutGovernanceStatus,
+    vlastelaRequestStatus,
+  ];
+  const zadrugaStatus =
+    localDegradedSources.length > 0 || zadrugaStatuses.includes('BLOCKED')
+      ? 'BLOCKED'
+      : zadrugaStatuses.includes('WATCH')
+        ? 'WATCH'
+        : 'READY';
+  const vlastelaQueueReadinessPercent = clamp(100 - vlastelaRequestQueueDepth * 3, 0, 100);
+  const zadrugaScore = round(
+    (
+      workerHiringCapacityPercent
+      + radneAkcijeCoordinationPercent
+      + instrumentTablaOperationalReadinessPercent
+      + ekstremnoVisokePlateSustainabilityPercent
+      + vlastelaQueueReadinessPercent
+    ) / 5,
+    2,
+  );
+  const zadrugaReasons = [
+    ...(zadrugaOperationalStatus !== 'READY' ? [`zadruga-operational-${zadrugaOperationalStatus.toLowerCase()}`] : []),
+    ...(instrumentTablaStatus !== 'READY' ? [`instrument-tabla-${instrumentTablaStatus.toLowerCase()}`] : []),
+    ...(payoutGovernanceStatus !== 'READY' ? [`ekstremno-visoke-plate-${payoutGovernanceStatus.toLowerCase()}`] : []),
+    ...(vlastelaRequestStatus !== 'READY' ? [`vlastela-request-${vlastelaRequestStatus.toLowerCase()}`] : []),
+    ...localDegradedSources.map((reason) => `deterministic-fallback:${reason}`),
+  ];
+
   return {
     quarters,
     score,
     status,
     deterministicFallbackRequired: localDegradedSources.length > 0,
     degradedSources: localDegradedSources,
+    zadrugaOperations: {
+      additiveOnly: true,
+      sourceOfTruthRoutes: ['/api/extrimli/extrem', '/api/extrimli/extrondol', '/api/extrimli/spaja-kod'] as const,
+      canonicalVocabulary: {
+        privredniAkt: 'PRIVREDNI AKT' as const,
+        zadruga: 'ZADRUGA' as const,
+        instrumentTabla: 'INSTRUMENT TABLA' as const,
+        vlastelaRequest: 'VLASTELA REQUEST' as const,
+        kraljevstvoAiIqWorldBank: 'KRALJEVSTVO / AI IQ WORLD BANK' as const,
+      },
+      ownershipLock: {
+        dokDikFor: 'EXTREM' as const,
+        dakDuk: 'EXTRONDOL' as const,
+        spajaKod: 'audit-safe-summary-only' as const,
+      },
+      operationalSignals: {
+        workerHiringCapacityPercent,
+        radneAkcijeCoordinationPercent,
+        instrumentTablaOperationalReadinessPercent,
+        ekstremnoVisokePlateSustainabilityPercent,
+        vlastelaRequestQueueDepth,
+      },
+      readiness: {
+        zadrugaOperationalStatus,
+        instrumentTablaStatus,
+        payoutGovernanceStatus,
+        vlastelaRequestStatus,
+        status: zadrugaStatus,
+        score: zadrugaScore,
+        deterministicFallbackRequired: localDegradedSources.length > 0,
+        reasons: zadrugaReasons,
+      },
+      governanceBoundary: {
+        noNewRuntimeModule: true as const,
+        noNewFinancialEngineInGit: true as const,
+        noSecretsKycOrBankDataInGit: true as const,
+        auditSafeSummaryOnly: true as const,
+      },
+      summary:
+        'ZADRUGA ostaje additive-only governance/operational traka: instrument tabla i VLASTELA request orchestration su audit-safe readiness signali bez novih ruta i bez finansijskog engine-a u Git-u.',
+    },
   } as const;
 }
 
@@ -6446,6 +6565,11 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
       canonicalGovernanceVocabulary: {
         extremExtrimliExtrondol: 'EXTRIMLI EXTRONDOL EXTREM',
         dokDikDakDukFor: 'DOK DIK DAK DUK FOR',
+        privredniAkt: 'PRIVREDNI AKT',
+        zadruga: 'ZADRUGA',
+        instrumentTabla: 'INSTRUMENT TABLA',
+        vlastelaRequest: 'VLASTELA REQUEST',
+        kraljevstvoAiIqWorldBank: 'KRALJEVSTVO / AI IQ WORLD BANK',
         kraljevskiPravniUniverzitet: 'KRALJEVSKI PRAVNI UNIVERZITET',
         kraljevskiProgramskiUneverzitet: 'KRALJEVSKI PROGRAMSKI UNEVERZITET',
         kraljevskiEkonomskiUneverzitet: 'KRALJEVSKI EKONOMSKI UNEVERZITET',
@@ -8149,6 +8273,9 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
           'audit-trail',
           'rollback-plan',
         ],
+      },
+      zadrugaOperations: {
+        ...privredniAktQuarterlyMarketInput.zadrugaOperations,
       },
       summary:
         'PRIVREDNI AKT ostaje additive-only policy-gated governance traka: kvartalni tržišni signal (cene privrednika po kvartalu) utiče na payout readiness kroz postojeće EXTREM/EXTRONDOL/SPAJA KOD granice bez novih finansijskih engine-a i bez realnih bankarskih podataka u Git-u.',

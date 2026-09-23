@@ -722,6 +722,27 @@ export interface ExtrimliExtrondolDeveloperAndCreateRepoWideReflectionGovernance
     forbiddenArtifacts: readonly ['bank-account-number', 'kyc-document', 'payment-secret', 'operational-financial-data'];
     blockerReasons: string[];
   };
+  zadrugaGovernance: {
+    additiveOnly: true;
+    sourceOfTruth: '/api/extrimli/extrondol';
+    technicalSignalSource: '/api/extrimli/extrem';
+    boundedOperationalDomain: 'zadruga-instrument-tabla-vlastela-requests';
+    ownershipLockValidated: boolean;
+    workerHiringCapacityStatus: 'READY' | 'WATCH' | 'BLOCKED';
+    radneAkcijeCoordinationStatus: 'READY' | 'WATCH' | 'BLOCKED';
+    instrumentTablaOperationalStatus: 'READY' | 'WATCH' | 'BLOCKED';
+    ekstremnoVisokePlateSustainabilityStatus: 'READY' | 'WATCH' | 'BLOCKED';
+    vlastelaRequestStatus: 'READY' | 'WATCH' | 'BLOCKED';
+    antiAbuseStatus: 'READY' | 'WATCH' | 'BLOCKED';
+    disputeStatus: 'READY' | 'WATCH' | 'BLOCKED';
+    freezeRequired: boolean;
+    promotionEligible: boolean;
+    auditTrailRequired: true;
+    rollbackPlanRequired: true;
+    blockerReasons: string[];
+    watchReasons: string[];
+    summary: string;
+  };
   rewardApproval: {
     approvalStatus: 'READY' | 'WATCH' | 'BLOCKED';
     hardGates: readonly [
@@ -744,6 +765,9 @@ export interface ExtrimliExtrondolDeveloperAndCreateRepoWideReflectionGovernance
     certificationStatus: 'passed' | 'certified' | 'certified-with-reward' | 'blocked-for-review';
     payoutReadinessStatus: 'READY' | 'WATCH' | 'BLOCKED';
     privredniAktQuarterlyMarketStatus: 'READY' | 'WATCH' | 'BLOCKED';
+    zadrugaOperationalStatus: 'READY' | 'WATCH' | 'BLOCKED';
+    instrumentTablaStatus: 'READY' | 'WATCH' | 'BLOCKED';
+    payoutGovernancePosture: 'READY' | 'WATCH' | 'BLOCKED';
     privredniAktBeneficiarySegments: readonly ['poljoprivrednici-sa-gostoprimstvom', 'poljoprivrednici'];
     auditSafeReason: string;
   };
@@ -2377,6 +2401,9 @@ export interface ExtrimliSpajaKodPublicFacade {
       certificationStatus: 'passed' | 'certified' | 'certified-with-reward' | 'blocked-for-review';
       payoutReadinessStatus: 'READY' | 'WATCH' | 'BLOCKED';
       privredniAktQuarterlyMarketStatus: 'READY' | 'WATCH' | 'BLOCKED';
+      zadrugaOperationalStatus: 'READY' | 'WATCH' | 'BLOCKED';
+      instrumentTablaStatus: 'READY' | 'WATCH' | 'BLOCKED';
+      payoutGovernancePosture: 'READY' | 'WATCH' | 'BLOCKED';
       privredniAktBeneficiarySegments: readonly ['poljoprivrednici-sa-gostoprimstvom', 'poljoprivrednici'];
       auditSafeReason: string;
     };

@@ -960,6 +960,9 @@ async function runTests(): Promise<void> {
     assert(typeof body.data.publicSignals.developerAndCreateUniversitySummary.passedAreasCount === 'number', 'unexpected SPAJA KOD university passed areas count');
     assert(['passed', 'certified', 'certified-with-reward', 'blocked-for-review'].includes(body.data.publicSignals.developerAndCreateUniversitySummary.certificationStatus), 'unexpected SPAJA KOD university certification status');
     assert(['READY', 'WATCH', 'BLOCKED'].includes(body.data.publicSignals.developerAndCreateUniversitySummary.payoutReadinessStatus), 'unexpected SPAJA KOD university payout readiness status');
+    assert(['READY', 'WATCH', 'BLOCKED'].includes(body.data.publicSignals.developerAndCreateUniversitySummary.zadrugaOperationalStatus), 'unexpected SPAJA KOD zadruga operational status');
+    assert(['READY', 'WATCH', 'BLOCKED'].includes(body.data.publicSignals.developerAndCreateUniversitySummary.instrumentTablaStatus), 'unexpected SPAJA KOD instrument tabla status');
+    assert(['READY', 'WATCH', 'BLOCKED'].includes(body.data.publicSignals.developerAndCreateUniversitySummary.payoutGovernancePosture), 'unexpected SPAJA KOD payout governance posture');
     assert(['READY', 'WATCH', 'BLOCKED'].includes(body.data.publicSignals.aiPlateStatus), 'unexpected SPAJA KOD AI PLATE summary status');
     assert(body.data.publicSignals.aiPlateStatus === body.data.publicSignals.developerAndCreateStatus, 'unexpected SPAJA KOD AI PLATE/developer-create mismatch');
     assert(['READY', 'WATCH', 'BLOCKED'].includes(body.data.publicSignals.developerAndCreateImplementationStatus), 'unexpected SPAJA KOD implementation status');

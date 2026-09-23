@@ -33,6 +33,8 @@ Repo-wide reflection sada obavezno uključuje i dnevni operativni cadence: `morn
 - Beneficiary segmenti su zaključani na `poljoprivrednici-sa-gostoprimstvom` i `poljoprivrednici`.
 - Kvartalni signal `cene privrednika po kvartalu` ostaje audit-safe market snapshot i utiče na payout readiness (`READY | WATCH | BLOCKED`) bez novih finansijskih formula, bez KYC i bez realnih bankarskih podataka u Git-u.
 - Ownership split ostaje nepromenjen: `EXTREM` tehnički readiness + bounded ekonomski signal, `EXTRONDOL` governance approval/freeze/promote + payment verification/human review/audit/dispute, `SPAJA KOD` summary-only.
+- `ZADRUGA` je additive-only podtraka u okviru `PRIVREDNI AKT`: `INSTRUMENT TABLA` ostaje bounded operativni layer (zapošljavanje + radne akcije), `VLASTELA REQUEST` ostaje bounded governance ulaz, a `KRALJEVSTVO / AI IQ WORLD BANK` ostaje policy pokroviteljstvo bez finansijskog runtime engine-a.
+- Javni izlaz ostaje strogo audit-safe summary: `zadrugaOperationalStatus`, `instrumentTablaStatus`, `payoutGovernancePosture` (`READY | WATCH | BLOCKED`), bez internih formula i bez operativnih finansijskih detalja.
 
 Supplied image `https://github.com/user-attachments/assets/4790f4ea-4271-4d2a-ae0a-d9bec5bc8b8a` ostaje additive-only audit vizuel za `ČOVEČNOST` i mapira se na `developerAndCreateRepoWideReflection.covecnostAuditVisualReference` sa `scenarioId=covecnost-developer-create-vrh-radni-takt`, bez novih ruta i bez zamene postojećeg `priroda-zdrav-zivot-covecanstvo` epilog narativa.
 Vizuel ostaje strogo interpretativan: motivi `INSTINKT`, `ZNANJE`, `ISKUSTVO`, `PREDVIĐANJE` i šest etapa razvoja samo potvrđuju postojeći Developer/Create cadence, postojeći `technicalReadinessProfile` i postojeći EXTREM↔EXTRONDOL ownership split.

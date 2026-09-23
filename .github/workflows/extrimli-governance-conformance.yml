@@ -130,6 +130,13 @@ jobs:
           assert(developerCreateProgramDoc.includes('PROGRAM_LOCK_CHATGPT_REFERENCE') && developerCreateProgramDoc.includes('6ab2f88d-23b0-83eb-b708-b880bdb7fc11'), 'Developer/Create program doc must lock the documentation-only ChatGPT share reference');
           assert(developerCreateProgramDoc.includes('PROGRAM_LOCK_LANGUAGE_LAYER') && developerCreateProgramDoc.includes('srpski je primarni kanonski logički izraz'), 'Developer/Create program doc must lock Serbian-first language layer');
           assert(developerCreateProgramDoc.includes('DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == RADNI TAKT MOZGA (MISLILAC)'), 'Developer/Create program doc must lock repo-wide equality mapping');
+          assert(
+            developerCreateProgramDoc.includes('PRIVREDNI AKT')
+              && developerCreateProgramDoc.includes('ZADRUGA')
+              && developerCreateProgramDoc.includes('INSTRUMENT TABLA')
+              && developerCreateProgramDoc.includes('VLASTELA REQUEST'),
+            'Developer/Create program doc must lock PRIVREDNI AKT/ZADRUGA/INSTRUMENT TABLA/VLASTELA REQUEST vocabulary'
+          );
           assert(developerCreateProgramDoc.includes('KRALJEVSKI BAŠTA UNEVERZITE') && developerCreateProgramDoc.includes('kraljevski-basta-uneverzite-prirodne-maticne-celije-covecanstvu'), 'Developer/Create program doc must lock KRALJEVSKI BAŠTA UNEVERZITE bounded narrative alias');
           assert(developerCreateProgramDoc.includes('roadmapStageId=Verzija 7') && developerCreateProgramDoc.includes('premium-rollout-regime'), 'Developer/Create program doc must lock AI PLATE V7 execution and pricing governance');
           assert(vrhDoc.includes('DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == RADNI TAKT MOZGA (MISLILAC)'), 'VRH doc must lock repo-wide equality mapping');
@@ -138,6 +145,7 @@ jobs:
           assert(vrhDoc.includes('srpski je primarni kanonski izraz domena'), 'VRH doc must lock Serbian-primary language rule');
           assert(vrhDoc.includes('AI PLATE') && vrhDoc.includes('12.000 EUR nedeljno'), 'VRH doc must lock AI PLATE enterprise package');
           assert(vrhDoc.includes('v5-extrondol-release-audit-and-orchestration'), 'VRH doc must lock the active Developer/Create execution stage');
+          assert(vrhDoc.includes('zadrugaOperationalStatus') && vrhDoc.includes('instrumentTablaStatus') && vrhDoc.includes('payoutGovernancePosture'), 'VRH doc must lock ZADRUGA summary-only public boundary fields');
           assert(vrhDoc.includes('AI IQ WORLD BANK PREPISKA') && vrhDoc.includes('documentation-only governance evidence'), 'VRH doc must lock AI IQ WORLD BANK prepiska evidence boundary');
           assert(worldBankDoc.includes('AI IQ WORLD BANK PREPISKA') && worldBankDoc.includes('documentation-only governance evidence'), 'AI IQ WORLD BANK doc must lock prepiska as documentation-only governance evidence');
           assert(worldBankDoc.includes('approval status') && worldBankDoc.includes('payment verification status') && worldBankDoc.includes('payout/compensation režim'), 'AI IQ WORLD BANK doc must define allowed correspondence evidence');
@@ -159,6 +167,8 @@ jobs:
           assert(paradijogonalnoDoc.includes('FOR') && paradijogonalnoDoc.includes('DAK') && paradijogonalnoDoc.includes('DUK'), 'PARADIJOGONALNO doc must lock technical/governance ownership split');
           assert(paradijogonalnoDoc.includes('READY | WATCH | BLOCKED') && paradijogonalnoDoc.includes('NaN') && paradijogonalnoDoc.includes('Infinity'), 'PARADIJOGONALNO doc must keep deterministic fallback semantics');
           assert(types.includes('developerAndCreateRepoWideReflection') && extrondolIndex.includes('developerAndCreateRepoWideReflection'), 'types and EXTRONDOL index must include developer/create repo-wide reflection contract fields');
+          assert(types.includes('zadrugaGovernance') && extrondolIndex.includes('zadrugaGovernance'), 'types and EXTRONDOL index must include ZADRUGA governance fields');
+          assert(types.includes('zadrugaOperationalStatus') && extrondolIndex.includes('zadrugaOperationalStatus'), 'types and EXTRONDOL index must include ZADRUGA summary statuses');
           assert(types.includes('chatGptShareReferences') && types.includes('primaryCanonicalLanguage'), 'types must lock documentation-only ChatGPT references and Serbian-primary language layer');
           assert(types.includes('aiIqWorldBankPrepiska') && extrondolIndex.includes('aiIqWorldBankPrepiskaSummary'), 'types and EXTRONDOL index must include AI IQ WORLD BANK prepiska contract fields');
           assert(types.includes('aiPlateEnterprisePackage') && extrondolIndex.includes('aiPlateEnterprisePackage'), 'types and EXTRONDOL index must include AI PLATE enterprise package contract fields');
