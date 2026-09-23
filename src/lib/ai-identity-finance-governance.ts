@@ -167,8 +167,10 @@ export function buildAiIdentityFinanceGovernancePackage(
   options: AiIdentityFinanceGovernanceBuildOptions,
 ): AiIdentityFinanceGovernancePackage {
   const baseBlockers = Array.from(new Set(options.blockers ?? []));
+  let identityCompletenessTotal = 0;
   const personas = SEED_PERSONAS.map((persona) => {
     const completenessScore = deriveIdentityCompleteness(persona);
+    identityCompletenessTotal += completenessScore;
     const personaStatus = options.promotionFreeze
       ? 'BLOCKED'
       : completenessScore < 100
@@ -220,8 +222,7 @@ export function buildAiIdentityFinanceGovernancePackage(
   });
 
   const identityCompletenessScore = round(
-    personas.reduce((sum, persona) => sum + deriveIdentityCompleteness(SEED_PERSONAS.find((seed) => seed.id === persona.personaId) ?? SEED_PERSONAS[0]), 0)
-      / Math.max(personas.length, 1),
+    identityCompletenessTotal / Math.max(personas.length, 1),
   );
   const financialReadinessScore = round(
     (clamp(options.readinessScore, 0, 100) * 0.7) + ((options.promotionFreeze ? 35 : 85) * 0.3),
