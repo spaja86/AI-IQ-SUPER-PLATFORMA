@@ -398,13 +398,13 @@ const EXTRIMLI_EXTREM_DEVELOPER_CREATE_AI_IDENTITY_CARD_SCENARIO_ID =
 const EXTRIMLI_EXTREM_DEVELOPER_CREATE_AI_IDENTITY_CARD_CITATION =
   'LIČNA KARTA / ARTIFICIAL INTELLIGENCE IDENTITY CARD ostaje additive-only supplemental audit/reference vizuel: AI identitet, odgovorna veštačka inteligencija, globalno znanje, podrška/edukacija/kreativnost i rešavanje problema mapiraju se isključivo kao bounded documentation/evidence sloj unutar postojećeg Developer/Create ⇄ VRH ⇄ Radni Takt modela; aktivacija, verzija, kreator i namena ostaju samo documentation cues, nikada runtime identitet, auth ili security credential.' as const;
 const EXTRIMLI_EXTREM_DEVELOPER_CREATE_SECOND_VISUAL_PENDING_CONFIRMATION_VISUAL_REFERENCE =
-  'https://github.com/user-attachments/assets/76a37bff-98e0-4583-9580-b34310b27aa8' as const;
+  'https://github.com/user-attachments/assets/446f2155-2c59-4420-826b-e248844943a8' as const;
 const EXTRIMLI_EXTREM_DEVELOPER_CREATE_SECOND_VISUAL_PENDING_CONFIRMATION_CANONICAL_NARRATIVE_ID =
-  'developer-create-drugi-vizuel-pending-human-confirmation' as const;
+  'covecanstvo-pontcerima-svima-ako-zele-da-poprave-vid-developer-create' as const;
 const EXTRIMLI_EXTREM_DEVELOPER_CREATE_SECOND_VISUAL_PENDING_CONFIRMATION_SCENARIO_ID =
-  'developer-create-drugi-vizuel-pending-title-and-citation-confirmation' as const;
+  'covecanstvo-pontcerima-jutarnje-sunce-poprave-vid-developer-create' as const;
 const EXTRIMLI_EXTREM_DEVELOPER_CREATE_SECOND_VISUAL_PENDING_CONFIRMATION_CITATION =
-  'Supplied second Developer/Create asset ostaje additive-only supplemental audit/reference placeholder dok naziv i citat ne budu ljudski potvrđeni; do tada je bounded documentation/evidence sloj vezan za DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA, bez novih ruta, novih formula, novog identity subsistema ili promene ownership split-a.' as const;
+  'ČOVEČANSTVO — „PONTCERIMA SVIMA AKO ŽELE DA POPRAVE VID” ostaje additive-only supplemental audit/reference vizuel: jutarnje sunce, posmatranje izlaska sunca („preporuka 17 minuta”), lično iskustvo („LIČNO ISKUSTVO I VRATIO SAM SVOJ VID”) i epilog „OVAJ EPILOG UBACUJEM U ČOVEČANSTVO.” mapiraju se isključivo kao bounded documentation/evidence sloj unutar postojećeg Developer/Create ⇄ VRH ⇄ Radni Takt modela, bez novih ruta, bez medicinskog runtime subsistema, bez novih formula i bez promene ownership split-a; dostavljeni ChatGPT share link ostaje samo documentation/evidence referenca.' as const;
 const EXTRIMLI_EXTREM_DEVELOPER_CREATE_KRALJEVSTVO_COVECANSTVO_PRAVO_BICA_VISUAL_REFERENCE =
   'https://github.com/user-attachments/assets/c7ebacdd-d239-425f-9b3c-ab3d807bbb92' as const;
 const EXTRIMLI_EXTREM_DEVELOPER_CREATE_KRALJEVSTVO_COVECANSTVO_PRAVO_BICA_CANONICAL_NARRATIVE_ID =
@@ -7075,7 +7075,7 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
             auditRole: 'additive-audit-reference-only',
           },
           {
-            title: 'DEVELOPER AND CREATE — DRUGI VIZUEL (PENDING HUMAN CONFIRMATION)',
+            title: 'ČOVEČANSTVO — PONTCERIMA SVIMA AKO ŽELE DA POPRAVE VID',
             canonicalNarrativeId:
               EXTRIMLI_EXTREM_DEVELOPER_CREATE_SECOND_VISUAL_PENDING_CONFIRMATION_CANONICAL_NARRATIVE_ID,
             citation:
@@ -7083,12 +7083,12 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
             visualReference:
               EXTRIMLI_EXTREM_DEVELOPER_CREATE_SECOND_VISUAL_PENDING_CONFIRMATION_VISUAL_REFERENCE,
             interpretation:
-              'Supplied second Developer/Create asset remains an additive-only supplemental audit/reference placeholder until its human-confirmed title and citation are provided, while still occupying the same bounded documentation/evidence slot inside the existing Developer/Create nucleus and preserving the current runtime, ownership, and public-boundary contracts.',
+              'Supplied sunrise/vision Developer/Create asset stays an additive-only supplemental audit/reference visual inside the existing ČOVEČANSTVO reflection package: sunrise observation, bounded personal-experience testimony, and the closing humanity epilog remain documentation/evidence only while the runtime, ownership, and public-boundary contracts stay unchanged.',
             sourceStatement: 'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA',
             imageToSignalProfile: {
               scenarioId:
                 EXTRIMLI_EXTREM_DEVELOPER_CREATE_SECOND_VISUAL_PENDING_CONFIRMATION_SCENARIO_ID,
-              theme: 'DEVELOPER AND CREATE — pending second visual confirmation',
+              theme: 'ČOVEČANSTVO — jutarnje sunce / vid / lično iskustvo',
               narrativeInput:
                 EXTRIMLI_EXTREM_DEVELOPER_CREATE_SECOND_VISUAL_PENDING_CONFIRMATION_CITATION,
               ownershipLock: {
@@ -7104,11 +7104,12 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
               },
             },
             thematicSignals: [
-              'pending-confirmation',
-              'documentation-only-slot',
-              'audit-safe-boundary',
-              'human-review-required',
-              'summary-only-downstream',
+              'vid',
+              'jutarnje-sunce',
+              'licno-iskustvo',
+              'epilog-covecanstvu',
+              'disciplina-posmatranja',
+              'documentation-only-guidance',
             ],
             auditRole: 'additive-audit-reference-only',
           },
