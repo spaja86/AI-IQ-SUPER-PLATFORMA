@@ -4362,6 +4362,12 @@ function buildVrhProgramskogEkviladentaSignal(params: {
         readinessScore: kraljevskiMasinskiUniverzitetReadinessScore,
         status: mechanicalStatus,
       },
+      kraljevskiEkonomskiUneverzitet: {
+        term: 'KRALJEVSKI EKONOMSKI UNEVERZITET',
+        focus: 'produktivnost-vrednosna-raspodela-i-odrziva-koordinacija',
+        readinessScore: score,
+        status,
+      },
     },
     ownershipEvidence: {
       forTechnical: true,
@@ -6297,11 +6303,13 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
         metrikoProgramiranje: 'METRIČKO PROGRAMIRANJE',
         sinemetrickoProgramiranje: 'SINEMETRIČKO PROGRAMIRANJE',
         paradijogonalnoProgrimiranje: 'PARADIJOGONALNO PROGRAMIRANJE',
+        kraljevskiEkonomskiUneverzitet: 'KRALJEVSKI EKONOMSKI UNEVERZITET',
       },
       canonicalGovernanceVocabulary: {
         extremExtrimliExtrondol: 'EXTRIMLI EXTRONDOL EXTREM',
         dokDikDakDukFor: 'DOK DIK DAK DUK FOR',
         kraljevskiPravniUniverzitet: 'KRALJEVSKI PRAVNI UNIVERZITET',
+        kraljevskiEkonomskiUneverzitet: 'KRALJEVSKI EKONOMSKI UNEVERZITET',
       },
       osnoveRispektProtocol: {
         title: 'OSNOVE / RISPEKT',
@@ -7564,6 +7572,39 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
     },
     consolidatedRhythmStatus: dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.status,
   };
+  dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.kraljevskiEkonomskiUneverzitet = {
+    canonicalName: 'KRALJEVSKI EKONOMSKI UNEVERZITET',
+    additiveOnly: true,
+    interpretativeLayer: 'repo-wide-economic-coordination-and-productivity-track',
+    noNewRuntimeModule: true,
+    sourceOfTruthRoutes: ['/api/extrimli/extrem', '/api/extrimli/extrondol', '/api/extrimli/spaja-kod'],
+    sourceTrack: 'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == RADNI TAKT MOZGA (MISLILAC)',
+    technicalReadinessBinding: {
+      sourceProfile: 'dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.technicalReadinessProfile',
+      sourceTrack: 'vrhProgramskogEkviladenta',
+      contributingSignals: ['vrhProgramskogEkviladenta', 'metrikoProgramiranje', 'radniTaktMozgaMislilac'],
+    },
+    governanceBinding: {
+      technicalOwnership: 'DOK+DIK+FOR->EXTREM',
+      governanceOwnership: 'DAK+DUK->EXTRONDOL',
+      publicBoundary: 'SPAJA KOD',
+    },
+    thematicSignals: [
+      'productivity',
+      'value-allocation',
+      'cadence-discipline',
+      'sustainable-coordination',
+      'audit-safe-growth',
+    ],
+    readiness: {
+      status: dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.status,
+      score: dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.score,
+      deterministicFallbackRequired:
+        dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.deterministicFallbackRequired,
+    },
+    summary:
+      'KRALJEVSKI EKONOMSKI UNEVERZITET ostaje additive-only interpretativna traka za produktivnost, raspodelu vrednosti i održivu koordinaciju nad postojećim Developer/Create, VRH i Radni Takt signalima bez novog runtime modula.',
+  };
   dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.aiPlateOffer = {
     canonicalName: 'AI PLATE',
     runtimeProvider: 'Vercel',
@@ -7810,6 +7851,14 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
       spajaKodPublishes: 'final-audit-safe-status-only',
       rawInternalsExposed: false,
     },
+    kraljevskiEkonomskiUneverzitetBoundary: {
+      trackRole: 'economic-interpretative-track',
+      extremPublishes: 'technical-readiness-profile-only',
+      extrondolPublishes: 'wawe-audit-summary-only',
+      spajaKodPublishes: 'final-audit-safe-status-only',
+      noNewRuntimeModule: true,
+      rawInternalsExposed: false,
+    },
     canonicalTerminologyMapping: {
       phrase: 'EXTRIMLI EXTRONDOL EXTREM DOK DUK DAK DIK FOR',
       nucleusLayers: ['documentation', 'types', 'route-summary-fields', 'tests', 'workflow-audit-layer'],
@@ -7866,7 +7915,8 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
     'Supplied KRALJEVSTVO image remains supplemental audit/reference evidence only and extends the same bounded reflection package through zajedništvo, budućnost, znanje, humanost, and a bounded KRALJEVSKI PRAVNI UNIVERZITET governance/epilog narrative without introducing any new runtime source of truth.',
     'Supplied KRALJEVSTVO — PRAVEDAN SVET ZA SVE NARAŠTAJE image remains supplemental audit/reference evidence only and extends the same bounded reflection package through pravoslavlje, znanje, priroda, čovečanstvo, zajedničku porodicu i večnost without introducing any new runtime source of truth.',
     'OSNOVE / RISPEKT ostaje kulturno-pedagoški protokol komunikacije (izvinjenje, pozdrav u kući, blagodarnost) i služi isključivo kao documentation + governance evidence bez novog izvršnog API domena.',
-    'Kanonsko mapiranje EXTRIMLI EXTRONDOL EXTREM + DOK DIK DAK DUK FOR + KRALJEVSKI PRAVNI UNIVERZITET ostaje zaključano: EXTREM tehnički signal, EXTRONDOL WAWE/audit governance, SPAJA KOD audit-safe summary boundary.',
+    'Kanonsko mapiranje EXTRIMLI EXTRONDOL EXTREM + DOK DIK DAK DUK FOR + KRALJEVSKI PRAVNI UNIVERZITET + KRALJEVSKI EKONOMSKI UNEVERZITET ostaje zaključano: EXTREM tehnički signal, EXTRONDOL WAWE/audit governance, SPAJA KOD audit-safe summary boundary.',
+    'KRALJEVSKI EKONOMSKI UNEVERZITET ostaje additive-only interpretativna traka za produktivnost, raspodelu vrednosti i održivu koordinaciju, vezana isključivo za postojeći technicalReadinessProfile bez novog runtime modula i bez promene DOK/DIK/FOR ↔ DAK/DUK split-a.',
     'Dnevni operativni sloj ostaje governance artefakt: isti dan mora zaključati jednu aktivnu roadmap fazu, prioritete 1–3, merljiv izlaz, acceptance evidence i closeout status completed/carried-over/blocked.',
     'Jutarnji start, deep-focus blok, midday checkpoint i end-of-day closeout ostaju obavezni cadence blokovi izvedeni iz postojećih modula, validatora i workflow-a.',
     ...(activeRoadmapStageCount !== 1

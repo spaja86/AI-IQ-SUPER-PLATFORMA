@@ -137,6 +137,8 @@ async function runTests(): Promise<void> {
     assert(implementationPackage.canonicalOwnershipSplit.extrondol === 'wawe-audit-freeze-promotion-governance', 'developer/create implementation package EXTRONDOL ownership mismatch');
     assert(implementationPackage.vrhBinding.parentTrack === 'PROPORCIONALNO PROGRAMIRANJE', 'developer/create implementation package parent track mismatch');
     assert(implementationPackage.kraljevskiPravniUniverzitetBoundary.rawInternalsExposed === false, 'developer/create implementation package legal-governance boundary must hide internals');
+    assert(implementationPackage.kraljevskiEkonomskiUneverzitetBoundary.noNewRuntimeModule, 'developer/create implementation package economic boundary must forbid new runtime modules');
+    assert(implementationPackage.kraljevskiEkonomskiUneverzitetBoundary.rawInternalsExposed === false, 'developer/create implementation package economic boundary must hide internals');
     assert(implementationPackage.canonicalTerminologyMapping.nucleusLayers.join(',') === 'documentation,types,route-summary-fields,tests,workflow-audit-layer', 'developer/create implementation package nucleus layer mismatch');
     assert(implementationPackage.covecanstvuEpilogBoundary.publicOutput === 'summary-only', 'developer/create implementation package ČOVEČANSTVU boundary mismatch');
     assert(implementationPackage.covecanstvuEpilogBoundary.downstreamSyncFields.join(',') === 'masterEpilog,posterSummary,videoStoryboardSummary,auditShortSummary,governanceChecklistStatus', 'developer/create implementation package downstream audit fields mismatch');
@@ -438,6 +440,7 @@ async function runTests(): Promise<void> {
     assert(signal.canonicalUniversityTracks.kraljevskaFizikaUniverzitet.term === 'KRALJEVSKA FIZIKA UNIVERZITET', 'vrh physics track mismatch');
     assert(signal.canonicalUniversityTracks.kraljevskiMasinskiUniverzitet.term === 'KRALJEVSKI MAŠINSKI UNIVERZITET', 'vrh mechanical track mismatch');
     assert(signal.canonicalUniversityTracks.kraljevskiMasinskiUniverzitet.interpretativeAlias === 'KRALJEVSKA MEHANIKA UNIVERZITET', 'vrh mechanical alias mismatch');
+    assert(signal.canonicalUniversityTracks.kraljevskiEkonomskiUneverzitet.term === 'KRALJEVSKI EKONOMSKI UNEVERZITET', 'vrh economic track mismatch');
     assert(['READY', 'WATCH', 'BLOCKED'].includes(signal.readiness.status), 'unexpected vrh status');
     assert(Number.isFinite(signal.readiness.score), 'vrh score must be finite');
     assert(report.acceptanceCriteria.some((item) => item.id === 'vrh-programskog-ekviladenta-lock' && item.passed), 'vrh lock criterion must pass');
@@ -711,6 +714,8 @@ async function runTests(): Promise<void> {
     assert(report.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.canonicalGovernanceVocabulary.extremExtrimliExtrondol === 'EXTRIMLI EXTRONDOL EXTREM', 'developer/create canonical EXTRIMLI EXTRONDOL EXTREM vocabulary mismatch');
     assert(report.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.canonicalGovernanceVocabulary.dokDikDakDukFor === 'DOK DIK DAK DUK FOR', 'developer/create canonical DOK/DIK/DAK/DUK/FOR vocabulary mismatch');
     assert(report.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.canonicalGovernanceVocabulary.kraljevskiPravniUniverzitet === 'KRALJEVSKI PRAVNI UNIVERZITET', 'developer/create canonical KRALJEVSKI PRAVNI UNIVERZITET vocabulary mismatch');
+    assert(report.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.canonicalGovernanceVocabulary.kraljevskiEkonomskiUneverzitet === 'KRALJEVSKI EKONOMSKI UNEVERZITET', 'developer/create canonical KRALJEVSKI EKONOMSKI UNEVERZITET vocabulary mismatch');
+    assert(report.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.mappedTracks.kraljevskiEkonomskiUneverzitet === 'KRALJEVSKI EKONOMSKI UNEVERZITET', 'developer/create mapped economic track mismatch');
     assert(report.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.osnoveRispektProtocol.title === 'OSNOVE / RISPEKT', 'developer/create OSNOVE/RISPEKT title mismatch');
     assert(report.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.osnoveRispektProtocol.executionDomain === 'documentation-and-governance-evidence-only', 'developer/create OSNOVE/RISPEKT execution domain mismatch');
     assert(report.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.osnoveRispektProtocol.noNewRuntimeDomain, 'developer/create OSNOVE/RISPEKT must not introduce runtime domain');
@@ -731,6 +736,10 @@ async function runTests(): Promise<void> {
     assert(report.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.technicalReadinessProfile.paradijogonalnoProgramiranje.status === report.paradijogonalnoProgrimiranje.readiness.status, 'developer/create PARADIJOGONALNO profile mismatch');
     assert(report.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.technicalReadinessProfile.vrhProgramskogEkviladenta.status === report.vrhProgramskogEkviladenta.readiness.status, 'developer/create VRH profile mismatch');
     assert(report.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.technicalReadinessProfile.consolidatedRhythmStatus === report.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.status, 'developer/create consolidated rhythm status mismatch');
+    assert(report.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.kraljevskiEkonomskiUneverzitet.canonicalName === 'KRALJEVSKI EKONOMSKI UNEVERZITET', 'developer/create economic track name mismatch');
+    assert(report.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.kraljevskiEkonomskiUneverzitet.noNewRuntimeModule, 'developer/create economic track must not introduce a runtime module');
+    assert(report.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.kraljevskiEkonomskiUneverzitet.technicalReadinessBinding.sourceTrack === 'vrhProgramskogEkviladenta', 'developer/create economic track source track mismatch');
+    assert(report.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.kraljevskiEkonomskiUneverzitet.readiness.status === report.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.status, 'developer/create economic track readiness status mismatch');
     assert(report.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.aiPlateOffer.canonicalName === 'AI PLATE', 'AI PLATE canonical name mismatch');
     assert(report.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.aiPlateOffer.runtimeProvider === 'Vercel', 'AI PLATE runtime provider mismatch');
     assert(report.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.aiPlateOffer.businessTarget.amountEur === 12000, 'AI PLATE weekly target mismatch');

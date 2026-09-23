@@ -53,6 +53,7 @@ Supplied image `https://github.com/user-attachments/assets/9273c07f-5c03-4db4-a4
 - `DAK + DUK` ostaju EXTRONDOL governance sloj.
 - `EXTRIMLI EXTRONDOL EXTREM` ostaje zaključani additive-only governance vokabular za ovaj vršni sloj.
 - `KRALJEVSKI PRAVNI UNIVERZITET` ostaje legal-governance traka: EXTREM drži readiness signal, EXTRONDOL drži WAWE/audit odluke, SPAJA KOD objavljuje samo audit-safe summary.
+- `KRALJEVSKI EKONOMSKI UNEVERZITET` ostaje additive-only ekonomsko-koordinaciona traka: EXTREM objavljuje postojeći readiness/profil signal, EXTRONDOL objavljuje samo WAWE/audit summary, a SPAJA KOD zadržava audit-safe public boundary.
 - ChatGPT share link i sličan spoljašnji materijal tretiraju se isključivo kao **documentation-only** izvor, nikada kao runtime source of truth.
 - Zaključani ChatGPT documentation-only izvor za ovaj profil je `https://chatgpt.com/share/6ab2f88d-23b0-83eb-b708-b880bdb7fc11?ogimg=plain` i dozvoljen je samo kao audit/evidence referenca.
 - Jezički lock ostaje: srpski je primarni kanonski izraz domena, dok se engleske tehničke oznake koriste samo za interoperabilnost, review i integracione mape.
@@ -67,6 +68,7 @@ Supplied image `https://github.com/user-attachments/assets/9273c07f-5c03-4db4-a4
 - `KRALJEVSKI MATEMATIČKI UNIVERZITET` — eksponencijalno, proporcionalno i sekvencijalno modelovanje
 - `KRALJEVSKA FIZIKA UNIVERZITET` — exposure, energija, dinamika i konfliktna propagacija
 - `KRALJEVSKI MAŠINSKI UNIVERZITET` — obrtni moment, mehanička stabilnost i izvršno kretanje signala
+- `KRALJEVSKI EKONOMSKI UNEVERZITET` — produktivnost, raspodela vrednosti i održiva koordinacija nad postojećim readiness signalima
 - `KRALJEVSKA MEHANIKA UNIVERZITET` je zaključan interpretativni alias i mapira se na postojeći `KRALJEVSKI MAŠINSKI UNIVERZITET` track (isti torque/mehanička stabilnost smisao).
 
 Ove trake su dozvoljene samo kao additive interpretativni slojevi unutar postojećih EXTREM/EXTRONDOL kontrakata, bez novih API modula.
