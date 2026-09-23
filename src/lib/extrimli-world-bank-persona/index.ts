@@ -2,7 +2,6 @@ import { buildAiIqWorldBank } from '../ai-iq-world-bank';
 import {
   buildAiIdentityFinanceGovernancePackage,
   buildAiIdentityFinancePersonaAttributes,
-  mapAiGovernanceStatusToPersonaStatus,
 } from '../ai-identity-finance-governance';
 import { buildAIIQWorldBankLicencniRegistar } from '../aiiq-world-bank-licencni-registar';
 import { EXTRIMLI_PERSONA_ID, getExtrimliAggregateSignals } from '../extrimli';
@@ -363,7 +362,11 @@ export function getExtrimliWorldBankPersonaReport(options: ExtrimliWorldBankPers
       if ((seedPersona.id ?? seedPersona.name) === primaryPersonaId) continue;
       const catalogPersona = aiPersonaCatalog.get(seedPersona.id ?? seedPersona.name);
       if (!catalogPersona) continue;
-      const status = mapAiGovernanceStatusToPersonaStatus(catalogPersona.bankAccountGovernance.status);
+      const personaId = seedPersona.id ?? seedPersona.name;
+      const existing = client.get(personaId);
+      const status = existing?.status && existing.status !== 'archived'
+        ? existing.status
+        : 'active';
       const payload = {
         ...seedPersona,
         status,
@@ -377,10 +380,8 @@ export function getExtrimliWorldBankPersonaReport(options: ExtrimliWorldBankPers
           },
         },
       };
-      const personaId = payload.id ?? payload.name;
       let personaHandled = false;
       try {
-        const existing = client.get(personaId);
         if (existing?.status === 'archived') {
           catalogSync.skippedArchived++;
           personaHandled = true;

@@ -2523,6 +2523,7 @@ export interface ExtrimliDokDikDakDukConsistencyHealth {
       v4: 'governance-hardening-and-freeze-rules';
       v5: 'extrondol-release-audit-and-orchestration';
       v6: 'downstream-and-multi-repo-alignment';
+      v7: 'enterprise-operating-model';
     };
     technicalReadinessProfile: {
       radniTaktMozgaMislilac: {
