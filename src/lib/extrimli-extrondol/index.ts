@@ -192,6 +192,7 @@ const DEVELOPER_CREATE_ROADMAP_ACCEPTANCE_EVIDENCE_BASE = [
   'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.implementationPackage',
   'developerAndCreateRepoWideReflection',
   'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance',
+  'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.aiIdentityFinanceGovernance',
   'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.covecnostAuditVisualReference.supplementalVisualReferences',
   'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.covecnostAuditVisualReference.companionAuditVisualReferences',
   'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.osnoveRispektProtocol',
@@ -4093,6 +4094,8 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
         osnoveRispektProtocol:
           extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.osnoveRispektProtocol,
         mappedTracks: extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.mappedTracks,
+        kraljevskiEkonomskiUneverzitet:
+          extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.kraljevskiEkonomskiUneverzitet,
         dailyOperationalCadence: {
           activeRoadmapStagePolicy:
             extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.dailyOperationalCadence.activeRoadmapStagePolicy,
@@ -4161,18 +4164,6 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
           roadmapStageId: 'v5-extrondol-release-audit-and-orchestration',
           measurableOutput:
             'EXTRONDOL consumes the repo-wide technical profile plus AI identity-finance governance, primary/supplemental/companion audit visual metadata and OSNOVE / RISPEKT protocol evidence, then publishes only audit-safe WAWE/review/rollback governance',
-          acceptanceEvidence: [
-            'developerAndCreateRepoWideReflection',
-            'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance',
-            'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.aiIdentityFinanceGovernance',
-            'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.covecnostAuditVisualReference.supplementalVisualReferences',
-            'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.covecnostAuditVisualReference.companionAuditVisualReferences',
-            'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.osnoveRispektProtocol',
-            'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.aiPlateGovernance',
-            'spajaKod.publicSignals.developerAndCreateStatus',
-            'spajaKod.publicSignals.aiPlateStatus',
-          ],
-            'EXTRONDOL consumes the repo-wide technical profile plus primary/supplemental/companion audit visual metadata and OSNOVE / RISPEKT protocol evidence, then publishes only audit-safe WAWE/review/rollback governance',
           acceptanceEvidence: DEVELOPER_CREATE_RELEASE_AUDIT_ACCEPTANCE_EVIDENCE,
           downstreamSync: 'follow-up-only-until-io-openui-ao-adopts-audit-safe-summary',
         },
@@ -5224,10 +5215,16 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
         spajaKod: 'audit-safe-summary-only',
       },
       mappedTracks: extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.mappedTracks,
+      canonicalGovernanceVocabulary:
+        extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.canonicalGovernanceVocabulary,
       readinessModel: ['READY', 'WATCH', 'BLOCKED'],
       driftZeroLayers: ['docs', 'types', 'routes', 'tests', 'workflows'],
       roadmapStageMapping: extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.roadmapStageMapping,
       technicalReadinessProfile: extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.technicalReadinessProfile,
+      kraljevskiEkonomskiUneverzitet:
+        extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.kraljevskiEkonomskiUneverzitet,
+      osnoveRispektProtocol:
+        extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.osnoveRispektProtocol,
       aiPlateOffer: extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.aiPlateOffer,
       aiIdentityFinanceGovernance: {
         ...extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.aiIdentityFinanceGovernance,
@@ -5710,6 +5707,8 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
           },
           mappedTracks: extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.mappedTracks,
           technicalReadinessProfile: extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.technicalReadinessProfile,
+          kraljevskiEkonomskiUneverzitet:
+            extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.kraljevskiEkonomskiUneverzitet,
           aiPlateGovernance: {
             canonicalName: extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.aiPlateOffer.canonicalName,
             runtimeProvider: extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.aiPlateOffer.runtimeProvider,
@@ -5774,17 +5773,6 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
             roadmapStageId: 'v5-extrondol-release-audit-and-orchestration',
             measurableOutput:
               'EXTRONDOL consumes the repo-wide technical profile plus AI identity-finance governance and primary/supplemental/companion audit visual metadata, then publishes only audit-safe WAWE/review/rollback governance',
-            acceptanceEvidence: [
-              'developerAndCreateRepoWideReflection',
-              'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance',
-              'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.aiIdentityFinanceGovernance',
-              'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.covecnostAuditVisualReference.supplementalVisualReferences',
-              'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.covecnostAuditVisualReference.companionAuditVisualReferences',
-              'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.aiPlateGovernance',
-              'spajaKod.publicSignals.developerAndCreateStatus',
-              'spajaKod.publicSignals.aiPlateStatus',
-            ],
-              'EXTRONDOL consumes the repo-wide technical profile plus primary/supplemental/companion audit visual metadata and publishes only audit-safe WAWE/review/rollback governance',
             acceptanceEvidence: DEVELOPER_CREATE_GOVERNANCE_ACCEPTANCE_EVIDENCE,
             downstreamSync: 'follow-up-only-until-io-openui-ao-adopts-audit-safe-summary',
           },
@@ -6560,17 +6548,6 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
         roadmapStageId: 'v5-extrondol-release-audit-and-orchestration',
         measurableOutput:
           'EXTRONDOL consumes the repo-wide technical profile plus AI identity-finance governance and primary/supplemental/companion audit visual metadata, then publishes only audit-safe WAWE/review/rollback governance',
-        acceptanceEvidence: [
-          'developerAndCreateRepoWideReflection',
-          'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance',
-          'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.aiIdentityFinanceGovernance',
-          'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.covecnostAuditVisualReference.supplementalVisualReferences',
-          'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.covecnostAuditVisualReference.companionAuditVisualReferences',
-          'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.aiPlateGovernance',
-          'spajaKod.publicSignals.developerAndCreateStatus',
-          'spajaKod.publicSignals.aiPlateStatus',
-        ],
-          'EXTRONDOL consumes the repo-wide technical profile plus primary/supplemental/companion audit visual metadata and publishes only audit-safe WAWE/review/rollback governance',
         acceptanceEvidence: DEVELOPER_CREATE_GOVERNANCE_ACCEPTANCE_EVIDENCE,
         downstreamSync: 'follow-up-only-until-io-openui-ao-adopts-audit-safe-summary',
       },

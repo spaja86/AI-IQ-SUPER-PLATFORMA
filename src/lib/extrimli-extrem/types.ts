@@ -1980,6 +1980,12 @@ export interface ExtrimliExtremVrhProgramskogEkviladentaSignal {
       readinessScore: number;
       status: ExtrimliExtremVrhProgramskogEkviladentaStatus;
     };
+    kraljevskiEkonomskiUneverzitet: {
+      term: 'KRALJEVSKI EKONOMSKI UNEVERZITET';
+      focus: 'produktivnost-vrednosna-raspodela-i-odrziva-koordinacija';
+      readinessScore: number;
+      status: ExtrimliExtremVrhProgramskogEkviladentaStatus;
+    };
   };
   ownershipEvidence: {
     forTechnical: true;
@@ -2480,11 +2486,13 @@ export interface ExtrimliDokDikDakDukConsistencyHealth {
       metrikoProgramiranje: 'METRIČKO PROGRAMIRANJE';
       sinemetrickoProgramiranje: 'SINEMETRIČKO PROGRAMIRANJE';
       paradijogonalnoProgrimiranje: 'PARADIJOGONALNO PROGRAMIRANJE';
+      kraljevskiEkonomskiUneverzitet: 'KRALJEVSKI EKONOMSKI UNEVERZITET';
     };
     canonicalGovernanceVocabulary: {
       extremExtrimliExtrondol: 'EXTRIMLI EXTRONDOL EXTREM';
       dokDikDakDukFor: 'DOK DIK DAK DUK FOR';
       kraljevskiPravniUniverzitet: 'KRALJEVSKI PRAVNI UNIVERZITET';
+      kraljevskiEkonomskiUneverzitet: 'KRALJEVSKI EKONOMSKI UNEVERZITET';
     };
     osnoveRispektProtocol: {
       title: 'OSNOVE / RISPEKT';
@@ -2548,6 +2556,37 @@ export interface ExtrimliDokDikDakDukConsistencyHealth {
         readinessScore: number;
       };
       consolidatedRhythmStatus: 'READY' | 'WATCH' | 'BLOCKED';
+    };
+    kraljevskiEkonomskiUneverzitet: {
+      canonicalName: 'KRALJEVSKI EKONOMSKI UNEVERZITET';
+      additiveOnly: true;
+      interpretativeLayer: 'repo-wide-economic-coordination-and-productivity-track';
+      noNewRuntimeModule: true;
+      sourceOfTruthRoutes: readonly ['/api/extrimli/extrem', '/api/extrimli/extrondol', '/api/extrimli/spaja-kod'];
+      sourceTrack: 'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == RADNI TAKT MOZGA (MISLILAC)';
+      technicalReadinessBinding: {
+        sourceProfile: 'dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.technicalReadinessProfile';
+        sourceTrack: 'vrhProgramskogEkviladenta';
+        contributingSignals: readonly ['vrhProgramskogEkviladenta', 'metrikoProgramiranje', 'radniTaktMozgaMislilac'];
+      };
+      governanceBinding: {
+        technicalOwnership: 'DOK+DIK+FOR->EXTREM';
+        governanceOwnership: 'DAK+DUK->EXTRONDOL';
+        publicBoundary: 'SPAJA KOD';
+      };
+      thematicSignals: readonly [
+        'productivity',
+        'value-allocation',
+        'cadence-discipline',
+        'sustainable-coordination',
+        'audit-safe-growth'
+      ];
+      readiness: {
+        status: 'READY' | 'WATCH' | 'BLOCKED';
+        score: number;
+        deterministicFallbackRequired: boolean;
+      };
+      summary: string;
     };
     aiPlateOffer: {
       canonicalName: 'AI PLATE';
@@ -2831,6 +2870,14 @@ export interface ExtrimliDokDikDakDukConsistencyHealth {
         extremPublishes: 'readiness-conflict-signal';
         extrondolPublishes: 'wawe-audit-decisions';
         spajaKodPublishes: 'final-audit-safe-status-only';
+        rawInternalsExposed: false;
+      };
+      kraljevskiEkonomskiUneverzitetBoundary: {
+        trackRole: 'economic-interpretative-track';
+        extremPublishes: 'technical-readiness-profile-only';
+        extrondolPublishes: 'wawe-audit-summary-only';
+        spajaKodPublishes: 'final-audit-safe-status-only';
+        noNewRuntimeModule: true;
         rawInternalsExposed: false;
       };
       canonicalTerminologyMapping: {
