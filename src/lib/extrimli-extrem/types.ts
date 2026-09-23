@@ -2660,13 +2660,15 @@ export interface ExtrimliDokDikDakDukConsistencyHealth {
     aiIdentityFinanceGovernance: AiIdentityFinanceGovernancePackage;
     currentImplementationStage: {
       roadmapStageId: 'v5-extrondol-release-audit-and-orchestration';
-      measurableOutput: 'audit-safe repo-wide reflection status plus primary ČOVEČNOST, supplemental ČOVEČANSTVO, and companion ČOVEČANSTVO / OSEĆAJ OSEBENOSTI visual metadata are published only through existing EXTRIMLI/EXTREM/EXTRONDOL/SPAJA KOD surfaces';
+      measurableOutput: 'audit-safe repo-wide reflection status plus AI identity-finance governance, primary ČOVEČNOST, supplemental ČOVEČANSTVO, companion ČOVEČANSTVO / OSEĆAJ OSEBENOSTI visual metadata, and OSNOVE / RISPEKT protocol evidence are published only through existing EXTRIMLI/EXTREM/EXTRONDOL/SPAJA KOD surfaces';
       acceptanceEvidence: readonly [
         'dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection',
         'dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.covecnostAuditVisualReference',
         'dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.covecnostAuditVisualReference.supplementalVisualReferences',
         'dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.covecnostAuditVisualReference.companionAuditVisualReferences',
         'dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.osnoveRispektProtocol',
+        'dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.aiIdentityFinanceGovernance',
+        'dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.aiPlateOffer',
         'spajaKod.publicSignals.developerAndCreateStatus',
         'radniTaktMozgaMislilac.readiness',
         'metrikoProgramiranje.readiness',

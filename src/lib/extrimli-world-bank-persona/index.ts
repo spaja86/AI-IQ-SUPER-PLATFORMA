@@ -324,12 +324,13 @@ export function getExtrimliWorldBankPersonaReport(options: ExtrimliWorldBankPers
       }
     }
 
+    const primaryPersonaId = personaPayload.id ?? personaPayload.name;
     const catalogSync = {
       ...writeResult.catalogSync,
       processedPersonas: 1,
     };
     for (const seedPersona of SEED_PERSONAS) {
-      if ((seedPersona.id ?? seedPersona.name) === personaPayload.id) continue;
+      if ((seedPersona.id ?? seedPersona.name) === primaryPersonaId) continue;
       const catalogPersona = aiPersonaCatalog.get(seedPersona.id ?? seedPersona.name);
       if (!catalogPersona) continue;
       const status = mapAiGovernanceStatusToPersonaStatus(catalogPersona.bankAccountGovernance.status);
