@@ -138,6 +138,8 @@ jobs:
           assert(developerCreateProgramDoc.includes('src/tests/lib/extrimli-extrem.test.ts') && developerCreateProgramDoc.includes('src/tests/lib/extrimli-extrondol.test.ts'), 'Developer/Create program doc must lock EXTREM/EXTRONDOL tests');
           assert(developerCreateProgramDoc.includes('DOK + DIK + FOR') && developerCreateProgramDoc.includes('DOK/DIK/DAK/DUK/FOR'), 'Developer/Create program doc must include FOR in the ownership and consistency lock');
           assert(developerCreateProgramDoc.includes('AI IQ WORLD BANK PREPISKA') && developerCreateProgramDoc.includes('documentation-only governance evidence'), 'Developer/Create program doc must lock AI IQ WORLD BANK prepiska as documentation-only governance evidence');
+          assert(developerCreateProgramDoc.includes('DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == KRALJEVSKI PROGRAMSKI UNEVERZITET'), 'Developer/Create program doc must lock the unified KRALJEVSKI programmatic narrative');
+          assert(developerCreateProgramDoc.includes('BEZPOVRATNE SUBVENCIJE') && developerCreateProgramDoc.includes('approval') && developerCreateProgramDoc.includes('payment-verification') && developerCreateProgramDoc.includes('payout-readiness'), 'Developer/Create program doc must lock bezpovratne subvencije governance-only evidence');
           assert(doc.includes('EXTRIMLI_EXTENDOL_CONTRACT_VERSION'), 'canonical doc must declare EXTRIMLI Extendol contract');
           assert(doc.includes('/api/extrimli/extendol'), 'canonical doc must reference EXTRIMLI Extendol unified endpoint');
           assert(doc.includes('/api/extrimli/koron'), 'canonical doc must reference EXTRIMLI KORON endpoint');
@@ -152,6 +154,7 @@ jobs:
           assert(links.includes('EXTRIMLI governance conformance audit'), 'multi-repo links must include governance conformance section');
           assert(links.includes('AI PLATE enterprise package') && links.includes('audit-safe snapshot'), 'multi-repo links must define AI PLATE downstream audit-safe sync');
           assert(links.includes('AI IQ WORLD BANK prepiska') && links.includes('never sync real bank records'), 'multi-repo links must keep AI IQ WORLD BANK prepiska audit-safe only');
+          assert(links.includes('BEZPOVRATNE SUBVENCIJE') && links.includes('operational credentials'), 'multi-repo links must include bezpovratne subvencije governance sync boundary');
           assert(links.includes('IO-OPENUI-AO#<follow-up issue> -> AI-IQ-SUPER-PLATFORMA#EXTRIMLI-EXTERNAL-GITHUB'), 'multi-repo links must include bidirectional audit convention');
           assert(extrimli.includes('docs/EXTRIMLI-EXTERNAL-GITHUB.md'), 'EXTRIMLI doc must reference canonical external GitHub plan');
           assert(extrimli.includes('aiPlateEnterprisePackage') && extrimli.includes('12.000 EUR weekly'), 'EXTRIMLI doc must expose AI PLATE governance fields');
@@ -163,6 +166,7 @@ jobs:
           assert(extrimli.includes('releaseReadinessScorecard') && extrimli.includes('contractDriftReport') && extrimli.includes('governanceConformance'), 'EXTRIMLI doc must include governance conformance payload fields');
           assert(worldBankDoc.includes('AI IQ WORLD BANK PREPISKA') && worldBankDoc.includes('documentation-only governance evidence'), 'AI IQ WORLD BANK doc must lock prepiska as documentation-only governance evidence');
           assert(worldBankDoc.includes('approval status') && worldBankDoc.includes('payment verification status') && worldBankDoc.includes('downstream sync status'), 'AI IQ WORLD BANK doc must declare allowed audit-safe correspondence evidence');
+          assert(worldBankDoc.includes('BEZPOVRATNE SUBVENCIJE') && worldBankDoc.includes('payout readiness'), 'AI IQ WORLD BANK doc must lock bezpovratne subvencije governance-only payout evidence');
           assert(worldBankDoc.includes('stvarne brojeve računa') && worldBankDoc.includes('KYC dokumente') && worldBankDoc.includes('payment secrets'), 'AI IQ WORLD BANK doc must forbid sensitive banking evidence in Git');
           assert(Array.isArray(agent.workflows) && agent.workflows.includes('.github/workflows/extrimli-external-github.yml'), 'agent config must include governance workflow');
           assert(Array.isArray(agent.releaseDocs) && agent.releaseDocs.includes('docs/EXTRIMLI-EXTERNAL-GITHUB.md'), 'agent config must include canonical plan doc');
