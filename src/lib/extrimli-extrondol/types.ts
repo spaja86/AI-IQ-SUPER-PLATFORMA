@@ -1888,6 +1888,7 @@ export interface ExtrimliExtrondolDeveloperAndCreateRepoWideReflection
     acceptanceEvidence: readonly [
       'developerAndCreateRepoWideReflection.implementationPackage',
       'developerAndCreateRepoWideReflection',
+      'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance',
       'developerAndCreateRepoWideReflection.covecnostAuditVisualReference.supplementalVisualReferences',
       'developerAndCreateRepoWideReflection.covecnostAuditVisualReference.companionAuditVisualReferences',
       'developerAndCreateRepoWideReflection.aiPlateGovernance',
