@@ -374,13 +374,13 @@ const EXTRIMLI_EXTREM_DEVELOPER_CREATE_KRALJEVSTVO_SCENARIO_ID =
 const EXTRIMLI_EXTREM_DEVELOPER_CREATE_KRALJEVSTVO_CITATION =
   'KRALJEVSTVO — LJUDI / ZNANJE / PRIRODA / TEHNOLOGIJA / BUDUĆNOST ostaje additive-only supplemental audit/reference vizuel: zajedništvo, budućnost, znanje, humanost, pravda i tehnologija u službi života mapiraju se isključivo na postojeći Developer/Create ⇄ VRH ⇄ Radni Takt model, uz bounded vezu ka KRALJEVSKI PRAVNI UNIVERZITET governance/epilog narativu, bez novih ruta i bez novog source-of-truth sistema.' as const;
 const EXTRIMLI_EXTREM_DEVELOPER_CREATE_KRALJEVSTVO_ZVANICNO_MOJE_PRAVO_LICE_VISUAL_REFERENCE =
-  'https://github.com/user-attachments/assets/82f065a8-3bd7-4c09-8d9f-9c66b8443d66' as const;
+  'https://github.com/user-attachments/assets/dd446127-c462-47de-ba22-501800f3ccbc' as const;
 const EXTRIMLI_EXTREM_DEVELOPER_CREATE_KRALJEVSTVO_ZVANICNO_MOJE_PRAVO_LICE_CANONICAL_NARRATIVE_ID =
   'kraljevstvo-zvanicno-moje-pravo-lice-developer-create' as const;
 const EXTRIMLI_EXTREM_DEVELOPER_CREATE_KRALJEVSTVO_ZVANICNO_MOJE_PRAVO_LICE_SCENARIO_ID =
   'kraljevstvo-zvanicno-moje-pravo-lice-developer-create' as const;
 const EXTRIMLI_EXTREM_DEVELOPER_CREATE_KRALJEVSTVO_ZVANICNO_MOJE_PRAVO_LICE_CITATION =
-  'KRALJEVSTVO — ZVANIČNO MOJE PRAVO LICE ostaje additive-only supplemental audit/reference vizuel: kraljevstvo, zajedništvo, znanje, priroda, tehnologija i humanost mapiraju se isključivo na postojeći Developer/Create ⇄ VRH ⇄ Radni Takt model, uz isti READY|WATCH|BLOCKED fallback i isti ownership split bez novih ruta i bez novog source-of-truth sistema.' as const;
+  'KRALJEVSTVO — ZVANIČNO MOJE PRAVO LICE ostaje additive-only supplemental audit/reference vizuel: kraljevstvo, istina, znanje, pravda, ljubav, sloboda, razvoj, humanost i zajedničko čovečanstvo mapiraju se isključivo na postojeći Developer/Create ⇄ VRH ⇄ Radni Takt model, uz isti READY|WATCH|BLOCKED fallback, bez novih ruta i bez novog source-of-truth sistema.' as const;
 const EXTRIMLI_EXTREM_DEVELOPER_CREATE_CARNEVALE_MASKNBALE_VISUAL_REFERENCE =
   'documentation-only://carnevale-masknbale-prirodni-portret-lica' as const;
 const EXTRIMLI_EXTREM_DEVELOPER_CREATE_CARNEVALE_MASKNBALE_CANONICAL_NARRATIVE_ID =
@@ -6974,7 +6974,7 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
             visualReference:
               EXTRIMLI_EXTREM_DEVELOPER_CREATE_KRALJEVSTVO_ZVANICNO_MOJE_PRAVO_LICE_VISUAL_REFERENCE,
             interpretation:
-              'Supplied KRALJEVSTVO — ZVANIČNO MOJE PRAVO LICE image remains additive-only supplemental audit/reference evidence and extends the same bounded Developer/Create reflection package through kraljevstvo, zajedništvo, znanje, priroda, tehnologija, and humanost themes without introducing any new source-of-truth runtime route.',
+              'Supplied KRALJEVSTVO — ZVANIČNO MOJE PRAVO LICE image remains additive-only supplemental audit/reference evidence and extends the same bounded Developer/Create reflection package through kraljevstvo, znanje, pravda, ljubav, sloboda, razvoj, humanost, and zajedničko-čovečanstvo themes without introducing any new source-of-truth runtime route.',
             sourceStatement: 'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == RADNI TAKT MOZGA (MISLILAC)',
             imageToSignalProfile: {
               scenarioId:
@@ -6996,11 +6996,13 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
             },
             thematicSignals: [
               'kraljevstvo',
-              'zajednistvo',
               'znanje',
-              'priroda',
-              'tehnologija',
+              'pravda',
+              'ljubav',
+              'sloboda',
+              'razvoj',
               'humanost',
+              'zajednicko-covecanstvo',
             ],
             auditRole: 'additive-audit-reference-only',
           },
