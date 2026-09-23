@@ -209,7 +209,7 @@ const DEVELOPER_CREATE_RELEASE_AUDIT_ACCEPTANCE_EVIDENCE: ExtrimliExtrondolRelea
 const DEVELOPER_CREATE_GOVERNANCE_ACCEPTANCE_EVIDENCE: ExtrimliExtrondolReport['developerAndCreateRepoWideReflection']['roadmapExecution']['acceptanceEvidence'] = [
   'developerAndCreateRepoWideReflection.implementationPackage',
   'developerAndCreateRepoWideReflection',
-  'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance',
+  'developerAndCreateRepoWideReflection.roadmapExecution',
   'developerAndCreateRepoWideReflection.kraljevskiBastaUneverzite',
   'developerAndCreateRepoWideReflection.covecnostAuditVisualReference.supplementalVisualReferences',
   'developerAndCreateRepoWideReflection.covecnostAuditVisualReference.companionAuditVisualReferences',

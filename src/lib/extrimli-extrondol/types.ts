@@ -1904,7 +1904,7 @@ export interface ExtrimliExtrondolDeveloperAndCreateRepoWideReflection
     acceptanceEvidence: readonly [
       'developerAndCreateRepoWideReflection.implementationPackage',
       'developerAndCreateRepoWideReflection',
-      'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance',
+      'developerAndCreateRepoWideReflection.roadmapExecution',
       'developerAndCreateRepoWideReflection.kraljevskiBastaUneverzite',
       'developerAndCreateRepoWideReflection.covecnostAuditVisualReference.supplementalVisualReferences',
       'developerAndCreateRepoWideReflection.covecnostAuditVisualReference.companionAuditVisualReferences',
