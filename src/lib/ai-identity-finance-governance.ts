@@ -108,6 +108,38 @@ export interface AiIdentityFinanceGovernancePackage {
     ];
     publicSummary: string;
   };
+  bezpovratneSubvencijeGovernance: {
+    canonicalName: 'BEZPOVRATNE SUBVENCIJE';
+    provider: 'AI IQ WORLD BANK';
+    governanceOnlyModel: true;
+    legalEconomicOrderBinding: 'ekonomska-privreda-stub-podizanja-ekonomije-po-pravnom-poretku';
+    economicTracks: readonly [
+      'kraljevski-ekonomski-uneverzitet',
+      'kraljevski-pravni-univerzitet',
+      'privredni-putevi',
+      'poljoprivredna-plodnost',
+      'zivotinjski-skok-plodnosti'
+    ];
+    payoutReadinessSource: '/api/extrimli/extrondol';
+    allowedEvidence: readonly [
+      'approval-status',
+      'payment-verification-status',
+      'audit-evidence',
+      'payout-readiness'
+    ];
+    forbiddenEvidence: readonly [
+      'real-bank-account-numbers',
+      'kyc-documents',
+      'raw-statements',
+      'payment-secrets',
+      'operational-credentials'
+    ];
+    noRuntimeAuthority: true;
+    noRealBankDataInGit: true;
+    status: AiIdentityFinanceGovernanceStatus;
+    blockers: string[];
+    publicSummary: string;
+  };
   compensationModel: {
     weeklyTargetEur: 12000;
     cadence: 'weekly';
@@ -312,6 +344,7 @@ export function buildAiIdentityFinanceGovernancePackage(
         'human-review-status',
         'downstream-sync-status',
         'payout-compensation-regime',
+        'bezpovratne-subvencije-status',
       ],
       forbiddenEvidence: [
         'real-bank-account-numbers',
@@ -321,6 +354,33 @@ export function buildAiIdentityFinanceGovernancePackage(
         'operational-credentials',
       ],
       publicSummary: 'AI IQ WORLD BANK prepiska ostaje documentation-only governance evidence: dozvoljeni su samo approval/compliance/payment/human-review/downstream-sync/payout statusi bez realnih bankarskih zapisa, KYC podataka ili sekreta u Git-u.',
+    },
+    bezpovratneSubvencijeGovernance: {
+      canonicalName: 'BEZPOVRATNE SUBVENCIJE',
+      provider: 'AI IQ WORLD BANK',
+      governanceOnlyModel: true,
+      legalEconomicOrderBinding: 'ekonomska-privreda-stub-podizanja-ekonomije-po-pravnom-poretku',
+      economicTracks: [
+        'kraljevski-ekonomski-uneverzitet',
+        'kraljevski-pravni-univerzitet',
+        'privredni-putevi',
+        'poljoprivredna-plodnost',
+        'zivotinjski-skok-plodnosti',
+      ],
+      payoutReadinessSource: '/api/extrimli/extrondol',
+      allowedEvidence: ['approval-status', 'payment-verification-status', 'audit-evidence', 'payout-readiness'],
+      forbiddenEvidence: [
+        'real-bank-account-numbers',
+        'kyc-documents',
+        'raw-statements',
+        'payment-secrets',
+        'operational-credentials',
+      ],
+      noRuntimeAuthority: true,
+      noRealBankDataInGit: true,
+      status: options.promotionFreeze ? 'BLOCKED' : options.readinessStatus,
+      blockers: baseBlockers,
+      publicSummary: 'BEZPOVRATNE SUBVENCIJE ostaju governance-only payout režim AI IQ WORLD BANK modela: dozvoljeni su samo approval/payment-verification/audit-evidence/payout-readiness signali bez realnih bankarskih podataka ili KYC sadržaja u Git-u.',
     },
     compensationModel: {
       weeklyTargetEur: 12000,
@@ -350,7 +410,7 @@ export function buildAiIdentityFinanceGovernancePackage(
     packageOutputs: {
       auditShortSummary: 'AI lična karta i AI bankarski račun ostaju additive-only identity/governance paket nad postojećim EXTREM/EXTRONDOL/SPAJA KOD surface-ovima.',
       publicSummary: 'Svaki seedovani AI dobija audit-safe ličnu kartu i governance-bounded bankarski/payout profil bez uvođenja novih source-of-truth ruta i bez čuvanja stvarnih bankarskih podataka u Git-u.',
-      governanceChecklistStatus: '12000 EUR weekly ostaje business/finops target only; AI IQ WORLD BANK prepiska ostaje documentation-only governance evidence; contract approval, compliance review, payment verification, human review, rollback plan i FinOps guardrails ostaju obavezni hard gate-ovi za svaki AI paket.',
+      governanceChecklistStatus: '12000 EUR weekly ostaje business/finops target only; AI IQ WORLD BANK prepiska i BEZPOVRATNE SUBVENCIJE ostaju documentation/governance-only evidence sloj; contract approval, compliance review, payment verification, human review, rollback plan i FinOps guardrails ostaju obavezni hard gate-ovi za svaki AI paket.',
     },
   };
 }

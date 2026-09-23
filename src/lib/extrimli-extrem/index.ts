@@ -8000,6 +8000,7 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
     canonicalName: 'KRALJEVSKI EKONOMSKI UNEVERZITET',
     additiveOnly: true,
     interpretativeLayer: 'repo-wide-economic-coordination-and-productivity-track',
+    unifiedNarrative: 'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == KRALJEVSKI PROGRAMSKI UNEVERZITET',
     arhimedisTrzisniOdnosInterpretation: {
       additiveOnly: true,
       modelName: 'Arhimedisov princip matematike + tržišni odnos',
@@ -8012,6 +8013,19 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
     noNewRuntimeModule: true,
     sourceOfTruthRoutes: ['/api/extrimli/extrem', '/api/extrimli/extrondol', '/api/extrimli/spaja-kod'],
     sourceTrack: 'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == RADNI TAKT MOZGA (MISLILAC)',
+    privredniPuteviInterpretation: {
+      boundedTrackOnly: true,
+      productionSignals: ['produktivnost', 'raspodela-vrednosti', 'privredni-putevi'],
+      agricultureSignals: ['plodno-zemljiste', 'poljoprivredne-masine', 'zivotinjski-skok-plodnosti'],
+      mappingSource: 'existing-readiness-and-technical-profile-signals',
+      noNewFinancialRuntimeFormulas: true,
+    },
+    pravniPoredakPolicyGate: {
+      mode: 'ekonomska-privreda-stub-podizanja-ekonomije-po-pravnom-poretku',
+      owner: 'KRALJEVSKI PRAVNI UNIVERZITET',
+      policyOnly: true,
+      noStandaloneEngine: true,
+    },
     technicalReadinessBinding: {
       sourceProfile: 'dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.technicalReadinessProfile',
       sourceTrack: 'vrhProgramskogEkviladenta',
@@ -8044,7 +8058,7 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
         dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.deterministicFallbackRequired,
     },
     summary:
-      'KRALJEVSKI EKONOMSKI UNEVERZITET ostaje additive-only interpretativna traka za produktivnost, raspodelu vrednosti i održivu koordinaciju nad postojećim Developer/Create, VRH i Radni Takt signalima bez novog runtime modula.',
+      'KRALJEVSKI EKONOMSKI UNEVERZITET ostaje additive-only interpretativna traka za produktivnost, raspodelu vrednosti, privredne puteve i poljoprivredno-razvojnu logiku mapiranu na postojeće readiness/profile signale u policy-gated režimu po pravnom poretku, bez novog runtime modula i bez novih finansijskih formula.',
   };
   dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.kraljevskiProgramskiUneverzitet = {
     canonicalName: 'KRALJEVSKI PROGRAMSKI UNEVERZITET',
@@ -8556,11 +8570,13 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
       extremPublishes: 'readiness-conflict-signal',
       extrondolPublishes: 'wawe-audit-decisions',
       spajaKodPublishes: 'final-audit-safe-status-only',
+      policyGatedEconomicOrder: 'ekonomska-privreda-po-pravnom-poretku',
       rawInternalsExposed: false,
     },
     kraljevskiProgramskiUneverzitetBoundary: {
       trackRole: 'apex-programmatic-alias-track',
       parentTrack: 'VRH PROGRAMSKOG EKVILADENTA',
+      unifiedNarrative: 'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == KRALJEVSKI PROGRAMSKI UNEVERZITET',
       extremPublishes: 'derived-technical-readiness-profile-only',
       extrondolPublishes: 'audit-freeze-promotion-review-summary-only',
       spajaKodPublishes: 'final-audit-safe-status-only',
@@ -8573,6 +8589,8 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
       extremPublishes: 'technical-readiness-profile-only',
       extrondolPublishes: 'wawe-audit-summary-only',
       spajaKodPublishes: 'final-audit-safe-status-only',
+      legalEconomicOrder: 'ekonomska-privreda-stub-podizanja-ekonomije-po-pravnom-poretku',
+      bezpovratneSubvencijeMode: 'governance-only-payout-evidence',
       arhimedisModelBounded: true,
       noNewRuntimeModule: true,
       rawInternalsExposed: false,

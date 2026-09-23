@@ -68,6 +68,7 @@ Zabranjeno je čuvati:
 
 - `AI IQ WORLD BANK PREPISKA` ostaje documentation-only governance evidence i nikada ne postaje novi runtime source-of-truth.
 - Dozvoljena korespondencija je audit-safe i bounded samo na: `approval status`, `compliance status`, `payment verification status`, `human review status`, `downstream sync status` i `payout/compensation režim`.
+- `BEZPOVRATNE SUBVENCIJE` ostaju governance-only payout režim i smeju koristiti samo audit-safe evidence/status sloj: `approval`, `payment verification status`, `audit evidence`, `payout readiness`.
 - Zabranjeno je unositi ili prenositi stvarne brojeve računa, KYC dokumente, neredigovane izvode, payment secrets ili operativne kredencijale.
 - `EXTREM` sme da nosi samo bounded identity/finance readiness signal, `EXTRONDOL` sme da nosi samo governance mirror, a `SPAJA KOD` sme da objavi samo audit-safe summary ove prepiske.
 - Downstream sync prema `spaja86/IO-OPENUI-AO` ostaje audit-safe snapshot only.

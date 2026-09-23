@@ -2596,6 +2596,7 @@ export interface ExtrimliDokDikDakDukConsistencyHealth {
       canonicalName: 'KRALJEVSKI EKONOMSKI UNEVERZITET';
       additiveOnly: true;
       interpretativeLayer: 'repo-wide-economic-coordination-and-productivity-track';
+      unifiedNarrative: 'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == KRALJEVSKI PROGRAMSKI UNEVERZITET';
       arhimedisTrzisniOdnosInterpretation: {
         additiveOnly: true;
         modelName: 'Arhimedisov princip matematike + tržišni odnos';
@@ -2608,6 +2609,19 @@ export interface ExtrimliDokDikDakDukConsistencyHealth {
       noNewRuntimeModule: true;
       sourceOfTruthRoutes: readonly ['/api/extrimli/extrem', '/api/extrimli/extrondol', '/api/extrimli/spaja-kod'];
       sourceTrack: 'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == RADNI TAKT MOZGA (MISLILAC)';
+      privredniPuteviInterpretation: {
+        boundedTrackOnly: true;
+        productionSignals: readonly ['produktivnost', 'raspodela-vrednosti', 'privredni-putevi'];
+        agricultureSignals: readonly ['plodno-zemljiste', 'poljoprivredne-masine', 'zivotinjski-skok-plodnosti'];
+        mappingSource: 'existing-readiness-and-technical-profile-signals';
+        noNewFinancialRuntimeFormulas: true;
+      };
+      pravniPoredakPolicyGate: {
+        mode: 'ekonomska-privreda-stub-podizanja-ekonomije-po-pravnom-poretku';
+        owner: 'KRALJEVSKI PRAVNI UNIVERZITET';
+        policyOnly: true;
+        noStandaloneEngine: true;
+      };
       technicalReadinessBinding: {
         sourceProfile: 'dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.technicalReadinessProfile';
         sourceTrack: 'vrhProgramskogEkviladenta';
@@ -3074,11 +3088,13 @@ export interface ExtrimliDokDikDakDukConsistencyHealth {
         extremPublishes: 'readiness-conflict-signal';
         extrondolPublishes: 'wawe-audit-decisions';
         spajaKodPublishes: 'final-audit-safe-status-only';
+        policyGatedEconomicOrder: 'ekonomska-privreda-po-pravnom-poretku';
         rawInternalsExposed: false;
       };
       kraljevskiProgramskiUneverzitetBoundary: {
         trackRole: 'apex-programmatic-alias-track';
         parentTrack: 'VRH PROGRAMSKOG EKVILADENTA';
+        unifiedNarrative: 'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == KRALJEVSKI PROGRAMSKI UNEVERZITET';
         extremPublishes: 'derived-technical-readiness-profile-only';
         extrondolPublishes: 'audit-freeze-promotion-review-summary-only';
         spajaKodPublishes: 'final-audit-safe-status-only';
@@ -3091,6 +3107,8 @@ export interface ExtrimliDokDikDakDukConsistencyHealth {
         extremPublishes: 'technical-readiness-profile-only';
         extrondolPublishes: 'wawe-audit-summary-only';
         spajaKodPublishes: 'final-audit-safe-status-only';
+        legalEconomicOrder: 'ekonomska-privreda-stub-podizanja-ekonomije-po-pravnom-poretku';
+        bezpovratneSubvencijeMode: 'governance-only-payout-evidence';
         arhimedisModelBounded: true;
         noNewRuntimeModule: true;
         rawInternalsExposed: false;
