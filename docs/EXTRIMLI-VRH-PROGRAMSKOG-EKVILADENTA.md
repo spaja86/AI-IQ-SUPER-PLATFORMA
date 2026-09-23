@@ -58,6 +58,7 @@ Supplied image `https://github.com/user-attachments/assets/9273c07f-5c03-4db4-a4
 - `EXTRIMLI EXTRONDOL EXTREM` ostaje zaključani additive-only governance vokabular za ovaj vršni sloj.
 - `KRALJEVSKI PRAVNI UNIVERZITET` ostaje legal-governance traka: EXTREM drži readiness signal, EXTRONDOL drži WAWE/audit odluke, SPAJA KOD objavljuje samo audit-safe summary.
 - `KRALJEVSKI EKONOMSKI UNEVERZITET` ostaje additive-only ekonomsko-koordinaciona traka: EXTREM objavljuje postojeći readiness/profil signal, EXTRONDOL objavljuje samo WAWE/audit summary, a SPAJA KOD zadržava audit-safe public boundary.
+- `KRALJEVSKI PROGRAMSKI UNEVERZITET` ostaje additive-only vršni programski alias: canonical spelling lock je upravo `KRALJEVSKI PROGRAMSKI UNEVERZITET`, parent track ostaje `VRH PROGRAMSKOG EKVILADENTA`, EXTREM objavljuje samo izvedeni technicalReadinessProfile nad postojećim signalima, EXTRONDOL objavljuje samo governance mirror, a SPAJA KOD samo audit-safe summary status.
 - `Arhimedisov princip matematike + tržišni odnos` u okviru `KRALJEVSKI EKONOMSKI UNEVERZITET` ostaje additive-only interpretacija: `roba↔roba` i `novac↔roba` predstavljaju bounded razmenu vrednosti, a množenje/deljenje predstavlja skaliranje postojećih readiness odnosa bez novih runtime ruta i bez novog source-of-truth modula.
 - ChatGPT share link i sličan spoljašnji materijal tretiraju se isključivo kao **documentation-only** izvor, nikada kao runtime source of truth.
 - Zaključani ChatGPT documentation-only izvor za ovaj profil je `https://chatgpt.com/share/6ab2f88d-23b0-83eb-b708-b880bdb7fc11?ogimg=plain` i dozvoljen je samo kao audit/evidence referenca.
@@ -75,6 +76,7 @@ Supplied image `https://github.com/user-attachments/assets/9273c07f-5c03-4db4-a4
 - `KRALJEVSKI MAŠINSKI UNIVERZITET` — obrtni moment, mehanička stabilnost i izvršno kretanje signala
 - `KRALJEVSKI EKONOMSKI UNEVERZITET` — produktivnost, raspodela vrednosti i održiva koordinacija nad postojećim readiness signalima
 - `KRALJEVSKI EKONOMSKI UNEVERZITET` — uključuje bounded `Arhimedisov princip matematike + tržišni odnos` interpretaciju nad postojećim readiness signalima
+- `KRALJEVSKI PROGRAMSKI UNEVERZITET` — vršni programski alias koji sabira `VRH PROGRAMSKOG EKVILADENTA`, `METRIČKO PROGRAMIRANJE`, `SINEMETRIČKO PROGRAMIRANJE`, `PARADIJOGONALNO PROGRAMIRANJE` i `RADNI TAKT MOZGA (MISLILAC)` bez novih runtime modula
 - `KRALJEVSKA MEHANIKA UNIVERZITET` je zaključan interpretativni alias i mapira se na postojeći `KRALJEVSKI MAŠINSKI UNIVERZITET` track (isti torque/mehanička stabilnost smisao).
 
 Ove trake su dozvoljene samo kao additive interpretativni slojevi unutar postojećih EXTREM/EXTRONDOL kontrakata, bez novih API modula.
@@ -93,6 +95,8 @@ Ove trake su dozvoljene samo kao additive interpretativni slojevi unutar postoje
 - **V5** — EXTRONDOL release orkestracija kroz WAWE uticaj, freeze/promotion razloge, release-audit i downstream summary
 - **V6** — downstream i multi-repo alignment kroz audit-safe summary only sync
 - **V7** — enterprise/organizational operating model za additive AI PLATE paket kada je potreban širi rollout
+
+`KRALJEVSKI PROGRAMSKI UNEVERZITET` ostaje zaključan unutar istog realizacionog plana: purpose/scope mu je repo-wide programmatic alias over existing tracks, parent-child relacija ostaje `VRH PROGRAMSKOG EKVILADENTA -> KRALJEVSKI PROGRAMSKI UNEVERZITET`, bounded interpretacija termina `EXTRIMLI EXTRONDOL EXTREM DOK DUK DAK DIK FOR` ostaje bez novih formula, a validacija ostaje na istom `READY | WATCH | BLOCKED` + deterministic fallback modelu.
 
 Zaključani additive implementation package sada mora ostati vidljiv samo kroz postojeće surface-ove:
 
