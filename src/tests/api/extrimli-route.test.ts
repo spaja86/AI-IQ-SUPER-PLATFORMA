@@ -767,6 +767,7 @@ async function runTests(): Promise<void> {
           auditStatus: string;
           degraded: boolean;
           developerAndCreateStatus: string;
+          developerAndCreateImplementationStatus: string;
           funkcinalnoProgramiranjeEnergetskogMisaonogTokaStatus: string;
           funkcionalnoProgramiranjeUzvisenogMisanogTokaStatus: string;
           funkcionalnoProgramiranjePravednogMisaonogTokaStatus: string;
@@ -800,6 +801,12 @@ async function runTests(): Promise<void> {
           flowLock: { sequence: string[] };
           packageOutputs: { auditShortSummary: string };
         };
+        developerAndCreateImplementationPackage: {
+          sourceOfTruthRoutes: string[];
+          routeSummaryFields: string[];
+          covecanstvuPublicOutput: string;
+          downstreamAuditFields: string[];
+        };
         dokerKuratIzekDokarTrack: { boundarySurface: string; publicStatus: string; tokenSummaries: Array<{ token: string; status: string }> };
         blockers: string[];
       };
@@ -823,8 +830,10 @@ async function runTests(): Promise<void> {
     assert(['READY', 'WATCH', 'BLOCKED'].includes(body.data.publicSignals.spajinoProporcionalnoProgramiranjeUniverzitetStatus), 'unexpected SPAJA KOD university summary status');
     assert(['READY', 'WATCH', 'BLOCKED'].includes(body.data.publicSignals.vrhProgramskogEkviladentaStatus), 'unexpected SPAJA KOD vrh summary status');
     assert(['READY', 'WATCH', 'BLOCKED'].includes(body.data.publicSignals.developerAndCreateStatus), 'unexpected SPAJA KOD developer/create summary status');
+    assert(['READY', 'WATCH', 'BLOCKED'].includes(body.data.publicSignals.developerAndCreateImplementationStatus), 'unexpected SPAJA KOD developer/create implementation summary status');
     assert(['READY', 'WATCH', 'BLOCKED'].includes(body.data.publicSignals.aiPlateStatus), 'unexpected SPAJA KOD AI PLATE summary status');
     assert(body.data.publicSignals.aiPlateStatus === body.data.publicSignals.developerAndCreateStatus, 'unexpected SPAJA KOD AI PLATE/developer-create mismatch');
+    assert(body.data.publicSignals.developerAndCreateImplementationStatus === body.data.publicSignals.developerAndCreateStatus, 'unexpected SPAJA KOD implementation/developer-create mismatch');
     assert(body.data.epilogijaCovecnosti.title === 'EPILOGIJA ČOVEČANSTVA', 'unexpected SPAJA KOD epilog title');
     assert(body.data.epilogijaCovecnosti.canonicalNarrativeId === 'priroda-zdrav-zivot-covecanstvo', 'unexpected SPAJA KOD canonical epilog narrative id');
     assert(body.data.epilogijaCovecnosti.citation.includes('Priroda izum samoživost'), 'SPAJA KOD epilog citation should preserve canonical narrative');
@@ -838,6 +847,10 @@ async function runTests(): Promise<void> {
     assert(body.data.developerAndCreateVisualReflection.canonicalNarrativeId === 'covecnost-developer-create-vrh-radni-takt', 'unexpected SPAJA KOD developer/create ČOVEČNOST narrative id');
     assert(body.data.developerAndCreateVisualReflection.visualReference.includes('4790f4ea-4271-4d2a-ae0a-d9bec5bc8b8a'), 'unexpected SPAJA KOD developer/create ČOVEČNOST visual reference');
     assert(body.data.developerAndCreateVisualReflection.imageToSignalProfile.ownershipLock.spajaKod === 'audit-safe-summary-only', 'unexpected SPAJA KOD developer/create ČOVEČNOST boundary');
+    assert(body.data.developerAndCreateImplementationPackage.sourceOfTruthRoutes.join(',') === '/api/extrimli/extrem,/api/extrimli/extrondol,/api/extrimli/spaja-kod', 'unexpected SPAJA KOD implementation package source routes');
+    assert(body.data.developerAndCreateImplementationPackage.routeSummaryFields.join(',') === 'publicSignals.developerAndCreateStatus,publicSignals.developerAndCreateImplementationStatus,publicSignals.kraljevskiPravniUniverzitetStatus,developerAndCreateVisualReflection.packageOutputs,epilogijaCovecnosti.packageOutputs', 'unexpected SPAJA KOD implementation package route summary fields');
+    assert(body.data.developerAndCreateImplementationPackage.covecanstvuPublicOutput === 'summary-only', 'unexpected SPAJA KOD implementation package ČOVEČANSTVU output');
+    assert(body.data.developerAndCreateImplementationPackage.downstreamAuditFields.join(',') === 'masterEpilog,posterSummary,videoStoryboardSummary,auditShortSummary,governanceChecklistStatus', 'unexpected SPAJA KOD implementation package downstream audit fields');
     assert(body.data.developerAndCreateVisualReflection.supplementalVisualReferences[0].canonicalNarrativeId === 'covecanstvo-zivot-je-najveca-igra', 'unexpected SPAJA KOD developer/create supplemental narrative id');
     assert(body.data.developerAndCreateVisualReflection.supplementalVisualReferences[0].visualReference.includes('27ef7575-9ef6-425e-bdbf-75feb722bad2'), 'unexpected SPAJA KOD developer/create supplemental visual reference');
     const spajaKodSviPripadajuSupplemental = body.data.developerAndCreateVisualReflection.supplementalVisualReferences.find((reference: { canonicalNarrativeId: string }) => reference.canonicalNarrativeId === 'covecanstvo-svi-koji-postoje-zasluzuju-da-pripadaju-developer-create');

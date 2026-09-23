@@ -187,6 +187,13 @@ async function runTests(): Promise<void> {
     assert(report.b2bReadiness.downstreamSync.syncedFields.includes('versionRoadmap.developerCreateLock.dailyOperationalCadence'), 'developer/create cadence lock must be synced downstream');
     assert(report.b2bReadiness.downstreamSync.syncedFields.includes('versionRoadmap.developerCreateLock.definitionOfDone'), 'developer/create DoD must be synced downstream');
     assert(report.roadmapAlignment.primaryVersion === 'Verzija 5', 'EXTRONDOL should align to Verzija 5');
+    const implementationPackage = report.developerAndCreateRepoWideReflection.implementationPackage;
+    assert(implementationPackage.sourceOfTruthRoutes.join(',') === '/api/extrimli/extrem,/api/extrimli/extrondol,/api/extrimli/spaja-kod', 'developer/create governance implementation package source routes mismatch');
+    assert(implementationPackage.currentWawe === report.rollout.currentWawe, 'developer/create governance implementation package current WAWE mismatch');
+    assert(implementationPackage.eligibleNextWave === report.rollout.eligibleNextWawe, 'developer/create governance implementation package next WAWE mismatch');
+    assert(implementationPackage.canonicalOwnershipSplit.spajaKod === 'audit-safe-summary-only', 'developer/create governance implementation package SPAJA KOD boundary mismatch');
+    assert(implementationPackage.covecanstvuEpilogBoundary.publicOutput === 'summary-only', 'developer/create governance implementation package ČOVEČANSTVU output mismatch');
+    assert(implementationPackage.validationLock.driftZeroLayers.join(',') === 'docs,types,routes,tests,workflows', 'developer/create governance implementation package drift-zero mismatch');
   });
 
   await test('report includes bounded orchestration score and degraded policy', () => {
@@ -879,9 +886,17 @@ async function runTests(): Promise<void> {
     );
     assert(report.developerAndCreateRepoWideReflection.roadmapExecution.roadmapStageId === 'v5-extrondol-release-audit-and-orchestration', 'developer/create governance roadmap stage mismatch');
     assert(report.developerAndCreateRepoWideReflection.roadmapExecution.downstreamSync === 'follow-up-only-until-io-openui-ao-adopts-audit-safe-summary', 'developer/create governance downstream boundary mismatch');
+    assert(report.releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.implementationPackage.currentWawe === report.rollout.currentWawe, 'developer/create release-audit implementation package current WAWE mismatch');
+    assert(report.releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.implementationPackage.eligibleNextWawe === report.rollout.eligibleNextWawe, 'developer/create release-audit implementation package next WAWE mismatch');
+    assert(report.releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.implementationPackage.canonicalTerminologyMapping.phrase === 'EXTRIMLI EXTRONDOL EXTREM DOK DUK DAK DIK FOR', 'developer/create release-audit implementation package terminology mismatch');
+    assert(report.releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.implementationPackage.roadmapStages.v7 === 'enterprise-organizational-operating-model', 'developer/create release-audit implementation package V7 mismatch');
     assert(report.spajaKod.publicSignals.developerAndCreateStatus === report.developerAndCreateRepoWideReflection.status, 'SPAJA KOD developer/create status mismatch');
+    assert(report.spajaKod.publicSignals.developerAndCreateImplementationStatus === report.developerAndCreateRepoWideReflection.status, 'SPAJA KOD developer/create implementation status mismatch');
     assert(report.spajaKod.publicSignals.aiPlateStatus === report.developerAndCreateRepoWideReflection.aiPlateGovernance.status, 'SPAJA KOD AI PLATE status mismatch');
     assert(report.releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.aiPlateGovernance.packageOutputs.auditShortSummary.includes('AI PLATE'), 'AI PLATE release-audit summary mismatch');
+    assert(report.spajaKod.developerAndCreateImplementationPackage.routeSummaryFields.join(',') === 'publicSignals.developerAndCreateStatus,publicSignals.developerAndCreateImplementationStatus,publicSignals.kraljevskiPravniUniverzitetStatus,developerAndCreateVisualReflection.packageOutputs,epilogijaCovecnosti.packageOutputs', 'SPAJA KOD implementation package route summary fields mismatch');
+    assert(report.spajaKod.developerAndCreateImplementationPackage.covecanstvuPublicOutput === 'summary-only', 'SPAJA KOD implementation package ČOVEČANSTVU output mismatch');
+    assert(report.spajaKod.developerAndCreateImplementationPackage.downstreamAuditFields.join(',') === 'masterEpilog,posterSummary,videoStoryboardSummary,auditShortSummary,governanceChecklistStatus', 'SPAJA KOD implementation package downstream audit fields mismatch');
     assert(report.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.status === report.developerAndCreateRepoWideReflection.status, 'developer/create consistency mismatch');
     assert(report.developerAndCreateRepoWideReflection.dailyOperationalCadence.status === report.developerAndCreateRepoWideReflection.status, 'developer/create cadence status mismatch');
     assert(report.developerAndCreateRepoWideReflection.dailyOperationalCadence.activeRoadmapStagePolicy === 'single-active-roadmap-stage-per-day', 'developer/create cadence roadmap policy mismatch');

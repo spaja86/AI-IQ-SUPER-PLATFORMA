@@ -68,6 +68,7 @@ Audit reference convention:
 - This repo: `AI-IQ-SUPER-PLATFORMA` — `ČOVEČANSTVU` additive media track over EXTRIMLI / EXTREM / EXTRONDOL
 - Linked repo: `spaja86/IO-OPENUI-AO` — Follow-up required
 - Note: Downstream sync must consume only audit-safe outputs from the epilog package (`masterEpilog`, `posterSummary`, `videoStoryboardSummary`, `auditShortSummary`, `governanceChecklistStatus`); raw EXTREM/EXTRONDOL internals, formulas, and private governance mapping remain repo-local
+- Implementation-package lock: downstream consumers may additionally mirror only audit-safe summary indicators (`publicSignals.developerAndCreateImplementationStatus`, `developerAndCreateImplementationPackage`, `developerAndCreateVisualReflection.packageOutputs`, `epilogijaCovecnosti.packageOutputs`) and must not copy raw EXTREM/EXTRONDOL technical or governance internals
 - Narrative lock: user-facing package must preserve the same message across image/video/public summary — čovek želi čudo, `Sunce` i `Sunčanica` se spajaju, prirodni odnos prelazi u opasnost, čovečanstvo mora da čuva prirodu
 - Governance lock: linked-repo publication remains blocked until human review, downstream reference, and rollback readiness are all explicit
 

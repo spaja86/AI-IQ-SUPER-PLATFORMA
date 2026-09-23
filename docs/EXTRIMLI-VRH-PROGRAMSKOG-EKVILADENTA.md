@@ -81,6 +81,14 @@ Ove trake su dozvoljene samo kao additive interpretativni slojevi unutar postoje
 - **V3** — proširenje EXTREM readiness/profiler signala za eksponencijalni rast, oktavni raspored, sekvencijalnu reprodukciju, exposure i torque
 - **V4** — governance hardening nad tim signalima sa determinističkim `READY | WATCH | BLOCKED` pravilima i fallback-om za `NaN`, `Infinity`, prazne ili konfliktne ulaze
 - **V5** — EXTRONDOL release orkestracija kroz WAWE uticaj, freeze/promotion razloge, release-audit i downstream summary
+- **V6** — downstream i multi-repo alignment kroz audit-safe summary only sync
+- **V7** — enterprise/organizational operating model za additive AI PLATE paket kada je potreban širi rollout
+
+Zaključani additive implementation package sada mora ostati vidljiv samo kroz postojeće surface-ove:
+
+- `dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.implementationPackage` = EXTREM tehnički lock za source-of-truth surface-ove, ownership split, roadmap stage mape, `ČOVEČANSTVU` epilog boundary i validation pravila.
+- `releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.implementationPackage` = EXTRONDOL audit/governance mirror sa WAWE/review/rollback kontekstom.
+- `spajaKod.developerAndCreateImplementationPackage` = SPAJA KOD audit-safe summary indikator bez novih runtime ruta i bez izlaganja sirovih formula.
 
 Aktivni execution lock ostaje podeljen: repo-wide reflection i dalje ostaje `roadmapStageId=v5-extrondol-release-audit-and-orchestration`, dok AI PLATE enterprise operating model mora biti vezan za `roadmapStageId=Verzija 7`. U oba slučaja EXTREM drži tehnički `technicalReadinessProfile`, EXTRONDOL izlaže audit-safe orkestraciju, a SPAJA KOD samo summary bez novih runtime ruta.
 

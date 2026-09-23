@@ -40,6 +40,12 @@ Sledeći artefakti ostaju zaključano jezgro Developer/Create programa:
 - `src/tests/lib/extrimli-extrondol.test.ts`
 - `src/tests/api/extrimli-route.test.ts`
 
+Additive implementation package lock:
+
+- `dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.implementationPackage` ostaje kanonski EXTREM signal za source-of-truth surface-ove, ownership split, V2–V7 roadmap mapiranje, `ČOVEČANSTVU` summary-only boundary i validation lock.
+- `developerAndCreateRepoWideReflectionGovernance.implementationPackage` ostaje EXTRONDOL governance mirror istog paketa, uz WAWE/review/rollback kontekst.
+- `/api/extrimli/spaja-kod` izlaže samo audit-safe summary paket kroz `publicSignals.developerAndCreateImplementationStatus` i `developerAndCreateImplementationPackage`, bez sirovih EXTREM/EXTRONDOL formula.
+
 Ownership hard lock:
 
 - `EXTRIMLI` = bazni runtime domen
