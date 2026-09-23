@@ -2796,10 +2796,10 @@ function buildDeveloperCreateUniversityGovernanceProfile(params: {
       : certificationStatus === 'passed'
         ? 'passed'
         : certificationStatus === 'certified'
-          ? 'certified'
-          : payoutReadinessStatus === 'READY'
+          ? payoutReadinessStatus === 'READY'
             ? 'certified-with-reward'
-            : 'certified';
+            : 'certified'
+          : 'certified';
   const auditSafeReason =
     certificationStatus === 'blocked-for-review'
       ? 'blocked-for-review'
