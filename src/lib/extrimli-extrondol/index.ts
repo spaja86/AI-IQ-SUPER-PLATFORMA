@@ -2783,11 +2783,13 @@ function buildDeveloperCreateUniversityGovernanceProfile(params: {
       ? 'BLOCKED'
       : rewardStatus === 'blocked-for-review'
         ? 'BLOCKED'
-      : payoutGateReasons.length > 0
-        ? 'BLOCKED'
       : rewardStatus === 'eligible-for-payout'
-        ? 'READY'
-        : 'WATCH';
+        ? payoutGateReasons.length > 0
+          ? 'WATCH'
+          : 'READY'
+        : payoutGateReasons.length > 0
+          ? 'BLOCKED'
+          : 'WATCH';
   const publicCertificationStatus =
     certificationStatus === 'blocked-for-review'
       ? 'blocked-for-review'
