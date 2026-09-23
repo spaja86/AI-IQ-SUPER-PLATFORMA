@@ -257,8 +257,9 @@ export function getExtrimliWorldBankPersonaReport(options: ExtrimliWorldBankPers
   if (mode === 'apply') {
     const client = createPersonaBankClient(agentId);
     const targetStatus = lifecycle.targetPersonaStatus;
+    const primaryPersonaId = personaPayload.id ?? personaPayload.name;
     try {
-      const updated = client.update(personaPayload.id, {
+      const updated = client.update(primaryPersonaId, {
         name: personaPayload.name,
         octave: personaPayload.octave,
         hipermrezaNode: personaPayload.hipermrezaNode,
@@ -294,7 +295,7 @@ export function getExtrimliWorldBankPersonaReport(options: ExtrimliWorldBankPers
           };
         } catch (registerError) {
           if (!(registerError instanceof PersonaLockConflictError)) throw registerError;
-          const concurrentPersona = client.get(personaPayload.id);
+          const concurrentPersona = client.get(primaryPersonaId);
           if (!concurrentPersona) throw registerError;
           writeResult = {
             attempted: true,
@@ -307,8 +308,20 @@ export function getExtrimliWorldBankPersonaReport(options: ExtrimliWorldBankPers
             catalogSync: writeResult.catalogSync,
           };
         }
+      } else if (error instanceof PersonaLockConflictError) {
+        const concurrentPersona = client.get(primaryPersonaId);
+        writeResult = {
+          attempted: true,
+          operation: concurrentPersona ? 'update' : 'skipped',
+          personaStatusAfter: concurrentPersona?.status ?? null,
+          auditEntriesAfter: concurrentPersona?.auditLog.length ?? 0,
+          personaVersionAfter: concurrentPersona?.version ?? 0,
+          appliedBy: agentId,
+          persona: concurrentPersona,
+          catalogSync: writeResult.catalogSync,
+        };
       } else if (error instanceof PersonaArchivedError) {
-        const archived = client.get(personaPayload.id);
+        const archived = client.get(primaryPersonaId);
         writeResult = {
           attempted: false,
           operation: 'skipped',
@@ -324,7 +337,6 @@ export function getExtrimliWorldBankPersonaReport(options: ExtrimliWorldBankPers
       }
     }
 
-    const primaryPersonaId = personaPayload.id ?? personaPayload.name;
     const catalogSync = {
       ...writeResult.catalogSync,
       processedPersonas: 1,

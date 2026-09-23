@@ -184,7 +184,7 @@ export function buildAiIdentityFinanceGovernancePackage(
       personaId: persona.id ?? persona.name,
       name: persona.name,
       type: persona.type,
-      domain: persona.attributes.domain,
+      domain: persona.attributes?.domain ?? 'unassigned-audit-safe-domain',
       octave: persona.octave,
       hipermrezaNode: persona.hipermrezaNode,
       linkedAgents: [...(persona.linkedAgents ?? [])],
