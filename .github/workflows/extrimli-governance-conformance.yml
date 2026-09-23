@@ -127,8 +127,10 @@ jobs:
           assert(developerCreateProgramDoc.includes('PROGRAM_LOCK_CHATGPT_REFERENCE') && developerCreateProgramDoc.includes('6ab2f88d-23b0-83eb-b708-b880bdb7fc11'), 'Developer/Create program doc must lock the documentation-only ChatGPT share reference');
           assert(developerCreateProgramDoc.includes('PROGRAM_LOCK_LANGUAGE_LAYER') && developerCreateProgramDoc.includes('srpski je primarni kanonski logički izraz'), 'Developer/Create program doc must lock Serbian-first language layer');
           assert(developerCreateProgramDoc.includes('DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == RADNI TAKT MOZGA (MISLILAC)'), 'Developer/Create program doc must lock repo-wide equality mapping');
+          assert(developerCreateProgramDoc.includes('KRALJEVSKI BAŠTA UNEVERZITE') && developerCreateProgramDoc.includes('kraljevski-basta-uneverzite-prirodne-maticne-celije-covecanstvu'), 'Developer/Create program doc must lock KRALJEVSKI BAŠTA UNEVERZITE bounded narrative alias');
           assert(developerCreateProgramDoc.includes('roadmapStageId=Verzija 7') && developerCreateProgramDoc.includes('premium-rollout-regime'), 'Developer/Create program doc must lock AI PLATE V7 execution and pricing governance');
           assert(vrhDoc.includes('DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == RADNI TAKT MOZGA (MISLILAC)'), 'VRH doc must lock repo-wide equality mapping');
+          assert(vrhDoc.includes('KRALJEVSKI BAŠTA UNEVERZITE') && vrhDoc.includes('documentation/evidence-only'), 'VRH doc must lock KRALJEVSKI BAŠTA UNEVERZITE as evidence-only alias');
           assert(vrhDoc.includes('6ab2f88d-23b0-83eb-b708-b880bdb7fc11') && vrhDoc.includes('documentation-only'), 'VRH doc must lock documentation-only ChatGPT share reference');
           assert(vrhDoc.includes('srpski je primarni kanonski izraz domena'), 'VRH doc must lock Serbian-primary language rule');
           assert(vrhDoc.includes('AI PLATE') && vrhDoc.includes('12.000 EUR nedeljno'), 'VRH doc must lock AI PLATE enterprise package');
@@ -153,8 +155,10 @@ jobs:
           assert(types.includes('chatGptShareReferences') && types.includes('primaryCanonicalLanguage'), 'types must lock documentation-only ChatGPT references and Serbian-primary language layer');
           assert(types.includes('aiPlateEnterprisePackage') && extrondolIndex.includes('aiPlateEnterprisePackage'), 'types and EXTRONDOL index must include AI PLATE enterprise package contract fields');
           assert(types.includes('technicalReadinessProfile') && extrondolIndex.includes('technicalReadinessProfile'), 'types and EXTRONDOL index must include technical readiness profile fields for repo-wide reflection');
+          assert(types.includes('kraljevskiBastaUneverzite') && extrondolIndex.includes('kraljevskiBastaUneverzite'), 'types and EXTRONDOL index must include KRALJEVSKI BAŠTA UNEVERZITE reflection fields');
           assert(types.includes('roadmapExecution') && extrondolIndex.includes('roadmapExecution'), 'types and EXTRONDOL index must include roadmap execution fields for repo-wide reflection');
           assert(extrimliDoc.includes('dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection'), 'EXTRIMLI doc must include developer/create consistency proof field');
+          assert(extrimliDoc.includes('KRALJEVSKI BAŠTA UNEVERZITE') && extrimliDoc.includes('DOK + DIK + FOR') && extrimliDoc.includes('DAK + DUK'), 'EXTRIMLI doc must include KRALJEVSKI BAŠTA UNEVERZITE ownership lock');
           assert(extrimliDoc.includes('6ab2f88d-23b0-83eb-b708-b880bdb7fc11') && extrimliDoc.includes('srpski je primarni kanonski izraz domena'), 'EXTRIMLI doc must lock documentation-only ChatGPT share reference and Serbian-primary language layer');
           assert(extrimliDoc.includes('technicalReadinessProfile') && extrimliDoc.includes('v5-extrondol-release-audit-and-orchestration'), 'EXTRIMLI doc must include the technical readiness profile and active execution stage');
           assert(versionRoadmap.includes('mandatoryArtifacts') && versionRoadmap.includes('implementationStreams') && versionRoadmap.includes('acceptanceLock'), 'roadmap lock must include mandatory artifacts, streams, and acceptance lock');

@@ -6306,12 +6306,14 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
         sinemetrickoProgramiranje: 'SINEMETRIČKO PROGRAMIRANJE',
         paradijogonalnoProgrimiranje: 'PARADIJOGONALNO PROGRAMIRANJE',
         kraljevskiEkonomskiUneverzitet: 'KRALJEVSKI EKONOMSKI UNEVERZITET',
+        kraljevskiBastaUneverzite: 'KRALJEVSKI BAŠTA UNEVERZITE',
       },
       canonicalGovernanceVocabulary: {
         extremExtrimliExtrondol: 'EXTRIMLI EXTRONDOL EXTREM',
         dokDikDakDukFor: 'DOK DIK DAK DUK FOR',
         kraljevskiPravniUniverzitet: 'KRALJEVSKI PRAVNI UNIVERZITET',
         kraljevskiEkonomskiUneverzitet: 'KRALJEVSKI EKONOMSKI UNEVERZITET',
+        kraljevskiBastaUneverzite: 'KRALJEVSKI BAŠTA UNEVERZITE',
       },
       osnoveRispektProtocol: {
         title: 'OSNOVE / RISPEKT',
@@ -7616,6 +7618,53 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
     summary:
       'KRALJEVSKI EKONOMSKI UNEVERZITET ostaje additive-only interpretativna traka za produktivnost, raspodelu vrednosti i održivu koordinaciju nad postojećim Developer/Create, VRH i Radni Takt signalima bez novog runtime modula.',
   };
+  dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.kraljevskiBastaUneverzite = {
+    canonicalName: 'KRALJEVSKI BAŠTA UNEVERZITE',
+    canonicalNarrativeId: 'kraljevski-basta-uneverzite-prirodne-maticne-celije-covecanstvu',
+    additiveOnly: true,
+    interpretativeLayer: 'garden-stewardship-natural-stem-cell-humanity-track',
+    aliasOfExistingReflectionPackage: true,
+    noNewRuntimeModule: true,
+    noMedicalRuntimeClaims: true,
+    noNewRuntimeFormulas: true,
+    noOperationalAiHealthSubsystem: true,
+    sourceOfTruthRoutes: ['/api/extrimli/extrem', '/api/extrimli/extrondol', '/api/extrimli/spaja-kod'],
+    sourceTrack: 'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == RADNI TAKT MOZGA (MISLILAC)',
+    narrativeGoal: 'izucavanje-prirodnih-maticnih-celija-radi-unapredjenja-covecanstvu',
+    technicalReadinessBinding: {
+      sourceProfile: 'dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.technicalReadinessProfile',
+      sourceTrack: 'vrhProgramskogEkviladenta',
+      contributingSignals: ['vrhProgramskogEkviladenta', 'metrikoProgramiranje', 'radniTaktMozgaMislilac'],
+      boundedInterpretation: 'documentation-and-evidence-only',
+    },
+    governanceBinding: {
+      technicalOwnership: 'DOK+DIK+FOR->EXTREM',
+      governanceOwnership: 'DAK+DUK->EXTRONDOL',
+      publicBoundary: 'SPAJA KOD',
+      covecanstvuBoundary: 'summary-only',
+    },
+    supportingNarratives: [
+      'covecanstvo-kraljevska-produktivnost-pravno-gradjanstvo-basta-epilog-developer-create',
+      'covecanstvo-maticne-celije-i-spoznavanje-sebe-developer-create',
+    ],
+    thematicSignals: [
+      'knowledge',
+      'nature',
+      'development',
+      'responsibility',
+      'garden-stewardship',
+      'natural-stem-cells',
+      'humanity-uplift',
+    ],
+    readiness: {
+      status: dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.status,
+      score: dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.score,
+      deterministicFallbackRequired:
+        dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.deterministicFallbackRequired,
+    },
+    summary:
+      'KRALJEVSKI BAŠTA UNEVERZITE ostaje additive-only bounded narativna podtraka koja povezuje bašta-produktivnost i prirodne matične ćelije kao documentation/evidence-only doprinos ČOVEČANSTVU bez medicinskih runtime tvrdnji, novih formula ili novog AI/health podsistema.',
+  };
   dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.aiPlateOffer = {
     canonicalName: 'AI PLATE',
     runtimeProvider: 'Vercel',
@@ -7815,10 +7864,11 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
   };
   dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.currentImplementationStage = {
     roadmapStageId: 'v5-extrondol-release-audit-and-orchestration',
-    measurableOutput: 'audit-safe repo-wide reflection status plus AI identity-finance governance, primary ČOVEČNOST, supplemental ČOVEČANSTVO, companion ČOVEČANSTVO / OSEĆAJ OSEBENOSTI visual metadata, and OSNOVE / RISPEKT protocol evidence are published only through existing EXTRIMLI/EXTREM/EXTRONDOL/SPAJA KOD surfaces',
+    measurableOutput: 'audit-safe repo-wide reflection status plus AI identity-finance governance, primary ČOVEČNOST, supplemental ČOVEČANSTVO, KRALJEVSKI BAŠTA UNEVERZITE bounded narrative metadata, companion ČOVEČANSTVO / OSEĆAJ OSEBENOSTI visual metadata, and OSNOVE / RISPEKT protocol evidence are published only through existing EXTRIMLI/EXTREM/EXTRONDOL/SPAJA KOD surfaces',
     acceptanceEvidence: [
       'dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.implementationPackage',
       'dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection',
+      'dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.kraljevskiBastaUneverzite',
       'dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.aiIdentityFinanceGovernance',
       'dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.covecnostAuditVisualReference',
       'dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.covecnostAuditVisualReference.supplementalVisualReferences',
@@ -7871,6 +7921,19 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
       noNewRuntimeModule: true,
       rawInternalsExposed: false,
     },
+    kraljevskiBastaUneverziteBoundary: {
+      trackRole: 'garden-and-natural-stem-cell-documentation-track',
+      extremPublishes: 'technical-readiness-profile-only',
+      extrondolPublishes: 'wawe-audit-summary-only',
+      spajaKodPublishes: 'final-audit-safe-status-only',
+      supportingNarratives: [
+        'covecanstvo-kraljevska-produktivnost-pravno-gradjanstvo-basta-epilog-developer-create',
+        'covecanstvo-maticne-celije-i-spoznavanje-sebe-developer-create',
+      ],
+      noNewRuntimeModule: true,
+      noMedicalRuntimeClaims: true,
+      rawInternalsExposed: false,
+    },
     canonicalTerminologyMapping: {
       phrase: 'EXTRIMLI EXTRONDOL EXTREM DOK DUK DAK DIK FOR',
       nucleusLayers: ['documentation', 'types', 'route-summary-fields', 'tests', 'workflow-audit-layer'],
@@ -7910,6 +7973,7 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
   dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.reasons = [
     'DEVELOPER AND CREATE ostaje additive-only repo-wide interpretativni lock preko postojećih EXTRIMLI / EXTREM / EXTRONDOL kontrakata.',
     'VRH PROGRAMSKOG EKVILADENTA ostaje vršni sloj, RADNI TAKT MOZGA (MISLILAC) ostaje zajednički ritam/readiness signal, a METRIČKO / SINEMETRIČKO / PARADIJOGONALNO ostaju kanonski prateći track-ovi.',
+    'KRALJEVSKI BAŠTA UNEVERZITE ostaje bounded dokumentaciona/evidence podtraka koja koristi isti technicalReadinessProfile i isti DOK/DIK/FOR ↔ DAK/DUK ownership split da poveže bašta-produktivnost, prirodne matične ćelije i unapređenje ČOVEČANSTVU bez medicinskih runtime tvrdnji.',
     'Repo-wide odraz ostaje validan samo kada su docs, types, routes, tests i workflows drift-zero poravnati bez novih runtime ruta.',
     'AI PLATE ostaje additive-only commercial/runtime paket na Vercel-u: 12000 EUR weekly target je poslovni/finops cilj, a ne hardcoded runtime billing činjenica.',
     'AI PLATE launch obuhvata interne AI agente, Copilot-style asistente i spoljne automation klijente kroz isti bounded readiness profil; billing approval, Vercel sales alignment, audit evidence i legal/tax review ostaju hard gate uslovi pre promocije.',
