@@ -2566,6 +2566,32 @@ export interface ExtrimliDokDikDakDukConsistencyHealth {
       };
       consolidatedRhythmStatus: 'READY' | 'WATCH' | 'BLOCKED';
     };
+    universityLifecycle: {
+      additiveOnly: true;
+      sourceOfTruthRoutes: readonly ['/api/extrimli/extrem', '/api/extrimli/extrondol', '/api/extrimli/spaja-kod'];
+      ownershipLock: {
+        dokDikFor: 'EXTREM';
+        dakDuk: 'EXTRONDOL';
+        spajaKod: 'audit-safe-summary-only';
+      };
+      stages: readonly [
+        'prijava-na-oblast',
+        'polaganje',
+        'automatski-score',
+        'sertifikaciona-odluka',
+        'governance-provera',
+        'payout-odluka',
+        'audit-evidencija',
+        'downstream-summary-objava'
+      ];
+      financeBoundary: 'governance-only-no-real-bank-or-kyc-data-in-git';
+    };
+    universityRolloutPhases: readonly Array<{
+      phaseId: 'faza-1' | 'faza-2' | 'faza-3' | 'faza-4' | 'faza-5';
+      title: string;
+      scope: string;
+      owner: 'documentation' | 'EXTREM' | 'EXTRONDOL' | 'SPAJA KOD' | 'tests-and-downstream-sync';
+    }>;
     kraljevskiEkonomskiUneverzitet: {
       canonicalName: 'KRALJEVSKI EKONOMSKI UNEVERZITET';
       additiveOnly: true;
@@ -2599,6 +2625,14 @@ export interface ExtrimliDokDikDakDukConsistencyHealth {
         'sustainable-coordination',
         'audit-safe-growth'
       ];
+      monetizationGovernanceModel: {
+        payoutWindowPercent: readonly [80, 100];
+        governanceOnlyInGit: true;
+        rewardBasis: readonly ['trud', 'intelekt', 'logika', 'mudrost', 'znanje', 'inspiracija', 'stimulans'];
+        allowedGitArtifacts: readonly ['payout-status', 'approval-status', 'payment-verification', 'audit-evidence'];
+        forbiddenGitArtifacts: readonly ['bank-account-number', 'kyc-document', 'payment-secret', 'operational-financial-data'];
+        payoutStatuses: readonly ['passed', 'certified', 'eligible-for-payout', 'blocked-for-review'];
+      };
       readiness: {
         status: 'READY' | 'WATCH' | 'BLOCKED';
         score: number;
@@ -2642,6 +2676,61 @@ export interface ExtrimliDokDikDakDukConsistencyHealth {
         governanceOwnership: 'DAK+DUK->EXTRONDOL';
         publicBoundary: 'SPAJA KOD';
         reviewSurface: 'audit-freeze-promotion-review-only';
+      };
+      domainTestCatalog: {
+        scoreStatusModel: readonly ['passed', 'certified', 'eligible-for-payout', 'blocked-for-review'];
+        certificationWindowPercent: readonly [80, 100];
+        areas: readonly Array<{
+          areaId: string;
+          areaLabel: string;
+          weightPercent: number;
+          minimumPassPercent: number;
+          certificationThresholdPercent: number;
+          payoutThresholdPercent: number;
+          derivedStatus: 'passed' | 'certified' | 'eligible-for-payout' | 'blocked-for-review';
+        }>;
+      };
+      participantLifecycle: {
+        stages: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['universityLifecycle']['stages'];
+        certificationDecisionPoint: 'sertifikaciona-odluka';
+        payoutDecisionPoint: 'payout-odluka';
+      };
+      domainTestReadiness: {
+        sourceProfile: 'dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.technicalReadinessProfile';
+        status: 'READY' | 'WATCH' | 'BLOCKED';
+        readinessScore: number;
+        passedAreasCount: number;
+        deterministicFallbackRequired: boolean;
+      };
+      certificationPosture: {
+        scoreWindowPercent: readonly [80, 100];
+        certificationStatus: 'passed' | 'certified' | 'eligible-for-payout' | 'blocked-for-review';
+        certificationLevelModel: readonly ['passed', 'certified', 'certified-with-reward', 'blocked-for-review'];
+        certificateIssuedOnlyWithinScoreBand: true;
+      };
+      payoutEligibilityPosture: {
+        scoreWindowPercent: readonly [80, 100];
+        payoutStatus: 'passed' | 'certified' | 'eligible-for-payout' | 'blocked-for-review';
+        governanceOnlyInGit: true;
+        requiredGovernanceGates: readonly [
+          'human-review',
+          'compliance-review',
+          'payment-verification',
+          'anti-abuse-review',
+          'duplicate-attempt-review',
+          'dispute-appeal-process',
+          'downstream-sync',
+          'audit-trail'
+        ];
+      };
+      intellectualEffortEvidence: {
+        valuedSignals: readonly ['trud', 'intelekt', 'logika', 'mudrost', 'znanje', 'inspiracija', 'stimulans'];
+        auditRole: 'bounded-effort-evidence-only';
+        interpretation: string;
+      };
+      deterministicFallbackPolicy: {
+        appliesToInputs: readonly ['NaN', 'Infinity', 'empty', 'conflict'];
+        blockedStatus: 'blocked-for-review';
       };
       thematicSignals: readonly [
         'apex-programming',

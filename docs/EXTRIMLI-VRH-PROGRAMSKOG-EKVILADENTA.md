@@ -20,6 +20,13 @@
 
 Repo-wide reflection sada obavezno uključuje i dnevni operativni cadence: `morning-startup`, `deep-focus-block`, `midday-checkpoint` i `end-of-day-closeout`, uz dnevni task set prioriteta `1–3` vezan za jednu aktivnu roadmap fazu.
 
+## Additive university model
+
+- `KRALJEVSKI PROGRAMSKI UNEVERZITET` ostaje additive-only katalog `testova po oblastima` nad postojećim `technicalReadinessProfile` signalima; ne uvodi novu platformu, novu rutu ni novi source-of-truth sistem.
+- `KRALJEVSKI EKONOMSKI UNEVERZITET` bounded tumači monetizaciju učenja samo kroz payout readiness, approval i reward signalizaciju, sa zaključanim opsegom `80–100%` za sertifikaciju i payout eligibility.
+- `KRALJEVSKI PRAVNI UNIVERZITET` bounded zaključava governance celine za `human review`, `compliance review`, `payment verification`, `anti-abuse`, `duplicate attempt`, `dispute/appeal`, `downstream sync` i `audit trail`.
+- SPAJA KOD objavljuje samo audit-safe rezime: broj položenih oblasti, sertifikacioni status, payout readiness status i audit-safe razlog blokade ili watch posture.
+
 Supplied image `https://github.com/user-attachments/assets/4790f4ea-4271-4d2a-ae0a-d9bec5bc8b8a` ostaje additive-only audit vizuel za `ČOVEČNOST` i mapira se na `developerAndCreateRepoWideReflection.covecnostAuditVisualReference` sa `scenarioId=covecnost-developer-create-vrh-radni-takt`, bez novih ruta i bez zamene postojećeg `priroda-zdrav-zivot-covecanstvo` epilog narativa.
 Vizuel ostaje strogo interpretativan: motivi `INSTINKT`, `ZNANJE`, `ISKUSTVO`, `PREDVIĐANJE` i šest etapa razvoja samo potvrđuju postojeći Developer/Create cadence, postojeći `technicalReadinessProfile` i postojeći EXTREM↔EXTRONDOL ownership split.
 Supplied image `https://github.com/user-attachments/assets/f7b3e102-e0a0-4885-a93e-040f09454737` ostaje supplemental additive-only audit vizuel za `ČOVEČANSTVO — ENTIZUJAŽAM (ZVEZDE / MISLI / INOVACIJE)` i mapira se na `developerAndCreateRepoWideReflection.covecnostAuditVisualReference.supplementalVisualReferences` sa `scenarioId=covecanstvo-entizujazam-zvezde-misli-inovacije-developer-create`, uz isti `READY | WATCH | BLOCKED` model i isti ownership split.

@@ -694,8 +694,53 @@ export interface ExtrimliExtrondolDeveloperAndCreateRepoWideReflectionGovernance
   osnoveRispektProtocol: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['osnoveRispektProtocol'];
   mappedTracks: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['mappedTracks'];
   technicalReadinessProfile: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['technicalReadinessProfile'];
+  universityLifecycle: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['universityLifecycle'] & {
+    reviewRequiredBeforePayout: true;
+  };
+  universityRolloutPhases: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['universityRolloutPhases'];
   kraljevskiProgramskiUneverzitet: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['kraljevskiProgramskiUneverzitet'];
   kraljevskiEkonomskiUneverzitet: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['kraljevskiEkonomskiUneverzitet'];
+  certificationGovernance: {
+    sourceOfTruth: '/api/extrimli/extrondol';
+    certificationWindowPercent: readonly [80, 100];
+    certificationStatus: 'passed' | 'certified' | 'certified-with-reward' | 'blocked-for-review';
+    reviewRequiredBeforeCertification: true;
+    disputeProcess: 'manual-appeal-and-dispute-review-required';
+    blockerReasons: string[];
+    watchReasons: string[];
+  };
+  payoutGovernance: {
+    sourceOfTruth: '/api/extrimli/extrondol';
+    payoutReadinessStatus: 'READY' | 'WATCH' | 'BLOCKED';
+    rewardStatus: 'passed' | 'certified' | 'eligible-for-payout' | 'blocked-for-review';
+    governanceOnlyInGit: true;
+    paymentVerificationRequired: true;
+    allowedArtifacts: readonly ['payout-status', 'approval-status', 'payment-verification', 'audit-evidence'];
+    forbiddenArtifacts: readonly ['bank-account-number', 'kyc-document', 'payment-secret', 'operational-financial-data'];
+    blockerReasons: string[];
+  };
+  rewardApproval: {
+    approvalStatus: 'READY' | 'WATCH' | 'BLOCKED';
+    hardGates: readonly [
+      'human-review',
+      'compliance-review',
+      'payment-verification',
+      'anti-abuse-review',
+      'duplicate-attempt-review',
+      'dispute-appeal-process',
+      'downstream-sync',
+      'audit-trail'
+    ];
+    auditTrailRequired: true;
+    disputePolicy: 'appeal-and-dispute-review-before-payout';
+    blockers: string[];
+  };
+  universityPublicSummary: {
+    passedAreasCount: number;
+    certificationStatus: 'passed' | 'certified' | 'certified-with-reward' | 'blocked-for-review';
+    payoutReadinessStatus: 'READY' | 'WATCH' | 'BLOCKED';
+    auditSafeReason: string;
+  };
   kraljevskiBastaUneverzite: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['kraljevskiBastaUneverzite'];
   aiPlateGovernance: {
     canonicalName: 'AI PLATE';
@@ -1613,8 +1658,14 @@ export interface ExtrimliExtrondolReleaseAuditSummary {
       reviewRequiredBeforeWideRollout: boolean;
     };
     technicalReadinessProfile: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['technicalReadinessProfile'];
+    universityLifecycle: ExtrimliExtrondolDeveloperAndCreateRepoWideReflectionGovernance['universityLifecycle'];
+    universityRolloutPhases: ExtrimliExtrondolDeveloperAndCreateRepoWideReflectionGovernance['universityRolloutPhases'];
     kraljevskiProgramskiUneverzitet: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['kraljevskiProgramskiUneverzitet'];
     kraljevskiEkonomskiUneverzitet: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['kraljevskiEkonomskiUneverzitet'];
+    certificationGovernance: ExtrimliExtrondolDeveloperAndCreateRepoWideReflectionGovernance['certificationGovernance'];
+    payoutGovernance: ExtrimliExtrondolDeveloperAndCreateRepoWideReflectionGovernance['payoutGovernance'];
+    rewardApproval: ExtrimliExtrondolDeveloperAndCreateRepoWideReflectionGovernance['rewardApproval'];
+    universityPublicSummary: ExtrimliExtrondolDeveloperAndCreateRepoWideReflectionGovernance['universityPublicSummary'];
     aiIdentityFinanceGovernance: ExtrimliExtrondolDeveloperAndCreateRepoWideReflectionGovernance['aiIdentityFinanceGovernance'];
     covecnostAuditVisualReference: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['covecnostAuditVisualReference'];
     implementationPackage: ExtrimliExtrondolDeveloperAndCreateRepoWideReflectionGovernance['implementationPackage'];
@@ -2315,6 +2366,12 @@ export interface ExtrimliSpajaKodPublicFacade {
     developerAndCreateStatus: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['readiness']['status'];
     developerAndCreateImplementationStatus: ExtrimliSpajaKodPublicStatus;
     kraljevskiProgramskiUneverzitetStatus: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['kraljevskiProgramskiUneverzitet']['readiness']['status'];
+    developerAndCreateUniversitySummary: {
+      passedAreasCount: number;
+      certificationStatus: 'passed' | 'certified' | 'certified-with-reward' | 'blocked-for-review';
+      payoutReadinessStatus: 'READY' | 'WATCH' | 'BLOCKED';
+      auditSafeReason: string;
+    };
     aiPlateStatus: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['aiPlateOffer']['boundedReadinessProfile']['consolidatedStatus'];
     aiPlateEnterprisePackageStatus: 'READY' | 'BLOCKED';
     humanReviewRequired: true;
@@ -2367,6 +2424,7 @@ export interface ExtrimliSpajaKodPublicFacade {
       'publicSignals.developerAndCreateImplementationStatus',
       'publicSignals.kraljevskiPravniUniverzitetStatus',
       'publicSignals.kraljevskiProgramskiUneverzitetStatus',
+      'publicSignals.developerAndCreateUniversitySummary',
       'developerAndCreateVisualReflection.kraljevskiBastaUneverzite',
       'developerAndCreateVisualReflection.packageOutputs',
       'developerAndCreateImplementationPackage.aiIqWorldBankPrepiskaSummary',
