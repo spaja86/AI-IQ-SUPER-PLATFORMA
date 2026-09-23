@@ -210,7 +210,7 @@ const DEVELOPER_CREATE_GOVERNANCE_ACCEPTANCE_EVIDENCE: ExtrimliExtrondolReport['
   'developerAndCreateRepoWideReflection.implementationPackage',
   'developerAndCreateRepoWideReflection',
   'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance',
-  'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.kraljevskiBastaUneverzite',
+  'developerAndCreateRepoWideReflection.kraljevskiBastaUneverzite',
   'developerAndCreateRepoWideReflection.covecnostAuditVisualReference.supplementalVisualReferences',
   'developerAndCreateRepoWideReflection.covecnostAuditVisualReference.companionAuditVisualReferences',
   'developerAndCreateRepoWideReflection.aiPlateGovernance',
