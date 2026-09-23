@@ -2486,6 +2486,7 @@ export interface ExtrimliDokDikDakDukConsistencyHealth {
       metrikoProgramiranje: 'METRIČKO PROGRAMIRANJE';
       sinemetrickoProgramiranje: 'SINEMETRIČKO PROGRAMIRANJE';
       paradijogonalnoProgrimiranje: 'PARADIJOGONALNO PROGRAMIRANJE';
+      kraljevskiProgramskiUneverzitet: 'KRALJEVSKI PROGRAMSKI UNEVERZITET';
       kraljevskiEkonomskiUneverzitet: 'KRALJEVSKI EKONOMSKI UNEVERZITET';
       kraljevskiBastaUneverzite: 'KRALJEVSKI BAŠTA UNEVERZITE';
     };
@@ -2493,6 +2494,7 @@ export interface ExtrimliDokDikDakDukConsistencyHealth {
       extremExtrimliExtrondol: 'EXTRIMLI EXTRONDOL EXTREM';
       dokDikDakDukFor: 'DOK DIK DAK DUK FOR';
       kraljevskiPravniUniverzitet: 'KRALJEVSKI PRAVNI UNIVERZITET';
+      kraljevskiProgramskiUneverzitet: 'KRALJEVSKI PROGRAMSKI UNEVERZITET';
       kraljevskiEkonomskiUneverzitet: 'KRALJEVSKI EKONOMSKI UNEVERZITET';
       kraljevskiBastaUneverzite: 'KRALJEVSKI BAŠTA UNEVERZITE';
     };
@@ -2591,6 +2593,57 @@ export interface ExtrimliDokDikDakDukConsistencyHealth {
         'cadence-discipline',
         'sustainable-coordination',
         'audit-safe-growth'
+      ];
+      readiness: {
+        status: 'READY' | 'WATCH' | 'BLOCKED';
+        score: number;
+        deterministicFallbackRequired: boolean;
+      };
+      summary: string;
+    };
+    kraljevskiProgramskiUneverzitet: {
+      canonicalName: 'KRALJEVSKI PROGRAMSKI UNEVERZITET';
+      spellingLock: 'KRALJEVSKI PROGRAMSKI UNEVERZITET';
+      additiveOnly: true;
+      interpretativeLayer: 'apex-programmatic-alias-over-existing-developer-create-tracks';
+      parentTrack: 'VRH PROGRAMSKOG EKVILADENTA';
+      scope: 'repo-wide-programmatic-alias-over-existing-tracks';
+      aliasOfExistingReflectionPackage: true;
+      noNewRuntimeModule: true;
+      noNewSourceOfTruthModule: true;
+      noNewRuntimeFormulas: true;
+      sourceOfTruthRoutes: readonly ['/api/extrimli/extrem', '/api/extrimli/extrondol', '/api/extrimli/spaja-kod'];
+      sourceTrack: 'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == RADNI TAKT MOZGA (MISLILAC)';
+      boundedTerminology: {
+        phrase: 'EXTRIMLI EXTRONDOL EXTREM DOK DUK DAK DIK FOR';
+        technicalOwnership: 'DOK+DIK+FOR->EXTREM';
+        governanceOwnership: 'DAK+DUK->EXTRONDOL';
+        publicBoundary: 'SPAJA KOD';
+      };
+      technicalReadinessBinding: {
+        sourceProfile: 'dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.technicalReadinessProfile';
+        sourceTrack: 'vrhProgramskogEkviladenta';
+        contributingSignals: readonly [
+          'vrhProgramskogEkviladenta',
+          'metrikoProgramiranje',
+          'sinemetrickoProgramiranje',
+          'paradijogonalnoProgramiranje',
+          'radniTaktMozgaMislilac'
+        ];
+        boundedInterpretation: 'alias-over-existing-tracks-only';
+      };
+      governanceBinding: {
+        technicalOwnership: 'DOK+DIK+FOR->EXTREM';
+        governanceOwnership: 'DAK+DUK->EXTRONDOL';
+        publicBoundary: 'SPAJA KOD';
+        reviewSurface: 'audit-freeze-promotion-review-only';
+      };
+      thematicSignals: readonly [
+        'apex-programming',
+        'track-orchestration',
+        'existing-readiness-only',
+        'governance-lock',
+        'audit-safe-summary'
       ];
       readiness: {
         status: 'READY' | 'WATCH' | 'BLOCKED';
@@ -2927,6 +2980,16 @@ export interface ExtrimliDokDikDakDukConsistencyHealth {
         extremPublishes: 'readiness-conflict-signal';
         extrondolPublishes: 'wawe-audit-decisions';
         spajaKodPublishes: 'final-audit-safe-status-only';
+        rawInternalsExposed: false;
+      };
+      kraljevskiProgramskiUneverzitetBoundary: {
+        trackRole: 'apex-programmatic-alias-track';
+        parentTrack: 'VRH PROGRAMSKOG EKVILADENTA';
+        extremPublishes: 'derived-technical-readiness-profile-only';
+        extrondolPublishes: 'audit-freeze-promotion-review-summary-only';
+        spajaKodPublishes: 'final-audit-safe-status-only';
+        noNewRuntimeModule: true;
+        noParallelSourceOfTruth: true;
         rawInternalsExposed: false;
       };
       kraljevskiEkonomskiUneverzitetBoundary: {

@@ -6321,6 +6321,7 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
         metrikoProgramiranje: 'METRIČKO PROGRAMIRANJE',
         sinemetrickoProgramiranje: 'SINEMETRIČKO PROGRAMIRANJE',
         paradijogonalnoProgrimiranje: 'PARADIJOGONALNO PROGRAMIRANJE',
+        kraljevskiProgramskiUneverzitet: 'KRALJEVSKI PROGRAMSKI UNEVERZITET',
         kraljevskiEkonomskiUneverzitet: 'KRALJEVSKI EKONOMSKI UNEVERZITET',
         kraljevskiBastaUneverzite: 'KRALJEVSKI BAŠTA UNEVERZITE',
       },
@@ -6328,6 +6329,7 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
         extremExtrimliExtrondol: 'EXTRIMLI EXTRONDOL EXTREM',
         dokDikDakDukFor: 'DOK DIK DAK DUK FOR',
         kraljevskiPravniUniverzitet: 'KRALJEVSKI PRAVNI UNIVERZITET',
+        kraljevskiProgramskiUneverzitet: 'KRALJEVSKI PROGRAMSKI UNEVERZITET',
         kraljevskiEkonomskiUneverzitet: 'KRALJEVSKI EKONOMSKI UNEVERZITET',
         kraljevskiBastaUneverzite: 'KRALJEVSKI BAŠTA UNEVERZITE',
       },
@@ -7709,6 +7711,59 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
     summary:
       'KRALJEVSKI EKONOMSKI UNEVERZITET ostaje additive-only interpretativna traka za produktivnost, raspodelu vrednosti i održivu koordinaciju nad postojećim Developer/Create, VRH i Radni Takt signalima bez novog runtime modula.',
   };
+  dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.kraljevskiProgramskiUneverzitet = {
+    canonicalName: 'KRALJEVSKI PROGRAMSKI UNEVERZITET',
+    spellingLock: 'KRALJEVSKI PROGRAMSKI UNEVERZITET',
+    additiveOnly: true,
+    interpretativeLayer: 'apex-programmatic-alias-over-existing-developer-create-tracks',
+    parentTrack: 'VRH PROGRAMSKOG EKVILADENTA',
+    scope: 'repo-wide-programmatic-alias-over-existing-tracks',
+    aliasOfExistingReflectionPackage: true,
+    noNewRuntimeModule: true,
+    noNewSourceOfTruthModule: true,
+    noNewRuntimeFormulas: true,
+    sourceOfTruthRoutes: ['/api/extrimli/extrem', '/api/extrimli/extrondol', '/api/extrimli/spaja-kod'],
+    sourceTrack: 'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == RADNI TAKT MOZGA (MISLILAC)',
+    boundedTerminology: {
+      phrase: 'EXTRIMLI EXTRONDOL EXTREM DOK DUK DAK DIK FOR',
+      technicalOwnership: 'DOK+DIK+FOR->EXTREM',
+      governanceOwnership: 'DAK+DUK->EXTRONDOL',
+      publicBoundary: 'SPAJA KOD',
+    },
+    technicalReadinessBinding: {
+      sourceProfile: 'dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.technicalReadinessProfile',
+      sourceTrack: 'vrhProgramskogEkviladenta',
+      contributingSignals: [
+        'vrhProgramskogEkviladenta',
+        'metrikoProgramiranje',
+        'sinemetrickoProgramiranje',
+        'paradijogonalnoProgramiranje',
+        'radniTaktMozgaMislilac',
+      ],
+      boundedInterpretation: 'alias-over-existing-tracks-only',
+    },
+    governanceBinding: {
+      technicalOwnership: 'DOK+DIK+FOR->EXTREM',
+      governanceOwnership: 'DAK+DUK->EXTRONDOL',
+      publicBoundary: 'SPAJA KOD',
+      reviewSurface: 'audit-freeze-promotion-review-only',
+    },
+    thematicSignals: [
+      'apex-programming',
+      'track-orchestration',
+      'existing-readiness-only',
+      'governance-lock',
+      'audit-safe-summary',
+    ],
+    readiness: {
+      status: dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.status,
+      score: dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.score,
+      deterministicFallbackRequired:
+        dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.deterministicFallbackRequired,
+    },
+    summary:
+      'KRALJEVSKI PROGRAMSKI UNEVERZITET ostaje additive-only vršni programski alias nad postojećim VRH, METRIČKO, SINEMETRIČKO, PARADIJOGONALNO i RADNI TAKT signalima bez novih formula, novih ruta ili novog source-of-truth sistema.',
+  };
   dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.kraljevskiBastaUneverzite = {
     canonicalName: 'KRALJEVSKI BAŠTA UNEVERZITE',
     canonicalNarrativeId: 'kraljevski-basta-uneverzite-prirodne-maticne-celije-covecanstvu',
@@ -8001,6 +8056,16 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
       extremPublishes: 'readiness-conflict-signal',
       extrondolPublishes: 'wawe-audit-decisions',
       spajaKodPublishes: 'final-audit-safe-status-only',
+      rawInternalsExposed: false,
+    },
+    kraljevskiProgramskiUneverzitetBoundary: {
+      trackRole: 'apex-programmatic-alias-track',
+      parentTrack: 'VRH PROGRAMSKOG EKVILADENTA',
+      extremPublishes: 'derived-technical-readiness-profile-only',
+      extrondolPublishes: 'audit-freeze-promotion-review-summary-only',
+      spajaKodPublishes: 'final-audit-safe-status-only',
+      noNewRuntimeModule: true,
+      noParallelSourceOfTruth: true,
       rawInternalsExposed: false,
     },
     kraljevskiEkonomskiUneverzitetBoundary: {

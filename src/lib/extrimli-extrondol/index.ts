@@ -192,6 +192,7 @@ const DEVELOPER_CREATE_ROADMAP_ACCEPTANCE_EVIDENCE_BASE = [
   'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.implementationPackage',
   'developerAndCreateRepoWideReflection',
   'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance',
+  'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.kraljevskiProgramskiUneverzitet',
   'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.kraljevskiBastaUneverzite',
   'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.aiIdentityFinanceGovernance',
   'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.covecnostAuditVisualReference.supplementalVisualReferences',
@@ -210,6 +211,7 @@ const DEVELOPER_CREATE_GOVERNANCE_ACCEPTANCE_EVIDENCE: ExtrimliExtrondolReport['
   'developerAndCreateRepoWideReflection.implementationPackage',
   'developerAndCreateRepoWideReflection',
   'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance',
+  'developerAndCreateRepoWideReflection.kraljevskiProgramskiUneverzitet',
   'developerAndCreateRepoWideReflection.kraljevskiBastaUneverzite',
   'developerAndCreateRepoWideReflection.covecnostAuditVisualReference.supplementalVisualReferences',
   'developerAndCreateRepoWideReflection.covecnostAuditVisualReference.companionAuditVisualReferences',
@@ -2764,6 +2766,7 @@ function buildSpajaKodFacade(params: {
   releaseAuditSummary: ExtrimliExtrondolReleaseAuditSummary;
   zelezaraPretplataIdentityStatus: ExtrimliExtrondolReport['extremProfiler']['zelezaraPretplataIdentityTrack']['readiness']['status'];
   kraljevskiPravniUniverzitetStatus: ExtrimliExtrondolReport['extremProfiler']['kraljevskiPravniUniverzitetTrack']['readiness']['status'];
+  kraljevskiProgramskiUneverzitetStatus: ExtrimliExtrondolReport['extremProfiler']['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['kraljevskiProgramskiUneverzitet']['readiness']['status'];
   funkcinalnoProgramiranjeEnergetskogMisaonogTokaStatus: ExtrimliExtrondolReport['extremProfiler']['funkcinalnoProgramiranjeEnergetskogMisaonogToka']['readiness']['status'];
   funkcionalnoProgramiranjeUzvisenogMisanogTokaStatus: ExtrimliExtrondolReport['extremProfiler']['funkcionalnoProgramiranjeUzvisenogMisanogToka']['readiness']['status'];
   funkcionalnoProgramiranjeEksplicitnogMisaonogTokaStatus: ExtrimliExtrondolReport['extremProfiler']['funkcionalnoProgramiranjeEksplicitnogMisaonogToka']['readiness']['status'];
@@ -2856,6 +2859,7 @@ function buildSpajaKodFacade(params: {
       downstreamSyncStatus: params.downstreamSyncComplete ? 'ALIGNED' : 'FOLLOW_UP_REQUIRED',
       zelezaraPretplataIdentityStatus: params.zelezaraPretplataIdentityStatus,
       kraljevskiPravniUniverzitetStatus: params.kraljevskiPravniUniverzitetStatus,
+      kraljevskiProgramskiUneverzitetStatus: params.kraljevskiProgramskiUneverzitetStatus,
       funkcinalnoProgramiranjeEnergetskogMisaonogTokaStatus: params.funkcinalnoProgramiranjeEnergetskogMisaonogTokaStatus,
       funkcionalnoProgramiranjeUzvisenogMisanogTokaStatus: params.funkcionalnoProgramiranjeUzvisenogMisanogTokaStatus,
       funkcionalnoProgramiranjeEksplicitnogMisaonogTokaStatus: params.funkcionalnoProgramiranjeEksplicitnogMisaonogTokaStatus,
@@ -2909,6 +2913,7 @@ function buildSpajaKodFacade(params: {
         'publicSignals.developerAndCreateStatus',
         'publicSignals.developerAndCreateImplementationStatus',
         'publicSignals.kraljevskiPravniUniverzitetStatus',
+        'publicSignals.kraljevskiProgramskiUneverzitetStatus',
         'developerAndCreateVisualReflection.kraljevskiBastaUneverzite',
         'developerAndCreateVisualReflection.packageOutputs',
         'developerAndCreateImplementationPackage.aiIqWorldBankPrepiskaSummary',
@@ -4126,6 +4131,8 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
         osnoveRispektProtocol:
           extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.osnoveRispektProtocol,
         mappedTracks: extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.mappedTracks,
+        kraljevskiProgramskiUneverzitet:
+          extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.kraljevskiProgramskiUneverzitet,
         kraljevskiEkonomskiUneverzitet:
           extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.kraljevskiEkonomskiUneverzitet,
         dailyOperationalCadence: {
@@ -5047,6 +5054,8 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
     releaseAuditSummary,
     zelezaraPretplataIdentityStatus: extremProfiler.zelezaraPretplataIdentityTrack.readiness.status,
     kraljevskiPravniUniverzitetStatus: extremProfiler.kraljevskiPravniUniverzitetTrack.readiness.status,
+    kraljevskiProgramskiUneverzitetStatus:
+      extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.kraljevskiProgramskiUneverzitet.readiness.status,
     funkcinalnoProgramiranjeEnergetskogMisaonogTokaStatus: extremProfiler.funkcinalnoProgramiranjeEnergetskogMisaonogToka.readiness.status,
     funkcionalnoProgramiranjeUzvisenogMisanogTokaStatus: extremProfiler.funkcionalnoProgramiranjeUzvisenogMisanogToka.readiness.status,
     funkcionalnoProgramiranjeEksplicitnogMisaonogTokaStatus: extremProfiler.funkcionalnoProgramiranjeEksplicitnogMisaonogToka.readiness.status,
@@ -5743,6 +5752,8 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
           },
           mappedTracks: extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.mappedTracks,
           technicalReadinessProfile: extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.technicalReadinessProfile,
+          kraljevskiProgramskiUneverzitet:
+            extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.kraljevskiProgramskiUneverzitet,
           kraljevskiEkonomskiUneverzitet:
             extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.kraljevskiEkonomskiUneverzitet,
           kraljevskiBastaUneverzite:

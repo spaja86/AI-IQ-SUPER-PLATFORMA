@@ -693,6 +693,7 @@ export interface ExtrimliExtrondolDeveloperAndCreateRepoWideReflectionGovernance
   osnoveRispektProtocol: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['osnoveRispektProtocol'];
   mappedTracks: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['mappedTracks'];
   technicalReadinessProfile: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['technicalReadinessProfile'];
+  kraljevskiProgramskiUneverzitet: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['kraljevskiProgramskiUneverzitet'];
   kraljevskiEkonomskiUneverzitet: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['kraljevskiEkonomskiUneverzitet'];
   kraljevskiBastaUneverzite: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['kraljevskiBastaUneverzite'];
   aiPlateGovernance: {
@@ -1611,6 +1612,7 @@ export interface ExtrimliExtrondolReleaseAuditSummary {
       reviewRequiredBeforeWideRollout: boolean;
     };
     technicalReadinessProfile: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['technicalReadinessProfile'];
+    kraljevskiProgramskiUneverzitet: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['kraljevskiProgramskiUneverzitet'];
     kraljevskiEkonomskiUneverzitet: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['kraljevskiEkonomskiUneverzitet'];
     aiIdentityFinanceGovernance: ExtrimliExtrondolDeveloperAndCreateRepoWideReflectionGovernance['aiIdentityFinanceGovernance'];
     covecnostAuditVisualReference: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['covecnostAuditVisualReference'];
@@ -2311,6 +2313,7 @@ export interface ExtrimliSpajaKodPublicFacade {
     vrhProgramskogEkviladentaStatus: ExtrimliExtremProfilerReport['vrhProgramskogEkviladenta']['readiness']['status'];
     developerAndCreateStatus: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['readiness']['status'];
     developerAndCreateImplementationStatus: ExtrimliSpajaKodPublicStatus;
+    kraljevskiProgramskiUneverzitetStatus: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['kraljevskiProgramskiUneverzitet']['readiness']['status'];
     aiPlateStatus: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['aiPlateOffer']['boundedReadinessProfile']['consolidatedStatus'];
     aiPlateEnterprisePackageStatus: 'READY' | 'BLOCKED';
     humanReviewRequired: true;
@@ -2362,6 +2365,7 @@ export interface ExtrimliSpajaKodPublicFacade {
       'publicSignals.developerAndCreateStatus',
       'publicSignals.developerAndCreateImplementationStatus',
       'publicSignals.kraljevskiPravniUniverzitetStatus',
+      'publicSignals.kraljevskiProgramskiUneverzitetStatus',
       'developerAndCreateVisualReflection.kraljevskiBastaUneverzite',
       'developerAndCreateVisualReflection.packageOutputs',
       'developerAndCreateImplementationPackage.aiIqWorldBankPrepiskaSummary',
