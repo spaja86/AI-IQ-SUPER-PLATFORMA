@@ -6,6 +6,13 @@ import {
 } from '../extrimli';
 import { buildDokerKuratIzekDokarExtremTrack } from '../extrimli-doker-kurat-izek-dokar-track';
 import {
+  DEVELOPER_CREATE_VRH_MAPE_UMA_EXPLANATION_TITLE,
+  DEVELOPER_CREATE_VRH_MAPE_UMA_OWNERSHIP_LOCK,
+  DEVELOPER_CREATE_VRH_MAPE_UMA_READINESS_MODEL,
+  DEVELOPER_CREATE_VRH_MAPE_UMA_SCOPE_LOCK,
+  DEVELOPER_CREATE_VRH_MAPE_UMA_THEMATIC_SIGNALS,
+} from '../developer-create-vrh-mape-uma-contract';
+import {
   runDikPetlja,
   runDirektPetlja,
   runDjuprePetlja,
@@ -6581,6 +6588,7 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
     developerAndCreateRepoWideReflection: {
       canonicalName: 'DEVELOPER AND CREATE',
       equalityLock: 'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == RADNI TAKT MOZGA (MISLILAC)',
+      canonicalMapeUmaScopeLock: DEVELOPER_CREATE_VRH_MAPE_UMA_SCOPE_LOCK,
       scope: 'repo-wide-rhythm-readiness-guidance',
       additiveOnlyProfile: 'EXTRIMLI-EXTRONDOL-EXTREM',
       sourceOfTruthRoutes: ['/api/extrimli/extrem', '/api/extrimli/extrondol', '/api/extrimli/spaja-kod'],
@@ -6588,6 +6596,14 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
         dokDikFor: 'EXTREM',
         dakDuk: 'EXTRONDOL',
         spajaKod: 'audit-safe-summary-only',
+      },
+      globalPageExplanationContract: {
+        title: DEVELOPER_CREATE_VRH_MAPE_UMA_EXPLANATION_TITLE,
+        readinessModel: DEVELOPER_CREATE_VRH_MAPE_UMA_READINESS_MODEL,
+        boundedThematicSignals: DEVELOPER_CREATE_VRH_MAPE_UMA_THEMATIC_SIGNALS,
+        additiveOnly: true,
+        noNewRuntimeRoutes: true,
+        ownershipLock: DEVELOPER_CREATE_VRH_MAPE_UMA_OWNERSHIP_LOCK,
       },
       mappedTracks: {
         vrhProgramskogEkviladenta: 'VRH PROGRAMSKOG EKVILADENTA',

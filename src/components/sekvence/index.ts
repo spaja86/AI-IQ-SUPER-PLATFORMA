@@ -13,3 +13,4 @@ export { default as HijerarhijaSekvenca } from './HijerarhijaSekvenca';
 export { default as TekstSekvenca } from './TekstSekvenca';
 export { default as SlikaSekvenca } from './SlikaSekvenca';
 export { default as LoginSekvenca } from './LoginSekvenca';
+export { default as DeveloperCreateGlobalExplanation } from './DeveloperCreateGlobalExplanation';

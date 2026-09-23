@@ -8,6 +8,11 @@
 import { useState, useEffect, useRef, useCallback, useMemo } from 'react';
 import { usePathname } from 'next/navigation';
 import { APP_NAME } from '@/lib/constants';
+import {
+  DEVELOPER_CREATE_VRH_MAPE_UMA_EXPLANATION_TITLE,
+  DEVELOPER_CREATE_VRH_MAPE_UMA_GLOBAL_CONTEXT,
+  DEVELOPER_CREATE_VRH_MAPE_UMA_READINESS_MODEL,
+} from '@/lib/developer-create-vrh-mape-uma-contract';
 import Button from '@/components/Button';
 
 interface AiPagePrompt {
@@ -45,17 +50,47 @@ export default function AiAsistentWidget({ pagePrompts }: Props) {
   const pathname = usePathname();
 
   // Get prompts for current page
-  const currentPageConfig = useMemo(() => pagePrompts.find((p) => p.putanja === pathname) ?? {
+  const currentPageConfig = useMemo(() => {
+    const baseConfig = pagePrompts.find((p) => p.putanja === pathname) ?? {
     putanja: pathname,
     naslov: 'Stranica',
     opis: APP_NAME,
-    kontekst: `Stranica na putanji ${pathname} u ${APP_NAME}.`,
+    kontekst: `Stranica na putanji ${pathname} u ${APP_NAME}. ${DEVELOPER_CREATE_VRH_MAPE_UMA_GLOBAL_CONTEXT}`,
     promptovi: [
       { pitanje: 'Šta se dešava na ovoj stranici?', ikona: '❓', kategorija: 'ai' as const },
+      {
+        pitanje: `Objasni ${DEVELOPER_CREATE_VRH_MAPE_UMA_EXPLANATION_TITLE} kontekst na ovoj stranici`,
+        ikona: '🧭',
+        kategorija: 'ai' as const,
+      },
       { pitanje: 'Objasni mi sadržaj ove stranice', ikona: '📖', kategorija: 'spaja-pro-ai' as const },
+      {
+        pitanje: `Kako se READY/WATCH/BLOCKED model (${DEVELOPER_CREATE_VRH_MAPE_UMA_READINESS_MODEL.join('/')}) primenjuje na ovoj stranici?`,
+        ikona: '📶',
+        kategorija: 'spaja-pro-ai' as const,
+      },
       { pitanje: 'Koje opcije imam na ovoj stranici?', ikona: '⚙️', kategorija: 'ai' as const },
       { pitanje: 'Kako da koristim ovu funkciju?', ikona: '💡', kategorija: 'spaja-pro-ai' as const },
     ],
+  };
+
+    return {
+      ...baseConfig,
+      kontekst: `${baseConfig.kontekst} ${DEVELOPER_CREATE_VRH_MAPE_UMA_GLOBAL_CONTEXT}`,
+      promptovi: [
+        ...baseConfig.promptovi,
+        {
+          pitanje: `Objasni ${DEVELOPER_CREATE_VRH_MAPE_UMA_EXPLANATION_TITLE} za ovu stranicu`,
+          ikona: '🧠',
+          kategorija: 'ai' as const,
+        },
+        {
+          pitanje: `Prikaži READY/WATCH/BLOCKED i MAPE UMA signal paket za ovu stranicu`,
+          ikona: '🗺️',
+          kategorija: 'spaja-pro-ai' as const,
+        },
+      ],
+    };
   }, [pathname, pagePrompts]);
 
   const filteredPrompts = currentPageConfig.promptovi.filter(
