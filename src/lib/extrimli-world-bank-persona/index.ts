@@ -339,7 +339,7 @@ export function getExtrimliWorldBankPersonaReport(options: ExtrimliWorldBankPers
 
     const catalogSync = {
       ...writeResult.catalogSync,
-      processedPersonas: 1,
+      processedPersonas: aiPersonaCatalog.has(primaryPersonaId) ? 1 : 0,
     };
     for (const seedPersona of SEED_PERSONAS) {
       if ((seedPersona.id ?? seedPersona.name) === primaryPersonaId) continue;
