@@ -1880,6 +1880,25 @@ export interface ExtrimliExtrondolCanaryRingMetrics {
   };
 }
 
+export interface ExtrimliExtrondolDeveloperAndCreateRepoWideReflection
+  extends Omit<ExtrimliExtrondolDeveloperAndCreateRepoWideReflectionGovernance, 'roadmapExecution'> {
+  roadmapExecution: {
+    roadmapStageId: 'v5-extrondol-release-audit-and-orchestration';
+    measurableOutput: 'EXTRONDOL consumes the repo-wide technical profile plus primary/supplemental/companion audit visual metadata and publishes only audit-safe WAWE/review/rollback governance';
+    acceptanceEvidence: readonly [
+      'developerAndCreateRepoWideReflection.implementationPackage',
+      'developerAndCreateRepoWideReflection',
+      'developerAndCreateRepoWideReflection.covecnostAuditVisualReference.supplementalVisualReferences',
+      'developerAndCreateRepoWideReflection.covecnostAuditVisualReference.companionAuditVisualReferences',
+      'developerAndCreateRepoWideReflection.aiPlateGovernance',
+      'spajaKod.publicSignals.developerAndCreateStatus',
+      'spajaKod.publicSignals.developerAndCreateImplementationStatus',
+      'spajaKod.publicSignals.aiPlateStatus'
+    ];
+    downstreamSync: 'follow-up-only-until-io-openui-ao-adopts-audit-safe-summary';
+  };
+}
+
 export interface ExtrimliExtrondolIncidentPlaybook {
   sourceOfTruth: '/api/extrimli/extrondol';
   required: true;
@@ -2379,7 +2398,7 @@ export interface ExtrimliExtrondolReport {
   funkcionalnoProgramiranjeEksplicitnogMisaonogToka: ExtrimliExtrondolFunkcionalnoProgramiranjeEksplicitnogMisaonogTokaGovernance;
   funkcionalnoProgramiranjePravednogMisaonogToka: ExtrimliExtrondolFunkcionalnoProgramiranjePravednogMisaonogTokaGovernance;
   radniTaktMozgaMislilac: ExtrimliExtrondolRadniTaktMozgaMislilacGovernance;
-  developerAndCreateRepoWideReflection: ExtrimliExtrondolDeveloperAndCreateRepoWideReflectionGovernance;
+  developerAndCreateRepoWideReflection: ExtrimliExtrondolDeveloperAndCreateRepoWideReflection;
   paradijogonalnoProgrimiranje: ExtrimliExtrondolParadijogonalnoProgrimiranjeGovernance;
   funkionalnoProgramiranjePravnogMisaonogToka: ExtrimliExtrondolFunkionalnoProgramiranjePravnogMisaonogTokaGovernance;
   programskiJezikInformacionihTokova: ExtrimliExtrondolProgramskiJezikInformacionihTokovaGovernance;

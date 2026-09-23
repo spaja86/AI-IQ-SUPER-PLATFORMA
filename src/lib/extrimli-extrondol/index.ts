@@ -204,8 +204,16 @@ const DEVELOPER_CREATE_ROADMAP_ACCEPTANCE_EVIDENCE_BASE = [
 const DEVELOPER_CREATE_RELEASE_AUDIT_ACCEPTANCE_EVIDENCE: ExtrimliExtrondolReleaseAuditSummary['developerAndCreateRepoWideReflectionGovernance']['roadmapExecution']['acceptanceEvidence'] =
   DEVELOPER_CREATE_ROADMAP_ACCEPTANCE_EVIDENCE_BASE;
 
-const DEVELOPER_CREATE_GOVERNANCE_ACCEPTANCE_EVIDENCE: ExtrimliExtrondolReport['developerAndCreateRepoWideReflection']['roadmapExecution']['acceptanceEvidence'] =
-  DEVELOPER_CREATE_ROADMAP_ACCEPTANCE_EVIDENCE_BASE;
+const DEVELOPER_CREATE_GOVERNANCE_ACCEPTANCE_EVIDENCE: ExtrimliExtrondolReport['developerAndCreateRepoWideReflection']['roadmapExecution']['acceptanceEvidence'] = [
+  'developerAndCreateRepoWideReflection.implementationPackage',
+  'developerAndCreateRepoWideReflection',
+  'developerAndCreateRepoWideReflection.covecnostAuditVisualReference.supplementalVisualReferences',
+  'developerAndCreateRepoWideReflection.covecnostAuditVisualReference.companionAuditVisualReferences',
+  'developerAndCreateRepoWideReflection.aiPlateGovernance',
+  'spajaKod.publicSignals.developerAndCreateStatus',
+  'spajaKod.publicSignals.developerAndCreateImplementationStatus',
+  'spajaKod.publicSignals.aiPlateStatus',
+];
 
 const EXTRONDOL_WAWE_THRESHOLDS = {
   wawe2: 60,
