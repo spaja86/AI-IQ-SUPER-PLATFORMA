@@ -2789,11 +2789,13 @@ function buildDeveloperCreateUniversityGovernanceProfile(params: {
   const publicCertificationStatus =
     certificationStatus === 'blocked-for-review'
       ? 'blocked-for-review'
-      : payoutReadinessStatus === 'READY'
-        ? 'certified-with-reward'
-        : certificationStatus === 'certified' || certificationStatus === 'eligible-for-payout'
+      : certificationStatus === 'passed'
+        ? 'passed'
+        : certificationStatus === 'certified'
           ? 'certified'
-          : 'passed';
+          : payoutReadinessStatus === 'READY'
+            ? 'certified-with-reward'
+            : 'certified';
   const auditSafeReason =
     certificationStatus === 'blocked-for-review'
       ? 'blocked-for-review'
