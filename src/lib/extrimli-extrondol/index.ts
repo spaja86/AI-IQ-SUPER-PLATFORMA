@@ -6991,6 +6991,19 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
         extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.universityRolloutPhases,
       kraljevskiProgramskiUneverzitet:
         extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.kraljevskiProgramskiUneverzitet,
+      kraljevskiDrustveniPoredak: {
+        ...extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.kraljevskiDrustveniPoredak,
+        sourceOfTruth: '/api/extrimli/extrondol',
+        technicalSignalSource: '/api/extrimli/extrem',
+        publicBoundary: '/api/extrimli/spaja-kod',
+        reviewRequiredBeforeWideRollout:
+          extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.kraljevskiDrustveniPoredak.readiness.status !== 'READY',
+        promotionFreeze,
+        humanReviewRequired: true,
+        complianceReviewRequired: true,
+        paymentVerificationRequired: true,
+        downstreamSync: 'follow-up-only-until-io-openui-ao-adopts-audit-safe-summary',
+      },
       certificationGovernance: {
         sourceOfTruth: '/api/extrimli/extrondol',
         certificationWindowPercent: [80, 100],

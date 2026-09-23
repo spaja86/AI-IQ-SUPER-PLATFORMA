@@ -9190,6 +9190,18 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
       noNewRuntimeModule: true,
       rawInternalsExposed: false,
     },
+    kraljevskiDrustveniPoredakBoundary: {
+      trackRole: 'governance-only-social-order-track',
+      extremPublishes: 'bounded-readiness-and-eligibility-signal',
+      extrondolPublishes: 'wawe-review-compliance-payment-summary-only',
+      spajaKodPublishes: 'final-audit-safe-status-only',
+      linkedDomains: ['GRAĐEVINSKI AKT', 'KRALJEVSKA DOPUNA'],
+      beneficiaryCategories: ['NEZBRINUTI', 'NEZAPOSLENI'],
+      noNewRuntimeModule: true,
+      noSocialExecutionSystem: true,
+      noSensitiveDataInGit: true,
+      rawInternalsExposed: false,
+    },
     kraljevskiBastaUneverziteBoundary: {
       trackRole: 'garden-and-natural-stem-cell-documentation-track',
       extremPublishes: 'technical-readiness-profile-only',
