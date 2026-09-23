@@ -1,3 +1,4 @@
+import { isDeepStrictEqual } from 'node:util';
 import { buildAiIqWorldBank } from '../ai-iq-world-bank';
 import {
   buildAiIdentityFinanceGovernancePackage,
@@ -268,8 +269,8 @@ export function getExtrimliWorldBankPersonaReport(options: ExtrimliWorldBankPers
       status: ExtrimliWorldBankPersonaReport['lifecycle']['targetPersonaStatus'],
     ): boolean =>
       persona.status === status
-      && JSON.stringify(persona.attributes?.aiIdentityCard ?? null) === JSON.stringify(payload.attributes.aiIdentityCard)
-      && JSON.stringify(persona.attributes?.aiBankAccountGovernance ?? null) === JSON.stringify(payload.attributes.aiBankAccountGovernance)
+      && isDeepStrictEqual(persona.attributes?.aiIdentityCard ?? null, payload.attributes.aiIdentityCard)
+      && isDeepStrictEqual(persona.attributes?.aiBankAccountGovernance ?? null, payload.attributes.aiBankAccountGovernance)
       && persona.crossRepoRef === payload.crossRepoRef;
     try {
       const updated = client.update(primaryPersonaId, {
