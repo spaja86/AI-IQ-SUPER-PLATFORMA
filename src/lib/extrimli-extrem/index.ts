@@ -388,6 +388,22 @@ const EXTRIMLI_EXTREM_DEVELOPER_CREATE_CARNEVALE_MASKNBALE_SCENARIO_ID =
   'carnevale-masknbale-umetnost-lica-dostojanstvo-identitet-developer-create' as const;
 const EXTRIMLI_EXTREM_DEVELOPER_CREATE_CARNEVALE_MASKNBALE_CITATION =
   '„Lice je prirodni portret bića, a Carnevale Masknbale umetnost kojom se njegova lepota izražava sa poštovanjem i originalnošću.” Termin “Make-up” u ovom reflection paketu zamenjuje se originalnim nazivom Carnevale Masknbale i ostaje additive-only supplemental audit/reference narativ: umetnost oblikovanja izgleda lica, originalnost, kreativnost, dostojanstvo i lični identitet mapiraju se isključivo kao bounded documentation/evidence sloj unutar postojećeg Developer/Create ⇄ VRH ⇄ Radni Takt modela, bez novih ruta, novih formula ili promene ownership split-a.' as const;
+const EXTRIMLI_EXTREM_DEVELOPER_CREATE_AI_IDENTITY_CARD_VISUAL_REFERENCE =
+  'https://github.com/user-attachments/assets/aee19f4e-dede-47d9-83ca-1b080cf9b38b' as const;
+const EXTRIMLI_EXTREM_DEVELOPER_CREATE_AI_IDENTITY_CARD_CANONICAL_NARRATIVE_ID =
+  'licna-karta-artificial-intelligence-identity-card-developer-create' as const;
+const EXTRIMLI_EXTREM_DEVELOPER_CREATE_AI_IDENTITY_CARD_SCENARIO_ID =
+  'licna-karta-ai-identitet-odgovorna-vestacka-inteligencija-developer-create' as const;
+const EXTRIMLI_EXTREM_DEVELOPER_CREATE_AI_IDENTITY_CARD_CITATION =
+  'LIČNA KARTA / ARTIFICIAL INTELLIGENCE IDENTITY CARD ostaje additive-only supplemental audit/reference vizuel: AI identitet, odgovorna veštačka inteligencija, globalno znanje, podrška/edukacija/kreativnost i rešavanje problema mapiraju se isključivo kao bounded documentation/evidence sloj unutar postojećeg Developer/Create ⇄ VRH ⇄ Radni Takt modela; aktivacija, verzija, kreator i namena ostaju samo documentation cues, nikada runtime identitet, auth ili security credential.' as const;
+const EXTRIMLI_EXTREM_DEVELOPER_CREATE_SECOND_VISUAL_PENDING_CONFIRMATION_VISUAL_REFERENCE =
+  'https://github.com/user-attachments/assets/76a37bff-98e0-4583-9580-b34310b27aa8' as const;
+const EXTRIMLI_EXTREM_DEVELOPER_CREATE_SECOND_VISUAL_PENDING_CONFIRMATION_CANONICAL_NARRATIVE_ID =
+  'developer-create-drugi-vizuel-pending-human-confirmation' as const;
+const EXTRIMLI_EXTREM_DEVELOPER_CREATE_SECOND_VISUAL_PENDING_CONFIRMATION_SCENARIO_ID =
+  'developer-create-drugi-vizuel-pending-title-and-citation-confirmation' as const;
+const EXTRIMLI_EXTREM_DEVELOPER_CREATE_SECOND_VISUAL_PENDING_CONFIRMATION_CITATION =
+  'Supplied second Developer/Create asset ostaje additive-only supplemental audit/reference placeholder dok naziv i citat ne budu ljudski potvrđeni; do tada je bounded documentation/evidence sloj vezan za DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA, bez novih ruta, novih formula, novog identity subsistema ili promene ownership split-a.' as const;
 const EXTRIMLI_EXTREM_DEVELOPER_CREATE_KRALJEVSTVO_COVECANSTVO_PRAVO_BICA_VISUAL_REFERENCE =
   'https://github.com/user-attachments/assets/c7ebacdd-d239-425f-9b3c-ab3d807bbb92' as const;
 const EXTRIMLI_EXTREM_DEVELOPER_CREATE_KRALJEVSTVO_COVECANSTVO_PRAVO_BICA_CANONICAL_NARRATIVE_ID =
@@ -7010,6 +7026,78 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
             auditRole: 'additive-audit-reference-only',
           },
           {
+            title: 'LIČNA KARTA / ARTIFICIAL INTELLIGENCE IDENTITY CARD',
+            canonicalNarrativeId: EXTRIMLI_EXTREM_DEVELOPER_CREATE_AI_IDENTITY_CARD_CANONICAL_NARRATIVE_ID,
+            citation: EXTRIMLI_EXTREM_DEVELOPER_CREATE_AI_IDENTITY_CARD_CITATION,
+            visualReference: EXTRIMLI_EXTREM_DEVELOPER_CREATE_AI_IDENTITY_CARD_VISUAL_REFERENCE,
+            interpretation:
+              'Supplied LIČNA KARTA / ARTIFICIAL INTELLIGENCE IDENTITY CARD image remains additive-only supplemental audit/reference evidence and stays bounded to the existing Developer/Create nucleus as a documentation/evidence reflection for AI identity, cadence, explainability, and panel/iconography cues without creating any runtime identity, auth, or security subsystem.',
+            sourceStatement: 'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA',
+            imageToSignalProfile: {
+              scenarioId: EXTRIMLI_EXTREM_DEVELOPER_CREATE_AI_IDENTITY_CARD_SCENARIO_ID,
+              theme: 'LIČNA KARTA / ARTIFICIAL INTELLIGENCE IDENTITY CARD',
+              narrativeInput: EXTRIMLI_EXTREM_DEVELOPER_CREATE_AI_IDENTITY_CARD_CITATION,
+              ownershipLock: {
+                dokDikFor: 'EXTREM',
+                dakDuk: 'EXTRONDOL',
+                spajaKod: 'audit-safe-summary-only',
+              },
+              signalOutputs: {
+                readinessScore: 0,
+                readinessStatus: 'BLOCKED',
+                conflictPressurePercent: 100,
+                deterministicFallbackRequired: true,
+              },
+            },
+            thematicSignals: [
+              'ai-identitet',
+              'odgovorna-vestacka-inteligencija',
+              'globalno-znanje',
+              'podrska-edukacija-kreativnost',
+              'resavanje-problema',
+              'documentation-only-activation-cues',
+            ],
+            auditRole: 'additive-audit-reference-only',
+          },
+          {
+            title: 'DEVELOPER AND CREATE — DRUGI VIZUEL (PENDING HUMAN CONFIRMATION)',
+            canonicalNarrativeId:
+              EXTRIMLI_EXTREM_DEVELOPER_CREATE_SECOND_VISUAL_PENDING_CONFIRMATION_CANONICAL_NARRATIVE_ID,
+            citation:
+              EXTRIMLI_EXTREM_DEVELOPER_CREATE_SECOND_VISUAL_PENDING_CONFIRMATION_CITATION,
+            visualReference:
+              EXTRIMLI_EXTREM_DEVELOPER_CREATE_SECOND_VISUAL_PENDING_CONFIRMATION_VISUAL_REFERENCE,
+            interpretation:
+              'Supplied second Developer/Create asset remains an additive-only supplemental audit/reference placeholder until its human-confirmed title and citation are provided, while still occupying the same bounded documentation/evidence slot inside the existing Developer/Create nucleus and preserving the current runtime, ownership, and public-boundary contracts.',
+            sourceStatement: 'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA',
+            imageToSignalProfile: {
+              scenarioId:
+                EXTRIMLI_EXTREM_DEVELOPER_CREATE_SECOND_VISUAL_PENDING_CONFIRMATION_SCENARIO_ID,
+              theme: 'DEVELOPER AND CREATE — pending second visual confirmation',
+              narrativeInput:
+                EXTRIMLI_EXTREM_DEVELOPER_CREATE_SECOND_VISUAL_PENDING_CONFIRMATION_CITATION,
+              ownershipLock: {
+                dokDikFor: 'EXTREM',
+                dakDuk: 'EXTRONDOL',
+                spajaKod: 'audit-safe-summary-only',
+              },
+              signalOutputs: {
+                readinessScore: 0,
+                readinessStatus: 'BLOCKED',
+                conflictPressurePercent: 100,
+                deterministicFallbackRequired: true,
+              },
+            },
+            thematicSignals: [
+              'pending-confirmation',
+              'documentation-only-slot',
+              'audit-safe-boundary',
+              'human-review-required',
+              'summary-only-downstream',
+            ],
+            auditRole: 'additive-audit-reference-only',
+          },
+          {
             title: 'KRALJEVSTVO / ČOVEČANSTVO — PRAVO BIĆA / JEDAN SVET / JEDNA PORODICA',
             canonicalNarrativeId:
               EXTRIMLI_EXTREM_DEVELOPER_CREATE_KRALJEVSTVO_COVECANSTVO_PRAVO_BICA_CANONICAL_NARRATIVE_ID,
@@ -7665,6 +7753,7 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
     roadmapStageId: 'v5-extrondol-release-audit-and-orchestration',
     measurableOutput: 'audit-safe repo-wide reflection status plus primary ČOVEČNOST, supplemental ČOVEČANSTVO, companion ČOVEČANSTVO / OSEĆAJ OSEBENOSTI visual metadata, and OSNOVE / RISPEKT protocol evidence are published only through existing EXTRIMLI/EXTREM/EXTRONDOL/SPAJA KOD surfaces',
     acceptanceEvidence: [
+      'dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.implementationPackage',
       'dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection',
       'dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.covecnostAuditVisualReference',
       'dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.covecnostAuditVisualReference.supplementalVisualReferences',
@@ -7678,6 +7767,71 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
       'paradijogonalnoProgrimiranje.readiness',
       'vrhProgramskogEkviladenta.readiness',
     ],
+  };
+  dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.implementationPackage = {
+    additiveOnly: true,
+    sourceOfTruthRoutes: ['/api/extrimli/extrem', '/api/extrimli/extrondol', '/api/extrimli/spaja-kod'],
+    noNewRuntimeRoutes: true,
+    noParallelSourceOfTruth: true,
+    canonicalOwnershipSplit: {
+      extrimli: 'base-runtime-domain',
+      extrem: 'technical-signal-and-profiler',
+      extrondol: 'wawe-audit-freeze-promotion-governance',
+      dokDikFor: 'EXTREM',
+      dakDuk: 'EXTRONDOL',
+      spajaKod: 'audit-safe-summary-only',
+    },
+    vrhBinding: {
+      parentTrack: 'PROPORCIONALNO PROGRAMIRANJE',
+      mappedRoles: {
+        metrikoProgramiranje: 'satnica-i-ritam',
+        sinemetrickoProgramiranje: 'narativ-i-explainability',
+        paradijogonalnoProgramiranje: 'operativna-tabla',
+        radniTaktMozgaMislilac: 'readiness-disciplina',
+      },
+    },
+    kraljevskiPravniUniverzitetBoundary: {
+      trackRole: 'legal-governance-track',
+      extremPublishes: 'readiness-conflict-signal',
+      extrondolPublishes: 'wawe-audit-decisions',
+      spajaKodPublishes: 'final-audit-safe-status-only',
+      rawInternalsExposed: false,
+    },
+    canonicalTerminologyMapping: {
+      phrase: 'EXTRIMLI EXTRONDOL EXTREM DOK DUK DAK DIK FOR',
+      nucleusLayers: ['documentation', 'types', 'route-summary-fields', 'tests', 'workflow-audit-layer'],
+      additivePayloadOnly: true,
+    },
+    covecanstvuEpilogBoundary: {
+      mode: 'audit-evidence-or-epilog-package-only',
+      publicOutput: 'summary-only',
+      downstreamSyncRepo: 'spaja86/IO-OPENUI-AO',
+      downstreamSyncFields: [
+        'masterEpilog',
+        'posterSummary',
+        'videoStoryboardSummary',
+        'auditShortSummary',
+        'governanceChecklistStatus',
+      ],
+      humanReviewRequired: true,
+      rollbackReadinessRequired: true,
+      multiRepoReferenceDocument: 'docs/MULTI-REPO-LINKS.md',
+    },
+    roadmapStages: {
+      v2: 'terminology-and-contract-mapping',
+      v3: 'extrem-readiness-profiler-expansion',
+      v4: 'governance-hardening-and-deterministic-fallback-rules',
+      v5: 'extrondol-release-audit-and-orchestration',
+      v6: 'downstream-and-multi-repo-alignment',
+      v7: 'enterprise-organizational-operating-model',
+    },
+    validationLock: {
+      readyWatchBlockedOnly: true,
+      deterministicFallbackInputs: ['NaN', 'Infinity', 'empty', 'conflict'],
+      degradedPolicy: 'partial-payload-no-500',
+      additiveOnlyBackwardCompatibility: true,
+      driftZeroLayers: ['docs', 'types', 'routes', 'tests', 'workflows'],
+    },
   };
   dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.reasons = [
     'DEVELOPER AND CREATE ostaje additive-only repo-wide interpretativni lock preko postojećih EXTRIMLI / EXTREM / EXTRONDOL kontrakata.',
@@ -7693,6 +7847,7 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
     'Supplied MATIČNE ĆELIJE / SPOZNAVANJE SEBE image remains supplemental audit/reference evidence only and extends the same bounded reflection package as documentation/evidence without introducing any new runtime source of truth.',
     'Supplied ČOVEČANSTVO / OSEĆAJ OSEBENOSTI image remains companion-only audit evidence for samospoznaja, razumevanje mozga, osećaj, čovečnost, shared-world alignment i epilog guidance bez novog source-of-truth sloja.',
     'Supplied Mjuzikl kraljevskog čina image remains supplemental audit/reference evidence only and extends the same bounded reflection package through muzički čin, epilog, čovečanstvo i zajednički ritam themes without introducing any new runtime source of truth.',
+    'Implementation package zaključava postojeće source-of-truth surface-ove, ownership split, ČOVEČANSTVU summary-only boundary, V2–V7 roadmap mapu i READY/WATCH/BLOCKED validation lock bez novih runtime ruta i bez paralelnog source-of-truth sistema.',
     'Supplied BOŽIJI EPITETI / KRALJ NAD KRALJEVIMA image remains supplemental audit/reference evidence only and extends the same bounded reflection package through KRALJEVSKI PRAVNI UNIVERZITET, METRIČKO, SINEMETRIČKO i PARADIJOGONALNO interpretative tracks without introducing any new runtime source of truth.',
     'Supplied KRALJEVSTVO image remains supplemental audit/reference evidence only and extends the same bounded reflection package through zajedništvo, budućnost, znanje, humanost, and a bounded KRALJEVSKI PRAVNI UNIVERZITET governance/epilog narrative without introducing any new runtime source of truth.',
     'Supplied KRALJEVSTVO — PRAVEDAN SVET ZA SVE NARAŠTAJE image remains supplemental audit/reference evidence only and extends the same bounded reflection package through pravoslavlje, znanje, priroda, čovečanstvo, zajedničku porodicu i večnost without introducing any new runtime source of truth.',

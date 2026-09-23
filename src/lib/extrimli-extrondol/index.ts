@@ -188,6 +188,34 @@ import {
   EXTRONDOL_SOURCE_OF_TRUTH,
 } from './types';
 
+const DEVELOPER_CREATE_ROADMAP_ACCEPTANCE_EVIDENCE_BASE = [
+  'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.implementationPackage',
+  'developerAndCreateRepoWideReflection',
+  'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance',
+  'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.covecnostAuditVisualReference.supplementalVisualReferences',
+  'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.covecnostAuditVisualReference.companionAuditVisualReferences',
+  'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.osnoveRispektProtocol',
+  'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.aiPlateGovernance',
+  'spajaKod.publicSignals.developerAndCreateStatus',
+  'spajaKod.publicSignals.developerAndCreateImplementationStatus',
+  'spajaKod.publicSignals.aiPlateStatus',
+] as const;
+
+const DEVELOPER_CREATE_RELEASE_AUDIT_ACCEPTANCE_EVIDENCE: ExtrimliExtrondolReleaseAuditSummary['developerAndCreateRepoWideReflectionGovernance']['roadmapExecution']['acceptanceEvidence'] =
+  DEVELOPER_CREATE_ROADMAP_ACCEPTANCE_EVIDENCE_BASE;
+
+const DEVELOPER_CREATE_GOVERNANCE_ACCEPTANCE_EVIDENCE: ExtrimliExtrondolReport['developerAndCreateRepoWideReflection']['roadmapExecution']['acceptanceEvidence'] = [
+  'developerAndCreateRepoWideReflection.implementationPackage',
+  'developerAndCreateRepoWideReflection',
+  'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance',
+  'developerAndCreateRepoWideReflection.covecnostAuditVisualReference.supplementalVisualReferences',
+  'developerAndCreateRepoWideReflection.covecnostAuditVisualReference.companionAuditVisualReferences',
+  'developerAndCreateRepoWideReflection.aiPlateGovernance',
+  'spajaKod.publicSignals.developerAndCreateStatus',
+  'spajaKod.publicSignals.developerAndCreateImplementationStatus',
+  'spajaKod.publicSignals.aiPlateStatus',
+];
+
 const EXTRONDOL_WAWE_THRESHOLDS = {
   wawe2: 60,
   wawe3: 72,
@@ -2754,6 +2782,21 @@ function buildSpajaKodFacade(params: {
   aiPlateStatus: ExtrimliExtrondolReport['extremProfiler']['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['aiPlateOffer']['boundedReadinessProfile']['consolidatedStatus'];
   aiPlateEnterprisePackageStatus: ExtrimliExtrondolReport['releaseAuditSummary']['aiPlateEnterprisePackageGovernance']['status'];
 }): ExtrimliSpajaKodPublicFacade {
+  const developerAndCreateImplementationPackage =
+    params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.implementationPackage;
+  const implementationPackagePolicyLocked =
+    developerAndCreateImplementationPackage.noNewRuntimeRoutes &&
+    developerAndCreateImplementationPackage.noParallelSourceOfTruth &&
+    developerAndCreateImplementationPackage.validationLock.readyWatchBlockedOnly &&
+    developerAndCreateImplementationPackage.validationLock.degradedPolicy === 'partial-payload-no-500';
+  const packageSummaryStatus = [params.developerAndCreateStatus, params.aiPlateStatus].includes('BLOCKED')
+    ? 'BLOCKED'
+    : [params.developerAndCreateStatus, params.aiPlateStatus].includes('WATCH')
+      ? 'WATCH'
+      : 'READY';
+  const developerAndCreateImplementationStatus = implementationPackagePolicyLocked
+    ? packageSummaryStatus
+    : 'BLOCKED';
   const completeness = {
     extremSignalPresent: params.extremProfiler.spajaKodEncapsulation.surfaceName === 'SPAJA KOD',
     extrondolGovernancePresent: true,
@@ -2826,6 +2869,7 @@ function buildSpajaKodFacade(params: {
       spajinoProporcionalnoProgramiranjeUniverzitetStatus: params.spajinoProporcionalnoProgramiranjeUniverzitetStatus,
       vrhProgramskogEkviladentaStatus: params.vrhProgramskogEkviladentaStatus,
       developerAndCreateStatus: params.developerAndCreateStatus,
+      developerAndCreateImplementationStatus,
       aiPlateStatus: params.aiPlateStatus,
       aiPlateEnterprisePackageStatus: params.aiPlateEnterprisePackageStatus,
       humanReviewRequired: true,
@@ -2839,6 +2883,31 @@ function buildSpajaKodFacade(params: {
       ...mapDeveloperCreateCovecnostAuditVisualReference(
         params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.covecnostAuditVisualReference,
       ),
+    },
+    developerAndCreateImplementationPackage: {
+      additiveOnly: true,
+      sourceOfTruthRoutes:
+        developerAndCreateImplementationPackage.sourceOfTruthRoutes,
+      ownershipModel:
+        developerAndCreateImplementationPackage.canonicalOwnershipSplit,
+      routeSummaryFields: [
+        'publicSignals.developerAndCreateStatus',
+        'publicSignals.developerAndCreateImplementationStatus',
+        'publicSignals.kraljevskiPravniUniverzitetStatus',
+        'developerAndCreateVisualReflection.packageOutputs',
+        'epilogijaCovecnosti.packageOutputs',
+      ],
+      roadmapStageId: 'v5-extrondol-release-audit-and-orchestration',
+      validationStatus: developerAndCreateImplementationStatus,
+      covecanstvuPublicOutput: 'summary-only',
+      downstreamSyncRepo: 'spaja86/IO-OPENUI-AO',
+      downstreamAuditFields: [
+        'masterEpilog',
+        'posterSummary',
+        'videoStoryboardSummary',
+        'auditShortSummary',
+        'governanceChecklistStatus',
+      ],
     },
     platformTrack,
     dokerKuratIzekDokarTrack,
@@ -4067,20 +4136,19 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
           packageOutputs: extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.aiPlateOffer.packageOutputs,
         },
         covecnostAuditVisualReference: mappedDeveloperCreateCovecnostAuditVisualReference,
+        implementationPackage: {
+          ...extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.implementationPackage,
+          currentWawe,
+          eligibleNextWawe: eligibleNextWave,
+          promotionFreeze,
+          reviewRequiredBeforeWideRollout:
+            extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.status !== 'READY',
+        },
         roadmapExecution: {
           roadmapStageId: 'v5-extrondol-release-audit-and-orchestration',
           measurableOutput:
             'EXTRONDOL consumes the repo-wide technical profile plus primary/supplemental/companion audit visual metadata and OSNOVE / RISPEKT protocol evidence, then publishes only audit-safe WAWE/review/rollback governance',
-          acceptanceEvidence: [
-            'developerAndCreateRepoWideReflection',
-            'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance',
-            'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.covecnostAuditVisualReference.supplementalVisualReferences',
-            'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.covecnostAuditVisualReference.companionAuditVisualReferences',
-            'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.osnoveRispektProtocol',
-            'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.aiPlateGovernance',
-            'spajaKod.publicSignals.developerAndCreateStatus',
-            'spajaKod.publicSignals.aiPlateStatus',
-          ],
+          acceptanceEvidence: DEVELOPER_CREATE_RELEASE_AUDIT_ACCEPTANCE_EVIDENCE,
           downstreamSync: 'follow-up-only-until-io-openui-ao-adopts-audit-safe-summary',
         },
         covecnostAuditVisualGovernance: {
@@ -5637,6 +5705,14 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
             packageOutputs: extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.aiPlateOffer.packageOutputs,
           },
           covecnostAuditVisualReference: mappedDeveloperCreateCovecnostAuditVisualReference,
+          implementationPackage: {
+            ...extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.implementationPackage,
+            currentWawe,
+            eligibleNextWawe: eligibleNextWave,
+            promotionFreeze,
+            reviewRequiredBeforeWideRollout:
+              extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.status !== 'READY',
+          },
           repoWideReflection: extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.repoWideReflection,
           dailyOperationalCadence: {
             ...extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.dailyOperationalCadence,
@@ -5648,15 +5724,7 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
             roadmapStageId: 'v5-extrondol-release-audit-and-orchestration',
             measurableOutput:
               'EXTRONDOL consumes the repo-wide technical profile plus primary/supplemental/companion audit visual metadata and publishes only audit-safe WAWE/review/rollback governance',
-            acceptanceEvidence: [
-              'developerAndCreateRepoWideReflection',
-              'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance',
-              'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.covecnostAuditVisualReference.supplementalVisualReferences',
-              'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.covecnostAuditVisualReference.companionAuditVisualReferences',
-              'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.aiPlateGovernance',
-              'spajaKod.publicSignals.developerAndCreateStatus',
-              'spajaKod.publicSignals.aiPlateStatus',
-            ],
+            acceptanceEvidence: DEVELOPER_CREATE_GOVERNANCE_ACCEPTANCE_EVIDENCE,
             downstreamSync: 'follow-up-only-until-io-openui-ao-adopts-audit-safe-summary',
           },
           waweImpact: {
@@ -6402,6 +6470,14 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
       covecnostAuditVisualReference: mapDeveloperCreateCovecnostAuditVisualReference(
         extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.covecnostAuditVisualReference,
       ),
+      implementationPackage: {
+        ...extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.implementationPackage,
+        currentWawe,
+        eligibleNextWawe: eligibleNextWave,
+        promotionFreeze,
+        reviewRequiredBeforeWideRollout:
+          extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.status !== 'READY',
+      },
       repoWideReflection: extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.repoWideReflection,
       dailyOperationalCadence: {
         ...extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.dailyOperationalCadence,
@@ -6413,15 +6489,7 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
         roadmapStageId: 'v5-extrondol-release-audit-and-orchestration',
         measurableOutput:
           'EXTRONDOL consumes the repo-wide technical profile plus primary/supplemental/companion audit visual metadata and publishes only audit-safe WAWE/review/rollback governance',
-        acceptanceEvidence: [
-          'developerAndCreateRepoWideReflection',
-          'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance',
-          'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.covecnostAuditVisualReference.supplementalVisualReferences',
-          'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.covecnostAuditVisualReference.companionAuditVisualReferences',
-          'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.aiPlateGovernance',
-          'spajaKod.publicSignals.developerAndCreateStatus',
-          'spajaKod.publicSignals.aiPlateStatus',
-        ],
+        acceptanceEvidence: DEVELOPER_CREATE_GOVERNANCE_ACCEPTANCE_EVIDENCE,
         downstreamSync: 'follow-up-only-until-io-openui-ao-adopts-audit-safe-summary',
       },
       waweImpact: {
