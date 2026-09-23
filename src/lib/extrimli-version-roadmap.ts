@@ -95,7 +95,6 @@ export const EXTRIMLI_DEVELOPER_CREATE_MANDATORY_ARTIFACTS = {
     'src/app/api/extrimli/extrem/route.ts',
     'src/app/api/extrimli/extrondol/route.ts',
     'src/app/api/extrimli/spaja-kod/route.ts',
-    'src/app/api/extrimli/world-bank-persona/route.ts',
   ],
   tests: [
     'src/tests/lib/extrimli-extrem.test.ts',
@@ -129,7 +128,6 @@ export const EXTRIMLI_DEVELOPER_CREATE_LOCKED_CORE_ARTIFACTS = [
   'src/app/api/extrimli/extrem/route.ts',
   'src/app/api/extrimli/extrondol/route.ts',
   'src/app/api/extrimli/spaja-kod/route.ts',
-  'src/app/api/extrimli/world-bank-persona/route.ts',
   'src/tests/lib/extrimli-extrem.test.ts',
   'src/tests/lib/extrimli-extrondol.test.ts',
   'src/tests/lib/extrimli-world-bank-persona.test.ts',
