@@ -140,6 +140,9 @@ async function runTests(): Promise<void> {
     assert(implementationPackage.kraljevskiEkonomskiUneverzitetBoundary.arhimedisModelBounded, 'developer/create implementation package economic boundary must keep Arhimedis model bounded');
     assert(implementationPackage.kraljevskiEkonomskiUneverzitetBoundary.noNewRuntimeModule, 'developer/create implementation package economic boundary must forbid new runtime modules');
     assert(implementationPackage.kraljevskiEkonomskiUneverzitetBoundary.rawInternalsExposed === false, 'developer/create implementation package economic boundary must hide internals');
+    assert(implementationPackage.kraljevskiDrustveniPoredakBoundary.trackRole === 'governance-only-social-order-track', 'developer/create implementation package social-order boundary role mismatch');
+    assert(implementationPackage.kraljevskiDrustveniPoredakBoundary.linkedDomains.join(',') === 'GRAĐEVINSKI AKT,KRALJEVSKA DOPUNA', 'developer/create implementation package social-order linked domains mismatch');
+    assert(implementationPackage.kraljevskiDrustveniPoredakBoundary.noSensitiveDataInGit, 'developer/create implementation package social-order boundary must forbid sensitive data in Git');
     assert(implementationPackage.canonicalTerminologyMapping.nucleusLayers.join(',') === 'documentation,types,route-summary-fields,tests,workflow-audit-layer', 'developer/create implementation package nucleus layer mismatch');
     assert(implementationPackage.covecanstvuEpilogBoundary.publicOutput === 'summary-only', 'developer/create implementation package ČOVEČANSTVU boundary mismatch');
     assert(implementationPackage.covecanstvuEpilogBoundary.downstreamSyncFields.join(',') === 'masterEpilog,posterSummary,videoStoryboardSummary,auditShortSummary,governanceChecklistStatus', 'developer/create implementation package downstream audit fields mismatch');
@@ -810,6 +813,12 @@ async function runTests(): Promise<void> {
     assert(report.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.aiIdentityFinanceGovernance.minorProtectionSafeguards.guardianLegalReviewRequired, 'AI identity-finance minor protections must require guardian legal review');
     assert(report.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.aiIdentityFinanceGovernance.minorProtectionSafeguards.privacyProtectionRequired, 'AI identity-finance minor protections must require privacy protection');
     assert(report.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.aiIdentityFinanceGovernance.aiIqWorldBankPrepiska.canonicalName === 'AI IQ WORLD BANK PREPISKA', 'AI IQ WORLD BANK prepiska canonical name mismatch');
+    const socialOrder = report.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.kraljevskiDrustveniPoredak;
+    assert(socialOrder.canonicalName === 'KRALJEVSKI DRUŠTVENI POREDAK', 'developer/create social-order canonical name mismatch');
+    assert(socialOrder.beneficiaryGovernance.eligibleCategories.join(',') === 'nezbrinuti,nezaposleni', 'developer/create social-order beneficiary categories mismatch');
+    assert(socialOrder.gradjevinskiAkt.linkedDomains.join(',') === 'GRAĐEVINSKI FAKULTET,ZADRUGA,INSTRUMENT TABLA', 'developer/create gradjevinski akt linked domains mismatch');
+    assert(socialOrder.kraljevskaDopuna.interpretativeInputs.osnovneZivotnePotrebe === 'documentation-only-governance-input', 'developer/create kraljevska dopuna basic-needs input mismatch');
+    assert(socialOrder.kraljevskaDopuna.approvalPosture.noAutomaticPayout, 'developer/create kraljevska dopuna must stay non-automatic payout');
     assert(report.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.aiIdentityFinanceGovernance.aiIqWorldBankPrepiska.sourceMaterialPolicy === 'documentation-only', 'AI IQ WORLD BANK prepiska must remain documentation-only');
     assert(report.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.aiIdentityFinanceGovernance.aiIqWorldBankPrepiska.noRuntimeAuthority === true, 'AI IQ WORLD BANK prepiska must not become runtime authority');
     assert(report.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.aiIdentityFinanceGovernance.aiIqWorldBankPrepiska.forbiddenEvidence.includes('kyc-documents'), 'AI IQ WORLD BANK prepiska must forbid KYC documents');

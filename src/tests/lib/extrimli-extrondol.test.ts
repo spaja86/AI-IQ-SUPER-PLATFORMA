@@ -198,6 +198,10 @@ async function runTests(): Promise<void> {
     assert(implementationPackage.canonicalOwnershipSplit.spajaKod === 'audit-safe-summary-only', 'developer/create governance implementation package SPAJA KOD boundary mismatch');
     assert(implementationPackage.covecanstvuEpilogBoundary.publicOutput === 'summary-only', 'developer/create governance implementation package ČOVEČANSTVU output mismatch');
     assert(implementationPackage.validationLock.driftZeroLayers.join(',') === 'docs,types,routes,tests,workflows', 'developer/create governance implementation package drift-zero mismatch');
+    assert(report.developerAndCreateRepoWideReflection.kraljevskiDrustveniPoredak.canonicalName === 'KRALJEVSKI DRUŠTVENI POREDAK', 'developer/create governance social-order canonical name mismatch');
+    assert(report.developerAndCreateRepoWideReflection.kraljevskiDrustveniPoredak.sourceOfTruth === '/api/extrimli/extrondol', 'developer/create governance social-order source mismatch');
+    assert(report.developerAndCreateRepoWideReflection.kraljevskiDrustveniPoredak.beneficiaryGovernance.eligibleCategories.join(',') === 'nezbrinuti,nezaposleni', 'developer/create governance social-order beneficiary categories mismatch');
+    assert(report.developerAndCreateRepoWideReflection.kraljevskiDrustveniPoredak.kraljevskaDopuna.approvalPosture.payoutReadinessStatus === report.developerAndCreateRepoWideReflection.privredniAkt.readiness.status, 'developer/create governance kraljevska dopuna payout posture mismatch');
     assert(report.developerAndCreateRepoWideReflection.universityLifecycle.reviewRequiredBeforePayout, 'developer/create university lifecycle must require review before payout');
     assert(report.developerAndCreateRepoWideReflection.certificationGovernance.certificationWindowPercent.join(',') === '80,100', 'developer/create certification governance score window mismatch');
     assert(report.developerAndCreateRepoWideReflection.payoutGovernance.allowedArtifacts.join(',') === 'payout-status,approval-status,payment-verification,audit-evidence', 'developer/create payout governance artifacts mismatch');

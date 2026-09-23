@@ -330,6 +330,7 @@ export interface ExtrimliExtrondolB2bReadiness {
     blockerReasons: string[];
     watchReasons: string[];
     technicalReadinessProfile: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['technicalReadinessProfile'];
+    kraljevskiDrustveniPoredak: ExtrimliExtrondolDeveloperAndCreateRepoWideReflectionGovernance['kraljevskiDrustveniPoredak'];
     aiIdentityFinanceGovernance: ExtrimliExtrondolDeveloperAndCreateRepoWideReflectionGovernance['aiIdentityFinanceGovernance'];
     roadmapExecution: ExtrimliExtrondolDeveloperAndCreateRepoWideReflectionGovernance['roadmapExecution'];
   };
@@ -700,6 +701,17 @@ export interface ExtrimliExtrondolDeveloperAndCreateRepoWideReflectionGovernance
   universityRolloutPhases: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['universityRolloutPhases'];
   kraljevskiProgramskiUneverzitet: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['kraljevskiProgramskiUneverzitet'];
   kraljevskiEkonomskiUneverzitet: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['kraljevskiEkonomskiUneverzitet'];
+  kraljevskiDrustveniPoredak: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['kraljevskiDrustveniPoredak'] & {
+    sourceOfTruth: '/api/extrimli/extrondol';
+    technicalSignalSource: '/api/extrimli/extrem';
+    publicBoundary: '/api/extrimli/spaja-kod';
+    reviewRequiredBeforeWideRollout: boolean;
+    promotionFreeze: boolean;
+    humanReviewRequired: true;
+    complianceReviewRequired: true;
+    paymentVerificationRequired: true;
+    downstreamSync: 'follow-up-only-until-io-openui-ao-adopts-audit-safe-summary';
+  };
   privredniAkt: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['kraljevskiEkonomskiUneverzitet']['privredniAkt'];
   certificationGovernance: {
     sourceOfTruth: '/api/extrimli/extrondol';
@@ -835,6 +847,7 @@ export interface ExtrimliExtrondolDeveloperAndCreateRepoWideReflectionGovernance
       'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.implementationPackage',
       'developerAndCreateRepoWideReflection',
       'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance',
+      'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.kraljevskiDrustveniPoredak',
       'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.kraljevskiBastaUneverzite',
       'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.aiIdentityFinanceGovernance',
       'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.covecnostAuditVisualReference.supplementalVisualReferences',
@@ -1702,6 +1715,7 @@ export interface ExtrimliExtrondolReleaseAuditSummary {
     universityRolloutPhases: ExtrimliExtrondolDeveloperAndCreateRepoWideReflectionGovernance['universityRolloutPhases'];
     kraljevskiProgramskiUneverzitet: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['kraljevskiProgramskiUneverzitet'];
     kraljevskiEkonomskiUneverzitet: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['kraljevskiEkonomskiUneverzitet'];
+    kraljevskiDrustveniPoredak: ExtrimliExtrondolDeveloperAndCreateRepoWideReflectionGovernance['kraljevskiDrustveniPoredak'];
     certificationGovernance: ExtrimliExtrondolDeveloperAndCreateRepoWideReflectionGovernance['certificationGovernance'];
     payoutGovernance: ExtrimliExtrondolDeveloperAndCreateRepoWideReflectionGovernance['payoutGovernance'];
     rewardApproval: ExtrimliExtrondolDeveloperAndCreateRepoWideReflectionGovernance['rewardApproval'];
@@ -2487,6 +2501,7 @@ export interface ExtrimliSpajaKodPublicFacade {
       'developerAndCreateVisualReflection.kraljevskiBastaUneverzite',
       'developerAndCreateVisualReflection.packageOutputs',
       'developerAndCreateImplementationPackage.aiIqWorldBankPrepiskaSummary',
+      'developerAndCreateImplementationPackage.kraljevskiDrustveniPoredakSummary',
       'epilogijaCovecnosti.packageOutputs'
     ];
     roadmapStageId: 'v5-extrondol-release-audit-and-orchestration';
@@ -2499,6 +2514,17 @@ export interface ExtrimliSpajaKodPublicFacade {
       sourceMaterialPolicy: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['aiIdentityFinanceGovernance']['aiIqWorldBankPrepiska']['sourceMaterialPolicy'];
       allowedEvidence: string[];
       forbiddenEvidence: string[];
+      publicSummary: string;
+    };
+    kraljevskiDrustveniPoredakSummary: {
+      canonicalName: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['kraljevskiDrustveniPoredak']['canonicalName'];
+      beneficiaryCategories: readonly ['nezbrinuti', 'nezaposleni'];
+      readinessStatus: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['kraljevskiDrustveniPoredak']['readiness']['status'];
+      gradjevinskiAktStatus: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['kraljevskiDrustveniPoredak']['gradjevinskiAkt']['readiness']['status'];
+      kraljevskaDopunaApprovalStatus: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['kraljevskiDrustveniPoredak']['kraljevskaDopuna']['approvalPosture']['approvalStatus'];
+      payoutReadinessStatus: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['kraljevskiDrustveniPoredak']['kraljevskaDopuna']['approvalPosture']['payoutReadinessStatus'];
+      publicBoundary: 'audit-safe-summary-only';
+      forbiddenEvidence: readonly ['kyc-data', 'bank-account-number', 'payment-secret', 'sensitive-social-record', 'operational-financial-data'];
       publicSummary: string;
     };
     downstreamAuditFields: readonly [

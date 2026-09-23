@@ -27,6 +27,7 @@ Repo-wide reflection sada obavezno uključuje i dnevni operativni cadence: `morn
 - `KRALJEVSKI EKONOMSKI UNEVERZITET` bounded tumači monetizaciju učenja samo kroz payout readiness, approval i reward signalizaciju, sa zaključanim opsegom `80–100%` za sertifikaciju i payout eligibility.
 - `STOČARSTVO` i `VINOGRADARSTVO` ostaju additive-only privredne oblasti unutar `KRALJEVSKI EKONOMSKI UNEVERZITET` i koriste samo postojeći `technicalReadinessProfile`, `PRIVREDNI AKT` kvartalni signal i `ZADRUGA` workforce/infrastructure posture.
 - `KRALJEVSKI PRAVNI UNIVERZITET` bounded zaključava governance celine za `human review`, `compliance review`, `payment verification`, `anti-abuse`, `duplicate attempt`, `dispute/appeal`, `downstream sync` i `audit trail`.
+- `KRALJEVSKI DRUŠTVENI POREDAK` ostaje additive-only governance/socijalni narativ nad istim reflection paketom: objavljuje samo bounded eligibility, readiness, review, approval, payout posture i blocker summary za auditabilne kategorije `nezbrinuti` i `nezaposleni`.
 - SPAJA KOD objavljuje samo audit-safe rezime: broj položenih oblasti, sertifikacioni status, payout readiness status i audit-safe razlog blokade ili watch posture.
 
 ### PRIVREDNI AKT kvartalni režim (additive-only)
@@ -38,6 +39,9 @@ Repo-wide reflection sada obavezno uključuje i dnevni operativni cadence: `morn
 - `ZADRUGA` je additive-only podtraka u okviru `PRIVREDNI AKT`: `INSTRUMENT TABLA` ostaje bounded operativni layer (zapošljavanje + radne akcije), `VLASTELA REQUEST` ostaje bounded governance ulaz, a `KRALJEVSTVO / AI IQ WORLD BANK` ostaje policy pokroviteljstvo bez finansijskog runtime engine-a.
 - Javni izlaz ostaje strogo audit-safe summary: `zadrugaOperationalStatus`, `instrumentTablaStatus`, `payoutGovernancePosture` (`READY | WATCH | BLOCKED`), bez internih formula i bez operativnih finansijskih detalja.
 - Audit-safe summary za nove bounded oblasti uključuje samo readiness, workforce/infrastructure posture, review posture i rollout freeze signal; sirovi projektni, radni i finansijski detalji ostaju repo-local.
+- `GRAĐEVINSKI AKT` ostaje additive-only pod `GRAĐEVINSKI FAKULTET` + `ZADRUGA / INSTRUMENT TABLA`: infrastruktura i operativna spremnost ostaju bounded readiness signal bez novog runtime modula.
+- `KRALJEVSKA DOPUNA` ostaje policy-gated support/payout governance pod `KRALJEVSKI PRAVNI AKT` + `AI IQ WORLD BANK`; `osnovne životne potrebe` i `prosečno građanski dohodak` ostaju documentation-only interpretativni input-i, nikada računovodstveni source-of-truth.
+- Zabranjeno je unošenje realnih KYC, bankarskih i osetljivih socijalnih podataka za `nezbrinuti` i `nezaposleni` scope; dozvoljeni su samo audit-safe eligibility, review, approval i payout snapshot-i.
 
 Supplied image `https://github.com/user-attachments/assets/4790f4ea-4271-4d2a-ae0a-d9bec5bc8b8a` ostaje additive-only audit vizuel za `ČOVEČNOST` i mapira se na `developerAndCreateRepoWideReflection.covecnostAuditVisualReference` sa `scenarioId=covecnost-developer-create-vrh-radni-takt`, bez novih ruta i bez zamene postojećeg `priroda-zdrav-zivot-covecanstvo` epilog narativa.
 Vizuel ostaje strogo interpretativan: motivi `INSTINKT`, `ZNANJE`, `ISKUSTVO`, `PREDVIĐANJE` i šest etapa razvoja samo potvrđuju postojeći Developer/Create cadence, postojeći `technicalReadinessProfile` i postojeći EXTREM↔EXTRONDOL ownership split.
