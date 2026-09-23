@@ -293,6 +293,14 @@ const EXTRIMLI_EXTREM_DEVELOPER_CREATE_POSTOJATI_DOPRINETI_COVECANSTVO_SCENARIO_
   'covecanstvo-epilog-postojati-znaci-doprineti-boljem-svetu-developer-create' as const;
 const EXTRIMLI_EXTREM_DEVELOPER_CREATE_POSTOJATI_DOPRINETI_COVECANSTVO_CITATION =
   'ČOVEČANSTVO — EPILOG (POSTOJATI ZNAČI DOPRINETI BOLJEM SVETU) ostaje additive-only supplemental audit/reference vizuel koji potvrđuje isti Developer/Create ⇄ VRH ⇄ Radni Takt model, isti READY|WATCH|BLOCKED fallback i isti ownership split bez novih runtime ruta ili novih formula.' as const;
+const EXTRIMLI_EXTREM_DEVELOPER_CREATE_MAPE_UMA_COVECANSTVO_VISUAL_REFERENCE =
+  'https://github.com/user-attachments/assets/f857f0fd-c29d-4749-aecd-f42745646e69' as const;
+const EXTRIMLI_EXTREM_DEVELOPER_CREATE_MAPE_UMA_COVECANSTVO_CANONICAL_NARRATIVE_ID =
+  'covecanstvo-epilog-mape-uma-slike-znacenje-developer-create' as const;
+const EXTRIMLI_EXTREM_DEVELOPER_CREATE_MAPE_UMA_COVECANSTVO_SCENARIO_ID =
+  'covecanstvo-epilog-mape-uma-slike-znacenje-developer-create' as const;
+const EXTRIMLI_EXTREM_DEVELOPER_CREATE_MAPE_UMA_COVECANSTVO_CITATION =
+  'ČOVEČANSTVO — EPILOG (MAPE UMA / SLIKE + ZNAČENJE) ostaje additive-only supplemental audit/reference vizuel: mapa uma, slike + značenje, učenje, znanje, kreativnost, saradnja, održivost i mir mapiraju se isključivo kao bounded documentation/evidence sloj unutar postojećeg Developer/Create ⇄ VRH ⇄ Radni Takt modela, uz isti READY|WATCH|BLOCKED fallback i bez novih runtime ruta.' as const;
 const EXTRIMLI_EXTREM_DEVELOPER_CREATE_MATICNE_CELIJE_SPOZNAVANJE_SEBE_VISUAL_REFERENCE =
   'https://github.com/user-attachments/assets/ca803ee2-f56e-4aa1-bd7f-18df213228d6' as const;
 const EXTRIMLI_EXTREM_DEVELOPER_CREATE_MATICNE_CELIJE_SPOZNAVANJE_SEBE_CANONICAL_NARRATIVE_ID =
@@ -6822,6 +6830,45 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
               },
             },
             thematicSignals: ['existence', 'contribution', 'shared-path', 'collective-better-world'],
+            auditRole: 'additive-audit-reference-only',
+          },
+          {
+            title: 'ČOVEČANSTVO — EPILOG (MAPE UMA / SLIKE + ZNAČENJE)',
+            canonicalNarrativeId:
+              EXTRIMLI_EXTREM_DEVELOPER_CREATE_MAPE_UMA_COVECANSTVO_CANONICAL_NARRATIVE_ID,
+            citation: EXTRIMLI_EXTREM_DEVELOPER_CREATE_MAPE_UMA_COVECANSTVO_CITATION,
+            visualReference:
+              EXTRIMLI_EXTREM_DEVELOPER_CREATE_MAPE_UMA_COVECANSTVO_VISUAL_REFERENCE,
+            interpretation:
+              'Supplied ČOVEČANSTVO — EPILOG (MAPE UMA / SLIKE + ZNAČENJE) image remains additive-only supplemental audit/reference evidence and extends the same bounded Developer/Create reflection package through mind-map, image-plus-meaning, learning, knowledge, creativity, collaboration, sustainability, peace, and humanity-epilog themes without introducing any new source-of-truth runtime route.',
+            sourceStatement: 'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == RADNI TAKT MOZGA (MISLILAC)',
+            imageToSignalProfile: {
+              scenarioId: EXTRIMLI_EXTREM_DEVELOPER_CREATE_MAPE_UMA_COVECANSTVO_SCENARIO_ID,
+              theme: 'ČOVEČANSTVO — EPILOG (MAPE UMA / SLIKE + ZNAČENJE)',
+              narrativeInput: EXTRIMLI_EXTREM_DEVELOPER_CREATE_MAPE_UMA_COVECANSTVO_CITATION,
+              ownershipLock: {
+                dokDikFor: 'EXTREM',
+                dakDuk: 'EXTRONDOL',
+                spajaKod: 'audit-safe-summary-only',
+              },
+              signalOutputs: {
+                readinessScore: 0,
+                readinessStatus: 'BLOCKED',
+                conflictPressurePercent: 100,
+                deterministicFallbackRequired: true,
+              },
+            },
+            thematicSignals: [
+              'mape-uma',
+              'slike-plus-znacenje',
+              'ucenje',
+              'znanje',
+              'kreativnost',
+              'saradnja',
+              'odrzivost',
+              'mir',
+              'covecanstvo-epilog',
+            ],
             auditRole: 'additive-audit-reference-only',
           },
           {
