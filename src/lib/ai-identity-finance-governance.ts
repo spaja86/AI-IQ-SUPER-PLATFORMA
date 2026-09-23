@@ -85,6 +85,49 @@ export interface AiIdentityFinanceGovernancePackage {
     noSecretsInGit: true;
     noKycDataInGit: true;
   };
+  childLifecycleModel: {
+    canonicalName: 'DETE OD ROĐENJA — IDENTITET I RAZVOJ';
+    additiveOnly: true;
+    legalPolicyPackage: 'KRALJEVSKI PRAVNI AKT';
+    identityCardRequiredAtBirth: true;
+    bankAccountGovernanceProfileRequiredAtBirth: true;
+    developmentDomains: readonly [
+      'treninzi',
+      'psihologija-i-pedagogija',
+      'javni-i-socijalni-zivot',
+      'igracke-i-igra',
+      'skolarstvo-po-uzrastu-citanje-pisanje-digitalna-pismenost',
+      'gejming-razvoj'
+    ];
+    lifecycleStatuses: readonly ['newborn', 'early-education', 'school-age', 'adolescent'];
+    readinessModel: readonly ['READY', 'WATCH', 'BLOCKED'];
+  };
+  monthlyPrimanjaGovernance: {
+    canonicalName: 'MESEČNA PRIMANJA';
+    provider: 'AI IQ WORLD BANK';
+    cadence: 'monthly';
+    governanceOnlyModel: true;
+    payoutReadinessStatus: AiIdentityFinanceGovernanceStatus;
+    requiredGates: readonly [
+      'approval',
+      'compliance-review',
+      'payment-verification',
+      'anti-abuse-review',
+      'human-review',
+      'dispute-appeal-process',
+      'audit-trail'
+    ];
+    blockerReasons: string[];
+  };
+  minorProtectionSafeguards: {
+    guardianLegalReviewRequired: true;
+    legalCustodyReviewRequired: true;
+    privacyProtectionRequired: true;
+    antiAbuseControlsRequired: true;
+    blockWhenMissingSafeguards: true;
+    status: AiIdentityFinanceGovernanceStatus;
+    blockerReasons: string[];
+  };
   aiIqWorldBankPrepiska: {
     canonicalName: 'AI IQ WORLD BANK PREPISKA';
     canonicalSourceDocument: 'docs/AI-IQ-WORLD-BANK-AI-IDENTITY-FINANCE-GOVERNANCE.md';
@@ -330,6 +373,49 @@ export function buildAiIdentityFinanceGovernancePackage(
       noRawStatementsInGit: true,
       noSecretsInGit: true,
       noKycDataInGit: true,
+    },
+    childLifecycleModel: {
+      canonicalName: 'DETE OD ROĐENJA — IDENTITET I RAZVOJ',
+      additiveOnly: true,
+      legalPolicyPackage: 'KRALJEVSKI PRAVNI AKT',
+      identityCardRequiredAtBirth: true,
+      bankAccountGovernanceProfileRequiredAtBirth: true,
+      developmentDomains: [
+        'treninzi',
+        'psihologija-i-pedagogija',
+        'javni-i-socijalni-zivot',
+        'igracke-i-igra',
+        'skolarstvo-po-uzrastu-citanje-pisanje-digitalna-pismenost',
+        'gejming-razvoj',
+      ],
+      lifecycleStatuses: ['newborn', 'early-education', 'school-age', 'adolescent'],
+      readinessModel: ['READY', 'WATCH', 'BLOCKED'],
+    },
+    monthlyPrimanjaGovernance: {
+      canonicalName: 'MESEČNA PRIMANJA',
+      provider: 'AI IQ WORLD BANK',
+      cadence: 'monthly',
+      governanceOnlyModel: true,
+      payoutReadinessStatus: options.promotionFreeze ? 'BLOCKED' : options.readinessStatus,
+      requiredGates: [
+        'approval',
+        'compliance-review',
+        'payment-verification',
+        'anti-abuse-review',
+        'human-review',
+        'dispute-appeal-process',
+        'audit-trail',
+      ],
+      blockerReasons: baseBlockers,
+    },
+    minorProtectionSafeguards: {
+      guardianLegalReviewRequired: true,
+      legalCustodyReviewRequired: true,
+      privacyProtectionRequired: true,
+      antiAbuseControlsRequired: true,
+      blockWhenMissingSafeguards: true,
+      status: options.promotionFreeze ? 'BLOCKED' : options.readinessStatus,
+      blockerReasons: baseBlockers,
     },
     aiIqWorldBankPrepiska: {
       canonicalName: 'AI IQ WORLD BANK PREPISKA',

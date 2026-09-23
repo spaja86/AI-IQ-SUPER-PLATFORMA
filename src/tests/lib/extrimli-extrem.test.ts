@@ -522,6 +522,10 @@ async function runTests(): Promise<void> {
     assert(track.structuredSignals.charterCompleteness.status === 'READY', 'charter completeness mismatch');
     assert(track.structuredSignals.legislativeAuthorityDefinition.status === 'READY', 'legislative authority mismatch');
     assert(track.structuredSignals.citizenshipOrderPrinciples.status === 'READY', 'citizenship-order principles mismatch');
+    assert(track.structuredSignals.kraljevskiPravniAktChildRightsPolicy.canonicalName === 'KRALJEVSKI PRAVNI AKT', 'child-rights policy package canonical name mismatch');
+    assert(track.structuredSignals.kraljevskiPravniAktChildRightsPolicy.objective === 'pravo-deteta-na-identitet-obrazovanje-razvoj-socijalnu-ukljucenost', 'child-rights policy package objective mismatch');
+    assert(track.structuredSignals.kraljevskiPravniAktChildRightsPolicy.childDomainCoverage.join(',') === 'treninzi,psihologija-i-pedagogija,javni-i-socijalni-zivot,igracke-i-igra,skolarstvo-po-uzrastu-citanje-pisanje-digitalna-pismenost,gejming-razvoj', 'child-rights domain coverage mismatch');
+    assert(track.structuredSignals.kraljevskiPravniAktChildRightsPolicy.status === 'READY', 'child-rights policy package status mismatch');
     assert(track.neutralRuleSet.evidenceRequiredBeforeEscalation.length >= 3, 'evidence requirements must be defined');
     assert(track.neutralRuleSet.unlawfulCivicManeuvers.length >= 1, 'unlawful civic maneuvering rules must be defined');
     assert(track.readiness.status === 'READY', 'default track should be READY');
@@ -798,6 +802,13 @@ async function runTests(): Promise<void> {
     assert(report.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.aiIdentityFinanceGovernance.bankAccountGovernance.realBankAccountStoredInGit === false, 'AI bank account governance must forbid real bank data in Git');
     assert(report.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.aiIdentityFinanceGovernance.bankAccountGovernancePolicy.noSecretsInGit, 'AI bank account governance policy must forbid secrets in Git');
     assert(report.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.aiIdentityFinanceGovernance.bankAccountGovernancePolicy.noKycDataInGit, 'AI bank account governance policy must forbid KYC data in Git');
+    assert(report.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.aiIdentityFinanceGovernance.childLifecycleModel.legalPolicyPackage === 'KRALJEVSKI PRAVNI AKT', 'AI identity-finance child lifecycle policy package mismatch');
+    assert(report.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.aiIdentityFinanceGovernance.childLifecycleModel.developmentDomains.join(',') === 'treninzi,psihologija-i-pedagogija,javni-i-socijalni-zivot,igracke-i-igra,skolarstvo-po-uzrastu-citanje-pisanje-digitalna-pismenost,gejming-razvoj', 'AI identity-finance child development domains mismatch');
+    assert(report.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.aiIdentityFinanceGovernance.monthlyPrimanjaGovernance.provider === 'AI IQ WORLD BANK', 'AI identity-finance monthly primanja provider mismatch');
+    assert(report.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.aiIdentityFinanceGovernance.monthlyPrimanjaGovernance.requiredGates.includes('payment-verification'), 'AI identity-finance monthly primanja payment-verification gate mismatch');
+    assert(report.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.aiIdentityFinanceGovernance.monthlyPrimanjaGovernance.requiredGates.includes('dispute-appeal-process'), 'AI identity-finance monthly primanja dispute/appeal gate mismatch');
+    assert(report.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.aiIdentityFinanceGovernance.minorProtectionSafeguards.guardianLegalReviewRequired, 'AI identity-finance minor protections must require guardian legal review');
+    assert(report.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.aiIdentityFinanceGovernance.minorProtectionSafeguards.privacyProtectionRequired, 'AI identity-finance minor protections must require privacy protection');
     assert(report.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.aiIdentityFinanceGovernance.aiIqWorldBankPrepiska.canonicalName === 'AI IQ WORLD BANK PREPISKA', 'AI IQ WORLD BANK prepiska canonical name mismatch');
     assert(report.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.aiIdentityFinanceGovernance.aiIqWorldBankPrepiska.sourceMaterialPolicy === 'documentation-only', 'AI IQ WORLD BANK prepiska must remain documentation-only');
     assert(report.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.aiIdentityFinanceGovernance.aiIqWorldBankPrepiska.noRuntimeAuthority === true, 'AI IQ WORLD BANK prepiska must not become runtime authority');

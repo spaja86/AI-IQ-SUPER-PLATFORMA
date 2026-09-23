@@ -2936,6 +2936,7 @@ function buildSpajaKodFacade(params: {
   paymentVerification: ExtrimliExtrondolPaymentVerification;
   zelezaraPretplataIdentityStatus: ExtrimliExtrondolReport['extremProfiler']['zelezaraPretplataIdentityTrack']['readiness']['status'];
   kraljevskiPravniUniverzitetStatus: ExtrimliExtrondolReport['extremProfiler']['kraljevskiPravniUniverzitetTrack']['readiness']['status'];
+  kraljevskiPravniAktStatus: ExtrimliExtrondolReport['extremProfiler']['kraljevskiPravniUniverzitetTrack']['structuredSignals']['kraljevskiPravniAktChildRightsPolicy']['status'];
   kraljevskiProgramskiUneverzitetStatus: ExtrimliExtrondolReport['extremProfiler']['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['kraljevskiProgramskiUneverzitet']['readiness']['status'];
   funkcinalnoProgramiranjeEnergetskogMisaonogTokaStatus: ExtrimliExtrondolReport['extremProfiler']['funkcinalnoProgramiranjeEnergetskogMisaonogToka']['readiness']['status'];
   funkcionalnoProgramiranjeUzvisenogMisanogTokaStatus: ExtrimliExtrondolReport['extremProfiler']['funkcionalnoProgramiranjeUzvisenogMisanogToka']['readiness']['status'];
@@ -3038,6 +3039,7 @@ function buildSpajaKodFacade(params: {
       downstreamSyncStatus: params.downstreamSyncComplete ? 'ALIGNED' : 'FOLLOW_UP_REQUIRED',
       zelezaraPretplataIdentityStatus: params.zelezaraPretplataIdentityStatus,
       kraljevskiPravniUniverzitetStatus: params.kraljevskiPravniUniverzitetStatus,
+      kraljevskiPravniAktStatus: params.kraljevskiPravniAktStatus,
       kraljevskiProgramskiUneverzitetStatus: params.kraljevskiProgramskiUneverzitetStatus,
       funkcinalnoProgramiranjeEnergetskogMisaonogTokaStatus: params.funkcinalnoProgramiranjeEnergetskogMisaonogTokaStatus,
       funkcionalnoProgramiranjeUzvisenogMisanogTokaStatus: params.funkcionalnoProgramiranjeUzvisenogMisanogTokaStatus,
@@ -3080,6 +3082,8 @@ function buildSpajaKodFacade(params: {
       },
       aiPlateStatus: params.aiPlateStatus,
       aiPlateEnterprisePackageStatus: params.aiPlateEnterprisePackageStatus,
+      aiIdentityMonthlyPrimanjaStatus: aiIdentityFinanceGovernance.monthlyPrimanjaGovernance.payoutReadinessStatus,
+      aiIdentityMinorProtectionStatus: aiIdentityFinanceGovernance.minorProtectionSafeguards.status,
       humanReviewRequired: true,
       rollbackPlanRequired: true,
       degraded: params.degraded,
@@ -3112,7 +3116,10 @@ function buildSpajaKodFacade(params: {
         'publicSignals.developerAndCreateStatus',
         'publicSignals.developerAndCreateImplementationStatus',
         'publicSignals.kraljevskiPravniUniverzitetStatus',
+        'publicSignals.kraljevskiPravniAktStatus',
         'publicSignals.kraljevskiProgramskiUneverzitetStatus',
+        'publicSignals.aiIdentityMonthlyPrimanjaStatus',
+        'publicSignals.aiIdentityMinorProtectionStatus',
         'publicSignals.developerAndCreateUniversitySummary',
         'developerAndCreateVisualReflection.kraljevskiBastaUneverzite',
         'developerAndCreateVisualReflection.packageOutputs',
@@ -5339,6 +5346,7 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
     paymentVerification,
     zelezaraPretplataIdentityStatus: extremProfiler.zelezaraPretplataIdentityTrack.readiness.status,
     kraljevskiPravniUniverzitetStatus: extremProfiler.kraljevskiPravniUniverzitetTrack.readiness.status,
+    kraljevskiPravniAktStatus: extremProfiler.kraljevskiPravniUniverzitetTrack.structuredSignals.kraljevskiPravniAktChildRightsPolicy.status,
     kraljevskiProgramskiUneverzitetStatus:
       extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.kraljevskiProgramskiUneverzitet.readiness.status,
     funkcinalnoProgramiranjeEnergetskogMisaonogTokaStatus: extremProfiler.funkcinalnoProgramiranjeEnergetskogMisaonogToka.readiness.status,

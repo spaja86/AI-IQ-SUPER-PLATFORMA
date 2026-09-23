@@ -5696,6 +5696,23 @@ function buildKraljevskiPravniUniverzitetTrack(): ExtrimliExtremKraljevskiPravni
         publicBoundaryRequired: true,
         status: 'READY',
       },
+      kraljevskiPravniAktChildRightsPolicy: {
+        canonicalName: 'KRALJEVSKI PRAVNI AKT',
+        policyPackage: 'child-rights-governance',
+        additiveOnly: true,
+        boundedUnderTrack: 'KRALJEVSKI PRAVNI UNIVERZITET',
+        objective: 'pravo-deteta-na-identitet-obrazovanje-razvoj-socijalnu-ukljucenost',
+        childDomainCoverage: [
+          'treninzi',
+          'psihologija-i-pedagogija',
+          'javni-i-socijalni-zivot',
+          'igracke-i-igra',
+          'skolarstvo-po-uzrastu-citanje-pisanje-digitalna-pismenost',
+          'gejming-razvoj',
+        ],
+        governanceModel: ['READY', 'WATCH', 'BLOCKED'],
+        status: 'READY',
+      },
       blockedActionsAgainstDeclaredOrder: {
         actions: [
           'Publishing extra-charter legal commands as if they were ratified law.',

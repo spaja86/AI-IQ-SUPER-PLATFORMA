@@ -2322,6 +2322,23 @@ export interface ExtrimliExtremKraljevskiPravniTrack {
       publicBoundaryRequired: true;
       status: ExtrimliExtremKraljevskiPravniTrackStatus;
     };
+    kraljevskiPravniAktChildRightsPolicy: {
+      canonicalName: 'KRALJEVSKI PRAVNI AKT';
+      policyPackage: 'child-rights-governance';
+      additiveOnly: true;
+      boundedUnderTrack: 'KRALJEVSKI PRAVNI UNIVERZITET';
+      objective: 'pravo-deteta-na-identitet-obrazovanje-razvoj-socijalnu-ukljucenost';
+      childDomainCoverage: readonly [
+        'treninzi',
+        'psihologija-i-pedagogija',
+        'javni-i-socijalni-zivot',
+        'igracke-i-igra',
+        'skolarstvo-po-uzrastu-citanje-pisanje-digitalna-pismenost',
+        'gejming-razvoj'
+      ];
+      governanceModel: readonly ['READY', 'WATCH', 'BLOCKED'];
+      status: ExtrimliExtremKraljevskiPravniTrackStatus;
+    };
     blockedActionsAgainstDeclaredOrder: {
       actions: readonly string[];
       enforcementMode: 'neutral-governance-boundary';
