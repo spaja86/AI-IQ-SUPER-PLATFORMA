@@ -6915,6 +6915,9 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
         forbiddenArtifacts: ['bank-account-number', 'kyc-document', 'payment-secret', 'operational-financial-data'],
         blockerReasons: [...developerCreateUniversityGovernanceFinal.blockerReasons],
       },
+      zadrugaGovernance: {
+        ...developerCreateUniversityGovernanceFinal.zadrugaGovernance,
+      },
       rewardApproval: {
         approvalStatus: developerCreateUniversityGovernanceFinal.payoutReadinessStatus,
         hardGates: [
@@ -6938,6 +6941,14 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
         certificationStatus: developerCreateUniversityGovernanceFinal.publicCertificationStatus,
         payoutReadinessStatus: developerCreateUniversityGovernanceFinal.payoutReadinessStatus,
         privredniAktQuarterlyMarketStatus: developerCreateUniversityGovernanceFinal.privredniAktQuarterlyMarketStatus,
+        zadrugaOperationalStatus: developerCreateUniversityGovernanceFinal.zadrugaGovernance.freezeRequired
+          ? 'BLOCKED'
+          : developerCreateUniversityGovernanceFinal.zadrugaGovernance.workerHiringCapacityStatus === 'WATCH'
+            || developerCreateUniversityGovernanceFinal.zadrugaGovernance.radneAkcijeCoordinationStatus === 'WATCH'
+            ? 'WATCH'
+            : 'READY',
+        instrumentTablaStatus: developerCreateUniversityGovernanceFinal.zadrugaGovernance.instrumentTablaOperationalStatus,
+        payoutGovernancePosture: developerCreateUniversityGovernanceFinal.payoutReadinessStatus,
         privredniAktBeneficiarySegments: ['poljoprivrednici-sa-gostoprimstvom', 'poljoprivrednici'],
         auditSafeReason: developerCreateUniversityGovernanceFinal.auditSafeReason,
       },

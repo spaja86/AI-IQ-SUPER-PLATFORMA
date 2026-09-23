@@ -8274,6 +8274,9 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
           'rollback-plan',
         ],
       },
+      zadrugaOperations: {
+        ...privredniAktQuarterlyMarketInput.zadrugaOperations,
+      },
       summary:
         'PRIVREDNI AKT ostaje additive-only policy-gated governance traka: kvartalni tržišni signal (cene privrednika po kvartalu) utiče na payout readiness kroz postojeće EXTREM/EXTRONDOL/SPAJA KOD granice bez novih finansijskih engine-a i bez realnih bankarskih podataka u Git-u.',
     },
