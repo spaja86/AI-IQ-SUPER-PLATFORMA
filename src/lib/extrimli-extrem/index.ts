@@ -469,6 +469,14 @@ const EXTRIMLI_EXTREM_DEVELOPER_CREATE_KUKURUZ_COVECANSTVO_SCENARIO_ID =
   'covecanstvo-kukuruz-priroda-u-sluzbi-covecanstva-developer-create' as const;
 const EXTRIMLI_EXTREM_DEVELOPER_CREATE_KUKURUZ_COVECANSTVO_CITATION =
   'ČOVEČANSTVO — PRIRODNE MATIČNE ĆELIJE / KUKURUZ ostaje additive-only supplemental audit/reference vizuel: kukuruz, priroda, zajednica i epilog „priroda u službi čovečanstva” mapiraju se isključivo kao bounded documentation/evidence-only bašta/razvoj narativ unutar postojećeg Developer/Create ⇄ VRH ⇄ Radni Takt modela; tekst o metabolizmu, masnim naslagama, detoksikaciji i „kompagene (trendol) mase” ostaje samo source-text citat/reference bez nove formule, terapije, medicinske tvrdnje, medicinskog runtime subsistema ili promene ownership split-a.' as const;
+const EXTRIMLI_EXTREM_DEVELOPER_CREATE_CISTA_VODA_COVECANSTVO_VISUAL_REFERENCE =
+  'https://github.com/user-attachments/assets/2aae1845-0b3d-49c1-918b-a200cc48ad1d' as const;
+const EXTRIMLI_EXTREM_DEVELOPER_CREATE_CISTA_VODA_COVECANSTVO_CANONICAL_NARRATIVE_ID =
+  'covecanstvo-cista-voda-h2o-vodonik-buducnost-developer-create' as const;
+const EXTRIMLI_EXTREM_DEVELOPER_CREATE_CISTA_VODA_COVECANSTVO_SCENARIO_ID =
+  'covecanstvo-cista-voda-h2o-vodonik-epilog-developer-create' as const;
+const EXTRIMLI_EXTREM_DEVELOPER_CREATE_CISTA_VODA_COVECANSTVO_CITATION =
+  'ČOVEČANSTVO — ČISTA VODA / H2O / VODONIK ostaje additive-only supplemental audit/reference vizuel: kontrast čiste vode, neispravne vode i elementarnog objašnjenja H2O/vodonika mapira se isključivo kao bounded documentation/evidence-only narativ unutar postojećeg Developer/Create ⇄ VRH ⇄ Radni Takt modela; poruke o zdravlju, plodnosti i rizicima ostaju samo source-text citat/reference bez medicinskog runtime subsistema, dijagnostike, terapije, novih formula ili promene ownership split-a.' as const;
 const EXTRIMLI_EXTREM_DEVELOPER_CREATE_URL_LOCKED_AD9AFF82_VISUAL_REFERENCE =
   'https://github.com/user-attachments/assets/ad9aff82-4790-49c2-9224-3b250d0090d1' as const;
 const EXTRIMLI_EXTREM_DEVELOPER_CREATE_URL_LOCKED_AD9AFF82_CANONICAL_NARRATIVE_ID =
@@ -493,6 +501,14 @@ const EXTRIMLI_EXTREM_DEVELOPER_CREATE_URL_LOCKED_A508472D_SCENARIO_ID =
   'covecanstvo-url-locked-a508472d-supplemental-visual-developer-create' as const;
 const EXTRIMLI_EXTREM_DEVELOPER_CREATE_URL_LOCKED_A508472D_CITATION =
   'ČOVEČANSTVO — URL-LOCKED SUPPLEMENTAL VISUAL (a508472d) ostaje additive-only supplemental audit/reference vizuel: pošto je dostavljen samo asset URL bez potvrđenog naslova i teme, vizuel ostaje strogo URL-locked documentation/evidence placeholder unutar postojećeg Developer/Create ⇄ VRH ⇄ Radni Takt modela, bez novih ruta, novih formula, medicinskih/runtime tvrdnji ili promene ownership split-a.' as const;
+const EXTRIMLI_EXTREM_DEVELOPER_CREATE_URL_LOCKED_164E82A7_VISUAL_REFERENCE =
+  'https://github.com/user-attachments/assets/164e82a7-bf62-4397-959b-bf24953d0183' as const;
+const EXTRIMLI_EXTREM_DEVELOPER_CREATE_URL_LOCKED_164E82A7_CANONICAL_NARRATIVE_ID =
+  'covecanstvo-url-locked-164e82a7-developer-create' as const;
+const EXTRIMLI_EXTREM_DEVELOPER_CREATE_URL_LOCKED_164E82A7_SCENARIO_ID =
+  'covecanstvo-url-locked-164e82a7-supplemental-visual-developer-create' as const;
+const EXTRIMLI_EXTREM_DEVELOPER_CREATE_URL_LOCKED_164E82A7_CITATION =
+  'ČOVEČANSTVO — URL-LOCKED SUPPLEMENTAL VISUAL (164e82a7) ostaje additive-only supplemental audit/reference vizuel: pošto je dostavljen samo asset URL bez potvrđenog naslova i teme, vizuel ostaje strogo URL-locked documentation/evidence placeholder unutar postojećeg Developer/Create ⇄ VRH ⇄ Radni Takt modela, bez novih ruta, novih formula, medicinskih/runtime tvrdnji ili promene ownership split-a.' as const;
 
 const EXTRIMLI_EXTREM_SPAJINO_PROPORCIONALNO_PROGRAMIRANJE_UNIVERZITET_NARRATIVE_TITLE =
   'Spreg funkcionalnog i objektno programiranja sa mnoštvo novih petlji' as const;
@@ -7095,6 +7111,43 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
             auditRole: 'additive-audit-reference-only',
           },
           {
+            title: 'ČOVEČANSTVO — ČISTA VODA / H2O / VODONIK',
+            canonicalNarrativeId:
+              EXTRIMLI_EXTREM_DEVELOPER_CREATE_CISTA_VODA_COVECANSTVO_CANONICAL_NARRATIVE_ID,
+            citation: EXTRIMLI_EXTREM_DEVELOPER_CREATE_CISTA_VODA_COVECANSTVO_CITATION,
+            visualReference:
+              EXTRIMLI_EXTREM_DEVELOPER_CREATE_CISTA_VODA_COVECANSTVO_VISUAL_REFERENCE,
+            interpretation:
+              'Supplied ČISTA VODA / H2O / VODONIK image remains additive-only supplemental audit/reference evidence and extends the bounded Developer/Create reflection package as documentation/evidence only; it does not introduce new runtime routes, formulas, medical claims, or ownership drift.',
+            sourceStatement: 'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == RADNI TAKT MOZGA (MISLILAC)',
+            imageToSignalProfile: {
+              scenarioId:
+                EXTRIMLI_EXTREM_DEVELOPER_CREATE_CISTA_VODA_COVECANSTVO_SCENARIO_ID,
+              theme: 'ČOVEČANSTVO — ČISTA VODA / H2O / VODONIK',
+              narrativeInput: EXTRIMLI_EXTREM_DEVELOPER_CREATE_CISTA_VODA_COVECANSTVO_CITATION,
+              ownershipLock: {
+                dokDikFor: 'EXTREM',
+                dakDuk: 'EXTRONDOL',
+                spajaKod: 'audit-safe-summary-only',
+              },
+              signalOutputs: {
+                readinessScore: 0,
+                readinessStatus: 'BLOCKED',
+                conflictPressurePercent: 100,
+                deterministicFallbackRequired: true,
+              },
+            },
+            thematicSignals: [
+              'cista-voda',
+              'h2o-vodonik',
+              'knowledge-of-elements',
+              'documentation-only-health-metaphor',
+              'covecanstvo-epilog',
+              'no-medical-runtime-claims',
+            ],
+            auditRole: 'additive-audit-reference-only',
+          },
+          {
             title: 'ČOVEČANSTVO — URL-LOCKED SUPPLEMENTAL VISUAL (ad9aff82)',
             canonicalNarrativeId:
               EXTRIMLI_EXTREM_DEVELOPER_CREATE_URL_LOCKED_AD9AFF82_CANONICAL_NARRATIVE_ID,
@@ -7109,6 +7162,43 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
                 EXTRIMLI_EXTREM_DEVELOPER_CREATE_URL_LOCKED_AD9AFF82_SCENARIO_ID,
               theme: 'ČOVEČANSTVO — URL-LOCKED SUPPLEMENTAL VISUAL (ad9aff82)',
               narrativeInput: EXTRIMLI_EXTREM_DEVELOPER_CREATE_URL_LOCKED_AD9AFF82_CITATION,
+              ownershipLock: {
+                dokDikFor: 'EXTREM',
+                dakDuk: 'EXTRONDOL',
+                spajaKod: 'audit-safe-summary-only',
+              },
+              signalOutputs: {
+                readinessScore: 0,
+                readinessStatus: 'BLOCKED',
+                conflictPressurePercent: 100,
+                deterministicFallbackRequired: true,
+              },
+            },
+            thematicSignals: [
+              'pending-title-confirmation',
+              'url-locked-reference',
+              'documentation-only',
+              'audit-safe-summary',
+              'no-new-runtime-routes',
+              'ownership-lock-preserved',
+            ],
+            auditRole: 'additive-audit-reference-only',
+          },
+          {
+            title: 'ČOVEČANSTVO — URL-LOCKED SUPPLEMENTAL VISUAL (164e82a7)',
+            canonicalNarrativeId:
+              EXTRIMLI_EXTREM_DEVELOPER_CREATE_URL_LOCKED_164E82A7_CANONICAL_NARRATIVE_ID,
+            citation: EXTRIMLI_EXTREM_DEVELOPER_CREATE_URL_LOCKED_164E82A7_CITATION,
+            visualReference:
+              EXTRIMLI_EXTREM_DEVELOPER_CREATE_URL_LOCKED_164E82A7_VISUAL_REFERENCE,
+            interpretation:
+              'Supplied URL-only Developer/Create asset remains an additive-only supplemental audit/reference placeholder pending exact title/theme confirmation; until then it stays URL-locked, documentation/evidence only, and cannot introduce a new runtime, formula, health claim, or source-of-truth layer.',
+            sourceStatement: 'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == RADNI TAKT MOZGA (MISLILAC)',
+            imageToSignalProfile: {
+              scenarioId:
+                EXTRIMLI_EXTREM_DEVELOPER_CREATE_URL_LOCKED_164E82A7_SCENARIO_ID,
+              theme: 'ČOVEČANSTVO — URL-LOCKED SUPPLEMENTAL VISUAL (164e82a7)',
+              narrativeInput: EXTRIMLI_EXTREM_DEVELOPER_CREATE_URL_LOCKED_164E82A7_CITATION,
               ownershipLock: {
                 dokDikFor: 'EXTREM',
                 dakDuk: 'EXTRONDOL',
@@ -8371,11 +8461,11 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
       })),
     packageOutputs: {
       auditShortSummary:
-        'ČOVEČNOST primary visual remains audit-safe and technically bound to the existing readiness profile, while the ČOVEČANSTVO supplemental visuals, including SVI KOJI POSTOJE / ZASLUŽUJU DA PRIPADAJU, ENTIZUJAŽAM, EPILOG, MATIČNE ĆELIJE / SPOZNAVANJE SEBE, PRIRODNE MATIČNE ĆELIJE / KUKURUZ, the three URL-locked pending-title visuals, ŽIVOT U RAVNOTEŽI, TRIJOLOGIJA / DAVO U RUCI / LISICA U KAVEZU, BLAGOSLOV DARIVATI / BOGPATIJU, Mjuzikl kraljevskog čina / epilog u čovečanstvo, BOŽIJI EPITETI / KRALJ NAD KRALJEVIMA, KRALJEVSTVO — PRAVEDAN SVET ZA SVE NARAŠTAJE, and NARAŠTAJ U PRIRODNOM CVATU / EPILOG / BLAGODARIM, plus the ČOVEČANSTVO / OSEĆAJ OSEBENOSTI companion visual stay bounded by existing EXTREM / EXTRONDOL / SPAJA KOD ownership.',
+        'ČOVEČNOST primary visual remains audit-safe and technically bound to the existing readiness profile, while the ČOVEČANSTVO supplemental visuals, including SVI KOJI POSTOJE / ZASLUŽUJU DA PRIPADAJU, ENTIZUJAŽAM, EPILOG, MATIČNE ĆELIJE / SPOZNAVANJE SEBE, PRIRODNE MATIČNE ĆELIJE / KUKURUZ, ČISTA VODA / H2O / VODONIK, the four URL-locked pending-title visuals, ŽIVOT U RAVNOTEŽI, TRIJOLOGIJA / DAVO U RUCI / LISICA U KAVEZU, BLAGOSLOV DARIVATI / BOGPATIJU, Mjuzikl kraljevskog čina / epilog u čovečanstvo, BOŽIJI EPITETI / KRALJ NAD KRALJEVIMA, KRALJEVSTVO — PRAVEDAN SVET ZA SVE NARAŠTAJE, and NARAŠTAJ U PRIRODNOM CVATU / EPILOG / BLAGODARIM, plus the ČOVEČANSTVO / OSEĆAJ OSEBENOSTI companion visual stay bounded by existing EXTREM / EXTRONDOL / SPAJA KOD ownership.',
       publicSummary:
-        'ČOVEČNOST ostaje javni audit-safe odraz znanja, iskustva i predviđanja kroz postojeći Developer/Create ritam i etapni razvoj bez novih ruta, dok supplemental vizueli — uključujući SVI KOJI POSTOJE / ZASLUŽUJU DA PRIPADAJU, ENTIZUJAŽAM, ČOVEČANSTVO — EPILOG, MATIČNE ĆELIJE / SPOZNAVANJE SEBE, PRIRODNE MATIČNE ĆELIJE / KUKURUZ, tri URL-locked pending-title reference, ŽIVOT U RAVNOTEŽI, TRIJOLOGIJA / DAVO U RUCI / LISICA U KAVEZU, BLAGOSLOV DARIVATI / BOGPATIJU, Mjuzikl kraljevskog čina / epilog u čovečanstvo, BOŽIJI EPITETI / KRALJ NAD KRALJEVIMA, KRALJEVSTVO — PRAVEDAN SVET ZA SVE NARAŠTAJE, NARAŠTAJ U PRIRODNOM CVATU / EPILOG / BLAGODARIM, KRVOTOK / ZDRAVA KRV / BOLJI ŽIVOT i ZDRAVIJI UM / SNAŽNIJI LJUDI / BOLJI SVET — i companion vizuel ostaju pomoćni audit-safe slojevi istog reflection paketa.',
+        'ČOVEČNOST ostaje javni audit-safe odraz znanja, iskustva i predviđanja kroz postojeći Developer/Create ritam i etapni razvoj bez novih ruta, dok supplemental vizueli — uključujući SVI KOJI POSTOJE / ZASLUŽUJU DA PRIPADAJU, ENTIZUJAŽAM, ČOVEČANSTVO — EPILOG, MATIČNE ĆELIJE / SPOZNAVANJE SEBE, PRIRODNE MATIČNE ĆELIJE / KUKURUZ, ČISTA VODA / H2O / VODONIK, četiri URL-locked pending-title reference, ŽIVOT U RAVNOTEŽI, TRIJOLOGIJA / DAVO U RUCI / LISICA U KAVEZU, BLAGOSLOV DARIVATI / BOGPATIJU, Mjuzikl kraljevskog čina / epilog u čovečanstvo, BOŽIJI EPITETI / KRALJ NAD KRALJEVIMA, KRALJEVSTVO — PRAVEDAN SVET ZA SVE NARAŠTAJE, NARAŠTAJ U PRIRODNOM CVATU / EPILOG / BLAGODARIM, KRVOTOK / ZDRAVA KRV / BOLJI ŽIVOT i ZDRAVIJI UM / SNAŽNIJI LJUDI / BOLJI SVET — i companion vizuel ostaju pomoćni audit-safe slojevi istog reflection paketa.',
       governanceChecklistStatus:
-        'No new runtime routes; the primary ČOVEČNOST visual remains canonical and technically bound to the existing profile, the ČOVEČANSTVO visuals stay supplemental-only (including PRIRODNE MATIČNE ĆELIJE / KUKURUZ as bounded garden/nature/humanity evidence with explicit no-medical-runtime-claims discipline, the three URL-locked pending-title visuals as audit-safe placeholders, ŽIVOT U RAVNOTEŽI balance/life-chain/compassion metadata, TRIJOLOGIJA / DAVO U RUCI / LISICA U KAVEZU as bounded narrative-translation/risk-release evidence, Mjuzikl kraljevskog čina as bounded music-act/epilog/humanity rhythm evidence, BOŽIJI EPITETI / KRALJ NAD KRALJEVIMA as bounded legal-governance/metric-testimony epilog evidence, KRALJEVSTVO — PRAVEDAN SVET ZA SVE NARAŠTAJE as bounded pravoslavlje/znanje/priroda/čovečanstvo evidence, and NARAŠTAJ U PRIRODNOM CVATU as bounded seed-potential/light-opportunity/human-flourishing/gratitude evidence), DOK/DIK/FOR stay in EXTREM, DAK/DUK stay in EXTRONDOL, and downstream sync remains follow-up only until audit-safe summary is adopted.',
+        'No new runtime routes; the primary ČOVEČNOST visual remains canonical and technically bound to the existing profile, the ČOVEČANSTVO visuals stay supplemental-only (including PRIRODNE MATIČNE ĆELIJE / KUKURUZ as bounded garden/nature/humanity evidence with explicit no-medical-runtime-claims discipline, ČISTA VODA / H2O / VODONIK as documentation-only elemental/water evidence with explicit no-medical-runtime-claims discipline, the four URL-locked pending-title visuals as audit-safe placeholders, ŽIVOT U RAVNOTEŽI balance/life-chain/compassion metadata, TRIJOLOGIJA / DAVO U RUCI / LISICA U KAVEZU as bounded narrative-translation/risk-release evidence, Mjuzikl kraljevskog čina as bounded music-act/epilog/humanity rhythm evidence, BOŽIJI EPITETI / KRALJ NAD KRALJEVIMA as bounded legal-governance/metric-testimony epilog evidence, KRALJEVSTVO — PRAVEDAN SVET ZA SVE NARAŠTAJE as bounded pravoslavlje/znanje/priroda/čovečanstvo evidence, and NARAŠTAJ U PRIRODNOM CVATU as bounded seed-potential/light-opportunity/human-flourishing/gratitude evidence), DOK/DIK/FOR stay in EXTREM, DAK/DUK stay in EXTRONDOL, and downstream sync remains follow-up only until audit-safe summary is adopted.',
     },
     companionAuditVisualReferences:
       dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.covecnostAuditVisualReference.companionAuditVisualReferences.map(
