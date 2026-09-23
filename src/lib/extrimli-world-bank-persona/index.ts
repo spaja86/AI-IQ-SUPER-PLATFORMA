@@ -259,7 +259,11 @@ export function getExtrimliWorldBankPersonaReport(options: ExtrimliWorldBankPers
   if (mode === 'apply') {
     const client = createPersonaBankClient(agentId);
     const targetStatus = lifecycle.targetPersonaStatus;
-    const primaryPersonaId = personaPayload.id ?? personaPayload.name;
+    const primaryPersonaId = EXTRIMLI_PERSONA_ID;
+    const primaryPersonaPayload: PersonaRegistrationInput = {
+      ...personaPayload,
+      id: primaryPersonaId,
+    };
     let primaryPersonaSynced = false;
     let primaryRecoveredFromLock = false;
     let primarySkippedArchived = false;
@@ -268,18 +272,20 @@ export function getExtrimliWorldBankPersonaReport(options: ExtrimliWorldBankPers
       payload: PersonaRegistrationInput,
       status: ExtrimliWorldBankPersonaReport['lifecycle']['targetPersonaStatus'],
     ): boolean =>
-      persona.status === status
+      persona.id === primaryPersonaId
+      && persona.name === payload.name
+      && persona.status === status
       && isDeepStrictEqual(persona.attributes?.aiIdentityCard ?? null, payload.attributes.aiIdentityCard)
       && isDeepStrictEqual(persona.attributes?.aiBankAccountGovernance ?? null, payload.attributes.aiBankAccountGovernance)
       && persona.crossRepoRef === payload.crossRepoRef;
     try {
       const updated = client.update(primaryPersonaId, {
-        name: personaPayload.name,
-        octave: personaPayload.octave,
-        hipermrezaNode: personaPayload.hipermrezaNode,
-        linkedAgents: personaPayload.linkedAgents,
-        crossRepoRef: personaPayload.crossRepoRef,
-        attributes: personaPayload.attributes,
+        name: primaryPersonaPayload.name,
+        octave: primaryPersonaPayload.octave,
+        hipermrezaNode: primaryPersonaPayload.hipermrezaNode,
+        linkedAgents: primaryPersonaPayload.linkedAgents,
+        crossRepoRef: primaryPersonaPayload.crossRepoRef,
+        attributes: primaryPersonaPayload.attributes,
         status: targetStatus,
       });
 
@@ -297,7 +303,7 @@ export function getExtrimliWorldBankPersonaReport(options: ExtrimliWorldBankPers
     } catch (error) {
       if (error instanceof PersonaNotFoundError) {
         try {
-          const registered = client.register(personaPayload);
+          const registered = client.register(primaryPersonaPayload);
           writeResult = {
             attempted: true,
             operation: 'register',
@@ -313,7 +319,7 @@ export function getExtrimliWorldBankPersonaReport(options: ExtrimliWorldBankPers
           if (!(registerError instanceof PersonaLockConflictError)) throw registerError;
           const concurrentPersona = client.get(primaryPersonaId);
           if (!concurrentPersona) throw registerError;
-          const resolved = personaMatchesPayload(concurrentPersona, personaPayload, targetStatus);
+          const resolved = personaMatchesPayload(concurrentPersona, primaryPersonaPayload, targetStatus);
           writeResult = {
             attempted: resolved,
             operation: resolved ? 'update' : 'skipped',
@@ -329,7 +335,7 @@ export function getExtrimliWorldBankPersonaReport(options: ExtrimliWorldBankPers
         }
       } else if (error instanceof PersonaLockConflictError) {
         const concurrentPersona = client.get(primaryPersonaId);
-        const resolved = concurrentPersona ? personaMatchesPayload(concurrentPersona, personaPayload, targetStatus) : false;
+        const resolved = concurrentPersona ? personaMatchesPayload(concurrentPersona, primaryPersonaPayload, targetStatus) : false;
         writeResult = {
           attempted: resolved,
           operation: resolved ? 'update' : 'skipped',

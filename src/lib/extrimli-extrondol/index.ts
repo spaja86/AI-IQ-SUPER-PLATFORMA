@@ -5158,7 +5158,8 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
         eligibleNextWawe: nextWawe(currentWawe),
         promotionFreeze,
         reviewRequiredBeforeWideRollout:
-          extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.aiIdentityFinanceGovernance.technicalSignals.status !== 'READY',
+          promotionFreeze
+          || extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.aiIdentityFinanceGovernance.technicalSignals.status !== 'READY',
       },
       covecnostAuditVisualReference: mapDeveloperCreateCovecnostAuditVisualReference(
         extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.covecnostAuditVisualReference,
