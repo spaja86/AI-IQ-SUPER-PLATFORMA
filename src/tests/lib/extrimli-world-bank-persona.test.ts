@@ -51,6 +51,10 @@ async function runTests(): Promise<void> {
     assert(report.aiIdentityFinanceGovernance.compensationModel.weeklyTargetEur === 12000, 'AI identity-finance weekly target mismatch');
     assert(report.aiIdentityFinanceGovernance.compensationModel.executionMode === 'business-target-only', 'AI identity-finance weekly target must remain business-target-only');
     assert(report.aiIdentityFinanceGovernance.personas.length === SEED_PERSONAS.length, 'AI identity-finance rollout must include all seeded personas');
+    assert(report.aiIdentityFinanceGovernance.aiIqWorldBankPrepiska.canonicalName === 'AI IQ WORLD BANK PREPISKA', 'AI IQ WORLD BANK prepiska name mismatch');
+    assert(report.aiIdentityFinanceGovernance.aiIqWorldBankPrepiska.sourceMaterialPolicy === 'documentation-only', 'AI IQ WORLD BANK prepiska must remain documentation-only');
+    assert(report.aiIdentityFinanceGovernance.aiIqWorldBankPrepiska.allowedEvidence.includes('payment-verification-status'), 'AI IQ WORLD BANK prepiska allowed evidence mismatch');
+    assert(report.aiIdentityFinanceGovernance.aiIqWorldBankPrepiska.forbiddenEvidence.includes('payment-secrets'), 'AI IQ WORLD BANK prepiska forbidden evidence mismatch');
   });
 
   await test('governance hold blocks promotion and maps to dormant target status', () => {

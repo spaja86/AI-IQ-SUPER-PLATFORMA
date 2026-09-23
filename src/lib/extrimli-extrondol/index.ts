@@ -2787,6 +2787,8 @@ function buildSpajaKodFacade(params: {
 }): ExtrimliSpajaKodPublicFacade {
   const developerAndCreateImplementationPackage =
     params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.implementationPackage;
+  const aiIdentityFinanceGovernance =
+    params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.aiIdentityFinanceGovernance;
   const implementationPackagePolicyLocked =
     developerAndCreateImplementationPackage.noNewRuntimeRoutes &&
     developerAndCreateImplementationPackage.noParallelSourceOfTruth &&
@@ -2909,12 +2911,29 @@ function buildSpajaKodFacade(params: {
         'publicSignals.kraljevskiPravniUniverzitetStatus',
         'developerAndCreateVisualReflection.kraljevskiBastaUneverzite',
         'developerAndCreateVisualReflection.packageOutputs',
+        'developerAndCreateImplementationPackage.aiIqWorldBankPrepiskaSummary',
         'epilogijaCovecnosti.packageOutputs',
       ],
       roadmapStageId: 'v5-extrondol-release-audit-and-orchestration',
       validationStatus: developerAndCreateImplementationStatus,
       covecanstvuPublicOutput: 'summary-only',
       downstreamSyncRepo: 'spaja86/IO-OPENUI-AO',
+      aiIqWorldBankPrepiskaSummary: {
+        canonicalName:
+          aiIdentityFinanceGovernance.aiIqWorldBankPrepiska.canonicalName,
+        canonicalSourceDocument:
+          aiIdentityFinanceGovernance.aiIqWorldBankPrepiska.canonicalSourceDocument,
+        sourceMaterialPolicy:
+          aiIdentityFinanceGovernance.aiIqWorldBankPrepiska.sourceMaterialPolicy,
+        allowedEvidence: [
+          ...aiIdentityFinanceGovernance.aiIqWorldBankPrepiska.allowedEvidence,
+        ],
+        forbiddenEvidence: [
+          ...aiIdentityFinanceGovernance.aiIqWorldBankPrepiska.forbiddenEvidence,
+        ],
+        publicSummary:
+          aiIdentityFinanceGovernance.aiIqWorldBankPrepiska.publicSummary,
+      },
       downstreamAuditFields: [
         'masterEpilog',
         'posterSummary',

@@ -85,6 +85,29 @@ export interface AiIdentityFinanceGovernancePackage {
     noSecretsInGit: true;
     noKycDataInGit: true;
   };
+  aiIqWorldBankPrepiska: {
+    canonicalName: 'AI IQ WORLD BANK PREPISKA';
+    canonicalSourceDocument: 'docs/AI-IQ-WORLD-BANK-AI-IDENTITY-FINANCE-GOVERNANCE.md';
+    sourceMaterialPolicy: 'documentation-only';
+    evidenceRole: 'identity-finance-governance-evidence';
+    noRuntimeAuthority: true;
+    allowedEvidence: readonly [
+      'approval-status',
+      'compliance-status',
+      'payment-verification-status',
+      'human-review-status',
+      'downstream-sync-status',
+      'payout-compensation-regime'
+    ];
+    forbiddenEvidence: readonly [
+      'real-bank-account-numbers',
+      'kyc-documents',
+      'raw-statements',
+      'payment-secrets',
+      'operational-credentials'
+    ];
+    publicSummary: string;
+  };
   compensationModel: {
     weeklyTargetEur: 12000;
     cadence: 'weekly';
@@ -276,6 +299,29 @@ export function buildAiIdentityFinanceGovernancePackage(
       noSecretsInGit: true,
       noKycDataInGit: true,
     },
+    aiIqWorldBankPrepiska: {
+      canonicalName: 'AI IQ WORLD BANK PREPISKA',
+      canonicalSourceDocument: 'docs/AI-IQ-WORLD-BANK-AI-IDENTITY-FINANCE-GOVERNANCE.md',
+      sourceMaterialPolicy: 'documentation-only',
+      evidenceRole: 'identity-finance-governance-evidence',
+      noRuntimeAuthority: true,
+      allowedEvidence: [
+        'approval-status',
+        'compliance-status',
+        'payment-verification-status',
+        'human-review-status',
+        'downstream-sync-status',
+        'payout-compensation-regime',
+      ],
+      forbiddenEvidence: [
+        'real-bank-account-numbers',
+        'kyc-documents',
+        'raw-statements',
+        'payment-secrets',
+        'operational-credentials',
+      ],
+      publicSummary: 'AI IQ WORLD BANK prepiska ostaje documentation-only governance evidence: dozvoljeni su samo approval/compliance/payment/human-review/downstream-sync/payout statusi bez realnih bankarskih zapisa, KYC podataka ili sekreta u Git-u.',
+    },
     compensationModel: {
       weeklyTargetEur: 12000,
       cadence: 'weekly',
@@ -304,7 +350,7 @@ export function buildAiIdentityFinanceGovernancePackage(
     packageOutputs: {
       auditShortSummary: 'AI lična karta i AI bankarski račun ostaju additive-only identity/governance paket nad postojećim EXTREM/EXTRONDOL/SPAJA KOD surface-ovima.',
       publicSummary: 'Svaki seedovani AI dobija audit-safe ličnu kartu i governance-bounded bankarski/payout profil bez uvođenja novih source-of-truth ruta i bez čuvanja stvarnih bankarskih podataka u Git-u.',
-      governanceChecklistStatus: '12000 EUR weekly ostaje business/finops target only; contract approval, compliance review, payment verification, human review, rollback plan i FinOps guardrails ostaju obavezni hard gate-ovi za svaki AI paket.',
+      governanceChecklistStatus: '12000 EUR weekly ostaje business/finops target only; AI IQ WORLD BANK prepiska ostaje documentation-only governance evidence; contract approval, compliance review, payment verification, human review, rollback plan i FinOps guardrails ostaju obavezni hard gate-ovi za svaki AI paket.',
     },
   };
 }

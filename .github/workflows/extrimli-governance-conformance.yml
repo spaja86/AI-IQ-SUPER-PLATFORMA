@@ -18,6 +18,7 @@ on:
       - 'docs/EXTRIMLI-SINEMETRICKO-PROGRAMIRANJE.md'
       - 'docs/EXTRIMLI-PARADIJOGONALNO-PROGRAMIRANJE.md'
       - 'docs/AI-IQ-PROGRAMSKI-JEZIK.md'
+      - 'docs/AI-IQ-WORLD-BANK-AI-IDENTITY-FINANCE-GOVERNANCE.md'
       - 'docs/PROGRAMSKI-JEZIK-INFORMACIONIH-TOKOVA.md'
       - 'docs/PROGRAMSKI-JEZIK-PARADIGMA-I-OBLIKOVANJE-TELA.md'
       - 'docs/EXTRIMLI-EXTERNAL-GITHUB.md'
@@ -67,6 +68,7 @@ jobs:
           const paradigmaDoc = fs.readFileSync('docs/PROGRAMSKI-JEZIK-PARADIGMA-I-OBLIKOVANJE-TELA.md', 'utf8');
           const developerCreateProgramDoc = fs.readFileSync('docs/EXTRIMLI-DEVELOPER-CREATE-PROGRAM.md', 'utf8');
           const vrhDoc = fs.readFileSync('docs/EXTRIMLI-VRH-PROGRAMSKOG-EKVILADENTA.md', 'utf8');
+          const worldBankDoc = fs.readFileSync('docs/AI-IQ-WORLD-BANK-AI-IDENTITY-FINANCE-GOVERNANCE.md', 'utf8');
           const metrikoDoc = fs.readFileSync('docs/EXTRIMLI-METRICKO-PROGRAMIRANJE.md', 'utf8');
           const sinemetrickoDoc = fs.readFileSync('docs/EXTRIMLI-SINEMETRICKO-PROGRAMIRANJE.md', 'utf8');
           const paradijogonalnoDoc = fs.readFileSync('docs/EXTRIMLI-PARADIJOGONALNO-PROGRAMIRANJE.md', 'utf8');
@@ -124,6 +126,7 @@ jobs:
           assert(developerCreateProgramDoc.includes('PROGRAMSKI JEZIK PROUČAVANJA') && developerCreateProgramDoc.includes('PROGRAMSKI EKANALOG'), 'Developer/Create program doc must lock Programski jezik proučavanja + programski ekanalog');
           assert(developerCreateProgramDoc.includes('PROGRAMSKI JEZIK PARADIGMA I OBLIKOVANJE TELA'), 'Developer/Create program doc must lock paradigma/body-shaping track');
           assert(developerCreateProgramDoc.includes('docs + types + routes + tests + workflows'), 'Developer/Create program doc must lock docs/types/routes/tests/workflows');
+          assert(developerCreateProgramDoc.includes('AI IQ WORLD BANK PREPISKA') && developerCreateProgramDoc.includes('documentation-only governance evidence'), 'Developer/Create program doc must lock AI IQ WORLD BANK prepiska boundary');
           assert(developerCreateProgramDoc.includes('PROGRAM_LOCK_CHATGPT_REFERENCE') && developerCreateProgramDoc.includes('6ab2f88d-23b0-83eb-b708-b880bdb7fc11'), 'Developer/Create program doc must lock the documentation-only ChatGPT share reference');
           assert(developerCreateProgramDoc.includes('PROGRAM_LOCK_LANGUAGE_LAYER') && developerCreateProgramDoc.includes('srpski je primarni kanonski logički izraz'), 'Developer/Create program doc must lock Serbian-first language layer');
           assert(developerCreateProgramDoc.includes('DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == RADNI TAKT MOZGA (MISLILAC)'), 'Developer/Create program doc must lock repo-wide equality mapping');
@@ -135,6 +138,10 @@ jobs:
           assert(vrhDoc.includes('srpski je primarni kanonski izraz domena'), 'VRH doc must lock Serbian-primary language rule');
           assert(vrhDoc.includes('AI PLATE') && vrhDoc.includes('12.000 EUR nedeljno'), 'VRH doc must lock AI PLATE enterprise package');
           assert(vrhDoc.includes('v5-extrondol-release-audit-and-orchestration'), 'VRH doc must lock the active Developer/Create execution stage');
+          assert(vrhDoc.includes('AI IQ WORLD BANK PREPISKA') && vrhDoc.includes('documentation-only governance evidence'), 'VRH doc must lock AI IQ WORLD BANK prepiska evidence boundary');
+          assert(worldBankDoc.includes('AI IQ WORLD BANK PREPISKA') && worldBankDoc.includes('documentation-only governance evidence'), 'AI IQ WORLD BANK doc must lock prepiska as documentation-only governance evidence');
+          assert(worldBankDoc.includes('approval status') && worldBankDoc.includes('payment verification status') && worldBankDoc.includes('payout/compensation režim'), 'AI IQ WORLD BANK doc must define allowed correspondence evidence');
+          assert(worldBankDoc.includes('stvarne brojeve računa') && worldBankDoc.includes('KYC dokumente') && worldBankDoc.includes('payment secrets'), 'AI IQ WORLD BANK doc must forbid sensitive banking evidence');
           assert(metrikoDoc.includes('/api/extrimli/extrem') && metrikoDoc.includes('/api/extrimli/extrondol') && metrikoDoc.includes('/api/extrimli/spaja-kod'), 'METRIČKO doc must keep source-of-truth routes locked');
           assert(metrikoDoc.includes('dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection'), 'METRIČKO doc must reference the central repo-wide reflection proof');
           assert(metrikoDoc.includes('technicalReadinessProfile'), 'METRIČKO doc must reference the shared technical readiness profile');
@@ -153,6 +160,7 @@ jobs:
           assert(paradijogonalnoDoc.includes('READY | WATCH | BLOCKED') && paradijogonalnoDoc.includes('NaN') && paradijogonalnoDoc.includes('Infinity'), 'PARADIJOGONALNO doc must keep deterministic fallback semantics');
           assert(types.includes('developerAndCreateRepoWideReflection') && extrondolIndex.includes('developerAndCreateRepoWideReflection'), 'types and EXTRONDOL index must include developer/create repo-wide reflection contract fields');
           assert(types.includes('chatGptShareReferences') && types.includes('primaryCanonicalLanguage'), 'types must lock documentation-only ChatGPT references and Serbian-primary language layer');
+          assert(types.includes('aiIqWorldBankPrepiska') && extrondolIndex.includes('aiIqWorldBankPrepiskaSummary'), 'types and EXTRONDOL index must include AI IQ WORLD BANK prepiska contract fields');
           assert(types.includes('aiPlateEnterprisePackage') && extrondolIndex.includes('aiPlateEnterprisePackage'), 'types and EXTRONDOL index must include AI PLATE enterprise package contract fields');
           assert(types.includes('technicalReadinessProfile') && extrondolIndex.includes('technicalReadinessProfile'), 'types and EXTRONDOL index must include technical readiness profile fields for repo-wide reflection');
           assert(types.includes('kraljevskiBastaUneverzite') && extrondolIndex.includes('kraljevskiBastaUneverzite'), 'types and EXTRONDOL index must include KRALJEVSKI BAŠTA UNEVERZITE reflection fields');
@@ -161,6 +169,7 @@ jobs:
           assert(extrimliDoc.includes('KRALJEVSKI BAŠTA UNEVERZITE') && extrimliDoc.includes('DOK + DIK + FOR') && extrimliDoc.includes('DAK + DUK'), 'EXTRIMLI doc must include KRALJEVSKI BAŠTA UNEVERZITE ownership lock');
           assert(extrimliDoc.includes('6ab2f88d-23b0-83eb-b708-b880bdb7fc11') && extrimliDoc.includes('srpski je primarni kanonski izraz domena'), 'EXTRIMLI doc must lock documentation-only ChatGPT share reference and Serbian-primary language layer');
           assert(extrimliDoc.includes('technicalReadinessProfile') && extrimliDoc.includes('v5-extrondol-release-audit-and-orchestration'), 'EXTRIMLI doc must include the technical readiness profile and active execution stage');
+          assert(extrimliDoc.includes('AI IQ WORLD BANK PREPISKA') && extrimliDoc.includes('documentation-only governance evidence'), 'EXTRIMLI doc must lock AI IQ WORLD BANK prepiska boundary');
           assert(versionRoadmap.includes('mandatoryArtifacts') && versionRoadmap.includes('implementationStreams') && versionRoadmap.includes('acceptanceLock'), 'roadmap lock must include mandatory artifacts, streams, and acceptance lock');
           assert(versionRoadmap.includes('prExecutionLock') && versionRoadmap.includes('operationalAuditPackage'), 'roadmap lock must include PR execution and operational audit package requirements');
           assert(versionRoadmap.includes('dailyOperationalCadence') && versionRoadmap.includes('morning-startup') && versionRoadmap.includes('deep-focus-block') && versionRoadmap.includes('midday-checkpoint') && versionRoadmap.includes('end-of-day-closeout'), 'roadmap lock must include daily operational cadence blocks');

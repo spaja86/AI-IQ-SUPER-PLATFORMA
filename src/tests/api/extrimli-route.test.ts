@@ -261,6 +261,8 @@ async function runTests(): Promise<void> {
     assert(body.data.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.aiIdentityFinanceGovernance.canonicalName === 'AI LIČNA KARTA + AI BANKARSKI RAČUN', 'unexpected developer/create AI identity-finance package name');
     assert(body.data.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.aiIdentityFinanceGovernance.identityCard.auditSafePublicView === true, 'unexpected developer/create AI identity card audit-safe flag');
     assert(body.data.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.aiIdentityFinanceGovernance.bankAccountGovernance.realBankAccountStoredInGit === false, 'unexpected developer/create AI bank account Git storage flag');
+    assert(body.data.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.aiIdentityFinanceGovernance.aiIqWorldBankPrepiska.sourceMaterialPolicy === 'documentation-only', 'unexpected developer/create AI IQ WORLD BANK prepiska policy');
+    assert(body.data.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.aiIdentityFinanceGovernance.aiIqWorldBankPrepiska.forbiddenEvidence.includes('payment-secrets'), 'unexpected developer/create AI IQ WORLD BANK prepiska forbidden evidence');
     assert(body.data.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.aiIdentityFinanceGovernance.catalogSummary.totalPersonas === body.data.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.aiIdentityFinanceGovernance.personas.length, 'unexpected developer/create AI identity-finance catalog summary total');
     assert(body.data.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.covecnostAuditVisualReference.canonicalNarrativeId === 'covecnost-developer-create-vrh-radni-takt', 'unexpected developer/create ČOVEČNOST narrative id');
     assert(body.data.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.covecnostAuditVisualReference.visualReference.includes('4790f4ea-4271-4d2a-ae0a-d9bec5bc8b8a'), 'unexpected developer/create ČOVEČNOST visual reference');
@@ -860,6 +862,14 @@ async function runTests(): Promise<void> {
           sourceOfTruthRoutes: string[];
           routeSummaryFields: string[];
           covecanstvuPublicOutput: string;
+          aiIqWorldBankPrepiskaSummary: {
+            canonicalName: string;
+            canonicalSourceDocument: string;
+            sourceMaterialPolicy: string;
+            allowedEvidence: string[];
+            forbiddenEvidence: string[];
+            publicSummary: string;
+          };
           downstreamAuditFields: string[];
         };
         dokerKuratIzekDokarTrack: { boundarySurface: string; publicStatus: string; tokenSummaries: Array<{ token: string; status: string }> };
@@ -904,8 +914,14 @@ async function runTests(): Promise<void> {
     assert(body.data.developerAndCreateVisualReflection.visualReference.includes('4790f4ea-4271-4d2a-ae0a-d9bec5bc8b8a'), 'unexpected SPAJA KOD developer/create ČOVEČNOST visual reference');
     assert(body.data.developerAndCreateVisualReflection.imageToSignalProfile.ownershipLock.spajaKod === 'audit-safe-summary-only', 'unexpected SPAJA KOD developer/create ČOVEČNOST boundary');
     assert(body.data.developerAndCreateImplementationPackage.sourceOfTruthRoutes.join(',') === '/api/extrimli/extrem,/api/extrimli/extrondol,/api/extrimli/spaja-kod', 'unexpected SPAJA KOD implementation package source routes');
-    assert(body.data.developerAndCreateImplementationPackage.routeSummaryFields.join(',') === 'publicSignals.developerAndCreateStatus,publicSignals.developerAndCreateImplementationStatus,publicSignals.kraljevskiPravniUniverzitetStatus,developerAndCreateVisualReflection.kraljevskiBastaUneverzite,developerAndCreateVisualReflection.packageOutputs,epilogijaCovecnosti.packageOutputs', 'unexpected SPAJA KOD implementation package route summary fields');
+    assert(body.data.developerAndCreateImplementationPackage.routeSummaryFields.join(',') === 'publicSignals.developerAndCreateStatus,publicSignals.developerAndCreateImplementationStatus,publicSignals.kraljevskiPravniUniverzitetStatus,developerAndCreateVisualReflection.kraljevskiBastaUneverzite,developerAndCreateVisualReflection.packageOutputs,developerAndCreateImplementationPackage.aiIqWorldBankPrepiskaSummary,epilogijaCovecnosti.packageOutputs', 'unexpected SPAJA KOD implementation package route summary fields');
     assert(body.data.developerAndCreateImplementationPackage.covecanstvuPublicOutput === 'summary-only', 'unexpected SPAJA KOD implementation package ČOVEČANSTVU output');
+    assert(body.data.developerAndCreateImplementationPackage.aiIqWorldBankPrepiskaSummary.canonicalName === 'AI IQ WORLD BANK PREPISKA', 'unexpected SPAJA KOD AI IQ WORLD BANK prepiska summary name');
+    assert(body.data.developerAndCreateImplementationPackage.aiIqWorldBankPrepiskaSummary.canonicalSourceDocument === 'docs/AI-IQ-WORLD-BANK-AI-IDENTITY-FINANCE-GOVERNANCE.md', 'unexpected SPAJA KOD AI IQ WORLD BANK prepiska summary source document');
+    assert(body.data.developerAndCreateImplementationPackage.aiIqWorldBankPrepiskaSummary.sourceMaterialPolicy === 'documentation-only', 'unexpected SPAJA KOD AI IQ WORLD BANK prepiska summary policy');
+    assert(body.data.developerAndCreateImplementationPackage.aiIqWorldBankPrepiskaSummary.allowedEvidence.includes('payment-verification-status'), 'unexpected SPAJA KOD AI IQ WORLD BANK prepiska allowed evidence');
+    assert(body.data.developerAndCreateImplementationPackage.aiIqWorldBankPrepiskaSummary.forbiddenEvidence.includes('payment-secrets'), 'unexpected SPAJA KOD AI IQ WORLD BANK prepiska forbidden evidence');
+    assert(body.data.developerAndCreateImplementationPackage.aiIqWorldBankPrepiskaSummary.publicSummary.includes('documentation-only governance evidence'), 'unexpected SPAJA KOD AI IQ WORLD BANK prepiska summary content');
     assert(body.data.developerAndCreateImplementationPackage.downstreamAuditFields.join(',') === 'masterEpilog,posterSummary,videoStoryboardSummary,auditShortSummary,governanceChecklistStatus', 'unexpected SPAJA KOD implementation package downstream audit fields');
     assert(body.data.developerAndCreateVisualReflection.supplementalVisualReferences[0].canonicalNarrativeId === 'covecanstvo-zivot-je-najveca-igra', 'unexpected SPAJA KOD developer/create supplemental narrative id');
     assert(body.data.developerAndCreateVisualReflection.supplementalVisualReferences[0].visualReference.includes('27ef7575-9ef6-425e-bdbf-75feb722bad2'), 'unexpected SPAJA KOD developer/create supplemental visual reference');
