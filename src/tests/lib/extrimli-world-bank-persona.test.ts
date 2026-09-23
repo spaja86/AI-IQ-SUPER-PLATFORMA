@@ -96,7 +96,7 @@ async function runTests(): Promise<void> {
     assert(report.writeResult.personaStatusAfter === 'dormant', 'expected conservative dormant status');
     assert(report.writeResult.auditEntriesAfter >= 2, 'audit log should be extended');
     assert(report.writeResult.catalogSync.totalCatalogPersonas === SEED_PERSONAS.length, 'catalog sync total persona count mismatch');
-    assert(report.writeResult.catalogSync.processedPersonas === SEED_PERSONAS.length, 'catalog sync should process the full seeded catalog');
+    assert(report.writeResult.catalogSync.processedPersonas === 1, 'apply should only process the requested persona');
 
     const persona = getPersona('extrimli-core');
     assert(persona !== null, 'persona must exist after apply');
@@ -104,8 +104,7 @@ async function runTests(): Promise<void> {
     assert(persona!.crossRepoRef === 'extrimli-core', 'crossRepoRef mismatch');
     assert(persona!.status === 'dormant', 'status mismatch after apply');
     const syncedPersona = getPersona('another-maks');
-    assert(syncedPersona !== null, 'catalog sync should register additional AI personas');
-    assert(Boolean(syncedPersona?.attributes.aiIdentityCard), 'additional AI personas should receive AI identity card metadata');
+    assert(syncedPersona === null, 'apply should not mutate unrelated AI personas');
   });
 
   await test('apply mode registers persona when missing', () => {

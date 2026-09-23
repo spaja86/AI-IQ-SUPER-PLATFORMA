@@ -2,7 +2,6 @@ import { buildAiIqWorldBank } from '../ai-iq-world-bank';
 import {
   buildAiIdentityFinanceGovernancePackage,
   buildAiIdentityFinancePersonaAttributes,
-  mapAiGovernanceStatusToPersonaStatus,
 } from '../ai-identity-finance-governance';
 import { buildAIIQWorldBankLicencniRegistar } from '../aiiq-world-bank-licencni-registar';
 import { EXTRIMLI_PERSONA_ID, getExtrimliAggregateSignals } from '../extrimli';
@@ -261,6 +260,8 @@ export function getExtrimliWorldBankPersonaReport(options: ExtrimliWorldBankPers
     const targetStatus = lifecycle.targetPersonaStatus;
     const primaryPersonaId = personaPayload.id ?? personaPayload.name;
     let primaryPersonaSynced = false;
+    let primaryRecoveredFromLock = false;
+    let primarySkippedArchived = false;
     const personaMatchesPayload = (
       persona: NonNullable<ExtrimliWorldBankPersonaReport['writeResult']['persona']>,
       payload: PersonaRegistrationInput,
@@ -323,6 +324,7 @@ export function getExtrimliWorldBankPersonaReport(options: ExtrimliWorldBankPers
             catalogSync: writeResult.catalogSync,
           };
           primaryPersonaSynced = resolved;
+          primaryRecoveredFromLock = resolved;
         }
       } else if (error instanceof PersonaLockConflictError) {
         const concurrentPersona = client.get(primaryPersonaId);
@@ -338,6 +340,7 @@ export function getExtrimliWorldBankPersonaReport(options: ExtrimliWorldBankPers
           catalogSync: writeResult.catalogSync,
         };
         primaryPersonaSynced = resolved;
+        primaryRecoveredFromLock = resolved;
       } else if (error instanceof PersonaArchivedError) {
         const archived = client.get(primaryPersonaId);
         writeResult = {
@@ -350,75 +353,20 @@ export function getExtrimliWorldBankPersonaReport(options: ExtrimliWorldBankPers
           persona: archived,
           catalogSync: writeResult.catalogSync,
         };
+        primarySkippedArchived = true;
       } else {
         throw error;
       }
     }
 
-    const catalogSync = {
+    writeResult.catalogSync = {
       ...writeResult.catalogSync,
-      processedPersonas: primaryPersonaSynced ? 1 : 0,
+      processedPersonas: primaryPersonaSynced || primarySkippedArchived ? 1 : 0,
+      registered: writeResult.operation === 'register' ? 1 : 0,
+      updated: writeResult.operation === 'update' && writeResult.attempted ? 1 : 0,
+      skippedArchived: primarySkippedArchived ? 1 : 0,
+      recoveredFromLock: primaryRecoveredFromLock ? 1 : 0,
     };
-    for (const seedPersona of SEED_PERSONAS) {
-      if ((seedPersona.id ?? seedPersona.name) === primaryPersonaId) continue;
-      const catalogPersona = aiPersonaCatalog.get(seedPersona.id ?? seedPersona.name);
-      if (!catalogPersona) continue;
-      const personaId = seedPersona.id ?? seedPersona.name;
-      const existing = client.get(personaId);
-      const status = mapAiGovernanceStatusToPersonaStatus(catalogPersona.bankAccountGovernance.status);
-      const payload = {
-        ...seedPersona,
-        status,
-        attributes: {
-          ...(seedPersona.attributes ?? {}),
-          ...buildAiIdentityFinancePersonaAttributes(catalogPersona),
-          aiWorldBankProfile: {
-            source: '/api/ai-iq-world-bank',
-            weeklyTargetEur: aiIdentityFinanceGovernance.compensationModel.weeklyTargetEur,
-            classification: aiIdentityFinanceGovernance.compensationModel.classification,
-          },
-        },
-      };
-      let personaHandled = false;
-      try {
-        if (existing?.status === 'archived') {
-          catalogSync.skippedArchived++;
-          personaHandled = true;
-          continue;
-        }
-        if (existing) {
-          client.update(personaId, {
-            name: payload.name,
-            attributes: payload.attributes,
-            linkedAgents: payload.linkedAgents,
-            octave: payload.octave,
-            hipermrezaNode: payload.hipermrezaNode,
-            status,
-            crossRepoRef: payload.crossRepoRef,
-          });
-          catalogSync.updated++;
-          personaHandled = true;
-        } else {
-          client.register(payload);
-          catalogSync.registered++;
-          personaHandled = true;
-        }
-      } catch (catalogError) {
-        if (catalogError instanceof PersonaArchivedError) {
-          catalogSync.skippedArchived++;
-        } else if (catalogError instanceof PersonaLockConflictError) {
-          const concurrentPersona = client.get(personaId);
-          if (concurrentPersona && personaMatchesPayload(concurrentPersona, payload, status)) {
-            catalogSync.recoveredFromLock++;
-            personaHandled = true;
-          }
-        } else {
-          throw catalogError;
-        }
-      }
-      if (personaHandled) catalogSync.processedPersonas++;
-    }
-    writeResult.catalogSync = catalogSync;
   }
 
   return {
