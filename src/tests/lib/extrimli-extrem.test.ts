@@ -137,6 +137,7 @@ async function runTests(): Promise<void> {
     assert(implementationPackage.canonicalOwnershipSplit.extrondol === 'wawe-audit-freeze-promotion-governance', 'developer/create implementation package EXTRONDOL ownership mismatch');
     assert(implementationPackage.vrhBinding.parentTrack === 'PROPORCIONALNO PROGRAMIRANJE', 'developer/create implementation package parent track mismatch');
     assert(implementationPackage.kraljevskiPravniUniverzitetBoundary.rawInternalsExposed === false, 'developer/create implementation package legal-governance boundary must hide internals');
+    assert(implementationPackage.kraljevskiEkonomskiUneverzitetBoundary.arhimedisModelBounded, 'developer/create implementation package economic boundary must keep Arhimedis model bounded');
     assert(implementationPackage.kraljevskiEkonomskiUneverzitetBoundary.noNewRuntimeModule, 'developer/create implementation package economic boundary must forbid new runtime modules');
     assert(implementationPackage.kraljevskiEkonomskiUneverzitetBoundary.rawInternalsExposed === false, 'developer/create implementation package economic boundary must hide internals');
     assert(implementationPackage.canonicalTerminologyMapping.nucleusLayers.join(',') === 'documentation,types,route-summary-fields,tests,workflow-audit-layer', 'developer/create implementation package nucleus layer mismatch');

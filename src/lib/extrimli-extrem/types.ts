@@ -2561,6 +2561,15 @@ export interface ExtrimliDokDikDakDukConsistencyHealth {
       canonicalName: 'KRALJEVSKI EKONOMSKI UNEVERZITET';
       additiveOnly: true;
       interpretativeLayer: 'repo-wide-economic-coordination-and-productivity-track';
+      arhimedisTrzisniOdnosInterpretation: {
+        additiveOnly: true;
+        modelName: 'Arhimedisov princip matematike + tržišni odnos';
+        valueExchangeModes: readonly ['roba↔roba', 'novac↔roba'];
+        scalingOperations: readonly ['množenje', 'deljenje'];
+        scalingMeaning: 'existing-readiness-relations-scaling-only';
+        noNewRuntimeFormulas: true;
+        noNewSourceOfTruthModule: true;
+      };
       noNewRuntimeModule: true;
       sourceOfTruthRoutes: readonly ['/api/extrimli/extrem', '/api/extrimli/extrondol', '/api/extrimli/spaja-kod'];
       sourceTrack: 'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == RADNI TAKT MOZGA (MISLILAC)';
@@ -2877,6 +2886,7 @@ export interface ExtrimliDokDikDakDukConsistencyHealth {
         extremPublishes: 'technical-readiness-profile-only';
         extrondolPublishes: 'wawe-audit-summary-only';
         spajaKodPublishes: 'final-audit-safe-status-only';
+        arhimedisModelBounded: true;
         noNewRuntimeModule: true;
         rawInternalsExposed: false;
       };
