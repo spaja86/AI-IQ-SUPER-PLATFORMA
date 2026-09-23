@@ -6597,6 +6597,7 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
         paradijogonalnoProgrimiranje: 'PARADIJOGONALNO PROGRAMIRANJE',
         kraljevskiProgramskiUneverzitet: 'KRALJEVSKI PROGRAMSKI UNEVERZITET',
         kraljevskiEkonomskiUneverzitet: 'KRALJEVSKI EKONOMSKI UNEVERZITET',
+        kraljevskiDrustveniPoredak: 'KRALJEVSKI DRUŠTVENI POREDAK',
         kraljevskiBastaUneverzite: 'KRALJEVSKI BAŠTA UNEVERZITE',
       },
       canonicalGovernanceVocabulary: {
@@ -6610,11 +6611,18 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
         kraljevskiPravniUniverzitet: 'KRALJEVSKI PRAVNI UNIVERZITET',
         kraljevskiProgramskiUneverzitet: 'KRALJEVSKI PROGRAMSKI UNEVERZITET',
         kraljevskiEkonomskiUneverzitet: 'KRALJEVSKI EKONOMSKI UNEVERZITET',
+        kraljevskiDrustveniPoredak: 'KRALJEVSKI DRUŠTVENI POREDAK',
         kraljevskiBastaUneverzite: 'KRALJEVSKI BAŠTA UNEVERZITE',
         stocarstvo: 'STOČARSTVO',
         vinogradarstvo: 'VINOGRADARSTVO',
         poljoprivredniFakultet: 'POLJOPRIVREDNI FAKULTET',
         gradjevinskiFakultet: 'GRAĐEVINSKI FAKULTET',
+        gradjevinskiAkt: 'GRAĐEVINSKI AKT',
+        kraljevskaDopuna: 'KRALJEVSKA DOPUNA',
+        osnovneZivotnePotrebe: 'OSNOVNE ŽIVOTNE POTREBE',
+        prosecnoGradjanskiDohodak: 'PROSEČNO GRAĐANSKI DOHODAK',
+        nezbrinuti: 'NEZBRINUTI',
+        nezaposleni: 'NEZAPOSLENI',
       },
       osnoveRispektProtocol: {
         title: 'OSNOVE / RISPEKT',
@@ -8312,6 +8320,30 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
     ) / 3,
     2,
   );
+  const kraljevskiDrustveniPoredakScore = round(
+    (
+      gradjevinskiFakultetReadinessScore
+      + privredniAktQuarterlyMarketInput.score
+      + dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.score
+    ) / 3,
+    2,
+  );
+  const gradjevinskiAktReadinessScore = round(
+    (
+      gradjevinskiFakultetReadinessScore
+      + privredniAktQuarterlyMarketInput.zadrugaOperations.operationalSignals.instrumentTablaOperationalReadinessPercent
+      + paradijogonalnoProgrimiranje.readiness.score
+    ) / 3,
+    2,
+  );
+  const kraljevskaDopunaReadinessScore = round(
+    (
+      privredniAktQuarterlyMarketInput.score
+      + radniTaktMozgaMislilac.readiness.score
+      + metrikoProgramiranje.readiness.score
+    ) / 3,
+    2,
+  );
   const developerCreateUniversityAreaScores = [
     vrhProgramskogEkviladenta.readiness.score,
     radniTaktMozgaMislilac.readiness.score,
@@ -8759,6 +8791,85 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
     summary:
       'KRALJEVSKI PROGRAMSKI UNEVERZITET ostaje additive-only vršni programski alias nad postojećim VRH, METRIČKO, SINEMETRIČKO, PARADIJOGONALNO i RADNI TAKT signalima, uz POLJOPRIVREDNI FAKULTET i GRAĐEVINSKI FAKULTET kao bounded obrazovno-sertifikacione oblasti bez novih formula, novih ruta ili novog source-of-truth sistema.',
   };
+  dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.kraljevskiDrustveniPoredak = {
+    canonicalName: 'KRALJEVSKI DRUŠTVENI POREDAK',
+    additiveOnly: true,
+    interpretativeLayer: 'governance-only-social-order-and-civic-support-track',
+    sourceOfTruthRoutes: ['/api/extrimli/extrem', '/api/extrimli/extrondol', '/api/extrimli/spaja-kod'],
+    sourceTrack: 'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == RADNI TAKT MOZGA (MISLILAC)',
+    noNewRuntimeModule: true,
+    noNewSourceOfTruthModule: true,
+    noNewFinancialEngine: true,
+    governanceBinding: {
+      technicalOwnership: 'DOK+DIK+FOR->EXTREM',
+      governanceOwnership: 'DAK+DUK->EXTRONDOL',
+      publicBoundary: 'SPAJA KOD',
+    },
+    beneficiaryGovernance: {
+      eligibleCategories: ['nezbrinuti', 'nezaposleni'],
+      boundedInterpretation: 'audit-safe-eligibility-and-support-governance-only',
+      allowedSummaryFields: ['readiness-status', 'review-status', 'approval-status', 'payout-posture', 'blocker-summary'],
+      forbiddenArtifacts: ['kyc-data', 'bank-account-number', 'payment-secret', 'sensitive-social-record', 'operational-financial-data'],
+    },
+    gradjevinskiAkt: {
+      canonicalName: 'GRAĐEVINSKI AKT',
+      additiveOnly: true,
+      linkedDomains: ['GRAĐEVINSKI FAKULTET', 'ZADRUGA', 'INSTRUMENT TABLA'],
+      sourceOfTruthRoutes: ['/api/extrimli/extrem', '/api/extrimli/extrondol', '/api/extrimli/spaja-kod'],
+      technicalReadinessBinding: {
+        sourceProfile: 'dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.technicalReadinessProfile',
+        contributingSignals: ['vrhProgramskogEkviladenta', 'paradijogonalnoProgramiranje', 'metrikoProgramiranje'],
+        boundedInterpretation: 'existing-gradjevinski-fakultet-and-zadruga-readiness-only',
+      },
+      readiness: {
+        status: resolveDeveloperCreateExtensionStatus(gradjevinskiAktReadinessScore),
+        score: gradjevinskiAktReadinessScore,
+        deterministicFallbackRequired:
+          dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.deterministicFallbackRequired,
+      },
+      summary:
+        'GRAĐEVINSKI AKT ostaje additive-only bounded infrastruktura/operativna spremnost signal pod GRAĐEVINSKI FAKULTET + ZADRUGA / INSTRUMENT TABLA bez novih ruta i bez izvršnog socijalnog sistema.',
+    },
+    kraljevskaDopuna: {
+      canonicalName: 'KRALJEVSKA DOPUNA',
+      additiveOnly: true,
+      linkedPolicies: ['KRALJEVSKI PRAVNI AKT', 'AI IQ WORLD BANK'],
+      sourceOfTruthRoutes: ['/api/extrimli/extrem', '/api/extrimli/extrondol', '/api/extrimli/spaja-kod'],
+      interpretativeInputs: {
+        osnovneZivotnePotrebe: 'documentation-only-governance-input',
+        prosecnoGradjanskiDohodak: 'bounded-civic-income-reference-only',
+      },
+      eligibilityCategories: ['nezbrinuti', 'nezaposleni'],
+      approvalPosture: {
+        approvalStatus: resolveDeveloperCreateExtensionStatus(kraljevskaDopunaReadinessScore),
+        reviewStatus:
+          dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.deterministicFallbackRequired
+          || privredniAktQuarterlyMarketInput.status === 'BLOCKED'
+            ? 'BLOCKED'
+            : kraljevskaDopunaReadinessScore >= 80
+              ? 'READY'
+              : 'WATCH',
+        payoutReadinessStatus: privredniAktQuarterlyMarketInput.status,
+        requiredGovernanceGates: ['human-review', 'compliance-review', 'payment-verification', 'audit-trail'],
+        noAutomaticPayout: true,
+        blockers: [
+          ...(privredniAktQuarterlyMarketInput.status === 'BLOCKED' ? ['quarterly-market-governance-blocked'] : []),
+          ...(dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.deterministicFallbackRequired ? ['deterministic-fallback-required'] : []),
+          'no-kyc-or-bank-data-in-git',
+        ],
+      },
+      summary:
+        'KRALJEVSKA DOPUNA ostaje audit-safe policy paket: osnovne životne potrebe i prosečno građanski dohodak služe samo kao bounded governance input, dok approval/review/payout posture ostaju summary-only bez automatske isplate ili računovodstvenog source-of-truth sloja.',
+    },
+    readiness: {
+      status: resolveDeveloperCreateExtensionStatus(kraljevskiDrustveniPoredakScore),
+      score: kraljevskiDrustveniPoredakScore,
+      deterministicFallbackRequired:
+        dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.deterministicFallbackRequired,
+    },
+    summary:
+      'KRALJEVSKI DRUŠTVENI POREDAK ostaje additive-only governance/socijalni narativ nad postojećim Developer/Create reflection paketom; bounded readiness, eligibility, građevinski akt i kraljevska dopuna ostaju audit-safe signali bez novog runtime modula, bez izvršnog socijalnog sistema i bez osetljivih podataka u Git-u.',
+  };
   dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.kraljevskiBastaUneverzite = {
     canonicalName: 'KRALJEVSKI BAŠTA UNEVERZITE',
     canonicalNarrativeId: 'kraljevski-basta-uneverzite-prirodne-maticne-celije-covecanstvu',
@@ -9079,6 +9190,18 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
       noNewRuntimeModule: true,
       rawInternalsExposed: false,
     },
+    kraljevskiDrustveniPoredakBoundary: {
+      trackRole: 'governance-only-social-order-track',
+      extremPublishes: 'bounded-readiness-and-eligibility-signal',
+      extrondolPublishes: 'wawe-review-compliance-payment-summary-only',
+      spajaKodPublishes: 'final-audit-safe-status-only',
+      linkedDomains: ['GRAĐEVINSKI AKT', 'KRALJEVSKA DOPUNA'],
+      beneficiaryCategories: ['NEZBRINUTI', 'NEZAPOSLENI'],
+      noNewRuntimeModule: true,
+      noSocialExecutionSystem: true,
+      noSensitiveDataInGit: true,
+      rawInternalsExposed: false,
+    },
     kraljevskiBastaUneverziteBoundary: {
       trackRole: 'garden-and-natural-stem-cell-documentation-track',
       extremPublishes: 'technical-readiness-profile-only',
@@ -9131,6 +9254,7 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
   dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.reasons = [
     'DEVELOPER AND CREATE ostaje additive-only repo-wide interpretativni lock preko postojećih EXTRIMLI / EXTREM / EXTRONDOL kontrakata.',
     'VRH PROGRAMSKOG EKVILADENTA ostaje vršni sloj, RADNI TAKT MOZGA (MISLILAC) ostaje zajednički ritam/readiness signal, a METRIČKO / SINEMETRIČKO / PARADIJOGONALNO ostaju kanonski prateći track-ovi.',
+    'KRALJEVSKI DRUŠTVENI POREDAK ostaje additive-only bounded governance/socijalni sloj: `nezbrinuti` i `nezaposleni` ostaju auditabilne eligibility kategorije, `GRAĐEVINSKI AKT` ostaje infrastruktura/readiness signal, a `KRALJEVSKA DOPUNA` review/approval/payout posture bez novog socijalnog ili finansijskog engine-a.',
     'KRALJEVSKI BAŠTA UNEVERZITE ostaje bounded dokumentaciona/evidence podtraka koja koristi isti technicalReadinessProfile i isti DOK/DIK/FOR ↔ DAK/DUK ownership split da poveže bašta-produktivnost, prirodne matične ćelije i unapređenje ČOVEČANSTVU bez medicinskih runtime tvrdnji.',
     'Repo-wide odraz ostaje validan samo kada su docs, types, routes, tests i workflows drift-zero poravnati bez novih runtime ruta.',
     'AI PLATE ostaje additive-only commercial/runtime paket na Vercel-u: 12000 EUR weekly target je poslovni/finops cilj, a ne hardcoded runtime billing činjenica.',

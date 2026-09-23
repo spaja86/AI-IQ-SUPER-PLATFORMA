@@ -193,6 +193,7 @@ const DEVELOPER_CREATE_ROADMAP_ACCEPTANCE_EVIDENCE_BASE = [
   'developerAndCreateRepoWideReflection',
   'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance',
   'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.kraljevskiProgramskiUneverzitet',
+  'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.kraljevskiDrustveniPoredak',
   'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.kraljevskiBastaUneverzite',
   'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.aiIdentityFinanceGovernance',
   'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.covecnostAuditVisualReference.supplementalVisualReferences',
@@ -212,6 +213,7 @@ const DEVELOPER_CREATE_GOVERNANCE_ACCEPTANCE_EVIDENCE: ExtrimliExtrondolReport['
   'developerAndCreateRepoWideReflection',
   'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance',
   'developerAndCreateRepoWideReflection.kraljevskiProgramskiUneverzitet',
+  'developerAndCreateRepoWideReflection.kraljevskiDrustveniPoredak',
   'developerAndCreateRepoWideReflection.kraljevskiBastaUneverzite',
   'developerAndCreateRepoWideReflection.covecnostAuditVisualReference.supplementalVisualReferences',
   'developerAndCreateRepoWideReflection.covecnostAuditVisualReference.companionAuditVisualReferences',
@@ -3124,6 +3126,7 @@ function buildSpajaKodFacade(params: {
         'developerAndCreateVisualReflection.kraljevskiBastaUneverzite',
         'developerAndCreateVisualReflection.packageOutputs',
         'developerAndCreateImplementationPackage.aiIqWorldBankPrepiskaSummary',
+        'developerAndCreateImplementationPackage.kraljevskiDrustveniPoredakSummary',
         'epilogijaCovecnosti.packageOutputs',
       ],
       roadmapStageId: 'v5-extrondol-release-audit-and-orchestration',
@@ -3145,6 +3148,23 @@ function buildSpajaKodFacade(params: {
         ],
         publicSummary:
           aiIdentityFinanceGovernance.aiIqWorldBankPrepiska.publicSummary,
+      },
+      kraljevskiDrustveniPoredakSummary: {
+        canonicalName:
+          params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.kraljevskiDrustveniPoredak.canonicalName,
+        beneficiaryCategories: ['nezbrinuti', 'nezaposleni'],
+        readinessStatus:
+          params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.kraljevskiDrustveniPoredak.readiness.status,
+        gradjevinskiAktStatus:
+          params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.kraljevskiDrustveniPoredak.gradjevinskiAkt.readiness.status,
+        kraljevskaDopunaApprovalStatus:
+          params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.kraljevskiDrustveniPoredak.kraljevskaDopuna.approvalPosture.approvalStatus,
+        payoutReadinessStatus:
+          params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.kraljevskiDrustveniPoredak.kraljevskaDopuna.approvalPosture.payoutReadinessStatus,
+        publicBoundary: 'audit-safe-summary-only',
+        forbiddenEvidence: ['kyc-data', 'bank-account-number', 'payment-secret', 'sensitive-social-record', 'operational-financial-data'],
+        publicSummary:
+          params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.kraljevskiDrustveniPoredak.summary,
       },
       downstreamAuditFields: [
         'masterEpilog',
@@ -4357,6 +4377,19 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
           extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.kraljevskiProgramskiUneverzitet,
         kraljevskiEkonomskiUneverzitet:
           extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.kraljevskiEkonomskiUneverzitet,
+        kraljevskiDrustveniPoredak: {
+          ...extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.kraljevskiDrustveniPoredak,
+          sourceOfTruth: '/api/extrimli/extrondol',
+          technicalSignalSource: '/api/extrimli/extrem',
+          publicBoundary: '/api/extrimli/spaja-kod',
+          reviewRequiredBeforeWideRollout:
+            extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.kraljevskiDrustveniPoredak.readiness.status !== 'READY',
+          promotionFreeze,
+          humanReviewRequired: true,
+          complianceReviewRequired: true,
+          paymentVerificationRequired: true,
+          downstreamSync: 'follow-up-only-until-io-openui-ao-adopts-audit-safe-summary',
+        },
         privredniAkt:
           extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.kraljevskiEkonomskiUneverzitet.privredniAkt,
         certificationGovernance: {
@@ -4438,6 +4471,19 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
             extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.status !== 'READY',
         },
         technicalReadinessProfile: extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.technicalReadinessProfile,
+        kraljevskiDrustveniPoredak: {
+          ...extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.kraljevskiDrustveniPoredak,
+          sourceOfTruth: '/api/extrimli/extrondol',
+          technicalSignalSource: '/api/extrimli/extrem',
+          publicBoundary: '/api/extrimli/spaja-kod',
+          reviewRequiredBeforeWideRollout:
+            extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.kraljevskiDrustveniPoredak.readiness.status !== 'READY',
+          promotionFreeze,
+          humanReviewRequired: true,
+          complianceReviewRequired: true,
+          paymentVerificationRequired: true,
+          downstreamSync: 'follow-up-only-until-io-openui-ao-adopts-audit-safe-summary',
+        },
         kraljevskiBastaUneverzite:
           extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.kraljevskiBastaUneverzite,
         aiPlateGovernance: {
@@ -4492,7 +4538,7 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
         roadmapExecution: {
           roadmapStageId: 'v5-extrondol-release-audit-and-orchestration',
           measurableOutput:
-            'EXTRONDOL consumes the repo-wide technical profile plus AI identity-finance governance, primary/supplemental/companion audit visual metadata and OSNOVE / RISPEKT protocol evidence, then publishes only audit-safe WAWE/review/rollback governance',
+            'EXTRONDOL consumes the repo-wide technical profile plus KRALJEVSKI DRUŠTVENI POREDAK governance, AI identity-finance governance, primary/supplemental/companion audit visual metadata and OSNOVE / RISPEKT protocol evidence, then publishes only audit-safe WAWE/review/rollback governance',
           acceptanceEvidence: DEVELOPER_CREATE_RELEASE_AUDIT_ACCEPTANCE_EVIDENCE,
           downstreamSync: 'follow-up-only-until-io-openui-ao-adopts-audit-safe-summary',
         },
@@ -5565,6 +5611,19 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
         extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.kraljevskiEkonomskiUneverzitet,
       kraljevskiProgramskiUneverzitet:
         extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.kraljevskiProgramskiUneverzitet,
+      kraljevskiDrustveniPoredak: {
+        ...extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.kraljevskiDrustveniPoredak,
+        sourceOfTruth: '/api/extrimli/extrondol',
+        technicalSignalSource: '/api/extrimli/extrem',
+        publicBoundary: '/api/extrimli/spaja-kod',
+        reviewRequiredBeforeWideRollout:
+          extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.kraljevskiDrustveniPoredak.readiness.status !== 'READY',
+        promotionFreeze,
+        humanReviewRequired: true,
+        complianceReviewRequired: true,
+        paymentVerificationRequired: true,
+        downstreamSync: 'follow-up-only-until-io-openui-ao-adopts-audit-safe-summary',
+      },
       kraljevskiBastaUneverzite:
         extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.kraljevskiBastaUneverzite,
       osnoveRispektProtocol:
@@ -6201,7 +6260,7 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
           roadmapExecution: {
             roadmapStageId: 'v5-extrondol-release-audit-and-orchestration',
             measurableOutput:
-              'EXTRONDOL consumes the repo-wide technical profile plus AI identity-finance governance, KRALJEVSKI BAŠTA UNEVERZITE bounded narrative metadata, and primary/supplemental/companion audit visual metadata, then publishes only audit-safe WAWE/review/rollback governance',
+              'EXTRONDOL consumes the repo-wide technical profile plus KRALJEVSKI DRUŠTVENI POREDAK governance, AI identity-finance governance, KRALJEVSKI BAŠTA UNEVERZITE bounded narrative metadata, and primary/supplemental/companion audit visual metadata, then publishes only audit-safe WAWE/review/rollback governance',
             acceptanceEvidence: DEVELOPER_CREATE_GOVERNANCE_ACCEPTANCE_EVIDENCE,
             downstreamSync: 'follow-up-only-until-io-openui-ao-adopts-audit-safe-summary',
           },
@@ -6932,6 +6991,19 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
         extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.universityRolloutPhases,
       kraljevskiProgramskiUneverzitet:
         extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.kraljevskiProgramskiUneverzitet,
+      kraljevskiDrustveniPoredak: {
+        ...extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.kraljevskiDrustveniPoredak,
+        sourceOfTruth: '/api/extrimli/extrondol',
+        technicalSignalSource: '/api/extrimli/extrem',
+        publicBoundary: '/api/extrimli/spaja-kod',
+        reviewRequiredBeforeWideRollout:
+          extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.kraljevskiDrustveniPoredak.readiness.status !== 'READY',
+        promotionFreeze,
+        humanReviewRequired: true,
+        complianceReviewRequired: true,
+        paymentVerificationRequired: true,
+        downstreamSync: 'follow-up-only-until-io-openui-ao-adopts-audit-safe-summary',
+      },
       certificationGovernance: {
         sourceOfTruth: '/api/extrimli/extrondol',
         certificationWindowPercent: [80, 100],
@@ -7064,7 +7136,7 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
       roadmapExecution: {
         roadmapStageId: 'v5-extrondol-release-audit-and-orchestration',
         measurableOutput:
-          'EXTRONDOL consumes the repo-wide technical profile plus AI identity-finance governance, KRALJEVSKI BAŠTA UNEVERZITE bounded narrative metadata, and primary/supplemental/companion audit visual metadata, then publishes only audit-safe WAWE/review/rollback governance',
+          'EXTRONDOL consumes the repo-wide technical profile plus KRALJEVSKI DRUŠTVENI POREDAK governance, AI identity-finance governance, KRALJEVSKI BAŠTA UNEVERZITE bounded narrative metadata, and primary/supplemental/companion audit visual metadata, then publishes only audit-safe WAWE/review/rollback governance',
         acceptanceEvidence: DEVELOPER_CREATE_GOVERNANCE_ACCEPTANCE_EVIDENCE,
         downstreamSync: 'follow-up-only-until-io-openui-ao-adopts-audit-safe-summary',
       },

@@ -2510,6 +2510,7 @@ export interface ExtrimliDokDikDakDukConsistencyHealth {
       paradijogonalnoProgrimiranje: 'PARADIJOGONALNO PROGRAMIRANJE';
       kraljevskiProgramskiUneverzitet: 'KRALJEVSKI PROGRAMSKI UNEVERZITET';
       kraljevskiEkonomskiUneverzitet: 'KRALJEVSKI EKONOMSKI UNEVERZITET';
+      kraljevskiDrustveniPoredak: 'KRALJEVSKI DRUŠTVENI POREDAK';
       kraljevskiBastaUneverzite: 'KRALJEVSKI BAŠTA UNEVERZITE';
     };
     canonicalGovernanceVocabulary: {
@@ -2523,11 +2524,18 @@ export interface ExtrimliDokDikDakDukConsistencyHealth {
       kraljevskiPravniUniverzitet: 'KRALJEVSKI PRAVNI UNIVERZITET';
       kraljevskiProgramskiUneverzitet: 'KRALJEVSKI PROGRAMSKI UNEVERZITET';
       kraljevskiEkonomskiUneverzitet: 'KRALJEVSKI EKONOMSKI UNEVERZITET';
+      kraljevskiDrustveniPoredak: 'KRALJEVSKI DRUŠTVENI POREDAK';
       kraljevskiBastaUneverzite: 'KRALJEVSKI BAŠTA UNEVERZITE';
       stocarstvo: 'STOČARSTVO';
       vinogradarstvo: 'VINOGRADARSTVO';
       poljoprivredniFakultet: 'POLJOPRIVREDNI FAKULTET';
       gradjevinskiFakultet: 'GRAĐEVINSKI FAKULTET';
+      gradjevinskiAkt: 'GRAĐEVINSKI AKT';
+      kraljevskaDopuna: 'KRALJEVSKA DOPUNA';
+      osnovneZivotnePotrebe: 'OSNOVNE ŽIVOTNE POTREBE';
+      prosecnoGradjanskiDohodak: 'PROSEČNO GRAĐANSKI DOHODAK';
+      nezbrinuti: 'NEZBRINUTI';
+      nezaposleni: 'NEZAPOSLENI';
     };
     osnoveRispektProtocol: {
       title: 'OSNOVE / RISPEKT';
@@ -2989,6 +2997,70 @@ export interface ExtrimliDokDikDakDukConsistencyHealth {
       };
       summary: string;
     };
+    kraljevskiDrustveniPoredak: {
+      canonicalName: 'KRALJEVSKI DRUŠTVENI POREDAK';
+      additiveOnly: true;
+      interpretativeLayer: 'governance-only-social-order-and-civic-support-track';
+      sourceOfTruthRoutes: readonly ['/api/extrimli/extrem', '/api/extrimli/extrondol', '/api/extrimli/spaja-kod'];
+      sourceTrack: 'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == RADNI TAKT MOZGA (MISLILAC)';
+      noNewRuntimeModule: true;
+      noNewSourceOfTruthModule: true;
+      noNewFinancialEngine: true;
+      governanceBinding: {
+        technicalOwnership: 'DOK+DIK+FOR->EXTREM';
+        governanceOwnership: 'DAK+DUK->EXTRONDOL';
+        publicBoundary: 'SPAJA KOD';
+      };
+      beneficiaryGovernance: {
+        eligibleCategories: readonly ['nezbrinuti', 'nezaposleni'];
+        boundedInterpretation: 'audit-safe-eligibility-and-support-governance-only';
+        allowedSummaryFields: readonly ['readiness-status', 'review-status', 'approval-status', 'payout-posture', 'blocker-summary'];
+        forbiddenArtifacts: readonly ['kyc-data', 'bank-account-number', 'payment-secret', 'sensitive-social-record', 'operational-financial-data'];
+      };
+      gradjevinskiAkt: {
+        canonicalName: 'GRAĐEVINSKI AKT';
+        additiveOnly: true;
+        linkedDomains: readonly ['GRAĐEVINSKI FAKULTET', 'ZADRUGA', 'INSTRUMENT TABLA'];
+        sourceOfTruthRoutes: readonly ['/api/extrimli/extrem', '/api/extrimli/extrondol', '/api/extrimli/spaja-kod'];
+        technicalReadinessBinding: {
+          sourceProfile: 'dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.technicalReadinessProfile';
+          contributingSignals: readonly ['vrhProgramskogEkviladenta', 'paradijogonalnoProgramiranje', 'metrikoProgramiranje'];
+          boundedInterpretation: 'existing-gradjevinski-fakultet-and-zadruga-readiness-only';
+        };
+        readiness: {
+          status: 'READY' | 'WATCH' | 'BLOCKED';
+          score: number;
+          deterministicFallbackRequired: boolean;
+        };
+        summary: string;
+      };
+      kraljevskaDopuna: {
+        canonicalName: 'KRALJEVSKA DOPUNA';
+        additiveOnly: true;
+        linkedPolicies: readonly ['KRALJEVSKI PRAVNI AKT', 'AI IQ WORLD BANK'];
+        sourceOfTruthRoutes: readonly ['/api/extrimli/extrem', '/api/extrimli/extrondol', '/api/extrimli/spaja-kod'];
+        interpretativeInputs: {
+          osnovneZivotnePotrebe: 'documentation-only-governance-input';
+          prosecnoGradjanskiDohodak: 'bounded-civic-income-reference-only';
+        };
+        eligibilityCategories: readonly ['nezbrinuti', 'nezaposleni'];
+        approvalPosture: {
+          approvalStatus: 'READY' | 'WATCH' | 'BLOCKED';
+          reviewStatus: 'READY' | 'WATCH' | 'BLOCKED';
+          payoutReadinessStatus: 'READY' | 'WATCH' | 'BLOCKED';
+          requiredGovernanceGates: readonly ['human-review', 'compliance-review', 'payment-verification', 'audit-trail'];
+          noAutomaticPayout: true;
+          blockers: string[];
+        };
+        summary: string;
+      };
+      readiness: {
+        status: 'READY' | 'WATCH' | 'BLOCKED';
+        score: number;
+        deterministicFallbackRequired: boolean;
+      };
+      summary: string;
+    };
     kraljevskiBastaUneverzite: {
       canonicalName: 'KRALJEVSKI BAŠTA UNEVERZITE';
       canonicalNarrativeId: 'kraljevski-basta-uneverzite-prirodne-maticne-celije-covecanstvu';
@@ -3328,6 +3400,7 @@ export interface ExtrimliDokDikDakDukConsistencyHealth {
         extrondolPublishes: 'audit-freeze-promotion-review-summary-only';
         spajaKodPublishes: 'final-audit-safe-status-only';
         boundedFacultyDomains: readonly ['POLJOPRIVREDNI FAKULTET', 'GRAĐEVINSKI FAKULTET'];
+        boundedCivicTrack: 'KRALJEVSKI DRUŠTVENI POREDAK';
         noNewRuntimeModule: true;
         noParallelSourceOfTruth: true;
         rawInternalsExposed: false;
@@ -3342,6 +3415,18 @@ export interface ExtrimliDokDikDakDukConsistencyHealth {
         boundedPrivredniDomains: readonly ['STOČARSTVO', 'VINOGRADARSTVO'];
         arhimedisModelBounded: true;
         noNewRuntimeModule: true;
+        rawInternalsExposed: false;
+      };
+      kraljevskiDrustveniPoredakBoundary: {
+        trackRole: 'governance-only-social-order-track';
+        extremPublishes: 'bounded-readiness-and-eligibility-signal';
+        extrondolPublishes: 'wawe-review-compliance-payment-summary-only';
+        spajaKodPublishes: 'final-audit-safe-status-only';
+        linkedDomains: readonly ['GRAĐEVINSKI AKT', 'KRALJEVSKA DOPUNA'];
+        beneficiaryCategories: readonly ['NEZBRINUTI', 'NEZAPOSLENI'];
+        noNewRuntimeModule: true;
+        noSocialExecutionSystem: true;
+        noSensitiveDataInGit: true;
         rawInternalsExposed: false;
       };
       kraljevskiBastaUneverziteBoundary: {
