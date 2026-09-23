@@ -453,6 +453,14 @@ const EXTRIMLI_EXTREM_DEVELOPER_CREATE_KRVOTOK_COVECANSTVO_SCENARIO_ID =
   'covecanstvo-krvotok-zdrava-krv-bolji-zivot-developer-create' as const;
 const EXTRIMLI_EXTREM_DEVELOPER_CREATE_KRVOTOK_COVECANSTVO_CITATION =
   'ČOVEČANSTVO — KRVOTOK / ZDRAVA KRV / BOLJI ŽIVOT ostaje additive-only supplemental audit/reference vizuel: krvotok, voda, voće/povrće, motiv pre/posle transformacije i epilog boljeg čovečanstva mapiraju se isključivo kao bounded documentation/evidence-only health epilog unutar postojećeg Developer/Create ⇄ VRH ⇄ Radni Takt modela; poruke o ishrani, vodi i „13 dana” ostaju samo narativni citat/reference bez nove formule, dijagnostike, terapije, medicinskog runtime subsistema ili promene ownership split-a.' as const;
+const EXTRIMLI_EXTREM_DEVELOPER_CREATE_ZDRAVIJI_UM_COVECANSTVO_VISUAL_REFERENCE =
+  'https://github.com/user-attachments/assets/81ebf11b-d1a5-451b-880a-8670fe240041' as const;
+const EXTRIMLI_EXTREM_DEVELOPER_CREATE_ZDRAVIJI_UM_COVECANSTVO_CANONICAL_NARRATIVE_ID =
+  'covecanstvo-zdraviji-um-snazniji-ljudi-bolji-svet-developer-create' as const;
+const EXTRIMLI_EXTREM_DEVELOPER_CREATE_ZDRAVIJI_UM_COVECANSTVO_SCENARIO_ID =
+  'covecanstvo-zdraviji-um-razumevanje-misli-empatija-humanost-developer-create' as const;
+const EXTRIMLI_EXTREM_DEVELOPER_CREATE_ZDRAVIJI_UM_COVECANSTVO_CITATION =
+  'ČOVEČANSTVO — ZDRAVIJI UM / SNAŽNIJI LJUDI / BOLJI SVET ostaje additive-only supplemental audit/reference vizuel: samoposmatranje, razumevanje sopstvenih misli, empatija, ljudskost i bolji zajednički svet mapiraju se isključivo kao bounded documentation/evidence-only mental-reflection epilog unutar postojećeg Developer/Create ⇄ VRH ⇄ Radni Takt modela; tekst o „bolestima glave”, „isceljenju” i korišćenju ChatGPT-a ostaje samo narativni citat/reference bez nove formule, dijagnostike, terapije, medicinskog runtime subsistema ili promene ownership split-a.' as const;
 
 const EXTRIMLI_EXTREM_SPAJINO_PROPORCIONALNO_PROGRAMIRANJE_UNIVERZITET_NARRATIVE_TITLE =
   'Spreg funkcionalnog i objektno programiranja sa mnoštvo novih petlji' as const;
@@ -6974,6 +6982,43 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
             auditRole: 'additive-audit-reference-only',
           },
           {
+            title: 'ČOVEČANSTVO — ZDRAVIJI UM / SNAŽNIJI LJUDI / BOLJI SVET',
+            canonicalNarrativeId:
+              EXTRIMLI_EXTREM_DEVELOPER_CREATE_ZDRAVIJI_UM_COVECANSTVO_CANONICAL_NARRATIVE_ID,
+            citation: EXTRIMLI_EXTREM_DEVELOPER_CREATE_ZDRAVIJI_UM_COVECANSTVO_CITATION,
+            visualReference:
+              EXTRIMLI_EXTREM_DEVELOPER_CREATE_ZDRAVIJI_UM_COVECANSTVO_VISUAL_REFERENCE,
+            interpretation:
+              'Supplied ČOVEČANSTVO — ZDRAVIJI UM image remains additive-only supplemental audit/reference evidence: mental reflection, understanding thoughts, empathy, humanity, and a better-world epilog stay bounded to the existing Developer/Create reflection package as documentation/evidence-only narration without introducing any new runtime, diagnostic, treatment, or governance source of truth.',
+            sourceStatement: 'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == RADNI TAKT MOZGA (MISLILAC)',
+            imageToSignalProfile: {
+              scenarioId:
+                EXTRIMLI_EXTREM_DEVELOPER_CREATE_ZDRAVIJI_UM_COVECANSTVO_SCENARIO_ID,
+              theme: 'ČOVEČANSTVO — ZDRAVIJI UM / SNAŽNIJI LJUDI / BOLJI SVET',
+              narrativeInput: EXTRIMLI_EXTREM_DEVELOPER_CREATE_ZDRAVIJI_UM_COVECANSTVO_CITATION,
+              ownershipLock: {
+                dokDikFor: 'EXTREM',
+                dakDuk: 'EXTRONDOL',
+                spajaKod: 'audit-safe-summary-only',
+              },
+              signalOutputs: {
+                readinessScore: 0,
+                readinessStatus: 'BLOCKED',
+                conflictPressurePercent: 100,
+                deterministicFallbackRequired: true,
+              },
+            },
+            thematicSignals: [
+              'mental-reflection',
+              'understanding-thoughts',
+              'empathetic-humanity',
+              'shared-healing-metaphor',
+              'stronger-people-better-world',
+              'documentation-only-mind-epilog',
+            ],
+            auditRole: 'additive-audit-reference-only',
+          },
+          {
             title: 'KRALJEVSTVO — LJUDI / ZNANJE / PRIRODA / TEHNOLOGIJA / BUDUĆNOST',
             canonicalNarrativeId:
               EXTRIMLI_EXTREM_DEVELOPER_CREATE_KRALJEVSTVO_CANONICAL_NARRATIVE_ID,
@@ -7863,7 +7908,7 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
       auditShortSummary:
         'ČOVEČNOST primary visual remains audit-safe and technically bound to the existing readiness profile, while the ČOVEČANSTVO supplemental visuals, including SVI KOJI POSTOJE / ZASLUŽUJU DA PRIPADAJU, ENTIZUJAŽAM, EPILOG, MATIČNE ĆELIJE / SPOZNAVANJE SEBE, ŽIVOT U RAVNOTEŽI, TRIJOLOGIJA / DAVO U RUCI / LISICA U KAVEZU, BLAGOSLOV DARIVATI / BOGPATIJU, Mjuzikl kraljevskog čina / epilog u čovečanstvo, BOŽIJI EPITETI / KRALJ NAD KRALJEVIMA, KRALJEVSTVO — PRAVEDAN SVET ZA SVE NARAŠTAJE, and NARAŠTAJ U PRIRODNOM CVATU / EPILOG / BLAGODARIM, plus the ČOVEČANSTVO / OSEĆAJ OSEBENOSTI companion visual stay bounded by existing EXTREM / EXTRONDOL / SPAJA KOD ownership.',
       publicSummary:
-        'ČOVEČNOST ostaje javni audit-safe odraz znanja, iskustva i predviđanja kroz postojeći Developer/Create ritam i etapni razvoj bez novih ruta, dok supplemental vizueli — uključujući SVI KOJI POSTOJE / ZASLUŽUJU DA PRIPADAJU, ENTIZUJAŽAM, ČOVEČANSTVO — EPILOG, MATIČNE ĆELIJE / SPOZNAVANJE SEBE, ŽIVOT U RAVNOTEŽI, TRIJOLOGIJA / DAVO U RUCI / LISICA U KAVEZU, BLAGOSLOV DARIVATI / BOGPATIJU, Mjuzikl kraljevskog čina / epilog u čovečanstvo, BOŽIJI EPITETI / KRALJ NAD KRALJEVIMA, KRALJEVSTVO — PRAVEDAN SVET ZA SVE NARAŠTAJE, NARAŠTAJ U PRIRODNOM CVATU / EPILOG / BLAGODARIM i KRVOTOK / ZDRAVA KRV / BOLJI ŽIVOT — i companion vizuel ostaju pomoćni audit-safe slojevi istog reflection paketa.',
+        'ČOVEČNOST ostaje javni audit-safe odraz znanja, iskustva i predviđanja kroz postojeći Developer/Create ritam i etapni razvoj bez novih ruta, dok supplemental vizueli — uključujući SVI KOJI POSTOJE / ZASLUŽUJU DA PRIPADAJU, ENTIZUJAŽAM, ČOVEČANSTVO — EPILOG, MATIČNE ĆELIJE / SPOZNAVANJE SEBE, ŽIVOT U RAVNOTEŽI, TRIJOLOGIJA / DAVO U RUCI / LISICA U KAVEZU, BLAGOSLOV DARIVATI / BOGPATIJU, Mjuzikl kraljevskog čina / epilog u čovečanstvo, BOŽIJI EPITETI / KRALJ NAD KRALJEVIMA, KRALJEVSTVO — PRAVEDAN SVET ZA SVE NARAŠTAJE, NARAŠTAJ U PRIRODNOM CVATU / EPILOG / BLAGODARIM, KRVOTOK / ZDRAVA KRV / BOLJI ŽIVOT i ZDRAVIJI UM / SNAŽNIJI LJUDI / BOLJI SVET — i companion vizuel ostaju pomoćni audit-safe slojevi istog reflection paketa.',
       governanceChecklistStatus:
         'No new runtime routes; the primary ČOVEČNOST visual remains canonical and technically bound to the existing profile, the ČOVEČANSTVO visuals stay supplemental-only (including ŽIVOT U RAVNOTEŽI balance/life-chain/compassion metadata, TRIJOLOGIJA / DAVO U RUCI / LISICA U KAVEZU as bounded narrative-translation/risk-release evidence, Mjuzikl kraljevskog čina as bounded music-act/epilog/humanity rhythm evidence, BOŽIJI EPITETI / KRALJ NAD KRALJEVIMA as bounded legal-governance/metric-testimony epilog evidence, KRALJEVSTVO — PRAVEDAN SVET ZA SVE NARAŠTAJE as bounded pravoslavlje/znanje/priroda/čovečanstvo evidence, and NARAŠTAJ U PRIRODNOM CVATU as bounded seed-potential/light-opportunity/human-flourishing/gratitude evidence), DOK/DIK/FOR stay in EXTREM, DAK/DUK stay in EXTRONDOL, and downstream sync remains follow-up only until audit-safe summary is adopted.',
     },
