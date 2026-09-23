@@ -2787,6 +2787,8 @@ function buildSpajaKodFacade(params: {
 }): ExtrimliSpajaKodPublicFacade {
   const developerAndCreateImplementationPackage =
     params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.implementationPackage;
+  const aiIdentityFinanceGovernance =
+    params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.aiIdentityFinanceGovernance;
   const implementationPackagePolicyLocked =
     developerAndCreateImplementationPackage.noNewRuntimeRoutes &&
     developerAndCreateImplementationPackage.noParallelSourceOfTruth &&

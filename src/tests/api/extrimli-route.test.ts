@@ -850,7 +850,10 @@ async function runTests(): Promise<void> {
           covecanstvuPublicOutput: string;
           aiIqWorldBankPrepiskaSummary: {
             canonicalName: string;
+            canonicalSourceDocument: string;
             sourceMaterialPolicy: string;
+            allowedEvidence: string[];
+            forbiddenEvidence: string[];
             publicSummary: string;
           };
           downstreamAuditFields: string[];
@@ -900,7 +903,10 @@ async function runTests(): Promise<void> {
     assert(body.data.developerAndCreateImplementationPackage.routeSummaryFields.join(',') === 'publicSignals.developerAndCreateStatus,publicSignals.developerAndCreateImplementationStatus,publicSignals.kraljevskiPravniUniverzitetStatus,developerAndCreateVisualReflection.kraljevskiBastaUneverzite,developerAndCreateVisualReflection.packageOutputs,developerAndCreateImplementationPackage.aiIqWorldBankPrepiskaSummary,epilogijaCovecnosti.packageOutputs', 'unexpected SPAJA KOD implementation package route summary fields');
     assert(body.data.developerAndCreateImplementationPackage.covecanstvuPublicOutput === 'summary-only', 'unexpected SPAJA KOD implementation package ČOVEČANSTVU output');
     assert(body.data.developerAndCreateImplementationPackage.aiIqWorldBankPrepiskaSummary.canonicalName === 'AI IQ WORLD BANK PREPISKA', 'unexpected SPAJA KOD AI IQ WORLD BANK prepiska summary name');
+    assert(body.data.developerAndCreateImplementationPackage.aiIqWorldBankPrepiskaSummary.canonicalSourceDocument === 'docs/AI-IQ-WORLD-BANK-AI-IDENTITY-FINANCE-GOVERNANCE.md', 'unexpected SPAJA KOD AI IQ WORLD BANK prepiska summary source document');
     assert(body.data.developerAndCreateImplementationPackage.aiIqWorldBankPrepiskaSummary.sourceMaterialPolicy === 'documentation-only', 'unexpected SPAJA KOD AI IQ WORLD BANK prepiska summary policy');
+    assert(body.data.developerAndCreateImplementationPackage.aiIqWorldBankPrepiskaSummary.allowedEvidence.includes('payment-verification-status'), 'unexpected SPAJA KOD AI IQ WORLD BANK prepiska allowed evidence');
+    assert(body.data.developerAndCreateImplementationPackage.aiIqWorldBankPrepiskaSummary.forbiddenEvidence.includes('payment-secrets'), 'unexpected SPAJA KOD AI IQ WORLD BANK prepiska forbidden evidence');
     assert(body.data.developerAndCreateImplementationPackage.aiIqWorldBankPrepiskaSummary.publicSummary.includes('documentation-only governance evidence'), 'unexpected SPAJA KOD AI IQ WORLD BANK prepiska summary content');
     assert(body.data.developerAndCreateImplementationPackage.downstreamAuditFields.join(',') === 'masterEpilog,posterSummary,videoStoryboardSummary,auditShortSummary,governanceChecklistStatus', 'unexpected SPAJA KOD implementation package downstream audit fields');
     assert(body.data.developerAndCreateVisualReflection.supplementalVisualReferences[0].canonicalNarrativeId === 'covecanstvo-zivot-je-najveca-igra', 'unexpected SPAJA KOD developer/create supplemental narrative id');
