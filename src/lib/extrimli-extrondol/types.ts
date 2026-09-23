@@ -769,6 +769,16 @@ export interface ExtrimliExtrondolDeveloperAndCreateRepoWideReflectionGovernance
     instrumentTablaStatus: 'READY' | 'WATCH' | 'BLOCKED';
     payoutGovernancePosture: 'READY' | 'WATCH' | 'BLOCKED';
     privredniAktBeneficiarySegments: readonly ['poljoprivrednici-sa-gostoprimstvom', 'poljoprivrednici'];
+    additiveFacultyAndAgricultureTracks: {
+      stocarstvoStatus: 'READY' | 'WATCH' | 'BLOCKED';
+      vinogradarstvoStatus: 'READY' | 'WATCH' | 'BLOCKED';
+      poljoprivredniFakultetStatus: 'READY' | 'WATCH' | 'BLOCKED';
+      gradjevinskiFakultetStatus: 'READY' | 'WATCH' | 'BLOCKED';
+      workforcePosture: 'READY' | 'WATCH' | 'BLOCKED';
+      infrastructurePosture: 'READY' | 'WATCH' | 'BLOCKED';
+      reviewPosture: 'ALIGNED' | 'WATCH' | 'REVIEW_REQUIRED';
+      rolloutFreezeRequired: boolean;
+    };
     auditSafeReason: string;
   };
   kraljevskiBastaUneverzite: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['kraljevskiBastaUneverzite'];
@@ -1696,6 +1706,7 @@ export interface ExtrimliExtrondolReleaseAuditSummary {
     payoutGovernance: ExtrimliExtrondolDeveloperAndCreateRepoWideReflectionGovernance['payoutGovernance'];
     rewardApproval: ExtrimliExtrondolDeveloperAndCreateRepoWideReflectionGovernance['rewardApproval'];
     universityPublicSummary: ExtrimliExtrondolDeveloperAndCreateRepoWideReflectionGovernance['universityPublicSummary'];
+    additiveFacultyAndAgricultureTracks: ExtrimliExtrondolDeveloperAndCreateRepoWideReflectionGovernance['universityPublicSummary']['additiveFacultyAndAgricultureTracks'];
     aiIdentityFinanceGovernance: ExtrimliExtrondolDeveloperAndCreateRepoWideReflectionGovernance['aiIdentityFinanceGovernance'];
     covecnostAuditVisualReference: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['covecnostAuditVisualReference'];
     implementationPackage: ExtrimliExtrondolDeveloperAndCreateRepoWideReflectionGovernance['implementationPackage'];
@@ -2405,6 +2416,16 @@ export interface ExtrimliSpajaKodPublicFacade {
       instrumentTablaStatus: 'READY' | 'WATCH' | 'BLOCKED';
       payoutGovernancePosture: 'READY' | 'WATCH' | 'BLOCKED';
       privredniAktBeneficiarySegments: readonly ['poljoprivrednici-sa-gostoprimstvom', 'poljoprivrednici'];
+      additiveFacultyAndAgricultureTracks: {
+        stocarstvoStatus: 'READY' | 'WATCH' | 'BLOCKED';
+        vinogradarstvoStatus: 'READY' | 'WATCH' | 'BLOCKED';
+        poljoprivredniFakultetStatus: 'READY' | 'WATCH' | 'BLOCKED';
+        gradjevinskiFakultetStatus: 'READY' | 'WATCH' | 'BLOCKED';
+        workforcePosture: 'READY' | 'WATCH' | 'BLOCKED';
+        infrastructurePosture: 'READY' | 'WATCH' | 'BLOCKED';
+        reviewPosture: 'ALIGNED' | 'WATCH' | 'REVIEW_REQUIRED';
+        rolloutFreezeRequired: boolean;
+      };
       auditSafeReason: string;
     };
     aiPlateStatus: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['aiPlateOffer']['boundedReadinessProfile']['consolidatedStatus'];

@@ -4485,6 +4485,18 @@ function buildVrhProgramskogEkviladentaSignal(params: {
   const physicsStatus = classifyVrhProgramskogEkviladentaStatus(kraljevskaFizikaUniverzitetReadinessScore);
   const mechanicalStatus = classifyVrhProgramskogEkviladentaStatus(kraljevskiMasinskiUniverzitetReadinessScore);
   const kraljevskiEkonomskiUneverzitetReadinessScore = score;
+  const resolveDeveloperCreateExtensionStatus = (value: number): 'READY' | 'WATCH' | 'BLOCKED' => {
+    if (value >= 70) return 'READY';
+    if (value >= 45) return 'WATCH';
+    return 'BLOCKED';
+  };
+  const resolveDeveloperCreateAreaStatus = (
+    value: number,
+  ): 'passed' | 'certified' | 'eligible-for-payout' | 'blocked-for-review' => {
+    if (value >= 80) return 'eligible-for-payout';
+    if (value >= 60) return 'passed';
+    return 'blocked-for-review';
+  };
   const economicStatus: ExtrimliExtremVrhProgramskogEkviladentaStatus = status;
 
   return {
@@ -6574,6 +6586,10 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
         kraljevskiProgramskiUneverzitet: 'KRALJEVSKI PROGRAMSKI UNEVERZITET',
         kraljevskiEkonomskiUneverzitet: 'KRALJEVSKI EKONOMSKI UNEVERZITET',
         kraljevskiBastaUneverzite: 'KRALJEVSKI BAŠTA UNEVERZITE',
+        stocarstvo: 'STOČARSTVO',
+        vinogradarstvo: 'VINOGRADARSTVO',
+        poljoprivredniFakultet: 'POLJOPRIVREDNI FAKULTET',
+        gradjevinskiFakultet: 'GRAĐEVINSKI FAKULTET',
       },
       osnoveRispektProtocol: {
         title: 'OSNOVE / RISPEKT',
@@ -8186,6 +8202,61 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
       owner: 'tests-and-downstream-sync',
     },
   ];
+  const kraljevskiEkonomskiUneverzitetReadinessScore =
+    dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.score;
+  const resolveDeveloperCreateExtensionStatus = (value: number): 'READY' | 'WATCH' | 'BLOCKED' => {
+    if (value >= 70) return 'READY';
+    if (value >= 45) return 'WATCH';
+    return 'BLOCKED';
+  };
+  const resolveDeveloperCreateAreaStatus = (
+    value: number,
+  ): 'passed' | 'certified' | 'eligible-for-payout' | 'blocked-for-review' => {
+    if (value >= 80) return 'eligible-for-payout';
+    if (value >= 60) return 'passed';
+    return 'blocked-for-review';
+  };
+  const stocarstvoReadinessScore = round(
+    (
+      kraljevskiEkonomskiUneverzitetReadinessScore
+      + radniTaktMozgaMislilac.readiness.score
+      + privredniAktQuarterlyMarketInput.score
+    ) / 3,
+    2,
+  );
+  const vinogradarstvoReadinessScore = round(
+    (
+      kraljevskiEkonomskiUneverzitetReadinessScore
+      + metrikoProgramiranje.readiness.score
+      + vrhProgramskogEkviladenta.readiness.score
+    ) / 3,
+    2,
+  );
+  const poljoprivredniFakultetReadinessScore = round(
+    (
+      stocarstvoReadinessScore
+      + vinogradarstvoReadinessScore
+      + radniTaktMozgaMislilac.readiness.score
+    ) / 3,
+    2,
+  );
+  const gradjevinskiFakultetReadinessScore = round(
+    (
+      vrhProgramskogEkviladenta.readiness.score
+      + metrikoProgramiranje.readiness.score
+      + privredniAktQuarterlyMarketInput.zadrugaOperations.operationalSignals.instrumentTablaOperationalReadinessPercent
+    ) / 3,
+    2,
+  );
+  const developerCreateUniversityAreaScores = [
+    vrhProgramskogEkviladenta.readiness.score,
+    radniTaktMozgaMislilac.readiness.score,
+    metrikoProgramiranje.readiness.score,
+    sinemetrickoProgramiranje.readiness.score,
+    paradijogonalnoProgrimiranje.readiness.score,
+    poljoprivredniFakultetReadinessScore,
+    gradjevinskiFakultetReadinessScore,
+  ];
   dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.kraljevskiEkonomskiUneverzitet = {
     canonicalName: 'KRALJEVSKI EKONOMSKI UNEVERZITET',
     additiveOnly: true,
@@ -8233,6 +8304,70 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
       'sustainable-coordination',
       'audit-safe-growth',
     ],
+    boundedPrivredniDomains: {
+      stocarstvo: {
+        canonicalName: 'STOČARSTVO',
+        additiveOnly: true,
+        interpretativeRole: 'livestock-readiness-and-gazdinstvo-workforce-track',
+        sourceOfTruthRoutes: ['/api/extrimli/extrem', '/api/extrimli/extrondol', '/api/extrimli/spaja-kod'],
+        technicalReadinessBinding: {
+          sourceProfile: 'dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.technicalReadinessProfile',
+          sourceTrack: 'vrhProgramskogEkviladenta',
+          contributingSignals: ['radniTaktMozgaMislilac', 'vrhProgramskogEkviladenta'],
+          boundedInterpretation: 'existing-readiness-and-zadruga-workforce-signals-only',
+        },
+        governanceBinding: {
+          linkedTracks: ['PRIVREDNI AKT', 'ZADRUGA'],
+          technicalOwnership: 'DOK+DIK+FOR->EXTREM',
+          governanceOwnership: 'DAK+DUK->EXTRONDOL',
+          publicBoundary: 'SPAJA KOD',
+        },
+        workforcePosture: privredniAktQuarterlyMarketInput.zadrugaOperations.readiness.zadrugaOperationalStatus,
+        infrastructurePosture: privredniAktQuarterlyMarketInput.zadrugaOperations.readiness.instrumentTablaStatus,
+        readiness: {
+          status: resolveDeveloperCreateExtensionStatus(stocarstvoReadinessScore),
+          score: stocarstvoReadinessScore,
+          deterministicFallbackRequired:
+            dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.deterministicFallbackRequired,
+        },
+        noNewRuntimeModule: true,
+        noNewSourceOfTruthModule: true,
+        noNewRuntimeFormulas: true,
+        summary:
+          'STOČARSTVO ostaje additive-only privredna interpretativna traka vezana za postojeći technicalReadinessProfile i audit-safe ZADRUGA workforce posture, bez novih ruta i bez paralelnog source-of-truth sistema.',
+      },
+      vinogradarstvo: {
+        canonicalName: 'VINOGRADARSTVO',
+        additiveOnly: true,
+        interpretativeRole: 'vineyard-readiness-and-gazdinstvo-infrastructure-track',
+        sourceOfTruthRoutes: ['/api/extrimli/extrem', '/api/extrimli/extrondol', '/api/extrimli/spaja-kod'],
+        technicalReadinessBinding: {
+          sourceProfile: 'dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.technicalReadinessProfile',
+          sourceTrack: 'vrhProgramskogEkviladenta',
+          contributingSignals: ['metrikoProgramiranje', 'vrhProgramskogEkviladenta'],
+          boundedInterpretation: 'existing-readiness-and-zadruga-infrastructure-signals-only',
+        },
+        governanceBinding: {
+          linkedTracks: ['PRIVREDNI AKT', 'ZADRUGA'],
+          technicalOwnership: 'DOK+DIK+FOR->EXTREM',
+          governanceOwnership: 'DAK+DUK->EXTRONDOL',
+          publicBoundary: 'SPAJA KOD',
+        },
+        workforcePosture: privredniAktQuarterlyMarketInput.zadrugaOperations.readiness.zadrugaOperationalStatus,
+        infrastructurePosture: privredniAktQuarterlyMarketInput.zadrugaOperations.readiness.instrumentTablaStatus,
+        readiness: {
+          status: resolveDeveloperCreateExtensionStatus(vinogradarstvoReadinessScore),
+          score: vinogradarstvoReadinessScore,
+          deterministicFallbackRequired:
+            dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.deterministicFallbackRequired,
+        },
+        noNewRuntimeModule: true,
+        noNewSourceOfTruthModule: true,
+        noNewRuntimeFormulas: true,
+        summary:
+          'VINOGRADARSTVO ostaje additive-only privredna interpretativna traka vezana za postojeći technicalReadinessProfile i audit-safe ZADRUGA infrastructure posture, bez novih ruta i bez paralelnog source-of-truth sistema.',
+      },
+    },
     monetizationGovernanceModel: {
       payoutWindowPercent: [80, 100],
       governanceOnlyInGit: true,
@@ -8287,7 +8422,7 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
         dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.deterministicFallbackRequired,
     },
     summary:
-      'KRALJEVSKI EKONOMSKI UNEVERZITET ostaje additive-only interpretativna traka za produktivnost, raspodelu vrednosti, privredne puteve i poljoprivredno-razvojnu logiku mapiranu na postojeće readiness/profile signale u policy-gated režimu po pravnom poretku, bez novog runtime modula i bez novih finansijskih formula.',
+      'KRALJEVSKI EKONOMSKI UNEVERZITET ostaje additive-only interpretativna traka za produktivnost, raspodelu vrednosti, privredne puteve, STOČARSTVO, VINOGRADARSTVO i poljoprivredno-razvojnu logiku mapiranu na postojeće readiness/profile signale u policy-gated režimu po pravnom poretku, bez novog runtime modula i bez novih finansijskih formula.',
   };
   dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.kraljevskiProgramskiUneverzitet = {
     canonicalName: 'KRALJEVSKI PROGRAMSKI UNEVERZITET',
@@ -8400,6 +8535,24 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
                 ? 'passed'
                 : 'blocked-for-review',
         },
+        {
+          areaId: 'poljoprivredni-fakultet',
+          areaLabel: 'POLJOPRIVREDNI FAKULTET',
+          weightPercent: 10,
+          minimumPassPercent: 60,
+          certificationThresholdPercent: 80,
+          payoutThresholdPercent: 80,
+          derivedStatus: resolveDeveloperCreateAreaStatus(poljoprivredniFakultetReadinessScore),
+        },
+        {
+          areaId: 'gradjevinski-fakultet',
+          areaLabel: 'GRAĐEVINSKI FAKULTET',
+          weightPercent: 10,
+          minimumPassPercent: 60,
+          certificationThresholdPercent: 80,
+          payoutThresholdPercent: 80,
+          derivedStatus: resolveDeveloperCreateAreaStatus(gradjevinskiFakultetReadinessScore),
+        },
       ],
     },
     participantLifecycle: {
@@ -8411,13 +8564,7 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
       sourceProfile: 'dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.technicalReadinessProfile',
       status: dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.status,
       readinessScore: dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.score,
-      passedAreasCount: [
-        vrhProgramskogEkviladenta.readiness.score,
-        radniTaktMozgaMislilac.readiness.score,
-        metrikoProgramiranje.readiness.score,
-        sinemetrickoProgramiranje.readiness.score,
-        paradijogonalnoProgrimiranje.readiness.score,
-      ].filter((score) => score >= 60).length,
+      passedAreasCount: developerCreateUniversityAreaScores.filter((score) => score >= 60).length,
       deterministicFallbackRequired:
         dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.deterministicFallbackRequired,
     },
@@ -8426,21 +8573,9 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
       certificationStatus:
         dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.deterministicFallbackRequired
           ? 'blocked-for-review'
-          : [
-                vrhProgramskogEkviladenta.readiness.score,
-                radniTaktMozgaMislilac.readiness.score,
-                metrikoProgramiranje.readiness.score,
-                sinemetrickoProgramiranje.readiness.score,
-                paradijogonalnoProgrimiranje.readiness.score,
-              ].every((score) => score >= 80)
+          : developerCreateUniversityAreaScores.every((score) => score >= 80)
             ? 'certified'
-            : [
-                  vrhProgramskogEkviladenta.readiness.score,
-                  radniTaktMozgaMislilac.readiness.score,
-                  metrikoProgramiranje.readiness.score,
-                  sinemetrickoProgramiranje.readiness.score,
-                  paradijogonalnoProgrimiranje.readiness.score,
-                ].every((score) => score >= 60)
+            : developerCreateUniversityAreaScores.every((score) => score >= 60)
               ? 'passed'
               : 'blocked-for-review',
       certificationLevelModel: ['passed', 'certified', 'certified-with-reward', 'blocked-for-review'],
@@ -8451,21 +8586,9 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
       payoutStatus:
         dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.deterministicFallbackRequired
           ? 'blocked-for-review'
-          : [
-                vrhProgramskogEkviladenta.readiness.score,
-                radniTaktMozgaMislilac.readiness.score,
-                metrikoProgramiranje.readiness.score,
-                sinemetrickoProgramiranje.readiness.score,
-                paradijogonalnoProgrimiranje.readiness.score,
-              ].every((score) => score >= 80)
+          : developerCreateUniversityAreaScores.every((score) => score >= 80)
             ? 'eligible-for-payout'
-            : [
-                  vrhProgramskogEkviladenta.readiness.score,
-                  radniTaktMozgaMislilac.readiness.score,
-                  metrikoProgramiranje.readiness.score,
-                  sinemetrickoProgramiranje.readiness.score,
-                  paradijogonalnoProgrimiranje.readiness.score,
-                ].every((score) => score >= 60)
+            : developerCreateUniversityAreaScores.every((score) => score >= 60)
               ? 'certified'
               : 'blocked-for-review',
       governanceOnlyInGit: true,
@@ -8497,6 +8620,72 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
       'governance-lock',
       'audit-safe-summary',
     ],
+    boundedFacultyDomains: {
+      poljoprivredniFakultet: {
+        canonicalName: 'POLJOPRIVREDNI FAKULTET',
+        additiveOnly: true,
+        facultyRole: 'entry-certification-track-for-agriculture-and-hospitality-beneficiaries',
+        sourceOfTruthRoutes: ['/api/extrimli/extrem', '/api/extrimli/extrondol', '/api/extrimli/spaja-kod'],
+        technicalReadinessBinding: {
+          sourceProfile: 'dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.technicalReadinessProfile',
+          sourceTrack: 'vrhProgramskogEkviladenta',
+          contributingSignals: ['radniTaktMozgaMislilac', 'metrikoProgramiranje', 'vrhProgramskogEkviladenta'],
+          boundedInterpretation: 'existing-readiness-and-economic-track-only',
+        },
+        governanceBinding: {
+          linkedEconomicDomains: ['STOČARSTVO', 'VINOGRADARSTVO'],
+          technicalOwnership: 'DOK+DIK+FOR->EXTREM',
+          governanceOwnership: 'DAK+DUK->EXTRONDOL',
+          publicBoundary: 'SPAJA KOD',
+          certificationSurface: 'audit-safe-certification-and-review-summary-only',
+        },
+        workforcePosture: privredniAktQuarterlyMarketInput.zadrugaOperations.readiness.zadrugaOperationalStatus,
+        infrastructurePosture: privredniAktQuarterlyMarketInput.zadrugaOperations.readiness.instrumentTablaStatus,
+        readiness: {
+          status: resolveDeveloperCreateExtensionStatus(poljoprivredniFakultetReadinessScore),
+          score: poljoprivredniFakultetReadinessScore,
+          deterministicFallbackRequired:
+            dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.deterministicFallbackRequired,
+        },
+        noNewRuntimeModule: true,
+        noNewSourceOfTruthModule: true,
+        noNewRuntimeFormulas: true,
+        summary:
+          'POLJOPRIVREDNI FAKULTET ostaje additive-only obrazovno-sertifikaciona ulazna oblast za postojeće poljoprivredne i gostoprimstvene beneficiary segmente, bez novih ruta i bez paralelnog source-of-truth sistema.',
+      },
+      gradjevinskiFakultet: {
+        canonicalName: 'GRAĐEVINSKI FAKULTET',
+        additiveOnly: true,
+        facultyRole: 'gazdinstvo-design-infrastructure-and-operational-readiness-track',
+        sourceOfTruthRoutes: ['/api/extrimli/extrem', '/api/extrimli/extrondol', '/api/extrimli/spaja-kod'],
+        technicalReadinessBinding: {
+          sourceProfile: 'dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.technicalReadinessProfile',
+          sourceTrack: 'vrhProgramskogEkviladenta',
+          contributingSignals: ['vrhProgramskogEkviladenta', 'metrikoProgramiranje', 'paradijogonalnoProgramiranje'],
+          boundedInterpretation: 'existing-readiness-and-zadruga-infrastructure-only',
+        },
+        governanceBinding: {
+          linkedEconomicDomains: ['STOČARSTVO', 'VINOGRADARSTVO'],
+          technicalOwnership: 'DOK+DIK+FOR->EXTREM',
+          governanceOwnership: 'DAK+DUK->EXTRONDOL',
+          publicBoundary: 'SPAJA KOD',
+          certificationSurface: 'audit-safe-project-and-infrastructure-summary-only',
+        },
+        workforcePosture: privredniAktQuarterlyMarketInput.zadrugaOperations.readiness.zadrugaOperationalStatus,
+        infrastructurePosture: privredniAktQuarterlyMarketInput.zadrugaOperations.readiness.instrumentTablaStatus,
+        readiness: {
+          status: resolveDeveloperCreateExtensionStatus(gradjevinskiFakultetReadinessScore),
+          score: gradjevinskiFakultetReadinessScore,
+          deterministicFallbackRequired:
+            dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.deterministicFallbackRequired,
+        },
+        noNewRuntimeModule: true,
+        noNewSourceOfTruthModule: true,
+        noNewRuntimeFormulas: true,
+        summary:
+          'GRAĐEVINSKI FAKULTET ostaje additive-only oblast za projektovanje, infrastrukturu i operativnu spremnost gazdinstva, bez novih ruta i bez paralelnog source-of-truth sistema.',
+      },
+    },
     readiness: {
       status: dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.status,
       score: dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.score,
@@ -8504,7 +8693,7 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
         dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.deterministicFallbackRequired,
     },
     summary:
-      'KRALJEVSKI PROGRAMSKI UNEVERZITET ostaje additive-only vršni programski alias nad postojećim VRH, METRIČKO, SINEMETRIČKO, PARADIJOGONALNO i RADNI TAKT signalima bez novih formula, novih ruta ili novog source-of-truth sistema.',
+      'KRALJEVSKI PROGRAMSKI UNEVERZITET ostaje additive-only vršni programski alias nad postojećim VRH, METRIČKO, SINEMETRIČKO, PARADIJOGONALNO i RADNI TAKT signalima, uz POLJOPRIVREDNI FAKULTET i GRAĐEVINSKI FAKULTET kao bounded obrazovno-sertifikacione oblasti bez novih formula, novih ruta ili novog source-of-truth sistema.',
   };
   dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.kraljevskiBastaUneverzite = {
     canonicalName: 'KRALJEVSKI BAŠTA UNEVERZITE',
@@ -8809,6 +8998,7 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
       extremPublishes: 'derived-technical-readiness-profile-only',
       extrondolPublishes: 'audit-freeze-promotion-review-summary-only',
       spajaKodPublishes: 'final-audit-safe-status-only',
+      boundedFacultyDomains: ['POLJOPRIVREDNI FAKULTET', 'GRAĐEVINSKI FAKULTET'],
       noNewRuntimeModule: true,
       noParallelSourceOfTruth: true,
       rawInternalsExposed: false,
@@ -8820,6 +9010,7 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
       spajaKodPublishes: 'final-audit-safe-status-only',
       legalEconomicOrder: 'ekonomska-privreda-stub-podizanja-ekonomije-po-pravnom-poretku',
       bezpovratneSubvencijeMode: 'governance-only-payout-evidence',
+      boundedPrivredniDomains: ['STOČARSTVO', 'VINOGRADARSTVO'],
       arhimedisModelBounded: true,
       noNewRuntimeModule: true,
       rawInternalsExposed: false,
