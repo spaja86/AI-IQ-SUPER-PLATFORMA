@@ -2487,12 +2487,14 @@ export interface ExtrimliDokDikDakDukConsistencyHealth {
       sinemetrickoProgramiranje: 'SINEMETRIČKO PROGRAMIRANJE';
       paradijogonalnoProgrimiranje: 'PARADIJOGONALNO PROGRAMIRANJE';
       kraljevskiEkonomskiUneverzitet: 'KRALJEVSKI EKONOMSKI UNEVERZITET';
+      kraljevskiBastaUneverzite: 'KRALJEVSKI BAŠTA UNEVERZITE';
     };
     canonicalGovernanceVocabulary: {
       extremExtrimliExtrondol: 'EXTRIMLI EXTRONDOL EXTREM';
       dokDikDakDukFor: 'DOK DIK DAK DUK FOR';
       kraljevskiPravniUniverzitet: 'KRALJEVSKI PRAVNI UNIVERZITET';
       kraljevskiEkonomskiUneverzitet: 'KRALJEVSKI EKONOMSKI UNEVERZITET';
+      kraljevskiBastaUneverzite: 'KRALJEVSKI BAŠTA UNEVERZITE';
     };
     osnoveRispektProtocol: {
       title: 'OSNOVE / RISPEKT';
@@ -2589,6 +2591,51 @@ export interface ExtrimliDokDikDakDukConsistencyHealth {
         'cadence-discipline',
         'sustainable-coordination',
         'audit-safe-growth'
+      ];
+      readiness: {
+        status: 'READY' | 'WATCH' | 'BLOCKED';
+        score: number;
+        deterministicFallbackRequired: boolean;
+      };
+      summary: string;
+    };
+    kraljevskiBastaUneverzite: {
+      canonicalName: 'KRALJEVSKI BAŠTA UNEVERZITE';
+      canonicalNarrativeId: 'kraljevski-basta-uneverzite-prirodne-maticne-celije-covecanstvu';
+      additiveOnly: true;
+      interpretativeLayer: 'garden-stewardship-natural-stem-cell-humanity-track';
+      aliasOfExistingReflectionPackage: true;
+      noNewRuntimeModule: true;
+      noMedicalRuntimeClaims: true;
+      noNewRuntimeFormulas: true;
+      noOperationalAiHealthSubsystem: true;
+      sourceOfTruthRoutes: readonly ['/api/extrimli/extrem', '/api/extrimli/extrondol', '/api/extrimli/spaja-kod'];
+      sourceTrack: 'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == RADNI TAKT MOZGA (MISLILAC)';
+      narrativeGoal: 'izucavanje-prirodnih-maticnih-celija-radi-unapredjenja-covecanstvu';
+      technicalReadinessBinding: {
+        sourceProfile: 'dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.technicalReadinessProfile';
+        sourceTrack: 'vrhProgramskogEkviladenta';
+        contributingSignals: readonly ['vrhProgramskogEkviladenta', 'metrikoProgramiranje', 'radniTaktMozgaMislilac'];
+        boundedInterpretation: 'documentation-and-evidence-only';
+      };
+      governanceBinding: {
+        technicalOwnership: 'DOK+DIK+FOR->EXTREM';
+        governanceOwnership: 'DAK+DUK->EXTRONDOL';
+        publicBoundary: 'SPAJA KOD';
+        covecanstvuBoundary: 'summary-only';
+      };
+      supportingNarratives: readonly [
+        'covecanstvo-kraljevska-produktivnost-pravno-gradjanstvo-basta-epilog-developer-create',
+        'covecanstvo-maticne-celije-i-spoznavanje-sebe-developer-create'
+      ];
+      thematicSignals: readonly [
+        'knowledge',
+        'nature',
+        'development',
+        'responsibility',
+        'garden-stewardship',
+        'natural-stem-cells',
+        'humanity-uplift'
       ];
       readiness: {
         status: 'READY' | 'WATCH' | 'BLOCKED';
@@ -2710,10 +2757,11 @@ export interface ExtrimliDokDikDakDukConsistencyHealth {
     aiIdentityFinanceGovernance: AiIdentityFinanceGovernancePackage;
     currentImplementationStage: {
       roadmapStageId: 'v5-extrondol-release-audit-and-orchestration';
-      measurableOutput: 'audit-safe repo-wide reflection status plus AI identity-finance governance, primary ČOVEČNOST, supplemental ČOVEČANSTVO, companion ČOVEČANSTVO / OSEĆAJ OSEBENOSTI visual metadata, and OSNOVE / RISPEKT protocol evidence are published only through existing EXTRIMLI/EXTREM/EXTRONDOL/SPAJA KOD surfaces';
+      measurableOutput: 'audit-safe repo-wide reflection status plus AI identity-finance governance, primary ČOVEČNOST, supplemental ČOVEČANSTVO, KRALJEVSKI BAŠTA UNEVERZITE bounded narrative metadata, companion ČOVEČANSTVO / OSEĆAJ OSEBENOSTI visual metadata, and OSNOVE / RISPEKT protocol evidence are published only through existing EXTRIMLI/EXTREM/EXTRONDOL/SPAJA KOD surfaces';
       acceptanceEvidence: readonly [
         'dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.implementationPackage',
         'dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection',
+        'dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.kraljevskiBastaUneverzite',
         'dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.covecnostAuditVisualReference',
         'dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.covecnostAuditVisualReference.supplementalVisualReferences',
         'dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.covecnostAuditVisualReference.companionAuditVisualReferences',
@@ -2888,6 +2936,19 @@ export interface ExtrimliDokDikDakDukConsistencyHealth {
         spajaKodPublishes: 'final-audit-safe-status-only';
         arhimedisModelBounded: true;
         noNewRuntimeModule: true;
+        rawInternalsExposed: false;
+      };
+      kraljevskiBastaUneverziteBoundary: {
+        trackRole: 'garden-and-natural-stem-cell-documentation-track';
+        extremPublishes: 'technical-readiness-profile-only';
+        extrondolPublishes: 'wawe-audit-summary-only';
+        spajaKodPublishes: 'final-audit-safe-status-only';
+        supportingNarratives: readonly [
+          'covecanstvo-kraljevska-produktivnost-pravno-gradjanstvo-basta-epilog-developer-create',
+          'covecanstvo-maticne-celije-i-spoznavanje-sebe-developer-create'
+        ];
+        noNewRuntimeModule: true;
+        noMedicalRuntimeClaims: true;
         rawInternalsExposed: false;
       };
       canonicalTerminologyMapping: {
