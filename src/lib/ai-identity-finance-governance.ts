@@ -97,7 +97,8 @@ export interface AiIdentityFinanceGovernancePackage {
       'payment-verification-status',
       'human-review-status',
       'downstream-sync-status',
-      'payout-compensation-regime'
+      'payout-compensation-regime',
+      'bezpovratne-subvencije-status'
     ];
     forbiddenEvidence: readonly [
       'real-bank-account-numbers',
