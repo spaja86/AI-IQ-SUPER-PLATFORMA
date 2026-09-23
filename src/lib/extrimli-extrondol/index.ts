@@ -6461,18 +6461,7 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
         roadmapStageId: 'v5-extrondol-release-audit-and-orchestration',
         measurableOutput:
           'EXTRONDOL consumes the repo-wide technical profile plus primary/supplemental/companion audit visual metadata and publishes only audit-safe WAWE/review/rollback governance',
-        acceptanceEvidence: [
-          'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.implementationPackage',
-          'developerAndCreateRepoWideReflection',
-          'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance',
-          'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.covecnostAuditVisualReference.supplementalVisualReferences',
-          'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.covecnostAuditVisualReference.companionAuditVisualReferences',
-          'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.osnoveRispektProtocol',
-          'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.aiPlateGovernance',
-          'spajaKod.publicSignals.developerAndCreateStatus',
-          'spajaKod.publicSignals.developerAndCreateImplementationStatus',
-          'spajaKod.publicSignals.aiPlateStatus',
-        ],
+        acceptanceEvidence: DEVELOPER_CREATE_ROADMAP_ACCEPTANCE_EVIDENCE,
         downstreamSync: 'follow-up-only-until-io-openui-ao-adopts-audit-safe-summary',
       },
       waweImpact: {
