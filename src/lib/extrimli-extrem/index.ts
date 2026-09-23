@@ -6617,6 +6617,8 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
         vinogradarstvo: 'VINOGRADARSTVO',
         poljoprivredniFakultet: 'POLJOPRIVREDNI FAKULTET',
         gradjevinskiFakultet: 'GRAĐEVINSKI FAKULTET',
+        pedagoskiFakultet: 'PEDAGOŠKI FAKULTET',
+        psiholoskiFakultet: 'PSIHOLOŠKI FAKULTET',
         gradjevinskiAkt: 'GRAĐEVINSKI AKT',
         kraljevskaDopuna: 'KRALJEVSKA DOPUNA',
         osnovneZivotnePotrebe: 'OSNOVNE ŽIVOTNE POTREBE',
@@ -8320,6 +8322,22 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
     ) / 3,
     2,
   );
+  const pedagoskiFakultetReadinessScore = round(
+    (
+      radniTaktMozgaMislilac.readiness.score
+      + metrikoProgramiranje.readiness.score
+      + sinemetrickoProgramiranje.readiness.score
+    ) / 3,
+    2,
+  );
+  const psiholoskiFakultetReadinessScore = round(
+    (
+      radniTaktMozgaMislilac.readiness.score
+      + vrhProgramskogEkviladenta.readiness.score
+      + sinemetrickoProgramiranje.readiness.score
+    ) / 3,
+    2,
+  );
   const kraljevskiDrustveniPoredakScore = round(
     (
       gradjevinskiFakultetReadinessScore
@@ -8352,6 +8370,8 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
     paradijogonalnoProgrimiranje.readiness.score,
     poljoprivredniFakultetReadinessScore,
     gradjevinskiFakultetReadinessScore,
+    pedagoskiFakultetReadinessScore,
+    psiholoskiFakultetReadinessScore,
   ];
   dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.kraljevskiEkonomskiUneverzitet = {
     canonicalName: 'KRALJEVSKI EKONOMSKI UNEVERZITET',
@@ -8649,6 +8669,24 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
           payoutThresholdPercent: 80,
           derivedStatus: resolveDeveloperCreateAreaStatus(gradjevinskiFakultetReadinessScore),
         },
+        {
+          areaId: 'pedagoski-fakultet',
+          areaLabel: 'PEDAGOŠKI FAKULTET',
+          weightPercent: 10,
+          minimumPassPercent: 60,
+          certificationThresholdPercent: 80,
+          payoutThresholdPercent: 80,
+          derivedStatus: resolveDeveloperCreateAreaStatus(pedagoskiFakultetReadinessScore),
+        },
+        {
+          areaId: 'psiholoski-fakultet',
+          areaLabel: 'PSIHOLOŠKI FAKULTET',
+          weightPercent: 10,
+          minimumPassPercent: 60,
+          certificationThresholdPercent: 80,
+          payoutThresholdPercent: 80,
+          derivedStatus: resolveDeveloperCreateAreaStatus(psiholoskiFakultetReadinessScore),
+        },
       ],
     },
     participantLifecycle: {
@@ -8781,6 +8819,75 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
         summary:
           'GRAĐEVINSKI FAKULTET ostaje additive-only oblast za projektovanje, infrastrukturu i operativnu spremnost gazdinstva, bez novih ruta i bez paralelnog source-of-truth sistema.',
       },
+      pedagoskiFakultet: {
+        canonicalName: 'PEDAGOŠKI FAKULTET',
+        additiveOnly: true,
+        facultyRole: 'education-mentorship-methodology-and-communication-readiness-track',
+        sourceOfTruthRoutes: ['/api/extrimli/extrem', '/api/extrimli/extrondol', '/api/extrimli/spaja-kod'],
+        technicalReadinessBinding: {
+          sourceProfile: 'dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.technicalReadinessProfile',
+          sourceTrack: 'vrhProgramskogEkviladenta',
+          contributingSignals: ['radniTaktMozgaMislilac', 'metrikoProgramiranje', 'sinemetrickoProgramiranje'],
+          boundedInterpretation: 'existing-readiness-and-communication-guidance-only',
+        },
+        governanceBinding: {
+          linkedProgrammaticDomains: ['POLJOPRIVREDNI FAKULTET', 'GRAĐEVINSKI FAKULTET'],
+          technicalOwnership: 'DOK+DIK+FOR->EXTREM',
+          governanceOwnership: 'DAK+DUK->EXTRONDOL',
+          publicBoundary: 'SPAJA KOD',
+          certificationSurface: 'audit-safe-education-mentorship-summary-only',
+        },
+        workforcePosture: privredniAktQuarterlyMarketInput.zadrugaOperations.readiness.zadrugaOperationalStatus,
+        infrastructurePosture: privredniAktQuarterlyMarketInput.zadrugaOperations.readiness.instrumentTablaStatus,
+        readiness: {
+          status: resolveDeveloperCreateExtensionStatus(pedagoskiFakultetReadinessScore),
+          score: pedagoskiFakultetReadinessScore,
+          deterministicFallbackRequired:
+            dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.deterministicFallbackRequired,
+        },
+        noNewRuntimeModule: true,
+        noNewSourceOfTruthModule: true,
+        noNewRuntimeFormulas: true,
+        summary:
+          'PEDAGOŠKI FAKULTET ostaje additive-only oblast za obrazovni, mentorski, metodološki i komunikacioni readiness bez novih ruta i bez paralelnog source-of-truth sistema.',
+      },
+      psiholoskiFakultet: {
+        canonicalName: 'PSIHOLOŠKI FAKULTET',
+        additiveOnly: true,
+        facultyRole: 'bounded-cognitive-readiness-and-resilience-track',
+        sourceOfTruthRoutes: ['/api/extrimli/extrem', '/api/extrimli/extrondol', '/api/extrimli/spaja-kod'],
+        technicalReadinessBinding: {
+          sourceProfile: 'dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.technicalReadinessProfile',
+          sourceTrack: 'vrhProgramskogEkviladenta',
+          contributingSignals: ['radniTaktMozgaMislilac', 'vrhProgramskogEkviladenta', 'sinemetrickoProgramiranje'],
+          boundedInterpretation: 'existing-readiness-and-resilience-guidance-only',
+        },
+        governanceBinding: {
+          linkedProgrammaticDomains: ['PEDAGOŠKI FAKULTET', 'RADNI TAKT MOZGA (MISLILAC)'],
+          technicalOwnership: 'DOK+DIK+FOR->EXTREM',
+          governanceOwnership: 'DAK+DUK->EXTRONDOL',
+          publicBoundary: 'SPAJA KOD',
+          certificationSurface: 'audit-safe-cognitive-resilience-summary-only',
+        },
+        nonClinicalBoundary: {
+          noClinicalSubsystem: true,
+          noDiagnosticSubsystem: true,
+          noTherapeuticSubsystem: true,
+        },
+        workforcePosture: privredniAktQuarterlyMarketInput.zadrugaOperations.readiness.zadrugaOperationalStatus,
+        infrastructurePosture: privredniAktQuarterlyMarketInput.zadrugaOperations.readiness.instrumentTablaStatus,
+        readiness: {
+          status: resolveDeveloperCreateExtensionStatus(psiholoskiFakultetReadinessScore),
+          score: psiholoskiFakultetReadinessScore,
+          deterministicFallbackRequired:
+            dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.deterministicFallbackRequired,
+        },
+        noNewRuntimeModule: true,
+        noNewSourceOfTruthModule: true,
+        noNewRuntimeFormulas: true,
+        summary:
+          'PSIHOLOŠKI FAKULTET ostaje additive-only bounded cognitive/readiness/resilience oblast bez kliničkog, dijagnostičkog ili terapijskog subsistema, bez novih ruta i bez paralelnog source-of-truth sistema.',
+      },
     },
     readiness: {
       status: dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.status,
@@ -8789,7 +8896,7 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
         dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.deterministicFallbackRequired,
     },
     summary:
-      'KRALJEVSKI PROGRAMSKI UNEVERZITET ostaje additive-only vršni programski alias nad postojećim VRH, METRIČKO, SINEMETRIČKO, PARADIJOGONALNO i RADNI TAKT signalima, uz POLJOPRIVREDNI FAKULTET i GRAĐEVINSKI FAKULTET kao bounded obrazovno-sertifikacione oblasti bez novih formula, novih ruta ili novog source-of-truth sistema.',
+      'KRALJEVSKI PROGRAMSKI UNEVERZITET ostaje additive-only vršni programski alias nad postojećim VRH, METRIČKO, SINEMETRIČKO, PARADIJOGONALNO i RADNI TAKT signalima, uz POLJOPRIVREDNI FAKULTET, GRAĐEVINSKI FAKULTET, PEDAGOŠKI FAKULTET i PSIHOLOŠKI FAKULTET kao bounded obrazovno-sertifikacione oblasti bez novih formula, novih ruta ili novog source-of-truth sistema.',
   };
   dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.kraljevskiDrustveniPoredak = {
     canonicalName: 'KRALJEVSKI DRUŠTVENI POREDAK',

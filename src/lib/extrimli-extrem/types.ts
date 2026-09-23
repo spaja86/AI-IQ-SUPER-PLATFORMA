@@ -2530,6 +2530,8 @@ export interface ExtrimliDokDikDakDukConsistencyHealth {
       vinogradarstvo: 'VINOGRADARSTVO';
       poljoprivredniFakultet: 'POLJOPRIVREDNI FAKULTET';
       gradjevinskiFakultet: 'GRAĐEVINSKI FAKULTET';
+      pedagoskiFakultet: 'PEDAGOŠKI FAKULTET';
+      psiholoskiFakultet: 'PSIHOLOŠKI FAKULTET';
       gradjevinskiAkt: 'GRAĐEVINSKI AKT';
       kraljevskaDopuna: 'KRALJEVSKA DOPUNA';
       osnovneZivotnePotrebe: 'OSNOVNE ŽIVOTNE POTREBE';
@@ -2976,6 +2978,71 @@ export interface ExtrimliDokDikDakDukConsistencyHealth {
             governanceOwnership: 'DAK+DUK->EXTRONDOL';
             publicBoundary: 'SPAJA KOD';
             certificationSurface: 'audit-safe-project-and-infrastructure-summary-only';
+          };
+          workforcePosture: 'READY' | 'WATCH' | 'BLOCKED';
+          infrastructurePosture: 'READY' | 'WATCH' | 'BLOCKED';
+          readiness: {
+            status: 'READY' | 'WATCH' | 'BLOCKED';
+            score: number;
+            deterministicFallbackRequired: boolean;
+          };
+          noNewRuntimeModule: true;
+          noNewSourceOfTruthModule: true;
+          noNewRuntimeFormulas: true;
+          summary: string;
+        };
+        pedagoskiFakultet: {
+          canonicalName: 'PEDAGOŠKI FAKULTET';
+          additiveOnly: true;
+          facultyRole: 'education-mentorship-methodology-and-communication-readiness-track';
+          sourceOfTruthRoutes: readonly ['/api/extrimli/extrem', '/api/extrimli/extrondol', '/api/extrimli/spaja-kod'];
+          technicalReadinessBinding: {
+            sourceProfile: 'dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.technicalReadinessProfile';
+            sourceTrack: 'vrhProgramskogEkviladenta';
+            contributingSignals: readonly ['radniTaktMozgaMislilac', 'metrikoProgramiranje', 'sinemetrickoProgramiranje'];
+            boundedInterpretation: 'existing-readiness-and-communication-guidance-only';
+          };
+          governanceBinding: {
+            linkedProgrammaticDomains: readonly ['POLJOPRIVREDNI FAKULTET', 'GRAĐEVINSKI FAKULTET'];
+            technicalOwnership: 'DOK+DIK+FOR->EXTREM';
+            governanceOwnership: 'DAK+DUK->EXTRONDOL';
+            publicBoundary: 'SPAJA KOD';
+            certificationSurface: 'audit-safe-education-mentorship-summary-only';
+          };
+          workforcePosture: 'READY' | 'WATCH' | 'BLOCKED';
+          infrastructurePosture: 'READY' | 'WATCH' | 'BLOCKED';
+          readiness: {
+            status: 'READY' | 'WATCH' | 'BLOCKED';
+            score: number;
+            deterministicFallbackRequired: boolean;
+          };
+          noNewRuntimeModule: true;
+          noNewSourceOfTruthModule: true;
+          noNewRuntimeFormulas: true;
+          summary: string;
+        };
+        psiholoskiFakultet: {
+          canonicalName: 'PSIHOLOŠKI FAKULTET';
+          additiveOnly: true;
+          facultyRole: 'bounded-cognitive-readiness-and-resilience-track';
+          sourceOfTruthRoutes: readonly ['/api/extrimli/extrem', '/api/extrimli/extrondol', '/api/extrimli/spaja-kod'];
+          technicalReadinessBinding: {
+            sourceProfile: 'dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.technicalReadinessProfile';
+            sourceTrack: 'vrhProgramskogEkviladenta';
+            contributingSignals: readonly ['radniTaktMozgaMislilac', 'vrhProgramskogEkviladenta', 'sinemetrickoProgramiranje'];
+            boundedInterpretation: 'existing-readiness-and-resilience-guidance-only';
+          };
+          governanceBinding: {
+            linkedProgrammaticDomains: readonly ['PEDAGOŠKI FAKULTET', 'RADNI TAKT MOZGA (MISLILAC)'];
+            technicalOwnership: 'DOK+DIK+FOR->EXTREM';
+            governanceOwnership: 'DAK+DUK->EXTRONDOL';
+            publicBoundary: 'SPAJA KOD';
+            certificationSurface: 'audit-safe-cognitive-resilience-summary-only';
+          };
+          nonClinicalBoundary: {
+            noClinicalSubsystem: true;
+            noDiagnosticSubsystem: true;
+            noTherapeuticSubsystem: true;
           };
           workforcePosture: 'READY' | 'WATCH' | 'BLOCKED';
           infrastructurePosture: 'READY' | 'WATCH' | 'BLOCKED';

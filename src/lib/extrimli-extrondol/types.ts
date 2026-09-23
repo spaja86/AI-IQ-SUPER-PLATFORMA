@@ -786,6 +786,8 @@ export interface ExtrimliExtrondolDeveloperAndCreateRepoWideReflectionGovernance
       vinogradarstvoStatus: 'READY' | 'WATCH' | 'BLOCKED';
       poljoprivredniFakultetStatus: 'READY' | 'WATCH' | 'BLOCKED';
       gradjevinskiFakultetStatus: 'READY' | 'WATCH' | 'BLOCKED';
+      pedagoskiFakultetStatus: 'READY' | 'WATCH' | 'BLOCKED';
+      psiholoskiFakultetStatus: 'READY' | 'WATCH' | 'BLOCKED';
       workforcePosture: 'READY' | 'WATCH' | 'BLOCKED';
       infrastructurePosture: 'READY' | 'WATCH' | 'BLOCKED';
       reviewPosture: 'ALIGNED' | 'WATCH' | 'REVIEW_REQUIRED';
@@ -2436,6 +2438,8 @@ export interface ExtrimliSpajaKodPublicFacade {
         vinogradarstvoStatus: 'READY' | 'WATCH' | 'BLOCKED';
         poljoprivredniFakultetStatus: 'READY' | 'WATCH' | 'BLOCKED';
         gradjevinskiFakultetStatus: 'READY' | 'WATCH' | 'BLOCKED';
+        pedagoskiFakultetStatus: 'READY' | 'WATCH' | 'BLOCKED';
+        psiholoskiFakultetStatus: 'READY' | 'WATCH' | 'BLOCKED';
         workforcePosture: 'READY' | 'WATCH' | 'BLOCKED';
         infrastructurePosture: 'READY' | 'WATCH' | 'BLOCKED';
         reviewPosture: 'ALIGNED' | 'WATCH' | 'REVIEW_REQUIRED';

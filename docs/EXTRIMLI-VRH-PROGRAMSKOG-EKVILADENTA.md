@@ -23,7 +23,7 @@ Repo-wide reflection sada obavezno uključuje i dnevni operativni cadence: `morn
 ## Additive university model
 
 - `KRALJEVSKI PROGRAMSKI UNEVERZITET` ostaje additive-only katalog `testova po oblastima` nad postojećim `technicalReadinessProfile` signalima; ne uvodi novu platformu, novu rutu ni novi source-of-truth sistem.
-- `POLJOPRIVREDNI FAKULTET` i `GRAĐEVINSKI FAKULTET` ostaju additive-only fakultetske oblasti unutar tog istog kataloga: prvi pokriva poljoprivrednu/gostoprimstvenu sertifikaciju, drugi projektovanje, infrastrukturu i operativnu spremnost gazdinstva.
+- `POLJOPRIVREDNI FAKULTET`, `GRAĐEVINSKI FAKULTET`, `PEDAGOŠKI FAKULTET` i `PSIHOLOŠKI FAKULTET` ostaju additive-only fakultetske oblasti unutar tog istog kataloga: prvi pokriva poljoprivrednu/gostoprimstvenu sertifikaciju, drugi projektovanje, infrastrukturu i operativnu spremnost gazdinstva, treći obrazovni/mentorski/metodološki i komunikacioni readiness, a četvrti bounded cognitive/readiness/resilience traku bez kliničkog, dijagnostičkog ili terapijskog subsistema.
 - `KRALJEVSKI EKONOMSKI UNEVERZITET` bounded tumači monetizaciju učenja samo kroz payout readiness, approval i reward signalizaciju, sa zaključanim opsegom `80–100%` za sertifikaciju i payout eligibility.
 - `STOČARSTVO` i `VINOGRADARSTVO` ostaju additive-only privredne oblasti unutar `KRALJEVSKI EKONOMSKI UNEVERZITET` i koriste samo postojeći `technicalReadinessProfile`, `PRIVREDNI AKT` kvartalni signal i `ZADRUGA` workforce/infrastructure posture.
 - `KRALJEVSKI PRAVNI UNIVERZITET` bounded zaključava governance celine za `human review`, `compliance review`, `payment verification`, `anti-abuse`, `duplicate attempt`, `dispute/appeal`, `downstream sync` i `audit trail`.
