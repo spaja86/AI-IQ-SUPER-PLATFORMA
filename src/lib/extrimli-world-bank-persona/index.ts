@@ -231,6 +231,8 @@ export function getExtrimliWorldBankPersonaReport(options: ExtrimliWorldBankPers
     linkedAgents: ['extrimli-validator-agent', 'multi-repo-sync-agent', 'persona-bank-agent'],
     crossRepoRef: EXTRIMLI_PERSONA_ID,
   };
+  const seededPrimaryPersona = SEED_PERSONAS.some((seedPersona) => (seedPersona.id ?? seedPersona.name) === (personaPayload.id ?? personaPayload.name));
+  const totalCatalogPersonas = aiIdentityFinanceGovernance.rolloutScope.totalSeededPersonas + (seededPrimaryPersona ? 0 : 1);
 
   const subflows = includeSubflows
     ? buildSubflows(extrimliAggregate.safetySignal, orchestrationReadinessScore)
@@ -245,7 +247,7 @@ export function getExtrimliWorldBankPersonaReport(options: ExtrimliWorldBankPers
     appliedBy: null,
     persona: null,
     catalogSync: {
-      totalCatalogPersonas: aiIdentityFinanceGovernance.rolloutScope.totalSeededPersonas,
+      totalCatalogPersonas,
       processedPersonas: 0,
       registered: 0,
       updated: 0,
@@ -258,7 +260,6 @@ export function getExtrimliWorldBankPersonaReport(options: ExtrimliWorldBankPers
     const client = createPersonaBankClient(agentId);
     const targetStatus = lifecycle.targetPersonaStatus;
     const primaryPersonaId = personaPayload.id ?? personaPayload.name;
-    const seededPrimaryPersona = SEED_PERSONAS.some((seedPersona) => (seedPersona.id ?? seedPersona.name) === primaryPersonaId);
     let primaryPersonaSynced = false;
     const personaMatchesPayload = (
       persona: NonNullable<ExtrimliWorldBankPersonaReport['writeResult']['persona']>,
@@ -356,7 +357,7 @@ export function getExtrimliWorldBankPersonaReport(options: ExtrimliWorldBankPers
 
     const catalogSync = {
       ...writeResult.catalogSync,
-      processedPersonas: seededPrimaryPersona && primaryPersonaSynced ? 1 : 0,
+      processedPersonas: primaryPersonaSynced ? 1 : 0,
     };
     for (const seedPersona of SEED_PERSONAS) {
       if ((seedPersona.id ?? seedPersona.name) === primaryPersonaId) continue;
