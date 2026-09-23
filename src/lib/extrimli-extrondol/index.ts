@@ -5150,6 +5150,16 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
       roadmapStageMapping: extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.roadmapStageMapping,
       technicalReadinessProfile: extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.technicalReadinessProfile,
       aiPlateOffer: extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.aiPlateOffer,
+      aiIdentityFinanceGovernance: {
+        ...extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.aiIdentityFinanceGovernance,
+        sourceOfTruth: '/api/extrimli/extrem',
+        paymentVerificationManagedBy: '/api/extrimli/extrondol',
+        currentWawe,
+        eligibleNextWawe: nextWawe(currentWawe),
+        promotionFreeze,
+        reviewRequiredBeforeWideRollout:
+          extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.aiIdentityFinanceGovernance.technicalSignals.status !== 'READY',
+      },
       covecnostAuditVisualReference: mapDeveloperCreateCovecnostAuditVisualReference(
         extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.covecnostAuditVisualReference,
       ),
