@@ -3,6 +3,7 @@ import {
   _resetPersonaBankStore,
   getPersona,
   registerPersona,
+  SEED_PERSONAS,
 } from '../../lib/persona-bank';
 import {
   EXTRIMLI_WORLD_BANK_PERSONA_CONTRACT_VERSION,
@@ -46,6 +47,10 @@ async function runTests(): Promise<void> {
     assert(report.activityFootprint.prioritizedActivities.length >= 1, 'activity footprint should expose prioritized activities');
     assert(report.mappedSignals.globalLicenseReadinessScore >= 0, 'global license readiness score should be available');
     assert(report.mappedSignals.activityCoverageScore >= 0, 'activity coverage score should be available');
+    assert(report.aiIdentityFinanceGovernance.canonicalName === 'AI LIČNA KARTA + AI BANKARSKI RAČUN', 'AI identity-finance package name mismatch');
+    assert(report.aiIdentityFinanceGovernance.compensationModel.weeklyTargetEur === 12000, 'AI identity-finance weekly target mismatch');
+    assert(report.aiIdentityFinanceGovernance.compensationModel.executionMode === 'business-target-only', 'AI identity-finance weekly target must remain business-target-only');
+    assert(report.aiIdentityFinanceGovernance.personas.length === SEED_PERSONAS.length, 'AI identity-finance rollout must include all seeded personas');
   });
 
   await test('governance hold blocks promotion and maps to dormant target status', () => {
@@ -90,12 +95,17 @@ async function runTests(): Promise<void> {
     assert(report.writeResult.operation === 'update', 'expected update operation');
     assert(report.writeResult.personaStatusAfter === 'dormant', 'expected conservative dormant status');
     assert(report.writeResult.auditEntriesAfter >= 2, 'audit log should be extended');
+    assert(report.writeResult.catalogSync.totalCatalogPersonas === SEED_PERSONAS.length, 'catalog sync total persona count mismatch');
+    assert(report.writeResult.catalogSync.processedPersonas === SEED_PERSONAS.length, 'catalog sync should process the full seeded catalog');
 
     const persona = getPersona('extrimli-core');
     assert(persona !== null, 'persona must exist after apply');
     assert(persona!.attributes.domain === 'extreme-sports/financial-readiness', 'domain mapping mismatch');
     assert(persona!.crossRepoRef === 'extrimli-core', 'crossRepoRef mismatch');
     assert(persona!.status === 'dormant', 'status mismatch after apply');
+    const syncedPersona = getPersona('another-maks');
+    assert(syncedPersona !== null, 'catalog sync should register additional AI personas');
+    assert(Boolean(syncedPersona?.attributes.aiIdentityCard), 'additional AI personas should receive AI identity card metadata');
   });
 
   await test('apply mode registers persona when missing', () => {
@@ -110,6 +120,7 @@ async function runTests(): Promise<void> {
     assert(report.writeResult.auditEntriesAfter >= 1, 'register should create initial audit entry');
     assert(report.writeResult.personaVersionAfter >= 1, 'register should set persona version');
     assert(report.writeResult.appliedBy === 'extrimli-validator-agent', 'appliedBy should match agent');
+    assert(report.writeResult.catalogSync.totalCatalogPersonas === SEED_PERSONAS.length, 'register apply should expose seeded persona rollout total');
 
     const persona = getPersona('extrimli-core');
     assert(persona !== null, 'persona must exist after register apply');

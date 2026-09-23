@@ -6,6 +6,7 @@ import {
 import type { ExtrimliVersionRoadmap, ExtrimliVersionRoadmapVersionId } from '../extrimli-version-roadmap';
 import type { ExtrimliDokerKuratIzekDokarExtremTrack } from '../extrimli-doker-kurat-izek-dokar-track';
 import type { ExtrimliSpajaproExtremTrack } from '../extrimli-spajapro-track';
+import type { AiIdentityFinanceGovernancePackage } from '../ai-identity-finance-governance';
 import type { EkvivalentDomain, EkvivalentRelationType } from '../ekvivalent-network/types';
 import type { PetljaInput, PetljaReason, PetljaStatus } from '../petlje';
 import { EXTRIMLI_OBJEKTNO_ORIJENTISANA_PRONGILACIJA_CONTRACT_VERSION } from '../extrimli-objektna-prongilacija-contract';
@@ -2656,6 +2657,7 @@ export interface ExtrimliDokDikDakDukConsistencyHealth {
         governanceChecklistStatus: string;
       };
     };
+    aiIdentityFinanceGovernance: AiIdentityFinanceGovernancePackage;
     currentImplementationStage: {
       roadmapStageId: 'v5-extrondol-release-audit-and-orchestration';
       measurableOutput: 'audit-safe repo-wide reflection status plus primary ČOVEČNOST, supplemental ČOVEČANSTVO, and companion ČOVEČANSTVO / OSEĆAJ OSEBENOSTI visual metadata are published only through existing EXTRIMLI/EXTREM/EXTRONDOL/SPAJA KOD surfaces';

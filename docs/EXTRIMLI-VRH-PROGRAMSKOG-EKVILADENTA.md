@@ -92,6 +92,15 @@ Aktivni execution lock ostaje podeljen: repo-wide reflection i dalje ostaje `roa
 - `12.000 EUR nedeljno` je dozvoljeno samo kao `premium-rollout-regime` / `pilot-first` odluka unutar postojećeg `paymentCycle=monthly-or-annual` enterprise okvira.
 - SPAJA KOD objavljuje samo finalni audit-safe status; sirove formule i interni komercijalni detalji ostaju izvan javnog sloja.
 
+## AI LIČNA KARTA + AI BANKARSKI RAČUN
+
+- `AI LIČNA KARTA + AI BANKARSKI RAČUN` pripada istom additive-only reflection paketu i ne uvodi novu runtime domenu.
+- `AI LIČNA KARTA` ostaje audit-safe javni identitet svake seedovane AI persone kroz `persona-bank`, uz obavezna polja: `personaId`, `name`, `domain`, `octave`, `hipermrezaNode`, `linkedAgents`, `lifecycleStatus`, `readinessStatus`, `governanceStatus`.
+- `AI BANKARSKI RAČUN` ostaje governance-only finansijski model za mapiranje na `AI IQ WORLD BANK`, approval/compliance/payment/human-review/downstream-sync signale i payout režim.
+- `12000 EURA nedeljno` ostaje business/finops cilj i ne sme biti interpretiran kao automatska isplata bez ugovornog, računovodstvenog i audit sloja.
+- Zabrana ostaje zaključana: nema stvarnih brojeva računa, neredigovanih izvoda, KYC podataka, payment secrets ili drugih osetljivih finansijskih inputa u Git-u.
+- Ownership split ostaje nepromenjen: `EXTREM` objavljuje bounded tehničke identity/finance signale, `EXTRONDOL` vodi approval/freeze/promote + payment verification governance, a `SPAJA KOD` ostaje audit-safe summary only.
+
 Isti execution lock pokriva i `ČOVEČNOST` audit vizuel: EXTREM objavljuje bounded readiness/conflict signal, EXTRONDOL ga prenosi samo kao governance evidence, a SPAJA KOD ga objavljuje samo kroz audit-safe public summary.
 
 ## Canonical role split

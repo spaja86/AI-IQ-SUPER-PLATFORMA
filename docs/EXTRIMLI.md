@@ -130,6 +130,7 @@ Promotion freeze je obavezan kada KPI/audit/sync nije potpun, uz rollback na pre
 - Poslovni cilj: `12000 EURA nedeljno` kao business/finops target only
 - Aktivacioni hard gate-ovi: billing approval, Vercel sales alignment, audit evidence, legal/tax review, security scans, downstream follow-up
 - Downstream sync: samo audit-safe summary polja ka `spaja86/IO-OPENUI-AO`
+- `AI LIČNA KARTA + AI BANKARSKI RAČUN` ostaje additive-only identity/governance paket vezan za isti `AI PLATE` business target: `AI LIČNA KARTA` objavljuje samo audit-safe identitet seedovanih AI persona, dok `AI BANKARSKI RAČUN` objavljuje samo approval/compliance/payment/human-review/downstream-sync/payout governance bez stvarnih bankarskih podataka u Git-u.
 
 ## Locked source-of-truth set
 

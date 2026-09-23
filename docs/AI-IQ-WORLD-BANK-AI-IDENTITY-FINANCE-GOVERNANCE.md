@@ -1,0 +1,100 @@
+# AI IQ WORLD BANK — AI Identity + Finance Governance
+
+> Contract mode: additive-only  
+> Source-of-truth routes remain locked to `/api/extrimli/extrem`, `/api/extrimli/extrondol`, `/api/extrimli/spaja-kod`  
+> Public boundary: audit-safe summary only
+
+## Purpose
+
+Ovaj dokument zaključava kanonski paket:
+
+- `AI LIČNA KARTA`
+- `AI BANKARSKI RAČUN`
+- `DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == AI PLATE`
+
+kao identity/governance/audit model za sve seedovane AI persone u repozitorijumu.
+
+## Scope lock
+
+- nema novih runtime source-of-truth ruta
+- nema promene ownership split-a
+- nema stvarnih bankarskih podataka u Git-u
+- nema KYC, brojeva računa, neredigovanih izvoda ni sekreta u javnom repozitorijumu
+
+Ownership ostaje zaključan:
+
+- `EXTREM` — tehnički signal i bounded readiness score
+- `EXTRONDOL` — approval/freeze/promote, payment verification, audit i downstream sync
+- `SPAJA KOD` — audit-safe summary only
+
+## AI lična karta
+
+Svaki seedovani AI mora imati audit-safe identitet u `persona-bank` sa sledećim javno dozvoljenim poljima:
+
+- `personaId`
+- `name`
+- `domain`
+- `octave`
+- `hipermrezaNode`
+- `linkedAgents`
+- `lifecycleStatus`
+- `readinessStatus`
+- `governanceStatus`
+
+Aktivacija mora ostati auditabilna kroz `persona-bank.auditLog` i `EXTRONDOL` human-review signal.
+
+## AI bankarski račun
+
+`AI BANKARSKI RAČUN` je governance model, nikada realni bankarski zapis u Git-u.
+
+Dozvoljeno je čuvati samo:
+
+- approval status
+- compliance status
+- payment verification status
+- human review status
+- downstream sync status
+- payout/compensation režim
+
+Zabranjeno je čuvati:
+
+- stvarne brojeve računa
+- neredigovane izvode
+- payment secrets
+- KYC dokumentaciju
+- operativne pristupne podatke
+
+## Compensation lock
+
+- `12000 EUR weekly` ostaje `business-finops-target-only`
+- `premium-rollout-regime` ostaje dozvoljeni payout/compensation režim
+- master billing ciklus ostaje `monthly-or-annual`
+
+Hard gate-ovi:
+
+- contract approval
+- compliance review
+- payment verification
+- human review
+- rollback plan
+- FinOps guardrails
+
+Bez svih gate-ova status mora ostati `WATCH` ili `BLOCKED`.
+
+## Standardized rollout
+
+Rollout ostaje zaključan na:
+
+1. referentni obrazac `extrimli-core`
+2. isti identity + governance + payout shape za sve ostale seedovane AI persone
+3. downstream sync samo preko audit-safe summary-ja prema `spaja86/IO-OPENUI-AO`
+
+## Acceptance lock
+
+Implementacija je validna samo kada su istovremeno tačni sledeći uslovi:
+
+- svaki seedovani AI ima audit-safe ličnu kartu
+- svaki seedovani AI ima governance-bounded bankarski/payout profil
+- `12000 EUR weekly` nije tretiran kao automatska isplata
+- nema novih source-of-truth ruta
+- docs, types, routes, tests i workflows ostaju drift-zero poravnati

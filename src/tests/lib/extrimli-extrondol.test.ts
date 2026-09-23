@@ -175,6 +175,7 @@ async function runTests(): Promise<void> {
     assert(lock.operationalAuditPackage.requiredFields.join(',') === 'rolloutPlan,rollbackPlan,kpiImpact,humanReviewStatus,downstreamReference', 'operational audit package required fields mismatch');
     assert(lock.mandatoryArtifacts.docs.includes('docs/EXTRIMLI-VRH-PROGRAMSKOG-EKVILADENTA.md'), 'VRH mandatory doc artifact missing');
     assert(lock.mandatoryArtifacts.docs.includes('docs/EXTRIMLI-EXTERNAL-GITHUB.md'), 'external GitHub mandatory doc artifact missing');
+    assert(lock.mandatoryArtifacts.docs.includes('docs/AI-IQ-WORLD-BANK-AI-IDENTITY-FINANCE-GOVERNANCE.md'), 'AI identity-finance mandatory doc artifact missing');
     assert(lock.mandatoryArtifacts.routes.includes('src/app/api/extrimli/extrem/route.ts'), 'EXTREM route mandatory artifact missing');
     assert(lock.mandatoryArtifacts.routes.includes('src/app/api/extrimli/spaja-kod/route.ts'), 'SPAJA KOD route mandatory artifact missing');
     assert(lock.mandatoryArtifacts.tests.includes('src/tests/api/extrimli-route.test.ts'), 'route test mandatory artifact missing');
@@ -183,9 +184,12 @@ async function runTests(): Promise<void> {
     assert(report.startProject.mandatoryOutputs.includes('extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.dailyOperationalCadence'), 'developer/create cadence must be a START mandatory output');
     assert(report.startProject.downstreamSync.syncedContractFields.includes('versionRoadmap.developerCreateLock'), 'developer/create lock must be synced downstream');
     assert(report.startProject.downstreamSync.syncedContractFields.includes('extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.dailyOperationalCadence'), 'developer/create cadence must sync downstream');
+    assert(report.startProject.downstreamSync.syncedContractFields.includes('extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.aiIdentityFinanceGovernance'), 'AI identity-finance governance must sync in START project contract');
+    assert(report.startProject.downstreamSync.syncedContractFields.includes('releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.aiIdentityFinanceGovernance'), 'AI identity-finance release audit governance must sync in START project contract');
     assert(report.b2bReadiness.downstreamSync.syncedFields.includes('versionRoadmap.developerCreateLock.driftZeroLayers'), 'developer/create drift-zero layers must be synced downstream');
     assert(report.b2bReadiness.downstreamSync.syncedFields.includes('versionRoadmap.developerCreateLock.dailyOperationalCadence'), 'developer/create cadence lock must be synced downstream');
     assert(report.b2bReadiness.downstreamSync.syncedFields.includes('versionRoadmap.developerCreateLock.definitionOfDone'), 'developer/create DoD must be synced downstream');
+    assert(report.b2bReadiness.downstreamSync.syncedFields.includes('extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.aiIdentityFinanceGovernance'), 'AI identity-finance EXTREM package must sync downstream');
     assert(report.roadmapAlignment.primaryVersion === 'Verzija 5', 'EXTRONDOL should align to Verzija 5');
   });
 
@@ -232,6 +236,10 @@ async function runTests(): Promise<void> {
     assert(report.releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.covecnostAuditVisualReference.supplementalVisualReferences[0].canonicalNarrativeId === 'covecanstvo-zivot-je-najveca-igra', 'developer/create release audit supplemental narrative id mismatch');
     assert(report.releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.covecnostAuditVisualReference.supplementalVisualReferences[0].visualReference.includes('27ef7575-9ef6-425e-bdbf-75feb722bad2'), 'developer/create release audit supplemental visual reference mismatch');
     assert(report.releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.covecnostAuditVisualReference.supplementalVisualReferences[0].imageToSignalProfile.signalOutputs.readinessStatus === report.releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.status, 'developer/create release audit supplemental readiness status mismatch');
+    assert(report.releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.aiIdentityFinanceGovernance.canonicalName === 'AI LIČNA KARTA + AI BANKARSKI RAČUN', 'developer/create release audit AI identity-finance name mismatch');
+    assert(report.releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.aiIdentityFinanceGovernance.sourceOfTruth === '/api/extrimli/extrem', 'developer/create release audit AI identity-finance source mismatch');
+    assert(report.releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.aiIdentityFinanceGovernance.paymentVerificationManagedBy === '/api/extrimli/extrondol', 'developer/create release audit AI identity-finance payment verification owner mismatch');
+    assert(report.releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.aiIdentityFinanceGovernance.bankAccountGovernance.realBankAccountStoredInGit === false, 'developer/create release audit AI identity-finance must forbid real bank data in Git');
     const releaseAuditSviPripadajuSupplemental = report.releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.covecnostAuditVisualReference.supplementalVisualReferences.find((reference) => reference.canonicalNarrativeId === 'covecanstvo-svi-koji-postoje-zasluzuju-da-pripadaju-developer-create');
     assert(Boolean(releaseAuditSviPripadajuSupplemental), 'developer/create release audit SVI KOJI POSTOJE supplemental narrative id mismatch');
     assert(releaseAuditSviPripadajuSupplemental?.visualReference.includes('c9509bbe-4083-4ba0-9802-3598f826a32b'), 'developer/create release audit SVI KOJI POSTOJE supplemental visual reference mismatch');
@@ -340,11 +348,9 @@ async function runTests(): Promise<void> {
     assert(report.releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.covecnostAuditVisualReference.companionAuditVisualReferences[0].visualReference.includes('9273c07f-5c03-4db4-a469-d22d456596f9'), 'developer/create release audit companion visual reference mismatch');
     assert(report.releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.covecnostAuditVisualReference.companionAuditVisualReferences[0].imageToSignalProfile.signalOutputs.readinessStatus === report.releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.status, 'developer/create release audit companion readiness status mismatch');
     assert(report.releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.roadmapExecution.roadmapStageId === 'v5-extrondol-release-audit-and-orchestration', 'developer/create release audit roadmap stage mismatch');
-    assert(
-      report.releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.roadmapExecution.acceptanceEvidence.join(',') ===
-        'developerAndCreateRepoWideReflection,releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance,releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.covecnostAuditVisualReference.supplementalVisualReferences,releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.covecnostAuditVisualReference.companionAuditVisualReferences,releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.osnoveRispektProtocol,releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.aiPlateGovernance,spajaKod.publicSignals.developerAndCreateStatus,spajaKod.publicSignals.aiPlateStatus',
-      'developer/create release audit acceptance evidence mismatch',
-    );
+    assert(report.releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.roadmapExecution.acceptanceEvidence.includes('developerAndCreateRepoWideReflection'), 'developer/create release audit acceptance evidence must include reflection');
+    assert(report.releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.roadmapExecution.acceptanceEvidence.includes('releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.aiIdentityFinanceGovernance'), 'developer/create release audit acceptance evidence must include AI identity-finance governance');
+    assert(report.releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.roadmapExecution.acceptanceEvidence.includes('spajaKod.publicSignals.aiPlateStatus'), 'developer/create release audit acceptance evidence must include SPAJA KOD AI PLATE status');
     assert(report.releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.covecnostAuditVisualGovernance.auditVisibility === 'audit-safe-readiness-only', 'developer/create release audit visual governance visibility mismatch');
     assert(report.releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.covecnostAuditVisualGovernance.downstreamSync === 'follow-up-only-until-io-openui-ao-adopts-audit-safe-summary', 'developer/create release audit visual governance downstream mismatch');
     assert(report.releaseAuditSummary.aiPlateEnterprisePackageGovernance.sourceOfTruth === '/api/extrimli/extrondol', 'AI PLATE release audit source mismatch');
