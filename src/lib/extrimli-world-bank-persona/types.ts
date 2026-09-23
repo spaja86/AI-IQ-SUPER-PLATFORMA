@@ -1,6 +1,7 @@
 import type { ExtrimliExtrondolGovernanceEvidence, ExtrimliExtrondolReport } from '../extrimli-extrondol';
 import type { ExtrimliAggregateSignals } from '../extrimli';
 import type { AiIqWorldBankRezultat } from '../ai-iq-world-bank';
+import type { AiIdentityFinanceGovernancePackage } from '../ai-identity-finance-governance';
 import type { Persona, PersonaRegistrationInput } from '../persona-bank';
 
 export type ExtrimliWorldBankPersonaMode = 'preview' | 'apply';
@@ -60,6 +61,7 @@ export interface ExtrimliWorldBankPersonaReport {
     promotionAllowed: boolean;
     reason: string;
   };
+  aiIdentityFinanceGovernance: AiIdentityFinanceGovernancePackage;
   personaPayload: PersonaRegistrationInput;
   activityFootprint: {
     totalActivities: number;
@@ -84,6 +86,14 @@ export interface ExtrimliWorldBankPersonaReport {
     personaVersionAfter: number;
     appliedBy: string | null;
     persona: Persona | null;
+    catalogSync: {
+      totalCatalogPersonas: number;
+      processedPersonas: number;
+      registered: number;
+      updated: number;
+      skippedArchived: number;
+      recoveredFromLock: number;
+    };
   };
 }
 

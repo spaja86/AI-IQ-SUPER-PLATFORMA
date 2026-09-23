@@ -1,4 +1,9 @@
+import { isDeepStrictEqual } from 'node:util';
 import { buildAiIqWorldBank } from '../ai-iq-world-bank';
+import {
+  buildAiIdentityFinanceGovernancePackage,
+  buildAiIdentityFinancePersonaAttributes,
+} from '../ai-identity-finance-governance';
 import { buildAIIQWorldBankLicencniRegistar } from '../aiiq-world-bank-licencni-registar';
 import { EXTRIMLI_PERSONA_ID, getExtrimliAggregateSignals } from '../extrimli';
 import { getExtrimliExtrondolReport } from '../extrimli-extrondol';
@@ -8,6 +13,7 @@ import {
   PERSONA_BANK_CONTRACT_VERSION,
   PersonaArchivedError,
   PersonaNotFoundError,
+  SEED_PERSONAS,
 } from '../persona-bank';
 import type { ExtrimliWorldBankPersonaOptions, ExtrimliWorldBankPersonaReport, ExtrimliWorldBankPersonaSubflow } from './types';
 import {
@@ -149,6 +155,24 @@ export function getExtrimliWorldBankPersonaReport(options: ExtrimliWorldBankPers
     missingEvidence,
     globalLicenseFreeze: extrondol.b2bReadiness.globalLicensing.freezeRequired,
   });
+  const aiIdentityFinanceGovernance = buildAiIdentityFinanceGovernancePackage({
+    readinessStatus: lifecycle.decision === 'HOLD'
+      ? 'BLOCKED'
+      : lifecycle.decision === 'DORMANT'
+        ? 'WATCH'
+        : 'READY',
+    readinessScore: combinedReadinessScore,
+    deterministicFallbackRequired: degraded,
+    promotionFreeze: promotionBlocked || extrondol.b2bReadiness.globalLicensing.freezeRequired,
+    blockers: [
+      ...missingEvidence,
+      ...(extrondol.rollout.promotionFreeze ? ['promotion-freeze'] : []),
+      ...(extrondol.b2bReadiness.globalLicensing.freezeRequired ? ['global-licensing-freeze'] : []),
+    ],
+  });
+  const aiPersonaCatalog = new Map(
+    aiIdentityFinanceGovernance.personas.map((persona) => [persona.personaId, persona] as const),
+  );
 
   const prioritizedActivities = [...licencniRegistar.delatnosti]
     .sort((a, b) => b.prioritet.score - a.prioritet.score)
@@ -201,11 +225,14 @@ export function getExtrimliWorldBankPersonaReport(options: ExtrimliWorldBankPers
         promotionFreeze: extrondol.rollout.promotionFreeze,
       },
       lifecycleDecision: lifecycle.decision,
+      ...buildAiIdentityFinancePersonaAttributes(aiPersonaCatalog.get(EXTRIMLI_PERSONA_ID) ?? aiIdentityFinanceGovernance.personas[0]),
     },
     status: lifecycle.targetPersonaStatus,
     linkedAgents: ['extrimli-validator-agent', 'multi-repo-sync-agent', 'persona-bank-agent'],
     crossRepoRef: EXTRIMLI_PERSONA_ID,
   };
+  const seededPrimaryPersona = SEED_PERSONAS.some((seedPersona) => (seedPersona.id ?? seedPersona.name) === (personaPayload.id ?? personaPayload.name));
+  const totalCatalogPersonas = aiIdentityFinanceGovernance.rolloutScope.totalSeededPersonas + (seededPrimaryPersona ? 0 : 1);
 
   const subflows = includeSubflows
     ? buildSubflows(extrimliAggregate.safetySignal, orchestrationReadinessScore)
@@ -219,19 +246,46 @@ export function getExtrimliWorldBankPersonaReport(options: ExtrimliWorldBankPers
     personaVersionAfter: 0,
     appliedBy: null,
     persona: null,
+    catalogSync: {
+      totalCatalogPersonas,
+      processedPersonas: 0,
+      registered: 0,
+      updated: 0,
+      skippedArchived: 0,
+      recoveredFromLock: 0,
+    },
   };
 
   if (mode === 'apply') {
     const client = createPersonaBankClient(agentId);
     const targetStatus = lifecycle.targetPersonaStatus;
+    const primaryPersonaId = EXTRIMLI_PERSONA_ID;
+    const primaryPersonaPayload: PersonaRegistrationInput = {
+      ...personaPayload,
+      id: primaryPersonaId,
+    };
+    let primaryPersonaSynced = false;
+    let primaryRecoveredFromLock = false;
+    let primarySkippedArchived = false;
+    const personaMatchesPayload = (
+      persona: NonNullable<ExtrimliWorldBankPersonaReport['writeResult']['persona']>,
+      payload: PersonaRegistrationInput,
+      status: ExtrimliWorldBankPersonaReport['lifecycle']['targetPersonaStatus'],
+    ): boolean =>
+      persona.id === primaryPersonaId
+      && persona.name === payload.name
+      && persona.status === status
+      && isDeepStrictEqual(persona.attributes?.aiIdentityCard ?? null, payload.attributes.aiIdentityCard)
+      && isDeepStrictEqual(persona.attributes?.aiBankAccountGovernance ?? null, payload.attributes.aiBankAccountGovernance)
+      && persona.crossRepoRef === payload.crossRepoRef;
     try {
-      const updated = client.update(personaPayload.id, {
-        name: personaPayload.name,
-        octave: personaPayload.octave,
-        hipermrezaNode: personaPayload.hipermrezaNode,
-        linkedAgents: personaPayload.linkedAgents,
-        crossRepoRef: personaPayload.crossRepoRef,
-        attributes: personaPayload.attributes,
+      const updated = client.update(primaryPersonaId, {
+        name: primaryPersonaPayload.name,
+        octave: primaryPersonaPayload.octave,
+        hipermrezaNode: primaryPersonaPayload.hipermrezaNode,
+        linkedAgents: primaryPersonaPayload.linkedAgents,
+        crossRepoRef: primaryPersonaPayload.crossRepoRef,
+        attributes: primaryPersonaPayload.attributes,
         status: targetStatus,
       });
 
@@ -243,11 +297,13 @@ export function getExtrimliWorldBankPersonaReport(options: ExtrimliWorldBankPers
         personaVersionAfter: updated.version,
         appliedBy: agentId,
         persona: updated,
+        catalogSync: writeResult.catalogSync,
       };
+      primaryPersonaSynced = true;
     } catch (error) {
       if (error instanceof PersonaNotFoundError) {
         try {
-          const registered = client.register(personaPayload);
+          const registered = client.register(primaryPersonaPayload);
           writeResult = {
             attempted: true,
             operation: 'register',
@@ -256,23 +312,44 @@ export function getExtrimliWorldBankPersonaReport(options: ExtrimliWorldBankPers
             personaVersionAfter: registered.version,
             appliedBy: agentId,
             persona: registered,
+            catalogSync: writeResult.catalogSync,
           };
+          primaryPersonaSynced = true;
         } catch (registerError) {
           if (!(registerError instanceof PersonaLockConflictError)) throw registerError;
-          const concurrentPersona = client.get(personaPayload.id);
+          const concurrentPersona = client.get(primaryPersonaId);
           if (!concurrentPersona) throw registerError;
+          const resolved = personaMatchesPayload(concurrentPersona, primaryPersonaPayload, targetStatus);
           writeResult = {
-            attempted: true,
-            operation: 'update',
+            attempted: resolved,
+            operation: resolved ? 'update' : 'skipped',
             personaStatusAfter: concurrentPersona.status,
             auditEntriesAfter: concurrentPersona.auditLog.length,
             personaVersionAfter: concurrentPersona.version,
             appliedBy: agentId,
             persona: concurrentPersona,
+            catalogSync: writeResult.catalogSync,
           };
+          primaryPersonaSynced = resolved;
+          primaryRecoveredFromLock = resolved;
         }
+      } else if (error instanceof PersonaLockConflictError) {
+        const concurrentPersona = client.get(primaryPersonaId);
+        const resolved = concurrentPersona ? personaMatchesPayload(concurrentPersona, primaryPersonaPayload, targetStatus) : false;
+        writeResult = {
+          attempted: resolved,
+          operation: resolved ? 'update' : 'skipped',
+          personaStatusAfter: concurrentPersona?.status ?? null,
+          auditEntriesAfter: concurrentPersona?.auditLog.length ?? 0,
+          personaVersionAfter: concurrentPersona?.version ?? 0,
+          appliedBy: agentId,
+          persona: concurrentPersona,
+          catalogSync: writeResult.catalogSync,
+        };
+        primaryPersonaSynced = resolved;
+        primaryRecoveredFromLock = resolved;
       } else if (error instanceof PersonaArchivedError) {
-        const archived = client.get(personaPayload.id);
+        const archived = client.get(primaryPersonaId);
         writeResult = {
           attempted: false,
           operation: 'skipped',
@@ -281,11 +358,22 @@ export function getExtrimliWorldBankPersonaReport(options: ExtrimliWorldBankPers
           personaVersionAfter: archived?.version ?? 0,
           appliedBy: agentId,
           persona: archived,
+          catalogSync: writeResult.catalogSync,
         };
+        primarySkippedArchived = true;
       } else {
         throw error;
       }
     }
+
+    writeResult.catalogSync = {
+      ...writeResult.catalogSync,
+      processedPersonas: primaryPersonaSynced || primarySkippedArchived ? 1 : 0,
+      registered: writeResult.operation === 'register' ? 1 : 0,
+      updated: writeResult.operation === 'update' && writeResult.attempted ? 1 : 0,
+      skippedArchived: primarySkippedArchived ? 1 : 0,
+      recoveredFromLock: primaryRecoveredFromLock ? 1 : 0,
+    };
   }
 
   return {
@@ -326,6 +414,7 @@ export function getExtrimliWorldBankPersonaReport(options: ExtrimliWorldBankPers
       ],
     },
     lifecycle,
+    aiIdentityFinanceGovernance,
     personaPayload,
     activityFootprint: {
       totalActivities: licencniRegistar.delatnosti.length,

@@ -6,6 +6,7 @@ import {
 import type { ExtrimliVersionRoadmap, ExtrimliVersionRoadmapVersionId } from '../extrimli-version-roadmap';
 import type { ExtrimliDokerKuratIzekDokarExtremTrack } from '../extrimli-doker-kurat-izek-dokar-track';
 import type { ExtrimliSpajaproExtremTrack } from '../extrimli-spajapro-track';
+import type { AiIdentityFinanceGovernancePackage } from '../ai-identity-finance-governance';
 import type { EkvivalentDomain, EkvivalentRelationType } from '../ekvivalent-network/types';
 import type { PetljaInput, PetljaReason, PetljaStatus } from '../petlje';
 import { EXTRIMLI_OBJEKTNO_ORIJENTISANA_PRONGILACIJA_CONTRACT_VERSION } from '../extrimli-objektna-prongilacija-contract';
@@ -2522,6 +2523,7 @@ export interface ExtrimliDokDikDakDukConsistencyHealth {
       v4: 'governance-hardening-and-freeze-rules';
       v5: 'extrondol-release-audit-and-orchestration';
       v6: 'downstream-and-multi-repo-alignment';
+      v7: 'enterprise-operating-model';
       v7: 'enterprise-organizational-operating-model';
     };
     technicalReadinessProfile: {
@@ -2657,9 +2659,10 @@ export interface ExtrimliDokDikDakDukConsistencyHealth {
         governanceChecklistStatus: string;
       };
     };
+    aiIdentityFinanceGovernance: AiIdentityFinanceGovernancePackage;
     currentImplementationStage: {
       roadmapStageId: 'v5-extrondol-release-audit-and-orchestration';
-      measurableOutput: 'audit-safe repo-wide reflection status plus primary ČOVEČNOST, supplemental ČOVEČANSTVO, and companion ČOVEČANSTVO / OSEĆAJ OSEBENOSTI visual metadata are published only through existing EXTRIMLI/EXTREM/EXTRONDOL/SPAJA KOD surfaces';
+      measurableOutput: 'audit-safe repo-wide reflection status plus AI identity-finance governance, primary ČOVEČNOST, supplemental ČOVEČANSTVO, companion ČOVEČANSTVO / OSEĆAJ OSEBENOSTI visual metadata, and OSNOVE / RISPEKT protocol evidence are published only through existing EXTRIMLI/EXTREM/EXTRONDOL/SPAJA KOD surfaces';
       acceptanceEvidence: readonly [
         'dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.implementationPackage',
         'dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection',
@@ -2667,6 +2670,8 @@ export interface ExtrimliDokDikDakDukConsistencyHealth {
         'dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.covecnostAuditVisualReference.supplementalVisualReferences',
         'dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.covecnostAuditVisualReference.companionAuditVisualReferences',
         'dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.osnoveRispektProtocol',
+        'dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.aiIdentityFinanceGovernance',
+        'dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.aiPlateOffer',
         'spajaKod.publicSignals.developerAndCreateStatus',
         'radniTaktMozgaMislilac.readiness',
         'metrikoProgramiranje.readiness',

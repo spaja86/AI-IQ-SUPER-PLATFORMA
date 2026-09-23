@@ -29,6 +29,7 @@ import {
 } from '../petlje';
 import type { PetljaInput, PetljaStatusInput } from '../petlje';
 import { buildAIIQWorldBankLicencniRegistar } from '../aiiq-world-bank-licencni-registar';
+import { buildAiIdentityFinanceGovernancePackage } from '../ai-identity-finance-governance';
 import type {
   ExtrimliExtremAcceptanceCriterion,
   ExtrimliExtremBusinessLicensingSignals,
@@ -7660,6 +7661,7 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
       adoptionMode: 'follow-up-only-until-downstream-adopts-summary',
       syncedFields: [
         'developerAndCreateRepoWideReflection.aiPlateOffer.packageOutputs',
+        'developerAndCreateRepoWideReflection.aiIdentityFinanceGovernance.packageOutputs',
         'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.aiPlateGovernance',
         'spajaKod.publicSignals.aiPlateStatus',
       ],
@@ -7673,6 +7675,16 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
         '12000 EUR weekly target remains a business/finops target only; billing approval, Vercel sales alignment, audit evidence, legal/tax review, security scans, and downstream follow-up remain mandatory before promotion.',
     },
   };
+  dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.aiIdentityFinanceGovernance =
+    buildAiIdentityFinanceGovernancePackage({
+      readinessStatus: dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.status,
+      readinessScore: dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.score,
+      deterministicFallbackRequired:
+        dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.deterministicFallbackRequired,
+      promotionFreeze:
+        dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.status === 'BLOCKED',
+      blockers: [...dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.reasons],
+    });
   dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.covecnostAuditVisualReference = {
     ...dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.covecnostAuditVisualReference,
     imageToSignalProfile: {
@@ -7751,10 +7763,11 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
   };
   dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.currentImplementationStage = {
     roadmapStageId: 'v5-extrondol-release-audit-and-orchestration',
-    measurableOutput: 'audit-safe repo-wide reflection status plus primary ČOVEČNOST, supplemental ČOVEČANSTVO, companion ČOVEČANSTVO / OSEĆAJ OSEBENOSTI visual metadata, and OSNOVE / RISPEKT protocol evidence are published only through existing EXTRIMLI/EXTREM/EXTRONDOL/SPAJA KOD surfaces',
+    measurableOutput: 'audit-safe repo-wide reflection status plus AI identity-finance governance, primary ČOVEČNOST, supplemental ČOVEČANSTVO, companion ČOVEČANSTVO / OSEĆAJ OSEBENOSTI visual metadata, and OSNOVE / RISPEKT protocol evidence are published only through existing EXTRIMLI/EXTREM/EXTRONDOL/SPAJA KOD surfaces',
     acceptanceEvidence: [
       'dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.implementationPackage',
       'dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection',
+      'dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.aiIdentityFinanceGovernance',
       'dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.covecnostAuditVisualReference',
       'dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.covecnostAuditVisualReference.supplementalVisualReferences',
       'dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.covecnostAuditVisualReference.companionAuditVisualReferences',
@@ -7840,6 +7853,7 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
     'AI PLATE ostaje additive-only commercial/runtime paket na Vercel-u: 12000 EUR weekly target je poslovni/finops cilj, a ne hardcoded runtime billing činjenica.',
     'AI PLATE launch obuhvata interne AI agente, Copilot-style asistente i spoljne automation klijente kroz isti bounded readiness profil; billing approval, Vercel sales alignment, audit evidence i legal/tax review ostaju hard gate uslovi pre promocije.',
     'AI PLATE Vercel operativni model ostaje zaključan na preview/staging/production okruženja sa smoke, rollback i observability gate-ovima, dok GitHub Actions ostaje audit/governance sloj.',
+    'AI LIČNA KARTA + AI BANKARSKI RAČUN ostaje additive-only identity/governance paket za sve seedovane AI persone; stvarni bankarski podaci, KYC dokumenti i sekreti ostaju van Git-a.',
     'AI PLATE downstream sync ostaje audit-safe summary only prema spaja86/IO-OPENUI-AO dok linked repo ne usvoji isti summary contract.',
     'Supplied ČOVEČNOST image remains documentation/audit-only visual evidence inside the existing image-to-signal pattern, stays bound to the existing technicalReadinessProfile, and does not replace the existing priroda-zdrav-zivot-covecanstvo epilog scenario.',
     'Supplied ČOVEČANSTVO / ŽIVOT JE NAJVEĆA IGRA image remains supplemental audit/reference evidence only and extends the same bounded reflection package without replacing the primary ČOVEČNOST proof.',

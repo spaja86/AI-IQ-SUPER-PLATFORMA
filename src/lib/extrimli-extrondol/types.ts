@@ -16,6 +16,7 @@ import type {
   ExtrimliSpajaproGovernanceTrack,
   ExtrimliSpajaproPublicBoundaryStatus,
 } from '../extrimli-spajapro-track';
+import type { AiIdentityFinanceGovernancePackage } from '../ai-identity-finance-governance';
 import {
   type ExtrimliDokDikDakDukConsistencyHealth,
   EXTRIMLI_EXTREM_FUNKCINALNO_PROGRAMIRANJE_ENERGETSKOG_MISAONOG_TOKA_CONTRACT_VERSION,
@@ -329,6 +330,7 @@ export interface ExtrimliExtrondolB2bReadiness {
     blockerReasons: string[];
     watchReasons: string[];
     technicalReadinessProfile: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['technicalReadinessProfile'];
+    aiIdentityFinanceGovernance: ExtrimliExtrondolDeveloperAndCreateRepoWideReflectionGovernance['aiIdentityFinanceGovernance'];
     roadmapExecution: ExtrimliExtrondolDeveloperAndCreateRepoWideReflectionGovernance['roadmapExecution'];
   };
   sinemetrickoProgramiranjeGovernance: {
@@ -717,6 +719,14 @@ export interface ExtrimliExtrondolDeveloperAndCreateRepoWideReflectionGovernance
     rollbackPlanRequired: true;
     packageOutputs: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['aiPlateOffer']['packageOutputs'];
   };
+  aiIdentityFinanceGovernance: AiIdentityFinanceGovernancePackage & {
+    sourceOfTruth: '/api/extrimli/extrem';
+    paymentVerificationManagedBy: '/api/extrimli/extrondol';
+    currentWawe: ExtrimliExtrondolWaweStage;
+    eligibleNextWawe: ExtrimliExtrondolWaweStage;
+    promotionFreeze: boolean;
+    reviewRequiredBeforeWideRollout: boolean;
+  };
   covecnostAuditVisualReference: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['covecnostAuditVisualReference'];
   implementationPackage: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['implementationPackage'] & {
     currentWawe: ExtrimliExtrondolWaweStage;
@@ -731,11 +741,12 @@ export interface ExtrimliExtrondolDeveloperAndCreateRepoWideReflectionGovernance
   };
   roadmapExecution: {
     roadmapStageId: 'v5-extrondol-release-audit-and-orchestration';
-    measurableOutput: 'EXTRONDOL consumes the repo-wide technical profile plus primary/supplemental/companion audit visual metadata and publishes only audit-safe WAWE/review/rollback governance';
+    measurableOutput: 'EXTRONDOL consumes the repo-wide technical profile plus AI identity-finance governance and primary/supplemental/companion audit visual metadata, then publishes only audit-safe WAWE/review/rollback governance';
     acceptanceEvidence: readonly [
       'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.implementationPackage',
       'developerAndCreateRepoWideReflection',
       'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance',
+      'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.aiIdentityFinanceGovernance',
       'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.covecnostAuditVisualReference.supplementalVisualReferences',
       'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.covecnostAuditVisualReference.companionAuditVisualReferences',
       'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.osnoveRispektProtocol',
@@ -1597,6 +1608,7 @@ export interface ExtrimliExtrondolReleaseAuditSummary {
       reviewRequiredBeforeWideRollout: boolean;
     };
     technicalReadinessProfile: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['technicalReadinessProfile'];
+    aiIdentityFinanceGovernance: ExtrimliExtrondolDeveloperAndCreateRepoWideReflectionGovernance['aiIdentityFinanceGovernance'];
     covecnostAuditVisualReference: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['covecnostAuditVisualReference'];
     implementationPackage: ExtrimliExtrondolDeveloperAndCreateRepoWideReflectionGovernance['implementationPackage'];
     roadmapExecution: ExtrimliExtrondolDeveloperAndCreateRepoWideReflectionGovernance['roadmapExecution'];
