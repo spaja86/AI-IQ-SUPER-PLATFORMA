@@ -2387,6 +2387,7 @@ export interface ExtrimliSpajaKodPublicFacade {
     downstreamSyncStatus: 'ALIGNED' | 'FOLLOW_UP_REQUIRED';
     zelezaraPretplataIdentityStatus: ExtrimliExtremProfilerReport['zelezaraPretplataIdentityTrack']['readiness']['status'];
     kraljevskiPravniUniverzitetStatus: ExtrimliExtremProfilerReport['kraljevskiPravniUniverzitetTrack']['readiness']['status'];
+    kraljevskiPravniAktStatus: ExtrimliExtremProfilerReport['kraljevskiPravniUniverzitetTrack']['structuredSignals']['kraljevskiPravniAktChildRightsPolicy']['status'];
     funkcinalnoProgramiranjeEnergetskogMisaonogTokaStatus: ExtrimliExtremProfilerReport['funkcinalnoProgramiranjeEnergetskogMisaonogToka']['readiness']['status'];
     funkcionalnoProgramiranjeUzvisenogMisanogTokaStatus: ExtrimliExtremProfilerReport['funkcionalnoProgramiranjeUzvisenogMisanogToka']['readiness']['status'];
     funkcionalnoProgramiranjeEksplicitnogMisaonogTokaStatus: ExtrimliExtremProfilerReport['funkcionalnoProgramiranjeEksplicitnogMisaonogToka']['readiness']['status'];
@@ -2430,6 +2431,8 @@ export interface ExtrimliSpajaKodPublicFacade {
     };
     aiPlateStatus: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['aiPlateOffer']['boundedReadinessProfile']['consolidatedStatus'];
     aiPlateEnterprisePackageStatus: 'READY' | 'BLOCKED';
+    aiIdentityMonthlyPrimanjaStatus: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['aiIdentityFinanceGovernance']['monthlyPrimanjaGovernance']['payoutReadinessStatus'];
+    aiIdentityMinorProtectionStatus: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['aiIdentityFinanceGovernance']['minorProtectionSafeguards']['status'];
     humanReviewRequired: true;
     rollbackPlanRequired: true;
     degraded: boolean;

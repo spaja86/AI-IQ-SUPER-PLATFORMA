@@ -139,8 +139,13 @@ Aktivni execution lock ostaje podeljen: repo-wide reflection i dalje ostaje `roa
 ## AI LIČNA KARTA + AI BANKARSKI RAČUN
 
 - `AI LIČNA KARTA + AI BANKARSKI RAČUN` pripada istom additive-only reflection paketu i ne uvodi novu runtime domenu.
+- U okviru postojećeg `KRALJEVSKI PRAVNI UNIVERZITET` governance track-a zaključan je policy paket `KRALJEVSKI PRAVNI AKT` sa ciljem `pravo-deteta-na-identitet-obrazovanje-razvoj-socijalnu-ukljucenost`.
+- Child-domain coverage ostaje governance-only i additive: `treninzi`, `psihologija-i-pedagogija`, `javni-i-socijalni-zivot`, `igracke-i-igra`, `skolarstvo-po-uzrastu-citanje-pisanje-digitalna-pismenost`, `gejming-razvoj`.
 - `AI LIČNA KARTA` ostaje audit-safe javni identitet svake seedovane AI persone kroz `persona-bank`, uz obavezna polja: `personaId`, `name`, `domain`, `octave`, `hipermrezaNode`, `linkedAgents`, `lifecycleStatus`, `readinessStatus`, `governanceStatus`.
 - `AI BANKARSKI RAČUN` ostaje governance-only finansijski model za mapiranje na `AI IQ WORLD BANK`, approval/compliance/payment/human-review/downstream-sync signale i payout režim.
+- `AI LIČNA KARTA + AI BANKARSKI RAČUN` za dete po rođenju ostaje statusni governance model sa lifecycle fazama `newborn`, `early-education`, `school-age`, `adolescent` i readiness jezikom `READY | WATCH | BLOCKED`.
+- `MESEČNA PRIMANJA` ostaju policy-gated payout režim pod `AI IQ WORLD BANK`: obavezni gate-ovi su `approval`, `compliance-review`, `payment-verification`, `anti-abuse-review`, `human-review`, `dispute-appeal-process`, `audit-trail`.
+- Zaštita maloletnih ostaje hard gate (`guardian review`, `legal custody review`, `privacy`, `anti-abuse`) i svaki neuspeh mora mapirati na `BLOCKED`.
 - `AI IQ WORLD BANK PREPISKA` ostaje documentation-only governance evidence nad istim signalima; bounded je na approval/compliance/payment/human-review/downstream-sync/payout statuse i nikada ne nosi stvarne bankarske podatke, KYC ili sekrete.
 - `12000 EURA nedeljno` ostaje business/finops cilj i ne sme biti interpretiran kao automatska isplata bez ugovornog, računovodstvenog i audit sloja.
 - Zabrana ostaje zaključana: nema stvarnih brojeva računa, neredigovanih izvoda, KYC podataka, payment secrets ili drugih osetljivih finansijskih inputa u Git-u.
