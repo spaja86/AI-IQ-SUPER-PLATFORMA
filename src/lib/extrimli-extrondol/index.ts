@@ -2782,7 +2782,19 @@ function buildSpajaKodFacade(params: {
   aiPlateStatus: ExtrimliExtrondolReport['extremProfiler']['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['aiPlateOffer']['boundedReadinessProfile']['consolidatedStatus'];
   aiPlateEnterprisePackageStatus: ExtrimliExtrondolReport['releaseAuditSummary']['aiPlateEnterprisePackageGovernance']['status'];
 }): ExtrimliSpajaKodPublicFacade {
-  const developerAndCreateImplementationStatus = params.developerAndCreateStatus;
+  const developerAndCreateImplementationPackage =
+    params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.implementationPackage;
+  const implementationPackagePolicyLocked =
+    developerAndCreateImplementationPackage.noNewRuntimeRoutes &&
+    developerAndCreateImplementationPackage.noParallelSourceOfTruth &&
+    developerAndCreateImplementationPackage.validationLock.readyWatchBlockedOnly &&
+    developerAndCreateImplementationPackage.validationLock.degradedPolicy === 'partial-payload-no-500';
+  const developerAndCreateImplementationStatus =
+    params.developerAndCreateStatus === 'BLOCKED' || !implementationPackagePolicyLocked
+      ? 'BLOCKED'
+      : params.developerAndCreateStatus === 'READY'
+        ? 'READY'
+        : 'WATCH';
   const completeness = {
     extremSignalPresent: params.extremProfiler.spajaKodEncapsulation.surfaceName === 'SPAJA KOD',
     extrondolGovernancePresent: true,
@@ -2873,9 +2885,9 @@ function buildSpajaKodFacade(params: {
     developerAndCreateImplementationPackage: {
       additiveOnly: true,
       sourceOfTruthRoutes:
-        params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.implementationPackage.sourceOfTruthRoutes,
+        developerAndCreateImplementationPackage.sourceOfTruthRoutes,
       ownershipModel:
-        params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.implementationPackage.canonicalOwnershipSplit,
+        developerAndCreateImplementationPackage.canonicalOwnershipSplit,
       routeSummaryFields: [
         'publicSignals.developerAndCreateStatus',
         'publicSignals.developerAndCreateImplementationStatus',
