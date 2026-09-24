@@ -476,6 +476,14 @@ const EXTRIMLI_EXTREM_DEVELOPER_CREATE_PROFESIONALNA_GLOBALNA_KAMPANJA_KRALJEVST
   'kraljevstvo-profesionalna-globalna-kampanja-medijska-strategija-developer-create' as const;
 const EXTRIMLI_EXTREM_DEVELOPER_CREATE_PROFESIONALNA_GLOBALNA_KAMPANJA_KRALJEVSTVO_CITATION =
   'KRALJEVSTVO — PROFESIONALNA GLOBALNA KAMPANJA / NIKOLA SPAJIĆ / ČOVEČANSTVO ostaje additive-only supplemental audit/reference vizuel: javno predstavljanje Nikole Spajića, čovečanstvo, znanje i obrazovanje, priroda i život, tehnologija, porodica i društvo, zdravlje, pravda, budućnost i razvoj, profesionalni gejming i AI IQ WORLD BANK pokroviteljski okvir mapiraju se isključivo kao bounded documentation/evidence sloj unutar postojećeg Developer/Create ⇄ VRH ⇄ Radni Takt modela; TV/radio/social distribucija ostaje samo audit-safe media-distribution strategy (ciljni kanali, planirani cadence, regioni/jezici, review/compliance gate-ovi i audit evidencija), bez obaveznog emitovanja, bez novih ruta, bez finansijskog engine-a i bez novog source-of-truth sistema.' as const;
+const EXTRIMLI_EXTREM_DEVELOPER_CREATE_GILSKULTURE_COVECANSTVO_VISUAL_REFERENCE =
+  'https://github.com/user-attachments/assets/50cb9759-5ce2-490f-bcb2-8a3b73fed39f' as const;
+const EXTRIMLI_EXTREM_DEVELOPER_CREATE_GILSKULTURE_COVECANSTVO_CANONICAL_NARRATIVE_ID =
+  'covecanstvo-epilog-kraljevstvo-gilskulture-developer-create' as const;
+const EXTRIMLI_EXTREM_DEVELOPER_CREATE_GILSKULTURE_COVECANSTVO_SCENARIO_ID =
+  'covecanstvo-epilog-kraljevstvo-gilskulture-znanje-mir-odgovornost-developer-create' as const;
+const EXTRIMLI_EXTREM_DEVELOPER_CREATE_GILSKULTURE_COVECANSTVO_CITATION =
+  'ČOVEČANSTVO — EPILOG / KRALJEVSTVO / GILSKULTURE ostaje additive-only supplemental audit/reference vizuel: kraljevstvo, čitanje i znanje, deca i budući naraštaji, priroda/čovek/tehnologija u ravnoteži, mir/pravda/odgovornost i bounded epilog čovečanstva mapiraju se isključivo kao documentation/evidence sloj unutar postojećeg Developer/Create ⇄ VRH ⇄ Radni Takt modela; sirovi poster-tekst, uključujući reference na “zakon silnog”, ostaje source-text-only documentation/evidence i nikada ne postaje runtime enforcement logika, bezbednosna procedura, identitetska tvrdnja, religijski enforcement sloj ili nasilna instrukcija.' as const;
 const EXTRIMLI_EXTREM_DEVELOPER_CREATE_NARASTAJ_U_PRIRODNOM_CVATU_COVECANSTVO_VISUAL_REFERENCE =
   'https://github.com/user-attachments/assets/93ba6f4a-e8bd-4547-bb8b-dc77c14e845a' as const;
 const EXTRIMLI_EXTREM_DEVELOPER_CREATE_NARASTAJ_U_PRIRODNOM_CVATU_COVECANSTVO_CANONICAL_NARRATIVE_ID =
@@ -7335,6 +7343,42 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
               'earth-stewardship',
               'humanity-epilog',
               'small-work-large-change',
+            ],
+            auditRole: 'additive-audit-reference-only',
+          },
+          {
+            title: 'ČOVEČANSTVO — EPILOG / KRALJEVSTVO / GILSKULTURE',
+            canonicalNarrativeId:
+              EXTRIMLI_EXTREM_DEVELOPER_CREATE_GILSKULTURE_COVECANSTVO_CANONICAL_NARRATIVE_ID,
+            citation: EXTRIMLI_EXTREM_DEVELOPER_CREATE_GILSKULTURE_COVECANSTVO_CITATION,
+            visualReference:
+              EXTRIMLI_EXTREM_DEVELOPER_CREATE_GILSKULTURE_COVECANSTVO_VISUAL_REFERENCE,
+            interpretation:
+              'Supplied ČOVEČANSTVO — EPILOG / KRALJEVSTVO / GILSKULTURE image remains additive-only supplemental audit/reference evidence and extends the existing Developer/Create reflection package through a bounded kingdom/reading/future-generations epilog without introducing any new runtime route, formula, governance engine, or ownership drift.',
+            sourceStatement: 'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == RADNI TAKT MOZGA (MISLILAC)',
+            imageToSignalProfile: {
+              scenarioId: EXTRIMLI_EXTREM_DEVELOPER_CREATE_GILSKULTURE_COVECANSTVO_SCENARIO_ID,
+              theme: 'ČOVEČANSTVO — EPILOG / KRALJEVSTVO / GILSKULTURE',
+              narrativeInput: EXTRIMLI_EXTREM_DEVELOPER_CREATE_GILSKULTURE_COVECANSTVO_CITATION,
+              ownershipLock: {
+                dokDikFor: 'EXTREM',
+                dakDuk: 'EXTRONDOL',
+                spajaKod: 'audit-safe-summary-only',
+              },
+              signalOutputs: {
+                readinessScore: 0,
+                readinessStatus: 'BLOCKED',
+                conflictPressurePercent: 100,
+                deterministicFallbackRequired: true,
+              },
+            },
+            thematicSignals: [
+              'kraljevstvo',
+              'covecanstvo-epilog',
+              'znanje-citanje',
+              'deca-buduci-narastaji',
+              'priroda-covek-tehnologija-u-ravnotezi',
+              'mir-pravda-odgovornost',
             ],
             auditRole: 'additive-audit-reference-only',
           },
