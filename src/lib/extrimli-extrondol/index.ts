@@ -2986,6 +2986,9 @@ function buildSpajaKodFacade(params: {
   });
   const aiIdentityFinanceGovernance =
     params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.aiIdentityFinanceGovernance;
+  const inspektoriTrack =
+    params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.inspektori;
+  const inspektoriPrimaryBlockerReason = inspektoriTrack.justicePath.blockerSummary[0] ?? null;
   const implementationPackagePolicyLocked =
     developerAndCreateImplementationPackage.noNewRuntimeRoutes &&
     developerAndCreateImplementationPackage.noParallelSourceOfTruth &&
@@ -3055,6 +3058,7 @@ function buildSpajaKodFacade(params: {
       kraljevskiPravniUniverzitetStatus: params.kraljevskiPravniUniverzitetStatus,
       kraljevskiPravniAktStatus: params.kraljevskiPravniAktStatus,
       kraljevskiProgramskiUneverzitetStatus: params.kraljevskiProgramskiUneverzitetStatus,
+      inspektoriStatus: inspektoriTrack.readiness.status,
       funkcinalnoProgramiranjeEnergetskogMisaonogTokaStatus: params.funkcinalnoProgramiranjeEnergetskogMisaonogTokaStatus,
       funkcionalnoProgramiranjeUzvisenogMisanogTokaStatus: params.funkcionalnoProgramiranjeUzvisenogMisanogTokaStatus,
       funkcionalnoProgramiranjeEksplicitnogMisaonogTokaStatus: params.funkcionalnoProgramiranjeEksplicitnogMisaonogTokaStatus,
@@ -3095,6 +3099,13 @@ function buildSpajaKodFacade(params: {
           ...developerCreateUniversityGovernance.additiveFacultyAndAgricultureTracks,
         },
         auditSafeReason: developerCreateUniversityGovernance.auditSafeReason,
+      },
+      inspektoriSummary: {
+        activeUniversityCount: inspektoriTrack.universityCatalog.activeCount,
+        reviewPosture: inspektoriTrack.justicePath.reviewPosture,
+        justicePathConsistency: inspektoriTrack.justicePath.justicePathConsistency,
+        blockerReason: inspektoriPrimaryBlockerReason,
+        publicBoundary: 'audit-safe-summary-only',
       },
       kraljevskiAktBezbednostiStatus:
         params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.kraljevskiDrustveniPoredak.kraljevskiAktBezbednosti.readiness.status,
@@ -3137,6 +3148,8 @@ function buildSpajaKodFacade(params: {
         'publicSignals.kraljevskiPravniAktStatus',
         'publicSignals.kraljevskiAktBezbednostiStatus',
         'publicSignals.kraljevskiProgramskiUneverzitetStatus',
+        'publicSignals.inspektoriStatus',
+        'publicSignals.inspektoriSummary',
         'publicSignals.aiIdentityMonthlyPrimanjaStatus',
         'publicSignals.aiIdentityMinorProtectionStatus',
         'publicSignals.developerAndCreateUniversitySummary',
@@ -3212,6 +3225,25 @@ function buildSpajaKodFacade(params: {
         forbiddenEvidence: ['tactical-plan', 'sensitive-map', 'operational-identity', 'bank-account-number', 'kyc-document', 'payroll-secret', 'operational-financial-data'],
         publicSummary:
           params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.kraljevskiDrustveniPoredak.kraljevskiAktBezbednosti.summary,
+      },
+      inspektoriSummary: {
+        canonicalName: inspektoriTrack.canonicalName,
+        parentLegalTrack: inspektoriTrack.parentLegalTrack,
+        citizenshipOrder: inspektoriTrack.citizenshipOrder,
+        activeUniversityCount: inspektoriTrack.universityCatalog.activeCount,
+        reviewPosture: inspektoriTrack.justicePath.reviewPosture,
+        justicePathConsistency: inspektoriTrack.justicePath.justicePathConsistency,
+        blockerReason: inspektoriPrimaryBlockerReason,
+        publicBoundary: 'audit-safe-summary-only',
+        forbiddenEvidence: [
+          'operational-security-procedure',
+          'sensitive-identity',
+          'sensitive-map',
+          'tactical-instruction',
+          'repressive-detail',
+        ],
+        publicSummary:
+          'INSPEKTORI javno ostaju samo audit-safe summary traka: status, broj aktivnih oblasti, review posture, justice-path consistency i blocker reason bez sirovih istraga i bez operativnih detalja.',
       },
       downstreamAuditFields: [
         'masterEpilog',
@@ -4427,6 +4459,16 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
           extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.kraljevskiProgramskiUneverzitet,
         kraljevskiEkonomskiUneverzitet:
           extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.kraljevskiEkonomskiUneverzitet,
+        inspektori: {
+          ...extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.inspektori,
+          sourceOfTruth: '/api/extrimli/extrondol',
+          technicalSignalSource: '/api/extrimli/extrem',
+          publicBoundary: '/api/extrimli/spaja-kod',
+          reviewRequiredBeforeWideRollout:
+            extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.inspektori.readiness.status !== 'READY',
+          complianceReviewRequired: true,
+          downstreamSync: 'follow-up-only-until-io-openui-ao-adopts-audit-safe-summary',
+        },
         kraljevskiDrustveniPoredak: {
           ...extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.kraljevskiDrustveniPoredak,
           sourceOfTruth: '/api/extrimli/extrondol',

@@ -6614,6 +6614,9 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
         kraljevskiProgramskiUneverzitet: 'KRALJEVSKI PROGRAMSKI UNEVERZITET',
         kraljevskiEkonomskiUneverzitet: 'KRALJEVSKI EKONOMSKI UNEVERZITET',
         kraljevskiDrustveniPoredak: 'KRALJEVSKI DRUŠTVENI POREDAK',
+        inspektori: 'INSPEKTORI',
+        unutrasnjaKontrolaGradjanstvaUInformacionomStavu: 'UNUTRAŠNJA KONTROLA GRAĐANSTVA U INFORMACIONOM STAVU',
+        puteviIstinskePravde: 'PUTEVI ISTINSKE PRAVDE',
         kraljevskiBastaUneverzite: 'KRALJEVSKI BAŠTA UNEVERZITE',
       },
       canonicalGovernanceVocabulary: {
@@ -6628,6 +6631,9 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
         kraljevskiProgramskiUneverzitet: 'KRALJEVSKI PROGRAMSKI UNEVERZITET',
         kraljevskiEkonomskiUneverzitet: 'KRALJEVSKI EKONOMSKI UNEVERZITET',
         kraljevskiDrustveniPoredak: 'KRALJEVSKI DRUŠTVENI POREDAK',
+        inspektori: 'INSPEKTORI',
+        unutrasnjaKontrolaGradjanstvaUInformacionomStavu: 'UNUTRAŠNJA KONTROLA GRAĐANSTVA U INFORMACIONOM STAVU',
+        puteviIstinskePravde: 'PUTEVI ISTINSKE PRAVDE',
         kraljevskiBastaUneverzite: 'KRALJEVSKI BAŠTA UNEVERZITE',
         stocarstvo: 'STOČARSTVO',
         vinogradarstvo: 'VINOGRADARSTVO',
@@ -9001,6 +9007,126 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
     summary:
       'KRALJEVSKI PROGRAMSKI UNEVERZITET ostaje additive-only vršni programski alias nad postojećim VRH, METRIČKO, SINEMETRIČKO, PARADIJOGONALNO i RADNI TAKT signalima, uz POLJOPRIVREDNI FAKULTET, GRAĐEVINSKI FAKULTET, MATEMATIČKI FAKULTET, PEDAGOŠKI FAKULTET i PSIHOLOŠKI FAKULTET kao bounded obrazovno-sertifikacione oblasti bez novih formula, novih ruta ili novog source-of-truth sistema.',
   };
+  const inspektoriRuleConsistencyStatus = dokDikDakDukConsistencyHealth.status;
+  const inspektoriEvidentiaryCompletenessScore = round(
+    (
+      dokDikDakDukConsistencyHealth.score
+      + dokDikDakDukConsistencyHealth.dokConsistency.score
+      + dokDikDakDukConsistencyHealth.dikConsistency.score
+    ) / 3,
+    2,
+  );
+  const inspektoriEvidentiaryCompletenessStatus =
+    resolveDeveloperCreateExtensionStatus(inspektoriEvidentiaryCompletenessScore);
+  const inspektoriInvestigationBreadthScore = round(
+    (
+      kraljevskiPravniUniverzitetTrack.structuredSignals.governanceCoverage.coveragePercent
+      + matematickiFakultetReadinessScore
+      + pedagoskiFakultetReadinessScore
+      + psiholoskiFakultetReadinessScore
+      + gradjevinskiFakultetReadinessScore
+    ) / 5,
+    2,
+  );
+  const inspektoriEvidenceQualityScore = round(
+    (
+      kraljevskiPravniUniverzitetTrack.structuredSignals.evidenceReadiness.evidenceScore
+      + dokDikDakDukConsistencyHealth.score
+      + vrhProgramskogEkviladenta.readiness.score
+    ) / 3,
+    2,
+  );
+  const inspektoriReadinessScore = round(
+    (
+      inspektoriInvestigationBreadthScore
+      + inspektoriEvidenceQualityScore
+      + dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.score
+    ) / 3,
+    2,
+  );
+  const inspektoriJusticePathConsistency =
+    [inspektoriRuleConsistencyStatus, inspektoriEvidentiaryCompletenessStatus].includes('BLOCKED')
+      ? 'BLOCKED'
+      : [inspektoriRuleConsistencyStatus, inspektoriEvidentiaryCompletenessStatus].includes('WATCH')
+        ? 'WATCH'
+        : 'READY';
+  const inspektoriReviewPosture: 'ALIGNED' | 'WATCH' | 'REVIEW_REQUIRED' =
+    inspektoriJusticePathConsistency === 'BLOCKED'
+      ? 'REVIEW_REQUIRED'
+      : inspektoriJusticePathConsistency === 'WATCH'
+        ? 'WATCH'
+        : 'ALIGNED';
+  const inspektoriBlockerSummary = [
+    ...(inspektoriRuleConsistencyStatus === 'BLOCKED'
+      ? ['rule-consistency-blocked']
+      : []),
+    ...(inspektoriEvidentiaryCompletenessStatus === 'BLOCKED'
+      ? ['evidentiary-completeness-blocked']
+      : []),
+    ...(dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness
+      .deterministicFallbackRequired
+      ? ['deterministic-fallback-required']
+      : []),
+  ];
+  dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.inspektori = {
+    canonicalName: 'INSPEKTORI',
+    additiveOnly: true,
+    interpretativeLayer: 'justice-path-audit-review-evidence-track',
+    sourceOfTruthRoutes: ['/api/extrimli/extrem', '/api/extrimli/extrondol', '/api/extrimli/spaja-kod'],
+    sourceTrack: 'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == KRALJEVSKI PRAVNI UNIVERZITET',
+    parentLegalTrack: 'KRALJEVSKI PRAVNI UNIVERZITET',
+    citizenshipOrder: 'PRAVNI POREDAK PO PRAVU GRAĐANSTVA',
+    noNewRuntimeModule: true,
+    noNewSourceOfTruthModule: true,
+    governanceBinding: {
+      technicalOwnership: 'DOK+DIK+FOR->EXTREM',
+      governanceOwnership: 'DAK+DUK->EXTRONDOL',
+      publicBoundary: 'SPAJA KOD',
+      reviewSurface: 'audit-review-evidence-and-justice-path-only',
+    },
+    innerControlModel: {
+      canonicalName: 'UNUTRAŠNJA KONTROLA GRAĐANSTVA U INFORMACIONOM STAVU',
+      interpretation: 'neutral-civic-order-compliance-and-evidence-model',
+      forbiddenOperationalArtifacts: [
+        'operational-security-procedure',
+        'sensitive-identity',
+        'sensitive-map',
+        'tactical-instruction',
+        'repressive-detail',
+      ],
+    },
+    justicePath: {
+      canonicalName: 'PUTEVI ISTINSKE PRAVDE',
+      ruleConsistencyStatus: inspektoriRuleConsistencyStatus,
+      evidentiaryCompletenessStatus: inspektoriEvidentiaryCompletenessStatus,
+      reviewPosture: inspektoriReviewPosture,
+      humanReviewRequired: true,
+      blockerSummary: inspektoriBlockerSummary,
+      justicePathConsistency: inspektoriJusticePathConsistency,
+    },
+    universityCatalog: {
+      purpose: 'dublja-analiza-dokaza-etike-matematike-komunikacije-i-governance-provere',
+      activeTracks: [
+        'KRALJEVSKI PRAVNI UNIVERZITET',
+        'MATEMATIČKI FAKULTET',
+        'PEDAGOŠKI FAKULTET',
+        'PSIHOLOŠKI FAKULTET',
+        'GRAĐEVINSKI FAKULTET',
+      ],
+      activeCount: 5,
+    },
+    readiness: {
+      status: resolveDeveloperCreateExtensionStatus(inspektoriReadinessScore),
+      score: inspektoriReadinessScore,
+      investigationBreadthScore: inspektoriInvestigationBreadthScore,
+      evidenceQualityScore: inspektoriEvidenceQualityScore,
+      deterministicFallbackRequired:
+        dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness
+          .deterministicFallbackRequired,
+    },
+    summary:
+      'INSPEKTORI ostaju additive-only governance/evidence narativ pod KRALJEVSKI PRAVNI UNIVERZITET + PRAVNI POREDAK PO PRAVU GRAĐANSTVA, sa neutral civic-order/compliance/evidence modelom, bounded univerzitetskim katalogom za dublju proveru i strogo summary-only javnim izlazom bez operativnih bezbednosnih detalja.',
+  };
   const kraljevskiAktBezbednostiCoverageStatus = resolveDeveloperCreateExtensionStatus(kraljevskiAktBezbednostiCoverageReadinessScore);
   const kraljevskiAktBezbednostiCoordinationStatus = resolveDeveloperCreateExtensionStatus(kraljevskiAktBezbednostiCoordinationReadinessScore);
   const kraljevskiAktBezbednostiComplianceStatus = resolveDeveloperCreateExtensionStatus(kraljevskiAktBezbednostiComplianceReadinessScore);
@@ -9464,10 +9590,11 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
   };
   dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.currentImplementationStage = {
     roadmapStageId: 'v5-extrondol-release-audit-and-orchestration',
-    measurableOutput: 'audit-safe repo-wide reflection status plus AI identity-finance governance, primary ČOVEČNOST, supplemental ČOVEČANSTVO, KRALJEVSKI BAŠTA UNEVERZITE bounded narrative metadata, companion ČOVEČANSTVO / OSEĆAJ OSEBENOSTI visual metadata, and OSNOVE / RISPEKT protocol evidence are published only through existing EXTRIMLI/EXTREM/EXTRONDOL/SPAJA KOD surfaces',
+    measurableOutput: 'audit-safe repo-wide reflection status plus AI identity-finance governance, INSPEKTORI justice-path summary, primary ČOVEČNOST, supplemental ČOVEČANSTVO, KRALJEVSKI BAŠTA UNEVERZITE bounded narrative metadata, companion ČOVEČANSTVO / OSEĆAJ OSEBENOSTI visual metadata, and OSNOVE / RISPEKT protocol evidence are published only through existing EXTRIMLI/EXTREM/EXTRONDOL/SPAJA KOD surfaces',
     acceptanceEvidence: [
       'dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.implementationPackage',
       'dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection',
+      'dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.inspektori',
       'dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.kraljevskiBastaUneverzite',
       'dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.aiIdentityFinanceGovernance',
       'dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.covecnostAuditVisualReference',
@@ -9511,6 +9638,8 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
       extrondolPublishes: 'wawe-audit-decisions',
       spajaKodPublishes: 'final-audit-safe-status-only',
       policyGatedEconomicOrder: 'ekonomska-privreda-po-pravnom-poretku',
+      inspektoriTrack: 'INSPEKTORI',
+      justicePathModel: 'audit-review-evidence-and-justice-path-only',
       rawInternalsExposed: false,
     },
     kraljevskiProgramskiUneverzitetBoundary: {
@@ -9547,6 +9676,24 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
       noNewRuntimeModule: true,
       noSocialExecutionSystem: true,
       noSensitiveDataInGit: true,
+      rawInternalsExposed: false,
+    },
+    inspektoriBoundary: {
+      trackRole: 'justice-path-inspection-track',
+      parentTracks: ['KRALJEVSKI PRAVNI UNIVERZITET', 'KRALJEVSKI PROGRAMSKI UNEVERZITET'],
+      extremPublishes: 'readiness-completeness-and-evidence-quality-signal',
+      extrondolPublishes: 'review-compliance-audit-summary-only',
+      spajaKodPublishes: 'final-audit-safe-status-only',
+      activeUniversityCatalog: [
+        'KRALJEVSKI PRAVNI UNIVERZITET',
+        'MATEMATIČKI FAKULTET',
+        'PEDAGOŠKI FAKULTET',
+        'PSIHOLOŠKI FAKULTET',
+        'GRAĐEVINSKI FAKULTET',
+      ],
+      noNewRuntimeModule: true,
+      noParallelSourceOfTruth: true,
+      noOperationalSecurityDetails: true,
       rawInternalsExposed: false,
     },
     kraljevskiBastaUneverziteBoundary: {
@@ -9602,6 +9749,7 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
     'DEVELOPER AND CREATE ostaje additive-only repo-wide interpretativni lock preko postojećih EXTRIMLI / EXTREM / EXTRONDOL kontrakata.',
     'VRH PROGRAMSKOG EKVILADENTA ostaje vršni sloj, RADNI TAKT MOZGA (MISLILAC) ostaje zajednički ritam/readiness signal, a METRIČKO / SINEMETRIČKO / PARADIJOGONALNO ostaju kanonski prateći track-ovi.',
     'KRALJEVSKI DRUŠTVENI POREDAK ostaje additive-only bounded governance/socijalni sloj: `nezbrinuti` i `nezaposleni` ostaju auditabilne eligibility kategorije, `GRAĐEVINSKI AKT` ostaje infrastruktura/readiness signal, a `KRALJEVSKA DOPUNA` review/approval/payout posture bez novog socijalnog ili finansijskog engine-a.',
+    'INSPEKTORI ostaju additive-only pravni/governance narativ pod KRALJEVSKI PRAVNI UNIVERZITET + PRAVNI POREDAK PO PRAVU GRAĐANSTVA: READY/WATCH/BLOCKED justice-path signal zavisi od rule consistency, evidentiary completeness, review posture, blocker summary i obaveznog human review-a bez operativnih bezbednosnih detalja.',
     'KRALJEVSKI BAŠTA UNEVERZITE ostaje bounded dokumentaciona/evidence podtraka koja koristi isti technicalReadinessProfile i isti DOK/DIK/FOR ↔ DAK/DUK ownership split da poveže bašta-produktivnost, prirodne matične ćelije i unapređenje ČOVEČANSTVU bez medicinskih runtime tvrdnji.',
     'Repo-wide odraz ostaje validan samo kada su docs, types, routes, tests i workflows drift-zero poravnati bez novih runtime ruta.',
     'AI PLATE ostaje additive-only commercial/runtime paket na Vercel-u: 12000 EUR weekly target je poslovni/finops cilj, a ne hardcoded runtime billing činjenica.',
@@ -10006,6 +10154,14 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
       passed: kraljevskiPravniUniverzitetTrack.documentationBoundary.sourceMaterialPolicy === 'documentation-only'
         && spajaKodEncapsulation.rawPatternVisibility === 'HIDDEN'
         && spajaKodEncapsulation.exposurePolicy.exposesInternalSignalInputs === false,
+    },
+    {
+      id: 'inspektori-summary-only-boundary',
+      description: 'INSPEKTORI remains an additive justice-path governance track with bounded universities and no operational-security detail leakage.',
+      passed: dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.inspektori.additiveOnly
+        && dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.inspektori.noNewRuntimeModule
+        && dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.inspektori.innerControlModel.forbiddenOperationalArtifacts.length === 5
+        && dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.implementationPackage.inspektoriBoundary.noOperationalSecurityDetails,
     },
     {
       id: 'zelezara-pretplata-identity-track-lock',

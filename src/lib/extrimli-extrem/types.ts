@@ -2533,6 +2533,9 @@ export interface ExtrimliDokDikDakDukConsistencyHealth {
       kraljevskiProgramskiUneverzitet: 'KRALJEVSKI PROGRAMSKI UNEVERZITET';
       kraljevskiEkonomskiUneverzitet: 'KRALJEVSKI EKONOMSKI UNEVERZITET';
       kraljevskiDrustveniPoredak: 'KRALJEVSKI DRUŠTVENI POREDAK';
+      inspektori: 'INSPEKTORI';
+      unutrasnjaKontrolaGradjanstvaUInformacionomStavu: 'UNUTRAŠNJA KONTROLA GRAĐANSTVA U INFORMACIONOM STAVU';
+      puteviIstinskePravde: 'PUTEVI ISTINSKE PRAVDE';
       kraljevskiBastaUneverzite: 'KRALJEVSKI BAŠTA UNEVERZITE';
     };
     canonicalGovernanceVocabulary: {
@@ -3121,6 +3124,62 @@ export interface ExtrimliDokDikDakDukConsistencyHealth {
       };
       summary: string;
     };
+    inspektori: {
+      canonicalName: 'INSPEKTORI';
+      additiveOnly: true;
+      interpretativeLayer: 'justice-path-audit-review-evidence-track';
+      sourceOfTruthRoutes: readonly ['/api/extrimli/extrem', '/api/extrimli/extrondol', '/api/extrimli/spaja-kod'];
+      sourceTrack: 'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == KRALJEVSKI PRAVNI UNIVERZITET';
+      parentLegalTrack: 'KRALJEVSKI PRAVNI UNIVERZITET';
+      citizenshipOrder: 'PRAVNI POREDAK PO PRAVU GRAĐANSTVA';
+      noNewRuntimeModule: true;
+      noNewSourceOfTruthModule: true;
+      governanceBinding: {
+        technicalOwnership: 'DOK+DIK+FOR->EXTREM';
+        governanceOwnership: 'DAK+DUK->EXTRONDOL';
+        publicBoundary: 'SPAJA KOD';
+        reviewSurface: 'audit-review-evidence-and-justice-path-only';
+      };
+      innerControlModel: {
+        canonicalName: 'UNUTRAŠNJA KONTROLA GRAĐANSTVA U INFORMACIONOM STAVU';
+        interpretation: 'neutral-civic-order-compliance-and-evidence-model';
+        forbiddenOperationalArtifacts: readonly [
+          'operational-security-procedure',
+          'sensitive-identity',
+          'sensitive-map',
+          'tactical-instruction',
+          'repressive-detail'
+        ];
+      };
+      justicePath: {
+        canonicalName: 'PUTEVI ISTINSKE PRAVDE';
+        ruleConsistencyStatus: 'READY' | 'WATCH' | 'BLOCKED';
+        evidentiaryCompletenessStatus: 'READY' | 'WATCH' | 'BLOCKED';
+        reviewPosture: 'ALIGNED' | 'WATCH' | 'REVIEW_REQUIRED';
+        humanReviewRequired: true;
+        blockerSummary: string[];
+        justicePathConsistency: 'READY' | 'WATCH' | 'BLOCKED';
+      };
+      universityCatalog: {
+        purpose: 'dublja-analiza-dokaza-etike-matematike-komunikacije-i-governance-provere';
+        activeTracks: readonly [
+          'KRALJEVSKI PRAVNI UNIVERZITET',
+          'MATEMATIČKI FAKULTET',
+          'PEDAGOŠKI FAKULTET',
+          'PSIHOLOŠKI FAKULTET',
+          'GRAĐEVINSKI FAKULTET'
+        ];
+        activeCount: number;
+      };
+      readiness: {
+        status: 'READY' | 'WATCH' | 'BLOCKED';
+        score: number;
+        investigationBreadthScore: number;
+        evidenceQualityScore: number;
+        deterministicFallbackRequired: boolean;
+      };
+      summary: string;
+    };
     kraljevskiDrustveniPoredak: {
       canonicalName: 'KRALJEVSKI DRUŠTVENI POREDAK';
       additiveOnly: true;
@@ -3631,6 +3690,8 @@ export interface ExtrimliDokDikDakDukConsistencyHealth {
         extrondolPublishes: 'wawe-audit-decisions';
         spajaKodPublishes: 'final-audit-safe-status-only';
         policyGatedEconomicOrder: 'ekonomska-privreda-po-pravnom-poretku';
+        inspektoriTrack: 'INSPEKTORI';
+        justicePathModel: 'audit-review-evidence-and-justice-path-only';
         rawInternalsExposed: false;
       };
       kraljevskiProgramskiUneverzitetBoundary: {
@@ -3668,6 +3729,24 @@ export interface ExtrimliDokDikDakDukConsistencyHealth {
         noNewRuntimeModule: true;
         noSocialExecutionSystem: true;
         noSensitiveDataInGit: true;
+        rawInternalsExposed: false;
+      };
+      inspektoriBoundary: {
+        trackRole: 'justice-path-inspection-track';
+        parentTracks: readonly ['KRALJEVSKI PRAVNI UNIVERZITET', 'KRALJEVSKI PROGRAMSKI UNEVERZITET'];
+        extremPublishes: 'readiness-completeness-and-evidence-quality-signal';
+        extrondolPublishes: 'review-compliance-audit-summary-only';
+        spajaKodPublishes: 'final-audit-safe-status-only';
+        activeUniversityCatalog: readonly [
+          'KRALJEVSKI PRAVNI UNIVERZITET',
+          'MATEMATIČKI FAKULTET',
+          'PEDAGOŠKI FAKULTET',
+          'PSIHOLOŠKI FAKULTET',
+          'GRAĐEVINSKI FAKULTET'
+        ];
+        noNewRuntimeModule: true;
+        noParallelSourceOfTruth: true;
+        noOperationalSecurityDetails: true;
         rawInternalsExposed: false;
       };
       kraljevskiBastaUneverziteBoundary: {

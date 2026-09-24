@@ -975,6 +975,7 @@ Canonical vocabulary:
 - `ZAKON SILNOG` = governance doctrine reference koja ne sme da zaobiđe charter/human-review granice.
 - `POVELJA O ZAKONODAVNOM PRAVU` = primary charter i obavezna legislative-authority definicija.
 - `PRAVNI POREDAK PO PRAVU GRAĐANSTVA` = neutral civic-order rule set sa warning/block granicama i evidence zahtevima.
+- `INSPEKTORI` = additive-only audit/review/evidence/justice-path traka pod `KRALJEVSKI PRAVNI UNIVERZITET`; nije operativno sprovođenje, ne uvodi nove rute i ne otkriva sirove istrage.
 
 Documentation boundary:
 
@@ -998,6 +999,8 @@ Neutral rule boundary:
 - Neprihvatljivo ponašanje mora biti opisano neutralno, bez sirovih internih formulacija.
 - `WARNING` zahteva dokazive signale rizika i human review pre promocije.
 - `BLOCKED` zahteva potvrđene evidencije protivpravnog ili nedozvoljenog civic maneuvering-a prema kingdom framework-u.
+- `UNUTRAŠNJA KONTROLA GRAĐANSTVA U INFORMACIONOM STAVU` ostaje neutral civic-order/compliance/evidence model: zabranjeni su operativni bezbednosni postupci, identiteti, mape, taktike i represivni detalji.
+- `putevi istinske pravde` ostaju sažeti kroz postojeći `READY | WATCH | BLOCKED` jezik: rule consistency, evidentiary completeness, review posture, blocker summary i obavezni human review.
 - Eskalacija zahteva dokumentovanu evidenciju, audit trail i rollback/human-review spremnost.
 
 Release/governance checklist:
