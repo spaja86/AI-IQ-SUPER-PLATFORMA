@@ -17,6 +17,16 @@ import type {
   ExtrimliSpajaproPublicBoundaryStatus,
 } from '../extrimli-spajapro-track';
 import type { AiIdentityFinanceGovernancePackage } from '../ai-identity-finance-governance';
+import type {
+  DEVELOPER_CREATE_VRH_CANONICAL_TOKEN_VOCABULARY,
+  DEVELOPER_CREATE_VRH_DOWNSTREAM_SUMMARY_POLICY,
+  DEVELOPER_CREATE_VRH_FOUR_PERMANENT_LAYERS,
+  DEVELOPER_CREATE_VRH_INTERPRETATION_ALIASES,
+  DEVELOPER_CREATE_VRH_MAIN_MANIFEST_DOCUMENT,
+  DEVELOPER_CREATE_VRH_NARRATIVE_CONTRACT_BOUNDARY,
+  DEVELOPER_CREATE_VRH_SUCCESSFUL_NARRATIVE_CRITERIA,
+  DEVELOPER_CREATE_VRH_VISUAL_EVIDENCE_POLICY,
+} from '../developer-create-vrh-ekviladenta-contract';
 import {
   type ExtrimliDokDikDakDukConsistencyHealth,
   EXTRIMLI_EXTREM_FUNKCINALNO_PROGRAMIRANJE_ENERGETSKOG_MISAONOG_TOKA_CONTRACT_VERSION,
@@ -679,9 +689,12 @@ export interface ExtrimliExtrondolRadniTaktMozgaMislilacGovernance {
 
 export interface ExtrimliExtrondolDeveloperAndCreateRepoWideReflectionGovernance {
   term: 'DEVELOPER AND CREATE';
+  mainManifestDocument: typeof DEVELOPER_CREATE_VRH_MAIN_MANIFEST_DOCUMENT;
+  canonicalNarrativeSentence: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['canonicalNarrativeSentence'];
   canonicalScopeLock: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['canonicalScopeLock'];
-  equalityLock: 'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == RADNI TAKT MOZGA (MISLILAC)';
+  equalityLock: typeof DEVELOPER_CREATE_VRH_INTERPRETATION_ALIASES[0];
   canonicalMapeUmaScopeLock: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['canonicalMapeUmaScopeLock'];
+  interpretationAliases: typeof DEVELOPER_CREATE_VRH_INTERPRETATION_ALIASES;
   sourceOfTruth: '/api/extrimli/extrondol';
   technicalSignalSource: '/api/extrimli/extrem';
   publicBoundary: '/api/extrimli/spaja-kod';
@@ -695,6 +708,12 @@ export interface ExtrimliExtrondolDeveloperAndCreateRepoWideReflectionGovernance
     dakDuk: 'EXTRONDOL';
     spajaKod: 'audit-safe-summary-only';
   };
+  fourPermanentLayers: typeof DEVELOPER_CREATE_VRH_FOUR_PERMANENT_LAYERS;
+  canonicalTokenVocabulary: typeof DEVELOPER_CREATE_VRH_CANONICAL_TOKEN_VOCABULARY;
+  narrativeContractBoundary: typeof DEVELOPER_CREATE_VRH_NARRATIVE_CONTRACT_BOUNDARY;
+  visualEvidencePolicy: typeof DEVELOPER_CREATE_VRH_VISUAL_EVIDENCE_POLICY;
+  downstreamSummaryPolicy: typeof DEVELOPER_CREATE_VRH_DOWNSTREAM_SUMMARY_POLICY;
+  successfulNarrativeCriteria: typeof DEVELOPER_CREATE_VRH_SUCCESSFUL_NARRATIVE_CRITERIA;
   globalPageExplanationContract: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['globalPageExplanationContract'];
   canonicalGovernanceVocabulary: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['canonicalGovernanceVocabulary'];
   osnoveRispektProtocol: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['osnoveRispektProtocol'];

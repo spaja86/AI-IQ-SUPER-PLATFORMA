@@ -15,6 +15,19 @@ Ovaj program standardizuje **developer/create** rad nad EXTRIMLI + EXTRONDOL + E
 - sa bounded vokabularom `EXTRIMLI EXTRONDOL EXTREM DOK DUK DAK DIK FOR`
 - sa kanonskim poslovnim slojem `Kompanija SPAJA / Digitalna Industrija`
 
+## 1.1) Main manifest and narrative lock
+
+- Ovaj dokument je **glavni manifest** za `DEVELOPER AND CREATE`.
+- Jedina centralna narativna rečenica ostaje `DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA`.
+- `DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == RADNI TAKT MOZGA (MISLILAC)` i `DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == MAPE UMA` ostaju samo interpretativni alias-i postojećeg vrha priče.
+- Četiri stalna sloja ostaju zaključana: `Developer/Create / VRH` = orkestracioni vršni smisao, `EXTREM` = tehnički signal, `EXTRONDOL` = governance/WAWE/audit/freeze-promotion, `SPAJA KOD` = javni audit-safe rezime.
+- Mali kanonski blok rečnika ostaje zaključan: `DOK = technical readiness proof`, `DIK = technical consistency proof`, `DAK = governance promotion decision`, `DUK = human-review and rollback governance`, `FOR = technical execution loop`.
+- Aktivna faza za ovu stabilizaciju ostaje `roadmapStageId=v5-extrondol-release-audit-and-orchestration`; ista promena mora ostati vezana za jedan merljiv izlaz i postojeće acceptance evidence.
+- Narativni sloj ostaje interpretativan, a kontraktni sloj ostaje proverljiv kroz `readiness`, `blocker reason`, `human review`, `rollout`, `rollback` i `downstream reference`.
+- Vizueli ostaju samo audit/documentation dokaz i nikada ne postaju novi runtime izvor istine.
+- Downstream prema `spaja86/IO-OPENUI-AO` ostaje isključivo summary-safe.
+- Uspešna naracija znači da ista priča ostaje prepoznatljiva kroz `docs + types + routes + tests + workflows`; ako zahteva novo objašnjenje u svakom fajlu, naracija nije stabilizovana.
+
 ## 2) Roadmap lock (Verzije 1–7)
 
 Program je zaključan na postojeći roadmap:

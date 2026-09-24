@@ -6,6 +6,17 @@ import {
 } from '../extrimli';
 import { buildDokerKuratIzekDokarExtremTrack } from '../extrimli-doker-kurat-izek-dokar-track';
 import {
+  DEVELOPER_CREATE_VRH_CANONICAL_NARRATIVE_SENTENCE,
+  DEVELOPER_CREATE_VRH_CANONICAL_TOKEN_VOCABULARY,
+  DEVELOPER_CREATE_VRH_DOWNSTREAM_SUMMARY_POLICY,
+  DEVELOPER_CREATE_VRH_FOUR_PERMANENT_LAYERS,
+  DEVELOPER_CREATE_VRH_INTERPRETATION_ALIASES,
+  DEVELOPER_CREATE_VRH_MAIN_MANIFEST_DOCUMENT,
+  DEVELOPER_CREATE_VRH_NARRATIVE_CONTRACT_BOUNDARY,
+  DEVELOPER_CREATE_VRH_SUCCESSFUL_NARRATIVE_CRITERIA,
+  DEVELOPER_CREATE_VRH_VISUAL_EVIDENCE_POLICY,
+} from '../developer-create-vrh-ekviladenta-contract';
+import {
   DEVELOPER_CREATE_VRH_MAPE_UMA_EXPLANATION_TITLE,
   DEVELOPER_CREATE_VRH_MAPE_UMA_OWNERSHIP_LOCK,
   DEVELOPER_CREATE_VRH_MAPE_UMA_READINESS_MODEL,
@@ -6635,9 +6646,12 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
     },
     developerAndCreateRepoWideReflection: {
       canonicalName: 'DEVELOPER AND CREATE',
-      canonicalScopeLock: 'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA',
-      equalityLock: 'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == RADNI TAKT MOZGA (MISLILAC)',
+      mainManifestDocument: DEVELOPER_CREATE_VRH_MAIN_MANIFEST_DOCUMENT,
+      canonicalNarrativeSentence: DEVELOPER_CREATE_VRH_CANONICAL_NARRATIVE_SENTENCE,
+      canonicalScopeLock: DEVELOPER_CREATE_VRH_CANONICAL_NARRATIVE_SENTENCE,
+      equalityLock: DEVELOPER_CREATE_VRH_INTERPRETATION_ALIASES[0],
       canonicalMapeUmaScopeLock: DEVELOPER_CREATE_VRH_MAPE_UMA_SCOPE_LOCK,
+      interpretationAliases: DEVELOPER_CREATE_VRH_INTERPRETATION_ALIASES,
       scope: 'repo-wide-rhythm-readiness-guidance',
       additiveOnlyProfile: 'EXTRIMLI-EXTRONDOL-EXTREM',
       sourceOfTruthRoutes: ['/api/extrimli/extrem', '/api/extrimli/extrondol', '/api/extrimli/spaja-kod'],
@@ -6646,6 +6660,12 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
         dakDuk: 'EXTRONDOL',
         spajaKod: 'audit-safe-summary-only',
       },
+      fourPermanentLayers: DEVELOPER_CREATE_VRH_FOUR_PERMANENT_LAYERS,
+      canonicalTokenVocabulary: DEVELOPER_CREATE_VRH_CANONICAL_TOKEN_VOCABULARY,
+      narrativeContractBoundary: DEVELOPER_CREATE_VRH_NARRATIVE_CONTRACT_BOUNDARY,
+      visualEvidencePolicy: DEVELOPER_CREATE_VRH_VISUAL_EVIDENCE_POLICY,
+      downstreamSummaryPolicy: DEVELOPER_CREATE_VRH_DOWNSTREAM_SUMMARY_POLICY,
+      successfulNarrativeCriteria: DEVELOPER_CREATE_VRH_SUCCESSFUL_NARRATIVE_CRITERIA,
       globalPageExplanationContract: {
         title: DEVELOPER_CREATE_VRH_MAPE_UMA_EXPLANATION_TITLE,
         readinessModel: DEVELOPER_CREATE_VRH_MAPE_UMA_READINESS_MODEL,

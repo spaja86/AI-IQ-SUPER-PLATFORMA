@@ -27,6 +27,14 @@ import {
   EXTRIMLI_EXTREM_SPAJINO_PROPORCIONALNO_PROGRAMIRANJE_UNIVERZITET_CONTRACT_VERSION,
   EXTRIMLI_EXTREM_VRH_PROGRAMSKOG_EKVILADENTA_CONTRACT_VERSION,
 } from '../../lib/extrimli-extrem/types';
+import {
+  DEVELOPER_CREATE_VRH_CANONICAL_NARRATIVE_SENTENCE,
+  DEVELOPER_CREATE_VRH_CANONICAL_TOKEN_VOCABULARY,
+  DEVELOPER_CREATE_VRH_DOWNSTREAM_SUMMARY_POLICY,
+  DEVELOPER_CREATE_VRH_INTERPRETATION_ALIASES,
+  DEVELOPER_CREATE_VRH_MAIN_MANIFEST_DOCUMENT,
+  DEVELOPER_CREATE_VRH_SUCCESSFUL_NARRATIVE_CRITERIA,
+} from '../../lib/developer-create-vrh-ekviladenta-contract';
 
 let passed = 0;
 let failed = 0;
@@ -248,9 +256,16 @@ async function runTests(): Promise<void> {
     assert(body.data.dokDikDakDukConsistencyHealth.programskiJezikProucavanja.programskiEkanalog.canonicalName === 'PROGRAMSKI EKANALOG', 'unexpected programski ekanalog name');
     assert(body.data.dokDikDakDukConsistencyHealth.programskiJezikProucavanja.programskiEkanalog.meaning === 'razumevanje logike', 'unexpected programski ekanalog meaning');
     assert(body.data.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.canonicalName === 'DEVELOPER AND CREATE', 'unexpected developer/create reflection name');
-    assert(body.data.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.canonicalScopeLock === 'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA', 'unexpected developer/create canonical scope lock');
+    assert(body.data.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.mainManifestDocument === DEVELOPER_CREATE_VRH_MAIN_MANIFEST_DOCUMENT, 'unexpected developer/create main manifest');
+    assert(body.data.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.canonicalNarrativeSentence === DEVELOPER_CREATE_VRH_CANONICAL_NARRATIVE_SENTENCE, 'unexpected developer/create canonical narrative sentence');
+    assert(body.data.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.canonicalScopeLock === DEVELOPER_CREATE_VRH_CANONICAL_NARRATIVE_SENTENCE, 'unexpected developer/create canonical scope lock');
+    assert(body.data.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.interpretationAliases.join(',') === DEVELOPER_CREATE_VRH_INTERPRETATION_ALIASES.join(','), 'unexpected developer/create interpretation aliases');
     assert(body.data.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.canonicalMapeUmaScopeLock === 'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == MAPE UMA', 'unexpected developer/create MAPE UMA canonical scope lock');
     assert(body.data.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readinessModel.join(',') === 'READY,WATCH,BLOCKED', 'unexpected developer/create readiness model');
+    assert(body.data.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.canonicalTokenVocabulary.dok === DEVELOPER_CREATE_VRH_CANONICAL_TOKEN_VOCABULARY.dok, 'unexpected developer/create DOK role');
+    assert(body.data.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.canonicalTokenVocabulary.dak === DEVELOPER_CREATE_VRH_CANONICAL_TOKEN_VOCABULARY.dak, 'unexpected developer/create DAK role');
+    assert(body.data.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.downstreamSummaryPolicy.linkedRepo === DEVELOPER_CREATE_VRH_DOWNSTREAM_SUMMARY_POLICY.linkedRepo, 'unexpected developer/create downstream linked repo');
+    assert(body.data.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.successfulNarrativeCriteria.requiresSharedStoryAcross.join(',') === DEVELOPER_CREATE_VRH_SUCCESSFUL_NARRATIVE_CRITERIA.requiresSharedStoryAcross.join(','), 'unexpected developer/create successful narrative layers');
     assert(body.data.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.globalPageExplanationContract.boundedThematicSignals.join(',') === 'mape-uma,slike-plus-znacenje,ucenje,znanje,kreativnost,saradnja,odrzivost,mir', 'unexpected developer/create global explanation thematic signals');
     assert(body.data.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.dailyOperationalCadence.cadenceBlocks.join(',') === 'morning-startup,deep-focus-block,midday-checkpoint,end-of-day-closeout', 'unexpected developer/create cadence blocks');
     assert(['READY', 'WATCH', 'BLOCKED'].includes(body.data.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.status), 'unexpected developer/create reflection status');
