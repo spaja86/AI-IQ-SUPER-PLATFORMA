@@ -468,6 +468,14 @@ const EXTRIMLI_EXTREM_DEVELOPER_CREATE_PRAVEDAN_SVET_KRALJEVSTVO_SCENARIO_ID =
   'kraljevstvo-pravedan-svet-za-sve-narastaje-developer-create' as const;
 const EXTRIMLI_EXTREM_DEVELOPER_CREATE_PRAVEDAN_SVET_KRALJEVSTVO_CITATION =
   'KRALJEVSTVO — PRAVEDAN SVET ZA SVE NARAŠTAJE ostaje additive-only supplemental audit/reference vizuel: kraljevstvo, pravoslavlje, znanje, priroda, čovečanstvo, zajednička porodica i večnost mapiraju se isključivo na postojeći Developer/Create ⇄ VRH ⇄ Radni Takt model, uz bounded vezu ka KRALJEVSKI PRAVNI UNIVERZITET governance/epilog narativu, bez novih ruta i bez novog source-of-truth sistema.' as const;
+const EXTRIMLI_EXTREM_DEVELOPER_CREATE_KRALJEVSKA_KUCA_SMEDEREVO_VISUAL_REFERENCE =
+  'https://github.com/user-attachments/assets/7b6cfca4-d61f-4974-b06f-299be5626282' as const;
+const EXTRIMLI_EXTREM_DEVELOPER_CREATE_KRALJEVSKA_KUCA_SMEDEREVO_CANONICAL_NARRATIVE_ID =
+  'kraljevska-kuca-srbija-smederevo-epicentricna-tacka-planete-developer-create' as const;
+const EXTRIMLI_EXTREM_DEVELOPER_CREATE_KRALJEVSKA_KUCA_SMEDEREVO_SCENARIO_ID =
+  'kraljevska-kuca-srbija-smederevo-jedan-planet-jedan-narod-jedna-buducnost-developer-create' as const;
+const EXTRIMLI_EXTREM_DEVELOPER_CREATE_KRALJEVSKA_KUCA_SMEDEREVO_CITATION =
+  'KRALJEVSKA KUĆA — SRBIJA, SMEDEREVO / EPICENTRIČNA TAČKA PLANETE / EPILOG ČOVEČANSTVO ostaje additive-only supplemental audit/reference vizuel: “jedan planet / jedan narod / jedna budućnost” mapira se isključivo kao bounded legal-governance i civic-order epilog evidence sloj unutar postojećeg Developer/Create ⇄ VRH ⇄ Radni Takt modela, bez novih ruta, bez novih formula, bez bezbednosnih procedura i bez religijskog/političkog runtime enforcement-a.' as const;
 const EXTRIMLI_EXTREM_DEVELOPER_CREATE_PROFESIONALNA_GLOBALNA_KAMPANJA_KRALJEVSTVO_VISUAL_REFERENCE =
   'https://github.com/user-attachments/assets/c9414c36-7876-43ee-ae39-fad8cd2622ed' as const;
 const EXTRIMLI_EXTREM_DEVELOPER_CREATE_PROFESIONALNA_GLOBALNA_KAMPANJA_KRALJEVSTVO_CANONICAL_NARRATIVE_ID =
@@ -8124,6 +8132,45 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
               'covecanstvo',
               'jedan-svet-jedna-porodica',
               'vecnost',
+            ],
+            auditRole: 'additive-audit-reference-only',
+          },
+          {
+            title: 'KRALJEVSKA KUĆA — SRBIJA, SMEDEREVO / EPILOG ČOVEČANSTVO',
+            canonicalNarrativeId:
+              EXTRIMLI_EXTREM_DEVELOPER_CREATE_KRALJEVSKA_KUCA_SMEDEREVO_CANONICAL_NARRATIVE_ID,
+            citation:
+              EXTRIMLI_EXTREM_DEVELOPER_CREATE_KRALJEVSKA_KUCA_SMEDEREVO_CITATION,
+            visualReference:
+              EXTRIMLI_EXTREM_DEVELOPER_CREATE_KRALJEVSKA_KUCA_SMEDEREVO_VISUAL_REFERENCE,
+            interpretation:
+              'Supplied KRALJEVSKA KUĆA — SRBIJA, SMEDEREVO image remains additive-only supplemental audit/reference evidence and binds epicentrična tačka planete + jedan planet/jedan narod/jedna budućnost narrative to the same bounded KRALJEVSKI PRAVNI UNIVERZITET governance/epilog package without introducing any new source-of-truth runtime route.',
+            sourceStatement: 'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == RADNI TAKT MOZGA (MISLILAC)',
+            imageToSignalProfile: {
+              scenarioId:
+                EXTRIMLI_EXTREM_DEVELOPER_CREATE_KRALJEVSKA_KUCA_SMEDEREVO_SCENARIO_ID,
+              theme: 'KRALJEVSKA KUĆA / SRBIJA, SMEDEREVO',
+              narrativeInput:
+                EXTRIMLI_EXTREM_DEVELOPER_CREATE_KRALJEVSKA_KUCA_SMEDEREVO_CITATION,
+              ownershipLock: {
+                dokDikFor: 'EXTREM',
+                dakDuk: 'EXTRONDOL',
+                spajaKod: 'audit-safe-summary-only',
+              },
+              signalOutputs: {
+                readinessScore: 0,
+                readinessStatus: 'BLOCKED',
+                conflictPressurePercent: 100,
+                deterministicFallbackRequired: true,
+              },
+            },
+            thematicSignals: [
+              'kraljevska-kuca',
+              'srbija-smederevo',
+              'epicentricna-tacka-planete',
+              'jedan-planet-jedan-narod-jedna-buducnost',
+              'legal-governance-epilog',
+              'bounded-non-enforcement',
             ],
             auditRole: 'additive-audit-reference-only',
           },
