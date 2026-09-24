@@ -9056,6 +9056,13 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
       ? ['deterministic-fallback-required']
       : []),
   ];
+  const inspektoriActiveUniversityTracks = [
+    'KRALJEVSKI PRAVNI UNIVERZITET',
+    'MATEMATIČKI FAKULTET',
+    'PEDAGOŠKI FAKULTET',
+    'PSIHOLOŠKI FAKULTET',
+    'GRAĐEVINSKI FAKULTET',
+  ] as const;
   const inspektoriJusticePathConsistency =
     inspektoriBlockerSummary.length > 0
       ? 'BLOCKED'
@@ -9106,14 +9113,8 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
     },
     universityCatalog: {
       purpose: 'dublja-analiza-dokaza-etike-matematike-komunikacije-i-governance-provere',
-      activeTracks: [
-        'KRALJEVSKI PRAVNI UNIVERZITET',
-        'MATEMATIČKI FAKULTET',
-        'PEDAGOŠKI FAKULTET',
-        'PSIHOLOŠKI FAKULTET',
-        'GRAĐEVINSKI FAKULTET',
-      ],
-      activeCount: 5,
+      activeTracks: inspektoriActiveUniversityTracks,
+      activeCount: inspektoriActiveUniversityTracks.length,
     },
     readiness: {
       status: resolveDeveloperCreateExtensionStatus(inspektoriReadinessScore),
