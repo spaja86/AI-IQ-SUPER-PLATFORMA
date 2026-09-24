@@ -9010,7 +9010,7 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
   const inspektoriRuleConsistencyStatus = dokDikDakDukConsistencyHealth.status;
   const inspektoriEvidentiaryCompletenessScore = round(
     (
-      dokDikDakDukConsistencyHealth.score
+      dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.score
       + kraljevskiPravniUniverzitetTrack.readiness.completenessScore
       + kraljevskiPravniUniverzitetTrack.readiness.consistencyScore
     ) / 3,
@@ -9039,7 +9039,7 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
   const inspektoriEvidenceQualityScore = round(
     (
       kraljevskiPravniUniverzitetTrack.readiness.consistencyScore
-      + dokDikDakDukConsistencyHealth.score
+      + dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.score
       + vrhProgramskogEkviladenta.readiness.score
     ) / 3,
     2,
