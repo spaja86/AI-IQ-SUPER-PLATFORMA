@@ -850,6 +850,11 @@ async function runTests(): Promise<void> {
     assert(socialOrder.kraljevskiAktBezbednosti.canonicalName === 'KRALJEVSKI AKT BEZBEDNOSTI', 'developer/create security-act canonical name mismatch');
     assert(socialOrder.kraljevskiAktBezbednosti.boundedDomainCatalog.join(',') === 'KRALJEVSKI,GARDISTI,VOJNI,POLICIJSKI,SPECIJALNE JEDINICE', 'developer/create security-act bounded domain catalog mismatch');
     assert(socialOrder.kraljevskiAktBezbednosti.canonicalVocabulary.phrase === 'EXTRIMLI EXTRONDOL EXTREM DOK DUK DAK DIK FOR', 'developer/create security-act vocabulary mismatch');
+    assert(socialOrder.kraljevskiAktBezbednosti.auditSafeAliasLayer.interpretativeOnly, 'developer/create security-act alias layer must stay interpretative-only');
+    assert(socialOrder.kraljevskiAktBezbednosti.auditSafeAliasLayer.nonOperational, 'developer/create security-act alias layer must stay non-operational');
+    assert(socialOrder.kraljevskiAktBezbednosti.auditSafeAliasLayer.domainAliases.GARDISTI.alias === 'VUKOVI', 'developer/create security-act GARDISTI alias mismatch');
+    assert(socialOrder.kraljevskiAktBezbednosti.auditSafeAliasLayer.domainAliases['SPECIJALNE JEDINICE'].aliases.join(',') === 'BIA,UDBA,ŽANDERMERIJA (OKLOPNJAČE)', 'developer/create security-act SPECIJALNE JEDINICE alias mismatch');
+    assert(socialOrder.kraljevskiAktBezbednosti.auditSafeAliasLayer.forbiddenOperationalEvidence.includes('tactical-plan'), 'developer/create security-act alias layer forbidden evidence mismatch');
     assert(socialOrder.kraljevskiAktBezbednosti.operationalBoundary.noTacticalInstructionSet, 'developer/create security-act must forbid tactical instruction set');
     assert(socialOrder.kraljevskiAktBezbednosti.civilReadinessScope.blockerSummary.includes('no-tactical-security-instruction-set'), 'developer/create security-act blocker summary mismatch');
     assert(socialOrder.kraljevskiAktBezbednosti.kraljevskaPlataPolicy.governanceOnlyInGit, 'developer/create security-act salary policy must stay governance-only');
