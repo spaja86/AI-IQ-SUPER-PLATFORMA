@@ -81,6 +81,10 @@ jobs:
           const externalWorkflow = fs.readFileSync('.github/workflows/extrimli-external-github.yml', 'utf8');
 
           assert(types.includes('export interface ExtrimliExtrondolContractDriftReport'), 'types must expose ExtrimliExtrondolContractDriftReport');
+          assert(
+            fs.readFileSync('.github/workflows/extrimli-governance-conformance.yml', 'utf8').includes("- '.github/workflows/extrimli-governance-conformance.yml'"),
+            'conformance workflow must keep itself inside trigger paths'
+          );
           assert(versionRoadmap.includes('export interface ExtrimliDeveloperCreateProgramLock'), 'roadmap must expose Developer/Create lock type');
           assert(versionRoadmap.includes('developerCreateLock'), 'roadmap must publish Developer/Create lock payload');
           assert(versionRoadmap.includes('docs/EXTRIMLI-VRH-PROGRAMSKOG-EKVILADENTA.md'), 'roadmap lock must include VRH doc artifact');
