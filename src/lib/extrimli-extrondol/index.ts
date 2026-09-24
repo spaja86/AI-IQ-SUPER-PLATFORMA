@@ -449,7 +449,7 @@ function mapInspektoriGovernance(
 
 function mapKraljevskaPlataPaymentVerificationPosture(
   status: ExtrimliExtrondolReport['paymentVerification']['status'],
-): 'VERIFIED' | 'WATCH' | 'BLOCKED' {
+): ExtrimliExtrondolReport['paymentVerification']['status'] {
   switch (status) {
     case 'VERIFIED':
       return 'VERIFIED';
@@ -476,8 +476,6 @@ function buildKraljevskaPlataSummary(
         ? 'payout-readiness-blocked'
         : paymentVerificationPosture === 'BLOCKED'
           ? paymentVerification.blockers[0] ?? 'payment-verification-required'
-          : paymentVerificationPosture === 'WATCH'
-            ? 'payment-verification-watch'
           : kraljevskaPlataPolicy.approvalStatus === 'WATCH'
             ? 'approval-status-watch'
             : kraljevskaPlataPolicy.payoutReadinessStatus === 'WATCH'

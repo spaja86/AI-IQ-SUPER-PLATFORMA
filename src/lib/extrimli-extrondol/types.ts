@@ -2576,7 +2576,7 @@ export interface ExtrimliSpajaKodPublicFacade {
         approvalStatus: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['kraljevskiDrustveniPoredak']['kraljevskiAktBezbednosti']['kraljevskaPlataPolicy']['approvalStatus'];
         payoutReadinessStatus: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['kraljevskiDrustveniPoredak']['kraljevskiAktBezbednosti']['kraljevskaPlataPolicy']['payoutReadinessStatus'];
         paymentVerificationRequired: true;
-        paymentVerificationStatus: 'VERIFIED' | 'WATCH' | 'BLOCKED';
+        paymentVerificationStatus: ExtrimliExtrondolPaymentVerification['status'];
         blockerReason: string | null;
         publicBoundary: 'audit-safe-summary-only';
         publicSummary: string;
