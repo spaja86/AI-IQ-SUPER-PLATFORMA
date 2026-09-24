@@ -2682,12 +2682,9 @@ export interface ExtrimliDokDikDakDukConsistencyHealth {
       readinessScore: number;
       blockerReason: string | null;
       reviewPosture: 'ALIGNED' | 'WATCH' | 'REVIEW_REQUIRED';
-      audioSceneVocabulary: {
-        readonly [Index in keyof typeof DEVELOPER_CREATE_AUDIO_VISUAL_SCENE_VOCABULARY]:
-          (typeof DEVELOPER_CREATE_AUDIO_VISUAL_SCENE_VOCABULARY)[Index] & {
-            readonly status: 'READY' | 'WATCH' | 'BLOCKED';
-          };
-      };
+      audioSceneVocabulary: readonly ((typeof DEVELOPER_CREATE_AUDIO_VISUAL_SCENE_VOCABULARY)[number] & {
+        readonly status: 'READY' | 'WATCH' | 'BLOCKED';
+      })[];
       technicalProfile: {
         consolidatedStatus: 'READY' | 'WATCH' | 'BLOCKED';
         vocalConsistencyStatus: ExtrimliExtremSinemetrickoProgramiranjeSignal['readiness']['status'];
