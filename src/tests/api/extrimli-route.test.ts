@@ -1062,6 +1062,7 @@ async function runTests(): Promise<void> {
     assert(['READY', 'WATCH', 'BLOCKED'].includes(body.data.publicSignals.vrhProgramskogEkviladentaStatus), 'unexpected SPAJA KOD vrh summary status');
     assert(['READY', 'WATCH', 'BLOCKED'].includes(body.data.publicSignals.developerAndCreateStatus), 'unexpected SPAJA KOD developer/create summary status');
     assert(['READY', 'WATCH', 'BLOCKED'].includes(body.data.publicSignals.developerAndCreateImplementationStatus), 'unexpected SPAJA KOD developer/create implementation summary status');
+    assert(['READY', 'WATCH', 'BLOCKED'].includes(body.data.publicSignals.developerAndCreateAudioVisualStatus), 'unexpected SPAJA KOD developer/create audio-visual summary status');
     assert(['READY', 'WATCH', 'BLOCKED'].includes(body.data.publicSignals.kraljevskiPravniAktStatus), 'unexpected SPAJA KOD KRALJEVSKI PRAVNI AKT summary status');
     assert(typeof body.data.publicSignals.developerAndCreateUniversitySummary.passedAreasCount === 'number', 'unexpected SPAJA KOD university passed areas count');
     assert(['passed', 'certified', 'certified-with-reward', 'blocked-for-review'].includes(body.data.publicSignals.developerAndCreateUniversitySummary.certificationStatus), 'unexpected SPAJA KOD university certification status');
@@ -1086,6 +1087,8 @@ async function runTests(): Promise<void> {
     assert(body.data.epilogijaCovecnosti.interpretation.length > 0, 'SPAJA KOD epilog interpretation should be present');
     assert(body.data.epilogijaCovecnosti.flowLock.sequence.join(' -> ') === 'image -> spajanje -> posledica -> epilog', 'SPAJA KOD epilog flow lock should stay fixed');
     assert(body.data.epilogijaCovecnosti.packageOutputs.auditShortSummary.includes('audit-safe'), 'SPAJA KOD audit short summary should stay public-safe');
+    assert(body.data.developerAndCreateVisualReflection.audioVisualKontrabasPackage.canonicalName === 'DEVELOPER AND CREATE / AUDIO-VIZUELNI KONTRABAS PAKET', 'unexpected SPAJA KOD audio-visual package canonical name');
+    assert(body.data.developerAndCreateVisualReflection.audioVisualKontrabasPackage.summarySafeFields.join(',') === 'readinessStatus,blockerReason,reviewPosture,downstreamReference,videoStoryboardSummary', 'unexpected SPAJA KOD audio-visual package summary-safe fields');
     assert(body.data.epilogijaCovecnosti.packageOutputs.governanceChecklistStatus.includes('DOKAR rollback readiness required'), 'SPAJA KOD governance checklist should preserve rollback note');
     assert(body.data.epilogijaCovecnosti.dokerKuratIzekDokarOverlay.DOKER.includes('spaja86/IO-OPENUI-AO'), 'SPAJA KOD DOKER overlay should preserve downstream reference');
     assert(body.data.developerAndCreateVisualReflection.canonicalNarrativeId === 'covecnost-developer-create-vrh-radni-takt', 'unexpected SPAJA KOD developer/create ČOVEČNOST narrative id');

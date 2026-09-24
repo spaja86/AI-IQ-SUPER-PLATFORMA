@@ -3096,10 +3096,10 @@ function buildSpajaKodFacade(params: {
       ? 'WATCH'
       : 'ALIGNED';
   const developerAndCreateAudioVisualBlockerReason = developerAndCreateAudioVisualStatus === 'BLOCKED'
-    ? params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.blockerReasons[0]
+    ? params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.reasons[0]
       ?? 'audio-visual-kontrabas-package-blocked'
     : developerAndCreateAudioVisualStatus === 'WATCH'
-      ? params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.watchReasons[0]
+      ? params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.reasons[0]
         ?? 'audio-visual-kontrabas-package-review-required'
       : null;
   const completeness = {
@@ -4810,10 +4810,10 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
             extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.audioVisualKontrabasPackage.readinessStatus !== 'READY',
           blockerReason:
             extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.audioVisualKontrabasPackage.readinessStatus === 'BLOCKED'
-              ? extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.blockerReasons[0]
+              ? extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.reasons[0]
                 ?? 'audio-visual-kontrabas-package-blocked'
               : extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.audioVisualKontrabasPackage.readinessStatus === 'WATCH'
-                ? extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.watchReasons[0]
+                ? extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.reasons[0]
                   ?? 'audio-visual-kontrabas-package-review-required'
                 : null,
           reviewPosture:
@@ -6588,10 +6588,10 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
               extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.audioVisualKontrabasPackage.readinessStatus !== 'READY',
             blockerReason:
               extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.audioVisualKontrabasPackage.readinessStatus === 'BLOCKED'
-                ? extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.blockerReasons[0]
+                ? extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.reasons[0]
                   ?? 'audio-visual-kontrabas-package-blocked'
                 : extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.audioVisualKontrabasPackage.readinessStatus === 'WATCH'
-                  ? extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.watchReasons[0]
+                  ? extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.reasons[0]
                     ?? 'audio-visual-kontrabas-package-review-required'
                   : null,
             reviewPosture:
