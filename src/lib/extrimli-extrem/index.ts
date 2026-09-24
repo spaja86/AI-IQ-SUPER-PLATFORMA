@@ -8387,6 +8387,38 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
     ) / 3,
     2,
   );
+  const kraljevskiAktBezbednostiCoverageReadinessScore = round(
+    (
+      gradjevinskiAktReadinessScore
+      + privredniAktQuarterlyMarketInput.zadrugaOperations.operationalSignals.instrumentTablaOperationalReadinessPercent
+      + vrhProgramskogEkviladenta.readiness.score
+    ) / 3,
+    2,
+  );
+  const kraljevskiAktBezbednostiCoordinationReadinessScore = round(
+    (
+      privredniAktQuarterlyMarketInput.zadrugaOperations.operationalSignals.workerHiringCapacityPercent
+      + privredniAktQuarterlyMarketInput.zadrugaOperations.operationalSignals.radneAkcijeCoordinationPercent
+      + radniTaktMozgaMislilac.readiness.score
+    ) / 3,
+    2,
+  );
+  const kraljevskiAktBezbednostiComplianceReadinessScore = round(
+    (
+      funkionalnoProgramiranjePravnogMisaonogToka.readiness.score
+      + kraljevskaDopunaReadinessScore
+      + metrikoProgramiranje.readiness.score
+    ) / 3,
+    2,
+  );
+  const kraljevskiAktBezbednostiReadinessScore = round(
+    (
+      kraljevskiAktBezbednostiCoverageReadinessScore
+      + kraljevskiAktBezbednostiCoordinationReadinessScore
+      + kraljevskiAktBezbednostiComplianceReadinessScore
+    ) / 3,
+    2,
+  );
   const developerCreateUniversityAreaScores = [
     vrhProgramskogEkviladenta.readiness.score,
     radniTaktMozgaMislilac.readiness.score,
@@ -9039,6 +9071,89 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
       summary:
         'KRALJEVSKA DOPUNA ostaje audit-safe policy paket: osnovne životne potrebe i prosečno građanski dohodak služe samo kao bounded governance input, dok approval/review/payout posture ostaju summary-only bez automatske isplate ili računovodstvenog source-of-truth sloja.',
     },
+    kraljevskiAktBezbednosti: {
+      canonicalName: 'KRALJEVSKI AKT BEZBEDNOSTI',
+      additiveOnly: true,
+      interpretativeLayer: 'governance-only-civil-readiness-and-public-safety-track',
+      boundedDomainCatalog: ['KRALJEVSKI', 'GARDISTI', 'VOJNI', 'POLICIJSKI', 'SPECIJALNE JEDINICE'],
+      sourceOfTruthRoutes: ['/api/extrimli/extrem', '/api/extrimli/extrondol', '/api/extrimli/spaja-kod'],
+      canonicalVocabulary: {
+        phrase: 'EXTRIMLI EXTRONDOL EXTREM DOK DUK DAK DIK FOR',
+        technicalOwnership: 'DOK+DIK+FOR->EXTREM',
+        governanceOwnership: 'DAK+DUK->EXTRONDOL',
+        publicBoundary: 'SPAJA KOD',
+      },
+      governanceBinding: {
+        parentLegalTrack: 'KRALJEVSKI PRAVNI UNIVERZITET',
+        parentSocialTrack: 'KRALJEVSKI DRUŠTVENI POREDAK',
+        technicalOwnership: 'DOK+DIK+FOR->EXTREM',
+        governanceOwnership: 'DAK+DUK->EXTRONDOL',
+        publicBoundary: 'SPAJA KOD',
+      },
+      civilReadinessScope: {
+        missionStatement: 'obezbedjivanje-granicnih-prelaza-naroda-i-unutrasnje-kontrole-zemlje-kao-governance-civil-readiness-interpretacija',
+        coverageReadiness: {
+          status: resolveDeveloperCreateExtensionStatus(kraljevskiAktBezbednostiCoverageReadinessScore),
+          score: kraljevskiAktBezbednostiCoverageReadinessScore,
+        },
+        coordinationReadiness: {
+          status: resolveDeveloperCreateExtensionStatus(kraljevskiAktBezbednostiCoordinationReadinessScore),
+          score: kraljevskiAktBezbednostiCoordinationReadinessScore,
+        },
+        complianceReadiness: {
+          status: resolveDeveloperCreateExtensionStatus(kraljevskiAktBezbednostiComplianceReadinessScore),
+          score: kraljevskiAktBezbednostiComplianceReadinessScore,
+        },
+        publicSafetyReviewPosture:
+          dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.deterministicFallbackRequired
+          || privredniAktQuarterlyMarketInput.status === 'BLOCKED'
+            ? 'BLOCKED'
+            : [
+                resolveDeveloperCreateExtensionStatus(kraljevskiAktBezbednostiCoverageReadinessScore),
+                resolveDeveloperCreateExtensionStatus(kraljevskiAktBezbednostiCoordinationReadinessScore),
+                resolveDeveloperCreateExtensionStatus(kraljevskiAktBezbednostiComplianceReadinessScore),
+              ].includes('WATCH')
+              ? 'WATCH'
+              : 'READY',
+        blockerSummary: [
+          ...(dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.deterministicFallbackRequired ? ['deterministic-fallback-required'] : []),
+          ...(privredniAktQuarterlyMarketInput.status === 'BLOCKED' ? ['public-safety-governance-blocked-by-quarterly-market'] : []),
+          'no-tactical-security-instruction-set',
+          'no-sensitive-maps-or-operational-identities',
+        ],
+      },
+      operationalBoundary: {
+        noNewRuntimeModule: true,
+        noOperationalSecurityEngine: true,
+        noTacticalInstructionSet: true,
+        noSensitiveMaps: true,
+        noOperationalIdentities: true,
+        noWeaponizationDetails: true,
+        auditSafeSummaryOnly: true,
+      },
+      kraljevskaPlataPolicy: {
+        canonicalName: 'KRALJEVSKA PLATA',
+        rank: 'najvisi-cin-plate',
+        governanceOnlyInGit: true,
+        approvalStatus: resolveDeveloperCreateExtensionStatus(kraljevskaDopunaReadinessScore),
+        payoutReadinessStatus: privredniAktQuarterlyMarketInput.status,
+        paymentVerificationRequired: true,
+        allowedArtifacts: ['approval-status', 'payout-status', 'payment-verification', 'audit-evidence'],
+        forbiddenArtifacts: ['bank-account-number', 'kyc-document', 'payroll-secret', 'operational-financial-data'],
+        requiredGovernanceGates: ['human-review', 'compliance-review', 'payment-verification', 'audit-trail', 'rollback-plan', 'downstream-sync'],
+        noAutomaticPayout: true,
+        summary:
+          'KRALJEVSKA PLATA ostaje governance-only payout policy za najviši čin plate: approval, payout readiness, payment verification i audit evidence su dozvoljeni, dok payroll/KYC/bank detalji i automatska isplata ostaju zabranjeni u Git-u.',
+      },
+      readiness: {
+        status: resolveDeveloperCreateExtensionStatus(kraljevskiAktBezbednostiReadinessScore),
+        score: kraljevskiAktBezbednostiReadinessScore,
+        deterministicFallbackRequired:
+          dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.deterministicFallbackRequired,
+      },
+      summary:
+        'KRALJEVSKI AKT BEZBEDNOSTI ostaje additive-only bounded civil-readiness i public-safety governance traka: katalog KRALJEVSKI/GARDISTI/VOJNI/POLICIJSKI/SPECIJALNE JEDINICE objavljuje samo coverage, coordination, compliance, review i blocker summary bez operativnog bezbednosnog engine-a.',
+    },
     readiness: {
       status: resolveDeveloperCreateExtensionStatus(kraljevskiDrustveniPoredakScore),
       score: kraljevskiDrustveniPoredakScore,
@@ -9046,7 +9161,7 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
         dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.deterministicFallbackRequired,
     },
     summary:
-      'KRALJEVSKI DRUŠTVENI POREDAK ostaje additive-only governance/socijalni narativ nad postojećim Developer/Create reflection paketom; bounded readiness, eligibility, građevinski akt i kraljevska dopuna ostaju audit-safe signali bez novog runtime modula, bez izvršnog socijalnog sistema i bez osetljivih podataka u Git-u.',
+      'KRALJEVSKI DRUŠTVENI POREDAK ostaje additive-only governance/socijalni narativ nad postojećim Developer/Create reflection paketom; bounded readiness, eligibility, građevinski akt, kraljevska dopuna i kraljevski akt bezbednosti ostaju audit-safe signali bez novog runtime modula, bez izvršnog socijalnog sistema i bez osetljivih podataka u Git-u.',
   };
   dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.kraljevskiBastaUneverzite = {
     canonicalName: 'KRALJEVSKI BAŠTA UNEVERZITE',

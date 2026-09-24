@@ -849,12 +849,13 @@ export interface ExtrimliExtrondolDeveloperAndCreateRepoWideReflectionGovernance
   };
   roadmapExecution: {
     roadmapStageId: 'v5-extrondol-release-audit-and-orchestration';
-    measurableOutput: 'EXTRONDOL consumes the repo-wide technical profile plus AI identity-finance governance, KRALJEVSKI BAŠTA UNEVERZITE bounded narrative metadata, and primary/supplemental/companion audit visual metadata, then publishes only audit-safe WAWE/review/rollback governance';
+    measurableOutput: 'EXTRONDOL consumes the repo-wide technical profile plus KRALJEVSKI DRUŠTVENI POREDAK governance, KRALJEVSKI AKT BEZBEDNOSTI bounded civil-readiness, AI identity-finance governance, KRALJEVSKI BAŠTA UNEVERZITE bounded narrative metadata, and primary/supplemental/companion audit visual metadata, then publishes only audit-safe WAWE/review/rollback governance';
     acceptanceEvidence: readonly [
       'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.implementationPackage',
       'developerAndCreateRepoWideReflection',
       'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance',
       'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.kraljevskiDrustveniPoredak',
+      'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.kraljevskiDrustveniPoredak.kraljevskiAktBezbednosti',
       'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.kraljevskiBastaUneverzite',
       'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.aiIdentityFinanceGovernance',
       'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.covecnostAuditVisualReference.supplementalVisualReferences',
@@ -2455,6 +2456,7 @@ export interface ExtrimliSpajaKodPublicFacade {
       };
       auditSafeReason: string;
     };
+    kraljevskiAktBezbednostiStatus: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['kraljevskiDrustveniPoredak']['kraljevskiAktBezbednosti']['readiness']['status'];
     aiPlateStatus: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['aiPlateOffer']['boundedReadinessProfile']['consolidatedStatus'];
     aiPlateEnterprisePackageStatus: 'READY' | 'BLOCKED';
     aiIdentityMonthlyPrimanjaStatus: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['aiIdentityFinanceGovernance']['monthlyPrimanjaGovernance']['payoutReadinessStatus'];
@@ -2508,12 +2510,17 @@ export interface ExtrimliSpajaKodPublicFacade {
       'publicSignals.developerAndCreateStatus',
       'publicSignals.developerAndCreateImplementationStatus',
       'publicSignals.kraljevskiPravniUniverzitetStatus',
+      'publicSignals.kraljevskiPravniAktStatus',
+      'publicSignals.kraljevskiAktBezbednostiStatus',
       'publicSignals.kraljevskiProgramskiUneverzitetStatus',
+      'publicSignals.aiIdentityMonthlyPrimanjaStatus',
+      'publicSignals.aiIdentityMinorProtectionStatus',
       'publicSignals.developerAndCreateUniversitySummary',
       'developerAndCreateVisualReflection.kraljevskiBastaUneverzite',
       'developerAndCreateVisualReflection.packageOutputs',
       'developerAndCreateImplementationPackage.aiIqWorldBankPrepiskaSummary',
       'developerAndCreateImplementationPackage.kraljevskiDrustveniPoredakSummary',
+      'developerAndCreateImplementationPackage.kraljevskiAktBezbednostiSummary',
       'epilogijaCovecnosti.packageOutputs'
     ];
     roadmapStageId: 'v5-extrondol-release-audit-and-orchestration';
@@ -2537,6 +2544,17 @@ export interface ExtrimliSpajaKodPublicFacade {
       payoutReadinessStatus: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['kraljevskiDrustveniPoredak']['kraljevskaDopuna']['approvalPosture']['payoutReadinessStatus'];
       publicBoundary: 'audit-safe-summary-only';
       forbiddenEvidence: readonly ['kyc-data', 'bank-account-number', 'payment-secret', 'sensitive-social-record', 'operational-financial-data'];
+      publicSummary: string;
+    };
+    kraljevskiAktBezbednostiSummary: {
+      canonicalName: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['kraljevskiDrustveniPoredak']['kraljevskiAktBezbednosti']['canonicalName'];
+      domainCatalog: readonly ['KRALJEVSKI', 'GARDISTI', 'VOJNI', 'POLICIJSKI', 'SPECIJALNE JEDINICE'];
+      readinessStatus: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['kraljevskiDrustveniPoredak']['kraljevskiAktBezbednosti']['readiness']['status'];
+      publicSafetyReviewStatus: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['kraljevskiDrustveniPoredak']['kraljevskiAktBezbednosti']['civilReadinessScope']['publicSafetyReviewPosture'];
+      kraljevskaPlataApprovalStatus: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['kraljevskiDrustveniPoredak']['kraljevskiAktBezbednosti']['kraljevskaPlataPolicy']['approvalStatus'];
+      payoutReadinessStatus: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['kraljevskiDrustveniPoredak']['kraljevskiAktBezbednosti']['kraljevskaPlataPolicy']['payoutReadinessStatus'];
+      publicBoundary: 'audit-safe-summary-only';
+      forbiddenEvidence: readonly ['tactical-plan', 'sensitive-map', 'operational-identity', 'bank-account-number', 'kyc-document', 'payroll-secret', 'operational-financial-data'];
       publicSummary: string;
     };
     downstreamAuditFields: readonly [
