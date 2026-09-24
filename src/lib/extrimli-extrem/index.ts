@@ -10165,6 +10165,52 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
     humanReviewStatus: 'required-before-promotion',
     downstreamReference: 'docs/MULTI-REPO-LINKS.md -> spaja86/IO-OPENUI-AO (summary-only)',
   };
+  const smartProgramskiJezikSignalStatuses = [
+    programskiJezikInformacionihTokova.readiness.status,
+    programskiJezikParadigmaOblikovanjeTela.readiness.status,
+    programskiJezikDekoracijeObjektnihPrimesa.readiness.status,
+    spajinoProporcionalnoProgramiranjeUniverzitet.readiness.status,
+  ];
+  const smartProgramskiJezikReadinessScore = round(
+    (
+      programskiJezikInformacionihTokova.readiness.score
+      + programskiJezikParadigmaOblikovanjeTela.readiness.score
+      + programskiJezikDekoracijeObjektnihPrimesa.readiness.score
+      + spajinoProporcionalnoProgramiranjeUniverzitet.readiness.score
+    ) / 4,
+    2,
+  );
+  const smartProgramskiJezikStatus = smartProgramskiJezikSignalStatuses.includes('BLOCKED')
+    ? 'BLOCKED'
+    : smartProgramskiJezikSignalStatuses.includes('WATCH')
+      ? 'WATCH'
+      : 'READY';
+  const smartProgramskiJezikDeterministicFallbackRequired =
+    programskiJezikInformacionihTokova.readiness.deterministicFallbackRequired
+    || programskiJezikParadigmaOblikovanjeTela.readiness.deterministicFallbackRequired
+    || programskiJezikDekoracijeObjektnihPrimesa.readiness.deterministicFallbackRequired
+    || spajinoProporcionalnoProgramiranjeUniverzitet.readiness.degraded;
+  const smartProgramskiJezikConflictPressurePercent = round(
+    clamp(
+      (
+        programskiJezikDekoracijeObjektnihPrimesa.technicalSignals.konfliktPritisakScore
+        + (100 - smartProgramskiJezikReadinessScore)
+      ) / 2,
+      0,
+      100,
+    ),
+    2,
+  );
+  const smartProgramskiJezikBlockerReasons = smartProgramskiJezikStatus === 'BLOCKED'
+    ? [
+      'SMART PROGRAMSKI JEZIK ostaje BLOCKED dok postojeći AI IQ DSL, funkcionalni tok, objektna struktura i proporcionalna ravnoteža nisu usklađeni kroz isti EXTREM profil bez novih ruta.',
+    ]
+    : [];
+  const smartProgramskiJezikWatchReasons = smartProgramskiJezikStatus === 'WATCH'
+    ? [
+      'SMART PROGRAMSKI JEZIK ostaje u WATCH režimu dok additive-only spoj AI IQ PROGRAMSKI JEZIK + spreg funkcionalnog i objektnog programiranja i dalje zahteva review unutar postojećeg EXTREM profila.',
+    ]
+    : [];
   dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.implementationPackage = {
     additiveOnly: true,
     sourceOfTruthRoutes: ['/api/extrimli/extrem', '/api/extrimli/extrondol', '/api/extrimli/spaja-kod'],
@@ -10186,6 +10232,64 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
         paradijogonalnoProgramiranje: 'operativna-tabla',
         radniTaktMozgaMislilac: 'readiness-disciplina',
       },
+    },
+    smartProgramskiJezikPackage: {
+      canonicalName: 'DEVELOPER AND CREATE / VRH PROGRAMSKOG EKVILADENTA / SMART PROGRAMSKI JEZIK',
+      scopeLock: 'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA',
+      additiveOnly: true,
+      noNewRuntimeRoutes: true,
+      noParallelSourceOfTruth: true,
+      noNewSourceOfTruthSystem: true,
+      semanticCore: {
+        aiIqProgramskiJezikRole: 'dsl-orchestration-explainability-framework',
+        funkcionalniDokazUObjektnomOkruzenju: 'spajino-proporcionalno-programiranje-univerzitet',
+        repositoryPosition: 'AI IQ PROGRAMSKI JEZIK + spreg funkcionalnog i objektnog programiranja',
+      },
+      boundedVocabulary: {
+        dokDikFor: 'EXTREM',
+        dakDuk: 'EXTRONDOL',
+        spajaKod: 'audit-safe-summary-only',
+      },
+      technicalProfile: {
+        functionalFlowPercent: spajinoProporcionalnoProgramiranjeUniverzitet.profileInput.functionalFlowPercent,
+        objectStructurePercent: spajinoProporcionalnoProgramiranjeUniverzitet.profileInput.objectStructurePercent,
+        proportionalBalancePercent:
+          spajinoProporcionalnoProgramiranjeUniverzitet.profileInput.petljeOrchestrationBalancePercent,
+        deterministicFallbackRequired: smartProgramskiJezikDeterministicFallbackRequired,
+        conflictPressurePercent: smartProgramskiJezikConflictPressurePercent,
+        degraded: spajinoProporcionalnoProgramiranjeUniverzitet.readiness.degraded,
+        status: smartProgramskiJezikStatus,
+      },
+      readinessScore: smartProgramskiJezikReadinessScore,
+      blockerReasons: smartProgramskiJezikBlockerReasons,
+      watchReasons: smartProgramskiJezikWatchReasons,
+      reviewPosture:
+        smartProgramskiJezikStatus === 'BLOCKED'
+          ? 'REVIEW_REQUIRED'
+          : smartProgramskiJezikStatus === 'WATCH'
+            ? 'WATCH'
+            : 'ALIGNED',
+      governanceMirror: {
+        waweProgressionRequired: true,
+        humanReviewRequired: true,
+        promotionFreezeManagedBy: 'EXTRONDOL',
+        rollbackPlanRequired: true,
+        releaseAuditSummaryRequired: true,
+        downstreamReference: 'spaja86/IO-OPENUI-AO',
+      },
+      spajaKodSummaryContract: {
+        exposedFields: [
+          'readinessStatus',
+          'blockerReasons',
+          'watchReasons',
+          'reviewPosture',
+          'downstreamReference',
+        ],
+        rawFormulaInternalsExposed: false,
+        internalScoringExposed: false,
+        newExecutionRulesAllowed: false,
+      },
+      downstreamReference: 'docs/MULTI-REPO-LINKS.md -> spaja86/IO-OPENUI-AO (summary-only)',
     },
     audioVisualKontrabasBoundary: {
       trackRole: 'audio-visual-reflection-package',
@@ -10404,6 +10508,7 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
     'Supplied ČOVEČANSTVO / SVI KOJI POSTOJE, ZASLUŽUJU DA PRIPADAJU image remains supplemental audit/reference evidence only and extends the same bounded reflection package with a shared-belonging narrative without introducing any new source-of-truth runtime route.',
     'Supplied MATIČNE ĆELIJE / SPOZNAVANJE SEBE image remains supplemental audit/reference evidence only and extends the same bounded reflection package as documentation/evidence without introducing any new runtime source of truth.',
     'Supplied ČOVEČANSTVO / OSEĆAJ OSEBENOSTI image remains companion-only audit evidence for samospoznaja, razumevanje mozga, osećaj, čovečnost, shared-world alignment i epilog guidance bez novog source-of-truth sloja.',
+    'SMART PROGRAMSKI JEZIK ostaje additive-only paket pod zaključanim scope-om `DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA`: AI IQ PROGRAMSKI JEZIK ostaje DSL/orchestration/explainability okvir, a SPAJINO PROPORCIONALNO PROGRAMIRANJE UNIVERZITET ostaje tehnički dokaz sprega funkcionalnog i objektnog programiranja u istom EXTREM profilu.',
     'Supplied Mjuzikl kraljevskog čina image remains supplemental audit/reference evidence only and extends the same bounded reflection package through muzički čin, epilog, čovečanstvo i zajednički ritam themes without introducing any new runtime source of truth.',
     'Implementation package zaključava postojeće source-of-truth surface-ove, ownership split, ČOVEČANSTVU summary-only boundary, V2–V7 roadmap mapu i READY/WATCH/BLOCKED validation lock bez novih runtime ruta i bez paralelnog source-of-truth sistema.',
     'SELEKCIONIRANJE U SELEKCIJAMA PREMA AKTIVNOM NADMAŠAJU / NAPOLEON DISKAVERI ostaje bounded Developer/Create / VRH / MAPE UMA alias: EXTREM objavljuje samo readiness/discovery/selection signal, EXTRONDOL samo governance ogledalo, a SPAJA KOD samo summary-safe status, blocker/watch razloge i downstream reference.',

@@ -2511,6 +2511,7 @@ export interface ExtrimliSpajaKodPublicFacade {
     proporcionalnoProgramiranjeStatus: ExtrimliExtremProfilerReport['proporcionalnoProgramiranje']['readiness']['status'];
     spajinoProporcionalnoProgramiranjeUniverzitetStatus: ExtrimliExtremProfilerReport['spajinoProporcionalnoProgramiranjeUniverzitet']['readiness']['status'];
     vrhProgramskogEkviladentaStatus: ExtrimliExtremProfilerReport['vrhProgramskogEkviladenta']['readiness']['status'];
+    smartProgramskiJezikStatus: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['implementationPackage']['smartProgramskiJezikPackage']['technicalProfile']['status'];
     developerAndCreateStatus: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['readiness']['status'];
     developerAndCreateImplementationStatus: ExtrimliSpajaKodPublicStatus;
     developerAndCreateAudioVisualStatus: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['audioVisualKontrabasPackage']['readinessStatus'];
@@ -2614,6 +2615,7 @@ export interface ExtrimliSpajaKodPublicFacade {
       'publicSignals.developerAndCreateStatus',
       'publicSignals.developerAndCreateImplementationStatus',
       'publicSignals.developerAndCreateAudioVisualStatus',
+      'publicSignals.smartProgramskiJezikStatus',
       'publicSignals.napoleonDiskaveriStatus',
       'publicSignals.kraljevskiPravniUniverzitetStatus',
       'publicSignals.kraljevskiPravniAktStatus',
@@ -2630,6 +2632,7 @@ export interface ExtrimliSpajaKodPublicFacade {
       'developerAndCreateImplementationPackage.aiIqWorldBankPrepiskaSummary',
       'developerAndCreateImplementationPackage.kraljevskiDrustveniPoredakSummary',
       'developerAndCreateImplementationPackage.kraljevskiAktBezbednostiSummary',
+      'developerAndCreateImplementationPackage.smartProgramskiJezikSummary',
       'developerAndCreateImplementationPackage.napoleonDiskaveriSummary',
       'epilogijaCovecnosti.packageOutputs'
     ];
@@ -2672,6 +2675,15 @@ export interface ExtrimliSpajaKodPublicFacade {
       publicBoundary: 'audit-safe-summary-only';
       downstreamReference: 'docs/MULTI-REPO-LINKS.md -> spaja86/IO-OPENUI-AO (summary-only)';
       videoStoryboardSummary: string;
+    };
+    smartProgramskiJezikSummary: {
+      canonicalName: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['implementationPackage']['smartProgramskiJezikPackage']['canonicalName'];
+      readinessStatus: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['implementationPackage']['smartProgramskiJezikPackage']['technicalProfile']['status'];
+      blockerReasons: string[];
+      watchReasons: string[];
+      reviewPosture: 'ALIGNED' | 'WATCH' | 'REVIEW_REQUIRED';
+      downstreamReference: 'docs/MULTI-REPO-LINKS.md -> spaja86/IO-OPENUI-AO (summary-only)';
+      publicBoundary: 'audit-safe-summary-only';
     };
     napoleonDiskaveriSummary: {
       canonicalAlias: typeof DEVELOPER_CREATE_NAPOLEON_DISKAVERI_CANONICAL_ALIAS;

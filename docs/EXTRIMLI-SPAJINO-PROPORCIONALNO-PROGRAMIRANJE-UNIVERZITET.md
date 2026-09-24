@@ -14,6 +14,7 @@ Ovaj dokument zaključava značenje i governance model za **SPAJINO PROPORCIONAL
 
 - Canonical term ostaje tačno `SPAJINO PROPORCIONALNO PROGRAMIRANJE UNIVERZITET`.
 - Canonical narrative title ostaje tačno `Spreg funkcionalnog i objektno programiranja sa mnoštvo novih petlji`.
+- Ovaj sloj ostaje drugi kanonski stub bounded paketa `DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == SMART PROGRAMSKI JEZIK`: `funkcionalni tok`, `objektna struktura` i `petlje/proporcionalna ravnoteža` ostaju tehnički dokaz da je jezik funkcionalan u objektnom okruženju, bez novog runtime subsistema i bez novog source-of-truth sistema.
 - `funkcionalni tok` = `profileInput.functionalFlowPercent`
 - `objektna struktura` = `profileInput.objectStructurePercent`
 - `petlje orkestracija i proporcionalna ravnoteža` = `profileInput.petljeOrchestrationBalancePercent`

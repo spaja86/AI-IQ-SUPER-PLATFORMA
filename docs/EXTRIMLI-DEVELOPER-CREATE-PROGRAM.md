@@ -89,6 +89,8 @@ Svaka faza mora imati: `roadmapStageId`, `measurableOutput`, `acceptanceEvidence
 ### 2.2.1) Audio-vizuelni kontrabas reflection paket
 
 - Paket ostaje zaključan kao `DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == AUDIO-VIZUELNI KONTRABAS PAKET`.
+- Novi bounded paket ostaje zaključan kao `DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == SMART PROGRAMSKI JEZIK`, ali samo kao additive-only sinteza postojećih slojeva: `AI IQ PROGRAMSKI JEZIK` je DSL/orchestration/explainability okvir, a `SPAJINO PROPORCIONALNO PROGRAMIRANJE UNIVERZITET` ostaje tehnički dokaz sprega funkcionalnog i objektnog programiranja.
+- Za isti paket bounded vokabular ostaje nepromenjen: `DOK + DIK + FOR` ostaju EXTREM tehničko/laboratorijski sloj, `DAK + DUK` ostaju EXTRONDOL WAWE/review/freeze/rollback sloj, a `SPAJA KOD` ostaje audit-safe summary-only javni rezime bez sirovih formula, bez internih scoring detalja i bez novih izvršnih pravila.
 - Mapiranje traka ostaje fiksno: vokalni/narativni sloj -> `SINEMETRIČKO PROGRAMIRANJE`, reprodukcioni sloj -> `OBJEKTNO ORIJENTISANA REPRODUKCIJA`, proporcije/tonalni odnosi -> `PROPORCIONALNO PROGRAMIRANJE`, ritam/duracije/ciklus -> `METRIČKO PROGRAMIRANJE`, montažno-orkestracioni tok -> `PARADIJOGONALNO PROGRAMIRANJE`.
 - `regtonske proporcije`, `vuferske/kontrabasovne promene` i `tonski aspekt u revolucionom smislu kontrabasa` ostaju bounded signalni rečnik za audio dramaturgiju i dinamički balans, nikad novi muzički runtime modul.
 - Zaključani terminološki/audio-scene vokabular ostaje: `GUN, DEN, DIN, KON, SUR, DIR, DUR, DOG, DUK, DOP, KIDO, DUKAT, DJUKAS, DIKTON, GRAFON, SIRON, DJOKUZ, OTKUZ, DIPAS, CVIKROT, ZIPAN`.

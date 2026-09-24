@@ -36,6 +36,8 @@ Repo-wide reflection sada obavezno uključuje i dnevni operativni cadence: `morn
 
 `DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == AUDIO-VIZUELNI KONTRABAS PAKET` ostaje additive-only vršni interpretativni sloj nad postojećim kontraktima za snimanje glasa, glasovnu reprodukciju, glas-na-video montažu i ciklusno nadglašavanje/podglašavanje.
 
+`DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == SMART PROGRAMSKI JEZIK` ostaje additive-only vršni interpretativni sloj bez novih ruta: EXTREM planira tehnički profil (`funkcionalni tok`, `objektna struktura`, `proporcionalna ravnoteža`, `deterministički fallback`, `konflikt/degradacija`, `READY | WATCH | BLOCKED`), EXTRONDOL objavljuje governance ogledalo (`WAWE`, `human review`, `promotion freeze`, `rollback`, `release audit summary`, downstream reference), a SPAJA KOD samo summary-safe status + razloge + review posture + downstream reference.
+
 - Nema novih runtime ruta, nema paralelnog source-of-truth sistema i nema novog DSP/muzičkog engine-a.
 - Ownership split ostaje isti: `DOK + DIK + FOR` ostaju EXTREM tehnički signal, `DAK + DUK` ostaju EXTRONDOL governance/WAWE odluke, a SPAJA KOD objavljuje samo audit-safe summary status.
 - Zaključano mapiranje traka ostaje: vokal/narativ -> `SINEMETRIČKO PROGRAMIRANJE`, reprodukcioni sloj -> `OBJEKTNO ORIJENTISANA REPRODUKCIJA`, tonalne proporcije -> `PROPORCIONALNO PROGRAMIRANJE`, ritam/duracije/ciklus -> `METRIČKO PROGRAMIRANJE`, montažno-orkestracioni tok -> `PARADIJOGONALNO PROGRAMIRANJE`.

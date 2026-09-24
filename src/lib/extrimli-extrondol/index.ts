@@ -3229,6 +3229,8 @@ function buildSpajaKodFacade(params: {
       proporcionalnoProgramiranjeStatus: params.proporcionalnoProgramiranjeStatus,
       spajinoProporcionalnoProgramiranjeUniverzitetStatus: params.spajinoProporcionalnoProgramiranjeUniverzitetStatus,
       vrhProgramskogEkviladentaStatus: params.vrhProgramskogEkviladentaStatus,
+      smartProgramskiJezikStatus:
+        developerAndCreateImplementationPackage.smartProgramskiJezikPackage.technicalProfile.status,
       developerAndCreateStatus: params.developerAndCreateStatus,
       developerAndCreateImplementationStatus,
       developerAndCreateAudioVisualStatus,
@@ -3318,6 +3320,7 @@ function buildSpajaKodFacade(params: {
         'publicSignals.developerAndCreateStatus',
         'publicSignals.developerAndCreateImplementationStatus',
         'publicSignals.developerAndCreateAudioVisualStatus',
+        'publicSignals.smartProgramskiJezikStatus',
         'publicSignals.napoleonDiskaveriStatus',
         'publicSignals.kraljevskiPravniUniverzitetStatus',
         'publicSignals.kraljevskiPravniAktStatus',
@@ -3334,6 +3337,7 @@ function buildSpajaKodFacade(params: {
         'developerAndCreateImplementationPackage.aiIqWorldBankPrepiskaSummary',
         'developerAndCreateImplementationPackage.kraljevskiDrustveniPoredakSummary',
         'developerAndCreateImplementationPackage.kraljevskiAktBezbednostiSummary',
+        'developerAndCreateImplementationPackage.smartProgramskiJezikSummary',
         'developerAndCreateImplementationPackage.napoleonDiskaveriSummary',
         'epilogijaCovecnosti.packageOutputs',
       ],
@@ -3378,6 +3382,19 @@ function buildSpajaKodFacade(params: {
         publicBoundary: 'audit-safe-summary-only',
         downstreamReference: developerAndCreateAudioVisualGovernancePackage.downstreamReference,
         videoStoryboardSummary: audioVisualKontrabasPackage.videoStoryboardSummary,
+      },
+      smartProgramskiJezikSummary: {
+        canonicalName: developerAndCreateImplementationPackage.smartProgramskiJezikPackage.canonicalName,
+        readinessStatus: developerAndCreateImplementationPackage.smartProgramskiJezikPackage.technicalProfile.status,
+        blockerReasons: [
+          ...developerAndCreateImplementationPackage.smartProgramskiJezikPackage.blockerReasons,
+        ],
+        watchReasons: [
+          ...developerAndCreateImplementationPackage.smartProgramskiJezikPackage.watchReasons,
+        ],
+        reviewPosture: developerAndCreateImplementationPackage.smartProgramskiJezikPackage.reviewPosture,
+        downstreamReference: developerAndCreateImplementationPackage.smartProgramskiJezikPackage.downstreamReference,
+        publicBoundary: 'audit-safe-summary-only',
       },
       napoleonDiskaveriSummary: {
         canonicalAlias: DEVELOPER_CREATE_NAPOLEON_DISKAVERI_CANONICAL_ALIAS,

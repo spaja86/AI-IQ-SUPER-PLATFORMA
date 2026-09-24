@@ -102,6 +102,7 @@ PROGRAMSKI JEZIK PROUČAVANJA (analitika laboratorijskih slučajeva):
 - `DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == RADNI TAKT MOZGA (MISLILAC)` ostaje additive-only repo-wide reflection nad postojećim EXTRIMLI/EXTREM/EXTRONDOL/SPAJA KOD slojevima.
 - Centralni dokaz ostaje `dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection`.
 - `RADNI TAKT MOZGA (MISLILAC)` ostaje zajednički rhythm/readiness tehnički signal, `VRH PROGRAMSKOG EKVILADENTA` ostaje vršni interpretativni sloj, a `METRIČKO`, `SINEMETRIČKO` i `PARADIJOGONALNO` ostaju kanonski prateći track-ovi istog modela.
+- `SMART PROGRAMSKI JEZIK` ostaje additive-only bounded paket unutar istog repo-wide reflection modela: `AI IQ PROGRAMSKI JEZIK` drži DSL/orchestration/explainability ulogu, dok funkcionalno-objektni tehnički dokaz ostaje zaključan u `SPAJINO PROPORCIONALNO PROGRAMIRANJE UNIVERZITET`.
 - Dozvoljene status klase ostaju `READY | WATCH | BLOCKED`.
 - Deterministički fallback ostaje obavezan za `NaN`, `Infinity`, prazne i konfliktne ulaze.
 - Nema novih runtime ruta; postojeći source-of-truth i boundary ostaju `/api/extrimli/extrem`, `/api/extrimli/extrondol` i audit-safe `/api/extrimli/spaja-kod`.
