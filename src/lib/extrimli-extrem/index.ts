@@ -8624,8 +8624,12 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
     audioVisualKontrabasSignalScores.reduce((sum, score) => sum + score, 0) / audioVisualKontrabasSignalScores.length,
     2,
   );
+  const audioVisualKontrabasConflictPressurePercent = round(
+    clamp(100 - audioVisualKontrabasReadinessScore, 0, 100),
+    2,
+  );
   const audioVisualKontrabasBlockerReason = audioVisualKontrabasReadinessStatus === 'BLOCKED'
-    ? `audio-visual-kontrabas-package-blocked-conflict-pressure-${round(clamp(100 - audioVisualKontrabasReadinessScore, 0, 100), 2)}`
+    ? `audio-visual-kontrabas-package-blocked-conflict-pressure-${audioVisualKontrabasConflictPressurePercent}`
     : audioVisualKontrabasReadinessStatus === 'WATCH'
       ? 'audio-visual-kontrabas-package-review-required'
       : null;
@@ -8694,10 +8698,7 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
       nadglasPodglasCycleScore: metrikoProgramiranje.readiness.score,
       tonalAlignmentStatus: proporcionalnoProgramiranje.readiness.status,
       tonalAlignmentScore: proporcionalnoProgramiranje.readiness.score,
-      conflictPressurePercent: round(
-        clamp(100 - audioVisualKontrabasReadinessScore, 0, 100),
-        2,
-      ),
+      conflictPressurePercent: audioVisualKontrabasConflictPressurePercent,
     },
     videoStoryboardSummary:
       dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.covecnostAuditVisualReference.packageOutputs.videoStoryboardSummary,
