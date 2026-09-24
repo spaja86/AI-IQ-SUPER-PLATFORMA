@@ -10188,8 +10188,7 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
   const smartProgramskiJezikDeterministicFallbackRequired =
     programskiJezikInformacionihTokova.readiness.deterministicFallbackRequired
     || programskiJezikParadigmaOblikovanjeTela.readiness.deterministicFallbackRequired
-    || programskiJezikDekoracijeObjektnihPrimesa.readiness.deterministicFallbackRequired
-    || spajinoProporcionalnoProgramiranjeUniverzitet.readiness.degraded;
+    || programskiJezikDekoracijeObjektnihPrimesa.readiness.deterministicFallbackRequired;
   const smartProgramskiJezikConflictPressurePercent = round(
     clamp(
       (
