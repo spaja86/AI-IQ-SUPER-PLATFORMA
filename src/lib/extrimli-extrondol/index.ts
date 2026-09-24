@@ -243,6 +243,18 @@ const DEVELOPER_CREATE_GOVERNANCE_ACCEPTANCE_EVIDENCE: ExtrimliExtrondolReport['
   'spajaKod.publicSignals.developerAndCreateImplementationStatus',
   'spajaKod.publicSignals.aiPlateStatus',
 ];
+const AUDIO_VISUAL_KONTRABAS_ACCEPTANCE_EVIDENCE = [
+  'developerAndCreateRepoWideReflection.audioVisualKontrabasPackage',
+  'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.audioVisualKontrabasPackage',
+  'spajaKod.publicSignals.developerAndCreateAudioVisualStatus',
+  'spajaKod.developerAndCreateVisualReflection.audioVisualKontrabasPackage',
+] as const;
+const AUDIO_VISUAL_KONTRABAS_ROLLOUT_PLAN =
+  'Advance the audio-vizuelni kontrabas package only through the existing EXTREM technical signal, EXTRONDOL WAWE governance mirror, and SPAJA KOD summary-safe boundary.';
+const AUDIO_VISUAL_KONTRABAS_ROLLBACK_PLAN =
+  'Freeze promotion and fall back to the prior Developer/Create reflection package if audio-vizuelni readiness, review evidence, or downstream summary alignment drifts.';
+const AUDIO_VISUAL_KONTRABAS_DOWNSTREAM_REFERENCE =
+  'docs/MULTI-REPO-LINKS.md -> spaja86/IO-OPENUI-AO (summary-only)';
 
 function getAudioVisualKontrabasBlockerReason(
   audioVisualKontrabasPackage: ExtrimliDokDikDakDukConsistencyHealth['developerAndCreateRepoWideReflection']['audioVisualKontrabasPackage'],
@@ -258,6 +270,33 @@ function getAudioVisualKontrabasBlockerReason(
   }
 
   return null;
+}
+
+function buildAudioVisualKontrabasGovernancePackage(
+  audioVisualKontrabasPackage: ExtrimliDokDikDakDukConsistencyHealth['developerAndCreateRepoWideReflection']['audioVisualKontrabasPackage'],
+  currentWawe: ExtrimliExtrondolReport['rollout']['currentWawe'],
+  eligibleNextWawe: ExtrimliExtrondolReport['rollout']['eligibleNextWawe'],
+  promotionFreeze: boolean,
+) {
+  return {
+    ...audioVisualKontrabasPackage,
+    currentWawe,
+    eligibleNextWawe,
+    promotionFreeze,
+    reviewRequiredBeforeWideRollout: audioVisualKontrabasPackage.readinessStatus !== 'READY',
+    blockerReason: getAudioVisualKontrabasBlockerReason(audioVisualKontrabasPackage),
+    reviewPosture:
+      promotionFreeze
+      || audioVisualKontrabasPackage.readinessStatus === 'BLOCKED'
+        ? 'REVIEW_REQUIRED'
+        : audioVisualKontrabasPackage.readinessStatus === 'WATCH'
+          ? 'WATCH'
+          : 'ALIGNED',
+    rolloutPlan: AUDIO_VISUAL_KONTRABAS_ROLLOUT_PLAN,
+    rollbackPlan: AUDIO_VISUAL_KONTRABAS_ROLLBACK_PLAN,
+    acceptanceEvidence: AUDIO_VISUAL_KONTRABAS_ACCEPTANCE_EVIDENCE,
+    downstreamReference: AUDIO_VISUAL_KONTRABAS_DOWNSTREAM_REFERENCE,
+  };
 }
 
 const EXTRONDOL_WAWE_THRESHOLDS = {
@@ -4811,35 +4850,12 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
           reviewRequiredBeforeWideRollout:
             extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.status !== 'READY',
         },
-        audioVisualKontrabasPackage: {
-          ...extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.audioVisualKontrabasPackage,
+        audioVisualKontrabasPackage: buildAudioVisualKontrabasGovernancePackage(
+          extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.audioVisualKontrabasPackage,
           currentWawe,
-          eligibleNextWawe: eligibleNextWave,
+          eligibleNextWave,
           promotionFreeze,
-          reviewRequiredBeforeWideRollout:
-            extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.audioVisualKontrabasPackage.readinessStatus !== 'READY',
-          blockerReason: getAudioVisualKontrabasBlockerReason(
-            extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.audioVisualKontrabasPackage,
-          ),
-          reviewPosture:
-            promotionFreeze
-            || extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.audioVisualKontrabasPackage.readinessStatus === 'BLOCKED'
-              ? 'REVIEW_REQUIRED'
-              : extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.audioVisualKontrabasPackage.readinessStatus === 'WATCH'
-                ? 'WATCH'
-                : 'ALIGNED',
-          rolloutPlan:
-            'Advance the audio-vizuelni kontrabas package only through the existing EXTREM technical signal, EXTRONDOL WAWE governance mirror, and SPAJA KOD summary-safe boundary.',
-          rollbackPlan:
-            'Freeze promotion and fall back to the prior Developer/Create reflection package if audio-vizuelni readiness, review evidence, or downstream summary alignment drifts.',
-          acceptanceEvidence: [
-            'developerAndCreateRepoWideReflection.audioVisualKontrabasPackage',
-            'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.audioVisualKontrabasPackage',
-            'spajaKod.publicSignals.developerAndCreateAudioVisualStatus',
-            'spajaKod.developerAndCreateVisualReflection.audioVisualKontrabasPackage',
-          ],
-          downstreamReference: 'docs/MULTI-REPO-LINKS.md -> spaja86/IO-OPENUI-AO (summary-only)',
-        },
+        ),
         roadmapExecution: {
           roadmapStageId: 'v5-extrondol-release-audit-and-orchestration',
           measurableOutput:
@@ -6584,35 +6600,12 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
             reviewRequiredBeforeWideRollout:
               extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.status !== 'READY',
           },
-          audioVisualKontrabasPackage: {
-            ...extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.audioVisualKontrabasPackage,
+          audioVisualKontrabasPackage: buildAudioVisualKontrabasGovernancePackage(
+            extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.audioVisualKontrabasPackage,
             currentWawe,
-            eligibleNextWawe: eligibleNextWave,
+            eligibleNextWave,
             promotionFreeze,
-            reviewRequiredBeforeWideRollout:
-              extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.audioVisualKontrabasPackage.readinessStatus !== 'READY',
-            blockerReason: getAudioVisualKontrabasBlockerReason(
-              extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.audioVisualKontrabasPackage,
-            ),
-            reviewPosture:
-              promotionFreeze
-              || extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.audioVisualKontrabasPackage.readinessStatus === 'BLOCKED'
-                ? 'REVIEW_REQUIRED'
-                : extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.audioVisualKontrabasPackage.readinessStatus === 'WATCH'
-                  ? 'WATCH'
-                  : 'ALIGNED',
-            rolloutPlan:
-              'Advance the audio-vizuelni kontrabas package only through the existing EXTREM technical signal, EXTRONDOL WAWE governance mirror, and SPAJA KOD summary-safe boundary.',
-            rollbackPlan:
-              'Freeze promotion and fall back to the prior Developer/Create reflection package if audio-vizuelni readiness, review evidence, or downstream summary alignment drifts.',
-            acceptanceEvidence: [
-              'developerAndCreateRepoWideReflection.audioVisualKontrabasPackage',
-              'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.audioVisualKontrabasPackage',
-              'spajaKod.publicSignals.developerAndCreateAudioVisualStatus',
-              'spajaKod.developerAndCreateVisualReflection.audioVisualKontrabasPackage',
-            ],
-            downstreamReference: 'docs/MULTI-REPO-LINKS.md -> spaja86/IO-OPENUI-AO (summary-only)',
-          },
+          ),
           repoWideReflection: extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.repoWideReflection,
           dailyOperationalCadence: {
             ...extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.dailyOperationalCadence,
@@ -7500,35 +7493,12 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
         reviewRequiredBeforeWideRollout:
           extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.status !== 'READY',
       },
-      audioVisualKontrabasPackage: {
-        ...extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.audioVisualKontrabasPackage,
+      audioVisualKontrabasPackage: buildAudioVisualKontrabasGovernancePackage(
+        extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.audioVisualKontrabasPackage,
         currentWawe,
-        eligibleNextWawe: eligibleNextWave,
+        eligibleNextWave,
         promotionFreeze,
-        reviewRequiredBeforeWideRollout:
-          extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.audioVisualKontrabasPackage.readinessStatus !== 'READY',
-        blockerReason: getAudioVisualKontrabasBlockerReason(
-          extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.audioVisualKontrabasPackage,
-        ),
-        reviewPosture:
-          promotionFreeze
-          || extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.audioVisualKontrabasPackage.readinessStatus === 'BLOCKED'
-            ? 'REVIEW_REQUIRED'
-            : extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.audioVisualKontrabasPackage.readinessStatus === 'WATCH'
-              ? 'WATCH'
-              : 'ALIGNED',
-        rolloutPlan:
-          'Advance the audio-vizuelni kontrabas package only through the existing EXTREM technical signal, EXTRONDOL WAWE governance mirror, and SPAJA KOD summary-safe boundary.',
-        rollbackPlan:
-          'Freeze promotion and fall back to the prior Developer/Create reflection package if audio-vizuelni readiness, review evidence, or downstream summary alignment drifts.',
-        acceptanceEvidence: [
-          'developerAndCreateRepoWideReflection.audioVisualKontrabasPackage',
-          'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.audioVisualKontrabasPackage',
-          'spajaKod.publicSignals.developerAndCreateAudioVisualStatus',
-          'spajaKod.developerAndCreateVisualReflection.audioVisualKontrabasPackage',
-        ],
-        downstreamReference: 'docs/MULTI-REPO-LINKS.md -> spaja86/IO-OPENUI-AO (summary-only)',
-      },
+      ),
       repoWideReflection: extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.repoWideReflection,
       dailyOperationalCadence: {
         ...extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.dailyOperationalCadence,
