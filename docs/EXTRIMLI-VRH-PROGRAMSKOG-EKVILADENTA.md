@@ -34,6 +34,7 @@ Repo-wide reflection sada obavezno uključuje i dnevni operativni cadence: `morn
 - `KRALJEVSKA VOJNA I POLICIJSKA OPREMA` je bounded additive-only podtraka unutar tog istog bezbednosnog sloja: ostaje audit-safe governance katalog (`KRALJEVSKI`, `VOJNI`, `POLICIJSKI`) sa ne-operativnim metrikama kvaliteta (`compliance`, `sertifikacija`, `dostupnost`, `lifecycle`, `rizik`, `blocker posture`) i bez taktičkih/operativnih detalja.
 - `KRALJEVSKA PLATA (najviši čin plate)` ostaje governance-only payout policy unutar tog istog bounded sloja: samo approval, payout readiness, payment verification i audit evidence, uz obavezne gate-ove `human review`, `compliance review`, `payment verification`, `audit trail`, `rollback plan` i `downstream sync`.
 - SPAJA KOD objavljuje samo audit-safe rezime: broj položenih oblasti, sertifikacioni status, payout readiness status i audit-safe razlog blokade ili watch posture.
+- Za `KRALJEVSKA PLATA` taj javni rezime ostaje dodatno sužen na `approval status`, `payout readiness status`, `payment verification` required/posture, `blocker reason` i audit-safe summary bez payroll, KYC, bank ili internih governance formula.
 
 ### PRIVREDNI AKT kvartalni režim (additive-only)
 

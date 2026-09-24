@@ -447,6 +447,32 @@ function mapInspektoriGovernance(
   };
 }
 
+function buildKraljevskaPlataSummary(
+  kraljevskaPlataPolicy: ExtrimliExtrondolReport['extremProfiler']['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['kraljevskiDrustveniPoredak']['kraljevskiAktBezbednosti']['kraljevskaPlataPolicy'],
+  paymentVerification: ExtrimliExtrondolReport['paymentVerification'],
+) {
+  const blockerReason =
+    paymentVerification.status !== 'VERIFIED'
+      ? paymentVerification.blockers[0] ?? 'payment-verification-required'
+      : kraljevskaPlataPolicy.approvalStatus === 'BLOCKED'
+        ? 'approval-status-blocked'
+        : kraljevskaPlataPolicy.payoutReadinessStatus === 'BLOCKED'
+          ? 'payout-readiness-blocked'
+          : null;
+
+  return {
+    canonicalName: kraljevskaPlataPolicy.canonicalName,
+    approvalStatus: kraljevskaPlataPolicy.approvalStatus,
+    payoutReadinessStatus: kraljevskaPlataPolicy.payoutReadinessStatus,
+    paymentVerificationRequired: kraljevskaPlataPolicy.paymentVerificationRequired,
+    paymentVerificationStatus: paymentVerification.status,
+    blockerReason,
+    publicBoundary: 'audit-safe-summary-only' as const,
+    publicSummary:
+      'KRALJEVSKA PLATA javno ostaje audit-safe payout summary: approval status, payout readiness status, payment verification posture i blocker reason bez payroll, KYC, bank ili internih governance detalja.',
+  };
+}
+
 function buildMobilnaLinijaReadiness(
   extremProfiler: ExtrimliExtrondolReport['extremProfiler'],
 ): ExtrimliExtrondolReport['mobilnaLinija'] {
@@ -3225,6 +3251,10 @@ function buildSpajaKodFacade(params: {
           params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.kraljevskiDrustveniPoredak.kraljevskiAktBezbednosti.kraljevskaPlataPolicy.approvalStatus,
         payoutReadinessStatus:
           params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.kraljevskiDrustveniPoredak.kraljevskiAktBezbednosti.kraljevskaPlataPolicy.payoutReadinessStatus,
+        kraljevskaPlataSummary: buildKraljevskaPlataSummary(
+          params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.kraljevskiDrustveniPoredak.kraljevskiAktBezbednosti.kraljevskaPlataPolicy,
+          params.paymentVerification,
+        ),
         kraljevskaVojnaIPolicijskaOpremaSummary: {
           canonicalName:
             params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.kraljevskiDrustveniPoredak.kraljevskiAktBezbednosti.kraljevskaVojnaIPolicijskaOprema.canonicalName,

@@ -2571,6 +2571,16 @@ export interface ExtrimliSpajaKodPublicFacade {
       publicSafetyReviewStatus: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['kraljevskiDrustveniPoredak']['kraljevskiAktBezbednosti']['civilReadinessScope']['publicSafetyReviewPosture'];
       kraljevskaPlataApprovalStatus: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['kraljevskiDrustveniPoredak']['kraljevskiAktBezbednosti']['kraljevskaPlataPolicy']['approvalStatus'];
       payoutReadinessStatus: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['kraljevskiDrustveniPoredak']['kraljevskiAktBezbednosti']['kraljevskaPlataPolicy']['payoutReadinessStatus'];
+      kraljevskaPlataSummary: {
+        canonicalName: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['kraljevskiDrustveniPoredak']['kraljevskiAktBezbednosti']['kraljevskaPlataPolicy']['canonicalName'];
+        approvalStatus: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['kraljevskiDrustveniPoredak']['kraljevskiAktBezbednosti']['kraljevskaPlataPolicy']['approvalStatus'];
+        payoutReadinessStatus: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['kraljevskiDrustveniPoredak']['kraljevskiAktBezbednosti']['kraljevskaPlataPolicy']['payoutReadinessStatus'];
+        paymentVerificationRequired: true;
+        paymentVerificationStatus: ExtrimliExtrondolPaymentVerification['status'];
+        blockerReason: string | null;
+        publicBoundary: 'audit-safe-summary-only';
+        publicSummary: string;
+      };
       kraljevskaVojnaIPolicijskaOpremaSummary: {
         canonicalName: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['kraljevskiDrustveniPoredak']['kraljevskiAktBezbednosti']['kraljevskaVojnaIPolicijskaOprema']['canonicalName'];
         categoryCatalog: readonly ['KRALJEVSKI', 'VOJNI', 'POLICIJSKI'];

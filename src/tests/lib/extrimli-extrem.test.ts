@@ -853,7 +853,10 @@ async function runTests(): Promise<void> {
     assert(socialOrder.kraljevskiAktBezbednosti.operationalBoundary.noTacticalInstructionSet, 'developer/create security-act must forbid tactical instruction set');
     assert(socialOrder.kraljevskiAktBezbednosti.civilReadinessScope.blockerSummary.includes('no-tactical-security-instruction-set'), 'developer/create security-act blocker summary mismatch');
     assert(socialOrder.kraljevskiAktBezbednosti.kraljevskaPlataPolicy.governanceOnlyInGit, 'developer/create security-act salary policy must stay governance-only');
+    assert(socialOrder.kraljevskiAktBezbednosti.kraljevskaPlataPolicy.paymentVerificationRequired, 'developer/create security-act salary policy must require payment verification');
+    assert(socialOrder.kraljevskiAktBezbednosti.kraljevskaPlataPolicy.allowedArtifacts.join(',') === 'approval-status,payout-status,payment-verification,audit-evidence', 'developer/create security-act salary policy allowed artifacts mismatch');
     assert(socialOrder.kraljevskiAktBezbednosti.kraljevskaPlataPolicy.requiredGovernanceGates.includes('downstream-sync'), 'developer/create security-act salary policy downstream-sync gate mismatch');
+    assert(socialOrder.kraljevskiAktBezbednosti.kraljevskaPlataPolicy.forbiddenArtifacts.includes('bank-account-number'), 'developer/create security-act salary policy forbidden artifact mismatch');
     assert(socialOrder.kraljevskiAktBezbednosti.kraljevskaPlataPolicy.noAutomaticPayout, 'developer/create security-act salary policy must stay non-automatic payout');
     assert(socialOrder.kraljevskiAktBezbednosti.kraljevskaVojnaIPolicijskaOprema.canonicalName === 'KRALJEVSKA VOJNA I POLICIJSKA OPREMA', 'developer/create equipment sub-track canonical name mismatch');
     assert(socialOrder.kraljevskiAktBezbednosti.kraljevskaVojnaIPolicijskaOprema.sourceOfTruthRoutes.join(',') === '/api/extrimli/extrem,/api/extrimli/extrondol,/api/extrimli/spaja-kod', 'developer/create equipment sub-track source routes mismatch');
