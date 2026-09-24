@@ -9078,7 +9078,6 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
   const inspektoriReviewPosture: 'ALIGNED' | 'WATCH' | 'REVIEW_REQUIRED' =
     inspektoriBlockerSummary.length > 0
       || inspektoriJusticePathConsistency === 'BLOCKED'
-      || inspektoriHumanReviewRequired
       ? 'REVIEW_REQUIRED'
       : inspektoriJusticePathConsistency === 'WATCH'
         ? 'WATCH'
