@@ -452,6 +452,14 @@ const EXTRIMLI_EXTREM_DEVELOPER_CREATE_PRAVEDAN_SVET_KRALJEVSTVO_SCENARIO_ID =
   'kraljevstvo-pravedan-svet-za-sve-narastaje-developer-create' as const;
 const EXTRIMLI_EXTREM_DEVELOPER_CREATE_PRAVEDAN_SVET_KRALJEVSTVO_CITATION =
   'KRALJEVSTVO — PRAVEDAN SVET ZA SVE NARAŠTAJE ostaje additive-only supplemental audit/reference vizuel: kraljevstvo, pravoslavlje, znanje, priroda, čovečanstvo, zajednička porodica i večnost mapiraju se isključivo na postojeći Developer/Create ⇄ VRH ⇄ Radni Takt model, uz bounded vezu ka KRALJEVSKI PRAVNI UNIVERZITET governance/epilog narativu, bez novih ruta i bez novog source-of-truth sistema.' as const;
+const EXTRIMLI_EXTREM_DEVELOPER_CREATE_PROFESIONALNA_GLOBALNA_KAMPANJA_KRALJEVSTVO_VISUAL_REFERENCE =
+  'https://github.com/user-attachments/assets/c9414c36-7876-43ee-ae39-fad8cd2622ed' as const;
+const EXTRIMLI_EXTREM_DEVELOPER_CREATE_PROFESIONALNA_GLOBALNA_KAMPANJA_KRALJEVSTVO_CANONICAL_NARRATIVE_ID =
+  'kraljevstvo-profesionalna-globalna-kampanja-nikola-spajic-developer-create' as const;
+const EXTRIMLI_EXTREM_DEVELOPER_CREATE_PROFESIONALNA_GLOBALNA_KAMPANJA_KRALJEVSTVO_SCENARIO_ID =
+  'kraljevstvo-profesionalna-globalna-kampanja-medijska-strategija-developer-create' as const;
+const EXTRIMLI_EXTREM_DEVELOPER_CREATE_PROFESIONALNA_GLOBALNA_KAMPANJA_KRALJEVSTVO_CITATION =
+  'KRALJEVSTVO — PROFESIONALNA GLOBALNA KAMPANJA / NIKOLA SPAJIĆ / ČOVEČANSTVO ostaje additive-only supplemental audit/reference vizuel: javno predstavljanje Nikole Spajića, čovečanstvo, znanje i obrazovanje, priroda i život, tehnologija, porodica i društvo, zdravlje, pravda, budućnost i razvoj, profesionalni gejming i AI IQ WORLD BANK pokroviteljski okvir mapiraju se isključivo kao bounded documentation/evidence sloj unutar postojećeg Developer/Create ⇄ VRH ⇄ Radni Takt modela; TV/radio/social distribucija ostaje samo audit-safe media-distribution strategy (ciljni kanali, planirani cadence, regioni/jezici, review/compliance gate-ovi i audit evidencija), bez obaveznog emitovanja, bez novih ruta, bez finansijskog engine-a i bez novog source-of-truth sistema.' as const;
 const EXTRIMLI_EXTREM_DEVELOPER_CREATE_NARASTAJ_U_PRIRODNOM_CVATU_COVECANSTVO_VISUAL_REFERENCE =
   'https://github.com/user-attachments/assets/93ba6f4a-e8bd-4547-bb8b-dc77c14e845a' as const;
 const EXTRIMLI_EXTREM_DEVELOPER_CREATE_NARASTAJ_U_PRIRODNOM_CVATU_COVECANSTVO_CANONICAL_NARRATIVE_ID =
@@ -7715,6 +7723,49 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
               'beli-vuk',
               'crni-vuk',
               'bounded-governance-symbolics',
+            ],
+            auditRole: 'additive-audit-reference-only',
+          },
+          {
+            title: 'KRALJEVSTVO — PROFESIONALNA GLOBALNA KAMPANJA / NIKOLA SPAJIĆ / ČOVEČANSTVO',
+            canonicalNarrativeId:
+              EXTRIMLI_EXTREM_DEVELOPER_CREATE_PROFESIONALNA_GLOBALNA_KAMPANJA_KRALJEVSTVO_CANONICAL_NARRATIVE_ID,
+            citation:
+              EXTRIMLI_EXTREM_DEVELOPER_CREATE_PROFESIONALNA_GLOBALNA_KAMPANJA_KRALJEVSTVO_CITATION,
+            visualReference:
+              EXTRIMLI_EXTREM_DEVELOPER_CREATE_PROFESIONALNA_GLOBALNA_KAMPANJA_KRALJEVSTVO_VISUAL_REFERENCE,
+            interpretation:
+              'Supplied KRALJEVSTVO campaign image remains additive-only supplemental audit/reference evidence for a professional global campaign brief for Nikola Spajić, bounded to the existing Developer/Create university, governance, gaming, and AI IQ WORLD BANK reflection tracks.',
+            sourceStatement: 'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == RADNI TAKT MOZGA (MISLILAC)',
+            imageToSignalProfile: {
+              scenarioId:
+                EXTRIMLI_EXTREM_DEVELOPER_CREATE_PROFESIONALNA_GLOBALNA_KAMPANJA_KRALJEVSTVO_SCENARIO_ID,
+              theme: 'KRALJEVSTVO — PROFESIONALNA GLOBALNA KAMPANJA / NIKOLA SPAJIĆ / ČOVEČANSTVO',
+              narrativeInput:
+                EXTRIMLI_EXTREM_DEVELOPER_CREATE_PROFESIONALNA_GLOBALNA_KAMPANJA_KRALJEVSTVO_CITATION,
+              ownershipLock: {
+                dokDikFor: 'EXTREM',
+                dakDuk: 'EXTRONDOL',
+                spajaKod: 'audit-safe-summary-only',
+              },
+              signalOutputs: {
+                readinessScore: 0,
+                readinessStatus: 'BLOCKED',
+                conflictPressurePercent: 100,
+                deterministicFallbackRequired: true,
+              },
+            },
+            thematicSignals: [
+              'nikola-spajic-public-presentation',
+              'covecanstvo',
+              'znanje-i-obrazovanje',
+              'priroda-i-zivot',
+              'tehnologija',
+              'porodica-drustvo-zdravlje',
+              'pravda-buducnost-razvoj',
+              'profesionalni-gejming',
+              'ai-iq-world-bank-governance',
+              'audit-safe-media-strategy',
             ],
             auditRole: 'additive-audit-reference-only',
           },
