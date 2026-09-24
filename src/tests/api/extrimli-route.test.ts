@@ -37,7 +37,7 @@ import {
   DEVELOPER_CREATE_VRH_NARRATIVE_CONTRACT_BOUNDARY,
   DEVELOPER_CREATE_VRH_SUCCESSFUL_NARRATIVE_CRITERIA,
   DEVELOPER_CREATE_VRH_VISUAL_EVIDENCE_POLICY,
-} from '../../lib/developer-create-vrh-ekviladenta-contract';
+} from '../../lib/extrimli/developer-create-vrh-ekviladenta-contract';
 
 let passed = 0;
 let failed = 0;

@@ -23,7 +23,7 @@ import type {
   DEVELOPER_CREATE_VRH_NARRATIVE_CONTRACT_BOUNDARY,
   DEVELOPER_CREATE_VRH_SUCCESSFUL_NARRATIVE_CRITERIA,
   DEVELOPER_CREATE_VRH_VISUAL_EVIDENCE_POLICY,
-} from '../developer-create-vrh-ekviladenta-contract';
+} from '../extrimli/developer-create-vrh-ekviladenta-contract';
 
 export type ExtrimliExtremConflictIntensity = 'LOW' | 'MODERATE' | 'HIGH' | 'CRITICAL';
 

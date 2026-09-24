@@ -7,7 +7,7 @@ on:
   push:
     branches: [main]
     paths:
-      - 'src/lib/developer-create-vrh-ekviladenta-contract.ts'
+      - 'src/lib/extrimli/developer-create-vrh-ekviladenta-contract.ts'
       - 'src/lib/extrimli-extrondol/**'
       - 'src/lib/extrimli-extrem/**'
       - 'src/app/api/extrimli/extrondol/**'
@@ -53,7 +53,7 @@ jobs:
 
       - name: 🔎 Contract drift checks (docs/types/routes/workflows)
         run: |
-          npx tsx -e "import { DEVELOPER_CREATE_VRH_CANONICAL_NARRATIVE_SENTENCE, DEVELOPER_CREATE_VRH_MAIN_MANIFEST_DOCUMENT, DEVELOPER_CREATE_VRH_SUCCESSFUL_NARRATIVE_CRITERIA } from './src/lib/developer-create-vrh-ekviladenta-contract.ts'; const assert = (condition: unknown, message: string) => { if (!condition) throw new Error(message); }; assert(DEVELOPER_CREATE_VRH_MAIN_MANIFEST_DOCUMENT === 'docs/EXTRIMLI-DEVELOPER-CREATE-PROGRAM.md', 'Developer/Create contract must expose the canonical main manifest document'); assert(DEVELOPER_CREATE_VRH_CANONICAL_NARRATIVE_SENTENCE === 'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA', 'Developer/Create contract must expose the canonical narrative sentence'); assert(DEVELOPER_CREATE_VRH_SUCCESSFUL_NARRATIVE_CRITERIA.requiresSharedStoryAcross.includes('workflows'), 'Developer/Create contract must keep workflows inside the stabilization criteria');"
+          npx tsx -e "import { DEVELOPER_CREATE_VRH_CANONICAL_NARRATIVE_SENTENCE, DEVELOPER_CREATE_VRH_MAIN_MANIFEST_DOCUMENT, DEVELOPER_CREATE_VRH_SUCCESSFUL_NARRATIVE_CRITERIA } from './src/lib/extrimli/developer-create-vrh-ekviladenta-contract.ts'; const assert = (condition: unknown, message: string) => { if (!condition) throw new Error(message); }; assert(DEVELOPER_CREATE_VRH_MAIN_MANIFEST_DOCUMENT === 'docs/EXTRIMLI-DEVELOPER-CREATE-PROGRAM.md', 'Developer/Create contract must expose the canonical main manifest document'); assert(DEVELOPER_CREATE_VRH_CANONICAL_NARRATIVE_SENTENCE === 'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA', 'Developer/Create contract must expose the canonical narrative sentence'); assert(DEVELOPER_CREATE_VRH_SUCCESSFUL_NARRATIVE_CRITERIA.requiresSharedStoryAcross.includes('workflows'), 'Developer/Create contract must keep workflows inside the stabilization criteria');"
           node <<'NODE'
           const fs = require('fs');
           function assert(condition, message) {
