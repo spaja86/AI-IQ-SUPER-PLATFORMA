@@ -436,7 +436,7 @@ function mapInspektoriGovernance(
 ) {
   const escalatedReviewRequiredBeforeWideRollout =
     inspektori.justicePath.reviewPosture !== 'ALIGNED'
-    || inspektori.readiness.status !== 'READY';
+    || inspektori.justicePath.justicePathConsistency !== 'READY';
   return {
     ...inspektori,
     sourceOfTruth: '/api/extrimli/extrondol' as const,
@@ -444,7 +444,8 @@ function mapInspektoriGovernance(
     publicBoundary: '/api/extrimli/spaja-kod' as const,
     reviewRequiredBeforeWideRollout:
       inspektori.justicePath.humanReviewRequired
-      || escalatedReviewRequiredBeforeWideRollout,
+      || escalatedReviewRequiredBeforeWideRollout
+      || inspektori.readiness.status !== 'READY',
     escalatedReviewRequiredBeforeWideRollout,
     complianceReviewRequired: true as const,
     downstreamSync: 'follow-up-only-until-io-openui-ao-adopts-audit-safe-summary' as const,
