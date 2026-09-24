@@ -113,6 +113,8 @@ Svaka faza mora imati: `roadmapStageId`, `measurableOutput`, `acceptanceEvidence
 - Kanonski scenario za primarni audit/reference vizuel ostaje zaključan kao `scenarioId=developer-create-vizuelizacija-ekstremnog-kvaliteta-oktavni-sistem`, dok supplemental vizueli mogu postojati samo kao summary-safe evidence u okviru istog bounded paketa.
 - Acceptance paket ostaje zaključan na `roadmapStageId`, `measurableOutput`, `acceptanceEvidence`, `rolloutPlan`, `rollbackPlan`, `humanReviewStatus` i `downstreamReference`, uz isti `READY | WATCH | BLOCKED` model i isti drift-zero zahtev kroz `docs + types + routes + tests + workflows`.
 
+<a id="222-napoleon-diskaveri-bounded-discovery-selection-alias"></a>
+<a id="223-napoleon-diskaveri-bounded-discovery-selection-alias"></a>
 ### 2.2.3) Napoleon Diskaveri bounded discovery-selection alias
 
 - Alias ostaje zaključan na naziv `SELEKCIONIRANJE U SELEKCIJAMA PREMA AKTIVNOM NADMAŠAJU / NAPOLEON DISKAVERI`.
