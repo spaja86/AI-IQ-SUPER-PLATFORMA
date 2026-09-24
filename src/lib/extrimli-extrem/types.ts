@@ -2700,6 +2700,7 @@ export interface ExtrimliDokDikDakDukConsistencyHealth {
         tonalAlignmentScore: number;
         conflictPressurePercent: number;
       };
+      videoStoryboardSummary: string;
       auditReferencePackage: {
         visualEvidenceSource: 'covecnostAuditVisualReference';
         governanceMirrorTarget: 'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.audioVisualKontrabasPackage';

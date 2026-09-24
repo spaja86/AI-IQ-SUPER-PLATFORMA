@@ -8690,6 +8690,8 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
         2,
       ),
     },
+    videoStoryboardSummary:
+      dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.covecnostAuditVisualReference.packageOutputs.videoStoryboardSummary,
     auditReferencePackage: {
       visualEvidenceSource: 'covecnostAuditVisualReference',
       governanceMirrorTarget:

@@ -3280,8 +3280,7 @@ function buildSpajaKodFacade(params: {
         blockerReason: developerAndCreateAudioVisualBlockerReason,
         reviewPosture: developerAndCreateAudioVisualReviewPosture,
         downstreamReference: 'docs/MULTI-REPO-LINKS.md -> spaja86/IO-OPENUI-AO (summary-only)',
-        videoStoryboardSummary:
-          params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.covecnostAuditVisualReference.packageOutputs.videoStoryboardSummary,
+        videoStoryboardSummary: audioVisualKontrabasPackage.videoStoryboardSummary,
         summarySafeFields: [
           'readinessStatus',
           'blockerReason',
@@ -3370,8 +3369,7 @@ function buildSpajaKodFacade(params: {
         reviewPosture: developerAndCreateAudioVisualReviewPosture,
         publicBoundary: 'audit-safe-summary-only',
         downstreamReference: 'docs/MULTI-REPO-LINKS.md -> spaja86/IO-OPENUI-AO (summary-only)',
-        videoStoryboardSummary:
-          params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.covecnostAuditVisualReference.packageOutputs.videoStoryboardSummary,
+        videoStoryboardSummary: audioVisualKontrabasPackage.videoStoryboardSummary,
       },
       aiIqWorldBankPrepiskaSummary: {
         canonicalName:
