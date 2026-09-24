@@ -2558,7 +2558,7 @@ export interface ExtrimliSpajaKodPublicFacade {
         categoryCatalog: readonly ['KRALJEVSKI', 'VOJNI', 'POLICIJSKI'];
         readinessStatus: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['kraljevskiDrustveniPoredak']['kraljevskiAktBezbednosti']['kraljevskaVojnaIPolicijskaOprema']['readiness']['status'];
         qualityCriteria: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['kraljevskiDrustveniPoredak']['kraljevskiAktBezbednosti']['kraljevskaVojnaIPolicijskaOprema']['qualityCriteria'];
-        requiredGovernanceGates: readonly ['human-review', 'compliance-review', 'anti-abuse-review', 'audit-trail', 'rollback-plan', 'downstream-sync'];
+        requiredGovernanceGates: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['kraljevskiDrustveniPoredak']['kraljevskiAktBezbednosti']['kraljevskaVojnaIPolicijskaOprema']['requiredGovernanceGates'];
         publicBoundary: 'audit-safe-summary-only';
       };
       publicBoundary: 'audit-safe-summary-only';

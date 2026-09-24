@@ -3204,14 +3204,8 @@ function buildSpajaKodFacade(params: {
             params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.kraljevskiDrustveniPoredak.kraljevskiAktBezbednosti.kraljevskaVojnaIPolicijskaOprema.readiness.status,
           qualityCriteria:
             params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.kraljevskiDrustveniPoredak.kraljevskiAktBezbednosti.kraljevskaVojnaIPolicijskaOprema.qualityCriteria,
-          requiredGovernanceGates: [
-            'human-review',
-            'compliance-review',
-            'anti-abuse-review',
-            'audit-trail',
-            'rollback-plan',
-            'downstream-sync',
-          ],
+          requiredGovernanceGates:
+            params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.kraljevskiDrustveniPoredak.kraljevskiAktBezbednosti.kraljevskaVojnaIPolicijskaOprema.requiredGovernanceGates,
           publicBoundary: 'audit-safe-summary-only',
         },
         publicBoundary: 'audit-safe-summary-only',
