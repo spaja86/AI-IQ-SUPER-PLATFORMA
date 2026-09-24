@@ -3143,14 +3143,13 @@ function buildSpajaKodFacade(params: {
   const developerAndCreateImplementationStatus = implementationPackagePolicyLocked
     ? packageSummaryStatus
     : 'BLOCKED';
-  const developerAndCreateAudioVisualStatus = audioVisualKontrabasPackage.readinessStatus;
-  const developerAndCreateAudioVisualReviewPosture = params.promotionFreeze
-    || developerAndCreateAudioVisualStatus === 'BLOCKED'
-    ? 'REVIEW_REQUIRED'
-    : developerAndCreateAudioVisualStatus === 'WATCH'
-      ? 'WATCH'
-      : 'ALIGNED';
-  const developerAndCreateAudioVisualBlockerReason = getAudioVisualKontrabasBlockerReason(audioVisualKontrabasPackage);
+  const developerAndCreateAudioVisualGovernancePackage = buildAudioVisualKontrabasGovernancePackage(
+    audioVisualKontrabasPackage,
+    params.currentWawe,
+    params.eligibleNextWawe,
+    params.promotionFreeze,
+  );
+  const developerAndCreateAudioVisualStatus = developerAndCreateAudioVisualGovernancePackage.readinessStatus;
   const completeness = {
     extremSignalPresent: params.extremProfiler.spajaKodEncapsulation.surfaceName === 'SPAJA KOD',
     extrondolGovernancePresent: true,
@@ -3277,9 +3276,9 @@ function buildSpajaKodFacade(params: {
       audioVisualKontrabasPackage: {
         canonicalName: audioVisualKontrabasPackage.canonicalName,
         readinessStatus: developerAndCreateAudioVisualStatus,
-        blockerReason: developerAndCreateAudioVisualBlockerReason,
-        reviewPosture: developerAndCreateAudioVisualReviewPosture,
-        downstreamReference: 'docs/MULTI-REPO-LINKS.md -> spaja86/IO-OPENUI-AO (summary-only)',
+        blockerReason: developerAndCreateAudioVisualGovernancePackage.blockerReason,
+        reviewPosture: developerAndCreateAudioVisualGovernancePackage.reviewPosture,
+        downstreamReference: developerAndCreateAudioVisualGovernancePackage.downstreamReference,
         videoStoryboardSummary: audioVisualKontrabasPackage.videoStoryboardSummary,
         summarySafeFields: [
           'readinessStatus',
@@ -3366,9 +3365,9 @@ function buildSpajaKodFacade(params: {
       audioVisualKontrabasSummary: {
         canonicalName: audioVisualKontrabasPackage.canonicalName,
         readinessStatus: developerAndCreateAudioVisualStatus,
-        reviewPosture: developerAndCreateAudioVisualReviewPosture,
+        reviewPosture: developerAndCreateAudioVisualGovernancePackage.reviewPosture,
         publicBoundary: 'audit-safe-summary-only',
-        downstreamReference: 'docs/MULTI-REPO-LINKS.md -> spaja86/IO-OPENUI-AO (summary-only)',
+        downstreamReference: developerAndCreateAudioVisualGovernancePackage.downstreamReference,
         videoStoryboardSummary: audioVisualKontrabasPackage.videoStoryboardSummary,
       },
       aiIqWorldBankPrepiskaSummary: {
