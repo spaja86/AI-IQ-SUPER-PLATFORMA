@@ -3243,7 +3243,6 @@ function buildSpajaKodFacade(params: {
       inspektoriSummary: {
         canonicalName: inspektoriTrack.canonicalName,
         parentLegalTrack: inspektoriTrack.parentLegalTrack,
-        citizenshipOrder: inspektoriTrack.citizenshipOrder,
         activeUniversityCount: inspektoriTrack.universityCatalog.activeCount,
         reviewPosture: inspektoriTrack.justicePath.reviewPosture,
         justicePathConsistency: inspektoriTrack.justicePath.justicePathConsistency,

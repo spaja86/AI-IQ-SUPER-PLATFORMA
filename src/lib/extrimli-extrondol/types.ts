@@ -2586,7 +2586,6 @@ export interface ExtrimliSpajaKodPublicFacade {
     inspektoriSummary: {
       canonicalName: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['inspektori']['canonicalName'];
       parentLegalTrack: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['inspektori']['parentLegalTrack'];
-      citizenshipOrder: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['inspektori']['citizenshipOrder'];
       activeUniversityCount: number;
       reviewPosture: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['inspektori']['justicePath']['reviewPosture'];
       justicePathConsistency: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['inspektori']['justicePath']['justicePathConsistency'];
