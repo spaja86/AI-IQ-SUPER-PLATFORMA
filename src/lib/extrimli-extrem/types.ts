@@ -3178,6 +3178,78 @@ export interface ExtrimliDokDikDakDukConsistencyHealth {
         };
         summary: string;
       };
+      kraljevskiAktBezbednosti: {
+        canonicalName: 'KRALJEVSKI AKT BEZBEDNOSTI';
+        additiveOnly: true;
+        interpretativeLayer: 'governance-only-civil-readiness-and-public-safety-track';
+        boundedDomainCatalog: readonly ['KRALJEVSKI', 'GARDISTI', 'VOJNI', 'POLICIJSKI', 'SPECIJALNE JEDINICE'];
+        sourceOfTruthRoutes: readonly ['/api/extrimli/extrem', '/api/extrimli/extrondol', '/api/extrimli/spaja-kod'];
+        canonicalVocabulary: {
+          phrase: 'EXTRIMLI EXTRONDOL EXTREM DOK DUK DAK DIK FOR';
+          technicalOwnership: 'DOK+DIK+FOR->EXTREM';
+          governanceOwnership: 'DAK+DUK->EXTRONDOL';
+          publicBoundary: 'SPAJA KOD';
+        };
+        governanceBinding: {
+          parentLegalTrack: 'KRALJEVSKI PRAVNI UNIVERZITET';
+          parentSocialTrack: 'KRALJEVSKI DRUŠTVENI POREDAK';
+          technicalOwnership: 'DOK+DIK+FOR->EXTREM';
+          governanceOwnership: 'DAK+DUK->EXTRONDOL';
+          publicBoundary: 'SPAJA KOD';
+        };
+        civilReadinessScope: {
+          missionStatement: 'obezbedjivanje-granicnih-prelaza-naroda-i-unutrasnje-kontrole-zemlje-kao-governance-civil-readiness-interpretacija';
+          coverageReadiness: {
+            status: 'READY' | 'WATCH' | 'BLOCKED';
+            score: number;
+          };
+          coordinationReadiness: {
+            status: 'READY' | 'WATCH' | 'BLOCKED';
+            score: number;
+          };
+          complianceReadiness: {
+            status: 'READY' | 'WATCH' | 'BLOCKED';
+            score: number;
+          };
+          publicSafetyReviewPosture: 'READY' | 'WATCH' | 'BLOCKED';
+          blockerSummary: string[];
+        };
+        operationalBoundary: {
+          noNewRuntimeModule: true;
+          noOperationalSecurityEngine: true;
+          noTacticalInstructionSet: true;
+          noSensitiveMaps: true;
+          noOperationalIdentities: true;
+          noWeaponizationDetails: true;
+          auditSafeSummaryOnly: true;
+        };
+        kraljevskaPlataPolicy: {
+          canonicalName: 'KRALJEVSKA PLATA';
+          rank: 'najvisi-cin-plate';
+          governanceOnlyInGit: true;
+          approvalStatus: 'READY' | 'WATCH' | 'BLOCKED';
+          payoutReadinessStatus: 'READY' | 'WATCH' | 'BLOCKED';
+          paymentVerificationRequired: true;
+          allowedArtifacts: readonly ['approval-status', 'payout-status', 'payment-verification', 'audit-evidence'];
+          forbiddenArtifacts: readonly ['bank-account-number', 'kyc-document', 'payroll-secret', 'operational-financial-data'];
+          requiredGovernanceGates: readonly [
+            'human-review',
+            'compliance-review',
+            'payment-verification',
+            'audit-trail',
+            'rollback-plan',
+            'downstream-sync'
+          ];
+          noAutomaticPayout: true;
+          summary: string;
+        };
+        readiness: {
+          status: 'READY' | 'WATCH' | 'BLOCKED';
+          score: number;
+          deterministicFallbackRequired: boolean;
+        };
+        summary: string;
+      };
       readiness: {
         status: 'READY' | 'WATCH' | 'BLOCKED';
         score: number;

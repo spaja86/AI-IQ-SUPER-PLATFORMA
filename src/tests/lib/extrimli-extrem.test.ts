@@ -845,6 +845,14 @@ async function runTests(): Promise<void> {
     assert(socialOrder.gradjevinskiAkt.linkedDomains.join(',') === 'GRAĐEVINSKI FAKULTET,ZADRUGA,INSTRUMENT TABLA', 'developer/create gradjevinski akt linked domains mismatch');
     assert(socialOrder.kraljevskaDopuna.interpretativeInputs.osnovneZivotnePotrebe === 'documentation-only-governance-input', 'developer/create kraljevska dopuna basic-needs input mismatch');
     assert(socialOrder.kraljevskaDopuna.approvalPosture.noAutomaticPayout, 'developer/create kraljevska dopuna must stay non-automatic payout');
+    assert(socialOrder.kraljevskiAktBezbednosti.canonicalName === 'KRALJEVSKI AKT BEZBEDNOSTI', 'developer/create security-act canonical name mismatch');
+    assert(socialOrder.kraljevskiAktBezbednosti.boundedDomainCatalog.join(',') === 'KRALJEVSKI,GARDISTI,VOJNI,POLICIJSKI,SPECIJALNE JEDINICE', 'developer/create security-act bounded domain catalog mismatch');
+    assert(socialOrder.kraljevskiAktBezbednosti.canonicalVocabulary.phrase === 'EXTRIMLI EXTRONDOL EXTREM DOK DUK DAK DIK FOR', 'developer/create security-act vocabulary mismatch');
+    assert(socialOrder.kraljevskiAktBezbednosti.operationalBoundary.noTacticalInstructionSet, 'developer/create security-act must forbid tactical instruction set');
+    assert(socialOrder.kraljevskiAktBezbednosti.civilReadinessScope.blockerSummary.includes('no-tactical-security-instruction-set'), 'developer/create security-act blocker summary mismatch');
+    assert(socialOrder.kraljevskiAktBezbednosti.kraljevskaPlataPolicy.governanceOnlyInGit, 'developer/create security-act salary policy must stay governance-only');
+    assert(socialOrder.kraljevskiAktBezbednosti.kraljevskaPlataPolicy.requiredGovernanceGates.includes('downstream-sync'), 'developer/create security-act salary policy downstream-sync gate mismatch');
+    assert(socialOrder.kraljevskiAktBezbednosti.kraljevskaPlataPolicy.noAutomaticPayout, 'developer/create security-act salary policy must stay non-automatic payout');
     assert(report.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.aiIdentityFinanceGovernance.aiIqWorldBankPrepiska.sourceMaterialPolicy === 'documentation-only', 'AI IQ WORLD BANK prepiska must remain documentation-only');
     assert(report.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.aiIdentityFinanceGovernance.aiIqWorldBankPrepiska.noRuntimeAuthority === true, 'AI IQ WORLD BANK prepiska must not become runtime authority');
     assert(report.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.aiIdentityFinanceGovernance.aiIqWorldBankPrepiska.forbiddenEvidence.includes('kyc-documents'), 'AI IQ WORLD BANK prepiska must forbid KYC documents');
