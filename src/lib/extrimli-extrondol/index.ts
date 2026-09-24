@@ -5706,6 +5706,16 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
         extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.kraljevskiEkonomskiUneverzitet,
       kraljevskiProgramskiUneverzitet:
         extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.kraljevskiProgramskiUneverzitet,
+      inspektori: {
+        ...extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.inspektori,
+        sourceOfTruth: '/api/extrimli/extrondol',
+        technicalSignalSource: '/api/extrimli/extrem',
+        publicBoundary: '/api/extrimli/spaja-kod',
+        reviewRequiredBeforeWideRollout:
+          extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.inspektori.readiness.status !== 'READY',
+        complianceReviewRequired: true,
+        downstreamSync: 'follow-up-only-until-io-openui-ao-adopts-audit-safe-summary',
+      },
       kraljevskiDrustveniPoredak: {
         ...extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.kraljevskiDrustveniPoredak,
         sourceOfTruth: '/api/extrimli/extrondol',
@@ -7092,6 +7102,16 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
         extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.universityRolloutPhases,
       kraljevskiProgramskiUneverzitet:
         extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.kraljevskiProgramskiUneverzitet,
+      inspektori: {
+        ...extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.inspektori,
+        sourceOfTruth: '/api/extrimli/extrondol',
+        technicalSignalSource: '/api/extrimli/extrem',
+        publicBoundary: '/api/extrimli/spaja-kod',
+        reviewRequiredBeforeWideRollout:
+          extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.inspektori.readiness.status !== 'READY',
+        complianceReviewRequired: true,
+        downstreamSync: 'follow-up-only-until-io-openui-ao-adopts-audit-safe-summary',
+      },
       kraljevskiDrustveniPoredak: {
         ...extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.kraljevskiDrustveniPoredak,
         sourceOfTruth: '/api/extrimli/extrondol',

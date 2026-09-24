@@ -9011,8 +9011,8 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
   const inspektoriEvidentiaryCompletenessScore = round(
     (
       dokDikDakDukConsistencyHealth.score
-      + dokDikDakDukConsistencyHealth.dokConsistency.score
-      + dokDikDakDukConsistencyHealth.dikConsistency.score
+      + kraljevskiPravniUniverzitetTrack.readiness.completenessScore
+      + kraljevskiPravniUniverzitetTrack.readiness.consistencyScore
     ) / 3,
     2,
   );
@@ -9020,7 +9020,7 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
     resolveDeveloperCreateExtensionStatus(inspektoriEvidentiaryCompletenessScore);
   const inspektoriInvestigationBreadthScore = round(
     (
-      kraljevskiPravniUniverzitetTrack.structuredSignals.governanceCoverage.coveragePercent
+      kraljevskiPravniUniverzitetTrack.readiness.completenessScore
       + matematickiFakultetReadinessScore
       + pedagoskiFakultetReadinessScore
       + psiholoskiFakultetReadinessScore
@@ -9030,7 +9030,7 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
   );
   const inspektoriEvidenceQualityScore = round(
     (
-      kraljevskiPravniUniverzitetTrack.structuredSignals.evidenceReadiness.evidenceScore
+      kraljevskiPravniUniverzitetTrack.readiness.consistencyScore
       + dokDikDakDukConsistencyHealth.score
       + vrhProgramskogEkviladenta.readiness.score
     ) / 3,
@@ -9044,18 +9044,6 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
     ) / 3,
     2,
   );
-  const inspektoriJusticePathConsistency =
-    [inspektoriRuleConsistencyStatus, inspektoriEvidentiaryCompletenessStatus].includes('BLOCKED')
-      ? 'BLOCKED'
-      : [inspektoriRuleConsistencyStatus, inspektoriEvidentiaryCompletenessStatus].includes('WATCH')
-        ? 'WATCH'
-        : 'READY';
-  const inspektoriReviewPosture: 'ALIGNED' | 'WATCH' | 'REVIEW_REQUIRED' =
-    inspektoriJusticePathConsistency === 'BLOCKED'
-      ? 'REVIEW_REQUIRED'
-      : inspektoriJusticePathConsistency === 'WATCH'
-        ? 'WATCH'
-        : 'ALIGNED';
   const inspektoriBlockerSummary = [
     ...(inspektoriRuleConsistencyStatus === 'BLOCKED'
       ? ['rule-consistency-blocked']
@@ -9068,6 +9056,18 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
       ? ['deterministic-fallback-required']
       : []),
   ];
+  const inspektoriJusticePathConsistency =
+    inspektoriBlockerSummary.length > 0
+      ? 'BLOCKED'
+      : [inspektoriRuleConsistencyStatus, inspektoriEvidentiaryCompletenessStatus].includes('WATCH')
+        ? 'WATCH'
+        : 'READY';
+  const inspektoriReviewPosture: 'ALIGNED' | 'WATCH' | 'REVIEW_REQUIRED' =
+    inspektoriBlockerSummary.length > 0
+      ? 'REVIEW_REQUIRED'
+      : inspektoriJusticePathConsistency === 'WATCH'
+        ? 'WATCH'
+        : 'ALIGNED';
   dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.inspektori = {
     canonicalName: 'INSPEKTORI',
     additiveOnly: true,
