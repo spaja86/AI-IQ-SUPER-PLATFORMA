@@ -5,6 +5,16 @@ import { OMEGA_AI_PERSONA_COUNT } from '@/lib/constants';
 
 const stats = getStatistike();
 const repoEngini = getRepoEngini();
+const kraljevstvoEcosystemRegistry = [
+  ['AI-IQ-SUPER-PLATFORMA', 'Centralni orchestration i governance hub', 'runtime-integrated', 'EXTREM / EXTRONDOL / SPAJA KOD', 'Human review + audit trail'],
+  ['IO-OPENUI-AO', 'Primarni downstream product surface', 'summary-synced', 'AI-IQ-SUPER-PLATFORMA → IO-OPENUI-AO', 'Summary sync only'],
+  ['AI IQ WORLD BANK', 'Finansijski i governance okvir', 'policy-linked', 'Governance + payout posture', 'Compliance + payment verification'],
+  ['AI IQ MENJAČNICA', 'Tržišni i novčani operativni sloj', 'policy-linked', 'Treasury + wallet posture', 'Approval + blocker summary'],
+  ['KOMPANIJA SPAJA', 'Enterprise umbrella', 'policy-linked', 'Ownership + rollout posture', 'Review + downstream reference'],
+  ['SVETSKA ORGANIZACIJA', 'Globalni institucionalni okvir', 'policy-linked', 'Ethics + institutional summary', 'Audit-safe only'],
+  ['OPENAI', 'Eksterni AI/provider boundary', 'external-provider', 'Provider dependency summary', 'Compliance boundary'],
+  ['SPAJANIKOPENEVOLUTION', 'Narativni/evolucioni track', 'narrative-only', 'Documentation + reflection', 'No runtime coupling'],
+] as const;
 
 export const ekosistemSekvence: Sekvenca[] = [
   {
@@ -47,10 +57,50 @@ export const ekosistemSekvence: Sekvenca[] = [
     },
   },
   {
+    id: 'ekosistem-kraljevstvo-registar',
+    tip: 'tabela',
+    naslov: '👑 KRALJEVSTVO — Ecosystem registry',
+    redosled: 4,
+    podaci: {
+      zaglavlje: ['Domen', 'Uloga', 'Veza', 'Komunikacija', 'Promocija / blokator'],
+      redovi: kraljevstvoEcosystemRegistry.map((stavka) => [...stavka]),
+    },
+  },
+  {
+    id: 'ekosistem-governance-lock',
+    tip: 'lista',
+    naslov: '🛡️ Governance lock',
+    redosled: 5,
+    podaci: {
+      stavke: [
+        {
+          naslov: 'Scope lock',
+          opis: 'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA ostaje početni scope bez novih paralelnih runtime sistema.',
+          ikona: '🔒',
+        },
+        {
+          naslov: 'Ownership split',
+          opis: 'EXTREM ostaje tehnički signal, EXTRONDOL governance/WAWE/audit, a SPAJA KOD javni audit-safe summary boundary.',
+          ikona: '🧭',
+        },
+        {
+          naslov: 'Summary-safe exchange',
+          opis: 'Između domena se razmenjuju samo readiness, governance posture, approval status, blocker reason i downstream reference.',
+          ikona: '📦',
+        },
+        {
+          naslov: 'Promotion gates',
+          opis: 'Human review, rollout/rollback disciplina, audit trail i downstream reference ostaju obavezni pre cross-repo promocije.',
+          ikona: '✅',
+        },
+      ],
+    },
+  },
+  {
     id: 'ekosistem-statistika',
     tip: 'statistika',
     naslov: 'Status implementacije',
-    redosled: 4,
+    redosled: 6,
     podaci: {
       stavke: [
         { naziv: 'Platforme', vrednost: stats.ukupnoPlatformi, ikona: '🌐' },
@@ -70,7 +120,7 @@ export const ekosistemSekvence: Sekvenca[] = [
     id: 'ekosistem-cta',
     tip: 'cta',
     naslov: '🚀 Pridruzi se ekosistemu',
-    redosled: 5,
+    redosled: 7,
     podaci: {
       opis: 'SPAJA Ekosistem Hub raste svakim danom. SPAJA Generator za Endžine prevlači engine-e preko svih modula.',
       dugmad: [

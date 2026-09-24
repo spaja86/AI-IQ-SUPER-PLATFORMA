@@ -30,6 +30,68 @@ U istom vršnom planu `Kompanija SPAJA / Digitalna Industrija` ostaje bounded po
 
 Repo-wide reflection sada obavezno uključuje i dnevni operativni cadence: `morning-startup`, `deep-focus-block`, `midday-checkpoint` i `end-of-day-closeout`, uz dnevni task set prioriteta `1–3` vezan za jednu aktivnu roadmap fazu.
 
+## Kingdom ecosystem federation
+
+`VRH PROGRAMSKOG EKVILADENTA` je zaključani vršni interpretativni sloj i za federaciju `KRALJEVSTVA`; ne uvodi novu runtime domenu, nego orkestrira postojeće EXTRIMLI/EXTREM/EXTRONDOL/SPAJA KOD ugovore kroz bounded ecosystem contract.
+
+Zaključani domeni i njihove uloge:
+
+| Domen | Uloga | Relationship type |
+|---|---|---|
+| `AI-IQ-SUPER-PLATFORMA` | centralni orchestration i governance hub | `runtime-integrated` |
+| `IO-OPENUI-AO` | primarni downstream product surface | `summary-synced` |
+| `AI IQ WORLD BANK` | finansijski/governance okvir | `policy-linked` |
+| `AI IQ MENJAČNICA` | tržišni/novčani operativni sloj | `policy-linked` |
+| `KOMPANIJA SPAJA` | enterprise/operativni umbrella | `policy-linked` |
+| `SVETSKA ORGANIZACIJA` | globalni institucionalni okvir | `policy-linked` |
+| `OPENAI` | eksterni AI/provider boundary | `external-provider` |
+| `SPAJANIKOPENEVOLUTION` | narativni/evolucioni ekosistem track | `narrative-only` |
+
+Za svaki domen dozvoljeni su samo audit-safe izlazi:
+
+- `readiness`
+- `governance posture`
+- `approval status`
+- `blocker reason`
+- `downstream reference`
+
+Za svaki domen zabranjeni ostaju:
+
+- sirovi bankarski, KYC i payroll podaci
+- interni finansijski modeli i formule
+- operativni bezbednosni detalji
+- provider tajne i kredencijali
+- novi paralelni source-of-truth payload-i
+
+Jedinstveni governance model `KRALJEVSTVA` ostaje:
+
+- status jezik `READY | WATCH | BLOCKED`
+- rollout/rollback discipline
+- obavezni downstream reference
+- audit trail po domenima
+- human review pre repo-to-repo promocije
+
+Centralni apex paket ostaje additive-only:
+
+- `developerAndCreateRepoWideReflection.ecosystemApexPackage`
+- `EXTREM` ostaje tehnički signal
+- `EXTRONDOL` ostaje WAWE/audit/freeze-promotion governance
+- `SPAJA KOD` ostaje public summary boundary
+
+Četiri izvršne trake federacije:
+
+1. tehnička integracija domena
+2. governance i pravni poredak
+3. enterprise/finansijski tokovi
+4. public/downstream refleksija
+
+Prioritetna realizacija ostaje:
+
+1. `AI-IQ-SUPER-PLATFORMA ↔ IO-OPENUI-AO`
+2. `AI IQ WORLD BANK` + `AI IQ MENJAČNICA`
+3. `KOMPANIJA SPAJA` + `SVETSKA ORGANIZACIJA`
+4. `OPENAI` + `SPAJANIKOPENEVOLUTION`
+
 ## Additive university model
 
 - `KRALJEVSKI PROGRAMSKI UNEVERZITET` ostaje additive-only katalog `testova po oblastima` nad postojećim `technicalReadinessProfile` signalima; ne uvodi novu platformu, novu rutu ni novi source-of-truth sistem.

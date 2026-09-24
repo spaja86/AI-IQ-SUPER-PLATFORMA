@@ -12,6 +12,51 @@ This document formalizes coordination between `spaja86/AI-IQ-SUPER-PLATFORMA` an
 | `platforms/io-openui-ao/` | Local mirror / documentation surface | Per repo change | README, ownership, migration notes | Tracked locally |
 | Other linked platform repos | Follow-up only until formally registered | Manual | links, milestones, release notes | Pending registration |
 
+## `KRALJEVSTVO` ecosystem federation registry
+
+| Domain | Relationship type | Role | Inbound / Outbound | Allowed summary signals | Forbidden raw/operational data | Downstream rule |
+|---|---|---|---|---|---|---|
+| `AI-IQ-SUPER-PLATFORMA` | `runtime-integrated` | Central orchestration + governance hub | Inbound: linked domain summaries / Outbound: audit-safe registry + governance posture | `readiness`, `governance posture`, `approval status`, `blocker reason`, `downstream reference` | raw formulas, secrets, enforcement internals | Remains upstream source for ecosystem summary governance |
+| `spaja86/IO-OPENUI-AO` | `summary-synced` | Primary downstream product surface | Inbound: upstream summary package / Outbound: follow-up issue, synced runbook evidence | audit-safe readiness/governance/public status only | raw EXTREM/EXTRONDOL internals, bank/KYC/payroll/security data | Must remain summary-only consumer |
+| `AI IQ WORLD BANK` | `policy-linked` | Finance/governance frame | Inbound: approval/compliance/payment posture / Outbound: governance evidence | approval, compliance, payment-verification, payout-readiness, downstream reference | account numbers, KYC, statements, payment secrets | Follow-up only until linked repo adopts same audit-safe summary fields |
+| `AI IQ MENJAČNICA` | `policy-linked` | Market/wallet operations layer | Inbound: payout posture + treasury readiness / Outbound: audit-safe market summary | readiness, payout posture, blocker reason, governance status | raw ledger data, wallet secrets, trading internals | Summary-only market posture across repos |
+| `KOMPANIJA SPAJA` | `policy-linked` | Enterprise/operational umbrella | Inbound: rollout and owner signals / Outbound: enterprise summary | ownership, rollout posture, review state, downstream reference | HR/payroll internals, private contracts, credentials | Enterprise layer stays documentation/governance only downstream |
+| `SVETSKA ORGANIZACIJA` | `policy-linked` | Global institutional frame | Inbound: legal/compliance posture / Outbound: audit-safe institutional summary | institutional readiness, ethics/compliance posture, blocker summary | sensitive identities, security maps, punitive procedures | Documentation/governance follow-up only |
+| `OPENAI` | `external-provider` | External AI/provider boundary | Inbound: provider/compliance readiness / Outbound: provider dependency summary | provider status, compliance posture, activation blocker, downstream reference | API keys, billing credentials, provider-side secrets | External-provider boundary only, no mirrored runtime source-of-truth |
+| `SPAJANIKOPENEVOLUTION` | `narrative-only` | Narrative/evolutionary ecosystem track | Inbound: bounded reflection signals / Outbound: documentation-safe narrative summary | narrative readiness, governance posture, audit reference | operational payloads, production formulas, security data | Narrative-only reflection, never runtime-coupled |
+
+## `KRALJEVSTVO` execution model
+
+- Initial scope lock remains `DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA`.
+- Existing ownership split remains canonical: `EXTREM` = technical signal, `EXTRONDOL` = WAWE/audit/freeze-promotion governance, `SPAJA KOD` = public summary boundary.
+- New ecosystem links may be interpretative or audit-safe only; they must not create a parallel runtime source of truth.
+
+### Four execution tracks
+
+1. Technical domain integration
+2. Governance and legal order
+3. Enterprise / financial flows
+4. Public / downstream reflection
+
+### Expansion priority
+
+1. `AI-IQ-SUPER-PLATFORMA ↔ spaja86/IO-OPENUI-AO`
+2. `AI IQ WORLD BANK` + `AI IQ MENJAČNICA`
+3. `KOMPANIJA SPAJA` + `SVETSKA ORGANIZACIJA`
+4. `OPENAI` + `SPAJANIKOPENEVOLUTION`
+
+### Rollout phases
+
+| Phase | Scope | Output |
+|---|---|---|
+| `F1` | terminology + ecosystem charter | canonical domain naming and scope lock |
+| `F2` | domain registry + ownership map | ecosystem registry and relation-type lock |
+| `F3` | `IO-OPENUI-AO` downstream sync | summary-only sync rules and follow-up references |
+| `F4` | `AI IQ WORLD BANK` + `AI IQ MENJAČNICA` bridge | finance/governance summary contract |
+| `F5` | `KOMPANIJA SPAJA` + `SVETSKA ORGANIZACIJA` layer | enterprise/institutional summary package |
+| `F6` | `OPENAI` provider boundary | external-provider compliance boundary |
+| `F7` | unified `KRALJEVSTVO` audit summary | cross-domain audit-safe release snapshot |
+
 ## Required sync fields
 
 - Dependency/version expectations for shared packages and workflows
