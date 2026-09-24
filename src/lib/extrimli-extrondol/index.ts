@@ -7191,6 +7191,7 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
     radniTaktMozgaMislilac,
     developerAndCreateRepoWideReflection: {
       term: 'DEVELOPER AND CREATE',
+      canonicalScopeLock: extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.canonicalScopeLock,
       equalityLock: 'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == RADNI TAKT MOZGA (MISLILAC)',
       canonicalMapeUmaScopeLock: DEVELOPER_CREATE_VRH_MAPE_UMA_SCOPE_LOCK,
       sourceOfTruth: '/api/extrimli/extrondol',
@@ -7213,6 +7214,10 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
         extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.globalPageExplanationContract,
       mappedTracks: extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.mappedTracks,
       technicalReadinessProfile: extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.technicalReadinessProfile,
+      priorityExecutionOrder:
+        extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.priorityExecutionOrder,
+      fourTrackProgramPackage:
+        extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.fourTrackProgramPackage,
       universityLifecycle: {
         ...extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.universityLifecycle,
         reviewRequiredBeforePayout: true,
