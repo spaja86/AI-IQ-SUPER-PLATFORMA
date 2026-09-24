@@ -8701,7 +8701,7 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
       conflictPressurePercent: audioVisualKontrabasConflictPressurePercent,
     },
     videoStoryboardSummary:
-      dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.covecnostAuditVisualReference.packageOutputs.videoStoryboardSummary,
+      radniTaktMozgaMislilac.epilogijaCovecnosti.packageOutputs.videoStoryboardSummary,
     auditReferencePackage: {
       visualEvidenceSource: 'covecnostAuditVisualReference',
       governanceMirrorTarget:
