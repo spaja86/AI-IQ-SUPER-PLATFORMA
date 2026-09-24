@@ -31,9 +31,12 @@ import {
   DEVELOPER_CREATE_VRH_CANONICAL_NARRATIVE_SENTENCE,
   DEVELOPER_CREATE_VRH_CANONICAL_TOKEN_VOCABULARY,
   DEVELOPER_CREATE_VRH_DOWNSTREAM_SUMMARY_POLICY,
+  DEVELOPER_CREATE_VRH_FOUR_PERMANENT_LAYERS,
   DEVELOPER_CREATE_VRH_INTERPRETATION_ALIASES,
   DEVELOPER_CREATE_VRH_MAIN_MANIFEST_DOCUMENT,
+  DEVELOPER_CREATE_VRH_NARRATIVE_CONTRACT_BOUNDARY,
   DEVELOPER_CREATE_VRH_SUCCESSFUL_NARRATIVE_CRITERIA,
+  DEVELOPER_CREATE_VRH_VISUAL_EVIDENCE_POLICY,
 } from '../../lib/developer-create-vrh-ekviladenta-contract';
 
 let passed = 0;
@@ -263,9 +266,23 @@ async function runTests(): Promise<void> {
     assert(body.data.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.canonicalMapeUmaScopeLock === 'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == MAPE UMA', 'unexpected developer/create MAPE UMA canonical scope lock');
     assert(body.data.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readinessModel.join(',') === 'READY,WATCH,BLOCKED', 'unexpected developer/create readiness model');
     assert(body.data.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.canonicalTokenVocabulary.dok === DEVELOPER_CREATE_VRH_CANONICAL_TOKEN_VOCABULARY.dok, 'unexpected developer/create DOK role');
+    assert(body.data.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.canonicalTokenVocabulary.dik === DEVELOPER_CREATE_VRH_CANONICAL_TOKEN_VOCABULARY.dik, 'unexpected developer/create DIK role');
     assert(body.data.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.canonicalTokenVocabulary.dak === DEVELOPER_CREATE_VRH_CANONICAL_TOKEN_VOCABULARY.dak, 'unexpected developer/create DAK role');
+    assert(body.data.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.canonicalTokenVocabulary.duk === DEVELOPER_CREATE_VRH_CANONICAL_TOKEN_VOCABULARY.duk, 'unexpected developer/create DUK role');
+    assert(body.data.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.canonicalTokenVocabulary.for === DEVELOPER_CREATE_VRH_CANONICAL_TOKEN_VOCABULARY.for, 'unexpected developer/create FOR role');
+    assert(body.data.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.fourPermanentLayers.developerCreateVrh.role === DEVELOPER_CREATE_VRH_FOUR_PERMANENT_LAYERS.developerCreateVrh.role, 'unexpected developer/create apex layer role');
+    assert(body.data.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.fourPermanentLayers.extrem.role === DEVELOPER_CREATE_VRH_FOUR_PERMANENT_LAYERS.extrem.role, 'unexpected developer/create EXTREM layer role');
+    assert(body.data.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.fourPermanentLayers.extrondol.role === DEVELOPER_CREATE_VRH_FOUR_PERMANENT_LAYERS.extrondol.role, 'unexpected developer/create EXTRONDOL layer role');
+    assert(body.data.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.fourPermanentLayers.spajaKod.role === DEVELOPER_CREATE_VRH_FOUR_PERMANENT_LAYERS.spajaKod.role, 'unexpected developer/create SPAJA KOD layer role');
+    assert(body.data.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.narrativeContractBoundary.contractRole === DEVELOPER_CREATE_VRH_NARRATIVE_CONTRACT_BOUNDARY.contractRole, 'unexpected developer/create contract boundary role');
+    assert(body.data.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.narrativeContractBoundary.noNewRuntimeModule === DEVELOPER_CREATE_VRH_NARRATIVE_CONTRACT_BOUNDARY.noNewRuntimeModule, 'unexpected developer/create no-new-runtime boundary');
+    assert(body.data.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.visualEvidencePolicy.role === DEVELOPER_CREATE_VRH_VISUAL_EVIDENCE_POLICY.role, 'unexpected developer/create visual evidence role');
+    assert(body.data.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.visualEvidencePolicy.introducesNewSourceOfTruth === DEVELOPER_CREATE_VRH_VISUAL_EVIDENCE_POLICY.introducesNewSourceOfTruth, 'unexpected developer/create visual source-of-truth boundary');
     assert(body.data.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.downstreamSummaryPolicy.linkedRepo === DEVELOPER_CREATE_VRH_DOWNSTREAM_SUMMARY_POLICY.linkedRepo, 'unexpected developer/create downstream linked repo');
+    assert(body.data.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.downstreamSummaryPolicy.syncMode === DEVELOPER_CREATE_VRH_DOWNSTREAM_SUMMARY_POLICY.syncMode, 'unexpected developer/create downstream sync mode');
+    assert(body.data.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.downstreamSummaryPolicy.rawNarrativeStaysRepoLocal === DEVELOPER_CREATE_VRH_DOWNSTREAM_SUMMARY_POLICY.rawNarrativeStaysRepoLocal, 'unexpected developer/create downstream repo-local narrative rule');
     assert(body.data.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.successfulNarrativeCriteria.requiresSharedStoryAcross.join(',') === DEVELOPER_CREATE_VRH_SUCCESSFUL_NARRATIVE_CRITERIA.requiresSharedStoryAcross.join(','), 'unexpected developer/create successful narrative layers');
+    assert(body.data.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.successfulNarrativeCriteria.failureMode === DEVELOPER_CREATE_VRH_SUCCESSFUL_NARRATIVE_CRITERIA.failureMode, 'unexpected developer/create successful narrative failure mode');
     assert(body.data.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.globalPageExplanationContract.boundedThematicSignals.join(',') === 'mape-uma,slike-plus-znacenje,ucenje,znanje,kreativnost,saradnja,odrzivost,mir', 'unexpected developer/create global explanation thematic signals');
     assert(body.data.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.dailyOperationalCadence.cadenceBlocks.join(',') === 'morning-startup,deep-focus-block,midday-checkpoint,end-of-day-closeout', 'unexpected developer/create cadence blocks');
     assert(['READY', 'WATCH', 'BLOCKED'].includes(body.data.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.status), 'unexpected developer/create reflection status');

@@ -32,6 +32,7 @@ import {
   getGovernanceTechnicalRiskStatusFromExtremTrack,
 } from '../extrimli-doker-kurat-izek-dokar-track';
 import {
+  DEVELOPER_CREATE_VRH_CANONICAL_NARRATIVE_SENTENCE,
   DEVELOPER_CREATE_VRH_CANONICAL_TOKEN_VOCABULARY,
   DEVELOPER_CREATE_VRH_DOWNSTREAM_SUMMARY_POLICY,
   DEVELOPER_CREATE_VRH_FOUR_PERMANENT_LAYERS,
@@ -5811,10 +5812,8 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
     developerAndCreateRepoWideReflection: {
       canonicalName: 'DEVELOPER AND CREATE',
       mainManifestDocument: DEVELOPER_CREATE_VRH_MAIN_MANIFEST_DOCUMENT,
-      canonicalNarrativeSentence:
-        extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection
-          .canonicalNarrativeSentence,
-      canonicalScopeLock: extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.canonicalScopeLock,
+      canonicalNarrativeSentence: DEVELOPER_CREATE_VRH_CANONICAL_NARRATIVE_SENTENCE,
+      canonicalScopeLock: DEVELOPER_CREATE_VRH_CANONICAL_NARRATIVE_SENTENCE,
       equalityLock: DEVELOPER_CREATE_VRH_INTERPRETATION_ALIASES[0],
       canonicalMapeUmaScopeLock: DEVELOPER_CREATE_VRH_MAPE_UMA_SCOPE_LOCK,
       interpretationAliases: DEVELOPER_CREATE_VRH_INTERPRETATION_ALIASES,
