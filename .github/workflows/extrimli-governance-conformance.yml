@@ -59,7 +59,7 @@ jobs:
             DEVELOPER_CREATE_VRH_CANONICAL_NARRATIVE_SENTENCE,
             DEVELOPER_CREATE_VRH_MAIN_MANIFEST_DOCUMENT,
             DEVELOPER_CREATE_VRH_SUCCESSFUL_NARRATIVE_CRITERIA,
-          } from './src/lib/developer-create-vrh-ekviladenta-contract';
+          } from './src/lib/developer-create-vrh-ekviladenta-contract.ts';
 
           function assert(condition: unknown, message: string) {
             if (!condition) throw new Error(message);
