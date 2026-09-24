@@ -3256,6 +3256,27 @@ export interface ExtrimliDokDikDakDukConsistencyHealth {
           governanceOwnership: 'DAK+DUK->EXTRONDOL';
           publicBoundary: 'SPAJA KOD';
         };
+        auditSafeAliasLayer: {
+          additiveOnly: true;
+          interpretativeOnly: true;
+          nonOperational: true;
+          ownershipLock: {
+            technicalOwnership: 'DOK+DIK+FOR->EXTREM';
+            governanceOwnership: 'DAK+DUK->EXTRONDOL';
+            publicBoundary: 'SPAJA KOD';
+          };
+          domainAliases: {
+            GARDISTI: {
+              alias: 'VUKOVI';
+              descriptor: 'antiteroristicka-jedinica-interpretativni-termin';
+            };
+            'SPECIJALNE JEDINICE': {
+              aliases: readonly ['BIA', 'UDBA', 'ŽANDERMERIJA (OKLOPNJAČE)'];
+              descriptor: 'specijalna-jedinica-interpretativni-audit-safe-termin';
+            };
+          };
+          forbiddenOperationalEvidence: readonly ['tactical-plan', 'sensitive-map', 'operational-identity', 'weaponization-details'];
+        };
         civilReadinessScope: {
           missionStatement: 'obezbedjivanje-granicnih-prelaza-naroda-i-unutrasnje-kontrole-zemlje-kao-governance-civil-readiness-interpretacija';
           coverageReadiness: {

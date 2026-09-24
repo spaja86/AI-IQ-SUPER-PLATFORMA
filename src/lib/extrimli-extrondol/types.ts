@@ -2568,6 +2568,24 @@ export interface ExtrimliSpajaKodPublicFacade {
     kraljevskiAktBezbednostiSummary: {
       canonicalName: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['kraljevskiDrustveniPoredak']['kraljevskiAktBezbednosti']['canonicalName'];
       domainCatalog: readonly ['KRALJEVSKI', 'GARDISTI', 'VOJNI', 'POLICIJSKI', 'SPECIJALNE JEDINICE'];
+      auditSafeAliasCatalog: {
+        interpretativeOnly: true;
+        nonOperational: true;
+        ownershipLock: {
+          technicalOwnership: 'DOK+DIK+FOR->EXTREM';
+          governanceOwnership: 'DAK+DUK->EXTRONDOL';
+          publicBoundary: 'SPAJA KOD';
+        };
+        GARDISTI: {
+          alias: 'VUKOVI';
+          descriptor: 'antiteroristicka-jedinica-interpretativni-termin';
+        };
+        'SPECIJALNE JEDINICE': {
+          aliases: readonly ['BIA', 'UDBA', 'ŽANDERMERIJA (OKLOPNJAČE)'];
+          descriptor: 'specijalna-jedinica-interpretativni-audit-safe-termin';
+        };
+        forbiddenOperationalEvidence: readonly ['tactical-plan', 'sensitive-map', 'operational-identity', 'weaponization-details'];
+      };
       readinessStatus: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['kraljevskiDrustveniPoredak']['kraljevskiAktBezbednosti']['readiness']['status'];
       publicSafetyReviewStatus: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['kraljevskiDrustveniPoredak']['kraljevskiAktBezbednosti']['civilReadinessScope']['publicSafetyReviewPosture'];
       kraljevskaPlataApprovalStatus: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['kraljevskiDrustveniPoredak']['kraljevskiAktBezbednosti']['kraljevskaPlataPolicy']['approvalStatus'];

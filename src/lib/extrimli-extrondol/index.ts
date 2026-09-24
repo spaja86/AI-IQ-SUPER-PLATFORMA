@@ -3270,6 +3270,24 @@ function buildSpajaKodFacade(params: {
         canonicalName:
           params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.kraljevskiDrustveniPoredak.kraljevskiAktBezbednosti.canonicalName,
         domainCatalog: ['KRALJEVSKI', 'GARDISTI', 'VOJNI', 'POLICIJSKI', 'SPECIJALNE JEDINICE'],
+        auditSafeAliasCatalog: {
+          interpretativeOnly: true,
+          nonOperational: true,
+          ownershipLock: {
+            technicalOwnership: 'DOK+DIK+FOR->EXTREM',
+            governanceOwnership: 'DAK+DUK->EXTRONDOL',
+            publicBoundary: 'SPAJA KOD',
+          },
+          GARDISTI: {
+            alias: 'VUKOVI',
+            descriptor: 'antiteroristicka-jedinica-interpretativni-termin',
+          },
+          'SPECIJALNE JEDINICE': {
+            aliases: ['BIA', 'UDBA', 'ŽANDERMERIJA (OKLOPNJAČE)'],
+            descriptor: 'specijalna-jedinica-interpretativni-audit-safe-termin',
+          },
+          forbiddenOperationalEvidence: ['tactical-plan', 'sensitive-map', 'operational-identity', 'weaponization-details'],
+        },
         readinessStatus:
           params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.kraljevskiDrustveniPoredak.kraljevskiAktBezbednosti.readiness.status,
         publicSafetyReviewStatus:
