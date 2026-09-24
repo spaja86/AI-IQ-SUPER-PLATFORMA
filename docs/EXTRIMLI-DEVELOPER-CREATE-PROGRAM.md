@@ -114,6 +114,7 @@ Svaka faza mora imati: `roadmapStageId`, `measurableOutput`, `acceptanceEvidence
 - Acceptance paket ostaje zaključan na `roadmapStageId`, `measurableOutput`, `acceptanceEvidence`, `rolloutPlan`, `rollbackPlan`, `humanReviewStatus` i `downstreamReference`, uz isti `READY | WATCH | BLOCKED` model i isti drift-zero zahtev kroz `docs + types + routes + tests + workflows`.
 
 <a id="222-napoleon-diskaveri-bounded-discovery-selection-alias"></a>
+<a id="2.2.2-napoleon-diskaveri-bounded-discovery-selection-alias"></a>
 <!-- Backward-compatibility anchor for former 2.2.2 subsection links. -->
 ### 2.2.3) Napoleon Diskaveri bounded discovery-selection alias
 
