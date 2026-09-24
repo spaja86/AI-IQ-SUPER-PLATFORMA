@@ -8632,9 +8632,17 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
         || audioVisualKontrabasTrackStatus === 'WATCH'
           ? 'WATCH'
           : 'READY';
-  const audioVisualKontrabasReadinessScore = Math.min(
-    dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.score,
-    audioVisualKontrabasTrackScore,
+  const audioVisualKontrabasReadinessScore = round(
+    Math.min(
+      dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.score,
+      audioVisualKontrabasTrackScore,
+      audioVisualKontrabasReadinessStatus === 'BLOCKED'
+        ? 49
+        : audioVisualKontrabasReadinessStatus === 'WATCH'
+          ? 79
+          : 100,
+    ),
+    2,
   );
   const getAudioVisualSceneTrackStatus = (
     mappedTrack: (typeof DEVELOPER_CREATE_AUDIO_VISUAL_SCENE_VOCABULARY)[number]['mappedTrack'],
