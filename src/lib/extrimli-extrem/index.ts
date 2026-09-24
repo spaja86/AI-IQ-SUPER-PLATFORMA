@@ -9131,6 +9131,79 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
         noWeaponizationDetails: true,
         auditSafeSummaryOnly: true,
       },
+      kraljevskaVojnaIPolicijskaOprema: {
+        canonicalName: 'KRALJEVSKA VOJNA I POLICIJSKA OPREMA',
+        additiveOnly: true,
+        parentTrack: 'KRALJEVSKI AKT BEZBEDNOSTI',
+        governanceCatalogOnly: true,
+        sourceOfTruthRoutes: ['/api/extrimli/extrem', '/api/extrimli/extrondol', '/api/extrimli/spaja-kod'],
+        categoryCatalog: ['KRALJEVSKI', 'VOJNI', 'POLICIJSKI'],
+        qualityCriteria: {
+          complianceStatus: resolveDeveloperCreateExtensionStatus(kraljevskiAktBezbednostiComplianceReadinessScore),
+          certificationStatus: resolveDeveloperCreateExtensionStatus(kraljevskiAktBezbednostiCoordinationReadinessScore),
+          availabilityStatus: resolveDeveloperCreateExtensionStatus(kraljevskiAktBezbednostiCoverageReadinessScore),
+          lifecycleStatus:
+            dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.deterministicFallbackRequired
+            || privredniAktQuarterlyMarketInput.status === 'BLOCKED'
+              ? 'BLOCKED'
+              : (kraljevskiAktBezbednostiCoverageReadinessScore + kraljevskiAktBezbednostiCoordinationReadinessScore) / 2 >= 80
+                ? 'READY'
+                : (kraljevskiAktBezbednostiCoverageReadinessScore + kraljevskiAktBezbednostiCoordinationReadinessScore) / 2 >= 60
+                  ? 'WATCH'
+                  : 'BLOCKED',
+          riskStatus:
+            dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.deterministicFallbackRequired
+            || privredniAktQuarterlyMarketInput.status === 'BLOCKED'
+              ? 'BLOCKED'
+              : kraljevskiAktBezbednostiReadinessScore >= 80
+                ? 'READY'
+                : kraljevskiAktBezbednostiReadinessScore >= 60
+                  ? 'WATCH'
+                  : 'BLOCKED',
+          blockerPosture:
+            dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.deterministicFallbackRequired
+            || privredniAktQuarterlyMarketInput.status === 'BLOCKED'
+              ? 'BLOCKED'
+              : [
+                  resolveDeveloperCreateExtensionStatus(kraljevskiAktBezbednostiCoverageReadinessScore),
+                  resolveDeveloperCreateExtensionStatus(kraljevskiAktBezbednostiCoordinationReadinessScore),
+                  resolveDeveloperCreateExtensionStatus(kraljevskiAktBezbednostiComplianceReadinessScore),
+                ].includes('WATCH')
+                ? 'WATCH'
+                : 'READY',
+          standard: 'najbolja-savremena-oprema-auditabilno-neoperativno',
+        },
+        requiredGovernanceGates: [
+          'human-review',
+          'compliance-review',
+          'anti-abuse-review',
+          'audit-trail',
+          'rollback-plan',
+          'downstream-sync',
+        ],
+        forbiddenEvidence: [
+          'tactical-instructions',
+          'sensitive-map',
+          'operational-identity',
+          'weaponization-details',
+          'bank-account-number',
+          'kyc-document',
+          'payroll-secret',
+        ],
+        operationalBoundary: {
+          noOperationalSecurityInstructions: true,
+          noTacticalOrSensitiveSecurityData: true,
+          auditSafeSummaryOnly: true,
+        },
+        readiness: {
+          status: resolveDeveloperCreateExtensionStatus(kraljevskiAktBezbednostiReadinessScore),
+          score: kraljevskiAktBezbednostiReadinessScore,
+          deterministicFallbackRequired:
+            dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.deterministicFallbackRequired,
+        },
+        summary:
+          'KRALJEVSKA VOJNA I POLICIJSKA OPREMA ostaje bounded additive-only governance katalog pod KRALJEVSKI AKT BEZBEDNOSTI: kvalitet se meri samo auditabilnim statusima (compliance, sertifikacija, dostupnost, lifecycle, rizik, blocker posture) bez operativnih, taktičkih ili osetljivih bezbednosnih detalja.',
+      },
       kraljevskaPlataPolicy: {
         canonicalName: 'KRALJEVSKA PLATA',
         rank: 'najvisi-cin-plate',
@@ -9488,7 +9561,7 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
       extremPublishes: 'bounded-readiness-and-eligibility-signal',
       extrondolPublishes: 'wawe-review-compliance-payment-summary-only',
       spajaKodPublishes: 'final-audit-safe-status-only',
-      linkedDomains: ['GRAĐEVINSKI AKT', 'KRALJEVSKA DOPUNA'],
+      linkedDomains: ['GRAĐEVINSKI AKT', 'KRALJEVSKA DOPUNA', 'KRALJEVSKA VOJNA I POLICIJSKA OPREMA'],
       beneficiaryCategories: ['NEZBRINUTI', 'NEZAPOSLENI'],
       noNewRuntimeModule: true,
       noSocialExecutionSystem: true,
