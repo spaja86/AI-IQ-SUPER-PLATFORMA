@@ -3466,7 +3466,7 @@ export interface ExtrimliDokDikDakDukConsistencyHealth {
         extremPublishes: 'derived-technical-readiness-profile-only';
         extrondolPublishes: 'audit-freeze-promotion-review-summary-only';
         spajaKodPublishes: 'final-audit-safe-status-only';
-        boundedFacultyDomains: readonly ['POLJOPRIVREDNI FAKULTET', 'GRAĐEVINSKI FAKULTET'];
+        boundedFacultyDomains: readonly ['POLJOPRIVREDNI FAKULTET', 'GRAĐEVINSKI FAKULTET', 'PEDAGOŠKI FAKULTET', 'PSIHOLOŠKI FAKULTET'];
         boundedCivicTrack: 'KRALJEVSKI DRUŠTVENI POREDAK';
         noNewRuntimeModule: true;
         noParallelSourceOfTruth: true;

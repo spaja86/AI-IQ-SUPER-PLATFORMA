@@ -9280,7 +9280,7 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
       extremPublishes: 'derived-technical-readiness-profile-only',
       extrondolPublishes: 'audit-freeze-promotion-review-summary-only',
       spajaKodPublishes: 'final-audit-safe-status-only',
-      boundedFacultyDomains: ['POLJOPRIVREDNI FAKULTET', 'GRAĐEVINSKI FAKULTET'],
+      boundedFacultyDomains: ['POLJOPRIVREDNI FAKULTET', 'GRAĐEVINSKI FAKULTET', 'PEDAGOŠKI FAKULTET', 'PSIHOLOŠKI FAKULTET'],
       noNewRuntimeModule: true,
       noParallelSourceOfTruth: true,
       rawInternalsExposed: false,
