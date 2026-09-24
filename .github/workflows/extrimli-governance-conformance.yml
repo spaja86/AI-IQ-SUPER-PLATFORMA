@@ -26,7 +26,7 @@ on:
       - 'docs/MULTI-REPO-LINKS.md'
       - '.github/workflows/extrimli-validator.yml'
       - '.github/workflows/extrimli-external-github.yml'
-      - '.github/workflows/extrimli-governance-conformance.yml'
+      - '.github/workflows/extrimli-governance-conformance.yml' # self-cover trigger
 
 concurrency:
   group: extrimli-governance-conformance-${{ github.ref }}
