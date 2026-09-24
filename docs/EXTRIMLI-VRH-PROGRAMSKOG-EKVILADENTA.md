@@ -32,6 +32,17 @@ U istom vršnom planu `Kompanija SPAJA / Digitalna Industrija` ostaje bounded po
 
 Repo-wide reflection sada obavezno uključuje i dnevni operativni cadence: `morning-startup`, `deep-focus-block`, `midday-checkpoint` i `end-of-day-closeout`, uz dnevni task set prioriteta `1–3` vezan za jednu aktivnu roadmap fazu.
 
+## Audio-vizuelni kontrabas paket
+
+`DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == AUDIO-VIZUELNI KONTRABAS PAKET` ostaje additive-only vršni interpretativni sloj nad postojećim kontraktima za snimanje glasa, glasovnu reprodukciju, glas-na-video montažu i ciklusno nadglašavanje/podglašavanje.
+
+- Nema novih runtime ruta, nema paralelnog source-of-truth sistema i nema novog DSP/muzičkog engine-a.
+- Ownership split ostaje isti: `DOK + DIK + FOR` ostaju EXTREM tehnički signal, `DAK + DUK` ostaju EXTRONDOL governance/WAWE odluke, a SPAJA KOD objavljuje samo audit-safe summary status.
+- Zaključano mapiranje traka ostaje: vokal/narativ -> `SINEMETRIČKO PROGRAMIRANJE`, reprodukcioni sloj -> `OBJEKTNO ORIJENTISANA REPRODUKCIJA`, tonalne proporcije -> `PROPORCIONALNO PROGRAMIRANJE`, ritam/duracije/ciklus -> `METRIČKO PROGRAMIRANJE`, montažno-orkestracioni tok -> `PARADIJOGONALNO PROGRAMIRANJE`.
+- `regtonske proporcije`, `vuferske/kontrabasovne promene` i `tonski aspekt u revolucionom smislu kontrabasa` ostaju bounded signalni rečnik za audio dramaturgiju i dinamički balans.
+- Zaključani audio-scene termini ostaju `GUN, DEN, DIN, KON, SUR, DIR, DUR, DOG, DUK, DOP, KIDO, DUKAT, DJUKAS, DIKTON, GRAFON, SIRON, DJOKUZ, OTKUZ, DIPAS, CVIKROT, ZIPAN`.
+- Ako postoje storyboard ili vizuelni asset-i, EXTREM ih vodi kao audit/reference evidence, EXTRONDOL ih zrcali kroz governance summary, a `spaja86/IO-OPENUI-AO` dobija samo summary-safe downstream reference.
+
 ## Kingdom ecosystem federation
 
 `VRH PROGRAMSKOG EKVILADENTA` je zaključani vršni interpretativni sloj i za federaciju `KRALJEVSTVA`; ne uvodi novu runtime domenu, nego orkestrira postojeće EXTRIMLI/EXTREM/EXTRONDOL/SPAJA KOD ugovore kroz bounded ecosystem contract.

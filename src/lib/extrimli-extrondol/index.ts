@@ -207,6 +207,7 @@ const DEVELOPER_CREATE_ROADMAP_ACCEPTANCE_EVIDENCE_BASE = [
   'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.implementationPackage',
   'developerAndCreateRepoWideReflection',
   'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance',
+  'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.audioVisualKontrabasPackage',
   'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.kraljevskiProgramskiUneverzitet',
   'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.kraljevskiDrustveniPoredak',
   'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.kraljevskiDrustveniPoredak.kraljevskiAktBezbednosti',
@@ -217,6 +218,7 @@ const DEVELOPER_CREATE_ROADMAP_ACCEPTANCE_EVIDENCE_BASE = [
   'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.osnoveRispektProtocol',
   'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.aiPlateGovernance',
   'spajaKod.publicSignals.developerAndCreateStatus',
+  'spajaKod.publicSignals.developerAndCreateAudioVisualStatus',
   'spajaKod.publicSignals.developerAndCreateImplementationStatus',
   'spajaKod.publicSignals.aiPlateStatus',
 ] as const;
@@ -227,6 +229,7 @@ const DEVELOPER_CREATE_RELEASE_AUDIT_ACCEPTANCE_EVIDENCE: ExtrimliExtrondolRelea
 const DEVELOPER_CREATE_GOVERNANCE_ACCEPTANCE_EVIDENCE: ExtrimliExtrondolReport['developerAndCreateRepoWideReflection']['roadmapExecution']['acceptanceEvidence'] = [
   'developerAndCreateRepoWideReflection.implementationPackage',
   'developerAndCreateRepoWideReflection',
+  'developerAndCreateRepoWideReflection.audioVisualKontrabasPackage',
   'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance',
   'developerAndCreateRepoWideReflection.kraljevskiProgramskiUneverzitet',
   'developerAndCreateRepoWideReflection.kraljevskiDrustveniPoredak',
@@ -236,6 +239,7 @@ const DEVELOPER_CREATE_GOVERNANCE_ACCEPTANCE_EVIDENCE: ExtrimliExtrondolReport['
   'developerAndCreateRepoWideReflection.covecnostAuditVisualReference.companionAuditVisualReferences',
   'developerAndCreateRepoWideReflection.aiPlateGovernance',
   'spajaKod.publicSignals.developerAndCreateStatus',
+  'spajaKod.publicSignals.developerAndCreateAudioVisualStatus',
   'spajaKod.publicSignals.developerAndCreateImplementationStatus',
   'spajaKod.publicSignals.aiPlateStatus',
 ];
@@ -3066,6 +3070,8 @@ function buildSpajaKodFacade(params: {
   });
   const aiIdentityFinanceGovernance =
     params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.aiIdentityFinanceGovernance;
+  const audioVisualKontrabasPackage =
+    params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.audioVisualKontrabasPackage;
   const inspektoriTrack =
     params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.inspektori;
   const inspektoriPrimaryBlockerReason = inspektoriTrack.justicePath.blockerSummary[0] ?? null;
@@ -3082,6 +3088,20 @@ function buildSpajaKodFacade(params: {
   const developerAndCreateImplementationStatus = implementationPackagePolicyLocked
     ? packageSummaryStatus
     : 'BLOCKED';
+  const developerAndCreateAudioVisualStatus = audioVisualKontrabasPackage.readinessStatus;
+  const developerAndCreateAudioVisualReviewPosture = params.promotionFreeze
+    || developerAndCreateAudioVisualStatus === 'BLOCKED'
+    ? 'REVIEW_REQUIRED'
+    : developerAndCreateAudioVisualStatus === 'WATCH'
+      ? 'WATCH'
+      : 'ALIGNED';
+  const developerAndCreateAudioVisualBlockerReason = developerAndCreateAudioVisualStatus === 'BLOCKED'
+    ? params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.blockerReasons[0]
+      ?? 'audio-visual-kontrabas-package-blocked'
+    : developerAndCreateAudioVisualStatus === 'WATCH'
+      ? params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.watchReasons[0]
+        ?? 'audio-visual-kontrabas-package-review-required'
+      : null;
   const completeness = {
     extremSignalPresent: params.extremProfiler.spajaKodEncapsulation.surfaceName === 'SPAJA KOD',
     extrondolGovernancePresent: true,
@@ -3158,6 +3178,7 @@ function buildSpajaKodFacade(params: {
       vrhProgramskogEkviladentaStatus: params.vrhProgramskogEkviladentaStatus,
       developerAndCreateStatus: params.developerAndCreateStatus,
       developerAndCreateImplementationStatus,
+      developerAndCreateAudioVisualStatus,
       developerAndCreateGlobalPageExplanationStatus: params.developerAndCreateStatus,
       developerAndCreateGlobalPageExplanationSignals: DEVELOPER_CREATE_VRH_MAPE_UMA_THEMATIC_SIGNALS,
       developerAndCreateUniversitySummary: {
@@ -3204,6 +3225,22 @@ function buildSpajaKodFacade(params: {
       ...mapDeveloperCreateCovecnostAuditVisualReference(
         params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.covecnostAuditVisualReference,
       ),
+      audioVisualKontrabasPackage: {
+        canonicalName: audioVisualKontrabasPackage.canonicalName,
+        readinessStatus: developerAndCreateAudioVisualStatus,
+        blockerReason: developerAndCreateAudioVisualBlockerReason,
+        reviewPosture: developerAndCreateAudioVisualReviewPosture,
+        downstreamReference: 'docs/MULTI-REPO-LINKS.md -> spaja86/IO-OPENUI-AO (summary-only)',
+        videoStoryboardSummary:
+          params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.covecnostAuditVisualReference.packageOutputs.videoStoryboardSummary,
+        summarySafeFields: [
+          'readinessStatus',
+          'blockerReason',
+          'reviewPosture',
+          'downstreamReference',
+          'videoStoryboardSummary',
+        ],
+      },
       kraljevskiBastaUneverzite: {
         canonicalNarrativeId:
           params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.kraljevskiBastaUneverzite.canonicalNarrativeId,
@@ -3226,6 +3263,7 @@ function buildSpajaKodFacade(params: {
       routeSummaryFields: [
         'publicSignals.developerAndCreateStatus',
         'publicSignals.developerAndCreateImplementationStatus',
+        'publicSignals.developerAndCreateAudioVisualStatus',
         'publicSignals.kraljevskiPravniUniverzitetStatus',
         'publicSignals.kraljevskiPravniAktStatus',
         'publicSignals.kraljevskiAktBezbednostiStatus',
@@ -3235,6 +3273,7 @@ function buildSpajaKodFacade(params: {
         'publicSignals.aiIdentityMonthlyPrimanjaStatus',
         'publicSignals.aiIdentityMinorProtectionStatus',
         'publicSignals.developerAndCreateUniversitySummary',
+        'developerAndCreateVisualReflection.audioVisualKontrabasPackage',
         'developerAndCreateVisualReflection.kraljevskiBastaUneverzite',
         'developerAndCreateVisualReflection.packageOutputs',
         'developerAndCreateImplementationPackage.aiIqWorldBankPrepiskaSummary',
@@ -3275,6 +3314,15 @@ function buildSpajaKodFacade(params: {
           'Kompanija SPAJA is exposed only as a summary-safe enterprise layer inside the Digitalna Industrija umbrella while Developer/Create remains the apex program/governance reflection.',
         noNewFinancialRuntimeFormulas: true,
         noOperationalExecutionEngine: true,
+      },
+      audioVisualKontrabasSummary: {
+        canonicalName: audioVisualKontrabasPackage.canonicalName,
+        readinessStatus: developerAndCreateAudioVisualStatus,
+        reviewPosture: developerAndCreateAudioVisualReviewPosture,
+        publicBoundary: 'audit-safe-summary-only',
+        downstreamReference: 'docs/MULTI-REPO-LINKS.md -> spaja86/IO-OPENUI-AO (summary-only)',
+        videoStoryboardSummary:
+          params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.covecnostAuditVisualReference.packageOutputs.videoStoryboardSummary,
       },
       aiIqWorldBankPrepiskaSummary: {
         canonicalName:
@@ -4753,10 +4801,44 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
           reviewRequiredBeforeWideRollout:
             extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.status !== 'READY',
         },
+        audioVisualKontrabasPackage: {
+          ...extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.audioVisualKontrabasPackage,
+          currentWawe,
+          eligibleNextWawe: eligibleNextWave,
+          promotionFreeze,
+          reviewRequiredBeforeWideRollout:
+            extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.audioVisualKontrabasPackage.readinessStatus !== 'READY',
+          blockerReason:
+            extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.audioVisualKontrabasPackage.readinessStatus === 'BLOCKED'
+              ? extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.blockerReasons[0]
+                ?? 'audio-visual-kontrabas-package-blocked'
+              : extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.audioVisualKontrabasPackage.readinessStatus === 'WATCH'
+                ? extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.watchReasons[0]
+                  ?? 'audio-visual-kontrabas-package-review-required'
+                : null,
+          reviewPosture:
+            promotionFreeze
+            || extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.audioVisualKontrabasPackage.readinessStatus === 'BLOCKED'
+              ? 'REVIEW_REQUIRED'
+              : extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.audioVisualKontrabasPackage.readinessStatus === 'WATCH'
+                ? 'WATCH'
+                : 'ALIGNED',
+          rolloutPlan:
+            'Advance the audio-vizuelni kontrabas package only through the existing EXTREM technical signal, EXTRONDOL WAWE governance mirror, and SPAJA KOD summary-safe boundary.',
+          rollbackPlan:
+            'Freeze promotion and fall back to the prior Developer/Create reflection package if audio-vizuelni readiness, review evidence, or downstream summary alignment drifts.',
+          acceptanceEvidence: [
+            'developerAndCreateRepoWideReflection.audioVisualKontrabasPackage',
+            'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.audioVisualKontrabasPackage',
+            'spajaKod.publicSignals.developerAndCreateAudioVisualStatus',
+            'spajaKod.developerAndCreateVisualReflection.audioVisualKontrabasPackage',
+          ],
+          downstreamReference: 'docs/MULTI-REPO-LINKS.md -> spaja86/IO-OPENUI-AO (summary-only)',
+        },
         roadmapExecution: {
           roadmapStageId: 'v5-extrondol-release-audit-and-orchestration',
           measurableOutput:
-            'EXTRONDOL consumes the repo-wide technical profile plus KRALJEVSKI DRUŠTVENI POREDAK governance, KRALJEVSKI AKT BEZBEDNOSTI bounded civil-readiness, AI identity-finance governance, primary/supplemental/companion audit visual metadata and OSNOVE / RISPEKT protocol evidence, then publishes only audit-safe WAWE/review/rollback governance',
+            'EXTRONDOL consumes the repo-wide technical profile plus KRALJEVSKI DRUŠTVENI POREDAK governance, KRALJEVSKI AKT BEZBEDNOSTI bounded civil-readiness, AI identity-finance governance, additive audio-vizuelni kontrabas package metadata, primary/supplemental/companion audit visual metadata and OSNOVE / RISPEKT protocol evidence, then publishes only audit-safe WAWE/review/rollback governance',
           acceptanceEvidence: DEVELOPER_CREATE_RELEASE_AUDIT_ACCEPTANCE_EVIDENCE,
           rolloutPlan:
             'Advance additively through terminology lock, EXTREM profile completion, EXTRONDOL governance mirror, SPAJA KOD summary publication, Kompanija SPAJA / Digitalna Industrija mapping, then drift-zero validation.',
@@ -6497,6 +6579,40 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
             reviewRequiredBeforeWideRollout:
               extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.status !== 'READY',
           },
+          audioVisualKontrabasPackage: {
+            ...extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.audioVisualKontrabasPackage,
+            currentWawe,
+            eligibleNextWawe: eligibleNextWave,
+            promotionFreeze,
+            reviewRequiredBeforeWideRollout:
+              extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.audioVisualKontrabasPackage.readinessStatus !== 'READY',
+            blockerReason:
+              extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.audioVisualKontrabasPackage.readinessStatus === 'BLOCKED'
+                ? extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.blockerReasons[0]
+                  ?? 'audio-visual-kontrabas-package-blocked'
+                : extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.audioVisualKontrabasPackage.readinessStatus === 'WATCH'
+                  ? extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.watchReasons[0]
+                    ?? 'audio-visual-kontrabas-package-review-required'
+                  : null,
+            reviewPosture:
+              promotionFreeze
+              || extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.audioVisualKontrabasPackage.readinessStatus === 'BLOCKED'
+                ? 'REVIEW_REQUIRED'
+                : extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.audioVisualKontrabasPackage.readinessStatus === 'WATCH'
+                  ? 'WATCH'
+                  : 'ALIGNED',
+            rolloutPlan:
+              'Advance the audio-vizuelni kontrabas package only through the existing EXTREM technical signal, EXTRONDOL WAWE governance mirror, and SPAJA KOD summary-safe boundary.',
+            rollbackPlan:
+              'Freeze promotion and fall back to the prior Developer/Create reflection package if audio-vizuelni readiness, review evidence, or downstream summary alignment drifts.',
+            acceptanceEvidence: [
+              'developerAndCreateRepoWideReflection.audioVisualKontrabasPackage',
+              'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.audioVisualKontrabasPackage',
+              'spajaKod.publicSignals.developerAndCreateAudioVisualStatus',
+              'spajaKod.developerAndCreateVisualReflection.audioVisualKontrabasPackage',
+            ],
+            downstreamReference: 'docs/MULTI-REPO-LINKS.md -> spaja86/IO-OPENUI-AO (summary-only)',
+          },
           repoWideReflection: extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.repoWideReflection,
           dailyOperationalCadence: {
             ...extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.dailyOperationalCadence,
@@ -6507,7 +6623,7 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
           roadmapExecution: {
             roadmapStageId: 'v5-extrondol-release-audit-and-orchestration',
             measurableOutput:
-              'EXTRONDOL consumes the repo-wide technical profile plus KRALJEVSKI DRUŠTVENI POREDAK governance, KRALJEVSKI AKT BEZBEDNOSTI bounded civil-readiness, AI identity-finance governance, KRALJEVSKI BAŠTA UNEVERZITE bounded narrative metadata, and primary/supplemental/companion audit visual metadata, then publishes only audit-safe WAWE/review/rollback governance',
+              'EXTRONDOL consumes the repo-wide technical profile plus KRALJEVSKI DRUŠTVENI POREDAK governance, KRALJEVSKI AKT BEZBEDNOSTI bounded civil-readiness, AI identity-finance governance, KRALJEVSKI BAŠTA UNEVERZITE bounded narrative metadata, additive audio-vizuelni kontrabas package metadata, and primary/supplemental/companion audit visual metadata, then publishes only audit-safe WAWE/review/rollback governance',
             acceptanceEvidence: DEVELOPER_CREATE_GOVERNANCE_ACCEPTANCE_EVIDENCE,
             downstreamSync: 'follow-up-only-until-io-openui-ao-adopts-audit-safe-summary',
           },
