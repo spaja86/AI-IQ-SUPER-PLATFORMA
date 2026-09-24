@@ -451,13 +451,21 @@ function buildKraljevskaPlataSummary(
   kraljevskaPlataPolicy: ExtrimliExtrondolReport['extremProfiler']['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['kraljevskiDrustveniPoredak']['kraljevskiAktBezbednosti']['kraljevskaPlataPolicy'],
   paymentVerification: ExtrimliExtrondolReport['paymentVerification'],
 ) {
+  const paymentVerificationPosture: 'VERIFIED' | 'WATCH' | 'BLOCKED' =
+    paymentVerification.status === 'VERIFIED'
+      ? 'VERIFIED'
+      : paymentVerification.status === 'BLOCKED'
+        ? 'BLOCKED'
+        : 'WATCH';
   const blockerReason =
     kraljevskaPlataPolicy.approvalStatus === 'BLOCKED'
       ? 'approval-status-blocked'
       : kraljevskaPlataPolicy.payoutReadinessStatus === 'BLOCKED'
         ? 'payout-readiness-blocked'
-        : paymentVerification.status === 'BLOCKED'
+        : paymentVerificationPosture === 'BLOCKED'
           ? paymentVerification.blockers[0] ?? 'payment-verification-required'
+          : paymentVerificationPosture === 'WATCH'
+            ? 'payment-verification-watch'
           : kraljevskaPlataPolicy.approvalStatus === 'WATCH'
             ? 'approval-status-watch'
             : kraljevskaPlataPolicy.payoutReadinessStatus === 'WATCH'
@@ -469,7 +477,7 @@ function buildKraljevskaPlataSummary(
     approvalStatus: kraljevskaPlataPolicy.approvalStatus,
     payoutReadinessStatus: kraljevskaPlataPolicy.payoutReadinessStatus,
     paymentVerificationRequired: kraljevskaPlataPolicy.paymentVerificationRequired,
-    paymentVerificationStatus: paymentVerification.status,
+    paymentVerificationStatus: paymentVerificationPosture,
     blockerReason,
     publicBoundary: 'audit-safe-summary-only' as const,
     publicSummary:
