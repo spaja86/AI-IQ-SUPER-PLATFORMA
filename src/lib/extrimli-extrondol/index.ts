@@ -3249,7 +3249,13 @@ function buildSpajaKodFacade(params: {
         justicePathConsistency: inspektoriTrack.justicePath.justicePathConsistency,
         blockerReason: inspektoriPrimaryBlockerReason,
         publicBoundary: 'audit-safe-summary-only',
-        forbiddenEvidence: [...inspektoriTrack.innerControlModel.forbiddenOperationalArtifacts],
+        forbiddenEvidence: [
+          'operational-security-procedure',
+          'sensitive-identity',
+          'sensitive-map',
+          'tactical-instruction',
+          'repressive-detail',
+        ] as const,
         publicSummary:
           'INSPEKTORI javno ostaju samo audit-safe summary traka: status, broj aktivnih oblasti, review posture, justice-path consistency i blocker reason bez sirovih istraga i bez operativnih detalja.',
       },
