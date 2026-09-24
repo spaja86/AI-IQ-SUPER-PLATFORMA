@@ -439,7 +439,9 @@ function mapInspektoriGovernance(
     sourceOfTruth: '/api/extrimli/extrondol' as const,
     technicalSignalSource: '/api/extrimli/extrem' as const,
     publicBoundary: '/api/extrimli/spaja-kod' as const,
-    reviewRequiredBeforeWideRollout: inspektori.readiness.status !== 'READY',
+    reviewRequiredBeforeWideRollout:
+      inspektori.justicePath.humanReviewRequired
+      || inspektori.readiness.status !== 'READY',
     complianceReviewRequired: true as const,
     downstreamSync: 'follow-up-only-until-io-openui-ao-adopts-audit-safe-summary' as const,
   };
