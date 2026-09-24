@@ -146,6 +146,8 @@ async function runTests(): Promise<void> {
     const implementationPackage = report.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.implementationPackage;
     const audioVisualKontrabasPackage =
       report.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.audioVisualKontrabasPackage;
+    const eksperimentProgramskiJezikTrack =
+      report.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.eksperimentProgramskiJezikTrack;
     const napoleonDiskaveriSelectionTrack =
       report.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.napoleonDiskaveriSelectionTrack;
     assert(implementationPackage.sourceOfTruthRoutes.join(',') === '/api/extrimli/extrem,/api/extrimli/extrondol,/api/extrimli/spaja-kod', 'developer/create implementation package source routes mismatch');
@@ -179,6 +181,14 @@ async function runTests(): Promise<void> {
     assert(['READY', 'WATCH', 'BLOCKED'].includes(implementationPackage.smartProgramskiJezikPackage.technicalProfile.status), 'developer/create smart language status mismatch');
     assert(implementationPackage.smartProgramskiJezikPackage.spajaKodSummaryContract.exposedFields.join(',') === 'readinessStatus,blockerReasons,watchReasons,reviewPosture,downstreamReference', 'developer/create smart language summary fields mismatch');
     assert(implementationPackage.smartProgramskiJezikPackage.governanceMirror.downstreamReference === 'spaja86/IO-OPENUI-AO', 'developer/create smart language downstream reference mismatch');
+    assert(implementationPackage.eksperimentProgramskiJezikBoundary.trackRole === 'bounded-film-audio-experiment-alias-track', 'developer/create implementation package Eksperiment Programski Jezik boundary role mismatch');
+    assert(implementationPackage.eksperimentProgramskiJezikBoundary.canonicalAlias === 'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == EKSPERIMENT PROGRAMSKI JEZIK (PRODUKCIJA FILMSKOG I AUDIO REPERTOARA)', 'developer/create implementation package Eksperiment Programski Jezik alias mismatch');
+    assert(implementationPackage.eksperimentProgramskiJezikBoundary.extremPublishes === 'readiness-blocker-watch-deterministic-fallback-signal-only', 'developer/create implementation package Eksperiment Programski Jezik EXTREM publish contract mismatch');
+    assert(implementationPackage.eksperimentProgramskiJezikBoundary.extrondolPublishes === 'wawe-freeze-promotion-review-rollback-audit-summary-only', 'developer/create implementation package Eksperiment Programski Jezik EXTRONDOL publish contract mismatch');
+    assert(implementationPackage.eksperimentProgramskiJezikBoundary.spajaKodPublishes === 'status-blocker-watch-review-and-downstream-reference-only', 'developer/create implementation package Eksperiment Programski Jezik SPAJA KOD publish contract mismatch');
+    assert(implementationPackage.eksperimentProgramskiJezikBoundary.noNewRuntimeRoutes, 'developer/create implementation package Eksperiment Programski Jezik must forbid new runtime routes');
+    assert(implementationPackage.eksperimentProgramskiJezikBoundary.noParallelSourceOfTruth, 'developer/create implementation package Eksperiment Programski Jezik must forbid parallel source-of-truth systems');
+    assert(implementationPackage.eksperimentProgramskiJezikBoundary.rawInternalsExposed === false, 'developer/create implementation package Eksperiment Programski Jezik must hide internals');
     assert(implementationPackage.napoleonDiskaveriSelectionBoundary.trackRole === 'bounded-discovery-selection-alias-track', 'developer/create implementation package Napoleon Diskaveri boundary role mismatch');
     assert(implementationPackage.napoleonDiskaveriSelectionBoundary.parentTrack === 'MAPE UMA', 'developer/create implementation package Napoleon Diskaveri parent track mismatch');
     assert(implementationPackage.napoleonDiskaveriSelectionBoundary.noNewRuntimeEngine, 'developer/create implementation package Napoleon Diskaveri boundary must forbid new runtime engines');
@@ -190,6 +200,12 @@ async function runTests(): Promise<void> {
     assert(audioVisualKontrabasPackage.mappedMediaTracks.voiceReproductionSupport === 'OBJEKTNO ORIJENTISANA REPRODUKCIJA', 'developer/create audio-visual package reproduction track mismatch');
     assert(audioVisualKontrabasPackage.audioSceneVocabulary.map((entry) => entry.token).join(',') === 'GUN,DEN,DIN,KON,SUR,DIR,DUR,DOG,DUK,DOP,KIDO,DUKAT,DJUKAS,DIKTON,GRAFON,SIRON,DJOKUZ,OTKUZ,DIPAS,CVIKROT,ZIPAN', 'developer/create audio-visual package token vocabulary mismatch');
     assert(audioVisualKontrabasPackage.auditReferencePackage.downstreamSyncMode === 'summary-only', 'developer/create audio-visual package downstream mode mismatch');
+    assert(eksperimentProgramskiJezikTrack.canonicalAlias === 'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == EKSPERIMENT PROGRAMSKI JEZIK (PRODUKCIJA FILMSKOG I AUDIO REPERTOARA)', 'developer/create Eksperiment Programski Jezik canonical alias mismatch');
+    assert(eksperimentProgramskiJezikTrack.ownershipLock.dokDikFor === 'EXTREM', 'developer/create Eksperiment Programski Jezik EXTREM ownership mismatch');
+    assert(eksperimentProgramskiJezikTrack.ownershipLock.dakDuk === 'EXTRONDOL', 'developer/create Eksperiment Programski Jezik EXTRONDOL ownership mismatch');
+    assert(eksperimentProgramskiJezikTrack.ownershipLock.spajaKod === 'audit-safe-summary-only', 'developer/create Eksperiment Programski Jezik SPAJA KOD ownership mismatch');
+    assert(['READY', 'WATCH', 'BLOCKED'].includes(eksperimentProgramskiJezikTrack.readinessSignal.status), 'developer/create Eksperiment Programski Jezik status mismatch');
+    assert(eksperimentProgramskiJezikTrack.summarySafePublicFields.join(',') === 'canonicalAlias,status,blockerReasons,watchReasons,humanReviewPosture,downstreamReference', 'developer/create Eksperiment Programski Jezik summary-safe fields mismatch');
     assert(napoleonDiskaveriSelectionTrack.canonicalAlias === 'SELEKCIONIRANJE U SELEKCIJAMA PREMA AKTIVNOM NADMAŠAJU / NAPOLEON DISKAVERI', 'developer/create Napoleon Diskaveri canonical alias mismatch');
     assert(napoleonDiskaveriSelectionTrack.discoverySelectionSignal.driver === 'dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.technicalReadinessProfile.consolidatedRhythmStatus', 'developer/create Napoleon Diskaveri driver mismatch');
     assert(['READY', 'WATCH', 'BLOCKED'].includes(napoleonDiskaveriSelectionTrack.discoverySelectionSignal.selectionStatus), 'developer/create Napoleon Diskaveri selection status mismatch');

@@ -6723,6 +6723,41 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
         humanReviewPosture: 'REVIEW_REQUIRED',
         downstreamReference: 'docs/MULTI-REPO-LINKS.md -> spaja86/IO-OPENUI-AO (summary-only)',
       },
+      eksperimentProgramskiJezikTrack: {
+        canonicalAlias:
+          'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == EKSPERIMENT PROGRAMSKI JEZIK (PRODUKCIJA FILMSKOG I AUDIO REPERTOARA)',
+        boundedVocabularyPhrase: 'EXTRIMLI EXTRONDOL EXTREM DOK DUK DAK DIK FOR',
+        additiveOnly: true,
+        noNewRuntimeEngine: true,
+        noNewRuntimeRoutes: true,
+        noParallelSourceOfTruth: true,
+        sourceOfTruthRoutes: ['/api/extrimli/extrem', '/api/extrimli/extrondol', '/api/extrimli/spaja-kod'],
+        ownershipLock: {
+          dokDikFor: 'EXTREM',
+          dakDuk: 'EXTRONDOL',
+          spajaKod: 'audit-safe-summary-only',
+        },
+        summarySafePublicFields: [
+          'canonicalAlias',
+          'status',
+          'blockerReasons',
+          'watchReasons',
+          'humanReviewPosture',
+          'downstreamReference',
+        ],
+        readinessSignal: {
+          status: 'BLOCKED',
+          readinessScore: 0,
+          deterministicFallbackRequired: true,
+          fallbackInputs: ['NaN', 'Infinity', 'empty', 'conflict'],
+          driver:
+            'developerAndCreateRepoWideReflection.audioVisualKontrabasPackage + developerAndCreateRepoWideReflection.implementationPackage.smartProgramskiJezikPackage',
+        },
+        blockerReasons: [],
+        watchReasons: [],
+        humanReviewPosture: 'REVIEW_REQUIRED',
+        downstreamReference: 'docs/MULTI-REPO-LINKS.md -> spaja86/IO-OPENUI-AO (summary-only)',
+      },
       mappedTracks: {
         vrhProgramskogEkviladenta: 'VRH PROGRAMSKOG EKVILADENTA',
         radniTaktMozgaMislilac: 'RADNI TAKT MOZGA (MISLILAC)',
@@ -10440,6 +10475,20 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
       noParallelSourceOfTruth: true,
       rawInternalsExposed: false,
     },
+    eksperimentProgramskiJezikBoundary: {
+      trackRole: 'bounded-film-audio-experiment-alias-track',
+      parentTrack: 'VRH PROGRAMSKOG EKVILADENTA',
+      canonicalAlias:
+        'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == EKSPERIMENT PROGRAMSKI JEZIK (PRODUKCIJA FILMSKOG I AUDIO REPERTOARA)',
+      extremPublishes: 'readiness-blocker-watch-deterministic-fallback-signal-only',
+      extrondolPublishes: 'wawe-freeze-promotion-review-rollback-audit-summary-only',
+      spajaKodPublishes: 'status-blocker-watch-review-and-downstream-reference-only',
+      technicalBinding: 'developerAndCreateRepoWideReflection.eksperimentProgramskiJezikTrack',
+      noNewRuntimeEngine: true,
+      noNewRuntimeRoutes: true,
+      noParallelSourceOfTruth: true,
+      rawInternalsExposed: false,
+    },
     canonicalTerminologyMapping: {
       phrase: 'EXTRIMLI EXTRONDOL EXTREM DOK DUK DAK DIK FOR',
       nucleusLayers: ['documentation', 'types', 'route-summary-fields', 'tests', 'workflow-audit-layer'],
@@ -10525,6 +10574,46 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
       : napoleonDiskaveriSelectionStatus === 'WATCH'
         ? 'WATCH'
         : 'REVIEW_REQUIRED';
+  const eksperimentProgramskiJezikSignalStatuses = [
+    dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.audioVisualKontrabasPackage.readinessStatus,
+    dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.implementationPackage.smartProgramskiJezikPackage.technicalProfile.status,
+  ];
+  const eksperimentProgramskiJezikStatus = eksperimentProgramskiJezikSignalStatuses.includes('BLOCKED')
+    ? 'BLOCKED'
+    : eksperimentProgramskiJezikSignalStatuses.includes('WATCH')
+      ? 'WATCH'
+      : 'READY';
+  const eksperimentProgramskiJezikReadinessScore = round(
+    (
+      dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.audioVisualKontrabasPackage.readinessScore
+      + dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.implementationPackage.smartProgramskiJezikPackage.readinessScore
+    ) / 2,
+    2,
+  );
+  dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.eksperimentProgramskiJezikTrack.readinessSignal.status =
+    eksperimentProgramskiJezikStatus;
+  dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.eksperimentProgramskiJezikTrack.readinessSignal.readinessScore =
+    eksperimentProgramskiJezikReadinessScore;
+  dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.eksperimentProgramskiJezikTrack.readinessSignal.deterministicFallbackRequired =
+    dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.deterministicFallbackRequired;
+  dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.eksperimentProgramskiJezikTrack.blockerReasons =
+    eksperimentProgramskiJezikStatus === 'BLOCKED'
+      ? [
+        'EKSPERIMENT PROGRAMSKI JEZIK ostaje BLOCKED dok audio-vizuelni i Smart Programski Jezik signali nisu usklađeni kroz isti EXTREM profil bez novih ruta.',
+      ]
+      : [];
+  dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.eksperimentProgramskiJezikTrack.watchReasons =
+    eksperimentProgramskiJezikStatus === 'WATCH'
+      ? [
+        'EKSPERIMENT PROGRAMSKI JEZIK ostaje u WATCH režimu dok produkcija filmskog i audio repertoara zahteva dodatni review u postojećem additive-only okviru.',
+      ]
+      : [];
+  dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.eksperimentProgramskiJezikTrack.humanReviewPosture =
+    eksperimentProgramskiJezikStatus === 'READY'
+      ? 'ALIGNED'
+      : eksperimentProgramskiJezikStatus === 'WATCH'
+        ? 'WATCH'
+        : 'REVIEW_REQUIRED';
   dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.fourTrackProgramPackage.technicalTrack.readinessStatus =
     dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.status;
   dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.fourTrackProgramPackage.governanceTrack.readinessStatus =
@@ -10551,6 +10640,7 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
     'Supplied MATIČNE ĆELIJE / SPOZNAVANJE SEBE image remains supplemental audit/reference evidence only and extends the same bounded reflection package as documentation/evidence without introducing any new runtime source of truth.',
     'Supplied ČOVEČANSTVO / OSEĆAJ OSEBENOSTI image remains companion-only audit evidence for samospoznaja, razumevanje mozga, osećaj, čovečnost, shared-world alignment i epilog guidance bez novog source-of-truth sloja.',
     'SMART PROGRAMSKI JEZIK ostaje additive-only paket pod zaključanim scope-om `DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA`: AI IQ PROGRAMSKI JEZIK ostaje DSL/orchestration/explainability okvir, a SPAJINO PROPORCIONALNO PROGRAMIRANJE UNIVERZITET ostaje tehnički dokaz sprega funkcionalnog i objektnog programiranja u istom EXTREM profilu.',
+    'EKSPERIMENT PROGRAMSKI JEZIK (PRODUKCIJA FILMSKOG I AUDIO REPERTOARA) ostaje additive-only alias unutar istog Developer/Create vršnog sloja: EXTREM drži DOK/DIK/FOR tehnički signal, EXTRONDOL drži DAK/DUK governance mirror, a SPAJA KOD objavljuje samo audit-safe summary.',
     'Supplied Mjuzikl kraljevskog čina image remains supplemental audit/reference evidence only and extends the same bounded reflection package through muzički čin, epilog, čovečanstvo i zajednički ritam themes without introducing any new runtime source of truth.',
     'Implementation package zaključava postojeće source-of-truth surface-ove, ownership split, ČOVEČANSTVU summary-only boundary, V2–V7 roadmap mapu i READY/WATCH/BLOCKED validation lock bez novih runtime ruta i bez paralelnog source-of-truth sistema.',
     'SELEKCIONIRANJE U SELEKCIJAMA PREMA AKTIVNOM NADMAŠAJU / NAPOLEON DISKAVERI ostaje bounded Developer/Create / VRH / MAPE UMA alias: EXTREM objavljuje samo readiness/discovery/selection signal, EXTRONDOL samo governance ogledalo, a SPAJA KOD samo summary-safe status, blocker/watch razloge i downstream reference.',

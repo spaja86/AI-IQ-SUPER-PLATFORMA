@@ -2593,6 +2593,39 @@ export interface ExtrimliDokDikDakDukConsistencyHealth {
       humanReviewPosture: 'ALIGNED' | 'WATCH' | 'REVIEW_REQUIRED';
       downstreamReference: 'docs/MULTI-REPO-LINKS.md -> spaja86/IO-OPENUI-AO (summary-only)';
     };
+    eksperimentProgramskiJezikTrack: {
+      canonicalAlias: 'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == EKSPERIMENT PROGRAMSKI JEZIK (PRODUKCIJA FILMSKOG I AUDIO REPERTOARA)';
+      boundedVocabularyPhrase: 'EXTRIMLI EXTRONDOL EXTREM DOK DUK DAK DIK FOR';
+      additiveOnly: true;
+      noNewRuntimeEngine: true;
+      noNewRuntimeRoutes: true;
+      noParallelSourceOfTruth: true;
+      sourceOfTruthRoutes: readonly ['/api/extrimli/extrem', '/api/extrimli/extrondol', '/api/extrimli/spaja-kod'];
+      ownershipLock: {
+        dokDikFor: 'EXTREM';
+        dakDuk: 'EXTRONDOL';
+        spajaKod: 'audit-safe-summary-only';
+      };
+      summarySafePublicFields: readonly [
+        'canonicalAlias',
+        'status',
+        'blockerReasons',
+        'watchReasons',
+        'humanReviewPosture',
+        'downstreamReference'
+      ];
+      readinessSignal: {
+        status: 'READY' | 'WATCH' | 'BLOCKED';
+        readinessScore: number;
+        deterministicFallbackRequired: boolean;
+        fallbackInputs: readonly ['NaN', 'Infinity', 'empty', 'conflict'];
+        driver: 'developerAndCreateRepoWideReflection.audioVisualKontrabasPackage + developerAndCreateRepoWideReflection.implementationPackage.smartProgramskiJezikPackage';
+      };
+      blockerReasons: string[];
+      watchReasons: string[];
+      humanReviewPosture: 'ALIGNED' | 'WATCH' | 'REVIEW_REQUIRED';
+      downstreamReference: 'docs/MULTI-REPO-LINKS.md -> spaja86/IO-OPENUI-AO (summary-only)';
+    };
     mappedTracks: {
       vrhProgramskogEkviladenta: 'VRH PROGRAMSKOG EKVILADENTA';
       radniTaktMozgaMislilac: 'RADNI TAKT MOZGA (MISLILAC)';
@@ -4043,6 +4076,19 @@ export interface ExtrimliDokDikDakDukConsistencyHealth {
         extrondolPublishes: 'review-freeze-promotion-audit-summary-only';
         spajaKodPublishes: 'status-blocker-watch-review-and-downstream-reference-only';
         technicalBinding: 'developerAndCreateRepoWideReflection.napoleonDiskaveriSelectionTrack';
+        noNewRuntimeEngine: true;
+        noNewRuntimeRoutes: true;
+        noParallelSourceOfTruth: true;
+        rawInternalsExposed: false;
+      };
+      eksperimentProgramskiJezikBoundary: {
+        trackRole: 'bounded-film-audio-experiment-alias-track';
+        parentTrack: 'VRH PROGRAMSKOG EKVILADENTA';
+        canonicalAlias: 'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == EKSPERIMENT PROGRAMSKI JEZIK (PRODUKCIJA FILMSKOG I AUDIO REPERTOARA)';
+        extremPublishes: 'readiness-blocker-watch-deterministic-fallback-signal-only';
+        extrondolPublishes: 'wawe-freeze-promotion-review-rollback-audit-summary-only';
+        spajaKodPublishes: 'status-blocker-watch-review-and-downstream-reference-only';
+        technicalBinding: 'developerAndCreateRepoWideReflection.eksperimentProgramskiJezikTrack';
         noNewRuntimeEngine: true;
         noNewRuntimeRoutes: true;
         noParallelSourceOfTruth: true;

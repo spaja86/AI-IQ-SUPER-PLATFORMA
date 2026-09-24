@@ -219,10 +219,12 @@ const DEVELOPER_CREATE_ROADMAP_ACCEPTANCE_EVIDENCE_BASE = [
   'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.osnoveRispektProtocol',
   'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.aiPlateGovernance',
   'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.napoleonDiskaveriSelectionTrack',
+  'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.eksperimentProgramskiJezikTrack',
   'spajaKod.publicSignals.developerAndCreateStatus',
   'spajaKod.publicSignals.developerAndCreateAudioVisualStatus',
   'spajaKod.publicSignals.developerAndCreateImplementationStatus',
   'spajaKod.publicSignals.napoleonDiskaveriStatus',
+  'spajaKod.publicSignals.eksperimentProgramskiJezikStatus',
   'spajaKod.publicSignals.aiPlateStatus',
 ] as const;
 
@@ -242,10 +244,12 @@ const DEVELOPER_CREATE_GOVERNANCE_ACCEPTANCE_EVIDENCE: ExtrimliExtrondolReport['
   'developerAndCreateRepoWideReflection.covecnostAuditVisualReference.companionAuditVisualReferences',
   'developerAndCreateRepoWideReflection.aiPlateGovernance',
   'developerAndCreateRepoWideReflection.napoleonDiskaveriSelectionTrack',
+  'developerAndCreateRepoWideReflection.eksperimentProgramskiJezikTrack',
   'spajaKod.publicSignals.developerAndCreateStatus',
   'spajaKod.publicSignals.developerAndCreateAudioVisualStatus',
   'spajaKod.publicSignals.developerAndCreateImplementationStatus',
   'spajaKod.publicSignals.napoleonDiskaveriStatus',
+  'spajaKod.publicSignals.eksperimentProgramskiJezikStatus',
   'spajaKod.publicSignals.aiPlateStatus',
 ];
 const AUDIO_VISUAL_KONTRABAS_ACCEPTANCE_EVIDENCE = [
@@ -3114,6 +3118,7 @@ function buildSpajaKodFacade(params: {
   spajinoProporcionalnoProgramiranjeUniverzitetStatus: ExtrimliExtrondolReport['extremProfiler']['spajinoProporcionalnoProgramiranjeUniverzitet']['readiness']['status'];
   vrhProgramskogEkviladentaStatus: ExtrimliExtrondolReport['extremProfiler']['vrhProgramskogEkviladenta']['readiness']['status'];
   developerAndCreateStatus: ExtrimliExtrondolReport['extremProfiler']['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['readiness']['status'];
+  eksperimentProgramskiJezikStatus: ExtrimliExtrondolReport['extremProfiler']['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['eksperimentProgramskiJezikTrack']['readinessSignal']['status'];
   aiPlateStatus: ExtrimliExtrondolReport['extremProfiler']['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['aiPlateOffer']['boundedReadinessProfile']['consolidatedStatus'];
   aiPlateEnterprisePackageStatus: ExtrimliExtrondolReport['releaseAuditSummary']['aiPlateEnterprisePackageGovernance']['status'];
 }): ExtrimliSpajaKodPublicFacade {
@@ -3231,6 +3236,7 @@ function buildSpajaKodFacade(params: {
       vrhProgramskogEkviladentaStatus: params.vrhProgramskogEkviladentaStatus,
       smartProgramskiJezikStatus:
         developerAndCreateImplementationPackage.smartProgramskiJezikPackage.technicalProfile.status,
+      eksperimentProgramskiJezikStatus: params.eksperimentProgramskiJezikStatus,
       developerAndCreateStatus: params.developerAndCreateStatus,
       developerAndCreateImplementationStatus,
       developerAndCreateAudioVisualStatus,
@@ -3321,6 +3327,7 @@ function buildSpajaKodFacade(params: {
         'publicSignals.developerAndCreateImplementationStatus',
         'publicSignals.developerAndCreateAudioVisualStatus',
         'publicSignals.smartProgramskiJezikStatus',
+        'publicSignals.eksperimentProgramskiJezikStatus',
         'publicSignals.napoleonDiskaveriStatus',
         'publicSignals.kraljevskiPravniUniverzitetStatus',
         'publicSignals.kraljevskiPravniAktStatus',
@@ -3338,6 +3345,7 @@ function buildSpajaKodFacade(params: {
         'developerAndCreateImplementationPackage.kraljevskiDrustveniPoredakSummary',
         'developerAndCreateImplementationPackage.kraljevskiAktBezbednostiSummary',
         'developerAndCreateImplementationPackage.smartProgramskiJezikSummary',
+        'developerAndCreateImplementationPackage.eksperimentProgramskiJezikSummary',
         'developerAndCreateImplementationPackage.napoleonDiskaveriSummary',
         'epilogijaCovecnosti.packageOutputs',
       ],
@@ -3394,6 +3402,23 @@ function buildSpajaKodFacade(params: {
         ],
         reviewPosture: developerAndCreateImplementationPackage.smartProgramskiJezikPackage.reviewPosture,
         downstreamReference: developerAndCreateImplementationPackage.smartProgramskiJezikPackage.downstreamReference,
+        publicBoundary: 'audit-safe-summary-only',
+      },
+      eksperimentProgramskiJezikSummary: {
+        canonicalAlias:
+          params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.eksperimentProgramskiJezikTrack.canonicalAlias,
+        status:
+          params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.eksperimentProgramskiJezikTrack.readinessSignal.status,
+        blockerReasons: [
+          ...params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.eksperimentProgramskiJezikTrack.blockerReasons,
+        ],
+        watchReasons: [
+          ...params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.eksperimentProgramskiJezikTrack.watchReasons,
+        ],
+        reviewPosture:
+          params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.eksperimentProgramskiJezikTrack.humanReviewPosture,
+        downstreamReference:
+          params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.eksperimentProgramskiJezikTrack.downstreamReference,
         publicBoundary: 'audit-safe-summary-only',
       },
       napoleonDiskaveriSummary: {
@@ -5779,6 +5804,8 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
     spajinoProporcionalnoProgramiranjeUniverzitetStatus: extremProfiler.spajinoProporcionalnoProgramiranjeUniverzitet.readiness.status,
     vrhProgramskogEkviladentaStatus: extremProfiler.vrhProgramskogEkviladenta.readiness.status,
     developerAndCreateStatus: extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.status,
+    eksperimentProgramskiJezikStatus:
+      extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.eksperimentProgramskiJezikTrack.readinessSignal.status,
     aiPlateStatus: extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.aiPlateOffer.boundedReadinessProfile.consolidatedStatus,
     aiPlateEnterprisePackageStatus,
   });
@@ -7554,6 +7581,31 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
           'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.napoleonDiskaveriSelectionTrack',
           'spajaKod.publicSignals.napoleonDiskaveriStatus',
           'spajaKod.developerAndCreateImplementationPackage.napoleonDiskaveriSummary',
+        ],
+        downstreamReference: 'docs/MULTI-REPO-LINKS.md -> spaja86/IO-OPENUI-AO (summary-only)',
+      },
+      eksperimentProgramskiJezikTrack: {
+        ...extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.eksperimentProgramskiJezikTrack,
+        sourceOfTruth: '/api/extrimli/extrem',
+        governanceSource: '/api/extrimli/extrondol',
+        publicBoundary: '/api/extrimli/spaja-kod',
+        currentWawe,
+        eligibleNextWawe: eligibleNextWave,
+        promotionFreeze,
+        reviewRequiredBeforeWideRollout:
+          extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.eksperimentProgramskiJezikTrack.readinessSignal.status !== 'READY',
+        reviewPosture:
+          extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.eksperimentProgramskiJezikTrack.humanReviewPosture,
+        rolloutPlan:
+          'Advance EKSPERIMENT PROGRAMSKI JEZIK (PRODUKCIJA FILMSKOG I AUDIO REPERTOARA) only through the existing EXTREM technical signal, EXTRONDOL governance mirror, and SPAJA KOD summary-safe boundary.',
+        rollbackPlan:
+          'Freeze promotion and fall back to the previously verified Developer/Create summary package if eksperiment track readiness, blocker evidence, or downstream alignment drifts.',
+        humanReviewStatus: 'required-before-promotion',
+        acceptanceEvidence: [
+          'developerAndCreateRepoWideReflection.eksperimentProgramskiJezikTrack',
+          'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.eksperimentProgramskiJezikTrack',
+          'spajaKod.publicSignals.eksperimentProgramskiJezikStatus',
+          'spajaKod.developerAndCreateImplementationPackage.eksperimentProgramskiJezikSummary',
         ],
         downstreamReference: 'docs/MULTI-REPO-LINKS.md -> spaja86/IO-OPENUI-AO (summary-only)',
       },
