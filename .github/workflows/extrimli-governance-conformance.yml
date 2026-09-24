@@ -131,6 +131,12 @@ jobs:
           assert(developerCreateProgramDoc.includes('PROGRAM_LOCK_LANGUAGE_LAYER') && developerCreateProgramDoc.includes('srpski je primarni kanonski logički izraz'), 'Developer/Create program doc must lock Serbian-first language layer');
           assert(developerCreateProgramDoc.includes('DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == RADNI TAKT MOZGA (MISLILAC)'), 'Developer/Create program doc must lock repo-wide equality mapping');
           assert(
+            developerCreateProgramDoc.includes('MATEMATIČKI FAKULTET')
+              && vrhDoc.includes('MATEMATIČKI FAKULTET')
+              && extrimliDoc.includes('MATEMATIČKI FAKULTET'),
+            'Developer/Create, VRH, and EXTRIMLI docs must keep MATEMATIČKI FAKULTET lock aligned'
+          );
+          assert(
             developerCreateProgramDoc.includes('PRIVREDNI AKT')
               && developerCreateProgramDoc.includes('ZADRUGA')
               && developerCreateProgramDoc.includes('INSTRUMENT TABLA')
@@ -180,6 +186,8 @@ jobs:
           assert(extrimliDoc.includes('6ab2f88d-23b0-83eb-b708-b880bdb7fc11') && extrimliDoc.includes('srpski je primarni kanonski izraz domena'), 'EXTRIMLI doc must lock documentation-only ChatGPT share reference and Serbian-primary language layer');
           assert(extrimliDoc.includes('technicalReadinessProfile') && extrimliDoc.includes('v5-extrondol-release-audit-and-orchestration'), 'EXTRIMLI doc must include the technical readiness profile and active execution stage');
           assert(extrimliDoc.includes('AI IQ WORLD BANK PREPISKA') && extrimliDoc.includes('documentation-only governance evidence'), 'EXTRIMLI doc must lock AI IQ WORLD BANK prepiska boundary');
+          assert(extrimliDoc.includes('releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance'), 'EXTRIMLI doc must lock EXTRONDOL releaseAuditSummary governance channel for Developer/Create');
+          assert(types.includes('matematickiFakultetStatus') && extrondolIndex.includes('matematickiFakultetStatus'), 'types and EXTRONDOL index must include MATEMATIČKI FAKULTET additive status field');
           assert(versionRoadmap.includes('mandatoryArtifacts') && versionRoadmap.includes('implementationStreams') && versionRoadmap.includes('acceptanceLock'), 'roadmap lock must include mandatory artifacts, streams, and acceptance lock');
           assert(versionRoadmap.includes('prExecutionLock') && versionRoadmap.includes('operationalAuditPackage'), 'roadmap lock must include PR execution and operational audit package requirements');
           assert(versionRoadmap.includes('dailyOperationalCadence') && versionRoadmap.includes('morning-startup') && versionRoadmap.includes('deep-focus-block') && versionRoadmap.includes('midday-checkpoint') && versionRoadmap.includes('end-of-day-closeout'), 'roadmap lock must include daily operational cadence blocks');

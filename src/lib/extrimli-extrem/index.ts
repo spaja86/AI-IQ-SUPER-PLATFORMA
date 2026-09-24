@@ -6633,6 +6633,7 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
         vinogradarstvo: 'VINOGRADARSTVO',
         poljoprivredniFakultet: 'POLJOPRIVREDNI FAKULTET',
         gradjevinskiFakultet: 'GRAĐEVINSKI FAKULTET',
+        matematickiFakultet: 'MATEMATIČKI FAKULTET',
         pedagoskiFakultet: 'PEDAGOŠKI FAKULTET',
         psiholoskiFakultet: 'PSIHOLOŠKI FAKULTET',
         gradjevinskiAkt: 'GRAĐEVINSKI AKT',
@@ -8338,6 +8339,14 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
     ) / 3,
     2,
   );
+  const matematickiFakultetReadinessScore = round(
+    (
+      vrhProgramskogEkviladenta.technicalSignals.exponentialProgressionScore
+      + vrhProgramskogEkviladenta.technicalSignals.proportionalExploitationReadinessScore
+      + vrhProgramskogEkviladenta.technicalSignals.sequentialOctavalReproductionScore
+    ) / 3,
+    2,
+  );
   const pedagoskiFakultetReadinessScore = round(
     (
       radniTaktMozgaMislilac.readiness.score
@@ -8386,6 +8395,7 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
     paradijogonalnoProgrimiranje.readiness.score,
     poljoprivredniFakultetReadinessScore,
     gradjevinskiFakultetReadinessScore,
+    matematickiFakultetReadinessScore,
     pedagoskiFakultetReadinessScore,
     psiholoskiFakultetReadinessScore,
   ];
@@ -8686,6 +8696,15 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
           derivedStatus: resolveDeveloperCreateAreaStatus(gradjevinskiFakultetReadinessScore),
         },
         {
+          areaId: 'matematicki-fakultet',
+          areaLabel: 'MATEMATIČKI FAKULTET',
+          weightPercent: 10,
+          minimumPassPercent: 60,
+          certificationThresholdPercent: 80,
+          payoutThresholdPercent: 80,
+          derivedStatus: resolveDeveloperCreateAreaStatus(matematickiFakultetReadinessScore),
+        },
+        {
           areaId: 'pedagoski-fakultet',
           areaLabel: 'PEDAGOŠKI FAKULTET',
           weightPercent: 10,
@@ -8835,6 +8854,42 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
         summary:
           'GRAĐEVINSKI FAKULTET ostaje additive-only oblast za projektovanje, infrastrukturu i operativnu spremnost gazdinstva, bez novih ruta i bez paralelnog source-of-truth sistema.',
       },
+      matematickiFakultet: {
+        canonicalName: 'MATEMATIČKI FAKULTET',
+        additiveOnly: true,
+        facultyRole: 'bounded-mathematical-modeling-track-under-kraljevski-matematicki-univerzitet',
+        sourceOfTruthRoutes: ['/api/extrimli/extrem', '/api/extrimli/extrondol', '/api/extrimli/spaja-kod'],
+        technicalReadinessBinding: {
+          sourceProfile: 'dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.technicalReadinessProfile',
+          sourceTrack: 'vrhProgramskogEkviladenta',
+          parentInterpretativeTrack: 'KRALJEVSKI MATEMATIČKI UNIVERZITET',
+          contributingSignals: ['vrhProgramskogEkviladenta', 'metrikoProgramiranje', 'sinemetrickoProgramiranje'],
+          boundedInterpretation: 'eksponencijalno-proporcionalno-sekvencijalno-modelovanje-over-existing-readiness-signals-only',
+        },
+        governanceBinding: {
+          linkedProgrammaticDomains: ['VRH PROGRAMSKOG EKVILADENTA', 'METRIČKO PROGRAMIRANJE', 'SINEMETRIČKO PROGRAMIRANJE'],
+          technicalOwnership: 'DOK+DIK+FOR->EXTREM',
+          governanceOwnership: 'DAK+DUK->EXTRONDOL',
+          publicBoundary: 'SPAJA KOD',
+          certificationSurface: 'audit-safe-mathematical-modeling-summary-only',
+        },
+        deterministicFallbackPolicy: {
+          statusModel: ['READY', 'WATCH', 'BLOCKED'],
+          fallbackInputs: ['NaN', 'Infinity', 'empty', 'conflict'],
+          noNewRuntimeFormulas: true,
+        },
+        readiness: {
+          status: resolveDeveloperCreateExtensionStatus(matematickiFakultetReadinessScore),
+          score: matematickiFakultetReadinessScore,
+          deterministicFallbackRequired:
+            dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.deterministicFallbackRequired,
+        },
+        noNewRuntimeModule: true,
+        noNewSourceOfTruthModule: true,
+        noNewRuntimeFormulas: true,
+        summary:
+          'MATEMATIČKI FAKULTET ostaje additive-only bounded interpretativna traka pod KRALJEVSKI MATEMATIČKI UNIVERZITET okvirom za eksponencijalno/proporcionalno/sekvencijalno modelovanje nad postojećim readiness signalima, bez novih ruta i bez paralelnog source-of-truth sistema.',
+      },
       pedagoskiFakultet: {
         canonicalName: 'PEDAGOŠKI FAKULTET',
         additiveOnly: true,
@@ -8912,7 +8967,7 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
         dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.deterministicFallbackRequired,
     },
     summary:
-      'KRALJEVSKI PROGRAMSKI UNEVERZITET ostaje additive-only vršni programski alias nad postojećim VRH, METRIČKO, SINEMETRIČKO, PARADIJOGONALNO i RADNI TAKT signalima, uz POLJOPRIVREDNI FAKULTET, GRAĐEVINSKI FAKULTET, PEDAGOŠKI FAKULTET i PSIHOLOŠKI FAKULTET kao bounded obrazovno-sertifikacione oblasti bez novih formula, novih ruta ili novog source-of-truth sistema.',
+      'KRALJEVSKI PROGRAMSKI UNEVERZITET ostaje additive-only vršni programski alias nad postojećim VRH, METRIČKO, SINEMETRIČKO, PARADIJOGONALNO i RADNI TAKT signalima, uz POLJOPRIVREDNI FAKULTET, GRAĐEVINSKI FAKULTET, MATEMATIČKI FAKULTET, PEDAGOŠKI FAKULTET i PSIHOLOŠKI FAKULTET kao bounded obrazovno-sertifikacione oblasti bez novih formula, novih ruta ili novog source-of-truth sistema.',
   };
   dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.kraljevskiDrustveniPoredak = {
     canonicalName: 'KRALJEVSKI DRUŠTVENI POREDAK',
@@ -9296,7 +9351,7 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
       extremPublishes: 'derived-technical-readiness-profile-only',
       extrondolPublishes: 'audit-freeze-promotion-review-summary-only',
       spajaKodPublishes: 'final-audit-safe-status-only',
-      boundedFacultyDomains: ['POLJOPRIVREDNI FAKULTET', 'GRAĐEVINSKI FAKULTET'],
+      boundedFacultyDomains: ['POLJOPRIVREDNI FAKULTET', 'GRAĐEVINSKI FAKULTET', 'MATEMATIČKI FAKULTET'],
       noNewRuntimeModule: true,
       noParallelSourceOfTruth: true,
       rawInternalsExposed: false,

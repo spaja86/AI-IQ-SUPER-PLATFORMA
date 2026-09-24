@@ -2882,6 +2882,8 @@ function buildDeveloperCreateUniversityGovernanceProfile(params: {
       params.reflection.kraljevskiProgramskiUneverzitet.boundedFacultyDomains.poljoprivredniFakultet.readiness.status,
     gradjevinskiFakultetStatus:
       params.reflection.kraljevskiProgramskiUneverzitet.boundedFacultyDomains.gradjevinskiFakultet.readiness.status,
+    matematickiFakultetStatus:
+      params.reflection.kraljevskiProgramskiUneverzitet.boundedFacultyDomains.matematickiFakultet.readiness.status,
     pedagoskiFakultetStatus:
       params.reflection.kraljevskiProgramskiUneverzitet.boundedFacultyDomains.pedagoskiFakultet.readiness.status,
     psiholoskiFakultetStatus:
