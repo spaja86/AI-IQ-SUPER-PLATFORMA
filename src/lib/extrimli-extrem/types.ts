@@ -1653,7 +1653,6 @@ export interface ExtrimliExtremSpajinoProporcionalnoProgramiranjeUniverzitetSign
     score: number;
     status: ExtrimliExtremSpajinoProporcionalnoProgramiranjeUniverzitetStatus;
     readyForWaweProgression: boolean;
-    deterministicFallbackRequired: boolean;
     degraded: boolean;
     watchReasons: string[];
     blockerReasons: string[];

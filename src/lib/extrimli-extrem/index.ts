@@ -3403,7 +3403,6 @@ function buildFunkcinalnoProgramiranjeEnergetskogMisaonogTokaSignal(
       score,
       status,
       readyForWaweProgression: status === 'READY',
-      deterministicFallbackRequired: degraded || status !== 'READY',
       degraded,
       watchReasons: resolvedWatchReasons,
       blockerReasons: resolvedBlockerReasons,
@@ -10187,10 +10186,10 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
       ? 'WATCH'
       : 'READY';
   const smartProgramskiJezikDeterministicFallbackRequired =
-    programskiJezikInformacionihTokova.readiness.deterministicFallbackRequired
-    || programskiJezikParadigmaOblikovanjeTela.readiness.deterministicFallbackRequired
-    || programskiJezikDekoracijeObjektnihPrimesa.readiness.deterministicFallbackRequired
-    || spajinoProporcionalnoProgramiranjeUniverzitet.readiness.deterministicFallbackRequired;
+    programskiJezikInformacionihTokova.readiness.status !== 'READY'
+    || programskiJezikParadigmaOblikovanjeTela.readiness.status !== 'READY'
+    || programskiJezikDekoracijeObjektnihPrimesa.readiness.status !== 'READY'
+    || spajinoProporcionalnoProgramiranjeUniverzitet.readiness.status !== 'READY';
   const smartProgramskiJezikConflictPressurePercent = round(
     clamp(
       (
