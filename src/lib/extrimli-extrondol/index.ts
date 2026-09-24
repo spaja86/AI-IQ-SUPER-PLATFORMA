@@ -3210,6 +3210,8 @@ function buildSpajaKodFacade(params: {
         developerAndCreateImplementationPackage.sourceOfTruthRoutes,
       ownershipModel:
         developerAndCreateImplementationPackage.canonicalOwnershipSplit,
+      canonicalScopeLock:
+        params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.canonicalScopeLock,
       routeSummaryFields: [
         'publicSignals.developerAndCreateStatus',
         'publicSignals.developerAndCreateImplementationStatus',
@@ -3233,6 +3235,36 @@ function buildSpajaKodFacade(params: {
       validationStatus: developerAndCreateImplementationStatus,
       covecanstvuPublicOutput: 'summary-only',
       downstreamSyncRepo: 'spaja86/IO-OPENUI-AO',
+      fourTrackSummary: {
+        technical: {
+          owner: 'EXTREM',
+          status:
+            params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.technicalReadinessProfile.consolidatedRhythmStatus,
+        },
+        governance: {
+          owner: 'EXTRONDOL',
+          status: developerAndCreateImplementationStatus,
+        },
+        publicBoundary: {
+          owner: 'SPAJA KOD',
+          status: developerAndCreateImplementationStatus,
+          summaryOnly: true,
+        },
+        business: {
+          canonicalName: 'Kompanija SPAJA / Digitalna Industrija',
+          status: developerAndCreateImplementationStatus,
+          summaryOnly: true,
+        },
+      },
+      kompanijaSpajaDigitalnaIndustrijaSummary: {
+        canonicalName: 'Kompanija SPAJA / Digitalna Industrija',
+        umbrellaModel: 'DIGITALNA INDUSTRIJA',
+        interpretation: 'bounded-enterprise-interpretation',
+        publicSummary:
+          'Kompanija SPAJA is exposed only as a summary-safe enterprise layer inside the Digitalna Industrija umbrella while Developer/Create remains the apex program/governance reflection.',
+        noNewFinancialRuntimeFormulas: true,
+        noOperationalExecutionEngine: true,
+      },
       aiIqWorldBankPrepiskaSummary: {
         canonicalName:
           aiIdentityFinanceGovernance.aiIqWorldBankPrepiska.canonicalName,
@@ -4715,6 +4747,12 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
           measurableOutput:
             'EXTRONDOL consumes the repo-wide technical profile plus KRALJEVSKI DRUŠTVENI POREDAK governance, KRALJEVSKI AKT BEZBEDNOSTI bounded civil-readiness, AI identity-finance governance, primary/supplemental/companion audit visual metadata and OSNOVE / RISPEKT protocol evidence, then publishes only audit-safe WAWE/review/rollback governance',
           acceptanceEvidence: DEVELOPER_CREATE_RELEASE_AUDIT_ACCEPTANCE_EVIDENCE,
+          rolloutPlan:
+            'Advance additively through terminology lock, EXTREM profile completion, EXTRONDOL governance mirror, SPAJA KOD summary publication, Kompanija SPAJA / Digitalna Industrija mapping, then drift-zero validation.',
+          rollbackPlan:
+            'Freeze promotion, revert Developer/Create governance mirrors to the previous additive contract, and require docs/types/routes/tests/workflows re-alignment before resuming WAWE advancement.',
+          humanReviewStatus: 'required-before-promotion',
+          downstreamReference: 'docs/MULTI-REPO-LINKS.md -> spaja86/IO-OPENUI-AO (summary-only)',
           downstreamSync: 'follow-up-only-until-io-openui-ao-adopts-audit-safe-summary',
         },
         covecnostAuditVisualGovernance: {
@@ -5762,6 +5800,7 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
     },
     developerAndCreateRepoWideReflection: {
       canonicalName: 'DEVELOPER AND CREATE',
+      canonicalScopeLock: extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.canonicalScopeLock,
       equalityLock: 'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == RADNI TAKT MOZGA (MISLILAC)',
       canonicalMapeUmaScopeLock: DEVELOPER_CREATE_VRH_MAPE_UMA_SCOPE_LOCK,
       scope: 'repo-wide-rhythm-readiness-guidance',
@@ -5779,8 +5818,12 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
         extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.canonicalGovernanceVocabulary,
       readinessModel: ['READY', 'WATCH', 'BLOCKED'],
       driftZeroLayers: ['docs', 'types', 'routes', 'tests', 'workflows'],
+      priorityExecutionOrder:
+        extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.priorityExecutionOrder,
       roadmapStageMapping: extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.roadmapStageMapping,
       technicalReadinessProfile: extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.technicalReadinessProfile,
+      fourTrackProgramPackage:
+        extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.fourTrackProgramPackage,
       universityLifecycle:
         extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.universityLifecycle,
       universityRolloutPhases:
@@ -7148,6 +7191,7 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
     radniTaktMozgaMislilac,
     developerAndCreateRepoWideReflection: {
       term: 'DEVELOPER AND CREATE',
+      canonicalScopeLock: extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.canonicalScopeLock,
       equalityLock: 'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == RADNI TAKT MOZGA (MISLILAC)',
       canonicalMapeUmaScopeLock: DEVELOPER_CREATE_VRH_MAPE_UMA_SCOPE_LOCK,
       sourceOfTruth: '/api/extrimli/extrondol',
@@ -7170,6 +7214,10 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
         extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.globalPageExplanationContract,
       mappedTracks: extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.mappedTracks,
       technicalReadinessProfile: extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.technicalReadinessProfile,
+      priorityExecutionOrder:
+        extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.priorityExecutionOrder,
+      fourTrackProgramPackage:
+        extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.fourTrackProgramPackage,
       universityLifecycle: {
         ...extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.universityLifecycle,
         reviewRequiredBeforePayout: true,
@@ -7328,6 +7376,12 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
         measurableOutput:
           'EXTRONDOL consumes the repo-wide technical profile plus KRALJEVSKI DRUŠTVENI POREDAK governance, AI identity-finance governance, KRALJEVSKI BAŠTA UNEVERZITE bounded narrative metadata, and primary/supplemental/companion audit visual metadata, then publishes only audit-safe WAWE/review/rollback governance',
         acceptanceEvidence: DEVELOPER_CREATE_GOVERNANCE_ACCEPTANCE_EVIDENCE,
+        rolloutPlan:
+          'Promote only after additive terminology lock, EXTREM profile alignment, EXTRONDOL release-audit mirror, SPAJA KOD summary boundary, enterprise mapping, and drift-zero validation all stay aligned.',
+        rollbackPlan:
+          'Freeze WAWE progression, drop the additive governance overlay back to the previously verified summary contract, and re-run drift-zero checks before any renewed promotion.',
+        humanReviewStatus: 'required-before-promotion',
+        downstreamReference: 'docs/MULTI-REPO-LINKS.md -> spaja86/IO-OPENUI-AO (summary-only)',
         downstreamSync: 'follow-up-only-until-io-openui-ao-adopts-audit-safe-summary',
       },
       waweImpact: {

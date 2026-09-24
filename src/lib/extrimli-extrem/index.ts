@@ -6635,6 +6635,7 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
     },
     developerAndCreateRepoWideReflection: {
       canonicalName: 'DEVELOPER AND CREATE',
+      canonicalScopeLock: 'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA',
       equalityLock: 'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == RADNI TAKT MOZGA (MISLILAC)',
       canonicalMapeUmaScopeLock: DEVELOPER_CREATE_VRH_MAPE_UMA_SCOPE_LOCK,
       scope: 'repo-wide-rhythm-readiness-guidance',
@@ -6666,6 +6667,7 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
         unutrasnjaKontrolaGradjanstvaUInformacionomStavu: 'UNUTRAŠNJA KONTROLA GRAĐANSTVA U INFORMACIONOM STAVU',
         puteviIstinskePravde: 'PUTEVI ISTINSKE PRAVDE',
         kraljevskiBastaUneverzite: 'KRALJEVSKI BAŠTA UNEVERZITE',
+        kompanijaSpajaDigitalnaIndustrija: 'Kompanija SPAJA / Digitalna Industrija',
       },
       canonicalGovernanceVocabulary: {
         extremExtrimliExtrondol: 'EXTRIMLI EXTRONDOL EXTREM',
@@ -6696,6 +6698,8 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
         prosecnoGradjanskiDohodak: 'PROSEČNO GRAĐANSKI DOHODAK',
         nezbrinuti: 'NEZBRINUTI',
         nezaposleni: 'NEZAPOSLENI',
+        kompanijaSpaja: 'KOMPANIJA SPAJA',
+        digitalnaIndustrija: 'DIGITALNA INDUSTRIJA',
       },
       osnoveRispektProtocol: {
         title: 'OSNOVE / RISPEKT',
@@ -6727,12 +6731,60 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
       },
       readinessModel: ['READY', 'WATCH', 'BLOCKED'],
       driftZeroLayers: ['docs', 'types', 'routes', 'tests', 'workflows'],
+      priorityExecutionOrder: [
+        'terminology-and-scope-lock',
+        'extrem-technical-readiness-profile',
+        'extrondol-release-audit-and-governance-mirror',
+        'spaja-kod-public-safe-summary',
+        'kompanija-spaja-digitalna-industrija-business-mapping',
+        'drift-zero-validation',
+      ],
       roadmapStageMapping: {
         v2: 'terminology-and-contract-mapping',
         v3: 'extrem-repo-wide-rhythm-readiness-expansion',
         v4: 'governance-hardening-and-freeze-rules',
         v5: 'extrondol-release-audit-and-orchestration',
         v6: 'downstream-and-multi-repo-alignment',
+      },
+      fourTrackProgramPackage: {
+        canonicalScopeLock: 'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA',
+        technicalTrack: {
+          label: 'Tehnička traka',
+          owner: 'EXTREM',
+          sourceOfTruth: '/api/extrimli/extrem',
+          readinessStatus: 'BLOCKED',
+          focus: ['readiness', 'conflict', 'cadence', 'profile', 'signal-model'],
+          additiveOnly: true,
+          noNewRuntimeRoutes: true,
+        },
+        governanceTrack: {
+          label: 'Governance traka',
+          owner: 'EXTRONDOL',
+          sourceOfTruth: '/api/extrimli/extrondol',
+          readinessStatus: 'BLOCKED',
+          focus: ['human-review', 'compliance', 'freeze-promotion', 'rollout-rollback', 'audit'],
+          additiveOnly: true,
+          auditSafeOnly: true,
+        },
+        publicBoundaryTrack: {
+          label: 'Javni boundary',
+          owner: 'SPAJA KOD',
+          sourceOfTruth: '/api/extrimli/spaja-kod',
+          readinessStatus: 'BLOCKED',
+          summaryOnly: true,
+          exposes: ['status', 'blocker-summary', 'audit-safe-public-summary'],
+        },
+        businessTrack: {
+          label: 'Poslovna traka',
+          canonicalName: 'Kompanija SPAJA / Digitalna Industrija',
+          sourceDocument: 'docs/DIGITALNA-INDUSTRIJA.md',
+          readinessStatus: 'BLOCKED',
+          mappingMode: 'bounded-enterprise-interpretation',
+          umbrellaModel: 'DIGITALNA INDUSTRIJA',
+          noNewFinancialRuntimeFormulas: true,
+          noOperationalExecutionEngine: true,
+          publicBoundary: 'summary-only',
+        },
       },
       covecnostAuditVisualReference: {
         title: 'ČOVEČNOST',
@@ -9924,6 +9976,10 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
       'paradijogonalnoProgrimiranje.readiness',
       'vrhProgramskogEkviladenta.readiness',
     ],
+    rolloutPlan: 'Promote strictly in additive order: terminology lock, EXTREM technical profile, EXTRONDOL governance mirror, SPAJA KOD public-safe summary, Kompanija SPAJA / Digitalna Industrija enterprise mapping, then drift-zero validation across docs/types/routes/tests/workflows.',
+    rollbackPlan: 'Revert Developer/Create additive reflection fields to the prior EXTRIMLI-only summary contract, preserve existing source-of-truth routes, and freeze WAWE promotion until docs/types/routes/tests/workflows are re-aligned.',
+    humanReviewStatus: 'required-before-promotion',
+    downstreamReference: 'docs/MULTI-REPO-LINKS.md -> spaja86/IO-OPENUI-AO (summary-only)',
   };
   dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.implementationPackage = {
     additiveOnly: true,
@@ -10029,6 +10085,25 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
       nucleusLayers: ['documentation', 'types', 'route-summary-fields', 'tests', 'workflow-audit-layer'],
       additivePayloadOnly: true,
     },
+    programTracksSummary: {
+      canonicalScopeLock: 'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA',
+      technicalOwner: 'EXTREM',
+      governanceOwner: 'EXTRONDOL',
+      publicBoundaryOwner: 'SPAJA KOD',
+      businessCanonicalName: 'Kompanija SPAJA / Digitalna Industrija',
+      activeTracks: ['technical', 'governance', 'public-boundary', 'business'],
+      summaryOnlyBusinessBoundary: true,
+    },
+    businessLayerSummary: {
+      canonicalName: 'Kompanija SPAJA / Digitalna Industrija',
+      sourceDocument: 'docs/DIGITALNA-INDUSTRIJA.md',
+      umbrellaModel: 'DIGITALNA INDUSTRIJA',
+      operatingMode: 'bounded-enterprise-interpretation',
+      noNewFinancialRuntimeFormulas: true,
+      noOperationalExecutionEngine: true,
+      publicSummary:
+        'Kompanija SPAJA remains the canonical enterprise layer inside the DIGITALNA INDUSTRIJA umbrella, while Developer/Create stays the vrh programski ekviladent governance/program layer without introducing new business runtime formulas.',
+    },
     covecanstvuEpilogBoundary: {
       mode: 'audit-evidence-or-epilog-package-only',
       publicOutput: 'summary-only',
@@ -10060,6 +10135,14 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
       driftZeroLayers: ['docs', 'types', 'routes', 'tests', 'workflows'],
     },
   };
+  dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.fourTrackProgramPackage.technicalTrack.readinessStatus =
+    dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.status;
+  dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.fourTrackProgramPackage.governanceTrack.readinessStatus =
+    dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.status;
+  dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.fourTrackProgramPackage.publicBoundaryTrack.readinessStatus =
+    dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.status;
+  dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.fourTrackProgramPackage.businessTrack.readinessStatus =
+    dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.status;
   dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.reasons = [
     'DEVELOPER AND CREATE ostaje additive-only repo-wide interpretativni lock preko postojećih EXTRIMLI / EXTREM / EXTRONDOL kontrakata.',
     'VRH PROGRAMSKOG EKVILADENTA ostaje vršni sloj, RADNI TAKT MOZGA (MISLILAC) ostaje zajednički ritam/readiness signal, a METRIČKO / SINEMETRIČKO / PARADIJOGONALNO ostaju kanonski prateći track-ovi.',

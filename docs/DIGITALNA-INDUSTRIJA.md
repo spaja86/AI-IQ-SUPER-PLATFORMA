@@ -24,6 +24,8 @@ Digitalna Industrija je podeljena na dva nivoa:
 
 Umbrella nivo ostaje rukovodni i agregatni sloj. Specijalizovani moduli ostaju read-only poslovne površine sa sopstvenim API izlazima i sekvencama.
 
+`Kompanija SPAJA` je kanonski poslovni naziv ovog umbrella sloja. U okviru EXTRIMLI Developer/Create plana ovaj sloj se vezuje isključivo kao bounded enterprise interpretacija: **Developer/Create / VRH PROGRAMSKOG EKVILADENTA** ostaje vršni programski i governance okvir, dok **Digitalna Industrija** ostaje poslovni/operativni agregatni sloj bez novih finansijskih ili operativnih runtime formula.
+
 ## 2. Poslovni tokovi
 
 Kanonski grupisani tokovi su:

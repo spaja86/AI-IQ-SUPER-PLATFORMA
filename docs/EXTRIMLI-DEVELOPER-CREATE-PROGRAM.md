@@ -11,6 +11,9 @@ Ovaj program standardizuje **developer/create** rad nad EXTRIMLI + EXTRONDOL + E
 - bez breaking promena na zaključanim rutama i payload ugovorima
 - sa eksplicitnim governance, audit i rollback disciplinama
 - sa downstream usklađivanjem prema `spaja86/IO-OPENUI-AO`
+- sa kanonskim scope lock-om `DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA`
+- sa bounded vokabularom `EXTRIMLI EXTRONDOL EXTREM DOK DUK DAK DIK FOR`
+- sa kanonskim poslovnim slojem `Kompanija SPAJA / Digitalna Industrija`
 
 ## 2) Roadmap lock (Verzije 1–7)
 
@@ -54,6 +57,27 @@ Ownership hard lock:
 - `DOK + DIK + FOR` ostaju u EXTREM tehničkom sloju
 - `DAK + DUK` ostaju u EXTRONDOL governance sloju
 - `SPAJA KOD` ostaje javni audit-safe boundary bez internih detalja
+- `repozotorijum Kopmanija SPAJA` se normalizuje u **Kompanija SPAJA** i bounded je isključivo kao summary-only enterprise sloj unutar **DIGITALNA INDUSTRIJA** umbrella modela
+
+## 2.2) Four-track execution lock
+
+Centralni paket `developerAndCreateRepoWideReflection` mora ostati jedinstveni dokaz za četiri zaključane trake:
+
+1. **Tehnička traka** — readiness, conflict, cadence, profile i signalni model u EXTREM
+2. **Governance traka** — human review, compliance, freeze/promotion, rollout/rollback i audit u EXTRONDOL
+3. **Javni boundary** — samo audit-safe summary statusi i blokatori u SPAJA KOD
+4. **Poslovna traka** — Kompanija SPAJA / Digitalna Industrija kao bounded enterprise interpretacija bez novih finansijskih ili operativnih runtime formula
+
+Svaka faza mora imati: `roadmapStageId`, `measurableOutput`, `acceptanceEvidence`, `rolloutPlan`, `rollbackPlan`, `humanReviewStatus`, `downstreamReference`.
+
+Prioritet realizacije ostaje zaključan:
+
+1. terminologija i scope lock
+2. EXTREM tehnički profil
+3. EXTRONDOL release-audit i governance mirror
+4. SPAJA KOD public-safe summary
+5. Kompanija SPAJA / Digitalna Industrija enterprise mapiranje
+6. drift-zero validacija kroz docs + types + routes + tests + workflows
 
 ## 3) Implementation backlog (developer/create tokovi)
 
