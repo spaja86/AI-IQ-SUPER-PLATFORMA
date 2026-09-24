@@ -885,6 +885,26 @@ export interface ExtrimliExtrondolDeveloperAndCreateRepoWideReflectionGovernance
     ];
     downstreamReference: 'docs/MULTI-REPO-LINKS.md -> spaja86/IO-OPENUI-AO (summary-only)';
   };
+  eksperimentProgramskiJezikTrack: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['eksperimentProgramskiJezikTrack'] & {
+    sourceOfTruth: '/api/extrimli/extrem';
+    governanceSource: '/api/extrimli/extrondol';
+    publicBoundary: '/api/extrimli/spaja-kod';
+    currentWawe: ExtrimliExtrondolWaweStage;
+    eligibleNextWawe: ExtrimliExtrondolWaweStage;
+    promotionFreeze: boolean;
+    reviewRequiredBeforeWideRollout: boolean;
+    reviewPosture: 'ALIGNED' | 'WATCH' | 'REVIEW_REQUIRED';
+    rolloutPlan: string;
+    rollbackPlan: string;
+    humanReviewStatus: 'required-before-promotion';
+    acceptanceEvidence: readonly [
+      'developerAndCreateRepoWideReflection.eksperimentProgramskiJezikTrack',
+      'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.eksperimentProgramskiJezikTrack',
+      'spajaKod.publicSignals.eksperimentProgramskiJezikStatus',
+      'spajaKod.developerAndCreateImplementationPackage.eksperimentProgramskiJezikSummary'
+    ];
+    downstreamReference: 'docs/MULTI-REPO-LINKS.md -> spaja86/IO-OPENUI-AO (summary-only)';
+  };
   audioVisualKontrabasPackage: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['audioVisualKontrabasPackage'] & {
     currentWawe: ExtrimliExtrondolWaweStage;
     eligibleNextWawe: ExtrimliExtrondolWaweStage;
@@ -924,8 +944,10 @@ export interface ExtrimliExtrondolDeveloperAndCreateRepoWideReflectionGovernance
       'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.osnoveRispektProtocol',
       'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.aiPlateGovernance',
       'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.napoleonDiskaveriSelectionTrack',
+      'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.eksperimentProgramskiJezikTrack',
       'spajaKod.publicSignals.developerAndCreateStatus',
       'spajaKod.publicSignals.napoleonDiskaveriStatus',
+      'spajaKod.publicSignals.eksperimentProgramskiJezikStatus',
       'spajaKod.publicSignals.developerAndCreateImplementationStatus',
       'spajaKod.publicSignals.aiPlateStatus'
     ];
@@ -2104,8 +2126,10 @@ export interface ExtrimliExtrondolDeveloperAndCreateRepoWideReflection
       'developerAndCreateRepoWideReflection.covecnostAuditVisualReference.companionAuditVisualReferences',
       'developerAndCreateRepoWideReflection.aiPlateGovernance',
       'developerAndCreateRepoWideReflection.napoleonDiskaveriSelectionTrack',
+      'developerAndCreateRepoWideReflection.eksperimentProgramskiJezikTrack',
       'spajaKod.publicSignals.developerAndCreateStatus',
       'spajaKod.publicSignals.napoleonDiskaveriStatus',
+      'spajaKod.publicSignals.eksperimentProgramskiJezikStatus',
       'spajaKod.publicSignals.developerAndCreateAudioVisualStatus',
       'spajaKod.publicSignals.developerAndCreateImplementationStatus',
       'spajaKod.publicSignals.aiPlateStatus'
@@ -2512,6 +2536,7 @@ export interface ExtrimliSpajaKodPublicFacade {
     spajinoProporcionalnoProgramiranjeUniverzitetStatus: ExtrimliExtremProfilerReport['spajinoProporcionalnoProgramiranjeUniverzitet']['readiness']['status'];
     vrhProgramskogEkviladentaStatus: ExtrimliExtremProfilerReport['vrhProgramskogEkviladenta']['readiness']['status'];
     smartProgramskiJezikStatus: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['implementationPackage']['smartProgramskiJezikPackage']['technicalProfile']['status'];
+    eksperimentProgramskiJezikStatus: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['eksperimentProgramskiJezikTrack']['readinessSignal']['status'];
     developerAndCreateStatus: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['readiness']['status'];
     developerAndCreateImplementationStatus: ExtrimliSpajaKodPublicStatus;
     developerAndCreateAudioVisualStatus: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['audioVisualKontrabasPackage']['readinessStatus'];
@@ -2616,6 +2641,7 @@ export interface ExtrimliSpajaKodPublicFacade {
       'publicSignals.developerAndCreateImplementationStatus',
       'publicSignals.developerAndCreateAudioVisualStatus',
       'publicSignals.smartProgramskiJezikStatus',
+      'publicSignals.eksperimentProgramskiJezikStatus',
       'publicSignals.napoleonDiskaveriStatus',
       'publicSignals.kraljevskiPravniUniverzitetStatus',
       'publicSignals.kraljevskiPravniAktStatus',
@@ -2633,6 +2659,7 @@ export interface ExtrimliSpajaKodPublicFacade {
       'developerAndCreateImplementationPackage.kraljevskiDrustveniPoredakSummary',
       'developerAndCreateImplementationPackage.kraljevskiAktBezbednostiSummary',
       'developerAndCreateImplementationPackage.smartProgramskiJezikSummary',
+      'developerAndCreateImplementationPackage.eksperimentProgramskiJezikSummary',
       'developerAndCreateImplementationPackage.napoleonDiskaveriSummary',
       'epilogijaCovecnosti.packageOutputs'
     ];
@@ -2679,6 +2706,15 @@ export interface ExtrimliSpajaKodPublicFacade {
     smartProgramskiJezikSummary: {
       canonicalName: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['implementationPackage']['smartProgramskiJezikPackage']['canonicalName'];
       readinessStatus: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['implementationPackage']['smartProgramskiJezikPackage']['technicalProfile']['status'];
+      blockerReasons: string[];
+      watchReasons: string[];
+      reviewPosture: 'ALIGNED' | 'WATCH' | 'REVIEW_REQUIRED';
+      downstreamReference: 'docs/MULTI-REPO-LINKS.md -> spaja86/IO-OPENUI-AO (summary-only)';
+      publicBoundary: 'audit-safe-summary-only';
+    };
+    eksperimentProgramskiJezikSummary: {
+      canonicalAlias: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['eksperimentProgramskiJezikTrack']['canonicalAlias'];
+      status: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['eksperimentProgramskiJezikTrack']['readinessSignal']['status'];
       blockerReasons: string[];
       watchReasons: string[];
       reviewPosture: 'ALIGNED' | 'WATCH' | 'REVIEW_REQUIRED';
