@@ -9065,6 +9065,7 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
   ] as const;
   const inspektoriJusticePathConsistency =
     inspektoriBlockerSummary.length > 0
+      || [inspektoriRuleConsistencyStatus, inspektoriEvidentiaryCompletenessStatus].includes('BLOCKED')
       ? 'BLOCKED'
       : [inspektoriRuleConsistencyStatus, inspektoriEvidentiaryCompletenessStatus].includes('WATCH')
         ? 'WATCH'
