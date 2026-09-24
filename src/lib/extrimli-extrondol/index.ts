@@ -31,6 +31,10 @@ import {
   buildDokerKuratIzekDokarPublicBoundaryStatus,
   getGovernanceTechnicalRiskStatusFromExtremTrack,
 } from '../extrimli-doker-kurat-izek-dokar-track';
+import {
+  DEVELOPER_CREATE_VRH_MAPE_UMA_SCOPE_LOCK,
+  DEVELOPER_CREATE_VRH_MAPE_UMA_THEMATIC_SIGNALS,
+} from '../developer-create-vrh-mape-uma-contract';
 import type {
   ExtrimliExtrondolAcceptanceCriterion,
   ExtrimliExtrondolDistanceRatioEkvilaterTable,
@@ -3066,6 +3070,8 @@ function buildSpajaKodFacade(params: {
       vrhProgramskogEkviladentaStatus: params.vrhProgramskogEkviladentaStatus,
       developerAndCreateStatus: params.developerAndCreateStatus,
       developerAndCreateImplementationStatus,
+      developerAndCreateGlobalPageExplanationStatus: params.developerAndCreateStatus,
+      developerAndCreateGlobalPageExplanationSignals: DEVELOPER_CREATE_VRH_MAPE_UMA_THEMATIC_SIGNALS,
       developerAndCreateUniversitySummary: {
         passedAreasCount:
           params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.kraljevskiProgramskiUneverzitet.domainTestReadiness.passedAreasCount,
@@ -4352,6 +4358,7 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
         sourceOfTruth: '/api/extrimli/extrem',
         status:
           extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.aiPlateOffer.boundedReadinessProfile.consolidatedStatus,
+        canonicalMapeUmaScopeLock: DEVELOPER_CREATE_VRH_MAPE_UMA_SCOPE_LOCK,
         readinessScore:
           extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.aiPlateOffer.boundedReadinessProfile.readinessScore,
         deterministicFallbackRequired:
@@ -4366,6 +4373,8 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
           extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.aiPlateOffer.boundedReadinessProfile.consolidatedStatus === 'WATCH'
           ? [...extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.aiPlateOffer.boundedReadinessProfile.reasons]
           : [],
+        globalPageExplanationContract:
+          extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.globalPageExplanationContract,
         canonicalGovernanceVocabulary:
           extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.canonicalGovernanceVocabulary,
         osnoveRispektProtocol:
@@ -5592,6 +5601,7 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
     developerAndCreateRepoWideReflection: {
       canonicalName: 'DEVELOPER AND CREATE',
       equalityLock: 'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == RADNI TAKT MOZGA (MISLILAC)',
+      canonicalMapeUmaScopeLock: DEVELOPER_CREATE_VRH_MAPE_UMA_SCOPE_LOCK,
       scope: 'repo-wide-rhythm-readiness-guidance',
       additiveOnlyProfile: 'EXTRIMLI-EXTRONDOL-EXTREM',
       sourceOfTruthRoutes: ['/api/extrimli/extrem', '/api/extrimli/extrondol', '/api/extrimli/spaja-kod'],
@@ -5600,6 +5610,8 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
         dakDuk: 'EXTRONDOL',
         spajaKod: 'audit-safe-summary-only',
       },
+      globalPageExplanationContract:
+        extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.globalPageExplanationContract,
       mappedTracks: extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.mappedTracks,
       canonicalGovernanceVocabulary:
         extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.canonicalGovernanceVocabulary,
@@ -6107,6 +6119,7 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
         return {
           term: 'DEVELOPER AND CREATE',
           equalityLock: 'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == RADNI TAKT MOZGA (MISLILAC)',
+          canonicalMapeUmaScopeLock: DEVELOPER_CREATE_VRH_MAPE_UMA_SCOPE_LOCK,
           sourceOfTruth: '/api/extrimli/extrondol',
           technicalSignalSource: '/api/extrimli/extrem',
           publicBoundary: '/api/extrimli/spaja-kod',
@@ -6121,6 +6134,8 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
             dakDuk: 'EXTRONDOL',
             spajaKod: 'audit-safe-summary-only',
           },
+          globalPageExplanationContract:
+            extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.globalPageExplanationContract,
           mappedTracks: extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.mappedTracks,
           technicalReadinessProfile: extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.technicalReadinessProfile,
           universityLifecycle: {
@@ -6969,6 +6984,7 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
     developerAndCreateRepoWideReflection: {
       term: 'DEVELOPER AND CREATE',
       equalityLock: 'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == RADNI TAKT MOZGA (MISLILAC)',
+      canonicalMapeUmaScopeLock: DEVELOPER_CREATE_VRH_MAPE_UMA_SCOPE_LOCK,
       sourceOfTruth: '/api/extrimli/extrondol',
       technicalSignalSource: '/api/extrimli/extrem',
       publicBoundary: '/api/extrimli/spaja-kod',
@@ -6985,6 +7001,8 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
         dakDuk: 'EXTRONDOL',
         spajaKod: 'audit-safe-summary-only',
       },
+      globalPageExplanationContract:
+        extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.globalPageExplanationContract,
       mappedTracks: extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.mappedTracks,
       technicalReadinessProfile: extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.technicalReadinessProfile,
       universityLifecycle: {

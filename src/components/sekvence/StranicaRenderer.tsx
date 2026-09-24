@@ -1,6 +1,7 @@
 import type { Sekvenca, SekvencaTip } from '@/lib/types';
 import SekvencaRenderer from './SekvencaRenderer';
 import SekvencaSkeleton from './SekvencaSkeleton';
+import DeveloperCreateGlobalExplanation from './DeveloperCreateGlobalExplanation';
 
 interface Props {
   sekvence: Sekvenca[];
@@ -14,6 +15,7 @@ export default function StranicaRenderer({ sekvence, skeleton }: Props) {
   if (skeleton) {
     return (
       <div className="spaja-shell">
+        <DeveloperCreateGlobalExplanation />
         {sortirane.map((s) => (
           <section key={s.id} id={s.id} aria-label={s.naslov ?? s.tip} aria-busy="true">
             <SekvencaSkeleton tip={s.tip as SekvencaTip} />
@@ -25,6 +27,7 @@ export default function StranicaRenderer({ sekvence, skeleton }: Props) {
 
   return (
     <div className="spaja-shell">
+      <DeveloperCreateGlobalExplanation />
       {sortirane.map((s) => (
         <SekvencaRenderer key={s.id} sekvenca={s} />
       ))}

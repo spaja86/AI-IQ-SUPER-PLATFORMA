@@ -128,6 +128,21 @@ async function runTests(): Promise<void> {
     assert(lock.dailyOperationalCadence.cadenceBlocks.join(',') === 'morning-startup,deep-focus-block,midday-checkpoint,end-of-day-closeout', 'developer/create cadence blocks mismatch');
     assert(lock.dailyOperationalCadence.taskPriorities.join(',') === '1,2,3', 'developer/create task priorities mismatch');
     assert(lock.dailyOperationalCadence.endOfDayStatuses.join(',') === 'completed,carried-over,blocked', 'developer/create closeout statuses mismatch');
+    assert(
+      report.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.canonicalMapeUmaScopeLock
+        === 'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == MAPE UMA',
+      'developer/create MAPE UMA canonical scope lock mismatch',
+    );
+    assert(
+      report.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.globalPageExplanationContract.title
+        === 'DEVELOPER AND CREATE + VRH PROGRAMSKOG EKVILADENTA + MAPE UMA',
+      'developer/create global explanation title mismatch',
+    );
+    assert(
+      report.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.globalPageExplanationContract.boundedThematicSignals.join(',')
+        === 'mape-uma,slike-plus-znacenje,ucenje,znanje,kreativnost,saradnja,odrzivost,mir',
+      'developer/create global explanation thematic signals mismatch',
+    );
     const implementationPackage = report.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.implementationPackage;
     assert(implementationPackage.sourceOfTruthRoutes.join(',') === '/api/extrimli/extrem,/api/extrimli/extrondol,/api/extrimli/spaja-kod', 'developer/create implementation package source routes mismatch');
     assert(implementationPackage.noNewRuntimeRoutes, 'developer/create implementation package must forbid new runtime routes');

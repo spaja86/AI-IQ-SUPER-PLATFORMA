@@ -199,6 +199,16 @@ async function runTests(): Promise<void> {
     assert(implementationPackage.covecanstvuEpilogBoundary.publicOutput === 'summary-only', 'developer/create governance implementation package ČOVEČANSTVU output mismatch');
     assert(implementationPackage.validationLock.driftZeroLayers.join(',') === 'docs,types,routes,tests,workflows', 'developer/create governance implementation package drift-zero mismatch');
     assert(report.developerAndCreateRepoWideReflection.kraljevskiDrustveniPoredak.canonicalName === 'KRALJEVSKI DRUŠTVENI POREDAK', 'developer/create governance social-order canonical name mismatch');
+    assert(
+      report.developerAndCreateRepoWideReflection.canonicalMapeUmaScopeLock
+        === 'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == MAPE UMA',
+      'developer/create governance MAPE UMA canonical scope lock mismatch',
+    );
+    assert(
+      report.developerAndCreateRepoWideReflection.globalPageExplanationContract.boundedThematicSignals.join(',')
+        === 'mape-uma,slike-plus-znacenje,ucenje,znanje,kreativnost,saradnja,odrzivost,mir',
+      'developer/create governance global explanation thematic signals mismatch',
+    );
     assert(report.developerAndCreateRepoWideReflection.kraljevskiDrustveniPoredak.sourceOfTruth === '/api/extrimli/extrondol', 'developer/create governance social-order source mismatch');
     assert(report.developerAndCreateRepoWideReflection.kraljevskiDrustveniPoredak.beneficiaryGovernance.eligibleCategories.join(',') === 'nezbrinuti,nezaposleni', 'developer/create governance social-order beneficiary categories mismatch');
     assert(report.developerAndCreateRepoWideReflection.kraljevskiDrustveniPoredak.kraljevskaDopuna.approvalPosture.payoutReadinessStatus === report.developerAndCreateRepoWideReflection.privredniAkt.readiness.status, 'developer/create governance kraljevska dopuna payout posture mismatch');

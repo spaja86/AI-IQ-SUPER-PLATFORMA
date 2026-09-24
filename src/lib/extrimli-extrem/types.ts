@@ -2494,6 +2494,7 @@ export interface ExtrimliDokDikDakDukConsistencyHealth {
   developerAndCreateRepoWideReflection: {
     canonicalName: 'DEVELOPER AND CREATE';
     equalityLock: 'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == RADNI TAKT MOZGA (MISLILAC)';
+    canonicalMapeUmaScopeLock: 'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == MAPE UMA';
     scope: 'repo-wide-rhythm-readiness-guidance';
     additiveOnlyProfile: 'EXTRIMLI-EXTRONDOL-EXTREM';
     sourceOfTruthRoutes: readonly ['/api/extrimli/extrem', '/api/extrimli/extrondol', '/api/extrimli/spaja-kod'];
@@ -2501,6 +2502,27 @@ export interface ExtrimliDokDikDakDukConsistencyHealth {
       dokDikFor: 'EXTREM';
       dakDuk: 'EXTRONDOL';
       spajaKod: 'audit-safe-summary-only';
+    };
+    globalPageExplanationContract: {
+      title: 'DEVELOPER AND CREATE + VRH PROGRAMSKOG EKVILADENTA + MAPE UMA';
+      readinessModel: readonly ['READY', 'WATCH', 'BLOCKED'];
+      boundedThematicSignals: readonly [
+        'mape-uma',
+        'slike-plus-znacenje',
+        'ucenje',
+        'znanje',
+        'kreativnost',
+        'saradnja',
+        'odrzivost',
+        'mir'
+      ];
+      additiveOnly: true;
+      noNewRuntimeRoutes: true;
+      ownershipLock: {
+        dokDikFor: 'EXTREM';
+        dakDuk: 'EXTRONDOL';
+        spajaKod: 'audit-safe-summary-only';
+      };
     };
     mappedTracks: {
       vrhProgramskogEkviladenta: 'VRH PROGRAMSKOG EKVILADENTA';

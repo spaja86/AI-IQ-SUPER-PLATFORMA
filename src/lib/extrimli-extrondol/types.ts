@@ -324,11 +324,13 @@ export interface ExtrimliExtrondolB2bReadiness {
   developerAndCreateRepoWideReflectionGovernance: {
     sourceOfTruth: '/api/extrimli/extrem';
     status: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['readiness']['status'];
+    canonicalMapeUmaScopeLock: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['canonicalMapeUmaScopeLock'];
     readinessScore: number;
     deterministicFallbackRequired: boolean;
     reviewRequiredBeforeWideRollout: boolean;
     blockerReasons: string[];
     watchReasons: string[];
+    globalPageExplanationContract: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['globalPageExplanationContract'];
     technicalReadinessProfile: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['technicalReadinessProfile'];
     kraljevskiDrustveniPoredak: ExtrimliExtrondolDeveloperAndCreateRepoWideReflectionGovernance['kraljevskiDrustveniPoredak'];
     aiIdentityFinanceGovernance: ExtrimliExtrondolDeveloperAndCreateRepoWideReflectionGovernance['aiIdentityFinanceGovernance'];
@@ -678,6 +680,7 @@ export interface ExtrimliExtrondolRadniTaktMozgaMislilacGovernance {
 export interface ExtrimliExtrondolDeveloperAndCreateRepoWideReflectionGovernance {
   term: 'DEVELOPER AND CREATE';
   equalityLock: 'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == RADNI TAKT MOZGA (MISLILAC)';
+  canonicalMapeUmaScopeLock: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['canonicalMapeUmaScopeLock'];
   sourceOfTruth: '/api/extrimli/extrondol';
   technicalSignalSource: '/api/extrimli/extrem';
   publicBoundary: '/api/extrimli/spaja-kod';
@@ -691,6 +694,7 @@ export interface ExtrimliExtrondolDeveloperAndCreateRepoWideReflectionGovernance
     dakDuk: 'EXTRONDOL';
     spajaKod: 'audit-safe-summary-only';
   };
+  globalPageExplanationContract: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['globalPageExplanationContract'];
   canonicalGovernanceVocabulary: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['canonicalGovernanceVocabulary'];
   osnoveRispektProtocol: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['osnoveRispektProtocol'];
   mappedTracks: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['mappedTracks'];
@@ -2423,6 +2427,8 @@ export interface ExtrimliSpajaKodPublicFacade {
     vrhProgramskogEkviladentaStatus: ExtrimliExtremProfilerReport['vrhProgramskogEkviladenta']['readiness']['status'];
     developerAndCreateStatus: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['readiness']['status'];
     developerAndCreateImplementationStatus: ExtrimliSpajaKodPublicStatus;
+    developerAndCreateGlobalPageExplanationStatus: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['readiness']['status'];
+    developerAndCreateGlobalPageExplanationSignals: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['globalPageExplanationContract']['boundedThematicSignals'];
     kraljevskiProgramskiUneverzitetStatus: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['kraljevskiProgramskiUneverzitet']['readiness']['status'];
     developerAndCreateUniversitySummary: {
       passedAreasCount: number;

@@ -396,6 +396,13 @@ Bez kompletnog audit paketa release ostaje u freeze režimu.
 - `PROGRAM_LOCK_PARENT_CHILD`: track ostaje interpretativni vršni sloj iznad `PROPORCIONALNO PROGRAMIRANJE`, ne zaseban paralelni sistem.
 - `PROGRAM_LOCK_ROLE_SPLIT`: `PROPORCIONALNO PROGRAMIRANJE` ostaje parent disciplina, `METRIČKO PROGRAMIRANJE` nosi satnicu i deklarativno-instancijsku metriku, `SINEMETRIČKO PROGRAMIRANJE` nosi vokalni/narativni audit-safe sloj, a `PARADIJOGONALNO PROGRAMIRANJE` iz `docs/EXTRIMLI-PARADIJOGONALNO-PROGRAMIRANJE.md` ostaje instrument tabla za pregled i signalnu kontrolu.
 - `PROGRAM_LOCK_REPO_WIDE_REFLECTION`: `DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == RADNI TAKT MOZGA (MISLILAC)` sme postojati samo kao additive reflection preko postojećih `VRH`, `RADNI TAKT`, `METRIČKO`, `SINEMETRIČKO` i `PARADIJOGONALNO` track-ova, uz centralni dokaz u `dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection`.
+
+## Global page explanation requirement
+
+- Dodatni kanonski scope lock: `DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == MAPE UMA`.
+- Ovaj scope lock je obavezni globalni explanation contract za svaku stranicu (shared renderer nivo), uz isti `READY | WATCH | BLOCKED` status model.
+- Obavezni bounded signal paket za global explanation je: `mape-uma, slike-plus-znacenje, ucenje, znanje, kreativnost, saradnja, odrzivost, mir`.
+- Ownership ostaje zaključan: `DOK + DIK + FOR -> EXTREM`, `DAK + DUK -> EXTRONDOL`, `SPAJA KOD -> audit-safe-summary-only`.
 - `PROGRAM_LOCK_V7_ENTERPRISE_OPERATING_MODEL`: aktivna realizacija AI PLATE paketa mora biti vezana za jednu fazu `roadmapStageId=Verzija 7`, sa merljivim izlazom i acceptance evidence kroz docs/types/tests/workflows.
 - `PROGRAM_LOCK_WEEKLY_ENTERPRISE_PRICING`: `12.000 EUR nedeljno` postoji samo kao additive `premium-rollout-regime` unutar postojećeg enterprise master billing modela `monthly-or-annual`; nije dozvoljeno uvoditi paralelni billing source-of-truth.
 - `PROGRAM_LOCK_AI_PLATE_DAILY_CADENCE`: realizacija i review AI PLATE paketa ostaju na `morning-startup`, `deep-focus-block`, `midday-checkpoint`, `end-of-day-closeout`.

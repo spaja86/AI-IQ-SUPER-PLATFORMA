@@ -1166,8 +1166,26 @@ export const aiPagePrompts: PagePromptConfig[] = [
  * Ako stranica nema konfigurisane promptove, vraca genericke.
  */
 export function getPagePrompts(putanja: string): PagePromptConfig {
+  const withGlobalDeveloperCreateExplanation = (config: PagePromptConfig): PagePromptConfig => ({
+    ...config,
+    kontekst: `${config.kontekst} ${DEVELOPER_CREATE_VRH_MAPE_UMA_GLOBAL_CONTEXT}`,
+    promptovi: [
+      ...config.promptovi,
+      {
+        pitanje: `Objasni ${DEVELOPER_CREATE_VRH_MAPE_UMA_EXPLANATION_TITLE} za ovu stranicu`,
+        ikona: '🧭',
+        kategorija: 'ai',
+      },
+      {
+        pitanje: `Kako se READY/WATCH/BLOCKED (${DEVELOPER_CREATE_VRH_MAPE_UMA_READINESS_MODEL.join('/')}) primenjuje na ovoj stranici?`,
+        ikona: '🗺️',
+        kategorija: 'spaja-pro-ai',
+      },
+    ],
+  });
+
   const found = aiPagePrompts.find((p) => p.putanja === putanja);
-  if (found) return found;
+  if (found) return withGlobalDeveloperCreateExplanation(found);
 
   // Genericki fallback za stranice bez specificne konfiguracije
   // Generise naslov iz URL putanje (npr. '/digitalna-industrija-sajber' → 'Digitalna Industrija Sajber')
@@ -1182,7 +1200,7 @@ export function getPagePrompts(putanja: string): PagePromptConfig {
   const jeIndustrija = putanja.includes('digitalna-industrija');
   const jeLaureatski = putanja.includes('laureatski');
 
-  return {
+  return withGlobalDeveloperCreateExplanation({
     putanja,
     naslov: generisanNaslov,
     opis: `AI IQ SUPER PLATFORMA — ${generisanNaslov}`,
@@ -1205,7 +1223,7 @@ export function getPagePrompts(putanja: string): PagePromptConfig {
       { pitanje: 'Objasni mi sadržaj ove stranice', ikona: '📖', kategorija: 'spaja-pro-ai' },
       { pitanje: 'Koje opcije imam na ovoj stranici?', ikona: '⚙️', kategorija: 'spaja-pro-ai' },
     ],
-  };
+  });
 }
 
 /** Pre-computed ukupan broj konfigurisanih promptova */
@@ -1220,3 +1238,8 @@ export function getUkupnoAiPagePrompts(): number {
 export function getUkupnoStranica(): number {
   return aiPagePrompts.length;
 }
+import {
+  DEVELOPER_CREATE_VRH_MAPE_UMA_EXPLANATION_TITLE,
+  DEVELOPER_CREATE_VRH_MAPE_UMA_GLOBAL_CONTEXT,
+  DEVELOPER_CREATE_VRH_MAPE_UMA_READINESS_MODEL,
+} from '@/lib/developer-create-vrh-mape-uma-contract';
