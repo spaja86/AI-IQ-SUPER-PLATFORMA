@@ -372,6 +372,14 @@ const EXTRIMLI_EXTREM_DEVELOPER_CREATE_BOZIJI_EPITETI_COVECANSTVO_SCENARIO_ID =
   'covecanstvo-boziji-epiteti-zakon-etika-pravda-kralj-nad-kraljevima-developer-create' as const;
 const EXTRIMLI_EXTREM_DEVELOPER_CREATE_BOZIJI_EPITETI_COVECANSTVO_CITATION =
   'ČOVEČANSTVO — BOŽIJI EPITETI / zakon / etika / pravda / građansko pravo / matetika / astralni moment / proračun / svedočenje / kraljevstvo / Kralj nad kraljevima ostaje additive-only supplemental audit/reference vizuel: pravno-etički epilog, metričko-astralno svedočenje i audit-safe narativ čovečanstva mapiraju se isključivo na postojeće KRALJEVSKI PRAVNI UNIVERZITET, METRIČKO, SINEMETRIČKO i PARADIJOGONALNO trake unutar Developer/Create ⇄ VRH ⇄ Radni Takt modela, bez novih ruta, novih formula ili promene ownership split-a.' as const;
+const EXTRIMLI_EXTREM_DEVELOPER_CREATE_KRALJEVSKA_VODICA_COVECANSTVO_VISUAL_REFERENCE =
+  'https://github.com/user-attachments/assets/e1d0a813-ed72-43ff-a943-112af972872d' as const;
+const EXTRIMLI_EXTREM_DEVELOPER_CREATE_KRALJEVSKA_VODICA_COVECANSTVO_CANONICAL_NARRATIVE_ID =
+  'covecanstvo-kraljevska-vodica-zakon-silnog-developer-create' as const;
+const EXTRIMLI_EXTREM_DEVELOPER_CREATE_KRALJEVSKA_VODICA_COVECANSTVO_SCENARIO_ID =
+  'covecanstvo-kraljevska-vodica-pravo-etika-mir-developer-create' as const;
+const EXTRIMLI_EXTREM_DEVELOPER_CREATE_KRALJEVSKA_VODICA_COVECANSTVO_CITATION =
+  'ČOVEČANSTVO — KRALJEVSKA VODICA / KRALJ NAD KRALJEVIMA / ZAKON SILNOG ostaje additive-only supplemental audit/reference vizuel: pravo, etika, pravda, mir i audit-safe epilog čovečanstva mapiraju se isključivo kao bounded documentation/evidence sloj unutar postojećeg Developer/Create ⇄ VRH ⇄ Radni Takt modela; sirovi poster-tekst o kažnjavanju, sili ili doktrini ostaje source-text-only i nikada ne postaje runtime enforcement logika, religijski enforcement, bezbednosna procedura, identitetska tvrdnja ili nasilna instrukcija.' as const;
 const EXTRIMLI_EXTREM_DEVELOPER_CREATE_PRAVOSLAVLJE_AKT_REVOLUCIJE_COVECANSTVO_VISUAL_REFERENCE =
   'https://github.com/user-attachments/assets/749fac80-2a31-438b-ab05-190d2421f191' as const;
 const EXTRIMLI_EXTREM_DEVELOPER_CREATE_PRAVOSLAVLJE_AKT_REVOLUCIJE_COVECANSTVO_CANONICAL_NARRATIVE_ID =
@@ -7216,6 +7224,44 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
             auditRole: 'additive-audit-reference-only',
           },
           {
+            title: 'ČOVEČANSTVO — KRALJEVSKA VODICA / KRALJ NAD KRALJEVIMA / ZAKON SILNOG',
+            canonicalNarrativeId:
+              EXTRIMLI_EXTREM_DEVELOPER_CREATE_KRALJEVSKA_VODICA_COVECANSTVO_CANONICAL_NARRATIVE_ID,
+            citation:
+              EXTRIMLI_EXTREM_DEVELOPER_CREATE_KRALJEVSKA_VODICA_COVECANSTVO_CITATION,
+            visualReference:
+              EXTRIMLI_EXTREM_DEVELOPER_CREATE_KRALJEVSKA_VODICA_COVECANSTVO_VISUAL_REFERENCE,
+            interpretation:
+              'Supplied KRALJEVSKA VODICA / KRALJ NAD KRALJEVIMA / ZAKON SILNOG image remains additive-only supplemental audit/reference evidence and stays bounded to legal-governance, ethics, justice, peace, civic-order, and humanity-epilog themes without introducing any new source-of-truth runtime route or any enforcement behavior.',
+            sourceStatement: 'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == RADNI TAKT MOZGA (MISLILAC)',
+            imageToSignalProfile: {
+              scenarioId:
+                EXTRIMLI_EXTREM_DEVELOPER_CREATE_KRALJEVSKA_VODICA_COVECANSTVO_SCENARIO_ID,
+              theme: 'ČOVEČANSTVO — KRALJEVSKA VODICA / KRALJ NAD KRALJEVIMA / ZAKON SILNOG',
+              narrativeInput:
+                EXTRIMLI_EXTREM_DEVELOPER_CREATE_KRALJEVSKA_VODICA_COVECANSTVO_CITATION,
+              ownershipLock: {
+                dokDikFor: 'EXTREM',
+                dakDuk: 'EXTRONDOL',
+                spajaKod: 'audit-safe-summary-only',
+              },
+              signalOutputs: {
+                readinessScore: 0,
+                readinessStatus: 'BLOCKED',
+                conflictPressurePercent: 100,
+                deterministicFallbackRequired: true,
+              },
+            },
+            thematicSignals: [
+              'legal-governance-epilog',
+              'ethics-and-justice',
+              'nenarusavaj-mir',
+              'civic-order',
+              'bounded-non-enforcement',
+            ],
+            auditRole: 'additive-audit-reference-only',
+          },
+          {
             title: 'ČOVEČANSTVO — PRAVOSLAVLJE / AKT REVOLUCIJE NAD HRIŠĆANSTVOM',
             canonicalNarrativeId:
               EXTRIMLI_EXTREM_DEVELOPER_CREATE_PRAVOSLAVLJE_AKT_REVOLUCIJE_COVECANSTVO_CANONICAL_NARRATIVE_ID,
@@ -9719,11 +9765,11 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
       })),
     packageOutputs: {
       auditShortSummary:
-        'ČOVEČNOST primary visual remains audit-safe and technically bound to the existing readiness profile, while the ČOVEČANSTVO supplemental visuals, including SVI KOJI POSTOJE / ZASLUŽUJU DA PRIPADAJU, ENTIZUJAŽAM, EPILOG, MATIČNE ĆELIJE / SPOZNAVANJE SEBE, PRIRODNE MATIČNE ĆELIJE / KUKURUZ, ČISTA VODA / H2O / VODONIK, the four URL-locked pending-title visuals, ŽIVOT U RAVNOTEŽI, TRIJOLOGIJA / DAVO U RUCI / LISICA U KAVEZU, BLAGOSLOV DARIVATI / BOGPATIJU, Mjuzikl kraljevskog čina / epilog u čovečanstvo, BOŽIJI EPITETI / KRALJ NAD KRALJEVIMA, KRALJEVSTVO — PRAVEDAN SVET ZA SVE NARAŠTAJE, and NARAŠTAJ U PRIRODNOM CVATU / EPILOG / BLAGODARIM, plus the ČOVEČANSTVO / OSEĆAJ OSEBENOSTI companion visual stay bounded by existing EXTREM / EXTRONDOL / SPAJA KOD ownership.',
+        'ČOVEČNOST primary visual remains audit-safe and technically bound to the existing readiness profile, while the ČOVEČANSTVO supplemental visuals, including SVI KOJI POSTOJE / ZASLUŽUJU DA PRIPADAJU, ENTIZUJAŽAM, EPILOG, MATIČNE ĆELIJE / SPOZNAVANJE SEBE, PRIRODNE MATIČNE ĆELIJE / KUKURUZ, ČISTA VODA / H2O / VODONIK, the four URL-locked pending-title visuals, ŽIVOT U RAVNOTEŽI, TRIJOLOGIJA / DAVO U RUCI / LISICA U KAVEZU, BLAGOSLOV DARIVATI / BOGPATIJU, Mjuzikl kraljevskog čina / epilog u čovečanstvo, BOŽIJI EPITETI / KRALJ NAD KRALJEVIMA, KRALJEVSKA VODICA / KRALJ NAD KRALJEVIMA / ZAKON SILNOG, KRALJEVSTVO — PRAVEDAN SVET ZA SVE NARAŠTAJE, and NARAŠTAJ U PRIRODNOM CVATU / EPILOG / BLAGODARIM, plus the ČOVEČANSTVO / OSEĆAJ OSEBENOSTI companion visual stay bounded by existing EXTREM / EXTRONDOL / SPAJA KOD ownership.',
       publicSummary:
-        'ČOVEČNOST ostaje javni audit-safe odraz znanja, iskustva i predviđanja kroz postojeći Developer/Create ritam i etapni razvoj bez novih ruta, dok supplemental vizueli — uključujući SVI KOJI POSTOJE / ZASLUŽUJU DA PRIPADAJU, ENTIZUJAŽAM, ČOVEČANSTVO — EPILOG, MATIČNE ĆELIJE / SPOZNAVANJE SEBE, PRIRODNE MATIČNE ĆELIJE / KUKURUZ, ČISTA VODA / H2O / VODONIK, četiri URL-locked pending-title reference, ŽIVOT U RAVNOTEŽI, TRIJOLOGIJA / DAVO U RUCI / LISICA U KAVEZU, BLAGOSLOV DARIVATI / BOGPATIJU, Mjuzikl kraljevskog čina / epilog u čovečanstvo, BOŽIJI EPITETI / KRALJ NAD KRALJEVIMA, KRALJEVSTVO — PRAVEDAN SVET ZA SVE NARAŠTAJE, NARAŠTAJ U PRIRODNOM CVATU / EPILOG / BLAGODARIM, KRVOTOK / ZDRAVA KRV / BOLJI ŽIVOT i ZDRAVIJI UM / SNAŽNIJI LJUDI / BOLJI SVET — i companion vizuel ostaju pomoćni audit-safe slojevi istog reflection paketa.',
+        'ČOVEČNOST ostaje javni audit-safe odraz znanja, iskustva i predviđanja kroz postojeći Developer/Create ritam i etapni razvoj bez novih ruta, dok supplemental vizueli — uključujući SVI KOJI POSTOJE / ZASLUŽUJU DA PRIPADAJU, ENTIZUJAŽAM, ČOVEČANSTVO — EPILOG, MATIČNE ĆELIJE / SPOZNAVANJE SEBE, PRIRODNE MATIČNE ĆELIJE / KUKURUZ, ČISTA VODA / H2O / VODONIK, četiri URL-locked pending-title reference, ŽIVOT U RAVNOTEŽI, TRIJOLOGIJA / DAVO U RUCI / LISICA U KAVEZU, BLAGOSLOV DARIVATI / BOGPATIJU, Mjuzikl kraljevskog čina / epilog u čovečanstvo, BOŽIJI EPITETI / KRALJ NAD KRALJEVIMA, KRALJEVSKA VODICA / KRALJ NAD KRALJEVIMA / ZAKON SILNOG, KRALJEVSTVO — PRAVEDAN SVET ZA SVE NARAŠTAJE, NARAŠTAJ U PRIRODNOM CVATU / EPILOG / BLAGODARIM, KRVOTOK / ZDRAVA KRV / BOLJI ŽIVOT i ZDRAVIJI UM / SNAŽNIJI LJUDI / BOLJI SVET — i companion vizuel ostaju pomoćni audit-safe slojevi istog reflection paketa.',
       governanceChecklistStatus:
-        'No new runtime routes; the primary ČOVEČNOST visual remains canonical and technically bound to the existing profile, the ČOVEČANSTVO visuals stay supplemental-only (including PRIRODNE MATIČNE ĆELIJE / KUKURUZ as bounded garden/nature/humanity evidence with explicit no-medical-runtime-claims discipline, ČISTA VODA / H2O / VODONIK as documentation-only elemental/water evidence with explicit no-medical-runtime-claims discipline, the four URL-locked pending-title visuals as audit-safe placeholders, ŽIVOT U RAVNOTEŽI balance/life-chain/compassion metadata, TRIJOLOGIJA / DAVO U RUCI / LISICA U KAVEZU as bounded narrative-translation/risk-release evidence, Mjuzikl kraljevskog čina as bounded music-act/epilog/humanity rhythm evidence, BOŽIJI EPITETI / KRALJ NAD KRALJEVIMA as bounded legal-governance/metric-testimony epilog evidence, KRALJEVSTVO — PRAVEDAN SVET ZA SVE NARAŠTAJE as bounded pravoslavlje/znanje/priroda/čovečanstvo evidence, and NARAŠTAJ U PRIRODNOM CVATU as bounded seed-potential/light-opportunity/human-flourishing/gratitude evidence), DOK/DIK/FOR stay in EXTREM, DAK/DUK stay in EXTRONDOL, and downstream sync remains follow-up only until audit-safe summary is adopted.',
+        'No new runtime routes; the primary ČOVEČNOST visual remains canonical and technically bound to the existing profile, the ČOVEČANSTVO visuals stay supplemental-only (including PRIRODNE MATIČNE ĆELIJE / KUKURUZ as bounded garden/nature/humanity evidence with explicit no-medical-runtime-claims discipline, ČISTA VODA / H2O / VODONIK as documentation-only elemental/water evidence with explicit no-medical-runtime-claims discipline, the four URL-locked pending-title visuals as audit-safe placeholders, ŽIVOT U RAVNOTEŽI balance/life-chain/compassion metadata, TRIJOLOGIJA / DAVO U RUCI / LISICA U KAVEZU as bounded narrative-translation/risk-release evidence, Mjuzikl kraljevskog čina as bounded music-act/epilog/humanity rhythm evidence, BOŽIJI EPITETI / KRALJ NAD KRALJEVIMA as bounded legal-governance/metric-testimony epilog evidence, KRALJEVSKA VODICA / KRALJ NAD KRALJEVIMA / ZAKON SILNOG as bounded legal-governance/peace/non-enforcement evidence, KRALJEVSTVO — PRAVEDAN SVET ZA SVE NARAŠTAJE as bounded pravoslavlje/znanje/priroda/čovečanstvo evidence, and NARAŠTAJ U PRIRODNOM CVATU as bounded seed-potential/light-opportunity/human-flourishing/gratitude evidence), DOK/DIK/FOR stay in EXTREM, DAK/DUK stay in EXTRONDOL, and downstream sync remains follow-up only until audit-safe summary is adopted.',
     },
     companionAuditVisualReferences:
       dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.covecnostAuditVisualReference.companionAuditVisualReferences.map(
