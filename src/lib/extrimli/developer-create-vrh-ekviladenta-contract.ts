@@ -221,3 +221,54 @@ export const DEVELOPER_CREATE_AUDIO_VISUAL_SCENE_VOCABULARY = [
     mappedTrack: 'METRIČKO PROGRAMIRANJE',
   },
 ] as const;
+
+export const DEVELOPER_CREATE_SARADNJA_READY_SCOPE_LOCK =
+  'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA' as const;
+
+export const DEVELOPER_CREATE_SARADNJA_READY_BOUNDED_VOCABULARY = [
+  'EXTRIMLI',
+  'EXTRONDOL',
+  'EXTREM',
+  'DOK',
+  'DUK',
+  'DAK',
+  'DIK',
+  'FOR',
+] as const;
+
+export const DEVELOPER_CREATE_SARADNJA_READY_LAYER_RESPONSIBILITIES = {
+  extrem: 'technical-readiness-and-execution-signal-dok-dik-for',
+  extrondol: 'governance-review-freeze-promotion-rollback-dak-duk',
+  spajaKod: 'public-audit-safe-summary-without-internal-formulas',
+  vrh: 'interpretative-orchestration-layer-without-new-runtime-source-of-truth',
+} as const;
+
+export const DEVELOPER_CREATE_SARADNJA_READY_SPAJA_BAZA_POLICY = {
+  model: 'infinitely-extendable-knowledge-layer',
+  ingestionAndIndexingSurface:
+    'existing-api-ingest-crawl-index-search-citations-health-metrics',
+  requiredGovernance:
+    'source-quality-audit-trail-incident-procedure-rollout-rollback',
+  requiredStabilityMetrics: ['latency', 'citation-rate', 'failed-jobs'],
+} as const;
+
+export const DEVELOPER_CREATE_SARADNJA_READY_GITHUB_VERCEL_OPERATING_MODEL = {
+  declaration: 'poklanjam-na-rad-github-i-vercel',
+  githubRole: 'code-source-of-truth-workflow-governance-audit-evidence',
+  vercelRole: 'controlled-deployment-layer-with-clear-gates',
+  secretsBoundary: 'secrets-management-only-no-secrets-in-repository',
+} as const;
+
+export const DEVELOPER_CREATE_SARADNJA_READY_QUALITY_GATES = {
+  mandatoryHumanReviewBeforePromotion: true,
+  statusLanguage: ['READY', 'WATCH', 'BLOCKED'],
+  requiresDownstreamReference: true,
+  requiresRollbackPlan: true,
+  requiresKpiImpactSummary: true,
+} as const;
+
+export const DEVELOPER_CREATE_SARADNJA_READY_PACKAGE = {
+  packageLock: 'single-manifest-roadmap-phases-acceptance-criteria',
+  standardizedAuditSummaryForEachChange: true,
+  signature: 'Srdačan pozdrav, Nikola Spajić',
+} as const;
