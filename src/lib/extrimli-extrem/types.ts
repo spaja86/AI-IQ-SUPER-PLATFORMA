@@ -2680,18 +2680,12 @@ export interface ExtrimliDokDikDakDukConsistencyHealth {
       readinessModel: readonly ['READY', 'WATCH', 'BLOCKED'];
       readinessStatus: 'READY' | 'WATCH' | 'BLOCKED';
       readinessScore: number;
-      audioSceneVocabulary: Array<{
-        token: (typeof DEVELOPER_CREATE_AUDIO_VISUAL_SCENE_VOCABULARY)[number]['token'];
-        meaning: (typeof DEVELOPER_CREATE_AUDIO_VISUAL_SCENE_VOCABULARY)[number]['meaning'];
-        role: (typeof DEVELOPER_CREATE_AUDIO_VISUAL_SCENE_VOCABULARY)[number]['role'];
-        mappedTrack:
-          | 'SINEMETRIČKO PROGRAMIRANJE'
-          | 'OBJEKTNO ORIJENTISANA REPRODUKCIJA'
-          | 'PROPORCIONALNO PROGRAMIRANJE'
-          | 'METRIČKO PROGRAMIRANJE'
-          | 'PARADIJOGONALNO PROGRAMIRANJE';
-        status: 'READY' | 'WATCH' | 'BLOCKED';
-      }>;
+      audioSceneVocabulary: {
+        readonly [Index in keyof typeof DEVELOPER_CREATE_AUDIO_VISUAL_SCENE_VOCABULARY]:
+          (typeof DEVELOPER_CREATE_AUDIO_VISUAL_SCENE_VOCABULARY)[Index] & {
+            readonly status: 'READY' | 'WATCH' | 'BLOCKED';
+          };
+      };
       technicalProfile: {
         consolidatedStatus: 'READY' | 'WATCH' | 'BLOCKED';
         vocalConsistencyStatus: ExtrimliExtremSinemetrickoProgramiranjeSignal['readiness']['status'];
