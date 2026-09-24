@@ -170,6 +170,15 @@ async function runTests(): Promise<void> {
     assert(implementationPackage.covecanstvuEpilogBoundary.downstreamSyncFields.join(',') === 'masterEpilog,posterSummary,videoStoryboardSummary,auditShortSummary,governanceChecklistStatus', 'developer/create implementation package downstream audit fields mismatch');
     assert(implementationPackage.audioVisualKontrabasBoundary.trackRole === 'audio-visual-reflection-package', 'developer/create implementation package audio-visual boundary role mismatch');
     assert(implementationPackage.audioVisualKontrabasBoundary.noNewDspEngine, 'developer/create implementation package audio-visual boundary must forbid a new DSP engine');
+    assert(implementationPackage.smartProgramskiJezikPackage.scopeLock === 'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA', 'developer/create smart language scope lock mismatch');
+    assert(implementationPackage.smartProgramskiJezikPackage.semanticCore.aiIqProgramskiJezikRole === 'dsl-orchestration-explainability-framework', 'developer/create smart language AI IQ role mismatch');
+    assert(implementationPackage.smartProgramskiJezikPackage.semanticCore.funkcionalniDokazUObjektnomOkruzenju === 'spajino-proporcionalno-programiranje-univerzitet', 'developer/create smart language functional/object proof mismatch');
+    assert(implementationPackage.smartProgramskiJezikPackage.boundedVocabulary.dokDikFor === 'EXTREM', 'developer/create smart language EXTREM ownership mismatch');
+    assert(implementationPackage.smartProgramskiJezikPackage.boundedVocabulary.dakDuk === 'EXTRONDOL', 'developer/create smart language EXTRONDOL ownership mismatch');
+    assert(implementationPackage.smartProgramskiJezikPackage.boundedVocabulary.spajaKod === 'audit-safe-summary-only', 'developer/create smart language SPAJA KOD ownership mismatch');
+    assert(['READY', 'WATCH', 'BLOCKED'].includes(implementationPackage.smartProgramskiJezikPackage.technicalProfile.status), 'developer/create smart language status mismatch');
+    assert(implementationPackage.smartProgramskiJezikPackage.spajaKodSummaryContract.exposedFields.join(',') === 'readinessStatus,blockerReasons,watchReasons,reviewPosture,downstreamReference', 'developer/create smart language summary fields mismatch');
+    assert(implementationPackage.smartProgramskiJezikPackage.governanceMirror.downstreamReference === 'spaja86/IO-OPENUI-AO', 'developer/create smart language downstream reference mismatch');
     assert(implementationPackage.napoleonDiskaveriSelectionBoundary.trackRole === 'bounded-discovery-selection-alias-track', 'developer/create implementation package Napoleon Diskaveri boundary role mismatch');
     assert(implementationPackage.napoleonDiskaveriSelectionBoundary.parentTrack === 'MAPE UMA', 'developer/create implementation package Napoleon Diskaveri parent track mismatch');
     assert(implementationPackage.napoleonDiskaveriSelectionBoundary.noNewRuntimeEngine, 'developer/create implementation package Napoleon Diskaveri boundary must forbid new runtime engines');

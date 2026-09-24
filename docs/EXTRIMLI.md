@@ -193,6 +193,7 @@ Promotion freeze je obavezan kada KPI/audit/sync nije potpun, uz rollback na pre
 - Shared roadmap `versionRoadmap.developerCreateLock` dodatno zaključava jezgro artefakata, ownership split i obavezne drift-zero slojeve (`docs + types + routes + tests + workflows`).
 - Shared roadmap `versionRoadmap.developerCreateLock.prExecutionLock` obavezuje da svaki PR mapira tačno jednu roadmap fazu uz merljiv izlaz (`roadmapStageId`, `measurableOutput`, `acceptanceEvidence`).
 - Shared roadmap `versionRoadmap.developerCreateLock.operationalAuditPackage` standardizuje audit-ready PR opis (`rolloutPlan`, `rollbackPlan`, `kpiImpact`, `humanReviewStatus`, `downstreamReference`).
+- `DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == SMART PROGRAMSKI JEZIK` ostaje additive-only bounded paket nad postojećim slojevima: `AI IQ PROGRAMSKI JEZIK` drži DSL/orchestration/explainability, `SPAJINO PROPORCIONALNO PROGRAMIRANJE UNIVERZITET` drži funkcionalno-objektni tehnički dokaz, `EXTRONDOL` WAWE/human-review/freeze/rollback ogledalo, a `SPAJA KOD` samo audit-safe summary polja.
 - KORON overlay route: `src/app/api/extrimli/koron/route.ts`
 - DUEL KING route: `src/app/api/extrimli/duel-king/route.ts`
 

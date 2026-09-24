@@ -3888,6 +3888,58 @@ export interface ExtrimliDokDikDakDukConsistencyHealth {
           radniTaktMozgaMislilac: 'readiness-disciplina';
         };
       };
+      smartProgramskiJezikPackage: {
+        canonicalName: 'DEVELOPER AND CREATE / VRH PROGRAMSKOG EKVILADENTA / SMART PROGRAMSKI JEZIK';
+        scopeLock: 'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA';
+        additiveOnly: true;
+        noNewRuntimeRoutes: true;
+        noParallelSourceOfTruth: true;
+        noNewSourceOfTruthSystem: true;
+        semanticCore: {
+          aiIqProgramskiJezikRole: 'dsl-orchestration-explainability-framework';
+          funkcionalniDokazUObjektnomOkruzenju: 'spajino-proporcionalno-programiranje-univerzitet';
+          repositoryPosition: 'AI IQ PROGRAMSKI JEZIK + spreg funkcionalnog i objektnog programiranja';
+        };
+        boundedVocabulary: {
+          dokDikFor: 'EXTREM';
+          dakDuk: 'EXTRONDOL';
+          spajaKod: 'audit-safe-summary-only';
+        };
+        technicalProfile: {
+          functionalFlowPercent: number;
+          objectStructurePercent: number;
+          proportionalBalancePercent: number;
+          deterministicFallbackRequired: boolean;
+          conflictPressurePercent: number;
+          degraded: boolean;
+          status: 'READY' | 'WATCH' | 'BLOCKED';
+        };
+        readinessScore: number;
+        blockerReasons: string[];
+        watchReasons: string[];
+        reviewPosture: 'ALIGNED' | 'WATCH' | 'REVIEW_REQUIRED';
+        governanceMirror: {
+          waweProgressionRequired: true;
+          humanReviewRequired: true;
+          promotionFreezeManagedBy: 'EXTRONDOL';
+          rollbackPlanRequired: true;
+          releaseAuditSummaryRequired: true;
+          downstreamReference: 'spaja86/IO-OPENUI-AO';
+        };
+        spajaKodSummaryContract: {
+          exposedFields: readonly [
+            'readinessStatus',
+            'blockerReasons',
+            'watchReasons',
+            'reviewPosture',
+            'downstreamReference'
+          ];
+          rawFormulaInternalsExposed: false;
+          internalScoringExposed: false;
+          newExecutionRulesAllowed: false;
+        };
+        downstreamReference: 'docs/MULTI-REPO-LINKS.md -> spaja86/IO-OPENUI-AO (summary-only)';
+      };
       audioVisualKontrabasBoundary: {
         trackRole: 'audio-visual-reflection-package';
         extremPublishes: 'technical-audio-visual-readiness-only';
