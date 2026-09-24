@@ -98,7 +98,22 @@ Svaka faza mora imati: `roadmapStageId`, `measurableOutput`, `acceptanceEvidence
 - Acceptance paket za ovu traku ostaje isti narativ kroz `docs + types + routes + tests + workflows`, deterministički `READY | WATCH | BLOCKED` model, audit trail u EXTREM/EXTRONDOL slojevima i summary-only downstream sync prema `spaja86/IO-OPENUI-AO`.
 
 
-### 2.2.2) Napoleon Diskaveri bounded discovery-selection alias
+### 2.2.2) Vizuelizacija ekstremnog kvaliteta programski jezik
+
+- Novi bounded alias ostaje zaključan kao `DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == VIZUELIZACIJA EKSTREMNOG KVALITETA PROGRAMSKI JEZIK (SPOZNAVANJE OBJEKTNIH PRIMESA U OKTAVNOM SISTEMU)`.
+- Traka je additive-only i ostaje unutar postojećeg `EXTRIMLI / EXTREM / EXTRONDOL / SPAJA KOD` modela bez novih ruta, bez paralelnog source-of-truth sistema i bez novog izvršnog vizuelnog engine-a.
+- `EXTREM` ostaje tehnički signal za readiness, fallback, konflikt, objekt/funkcija/FOR mapiranje i bounded vizuelni kvalitet, `EXTRONDOL` ostaje governance ogledalo za `WAWE`, `promotionFreeze`, `humanReview`, `releaseAuditSummary`, `rollback` i `downstreamReference`, a `SPAJA KOD` ostaje isključivo audit-safe summary boundary.
+- Interpretativno naslanjanje ostaje zaključano na postojeće trake: `VRH PROGRAMSKOG EKVILADENTA`, `AI IQ PROGRAMSKI JEZIK`, `PROGRAMSKI JEZIK DEKORACIJE OBJEKTNIH PRIMESA`, `PROGRAMSKI JEZIK PARADIGMA I OBLIKOVANJE TELA` i postojeći oktavni/orchestracioni model kao dokumentaciono objašnjenje, nikad kao novi runtime.
+- Četiri zaključane trake ostaju obavezne:
+  1. **tehnička traka** — readiness, conflict, deterministic fallback i objekt/funkcija/FOR signal;
+  2. **governance traka** — human review, promotion freeze, release audit summary, rollback i downstream reference;
+  3. **vizuelna traka** — primarne i supplemental visual reference ostaju audit/reference evidence-only sloj;
+  4. **downstream traka** — `spaja86/IO-OPENUI-AO` troši samo summary-safe status, review posture, blocker reason i downstream reference.
+- Ownership split ostaje nepromenjen: `DOK + DIK + FOR` ostaju EXTREM tehnički sloj, `DAK + DUK` ostaju EXTRONDOL governance sloj, a `SPAJA KOD` ne izlaže sirove formule, interne scoring detalje, interne oktavne interpretacije niti izvršna pravila.
+- Kanonski scenario za primarni audit/reference vizuel ostaje zaključan kao `scenarioId=developer-create-vizuelizacija-ekstremnog-kvaliteta-oktavni-sistem`, dok supplemental vizueli mogu postojati samo kao summary-safe evidence u okviru istog bounded paketa.
+- Acceptance paket ostaje zaključan na `roadmapStageId`, `measurableOutput`, `acceptanceEvidence`, `rolloutPlan`, `rollbackPlan`, `humanReviewStatus` i `downstreamReference`, uz isti `READY | WATCH | BLOCKED` model i isti drift-zero zahtev kroz `docs + types + routes + tests + workflows`.
+
+### 2.2.3) Napoleon Diskaveri bounded discovery-selection alias
 
 - Alias ostaje zaključan na naziv `SELEKCIONIRANJE U SELEKCIJAMA PREMA AKTIVNOM NADMAŠAJU / NAPOLEON DISKAVERI`.
 - Ne uvodi novi runtime engine, novu rutu, novu discovery payload familiju ili paralelni source-of-truth sistem.
@@ -229,6 +244,7 @@ Acceptance lock ostaje:
 - EXTREM/EXTRONDOL tipovi ostaju versioned, additive-only i backward-compatible.
 - Svaka nova obavezna semantika mora biti dokumentovana u docs + types + routes + tests + workflow slojevima.
 - `METRIČKO PROGRAMIRANJE` prati isti additive-only nucleus: declaration-matrix + instance-positioning signal u EXTREM, governance interpretacija u EXTRONDOL, audit-safe summary u SPAJA KOD.
+- `VIZUELIZACIJA EKSTREMNOG KVALITETA PROGRAMSKI JEZIK (SPOZNAVANJE OBJEKTNIH PRIMESA U OKTAVNOM SISTEMU)` prati isti additive-only nucleus: tehnički signal ostaje u EXTREM, governance ogledalo ostaje u EXTRONDOL, a audit-safe public/downstream summary ostaje u SPAJA KOD.
 
 ### Stream B — API surface stabilnost i degradacija
 - Održati `partial-payload-no-500` politiku.
@@ -246,6 +262,7 @@ Acceptance lock ostaje:
 - `PROGRAMSKI EKANALOG (razumevanje logike)` je obavezni audit-ready interpretacioni sloj nad laboratorijskim rezultatima bez novih source-of-truth ruta.
 - `VRH PROGRAMSKOG EKVILADENTA` ostaje additive-only interpretativni vršni sloj nad `PROPORCIONALNO PROGRAMIRANJE`: satnica se mapira na `METRIČKO PROGRAMIRANJE`, vokalni/narativni deo na `SINEMETRIČKO PROGRAMIRANJE`, a instrument tabla na `PARADIJOGONALNO PROGRAMIRANJE` (`docs/EXTRIMLI-PARADIJOGONALNO-PROGRAMIRANJE.md`), bez uvođenja novih runtime ruta.
 - `DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == RADNI TAKT MOZGA (MISLILAC)` ostaje repo-wide reflection lock: isti `READY | WATCH | BLOCKED` jezik, isti deterministic fallback za `NaN`, `Infinity`, prazne i konfliktne ulaze i isti `dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection` dokaz moraju važiti kroz docs + types + routes + tests + workflows.
+- `DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == VIZUELIZACIJA EKSTREMNOG KVALITETA PROGRAMSKI JEZIK (SPOZNAVANJE OBJEKTNIH PRIMESA U OKTAVNOM SISTEMU)` ostaje bounded vizuelno-programski alias nad istim reflection paketom: objektne primese i oblikovanje tela ostaju interpretativni izvor, oktavni sistemi ostaju dokumentaciono/orchestraciono objašnjenje, a runtime source-of-truth ostaju postojeće `/api/extrimli/extrem`, `/api/extrimli/extrondol` i `/api/extrimli/spaja-kod` granice.
 - `KRALJEVSKI PROGRAMSKI UNEVERZITET` je dozvoljen samo kao additive-only vršni programski alias nad postojećim `VRH PROGRAMSKOG EKVILADENTA`, `METRIČKO PROGRAMIRANJE`, `SINEMETRIČKO PROGRAMIRANJE`, `PARADIJOGONALNO PROGRAMIRANJE` i `RADNI TAKT MOZGA (MISLILAC)` signalima; ne uvodi novi runtime modul, novu formulu niti novi source-of-truth sistem.
 - Kanonski narativ ostaje zaključan: `DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == KRALJEVSKI PROGRAMSKI UNEVERZITET`.
 - Paralelni bounded društveni lock ostaje additive-only: `DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == KRALJEVSKI DRUŠTVENI POREDAK`; ne uvodi novi runtime modul, već governance/socijalni narativ nad postojećim reflection paketom.
