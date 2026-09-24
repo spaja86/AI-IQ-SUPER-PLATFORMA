@@ -456,8 +456,12 @@ function buildKraljevskaPlataSummary(
       ? paymentVerification.blockers[0] ?? 'payment-verification-required'
       : kraljevskaPlataPolicy.approvalStatus === 'BLOCKED'
         ? 'approval-status-blocked'
+        : kraljevskaPlataPolicy.approvalStatus === 'WATCH'
+          ? 'approval-status-watch'
         : kraljevskaPlataPolicy.payoutReadinessStatus === 'BLOCKED'
           ? 'payout-readiness-blocked'
+          : kraljevskaPlataPolicy.payoutReadinessStatus === 'WATCH'
+            ? 'payout-readiness-watch'
           : null;
 
   return {
