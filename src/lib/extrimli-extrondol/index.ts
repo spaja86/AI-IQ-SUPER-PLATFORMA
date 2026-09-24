@@ -456,7 +456,7 @@ function buildKraljevskaPlataSummary(
       ? 'approval-status-blocked'
       : kraljevskaPlataPolicy.payoutReadinessStatus === 'BLOCKED'
         ? 'payout-readiness-blocked'
-        : paymentVerification.status !== 'VERIFIED'
+        : paymentVerification.status === 'BLOCKED'
           ? paymentVerification.blockers[0] ?? 'payment-verification-required'
           : kraljevskaPlataPolicy.approvalStatus === 'WATCH'
             ? 'approval-status-watch'
