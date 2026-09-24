@@ -3,6 +3,7 @@ name: EXTRIMLI — Validator
 on:
   pull_request:
     paths:
+      - 'src/lib/developer-create-vrh-ekviladenta-contract.ts'
       - 'src/lib/extrimli/**'
       - 'src/lib/extrimli-extendol/**'
       - 'src/lib/extrimli-koron/**'
@@ -55,6 +56,7 @@ on:
   push:
     branches: [main]
     paths:
+      - 'src/lib/developer-create-vrh-ekviladenta-contract.ts'
       - 'src/lib/extrimli/**'
       - 'src/lib/extrimli-extendol/**'
       - 'src/lib/extrimli-koron/**'
@@ -125,6 +127,7 @@ jobs:
         src/lib/extrimli-duel-king
         src/lib/extrimli-3
         src/lib/duet
+        src/lib/developer-create-vrh-ekviladenta-contract.ts
         src/app/api/extrimli
         src/app/api/extrimli/duel-king
         src/app/api/extrimli-3
@@ -154,6 +157,7 @@ jobs:
         src/lib/extrimli-duel-king
         src/lib/extrimli-3
         src/lib/duet
+        src/lib/developer-create-vrh-ekviladenta-contract.ts
         src/app/api/extrimli
         src/app/api/extrimli/duel-king
         src/app/api/extrimli-3

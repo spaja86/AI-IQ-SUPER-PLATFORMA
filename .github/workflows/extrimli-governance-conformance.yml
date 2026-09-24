@@ -7,6 +7,7 @@ on:
   push:
     branches: [main]
     paths:
+      - 'src/lib/developer-create-vrh-ekviladenta-contract.ts'
       - 'src/lib/extrimli-extrondol/**'
       - 'src/lib/extrimli-extrem/**'
       - 'src/app/api/extrimli/extrondol/**'
@@ -67,6 +68,7 @@ jobs:
           const informacioniTokoviDoc = fs.readFileSync('docs/PROGRAMSKI-JEZIK-INFORMACIONIH-TOKOVA.md', 'utf8');
           const paradigmaDoc = fs.readFileSync('docs/PROGRAMSKI-JEZIK-PARADIGMA-I-OBLIKOVANJE-TELA.md', 'utf8');
           const developerCreateProgramDoc = fs.readFileSync('docs/EXTRIMLI-DEVELOPER-CREATE-PROGRAM.md', 'utf8');
+          const developerCreateNarrativeContract = fs.readFileSync('src/lib/developer-create-vrh-ekviladenta-contract.ts', 'utf8');
           const vrhDoc = fs.readFileSync('docs/EXTRIMLI-VRH-PROGRAMSKOG-EKVILADENTA.md', 'utf8');
           const worldBankDoc = fs.readFileSync('docs/AI-IQ-WORLD-BANK-AI-IDENTITY-FINANCE-GOVERNANCE.md', 'utf8');
           const metrikoDoc = fs.readFileSync('docs/EXTRIMLI-METRICKO-PROGRAMIRANJE.md', 'utf8');
@@ -79,6 +81,9 @@ jobs:
           const externalWorkflow = fs.readFileSync('.github/workflows/extrimli-external-github.yml', 'utf8');
 
           assert(types.includes('export interface ExtrimliExtrondolContractDriftReport'), 'types must expose ExtrimliExtrondolContractDriftReport');
+          assert(developerCreateNarrativeContract.includes('DEVELOPER_CREATE_VRH_MAIN_MANIFEST_DOCUMENT'), 'Developer/Create contract must expose the main manifest document');
+          assert(developerCreateNarrativeContract.includes('DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA'), 'Developer/Create contract must expose the canonical narrative sentence');
+          assert(developerCreateNarrativeContract.includes('requiresSharedStoryAcross') && developerCreateNarrativeContract.includes("'workflows'"), 'Developer/Create contract must keep workflows inside the stabilization criteria');
           assert(versionRoadmap.includes('export interface ExtrimliDeveloperCreateProgramLock'), 'roadmap must expose Developer/Create lock type');
           assert(versionRoadmap.includes('developerCreateLock'), 'roadmap must publish Developer/Create lock payload');
           assert(versionRoadmap.includes('docs/EXTRIMLI-VRH-PROGRAMSKOG-EKVILADENTA.md'), 'roadmap lock must include VRH doc artifact');
