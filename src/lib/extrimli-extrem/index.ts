@@ -9074,9 +9074,11 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
       : [inspektoriRuleConsistencyStatus, inspektoriEvidentiaryCompletenessStatus].includes('WATCH')
         ? 'WATCH'
         : 'READY';
+  const inspektoriHumanReviewRequired = true as const;
   const inspektoriReviewPosture: 'ALIGNED' | 'WATCH' | 'REVIEW_REQUIRED' =
     inspektoriBlockerSummary.length > 0
       || inspektoriJusticePathConsistency === 'BLOCKED'
+      || inspektoriHumanReviewRequired
       ? 'REVIEW_REQUIRED'
       : inspektoriJusticePathConsistency === 'WATCH'
         ? 'WATCH'
@@ -9113,7 +9115,7 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
       ruleConsistencyStatus: inspektoriRuleConsistencyStatus,
       evidentiaryCompletenessStatus: inspektoriEvidentiaryCompletenessStatus,
       reviewPosture: inspektoriReviewPosture,
-      humanReviewRequired: true,
+      humanReviewRequired: inspektoriHumanReviewRequired,
       blockerSummary: inspektoriBlockerSummary,
       justicePathConsistency: inspektoriJusticePathConsistency,
     },
