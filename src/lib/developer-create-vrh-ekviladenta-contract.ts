@@ -20,7 +20,7 @@ export const DEVELOPER_CREATE_VRH_FOUR_PERMANENT_LAYERS = {
   },
   extrondol: {
     canonicalName: 'EXTRONDOL',
-    role: 'governance-wawe-audit-freeze-promotion',
+    role: 'governance-WAWE-audit-freeze-promotion',
   },
   spajaKod: {
     canonicalName: 'SPAJA KOD',
