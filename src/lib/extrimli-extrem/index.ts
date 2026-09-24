@@ -8603,20 +8603,18 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
     },
     consolidatedRhythmStatus: dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.status,
   };
-  const audioVisualKontrabasSignalStatuses = [
-    sinemetrickoProgramiranje.readiness.status,
-    objektnoOrijentisanaReprodukcija.readiness.status,
-    proporcionalnoProgramiranje.readiness.status,
-    metrikoProgramiranje.readiness.status,
-    paradijogonalnoProgrimiranje.readiness.status,
+  const audioVisualKontrabasContributingSignals = [
+    sinemetrickoProgramiranje.readiness,
+    objektnoOrijentisanaReprodukcija.readiness,
+    proporcionalnoProgramiranje.readiness,
+    metrikoProgramiranje.readiness,
+    paradijogonalnoProgrimiranje.readiness,
   ];
-  const audioVisualKontrabasSignalScores = [
-    sinemetrickoProgramiranje.readiness.score,
-    objektnoOrijentisanaReprodukcija.readiness.score,
-    proporcionalnoProgramiranje.readiness.score,
-    metrikoProgramiranje.readiness.score,
-    paradijogonalnoProgrimiranje.readiness.score,
-  ];
+  if (audioVisualKontrabasContributingSignals.length === 0) {
+    throw new Error('audio-visual-kontrabas-package-requires-contributing-signals');
+  }
+  const audioVisualKontrabasSignalStatuses = audioVisualKontrabasContributingSignals.map((signal) => signal.status);
+  const audioVisualKontrabasSignalScores = audioVisualKontrabasContributingSignals.map((signal) => signal.score);
   const audioVisualKontrabasReadinessStatus = audioVisualKontrabasSignalStatuses.includes('BLOCKED')
     ? 'BLOCKED'
     : audioVisualKontrabasSignalStatuses.includes('WATCH')
