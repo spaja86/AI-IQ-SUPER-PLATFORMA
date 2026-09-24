@@ -53,9 +53,15 @@ jobs:
 
       - name: 🔎 Contract drift checks (docs/types/routes/workflows)
         run: |
-          node <<'NODE'
-          const fs = require('fs');
-          function assert(condition, message) {
+          npx tsx <<'TS'
+          import fs from 'node:fs';
+          import {
+            DEVELOPER_CREATE_VRH_CANONICAL_NARRATIVE_SENTENCE,
+            DEVELOPER_CREATE_VRH_MAIN_MANIFEST_DOCUMENT,
+            DEVELOPER_CREATE_VRH_SUCCESSFUL_NARRATIVE_CRITERIA,
+          } from './src/lib/developer-create-vrh-ekviladenta-contract';
+
+          function assert(condition: unknown, message: string) {
             if (!condition) throw new Error(message);
           }
 
@@ -68,7 +74,6 @@ jobs:
           const informacioniTokoviDoc = fs.readFileSync('docs/PROGRAMSKI-JEZIK-INFORMACIONIH-TOKOVA.md', 'utf8');
           const paradigmaDoc = fs.readFileSync('docs/PROGRAMSKI-JEZIK-PARADIGMA-I-OBLIKOVANJE-TELA.md', 'utf8');
           const developerCreateProgramDoc = fs.readFileSync('docs/EXTRIMLI-DEVELOPER-CREATE-PROGRAM.md', 'utf8');
-          const developerCreateNarrativeContract = fs.readFileSync('src/lib/developer-create-vrh-ekviladenta-contract.ts', 'utf8');
           const vrhDoc = fs.readFileSync('docs/EXTRIMLI-VRH-PROGRAMSKOG-EKVILADENTA.md', 'utf8');
           const worldBankDoc = fs.readFileSync('docs/AI-IQ-WORLD-BANK-AI-IDENTITY-FINANCE-GOVERNANCE.md', 'utf8');
           const metrikoDoc = fs.readFileSync('docs/EXTRIMLI-METRICKO-PROGRAMIRANJE.md', 'utf8');
@@ -81,9 +86,9 @@ jobs:
           const externalWorkflow = fs.readFileSync('.github/workflows/extrimli-external-github.yml', 'utf8');
 
           assert(types.includes('export interface ExtrimliExtrondolContractDriftReport'), 'types must expose ExtrimliExtrondolContractDriftReport');
-          assert(developerCreateNarrativeContract.includes('DEVELOPER_CREATE_VRH_MAIN_MANIFEST_DOCUMENT'), 'Developer/Create contract must expose the main manifest document');
-          assert(developerCreateNarrativeContract.includes('DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA'), 'Developer/Create contract must expose the canonical narrative sentence');
-          assert(developerCreateNarrativeContract.includes('requiresSharedStoryAcross') && developerCreateNarrativeContract.includes("'workflows'"), 'Developer/Create contract must keep workflows inside the stabilization criteria');
+          assert(DEVELOPER_CREATE_VRH_MAIN_MANIFEST_DOCUMENT === 'docs/EXTRIMLI-DEVELOPER-CREATE-PROGRAM.md', 'Developer/Create contract must expose the canonical main manifest document');
+          assert(DEVELOPER_CREATE_VRH_CANONICAL_NARRATIVE_SENTENCE === 'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA', 'Developer/Create contract must expose the canonical narrative sentence');
+          assert(DEVELOPER_CREATE_VRH_SUCCESSFUL_NARRATIVE_CRITERIA.requiresSharedStoryAcross.includes('workflows'), 'Developer/Create contract must keep workflows inside the stabilization criteria');
           assert(versionRoadmap.includes('export interface ExtrimliDeveloperCreateProgramLock'), 'roadmap must expose Developer/Create lock type');
           assert(versionRoadmap.includes('developerCreateLock'), 'roadmap must publish Developer/Create lock payload');
           assert(versionRoadmap.includes('docs/EXTRIMLI-VRH-PROGRAMSKOG-EKVILADENTA.md'), 'roadmap lock must include VRH doc artifact');
@@ -265,7 +270,7 @@ jobs:
           assert(externalWorkflow.includes('docs/PROGRAMSKI-JEZIK-PARADIGMA-I-OBLIKOVANJE-TELA.md'), 'external workflow must watch paradigma/body-shaping doc');
           assert(externalWorkflow.includes('src/tests/lib/extrimli-extrem.test.ts'), 'external workflow must watch EXTREM profiler tests');
           assert(externalWorkflow.includes('.github/workflows/extrimli-governance-conformance.yml'), 'external workflow must watch governance conformance workflow');
-          NODE
+          TS
 
       - name: 🧪 EXTRONDOL governance tests
         run: npx tsx src/tests/lib/extrimli-extrondol.test.ts
