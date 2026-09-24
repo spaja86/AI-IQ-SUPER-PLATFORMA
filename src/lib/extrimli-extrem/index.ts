@@ -8636,6 +8636,24 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
     dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.score,
     audioVisualKontrabasTrackScore,
   );
+  const getAudioVisualSceneTrackStatus = (
+    mappedTrack: (typeof DEVELOPER_CREATE_AUDIO_VISUAL_SCENE_VOCABULARY)[number]['mappedTrack'],
+  ) => {
+    switch (mappedTrack) {
+      case 'SINEMETRIČKO PROGRAMIRANJE':
+        return sinemetrickoProgramiranje.readiness.status;
+      case 'OBJEKTNO ORIJENTISANA REPRODUKCIJA':
+        return objektnoOrijentisanaReprodukcija.readiness.status;
+      case 'PROPORCIONALNO PROGRAMIRANJE':
+        return proporcionalnoProgramiranje.readiness.status;
+      case 'METRIČKO PROGRAMIRANJE':
+        return metrikoProgramiranje.readiness.status;
+      case 'PARADIJOGONALNO PROGRAMIRANJE':
+        return paradijogonalnoProgrimiranje.readiness.status;
+      default:
+        throw new Error(`unsupported-audio-visual-mapped-track:${mappedTrack}`);
+    }
+  };
   dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.audioVisualKontrabasPackage = {
     canonicalName: DEVELOPER_CREATE_AUDIO_VISUAL_KONTRABAS_CANONICAL_NAME,
     scopeStatement: DEVELOPER_CREATE_AUDIO_VISUAL_KONTRABAS_SCOPE_STATEMENT,
@@ -8662,16 +8680,7 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
     readinessScore: audioVisualKontrabasReadinessScore,
     audioSceneVocabulary: DEVELOPER_CREATE_AUDIO_VISUAL_SCENE_VOCABULARY.map((entry) => ({
       ...entry,
-      status:
-        entry.mappedTrack === 'SINEMETRIČKO PROGRAMIRANJE'
-          ? sinemetrickoProgramiranje.readiness.status
-          : entry.mappedTrack === 'OBJEKTNO ORIJENTISANA REPRODUKCIJA'
-            ? objektnoOrijentisanaReprodukcija.readiness.status
-            : entry.mappedTrack === 'PROPORCIONALNO PROGRAMIRANJE'
-              ? proporcionalnoProgramiranje.readiness.status
-              : entry.mappedTrack === 'METRIČKO PROGRAMIRANJE'
-                ? metrikoProgramiranje.readiness.status
-                : paradijogonalnoProgrimiranje.readiness.status,
+      status: getAudioVisualSceneTrackStatus(entry.mappedTrack),
     })),
     technicalProfile: {
       consolidatedStatus: audioVisualKontrabasReadinessStatus,
