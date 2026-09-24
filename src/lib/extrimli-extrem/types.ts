@@ -3223,6 +3223,51 @@ export interface ExtrimliDokDikDakDukConsistencyHealth {
           noWeaponizationDetails: true;
           auditSafeSummaryOnly: true;
         };
+        kraljevskaVojnaIPolicijskaOprema: {
+          canonicalName: 'KRALJEVSKA VOJNA I POLICIJSKA OPREMA';
+          additiveOnly: true;
+          parentTrack: 'KRALJEVSKI AKT BEZBEDNOSTI';
+          governanceCatalogOnly: true;
+          sourceOfTruthRoutes: readonly ['/api/extrimli/extrem', '/api/extrimli/extrondol', '/api/extrimli/spaja-kod'];
+          categoryCatalog: readonly ['KRALJEVSKI', 'VOJNI', 'POLICIJSKI'];
+          qualityCriteria: {
+            complianceStatus: 'READY' | 'WATCH' | 'BLOCKED';
+            certificationStatus: 'READY' | 'WATCH' | 'BLOCKED';
+            availabilityStatus: 'READY' | 'WATCH' | 'BLOCKED';
+            lifecycleStatus: 'READY' | 'WATCH' | 'BLOCKED';
+            riskStatus: 'READY' | 'WATCH' | 'BLOCKED';
+            blockerPosture: 'READY' | 'WATCH' | 'BLOCKED';
+            standard: 'najbolja-savremena-oprema-auditabilno-neoperativno';
+          };
+          requiredGovernanceGates: readonly [
+            'human-review',
+            'compliance-review',
+            'anti-abuse-review',
+            'audit-trail',
+            'rollback-plan',
+            'downstream-sync'
+          ];
+          forbiddenEvidence: readonly [
+            'tactical-instructions',
+            'sensitive-map',
+            'operational-identity',
+            'weaponization-details',
+            'bank-account-number',
+            'kyc-document',
+            'payroll-secret'
+          ];
+          operationalBoundary: {
+            noOperationalSecurityInstructions: true;
+            noTacticalOrSensitiveSecurityData: true;
+            auditSafeSummaryOnly: true;
+          };
+          readiness: {
+            status: 'READY' | 'WATCH' | 'BLOCKED';
+            score: number;
+            deterministicFallbackRequired: boolean;
+          };
+          summary: string;
+        };
         kraljevskaPlataPolicy: {
           canonicalName: 'KRALJEVSKA PLATA';
           rank: 'najvisi-cin-plate';
@@ -3618,7 +3663,7 @@ export interface ExtrimliDokDikDakDukConsistencyHealth {
         extremPublishes: 'bounded-readiness-and-eligibility-signal';
         extrondolPublishes: 'wawe-review-compliance-payment-summary-only';
         spajaKodPublishes: 'final-audit-safe-status-only';
-        linkedDomains: readonly ['GRAĐEVINSKI AKT', 'KRALJEVSKA DOPUNA'];
+        linkedDomains: readonly ['GRAĐEVINSKI AKT', 'KRALJEVSKA DOPUNA', 'KRALJEVSKA VOJNA I POLICIJSKA OPREMA'];
         beneficiaryCategories: readonly ['NEZBRINUTI', 'NEZAPOSLENI'];
         noNewRuntimeModule: true;
         noSocialExecutionSystem: true;

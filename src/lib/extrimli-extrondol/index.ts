@@ -3196,6 +3196,18 @@ function buildSpajaKodFacade(params: {
           params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.kraljevskiDrustveniPoredak.kraljevskiAktBezbednosti.kraljevskaPlataPolicy.approvalStatus,
         payoutReadinessStatus:
           params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.kraljevskiDrustveniPoredak.kraljevskiAktBezbednosti.kraljevskaPlataPolicy.payoutReadinessStatus,
+        kraljevskaVojnaIPolicijskaOpremaSummary: {
+          canonicalName:
+            params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.kraljevskiDrustveniPoredak.kraljevskiAktBezbednosti.kraljevskaVojnaIPolicijskaOprema.canonicalName,
+          categoryCatalog: ['KRALJEVSKI', 'VOJNI', 'POLICIJSKI'],
+          readinessStatus:
+            params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.kraljevskiDrustveniPoredak.kraljevskiAktBezbednosti.kraljevskaVojnaIPolicijskaOprema.readiness.status,
+          qualityCriteria:
+            params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.kraljevskiDrustveniPoredak.kraljevskiAktBezbednosti.kraljevskaVojnaIPolicijskaOprema.qualityCriteria,
+          requiredGovernanceGates:
+            params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.kraljevskiDrustveniPoredak.kraljevskiAktBezbednosti.kraljevskaVojnaIPolicijskaOprema.requiredGovernanceGates,
+          publicBoundary: 'audit-safe-summary-only',
+        },
         publicBoundary: 'audit-safe-summary-only',
         forbiddenEvidence: ['tactical-plan', 'sensitive-map', 'operational-identity', 'bank-account-number', 'kyc-document', 'payroll-secret', 'operational-financial-data'],
         publicSummary:

@@ -2553,6 +2553,14 @@ export interface ExtrimliSpajaKodPublicFacade {
       publicSafetyReviewStatus: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['kraljevskiDrustveniPoredak']['kraljevskiAktBezbednosti']['civilReadinessScope']['publicSafetyReviewPosture'];
       kraljevskaPlataApprovalStatus: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['kraljevskiDrustveniPoredak']['kraljevskiAktBezbednosti']['kraljevskaPlataPolicy']['approvalStatus'];
       payoutReadinessStatus: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['kraljevskiDrustveniPoredak']['kraljevskiAktBezbednosti']['kraljevskaPlataPolicy']['payoutReadinessStatus'];
+      kraljevskaVojnaIPolicijskaOpremaSummary: {
+        canonicalName: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['kraljevskiDrustveniPoredak']['kraljevskiAktBezbednosti']['kraljevskaVojnaIPolicijskaOprema']['canonicalName'];
+        categoryCatalog: readonly ['KRALJEVSKI', 'VOJNI', 'POLICIJSKI'];
+        readinessStatus: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['kraljevskiDrustveniPoredak']['kraljevskiAktBezbednosti']['kraljevskaVojnaIPolicijskaOprema']['readiness']['status'];
+        qualityCriteria: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['kraljevskiDrustveniPoredak']['kraljevskiAktBezbednosti']['kraljevskaVojnaIPolicijskaOprema']['qualityCriteria'];
+        requiredGovernanceGates: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['kraljevskiDrustveniPoredak']['kraljevskiAktBezbednosti']['kraljevskaVojnaIPolicijskaOprema']['requiredGovernanceGates'];
+        publicBoundary: 'audit-safe-summary-only';
+      };
       publicBoundary: 'audit-safe-summary-only';
       forbiddenEvidence: readonly ['tactical-plan', 'sensitive-map', 'operational-identity', 'bank-account-number', 'kyc-document', 'payroll-secret', 'operational-financial-data'];
       publicSummary: string;
