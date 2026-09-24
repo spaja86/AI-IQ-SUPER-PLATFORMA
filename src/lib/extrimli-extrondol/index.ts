@@ -447,16 +447,28 @@ function mapInspektoriGovernance(
   };
 }
 
+function mapKraljevskaPlataPaymentVerificationPosture(
+  status: ExtrimliExtrondolReport['paymentVerification']['status'],
+): 'VERIFIED' | 'WATCH' | 'BLOCKED' {
+  switch (status) {
+    case 'VERIFIED':
+      return 'VERIFIED';
+    case 'BLOCKED':
+      return 'BLOCKED';
+    default: {
+      const exhaustiveStatus: never = status;
+      return exhaustiveStatus;
+    }
+  }
+}
+
 function buildKraljevskaPlataSummary(
   kraljevskaPlataPolicy: ExtrimliExtrondolReport['extremProfiler']['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['kraljevskiDrustveniPoredak']['kraljevskiAktBezbednosti']['kraljevskaPlataPolicy'],
   paymentVerification: ExtrimliExtrondolReport['paymentVerification'],
 ) {
-  const paymentVerificationPosture: 'VERIFIED' | 'WATCH' | 'BLOCKED' =
-    paymentVerification.status === 'VERIFIED'
-      ? 'VERIFIED'
-      : paymentVerification.status === 'BLOCKED'
-        ? 'BLOCKED'
-        : 'WATCH';
+  const paymentVerificationPosture = mapKraljevskaPlataPaymentVerificationPosture(
+    paymentVerification.status,
+  );
   const blockerReason =
     kraljevskaPlataPolicy.approvalStatus === 'BLOCKED'
       ? 'approval-status-blocked'
