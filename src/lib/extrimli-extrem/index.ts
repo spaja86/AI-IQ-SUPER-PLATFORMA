@@ -10590,12 +10590,15 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
     ) / 2,
     2,
   );
+  const eksperimentProgramskiJezikDeterministicFallbackRequired =
+    dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.audioVisualKontrabasPackage.readinessStatus !== 'READY'
+    || dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.implementationPackage.smartProgramskiJezikPackage.technicalProfile.deterministicFallbackRequired;
   dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.eksperimentProgramskiJezikTrack.readinessSignal.status =
     eksperimentProgramskiJezikStatus;
   dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.eksperimentProgramskiJezikTrack.readinessSignal.readinessScore =
     eksperimentProgramskiJezikReadinessScore;
   dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.eksperimentProgramskiJezikTrack.readinessSignal.deterministicFallbackRequired =
-    dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.deterministicFallbackRequired;
+    eksperimentProgramskiJezikDeterministicFallbackRequired;
   dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.eksperimentProgramskiJezikTrack.blockerReasons =
     eksperimentProgramskiJezikStatus === 'BLOCKED'
       ? [
