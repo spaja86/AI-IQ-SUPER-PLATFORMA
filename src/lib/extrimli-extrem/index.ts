@@ -10290,7 +10290,7 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
       spajaKodPublishes: 'status-blocker-watch-review-and-downstream-reference-only',
       technicalBinding: 'developerAndCreateRepoWideReflection.napoleonDiskaveriSelectionTrack',
       noNewRuntimeEngine: true,
-      noNewRuntimeRoute: true,
+      noNewRuntimeRoutes: true,
       noParallelSourceOfTruth: true,
       rawInternalsExposed: false,
     },
