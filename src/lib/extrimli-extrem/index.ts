@@ -10190,6 +10190,49 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
     || programskiJezikParadigmaOblikovanjeTela.readiness.status !== 'READY'
     || programskiJezikDekoracijeObjektnihPrimesa.readiness.status !== 'READY'
     || spajinoProporcionalnoProgramiranjeUniverzitet.readiness.status !== 'READY';
+  const smartProgramskiJezikFunctionalFlowPercent = round(
+    clamp(
+      (
+        programskiJezikInformacionihTokova.technicalSignals.continuationReadinessScore
+        + programskiJezikParadigmaOblikovanjeTela.technicalSignals.functionAdaptationScore
+        + spajinoProporcionalnoProgramiranjeUniverzitet.profileInput.functionalFlowPercent
+      ) / 3,
+      0,
+      100,
+    ),
+    2,
+  );
+  const smartProgramskiJezikObjectStructurePercent = round(
+    clamp(
+      (
+        programskiJezikParadigmaOblikovanjeTela.technicalSignals.objectStateCarrierScore
+        + programskiJezikParadigmaOblikovanjeTela.technicalSignals.bodyCompositionScore
+        + programskiJezikDekoracijeObjektnihPrimesa.technicalSignals.dekoracijaObjekataScore
+        + spajinoProporcionalnoProgramiranjeUniverzitet.profileInput.objectStructurePercent
+      ) / 4,
+      0,
+      100,
+    ),
+    2,
+  );
+  const smartProgramskiJezikProportionalBalancePercent = round(
+    clamp(
+      (
+        programskiJezikInformacionihTokova.technicalSignals.sequenceIntegrityScore
+        + programskiJezikParadigmaOblikovanjeTela.technicalSignals.forAdaptationScore
+        + programskiJezikDekoracijeObjektnihPrimesa.technicalSignals.svestranostUSvestranostiScore
+        + spajinoProporcionalnoProgramiranjeUniverzitet.profileInput.petljeOrchestrationBalancePercent
+      ) / 4,
+      0,
+      100,
+    ),
+    2,
+  );
+  const smartProgramskiJezikDegraded =
+    programskiJezikInformacionihTokova.readiness.degraded
+    || programskiJezikParadigmaOblikovanjeTela.readiness.degraded
+    || programskiJezikDekoracijeObjektnihPrimesa.readiness.degraded
+    || spajinoProporcionalnoProgramiranjeUniverzitet.readiness.degraded;
   const smartProgramskiJezikConflictPressurePercent = round(
     clamp(
       (
@@ -10251,13 +10294,12 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
         spajaKod: 'audit-safe-summary-only',
       },
       technicalProfile: {
-        functionalFlowPercent: spajinoProporcionalnoProgramiranjeUniverzitet.profileInput.functionalFlowPercent,
-        objectStructurePercent: spajinoProporcionalnoProgramiranjeUniverzitet.profileInput.objectStructurePercent,
-        proportionalBalancePercent:
-          spajinoProporcionalnoProgramiranjeUniverzitet.profileInput.petljeOrchestrationBalancePercent,
+        functionalFlowPercent: smartProgramskiJezikFunctionalFlowPercent,
+        objectStructurePercent: smartProgramskiJezikObjectStructurePercent,
+        proportionalBalancePercent: smartProgramskiJezikProportionalBalancePercent,
         deterministicFallbackRequired: smartProgramskiJezikDeterministicFallbackRequired,
         conflictPressurePercent: smartProgramskiJezikConflictPressurePercent,
-        degraded: spajinoProporcionalnoProgramiranjeUniverzitet.readiness.degraded,
+        degraded: smartProgramskiJezikDegraded,
         status: smartProgramskiJezikStatus,
       },
       readinessScore: smartProgramskiJezikReadinessScore,
