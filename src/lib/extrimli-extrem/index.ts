@@ -9107,6 +9107,11 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
         publicSafetyReviewPosture:
           dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.deterministicFallbackRequired
           || privredniAktQuarterlyMarketInput.status === 'BLOCKED'
+          || [
+               resolveDeveloperCreateExtensionStatus(kraljevskiAktBezbednostiCoverageReadinessScore),
+               resolveDeveloperCreateExtensionStatus(kraljevskiAktBezbednostiCoordinationReadinessScore),
+               resolveDeveloperCreateExtensionStatus(kraljevskiAktBezbednostiComplianceReadinessScore),
+             ].includes('BLOCKED')
             ? 'BLOCKED'
             : [
                 resolveDeveloperCreateExtensionStatus(kraljevskiAktBezbednostiCoverageReadinessScore),
