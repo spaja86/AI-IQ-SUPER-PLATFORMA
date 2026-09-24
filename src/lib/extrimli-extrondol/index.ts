@@ -3415,7 +3415,7 @@ function buildSpajaKodFacade(params: {
         watchReasons: [
           ...params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.eksperimentProgramskiJezikTrack.watchReasons,
         ],
-        reviewPosture:
+        humanReviewPosture:
           params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.eksperimentProgramskiJezikTrack.humanReviewPosture,
         downstreamReference:
           params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.eksperimentProgramskiJezikTrack.downstreamReference,

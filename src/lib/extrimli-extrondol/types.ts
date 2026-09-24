@@ -2717,7 +2717,7 @@ export interface ExtrimliSpajaKodPublicFacade {
       status: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['eksperimentProgramskiJezikTrack']['readinessSignal']['status'];
       blockerReasons: string[];
       watchReasons: string[];
-      reviewPosture: 'ALIGNED' | 'WATCH' | 'REVIEW_REQUIRED';
+      humanReviewPosture: 'ALIGNED' | 'WATCH' | 'REVIEW_REQUIRED';
       downstreamReference: 'docs/MULTI-REPO-LINKS.md -> spaja86/IO-OPENUI-AO (summary-only)';
       publicBoundary: 'audit-safe-summary-only';
     };
