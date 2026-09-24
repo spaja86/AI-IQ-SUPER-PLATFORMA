@@ -47,6 +47,7 @@ This repository now exposes five aligned surfaces:
 - Repo-wide reflection sada uključuje i additive-only univerzitetski lifecycle `prijava -> polaganje -> automatski score -> sertifikaciona odluka -> governance provera -> payout odluka -> audit evidencija -> downstream summary objava`.
 - `Testovi po oblastima` su zaključani kao bounded katalog sa `oblast`, `težina`, `minimalni prolaz`, `sertifikacioni prag` i `payout prag`; opseg `80–100%` je jedini dozvoljeni prozor za `certified` i `eligible-for-payout`.
 - Monetizacija ostaje governance-only u Git-u: EXTREM objavljuje readiness/certification/payout posture, EXTRONDOL drži approval/freeze/payment verification/compliance/audit odluke, a SPAJA KOD izlaže samo audit-safe summary bez sirovih finansijskih detalja.
+- `KRALJEVSKA PLATA` javno i downstream ostaje summary-only dodatak: dozvoljeni su samo `approval status`, `payout readiness status`, `payment verification` required/posture, `blocker reason` i kratak audit-safe rezime, dok payroll, KYC, bank i interni governance detalji ostaju van javnih površina.
 - Za ovu traku freeze/promotion odluke ostaju isključivo u `releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance` kanalu, dok EXTREM ostaje jedini izvor tehničkog readiness/konflikt signala i SPAJA KOD ostaje summary-only surface.
 - `AI PLATE` je additive-only Vercel commercial/runtime package nad tim istim repo-wide reflection-om za `AI, agente, copilote i sve ostale`; ne uvodi novi runtime source of truth i zadržava zaključan split `DOK + DIK + FOR -> EXTREM`, `DAK + DUK -> EXTRONDOL`, `SPAJA KOD -> public-safe summary only`.
 - Kanonski dokaz tog odraza objavljuje se kroz `dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection`, sa istim `READY | WATCH | BLOCKED` modelom i istim deterministic fallback pravilima za `NaN`, `Infinity`, prazne i konfliktne ulaze.
@@ -975,6 +976,7 @@ Canonical vocabulary:
 - `ZAKON SILNOG` = governance doctrine reference koja ne sme da zaobiđe charter/human-review granice.
 - `POVELJA O ZAKONODAVNOM PRAVU` = primary charter i obavezna legislative-authority definicija.
 - `PRAVNI POREDAK PO PRAVU GRAĐANSTVA` = neutral civic-order rule set sa warning/block granicama i evidence zahtevima.
+- `INSPEKTORI` = additive-only audit/review/evidence/justice-path traka pod `KRALJEVSKI PRAVNI UNIVERZITET`; nije operativno sprovođenje, ne uvodi nove rute i ne otkriva sirove istrage.
 
 Documentation boundary:
 
@@ -998,6 +1000,8 @@ Neutral rule boundary:
 - Neprihvatljivo ponašanje mora biti opisano neutralno, bez sirovih internih formulacija.
 - `WARNING` zahteva dokazive signale rizika i human review pre promocije.
 - `BLOCKED` zahteva potvrđene evidencije protivpravnog ili nedozvoljenog civic maneuvering-a prema kingdom framework-u.
+- `UNUTRAŠNJA KONTROLA GRAĐANSTVA U INFORMACIONOM STAVU` ostaje neutral civic-order/compliance/evidence model: zabranjeni su operativni bezbednosni postupci, identiteti, mape, taktike i represivni detalji.
+- `putevi istinske pravde` ostaju sažeti kroz postojeći `READY | WATCH | BLOCKED` jezik: rule consistency, evidentiary completeness, review posture, blocker summary i obavezni human review.
 - Eskalacija zahteva dokumentovanu evidenciju, audit trail i rollback/human-review spremnost.
 
 Release/governance checklist:

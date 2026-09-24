@@ -1723,6 +1723,15 @@ export interface ExtrimliExtrondolReleaseAuditSummary {
     universityRolloutPhases: ExtrimliExtrondolDeveloperAndCreateRepoWideReflectionGovernance['universityRolloutPhases'];
     kraljevskiProgramskiUneverzitet: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['kraljevskiProgramskiUneverzitet'];
     kraljevskiEkonomskiUneverzitet: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['kraljevskiEkonomskiUneverzitet'];
+    inspektori: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['inspektori'] & {
+      sourceOfTruth: '/api/extrimli/extrondol';
+      technicalSignalSource: '/api/extrimli/extrem';
+      publicBoundary: '/api/extrimli/spaja-kod';
+      reviewRequiredBeforeWideRollout: boolean;
+      escalatedReviewRequiredBeforeWideRollout: boolean;
+      complianceReviewRequired: true;
+      downstreamSync: 'follow-up-only-until-io-openui-ao-adopts-audit-safe-summary';
+    };
     kraljevskiDrustveniPoredak: ExtrimliExtrondolDeveloperAndCreateRepoWideReflectionGovernance['kraljevskiDrustveniPoredak'];
     certificationGovernance: ExtrimliExtrondolDeveloperAndCreateRepoWideReflectionGovernance['certificationGovernance'];
     payoutGovernance: ExtrimliExtrondolDeveloperAndCreateRepoWideReflectionGovernance['payoutGovernance'];
@@ -2432,6 +2441,7 @@ export interface ExtrimliSpajaKodPublicFacade {
     developerAndCreateGlobalPageExplanationStatus: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['readiness']['status'];
     developerAndCreateGlobalPageExplanationSignals: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['globalPageExplanationContract']['boundedThematicSignals'];
     kraljevskiProgramskiUneverzitetStatus: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['kraljevskiProgramskiUneverzitet']['readiness']['status'];
+    inspektoriStatus: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['inspektori']['readiness']['status'];
     developerAndCreateUniversitySummary: {
       passedAreasCount: number;
       certificationStatus: 'passed' | 'certified' | 'certified-with-reward' | 'blocked-for-review';
@@ -2455,6 +2465,13 @@ export interface ExtrimliSpajaKodPublicFacade {
         rolloutFreezeRequired: boolean;
       };
       auditSafeReason: string;
+    };
+    inspektoriSummary: {
+      activeUniversityCount: number;
+      reviewPosture: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['inspektori']['justicePath']['reviewPosture'];
+      justicePathConsistency: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['inspektori']['justicePath']['justicePathConsistency'];
+      blockerReason: string | null;
+      publicBoundary: 'audit-safe-summary-only';
     };
     kraljevskiAktBezbednostiStatus: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['kraljevskiDrustveniPoredak']['kraljevskiAktBezbednosti']['readiness']['status'];
     aiPlateStatus: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['aiPlateOffer']['boundedReadinessProfile']['consolidatedStatus'];
@@ -2513,6 +2530,8 @@ export interface ExtrimliSpajaKodPublicFacade {
       'publicSignals.kraljevskiPravniAktStatus',
       'publicSignals.kraljevskiAktBezbednostiStatus',
       'publicSignals.kraljevskiProgramskiUneverzitetStatus',
+      'publicSignals.inspektoriStatus',
+      'publicSignals.inspektoriSummary',
       'publicSignals.aiIdentityMonthlyPrimanjaStatus',
       'publicSignals.aiIdentityMinorProtectionStatus',
       'publicSignals.developerAndCreateUniversitySummary',
@@ -2553,6 +2572,16 @@ export interface ExtrimliSpajaKodPublicFacade {
       publicSafetyReviewStatus: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['kraljevskiDrustveniPoredak']['kraljevskiAktBezbednosti']['civilReadinessScope']['publicSafetyReviewPosture'];
       kraljevskaPlataApprovalStatus: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['kraljevskiDrustveniPoredak']['kraljevskiAktBezbednosti']['kraljevskaPlataPolicy']['approvalStatus'];
       payoutReadinessStatus: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['kraljevskiDrustveniPoredak']['kraljevskiAktBezbednosti']['kraljevskaPlataPolicy']['payoutReadinessStatus'];
+      kraljevskaPlataSummary: {
+        canonicalName: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['kraljevskiDrustveniPoredak']['kraljevskiAktBezbednosti']['kraljevskaPlataPolicy']['canonicalName'];
+        approvalStatus: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['kraljevskiDrustveniPoredak']['kraljevskiAktBezbednosti']['kraljevskaPlataPolicy']['approvalStatus'];
+        payoutReadinessStatus: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['kraljevskiDrustveniPoredak']['kraljevskiAktBezbednosti']['kraljevskaPlataPolicy']['payoutReadinessStatus'];
+        paymentVerificationRequired: true;
+        paymentVerificationStatus: ExtrimliExtrondolPaymentVerification['status'];
+        blockerReason: string | null;
+        publicBoundary: 'audit-safe-summary-only';
+        publicSummary: string;
+      };
       kraljevskaVojnaIPolicijskaOpremaSummary: {
         canonicalName: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['kraljevskiDrustveniPoredak']['kraljevskiAktBezbednosti']['kraljevskaVojnaIPolicijskaOprema']['canonicalName'];
         categoryCatalog: readonly ['KRALJEVSKI', 'VOJNI', 'POLICIJSKI'];
@@ -2563,6 +2592,17 @@ export interface ExtrimliSpajaKodPublicFacade {
       };
       publicBoundary: 'audit-safe-summary-only';
       forbiddenEvidence: readonly ['tactical-plan', 'sensitive-map', 'operational-identity', 'bank-account-number', 'kyc-document', 'payroll-secret', 'operational-financial-data'];
+      publicSummary: string;
+    };
+    inspektoriSummary: {
+      canonicalName: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['inspektori']['canonicalName'];
+      parentLegalTrack: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['inspektori']['parentLegalTrack'];
+      activeUniversityCount: number;
+      reviewPosture: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['inspektori']['justicePath']['reviewPosture'];
+      justicePathConsistency: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['inspektori']['justicePath']['justicePathConsistency'];
+      blockerReason: string | null;
+      publicBoundary: 'audit-safe-summary-only';
+      forbiddenEvidence: readonly ['operational-security-procedure', 'sensitive-identity', 'sensitive-map', 'tactical-instruction', 'repressive-detail'];
       publicSummary: string;
     };
     downstreamAuditFields: readonly [
