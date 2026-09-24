@@ -9001,6 +9001,30 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
     summary:
       'KRALJEVSKI PROGRAMSKI UNEVERZITET ostaje additive-only vršni programski alias nad postojećim VRH, METRIČKO, SINEMETRIČKO, PARADIJOGONALNO i RADNI TAKT signalima, uz POLJOPRIVREDNI FAKULTET, GRAĐEVINSKI FAKULTET, MATEMATIČKI FAKULTET, PEDAGOŠKI FAKULTET i PSIHOLOŠKI FAKULTET kao bounded obrazovno-sertifikacione oblasti bez novih formula, novih ruta ili novog source-of-truth sistema.',
   };
+  const kraljevskiAktBezbednostiCoverageStatus = resolveDeveloperCreateExtensionStatus(kraljevskiAktBezbednostiCoverageReadinessScore);
+  const kraljevskiAktBezbednostiCoordinationStatus = resolveDeveloperCreateExtensionStatus(kraljevskiAktBezbednostiCoordinationReadinessScore);
+  const kraljevskiAktBezbednostiComplianceStatus = resolveDeveloperCreateExtensionStatus(kraljevskiAktBezbednostiComplianceReadinessScore);
+  const kraljevskiAktBezbednostiReadinessStatus = resolveDeveloperCreateExtensionStatus(kraljevskiAktBezbednostiReadinessScore);
+  const kraljevskiAktBezbednostiDeterministicFallbackRequired =
+    dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.deterministicFallbackRequired;
+  const kraljevskiAktBezbednostiGovernanceBlocked =
+    kraljevskiAktBezbednostiDeterministicFallbackRequired || privredniAktQuarterlyMarketInput.status === 'BLOCKED';
+  const kraljevskiAktBezbednostiPublicSafetyReviewPosture: 'READY' | 'WATCH' | 'BLOCKED' =
+    kraljevskiAktBezbednostiGovernanceBlocked
+      ? 'BLOCKED'
+      : [kraljevskiAktBezbednostiCoverageStatus, kraljevskiAktBezbednostiCoordinationStatus, kraljevskiAktBezbednostiComplianceStatus].includes('WATCH')
+        ? 'WATCH'
+        : 'READY';
+  const kraljevskaVojnaPolicijskaLifecycleScore =
+    (kraljevskiAktBezbednostiCoverageReadinessScore + kraljevskiAktBezbednostiCoordinationReadinessScore) / 2;
+  const kraljevskaVojnaPolicijskaLifecycleStatus: 'READY' | 'WATCH' | 'BLOCKED' =
+    kraljevskiAktBezbednostiGovernanceBlocked
+      ? 'BLOCKED'
+      : kraljevskaVojnaPolicijskaLifecycleScore >= 80
+        ? 'READY'
+        : kraljevskaVojnaPolicijskaLifecycleScore >= 60
+          ? 'WATCH'
+          : 'BLOCKED';
   dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.kraljevskiDrustveniPoredak = {
     canonicalName: 'KRALJEVSKI DRUŠTVENI POREDAK',
     additiveOnly: true,
@@ -9093,30 +9117,20 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
       civilReadinessScope: {
         missionStatement: 'obezbedjivanje-granicnih-prelaza-naroda-i-unutrasnje-kontrole-zemlje-kao-governance-civil-readiness-interpretacija',
         coverageReadiness: {
-          status: resolveDeveloperCreateExtensionStatus(kraljevskiAktBezbednostiCoverageReadinessScore),
+          status: kraljevskiAktBezbednostiCoverageStatus,
           score: kraljevskiAktBezbednostiCoverageReadinessScore,
         },
         coordinationReadiness: {
-          status: resolveDeveloperCreateExtensionStatus(kraljevskiAktBezbednostiCoordinationReadinessScore),
+          status: kraljevskiAktBezbednostiCoordinationStatus,
           score: kraljevskiAktBezbednostiCoordinationReadinessScore,
         },
         complianceReadiness: {
-          status: resolveDeveloperCreateExtensionStatus(kraljevskiAktBezbednostiComplianceReadinessScore),
+          status: kraljevskiAktBezbednostiComplianceStatus,
           score: kraljevskiAktBezbednostiComplianceReadinessScore,
         },
-        publicSafetyReviewPosture:
-          dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.deterministicFallbackRequired
-          || privredniAktQuarterlyMarketInput.status === 'BLOCKED'
-            ? 'BLOCKED'
-            : [
-                resolveDeveloperCreateExtensionStatus(kraljevskiAktBezbednostiCoverageReadinessScore),
-                resolveDeveloperCreateExtensionStatus(kraljevskiAktBezbednostiCoordinationReadinessScore),
-                resolveDeveloperCreateExtensionStatus(kraljevskiAktBezbednostiComplianceReadinessScore),
-              ].includes('WATCH')
-              ? 'WATCH'
-              : 'READY',
+        publicSafetyReviewPosture: kraljevskiAktBezbednostiPublicSafetyReviewPosture,
         blockerSummary: [
-          ...(dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.deterministicFallbackRequired ? ['deterministic-fallback-required'] : []),
+          ...(kraljevskiAktBezbednostiDeterministicFallbackRequired ? ['deterministic-fallback-required'] : []),
           ...(privredniAktQuarterlyMarketInput.status === 'BLOCKED' ? ['public-safety-governance-blocked-by-quarterly-market'] : []),
           'no-tactical-security-instruction-set',
           'no-sensitive-maps-or-operational-identities',
@@ -9139,38 +9153,12 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
         sourceOfTruthRoutes: ['/api/extrimli/extrem', '/api/extrimli/extrondol', '/api/extrimli/spaja-kod'],
         categoryCatalog: ['KRALJEVSKI', 'VOJNI', 'POLICIJSKI'],
         qualityCriteria: {
-          complianceStatus: resolveDeveloperCreateExtensionStatus(kraljevskiAktBezbednostiComplianceReadinessScore),
-          certificationStatus: resolveDeveloperCreateExtensionStatus(kraljevskiAktBezbednostiCoordinationReadinessScore),
-          availabilityStatus: resolveDeveloperCreateExtensionStatus(kraljevskiAktBezbednostiCoverageReadinessScore),
-          lifecycleStatus:
-            dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.deterministicFallbackRequired
-            || privredniAktQuarterlyMarketInput.status === 'BLOCKED'
-              ? 'BLOCKED'
-              : (kraljevskiAktBezbednostiCoverageReadinessScore + kraljevskiAktBezbednostiCoordinationReadinessScore) / 2 >= 80
-                ? 'READY'
-                : (kraljevskiAktBezbednostiCoverageReadinessScore + kraljevskiAktBezbednostiCoordinationReadinessScore) / 2 >= 60
-                  ? 'WATCH'
-                  : 'BLOCKED',
-          riskStatus:
-            dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.deterministicFallbackRequired
-            || privredniAktQuarterlyMarketInput.status === 'BLOCKED'
-              ? 'BLOCKED'
-              : kraljevskiAktBezbednostiReadinessScore >= 80
-                ? 'READY'
-                : kraljevskiAktBezbednostiReadinessScore >= 60
-                  ? 'WATCH'
-                  : 'BLOCKED',
-          blockerPosture:
-            dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.deterministicFallbackRequired
-            || privredniAktQuarterlyMarketInput.status === 'BLOCKED'
-              ? 'BLOCKED'
-              : [
-                  resolveDeveloperCreateExtensionStatus(kraljevskiAktBezbednostiCoverageReadinessScore),
-                  resolveDeveloperCreateExtensionStatus(kraljevskiAktBezbednostiCoordinationReadinessScore),
-                  resolveDeveloperCreateExtensionStatus(kraljevskiAktBezbednostiComplianceReadinessScore),
-                ].includes('WATCH')
-                ? 'WATCH'
-                : 'READY',
+          complianceStatus: kraljevskiAktBezbednostiComplianceStatus,
+          certificationStatus: kraljevskiAktBezbednostiCoordinationStatus,
+          availabilityStatus: kraljevskiAktBezbednostiCoverageStatus,
+          lifecycleStatus: kraljevskaVojnaPolicijskaLifecycleStatus,
+          riskStatus: kraljevskiAktBezbednostiReadinessStatus,
+          blockerPosture: kraljevskiAktBezbednostiPublicSafetyReviewPosture,
           standard: 'najbolja-savremena-oprema-auditabilno-neoperativno',
         },
         requiredGovernanceGates: [
@@ -9196,10 +9184,9 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
           auditSafeSummaryOnly: true,
         },
         readiness: {
-          status: resolveDeveloperCreateExtensionStatus(kraljevskiAktBezbednostiReadinessScore),
+          status: kraljevskiAktBezbednostiReadinessStatus,
           score: kraljevskiAktBezbednostiReadinessScore,
-          deterministicFallbackRequired:
-            dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.deterministicFallbackRequired,
+          deterministicFallbackRequired: kraljevskiAktBezbednostiDeterministicFallbackRequired,
         },
         summary:
           'KRALJEVSKA VOJNA I POLICIJSKA OPREMA ostaje bounded additive-only governance katalog pod KRALJEVSKI AKT BEZBEDNOSTI: kvalitet se meri samo auditabilnim statusima (compliance, sertifikacija, dostupnost, lifecycle, rizik, blocker posture) bez operativnih, taktičkih ili osetljivih bezbednosnih detalja.',
@@ -9219,10 +9206,9 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
           'KRALJEVSKA PLATA ostaje governance-only payout policy za najviši čin plate: approval, payout readiness, payment verification i audit evidence su dozvoljeni, dok payroll/KYC/bank detalji i automatska isplata ostaju zabranjeni u Git-u.',
       },
       readiness: {
-        status: resolveDeveloperCreateExtensionStatus(kraljevskiAktBezbednostiReadinessScore),
+        status: kraljevskiAktBezbednostiReadinessStatus,
         score: kraljevskiAktBezbednostiReadinessScore,
-        deterministicFallbackRequired:
-          dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.deterministicFallbackRequired,
+        deterministicFallbackRequired: kraljevskiAktBezbednostiDeterministicFallbackRequired,
       },
       summary:
         'KRALJEVSKI AKT BEZBEDNOSTI ostaje additive-only bounded civil-readiness i public-safety governance traka: katalog KRALJEVSKI/GARDISTI/VOJNI/POLICIJSKI/SPECIJALNE JEDINICE objavljuje samo coverage, coordination, compliance, review i blocker summary bez operativnog bezbednosnog engine-a.',
