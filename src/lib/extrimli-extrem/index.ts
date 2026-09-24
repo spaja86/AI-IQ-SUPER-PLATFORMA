@@ -10353,28 +10353,30 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
     dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.status;
   dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.napoleonDiskaveriSelectionTrack.discoverySelectionSignal.readinessScore =
     round(dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.score, 2);
-  dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.napoleonDiskaveriSelectionTrack.discoverySelectionSignal.discoveryStatus =
+  const napoleonDiskaveriSelectionStatus =
     dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.technicalReadinessProfile.consolidatedRhythmStatus;
+  dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.napoleonDiskaveriSelectionTrack.discoverySelectionSignal.discoveryStatus =
+    napoleonDiskaveriSelectionStatus;
   dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.napoleonDiskaveriSelectionTrack.discoverySelectionSignal.selectionStatus =
-    dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.status;
+    napoleonDiskaveriSelectionStatus;
   dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.napoleonDiskaveriSelectionTrack.discoverySelectionSignal.deterministicFallbackRequired =
     dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.deterministicFallbackRequired;
   dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.napoleonDiskaveriSelectionTrack.blockerReasons =
-    dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.status === 'BLOCKED'
+    napoleonDiskaveriSelectionStatus === 'BLOCKED'
       ? [
         'Napoleon Diskaveri bounded alias is blocked until empty, conflict, and nondeterministic selection inputs fall back to the existing READY | WATCH | BLOCKED discipline.',
       ]
       : [];
   dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.napoleonDiskaveriSelectionTrack.watchReasons =
-    dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.status === 'WATCH'
+    napoleonDiskaveriSelectionStatus === 'WATCH'
       ? [
         'Napoleon Diskaveri bounded alias remains in WATCH while discovery/selection posture still depends on additional review inside the existing Developer/Create reflection.',
       ]
       : [];
   dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.napoleonDiskaveriSelectionTrack.humanReviewPosture =
-    dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.status === 'READY'
+    napoleonDiskaveriSelectionStatus === 'READY'
       ? 'ALIGNED'
-      : dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.status === 'WATCH'
+      : napoleonDiskaveriSelectionStatus === 'WATCH'
         ? 'WATCH'
         : 'REVIEW_REQUIRED';
   dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.fourTrackProgramPackage.technicalTrack.readinessStatus =
