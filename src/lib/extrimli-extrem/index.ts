@@ -9017,14 +9017,9 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
         : 'READY';
   const kraljevskaVojnaPolicijskaLifecycleScore =
     (kraljevskiAktBezbednostiCoverageReadinessScore + kraljevskiAktBezbednostiCoordinationReadinessScore) / 2;
-  const kraljevskaVojnaPolicijskaLifecycleStatus: 'READY' | 'WATCH' | 'BLOCKED' =
-    kraljevskiAktBezbednostiGovernanceBlocked
-      ? 'BLOCKED'
-      : kraljevskaVojnaPolicijskaLifecycleScore >= 80
-        ? 'READY'
-        : kraljevskaVojnaPolicijskaLifecycleScore >= 60
-          ? 'WATCH'
-          : 'BLOCKED';
+  const kraljevskaVojnaPolicijskaLifecycleStatus = kraljevskiAktBezbednostiGovernanceBlocked
+    ? 'BLOCKED'
+    : resolveDeveloperCreateExtensionStatus(kraljevskaVojnaPolicijskaLifecycleScore);
   dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.kraljevskiDrustveniPoredak = {
     canonicalName: 'KRALJEVSKI DRUŠTVENI POREDAK',
     additiveOnly: true,
