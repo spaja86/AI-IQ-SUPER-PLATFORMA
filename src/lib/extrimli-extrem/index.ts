@@ -356,6 +356,14 @@ const EXTRIMLI_EXTREM_DEVELOPER_CREATE_MJUZIKL_KRALJEVSKOG_CINA_COVECANSTVO_SCEN
   'covecanstvo-mjuzikl-kraljevskog-cina-u-covecanstvo-developer-create' as const;
 const EXTRIMLI_EXTREM_DEVELOPER_CREATE_MJUZIKL_KRALJEVSKOG_CINA_COVECANSTVO_CITATION =
   'ČOVEČANSTVO — Mjuzikl kraljevskog čina / epilog u čovečanstvo ostaje additive-only supplemental audit/reference vizuel: muzički čin, epilog čovečanstva i zajednički ritam mapiraju se isključivo kao bounded documentation/evidence sloj unutar postojećeg Developer/Create ⇄ VRH ⇄ Radni Takt modela, bez novih ruta, novih formula ili promene ownership split-a.' as const;
+const EXTRIMLI_EXTREM_DEVELOPER_CREATE_KRALJEVSKA_MUZICKA_POVELJA_COVECANSTVO_VISUAL_REFERENCE =
+  'https://github.com/user-attachments/assets/980557d1-6912-4e8c-9e8b-3f22e19f5c36' as const;
+const EXTRIMLI_EXTREM_DEVELOPER_CREATE_KRALJEVSKA_MUZICKA_POVELJA_COVECANSTVO_CANONICAL_NARRATIVE_ID =
+  'covecanstvo-kraljevska-muzicka-povelja-epilog-u-covecanstvo-developer-create' as const;
+const EXTRIMLI_EXTREM_DEVELOPER_CREATE_KRALJEVSKA_MUZICKA_POVELJA_COVECANSTVO_SCENARIO_ID =
+  'covecanstvo-kraljevska-muzicka-povelja-epilog-u-covecanstvo-developer-create' as const;
+const EXTRIMLI_EXTREM_DEVELOPER_CREATE_KRALJEVSKA_MUZICKA_POVELJA_COVECANSTVO_CITATION =
+  'ČOVEČANSTVO — Kraljevska muzička povelja / epilog u čovečanstvo ostaje additive-only supplemental audit/reference vizuel: shared-world, shared-rhythm i spiritual-release teme ostaju bounded symbolic governance evidence unutar postojećeg Developer/Create ⇄ VRH ⇄ Radni Takt modela, bez novih ruta, novih formula ili promene ownership split-a, dok sirovi poster-tekst nikada ne postaje runtime logika, identitet, finansijski, bezbednosni ili religijski enforcement sloj.' as const;
 const EXTRIMLI_EXTREM_DEVELOPER_CREATE_BOZIJI_EPITETI_COVECANSTVO_VISUAL_REFERENCE =
   'https://github.com/user-attachments/assets/e7846b38-1a56-4321-a7d7-8acfc1328bf9' as const;
 const EXTRIMLI_EXTREM_DEVELOPER_CREATE_BOZIJI_EPITETI_COVECANSTVO_CANONICAL_NARRATIVE_ID =
@@ -7129,6 +7137,45 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
               },
             },
             thematicSignals: ['muzicki-cin', 'epilog', 'covecanstvo', 'zajednicki-ritam', 'jedan-svet'],
+            auditRole: 'additive-audit-reference-only',
+          },
+          {
+            title: 'ČOVEČANSTVO — Kraljevska muzička povelja / epilog u čovečanstvo',
+            canonicalNarrativeId:
+              EXTRIMLI_EXTREM_DEVELOPER_CREATE_KRALJEVSKA_MUZICKA_POVELJA_COVECANSTVO_CANONICAL_NARRATIVE_ID,
+            citation:
+              EXTRIMLI_EXTREM_DEVELOPER_CREATE_KRALJEVSKA_MUZICKA_POVELJA_COVECANSTVO_CITATION,
+            visualReference:
+              EXTRIMLI_EXTREM_DEVELOPER_CREATE_KRALJEVSKA_MUZICKA_POVELJA_COVECANSTVO_VISUAL_REFERENCE,
+            interpretation:
+              'Supplied Kraljevska muzička povelja visual remains additive-only supplemental audit/reference evidence and extends the same Developer/Create reflection package through bounded shared-world, shared-rhythm, spiritual-release, and symbolic-governance themes without introducing any new source-of-truth runtime route.',
+            sourceStatement: 'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == RADNI TAKT MOZGA (MISLILAC)',
+            imageToSignalProfile: {
+              scenarioId:
+                EXTRIMLI_EXTREM_DEVELOPER_CREATE_KRALJEVSKA_MUZICKA_POVELJA_COVECANSTVO_SCENARIO_ID,
+              theme: 'ČOVEČANSTVO — KRALJEVSKA MUZIČKA POVELJA / EPILOG',
+              narrativeInput:
+                EXTRIMLI_EXTREM_DEVELOPER_CREATE_KRALJEVSKA_MUZICKA_POVELJA_COVECANSTVO_CITATION,
+              ownershipLock: {
+                dokDikFor: 'EXTREM',
+                dakDuk: 'EXTRONDOL',
+                spajaKod: 'audit-safe-summary-only',
+              },
+              signalOutputs: {
+                readinessScore: 0,
+                readinessStatus: 'BLOCKED',
+                conflictPressurePercent: 100,
+                deterministicFallbackRequired: true,
+              },
+            },
+            thematicSignals: [
+              'kraljevska-muzicka-povelja',
+              'epilog-u-covecanstvo',
+              'shared-world',
+              'shared-rhythm',
+              'spiritual-release',
+              'bounded-symbolic-governance',
+            ],
             auditRole: 'additive-audit-reference-only',
           },
           {
