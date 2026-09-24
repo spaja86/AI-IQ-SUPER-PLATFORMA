@@ -79,6 +79,114 @@ Prioritet realizacije ostaje zaključan:
 5. Kompanija SPAJA / Digitalna Industrija enterprise mapiranje
 6. drift-zero validacija kroz docs + types + routes + tests + workflows
 
+## 2.3) `KRALJEVSTVO` ecosystem federation lock
+
+Početni scope ostaje zaključan na postojeći model:
+
+- `DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA`
+- source-of-truth površine ostaju `/api/extrimli/extrem`, `/api/extrimli/extrondol`, `/api/extrimli/spaja-kod`
+- additive-only pravilo ostaje obavezno
+- zabranjen je novi paralelni runtime ili novi source-of-truth sistem
+
+Federacija `KRALJEVSTVA` se zaključava kroz jedan bounded ekosistem paket:
+
+- `AI-IQ-SUPER-PLATFORMA` = centralni orchestration i governance hub
+- `IO-OPENUI-AO` = primarni downstream product surface
+- `AI IQ WORLD BANK` = finansijski/governance okvir
+- `AI IQ MENJAČNICA` = tržišni/novčani operativni sloj
+- `KOMPANIJA SPAJA` = enterprise/operativni umbrella
+- `SVETSKA ORGANIZACIJA` = globalni institucionalni okvir
+- `OPENAI` = eksterni AI/provider boundary
+- `SPAJANIKOPENEVOLUTION` = narativni/evolucioni ekosistem track
+
+Za svaki domen ostaje dozvoljen samo jedan canonical relationship type:
+
+| Domen | Relationship type | Zaključana uloga |
+|---|---|---|
+| `AI-IQ-SUPER-PLATFORMA` | `runtime-integrated` | centralni tehnički + governance orchestration hub |
+| `IO-OPENUI-AO` | `summary-synced` | downstream product surface koji troši samo audit-safe summary |
+| `AI IQ WORLD BANK` | `policy-linked` | approval/compliance/payment-verification okvir |
+| `AI IQ MENJAČNICA` | `policy-linked` | tržišni/payout posture i operativni novčani summary |
+| `KOMPANIJA SPAJA` | `policy-linked` | enterprise ownership, rollout i operativni umbrella |
+| `SVETSKA ORGANIZACIJA` | `policy-linked` | globalni institucionalni i documentation/governance okvir |
+| `OPENAI` | `external-provider` | provider/compliance boundary bez internog source-of-truth ownership-a |
+| `SPAJANIKOPENEVOLUTION` | `narrative-only` | bounded evolucioni/narativni reflection track |
+
+Centralni additive-only apex paket ostaje:
+
+- `developerAndCreateRepoWideReflection.ecosystemApexPackage`
+- povezuje `Developer/Create`, `VRH PROGRAMSKOG EKVILADENTA` i federaciju domena
+- mapira samo postojeće EXTREM/EXTRONDOL/SPAJA KOD signale
+- ne uvodi nove rute, novi engine, novi billing runtime ili novi security runtime
+
+Četiri izvršne trake ostaju zaključane:
+
+1. **tehnička integracija domena**
+2. **governance i pravni poredak**
+3. **enterprise/finansijski tokovi**
+4. **public/downstream refleksija**
+
+Kanonski ecosystem contract za svaki domen mora zaključati:
+
+- `purpose`
+- `owner`
+- `inboundConnections`
+- `outboundConnections`
+- `allowedSummarySignals`
+- `forbiddenRawOperationalData`
+- `downstreamReferenceRule`
+- `humanReviewAndAuditObligations`
+
+Jedinstveni governance model u `KRALJEVSTVU` ostaje:
+
+- zajednički status jezik `READY | WATCH | BLOCKED`
+- zajednički rollout/rollback discipline
+- obavezan `downstreamReference`
+- audit trail po domenima
+- human review pre promocije između repozitorijuma
+
+API i contract boundary ostaje strogo summary-safe:
+
+- `readiness`
+- `governance posture`
+- `approval status`
+- `blocker reason`
+- `downstream reference`
+
+Zabranjeni ostaju:
+
+- bankarski/KYC/payroll podaci
+- sirove finansijske formule
+- operativni bezbednosni detalji
+- interni approval i enforcement detalji
+- provider tajne, tokeni i operativni kredencijali
+
+Rollout faze ostaju zaključane:
+
+1. `F1` — terminology + ecosystem charter
+2. `F2` — domain registry i ownership mapa
+3. `F3` — downstream sync pravila za `IO-OPENUI-AO`
+4. `F4` — `AI IQ WORLD BANK` + `AI IQ MENJAČNICA` governance most
+5. `F5` — `KOMPANIJA SPAJA` + `SVETSKA ORGANIZACIJA` summary layer
+6. `F6` — `OPENAI` provider boundary i compliance
+7. `F7` — unified `KRALJEVSTVO` ecosystem audit summary
+
+Prioritet proširenja ostaje zaključan:
+
+1. `AI-IQ-SUPER-PLATFORMA ↔ IO-OPENUI-AO`
+2. `AI IQ WORLD BANK` + `AI IQ MENJAČNICA`
+3. `KOMPANIJA SPAJA` + `SVETSKA ORGANIZACIJA`
+4. `OPENAI` + `SPAJANIKOPENEVOLUTION`
+
+Acceptance lock ostaje:
+
+- nema novih paralelnih source-of-truth sistema
+- sve veze ostaju bounded i audit-safe
+- svaki domen ima jasno mesto u ekosistemu
+- `IO-OPENUI-AO` ostaje summary-sync consumer
+- finansijski i bezbednosni podaci ostaju van Git runtime površina
+- `EXTRIMLI Developer/Create` ostaje vršni orkestracioni model celog ekosistema
+
 ## 3) Implementation backlog (developer/create tokovi)
 
 ### Stream A — Domain model i tipovi
