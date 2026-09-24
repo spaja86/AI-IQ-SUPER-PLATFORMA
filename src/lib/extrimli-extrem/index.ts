@@ -8615,33 +8615,13 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
   }
   const audioVisualKontrabasSignalStatuses = audioVisualKontrabasContributingSignals.map((signal) => signal.status);
   const audioVisualKontrabasSignalScores = audioVisualKontrabasContributingSignals.map((signal) => signal.score);
-  const audioVisualKontrabasTrackStatus = audioVisualKontrabasSignalStatuses.includes('BLOCKED')
+  const audioVisualKontrabasReadinessStatus = audioVisualKontrabasSignalStatuses.includes('BLOCKED')
     ? 'BLOCKED'
     : audioVisualKontrabasSignalStatuses.includes('WATCH')
       ? 'WATCH'
       : 'READY';
-  const audioVisualKontrabasTrackScore = round(
-    audioVisualKontrabasSignalScores.reduce((sum, score) => sum + score, 0) / audioVisualKontrabasSignalScores.length,
-    2,
-  );
-  const audioVisualKontrabasReadinessStatus =
-    dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.status === 'BLOCKED'
-    || audioVisualKontrabasTrackStatus === 'BLOCKED'
-      ? 'BLOCKED'
-      : dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.status === 'WATCH'
-        || audioVisualKontrabasTrackStatus === 'WATCH'
-          ? 'WATCH'
-          : 'READY';
   const audioVisualKontrabasReadinessScore = round(
-    Math.min(
-      dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.score,
-      audioVisualKontrabasTrackScore,
-      audioVisualKontrabasReadinessStatus === 'BLOCKED'
-        ? 49
-        : audioVisualKontrabasReadinessStatus === 'WATCH'
-          ? 79
-          : 100,
-    ),
+    audioVisualKontrabasSignalScores.reduce((sum, score) => sum + score, 0) / audioVisualKontrabasSignalScores.length,
     2,
   );
   const getAudioVisualSceneTrackStatus = (
