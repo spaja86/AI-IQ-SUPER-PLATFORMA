@@ -32,6 +32,7 @@ import {
   getGovernanceTechnicalRiskStatusFromExtremTrack,
 } from '../extrimli-doker-kurat-izek-dokar-track';
 import {
+  DEVELOPER_CREATE_NAPOLEON_DISKAVERI_CANONICAL_ALIAS,
   DEVELOPER_CREATE_VRH_CANONICAL_NARRATIVE_SENTENCE,
   DEVELOPER_CREATE_VRH_CANONICAL_TOKEN_VOCABULARY,
   DEVELOPER_CREATE_VRH_DOWNSTREAM_SUMMARY_POLICY,
@@ -217,9 +218,11 @@ const DEVELOPER_CREATE_ROADMAP_ACCEPTANCE_EVIDENCE_BASE = [
   'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.covecnostAuditVisualReference.companionAuditVisualReferences',
   'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.osnoveRispektProtocol',
   'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.aiPlateGovernance',
+  'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.napoleonDiskaveriSelectionTrack',
   'spajaKod.publicSignals.developerAndCreateStatus',
   'spajaKod.publicSignals.developerAndCreateAudioVisualStatus',
   'spajaKod.publicSignals.developerAndCreateImplementationStatus',
+  'spajaKod.publicSignals.napoleonDiskaveriStatus',
   'spajaKod.publicSignals.aiPlateStatus',
 ] as const;
 
@@ -238,9 +241,11 @@ const DEVELOPER_CREATE_GOVERNANCE_ACCEPTANCE_EVIDENCE: ExtrimliExtrondolReport['
   'developerAndCreateRepoWideReflection.covecnostAuditVisualReference.supplementalVisualReferences',
   'developerAndCreateRepoWideReflection.covecnostAuditVisualReference.companionAuditVisualReferences',
   'developerAndCreateRepoWideReflection.aiPlateGovernance',
+  'developerAndCreateRepoWideReflection.napoleonDiskaveriSelectionTrack',
   'spajaKod.publicSignals.developerAndCreateStatus',
   'spajaKod.publicSignals.developerAndCreateAudioVisualStatus',
   'spajaKod.publicSignals.developerAndCreateImplementationStatus',
+  'spajaKod.publicSignals.napoleonDiskaveriStatus',
   'spajaKod.publicSignals.aiPlateStatus',
 ];
 const AUDIO_VISUAL_KONTRABAS_ACCEPTANCE_EVIDENCE = [
@@ -3227,6 +3232,8 @@ function buildSpajaKodFacade(params: {
       developerAndCreateStatus: params.developerAndCreateStatus,
       developerAndCreateImplementationStatus,
       developerAndCreateAudioVisualStatus,
+      napoleonDiskaveriStatus:
+        params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.napoleonDiskaveriSelectionTrack.discoverySelectionSignal.selectionStatus,
       developerAndCreateGlobalPageExplanationStatus: params.developerAndCreateStatus,
       developerAndCreateGlobalPageExplanationSignals: DEVELOPER_CREATE_VRH_MAPE_UMA_THEMATIC_SIGNALS,
       developerAndCreateUniversitySummary: {
@@ -3311,6 +3318,7 @@ function buildSpajaKodFacade(params: {
         'publicSignals.developerAndCreateStatus',
         'publicSignals.developerAndCreateImplementationStatus',
         'publicSignals.developerAndCreateAudioVisualStatus',
+        'publicSignals.napoleonDiskaveriStatus',
         'publicSignals.kraljevskiPravniUniverzitetStatus',
         'publicSignals.kraljevskiPravniAktStatus',
         'publicSignals.kraljevskiAktBezbednostiStatus',
@@ -3326,6 +3334,7 @@ function buildSpajaKodFacade(params: {
         'developerAndCreateImplementationPackage.aiIqWorldBankPrepiskaSummary',
         'developerAndCreateImplementationPackage.kraljevskiDrustveniPoredakSummary',
         'developerAndCreateImplementationPackage.kraljevskiAktBezbednostiSummary',
+        'developerAndCreateImplementationPackage.napoleonDiskaveriSummary',
         'epilogijaCovecnosti.packageOutputs',
       ],
       roadmapStageId: 'v5-extrondol-release-audit-and-orchestration',
@@ -3369,6 +3378,22 @@ function buildSpajaKodFacade(params: {
         publicBoundary: 'audit-safe-summary-only',
         downstreamReference: developerAndCreateAudioVisualGovernancePackage.downstreamReference,
         videoStoryboardSummary: audioVisualKontrabasPackage.videoStoryboardSummary,
+      },
+      napoleonDiskaveriSummary: {
+        canonicalAlias: DEVELOPER_CREATE_NAPOLEON_DISKAVERI_CANONICAL_ALIAS,
+        status:
+          params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.napoleonDiskaveriSelectionTrack.discoverySelectionSignal.selectionStatus,
+        blockerReasons: [
+          ...params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.napoleonDiskaveriSelectionTrack.blockerReasons,
+        ],
+        watchReasons: [
+          ...params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.napoleonDiskaveriSelectionTrack.watchReasons,
+        ],
+        humanReviewPosture:
+          params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.napoleonDiskaveriSelectionTrack.humanReviewPosture,
+        downstreamReference:
+          params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.napoleonDiskaveriSelectionTrack.downstreamReference,
+        publicBoundary: 'audit-safe-summary-only',
       },
       aiIqWorldBankPrepiskaSummary: {
         canonicalName:
@@ -7490,6 +7515,31 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
         reviewRequiredBeforeWideRollout:
           extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.status !== 'READY',
       },
+      napoleonDiskaveriSelectionTrack: {
+        ...extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.napoleonDiskaveriSelectionTrack,
+        sourceOfTruth: '/api/extrimli/extrem',
+        governanceSource: '/api/extrimli/extrondol',
+        publicBoundary: '/api/extrimli/spaja-kod',
+        currentWawe,
+        eligibleNextWawe: eligibleNextWave,
+        promotionFreeze,
+        reviewRequiredBeforeWideRollout:
+          extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.napoleonDiskaveriSelectionTrack.discoverySelectionSignal.selectionStatus !== 'READY',
+        reviewPosture:
+          extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.napoleonDiskaveriSelectionTrack.humanReviewPosture,
+        rolloutPlan:
+          'Advance the bounded Napoleon Diskaveri alias only through the existing EXTREM technical signal, EXTRONDOL governance mirror, and SPAJA KOD summary-safe boundary.',
+        rollbackPlan:
+          'Freeze promotion and fall back to the previously verified Developer/Create bounded alias summary if discovery-selection readiness, evidence, or downstream alignment drifts.',
+        humanReviewStatus: 'required-before-promotion',
+        acceptanceEvidence: [
+          'developerAndCreateRepoWideReflection.napoleonDiskaveriSelectionTrack',
+          'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.napoleonDiskaveriSelectionTrack',
+          'spajaKod.publicSignals.napoleonDiskaveriStatus',
+          'spajaKod.developerAndCreateImplementationPackage.napoleonDiskaveriSummary',
+        ],
+        downstreamReference: 'docs/MULTI-REPO-LINKS.md -> spaja86/IO-OPENUI-AO (summary-only)',
+      },
       audioVisualKontrabasPackage: buildAudioVisualKontrabasGovernancePackage(
         extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.audioVisualKontrabasPackage,
         currentWawe,
@@ -7506,7 +7556,7 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
       roadmapExecution: {
         roadmapStageId: 'v5-extrondol-release-audit-and-orchestration',
         measurableOutput:
-          'EXTRONDOL consumes the repo-wide technical profile plus KRALJEVSKI DRUŠTVENI POREDAK governance, AI identity-finance governance, KRALJEVSKI BAŠTA UNEVERZITE bounded narrative metadata, and primary/supplemental/companion audit visual metadata, then publishes only audit-safe WAWE/review/rollback governance',
+          'EXTRONDOL consumes the repo-wide technical profile plus bounded Napoleon Diskaveri discovery-selection alias metadata, KRALJEVSKI DRUŠTVENI POREDAK governance, AI identity-finance governance, KRALJEVSKI BAŠTA UNEVERZITE bounded narrative metadata, and primary/supplemental/companion audit visual metadata, then publishes only audit-safe WAWE/review/rollback governance',
         acceptanceEvidence: DEVELOPER_CREATE_GOVERNANCE_ACCEPTANCE_EVIDENCE,
         rolloutPlan:
           'Promote only after additive terminology lock, EXTREM profile alignment, EXTRONDOL release-audit mirror, SPAJA KOD summary boundary, enterprise mapping, and drift-zero validation all stay aligned.',

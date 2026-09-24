@@ -991,6 +991,7 @@ async function runTests(): Promise<void> {
           degraded: boolean;
           developerAndCreateStatus: string;
           developerAndCreateImplementationStatus: string;
+          napoleonDiskaveriStatus: string;
           funkcinalnoProgramiranjeEnergetskogMisaonogTokaStatus: string;
           funkcionalnoProgramiranjeUzvisenogMisanogTokaStatus: string;
           funkcionalnoProgramiranjePravednogMisaonogTokaStatus: string;
@@ -1037,6 +1038,7 @@ async function runTests(): Promise<void> {
             publicSummary: string;
           };
           downstreamAuditFields: string[];
+          napoleonDiskaveriSummary: { canonicalAlias: string; status: string; blockerReasons: string[]; watchReasons: string[]; humanReviewPosture: string; downstreamReference: string };
         };
         dokerKuratIzekDokarTrack: { boundarySurface: string; publicStatus: string; tokenSummaries: Array<{ token: string; status: string }> };
         blockers: string[];
@@ -1063,6 +1065,7 @@ async function runTests(): Promise<void> {
     assert(['READY', 'WATCH', 'BLOCKED'].includes(body.data.publicSignals.developerAndCreateStatus), 'unexpected SPAJA KOD developer/create summary status');
     assert(['READY', 'WATCH', 'BLOCKED'].includes(body.data.publicSignals.developerAndCreateImplementationStatus), 'unexpected SPAJA KOD developer/create implementation summary status');
     assert(['READY', 'WATCH', 'BLOCKED'].includes(body.data.publicSignals.developerAndCreateAudioVisualStatus), 'unexpected SPAJA KOD developer/create audio-visual summary status');
+    assert(['READY', 'WATCH', 'BLOCKED'].includes(body.data.publicSignals.napoleonDiskaveriStatus), 'unexpected SPAJA KOD Napoleon Diskaveri summary status');
     assert(['READY', 'WATCH', 'BLOCKED'].includes(body.data.publicSignals.kraljevskiPravniAktStatus), 'unexpected SPAJA KOD KRALJEVSKI PRAVNI AKT summary status');
     assert(typeof body.data.publicSignals.developerAndCreateUniversitySummary.passedAreasCount === 'number', 'unexpected SPAJA KOD university passed areas count');
     assert(['passed', 'certified', 'certified-with-reward', 'blocked-for-review'].includes(body.data.publicSignals.developerAndCreateUniversitySummary.certificationStatus), 'unexpected SPAJA KOD university certification status');
@@ -1100,8 +1103,9 @@ async function runTests(): Promise<void> {
     assert(body.data.publicSignals.inspektoriSummary.publicBoundary === 'audit-safe-summary-only', 'unexpected SPAJA KOD INSPEKTORI public boundary');
     assert(body.data.publicSignals.developerAndCreateGlobalPageExplanationStatus === body.data.publicSignals.developerAndCreateStatus, 'unexpected SPAJA KOD global explanation status');
     assert(body.data.publicSignals.developerAndCreateGlobalPageExplanationSignals.join(',') === 'mape-uma,slike-plus-znacenje,ucenje,znanje,kreativnost,saradnja,odrzivost,mir', 'unexpected SPAJA KOD global explanation signals');
+    assert(body.data.developerAndCreateImplementationPackage.napoleonDiskaveriSummary.canonicalAlias === 'SELEKCIONIRANJE U SELEKCIJAMA PREMA AKTIVNOM NADMAŠAJU / NAPOLEON DISKAVERI', 'unexpected SPAJA KOD Napoleon Diskaveri summary alias');
     assert(body.data.dokDikDakDukConsistencyHealth === undefined, 'SPAJA KOD must not expose internal developer/create reflection payloads');
-    assert(body.data.developerAndCreateImplementationPackage.routeSummaryFields.join(',') === 'publicSignals.developerAndCreateStatus,publicSignals.developerAndCreateImplementationStatus,publicSignals.developerAndCreateAudioVisualStatus,publicSignals.kraljevskiPravniUniverzitetStatus,publicSignals.kraljevskiPravniAktStatus,publicSignals.kraljevskiAktBezbednostiStatus,publicSignals.kraljevskiProgramskiUneverzitetStatus,publicSignals.inspektoriStatus,publicSignals.inspektoriSummary,publicSignals.aiIdentityMonthlyPrimanjaStatus,publicSignals.aiIdentityMinorProtectionStatus,publicSignals.developerAndCreateUniversitySummary,developerAndCreateVisualReflection.audioVisualKontrabasPackage,developerAndCreateVisualReflection.kraljevskiBastaUneverzite,developerAndCreateVisualReflection.packageOutputs,developerAndCreateImplementationPackage.aiIqWorldBankPrepiskaSummary,developerAndCreateImplementationPackage.kraljevskiDrustveniPoredakSummary,developerAndCreateImplementationPackage.kraljevskiAktBezbednostiSummary,epilogijaCovecnosti.packageOutputs', 'unexpected SPAJA KOD implementation package route summary fields');
+    assert(body.data.developerAndCreateImplementationPackage.routeSummaryFields.join(',') === 'publicSignals.developerAndCreateStatus,publicSignals.developerAndCreateImplementationStatus,publicSignals.developerAndCreateAudioVisualStatus,publicSignals.napoleonDiskaveriStatus,publicSignals.kraljevskiPravniUniverzitetStatus,publicSignals.kraljevskiPravniAktStatus,publicSignals.kraljevskiAktBezbednostiStatus,publicSignals.kraljevskiProgramskiUneverzitetStatus,publicSignals.inspektoriStatus,publicSignals.inspektoriSummary,publicSignals.aiIdentityMonthlyPrimanjaStatus,publicSignals.aiIdentityMinorProtectionStatus,publicSignals.developerAndCreateUniversitySummary,developerAndCreateVisualReflection.audioVisualKontrabasPackage,developerAndCreateVisualReflection.kraljevskiBastaUneverzite,developerAndCreateVisualReflection.packageOutputs,developerAndCreateImplementationPackage.aiIqWorldBankPrepiskaSummary,developerAndCreateImplementationPackage.kraljevskiDrustveniPoredakSummary,developerAndCreateImplementationPackage.kraljevskiAktBezbednostiSummary,developerAndCreateImplementationPackage.napoleonDiskaveriSummary,epilogijaCovecnosti.packageOutputs', 'unexpected SPAJA KOD implementation package route summary fields');
     assert(body.data.developerAndCreateImplementationPackage.covecanstvuPublicOutput === 'summary-only', 'unexpected SPAJA KOD implementation package ČOVEČANSTVU output');
     assert(body.data.developerAndCreateImplementationPackage.aiIqWorldBankPrepiskaSummary.canonicalName === 'AI IQ WORLD BANK PREPISKA', 'unexpected SPAJA KOD AI IQ WORLD BANK prepiska summary name');
     assert(body.data.developerAndCreateImplementationPackage.aiIqWorldBankPrepiskaSummary.canonicalSourceDocument === 'docs/AI-IQ-WORLD-BANK-AI-IDENTITY-FINANCE-GOVERNANCE.md', 'unexpected SPAJA KOD AI IQ WORLD BANK prepiska summary source document');

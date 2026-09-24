@@ -10,6 +10,9 @@ import {
   DEVELOPER_CREATE_AUDIO_VISUAL_KONTRABAS_CANONICAL_NAME,
   DEVELOPER_CREATE_AUDIO_VISUAL_KONTRABAS_SCOPE_STATEMENT,
   DEVELOPER_CREATE_AUDIO_VISUAL_SCENE_VOCABULARY,
+  DEVELOPER_CREATE_NAPOLEON_DISKAVERI_BOUNDED_SIGNALS,
+  DEVELOPER_CREATE_NAPOLEON_DISKAVERI_CANONICAL_ALIAS,
+  DEVELOPER_CREATE_NAPOLEON_DISKAVERI_SCOPE_STATEMENT,
   DEVELOPER_CREATE_VRH_CANONICAL_NARRATIVE_SENTENCE,
   DEVELOPER_CREATE_VRH_CANONICAL_TOKEN_VOCABULARY,
   DEVELOPER_CREATE_VRH_DOWNSTREAM_SUMMARY_POLICY,
@@ -6678,6 +6681,48 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
         noNewRuntimeRoutes: true,
         ownershipLock: DEVELOPER_CREATE_VRH_MAPE_UMA_OWNERSHIP_LOCK,
       },
+      napoleonDiskaveriSelectionTrack: {
+        canonicalAlias: DEVELOPER_CREATE_NAPOLEON_DISKAVERI_CANONICAL_ALIAS,
+        scopeStatement: DEVELOPER_CREATE_NAPOLEON_DISKAVERI_SCOPE_STATEMENT,
+        boundedSignals: DEVELOPER_CREATE_NAPOLEON_DISKAVERI_BOUNDED_SIGNALS,
+        narrativeRole: 'interpretative-discovery-selection-track',
+        additiveOnly: true,
+        noNewRuntimeEngine: true,
+        noNewRuntimeRoutes: true,
+        noParallelSourceOfTruth: true,
+        sourceOfTruthRoutes: ['/api/extrimli/extrem', '/api/extrimli/extrondol', '/api/extrimli/spaja-kod'],
+        ownershipLock: {
+          dokDikFor: 'EXTREM',
+          dakDuk: 'EXTRONDOL',
+          spajaKod: 'audit-safe-summary-only',
+        },
+        summarySafePublicFields: [
+          'canonicalAlias',
+          'status',
+          'blockerReasons',
+          'watchReasons',
+          'humanReviewPosture',
+          'downstreamReference',
+        ],
+        discoverySelectionSignal: {
+          readinessStatus: 'BLOCKED',
+          readinessScore: 0,
+          discoveryStatus: 'BLOCKED',
+          selectionStatus: 'BLOCKED',
+          deterministicFallbackRequired: true,
+          fallbackHandling: {
+            emptyInput: 'WATCH',
+            conflictInput: 'BLOCKED',
+            nondeterministicInput: 'BLOCKED',
+          },
+          driver:
+            'dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.technicalReadinessProfile.consolidatedRhythmStatus',
+        },
+        blockerReasons: [],
+        watchReasons: [],
+        humanReviewPosture: 'REVIEW_REQUIRED',
+        downstreamReference: 'docs/MULTI-REPO-LINKS.md -> spaja86/IO-OPENUI-AO (summary-only)',
+      },
       mappedTracks: {
         vrhProgramskogEkviladenta: 'VRH PROGRAMSKOG EKVILADENTA',
         radniTaktMozgaMislilac: 'RADNI TAKT MOZGA (MISLILAC)',
@@ -10236,6 +10281,19 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
       noMedicalRuntimeClaims: true,
       rawInternalsExposed: false,
     },
+    napoleonDiskaveriSelectionBoundary: {
+      trackRole: 'bounded-discovery-selection-alias-track',
+      parentTrack: 'MAPE UMA',
+      canonicalAlias: DEVELOPER_CREATE_NAPOLEON_DISKAVERI_CANONICAL_ALIAS,
+      extremPublishes: 'readiness-discovery-selection-signal-only',
+      extrondolPublishes: 'review-freeze-promotion-audit-summary-only',
+      spajaKodPublishes: 'status-blocker-watch-review-and-downstream-reference-only',
+      technicalBinding: 'developerAndCreateRepoWideReflection.napoleonDiskaveriSelectionTrack',
+      noNewRuntimeEngine: true,
+      noNewRuntimeRoutes: true,
+      noParallelSourceOfTruth: true,
+      rawInternalsExposed: false,
+    },
     canonicalTerminologyMapping: {
       phrase: 'EXTRIMLI EXTRONDOL EXTREM DOK DUK DAK DIK FOR',
       nucleusLayers: ['documentation', 'types', 'route-summary-fields', 'tests', 'workflow-audit-layer'],
@@ -10291,6 +10349,36 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
       driftZeroLayers: ['docs', 'types', 'routes', 'tests', 'workflows'],
     },
   };
+  dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.napoleonDiskaveriSelectionTrack.discoverySelectionSignal.readinessStatus =
+    dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.status;
+  dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.napoleonDiskaveriSelectionTrack.discoverySelectionSignal.readinessScore =
+    round(dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.score, 2);
+  const napoleonDiskaveriSelectionStatus =
+    dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.technicalReadinessProfile.consolidatedRhythmStatus;
+  dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.napoleonDiskaveriSelectionTrack.discoverySelectionSignal.discoveryStatus =
+    napoleonDiskaveriSelectionStatus;
+  dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.napoleonDiskaveriSelectionTrack.discoverySelectionSignal.selectionStatus =
+    napoleonDiskaveriSelectionStatus;
+  dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.napoleonDiskaveriSelectionTrack.discoverySelectionSignal.deterministicFallbackRequired =
+    dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.deterministicFallbackRequired;
+  dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.napoleonDiskaveriSelectionTrack.blockerReasons =
+    napoleonDiskaveriSelectionStatus === 'BLOCKED'
+      ? [
+        'Napoleon Diskaveri bounded alias is blocked until empty, conflict, and nondeterministic selection inputs fall back to the existing READY | WATCH | BLOCKED discipline.',
+      ]
+      : [];
+  dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.napoleonDiskaveriSelectionTrack.watchReasons =
+    napoleonDiskaveriSelectionStatus === 'WATCH'
+      ? [
+        'Napoleon Diskaveri bounded alias remains in WATCH while discovery/selection posture still depends on additional review inside the existing Developer/Create reflection.',
+      ]
+      : [];
+  dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.napoleonDiskaveriSelectionTrack.humanReviewPosture =
+    napoleonDiskaveriSelectionStatus === 'READY'
+      ? 'ALIGNED'
+      : napoleonDiskaveriSelectionStatus === 'WATCH'
+        ? 'WATCH'
+        : 'REVIEW_REQUIRED';
   dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.fourTrackProgramPackage.technicalTrack.readinessStatus =
     dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.status;
   dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.fourTrackProgramPackage.governanceTrack.readinessStatus =
@@ -10318,6 +10406,7 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
     'Supplied ČOVEČANSTVO / OSEĆAJ OSEBENOSTI image remains companion-only audit evidence for samospoznaja, razumevanje mozga, osećaj, čovečnost, shared-world alignment i epilog guidance bez novog source-of-truth sloja.',
     'Supplied Mjuzikl kraljevskog čina image remains supplemental audit/reference evidence only and extends the same bounded reflection package through muzički čin, epilog, čovečanstvo i zajednički ritam themes without introducing any new runtime source of truth.',
     'Implementation package zaključava postojeće source-of-truth surface-ove, ownership split, ČOVEČANSTVU summary-only boundary, V2–V7 roadmap mapu i READY/WATCH/BLOCKED validation lock bez novih runtime ruta i bez paralelnog source-of-truth sistema.',
+    'SELEKCIONIRANJE U SELEKCIJAMA PREMA AKTIVNOM NADMAŠAJU / NAPOLEON DISKAVERI ostaje bounded Developer/Create / VRH / MAPE UMA alias: EXTREM objavljuje samo readiness/discovery/selection signal, EXTRONDOL samo governance ogledalo, a SPAJA KOD samo summary-safe status, blocker/watch razloge i downstream reference.',
     'Supplied BOŽIJI EPITETI / KRALJ NAD KRALJEVIMA image remains supplemental audit/reference evidence only and extends the same bounded reflection package through KRALJEVSKI PRAVNI UNIVERZITET, METRIČKO, SINEMETRIČKO i PARADIJOGONALNO interpretative tracks without introducing any new runtime source of truth.',
     'Supplied KRALJEVSTVO image remains supplemental audit/reference evidence only and extends the same bounded reflection package through zajedništvo, budućnost, znanje, humanost, and a bounded KRALJEVSKI PRAVNI UNIVERZITET governance/epilog narrative without introducing any new runtime source of truth.',
     'Supplied KRALJEVSTVO — PRAVEDAN SVET ZA SVE NARAŠTAJE image remains supplemental audit/reference evidence only and extends the same bounded reflection package through pravoslavlje, znanje, priroda, čovečanstvo, zajedničku porodicu i večnost without introducing any new runtime source of truth.',

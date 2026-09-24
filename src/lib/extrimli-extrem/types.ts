@@ -19,6 +19,9 @@ import type {
   DEVELOPER_CREATE_AUDIO_VISUAL_KONTRABAS_CANONICAL_NAME,
   DEVELOPER_CREATE_AUDIO_VISUAL_KONTRABAS_SCOPE_STATEMENT,
   DEVELOPER_CREATE_AUDIO_VISUAL_SCENE_VOCABULARY,
+  DEVELOPER_CREATE_NAPOLEON_DISKAVERI_BOUNDED_SIGNALS,
+  DEVELOPER_CREATE_NAPOLEON_DISKAVERI_CANONICAL_ALIAS,
+  DEVELOPER_CREATE_NAPOLEON_DISKAVERI_SCOPE_STATEMENT,
   DEVELOPER_CREATE_VRH_CANONICAL_TOKEN_VOCABULARY,
   DEVELOPER_CREATE_VRH_DOWNSTREAM_SUMMARY_POLICY,
   DEVELOPER_CREATE_VRH_FOUR_PERMANENT_LAYERS,
@@ -2549,6 +2552,47 @@ export interface ExtrimliDokDikDakDukConsistencyHealth {
         spajaKod: 'audit-safe-summary-only';
       };
     };
+    napoleonDiskaveriSelectionTrack: {
+      canonicalAlias: typeof DEVELOPER_CREATE_NAPOLEON_DISKAVERI_CANONICAL_ALIAS;
+      scopeStatement: typeof DEVELOPER_CREATE_NAPOLEON_DISKAVERI_SCOPE_STATEMENT;
+      boundedSignals: typeof DEVELOPER_CREATE_NAPOLEON_DISKAVERI_BOUNDED_SIGNALS;
+      narrativeRole: 'interpretative-discovery-selection-track';
+      additiveOnly: true;
+      noNewRuntimeEngine: true;
+      noNewRuntimeRoutes: true;
+      noParallelSourceOfTruth: true;
+      sourceOfTruthRoutes: readonly ['/api/extrimli/extrem', '/api/extrimli/extrondol', '/api/extrimli/spaja-kod'];
+      ownershipLock: {
+        dokDikFor: 'EXTREM';
+        dakDuk: 'EXTRONDOL';
+        spajaKod: 'audit-safe-summary-only';
+      };
+      summarySafePublicFields: readonly [
+        'canonicalAlias',
+        'status',
+        'blockerReasons',
+        'watchReasons',
+        'humanReviewPosture',
+        'downstreamReference'
+      ];
+      discoverySelectionSignal: {
+        readinessStatus: 'READY' | 'WATCH' | 'BLOCKED';
+        readinessScore: number;
+        discoveryStatus: 'READY' | 'WATCH' | 'BLOCKED';
+        selectionStatus: 'READY' | 'WATCH' | 'BLOCKED';
+        deterministicFallbackRequired: boolean;
+        fallbackHandling: {
+          emptyInput: 'WATCH';
+          conflictInput: 'BLOCKED';
+          nondeterministicInput: 'BLOCKED';
+        };
+        driver: 'dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.technicalReadinessProfile.consolidatedRhythmStatus';
+      };
+      blockerReasons: string[];
+      watchReasons: string[];
+      humanReviewPosture: 'ALIGNED' | 'WATCH' | 'REVIEW_REQUIRED';
+      downstreamReference: 'docs/MULTI-REPO-LINKS.md -> spaja86/IO-OPENUI-AO (summary-only)';
+    };
     mappedTracks: {
       vrhProgramskogEkviladenta: 'VRH PROGRAMSKOG EKVILADENTA';
       radniTaktMozgaMislilac: 'RADNI TAKT MOZGA (MISLILAC)';
@@ -3937,6 +3981,19 @@ export interface ExtrimliDokDikDakDukConsistencyHealth {
         ];
         noNewRuntimeModule: true;
         noMedicalRuntimeClaims: true;
+        rawInternalsExposed: false;
+      };
+      napoleonDiskaveriSelectionBoundary: {
+        trackRole: 'bounded-discovery-selection-alias-track';
+        parentTrack: 'MAPE UMA';
+        canonicalAlias: typeof DEVELOPER_CREATE_NAPOLEON_DISKAVERI_CANONICAL_ALIAS;
+        extremPublishes: 'readiness-discovery-selection-signal-only';
+        extrondolPublishes: 'review-freeze-promotion-audit-summary-only';
+        spajaKodPublishes: 'status-blocker-watch-review-and-downstream-reference-only';
+        technicalBinding: 'developerAndCreateRepoWideReflection.napoleonDiskaveriSelectionTrack';
+        noNewRuntimeEngine: true;
+        noNewRuntimeRoutes: true;
+        noParallelSourceOfTruth: true;
         rawInternalsExposed: false;
       };
       canonicalTerminologyMapping: {

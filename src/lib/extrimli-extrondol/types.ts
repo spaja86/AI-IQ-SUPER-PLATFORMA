@@ -18,6 +18,7 @@ import type {
 } from '../extrimli-spajapro-track';
 import type { AiIdentityFinanceGovernancePackage } from '../ai-identity-finance-governance';
 import type {
+  DEVELOPER_CREATE_NAPOLEON_DISKAVERI_CANONICAL_ALIAS,
   DEVELOPER_CREATE_VRH_CANONICAL_TOKEN_VOCABULARY,
   DEVELOPER_CREATE_VRH_DOWNSTREAM_SUMMARY_POLICY,
   DEVELOPER_CREATE_VRH_FOUR_PERMANENT_LAYERS,
@@ -864,6 +865,26 @@ export interface ExtrimliExtrondolDeveloperAndCreateRepoWideReflectionGovernance
     promotionFreeze: boolean;
     reviewRequiredBeforeWideRollout: boolean;
   };
+  napoleonDiskaveriSelectionTrack: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['napoleonDiskaveriSelectionTrack'] & {
+    sourceOfTruth: '/api/extrimli/extrem';
+    governanceSource: '/api/extrimli/extrondol';
+    publicBoundary: '/api/extrimli/spaja-kod';
+    currentWawe: ExtrimliExtrondolWaweStage;
+    eligibleNextWawe: ExtrimliExtrondolWaweStage;
+    promotionFreeze: boolean;
+    reviewRequiredBeforeWideRollout: boolean;
+    reviewPosture: 'ALIGNED' | 'WATCH' | 'REVIEW_REQUIRED';
+    rolloutPlan: string;
+    rollbackPlan: string;
+    humanReviewStatus: 'required-before-promotion';
+    acceptanceEvidence: readonly [
+      'developerAndCreateRepoWideReflection.napoleonDiskaveriSelectionTrack',
+      'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.napoleonDiskaveriSelectionTrack',
+      'spajaKod.publicSignals.napoleonDiskaveriStatus',
+      'spajaKod.developerAndCreateImplementationPackage.napoleonDiskaveriSummary'
+    ];
+    downstreamReference: 'docs/MULTI-REPO-LINKS.md -> spaja86/IO-OPENUI-AO (summary-only)';
+  };
   audioVisualKontrabasPackage: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['audioVisualKontrabasPackage'] & {
     currentWawe: ExtrimliExtrondolWaweStage;
     eligibleNextWawe: ExtrimliExtrondolWaweStage;
@@ -888,7 +909,7 @@ export interface ExtrimliExtrondolDeveloperAndCreateRepoWideReflectionGovernance
   };
   roadmapExecution: {
     roadmapStageId: 'v5-extrondol-release-audit-and-orchestration';
-    measurableOutput: 'EXTRONDOL consumes the repo-wide technical profile plus KRALJEVSKI DRUŠTVENI POREDAK governance, KRALJEVSKI AKT BEZBEDNOSTI bounded civil-readiness, AI identity-finance governance, KRALJEVSKI BAŠTA UNEVERZITE bounded narrative metadata, additive audio-vizuelni kontrabas package metadata, and primary/supplemental/companion audit visual metadata, then publishes only audit-safe WAWE/review/rollback governance';
+    measurableOutput: 'EXTRONDOL consumes the repo-wide technical profile plus bounded Napoleon Diskaveri discovery-selection alias metadata, KRALJEVSKI DRUŠTVENI POREDAK governance, KRALJEVSKI AKT BEZBEDNOSTI bounded civil-readiness, AI identity-finance governance, KRALJEVSKI BAŠTA UNEVERZITE bounded narrative metadata, additive audio-vizuelni kontrabas package metadata, and primary/supplemental/companion audit visual metadata, then publishes only audit-safe WAWE/review/rollback governance';
     acceptanceEvidence: readonly [
       'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.implementationPackage',
       'developerAndCreateRepoWideReflection',
@@ -902,7 +923,9 @@ export interface ExtrimliExtrondolDeveloperAndCreateRepoWideReflectionGovernance
       'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.covecnostAuditVisualReference.companionAuditVisualReferences',
       'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.osnoveRispektProtocol',
       'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.aiPlateGovernance',
+      'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.napoleonDiskaveriSelectionTrack',
       'spajaKod.publicSignals.developerAndCreateStatus',
+      'spajaKod.publicSignals.napoleonDiskaveriStatus',
       'spajaKod.publicSignals.developerAndCreateImplementationStatus',
       'spajaKod.publicSignals.aiPlateStatus'
     ];
@@ -2070,7 +2093,7 @@ export interface ExtrimliExtrondolDeveloperAndCreateRepoWideReflection
   extends Omit<ExtrimliExtrondolDeveloperAndCreateRepoWideReflectionGovernance, 'roadmapExecution'> {
   roadmapExecution: {
     roadmapStageId: 'v5-extrondol-release-audit-and-orchestration';
-    measurableOutput: 'EXTRONDOL consumes the repo-wide technical profile plus AI identity-finance governance, KRALJEVSKI BAŠTA UNEVERZITE bounded narrative metadata, additive audio-vizuelni kontrabas package metadata, and primary/supplemental/companion audit visual metadata, then publishes only audit-safe WAWE/review/rollback governance';
+    measurableOutput: 'EXTRONDOL consumes the repo-wide technical profile plus bounded Napoleon Diskaveri discovery-selection alias metadata, KRALJEVSKI DRUŠTVENI POREDAK governance, KRALJEVSKI AKT BEZBEDNOSTI bounded civil-readiness, AI identity-finance governance, KRALJEVSKI BAŠTA UNEVERZITE bounded narrative metadata, additive audio-vizuelni kontrabas package metadata, and primary/supplemental/companion audit visual metadata, then publishes only audit-safe WAWE/review/rollback governance';
     acceptanceEvidence: readonly [
       'developerAndCreateRepoWideReflection.implementationPackage',
       'developerAndCreateRepoWideReflection',
@@ -2080,7 +2103,9 @@ export interface ExtrimliExtrondolDeveloperAndCreateRepoWideReflection
       'developerAndCreateRepoWideReflection.covecnostAuditVisualReference.supplementalVisualReferences',
       'developerAndCreateRepoWideReflection.covecnostAuditVisualReference.companionAuditVisualReferences',
       'developerAndCreateRepoWideReflection.aiPlateGovernance',
+      'developerAndCreateRepoWideReflection.napoleonDiskaveriSelectionTrack',
       'spajaKod.publicSignals.developerAndCreateStatus',
+      'spajaKod.publicSignals.napoleonDiskaveriStatus',
       'spajaKod.publicSignals.developerAndCreateAudioVisualStatus',
       'spajaKod.publicSignals.developerAndCreateImplementationStatus',
       'spajaKod.publicSignals.aiPlateStatus'
@@ -2489,6 +2514,7 @@ export interface ExtrimliSpajaKodPublicFacade {
     developerAndCreateStatus: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['readiness']['status'];
     developerAndCreateImplementationStatus: ExtrimliSpajaKodPublicStatus;
     developerAndCreateAudioVisualStatus: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['audioVisualKontrabasPackage']['readinessStatus'];
+    napoleonDiskaveriStatus: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['napoleonDiskaveriSelectionTrack']['discoverySelectionSignal']['selectionStatus'];
     developerAndCreateGlobalPageExplanationStatus: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['readiness']['status'];
     developerAndCreateGlobalPageExplanationSignals: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['globalPageExplanationContract']['boundedThematicSignals'];
     kraljevskiProgramskiUneverzitetStatus: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['kraljevskiProgramskiUneverzitet']['readiness']['status'];
@@ -2588,6 +2614,7 @@ export interface ExtrimliSpajaKodPublicFacade {
       'publicSignals.developerAndCreateStatus',
       'publicSignals.developerAndCreateImplementationStatus',
       'publicSignals.developerAndCreateAudioVisualStatus',
+      'publicSignals.napoleonDiskaveriStatus',
       'publicSignals.kraljevskiPravniUniverzitetStatus',
       'publicSignals.kraljevskiPravniAktStatus',
       'publicSignals.kraljevskiAktBezbednostiStatus',
@@ -2603,6 +2630,7 @@ export interface ExtrimliSpajaKodPublicFacade {
       'developerAndCreateImplementationPackage.aiIqWorldBankPrepiskaSummary',
       'developerAndCreateImplementationPackage.kraljevskiDrustveniPoredakSummary',
       'developerAndCreateImplementationPackage.kraljevskiAktBezbednostiSummary',
+      'developerAndCreateImplementationPackage.napoleonDiskaveriSummary',
       'epilogijaCovecnosti.packageOutputs'
     ];
     roadmapStageId: 'v5-extrondol-release-audit-and-orchestration';
@@ -2644,6 +2672,15 @@ export interface ExtrimliSpajaKodPublicFacade {
       publicBoundary: 'audit-safe-summary-only';
       downstreamReference: 'docs/MULTI-REPO-LINKS.md -> spaja86/IO-OPENUI-AO (summary-only)';
       videoStoryboardSummary: string;
+    };
+    napoleonDiskaveriSummary: {
+      canonicalAlias: typeof DEVELOPER_CREATE_NAPOLEON_DISKAVERI_CANONICAL_ALIAS;
+      status: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['napoleonDiskaveriSelectionTrack']['discoverySelectionSignal']['selectionStatus'];
+      blockerReasons: string[];
+      watchReasons: string[];
+      humanReviewPosture: 'ALIGNED' | 'WATCH' | 'REVIEW_REQUIRED';
+      downstreamReference: 'docs/MULTI-REPO-LINKS.md -> spaja86/IO-OPENUI-AO (summary-only)';
+      publicBoundary: 'audit-safe-summary-only';
     };
     aiIqWorldBankPrepiskaSummary: {
       canonicalName: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['aiIdentityFinanceGovernance']['aiIqWorldBankPrepiska']['canonicalName'];

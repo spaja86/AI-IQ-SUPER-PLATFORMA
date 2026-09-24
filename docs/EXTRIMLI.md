@@ -889,6 +889,7 @@ Boundary and validation lock:
 - Dozvoljeni statusi ostaju `READY | WATCH | BLOCKED`.
 - Fallback za `NaN`, `Infinity`, prazne ili konfliktne ulaze ostaje obavezan.
 - Buduća realizacija sme ostati samo additive proširenje u EXTREM, EXTRONDOL, SPAJA KOD summary i pratećim docs/test slojevima.
+- `SELEKCIONIRANJE U SELEKCIJAMA PREMA AKTIVNOM NADMAŠAJU / NAPOLEON DISKAVERI` je dozvoljen samo kao bounded Developer/Create / VRH / MAPE UMA alias: EXTREM tehnički signal, EXTRONDOL governance mirror, SPAJA KOD summary-safe status bez novih ruta i bez paralelnog source-of-truth sistema.
 - Dnevni task model ostaje governance artefakt izveden iz postojećih modula, validatora i workflow-a, bez novog paralelnog runtime domena.
 
 ## Objektno orijentisana reprodukcija

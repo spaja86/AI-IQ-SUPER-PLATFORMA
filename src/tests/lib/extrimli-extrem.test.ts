@@ -146,6 +146,8 @@ async function runTests(): Promise<void> {
     const implementationPackage = report.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.implementationPackage;
     const audioVisualKontrabasPackage =
       report.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.audioVisualKontrabasPackage;
+    const napoleonDiskaveriSelectionTrack =
+      report.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.napoleonDiskaveriSelectionTrack;
     assert(implementationPackage.sourceOfTruthRoutes.join(',') === '/api/extrimli/extrem,/api/extrimli/extrondol,/api/extrimli/spaja-kod', 'developer/create implementation package source routes mismatch');
     assert(implementationPackage.noNewRuntimeRoutes, 'developer/create implementation package must forbid new runtime routes');
     assert(implementationPackage.noParallelSourceOfTruth, 'developer/create implementation package must forbid parallel source-of-truth surfaces');
@@ -168,6 +170,9 @@ async function runTests(): Promise<void> {
     assert(implementationPackage.covecanstvuEpilogBoundary.downstreamSyncFields.join(',') === 'masterEpilog,posterSummary,videoStoryboardSummary,auditShortSummary,governanceChecklistStatus', 'developer/create implementation package downstream audit fields mismatch');
     assert(implementationPackage.audioVisualKontrabasBoundary.trackRole === 'audio-visual-reflection-package', 'developer/create implementation package audio-visual boundary role mismatch');
     assert(implementationPackage.audioVisualKontrabasBoundary.noNewDspEngine, 'developer/create implementation package audio-visual boundary must forbid a new DSP engine');
+    assert(implementationPackage.napoleonDiskaveriSelectionBoundary.trackRole === 'bounded-discovery-selection-alias-track', 'developer/create implementation package Napoleon Diskaveri boundary role mismatch');
+    assert(implementationPackage.napoleonDiskaveriSelectionBoundary.parentTrack === 'MAPE UMA', 'developer/create implementation package Napoleon Diskaveri parent track mismatch');
+    assert(implementationPackage.napoleonDiskaveriSelectionBoundary.noNewRuntimeEngine, 'developer/create implementation package Napoleon Diskaveri boundary must forbid new runtime engines');
     assert(implementationPackage.roadmapStages.v7 === 'enterprise-organizational-operating-model', 'developer/create implementation package V7 roadmap mismatch');
     assert(implementationPackage.validationLock.readyWatchBlockedOnly, 'developer/create implementation package status lock mismatch');
     assert(implementationPackage.validationLock.deterministicFallbackInputs.join(',') === 'NaN,Infinity,empty,conflict', 'developer/create implementation package fallback input mismatch');
@@ -176,6 +181,10 @@ async function runTests(): Promise<void> {
     assert(audioVisualKontrabasPackage.mappedMediaTracks.voiceReproductionSupport === 'OBJEKTNO ORIJENTISANA REPRODUKCIJA', 'developer/create audio-visual package reproduction track mismatch');
     assert(audioVisualKontrabasPackage.audioSceneVocabulary.map((entry) => entry.token).join(',') === 'GUN,DEN,DIN,KON,SUR,DIR,DUR,DOG,DUK,DOP,KIDO,DUKAT,DJUKAS,DIKTON,GRAFON,SIRON,DJOKUZ,OTKUZ,DIPAS,CVIKROT,ZIPAN', 'developer/create audio-visual package token vocabulary mismatch');
     assert(audioVisualKontrabasPackage.auditReferencePackage.downstreamSyncMode === 'summary-only', 'developer/create audio-visual package downstream mode mismatch');
+    assert(napoleonDiskaveriSelectionTrack.canonicalAlias === 'SELEKCIONIRANJE U SELEKCIJAMA PREMA AKTIVNOM NADMAŠAJU / NAPOLEON DISKAVERI', 'developer/create Napoleon Diskaveri canonical alias mismatch');
+    assert(napoleonDiskaveriSelectionTrack.discoverySelectionSignal.driver === 'dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.technicalReadinessProfile.consolidatedRhythmStatus', 'developer/create Napoleon Diskaveri driver mismatch');
+    assert(['READY', 'WATCH', 'BLOCKED'].includes(napoleonDiskaveriSelectionTrack.discoverySelectionSignal.selectionStatus), 'developer/create Napoleon Diskaveri selection status mismatch');
+    assert(napoleonDiskaveriSelectionTrack.summarySafePublicFields.join(',') === 'canonicalAlias,status,blockerReasons,watchReasons,humanReviewPosture,downstreamReference', 'developer/create Napoleon Diskaveri summary-safe fields mismatch');
     assert(lock.realizationSequence.join(',') === 'documentation-lock-and-roadmap,terminology-and-ownership-alignment,type-contract-alignment,route-and-health-outputs,test-and-governance-conformance,daily-task-cadence,downstream-sync-and-public-summary', 'developer/create realization sequence mismatch');
     assert(lock.definitionOfDone.docsTypesRoutesTestsWorkflowsAligned, 'developer/create DoD alignment must be required');
     assert(lock.definitionOfDone.securityRequired && lock.definitionOfDone.rollbackRequired, 'developer/create DoD security/rollback requirements missing');
