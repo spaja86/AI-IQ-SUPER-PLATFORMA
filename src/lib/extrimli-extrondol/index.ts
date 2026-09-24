@@ -32,6 +32,17 @@ import {
   getGovernanceTechnicalRiskStatusFromExtremTrack,
 } from '../extrimli-doker-kurat-izek-dokar-track';
 import {
+  DEVELOPER_CREATE_VRH_CANONICAL_NARRATIVE_SENTENCE,
+  DEVELOPER_CREATE_VRH_CANONICAL_TOKEN_VOCABULARY,
+  DEVELOPER_CREATE_VRH_DOWNSTREAM_SUMMARY_POLICY,
+  DEVELOPER_CREATE_VRH_FOUR_PERMANENT_LAYERS,
+  DEVELOPER_CREATE_VRH_INTERPRETATION_ALIASES,
+  DEVELOPER_CREATE_VRH_MAIN_MANIFEST_DOCUMENT,
+  DEVELOPER_CREATE_VRH_NARRATIVE_CONTRACT_BOUNDARY,
+  DEVELOPER_CREATE_VRH_SUCCESSFUL_NARRATIVE_CRITERIA,
+  DEVELOPER_CREATE_VRH_VISUAL_EVIDENCE_POLICY,
+} from '../extrimli/developer-create-vrh-ekviladenta-contract';
+import {
   DEVELOPER_CREATE_VRH_MAPE_UMA_SCOPE_LOCK,
   DEVELOPER_CREATE_VRH_MAPE_UMA_THEMATIC_SIGNALS,
 } from '../developer-create-vrh-mape-uma-contract';
@@ -5800,9 +5811,12 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
     },
     developerAndCreateRepoWideReflection: {
       canonicalName: 'DEVELOPER AND CREATE',
-      canonicalScopeLock: extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.canonicalScopeLock,
-      equalityLock: 'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == RADNI TAKT MOZGA (MISLILAC)',
+      mainManifestDocument: DEVELOPER_CREATE_VRH_MAIN_MANIFEST_DOCUMENT,
+      canonicalNarrativeSentence: DEVELOPER_CREATE_VRH_CANONICAL_NARRATIVE_SENTENCE,
+      canonicalScopeLock: DEVELOPER_CREATE_VRH_CANONICAL_NARRATIVE_SENTENCE,
+      equalityLock: DEVELOPER_CREATE_VRH_INTERPRETATION_ALIASES[0],
       canonicalMapeUmaScopeLock: DEVELOPER_CREATE_VRH_MAPE_UMA_SCOPE_LOCK,
+      interpretationAliases: DEVELOPER_CREATE_VRH_INTERPRETATION_ALIASES,
       scope: 'repo-wide-rhythm-readiness-guidance',
       additiveOnlyProfile: 'EXTRIMLI-EXTRONDOL-EXTREM',
       sourceOfTruthRoutes: ['/api/extrimli/extrem', '/api/extrimli/extrondol', '/api/extrimli/spaja-kod'],
@@ -5811,6 +5825,12 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
         dakDuk: 'EXTRONDOL',
         spajaKod: 'audit-safe-summary-only',
       },
+      fourPermanentLayers: DEVELOPER_CREATE_VRH_FOUR_PERMANENT_LAYERS,
+      canonicalTokenVocabulary: DEVELOPER_CREATE_VRH_CANONICAL_TOKEN_VOCABULARY,
+      narrativeContractBoundary: DEVELOPER_CREATE_VRH_NARRATIVE_CONTRACT_BOUNDARY,
+      visualEvidencePolicy: DEVELOPER_CREATE_VRH_VISUAL_EVIDENCE_POLICY,
+      downstreamSummaryPolicy: DEVELOPER_CREATE_VRH_DOWNSTREAM_SUMMARY_POLICY,
+      successfulNarrativeCriteria: DEVELOPER_CREATE_VRH_SUCCESSFUL_NARRATIVE_CRITERIA,
       globalPageExplanationContract:
         extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.globalPageExplanationContract,
       mappedTracks: extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.mappedTracks,

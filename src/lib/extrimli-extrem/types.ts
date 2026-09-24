@@ -13,6 +13,17 @@ import { EXTRIMLI_OBJEKTNO_ORIJENTISANA_PRONGILACIJA_CONTRACT_VERSION } from '..
 import { EXTRIMLI_PROGRAMSKI_JEZIK_PARADIGMA_OBLIKOVANJE_TELA_CONTRACT_VERSION } from '../extrimli-programski-jezik-paradigma-oblikovanje-tela-contract';
 import { EXTRIMLI_OBJEKTNO_ORIJENTISANA_REPRODUKCIJA_CONTRACT_VERSION } from '../extrimli-objektno-orijentisana-reprodukcija-contract';
 import { EXTRIMLI_OBJEKTNO_ORIJENTUSANO_UZDIZANJE_EPSKIH_ELIKVADENATA_CONTRACT_VERSION } from '../extrimli-objektno-orijentusano-uzdizanje-epskih-elikvadenata-contract';
+import type {
+  DEVELOPER_CREATE_VRH_CANONICAL_NARRATIVE_SENTENCE,
+  DEVELOPER_CREATE_VRH_CANONICAL_TOKEN_VOCABULARY,
+  DEVELOPER_CREATE_VRH_DOWNSTREAM_SUMMARY_POLICY,
+  DEVELOPER_CREATE_VRH_FOUR_PERMANENT_LAYERS,
+  DEVELOPER_CREATE_VRH_INTERPRETATION_ALIASES,
+  DEVELOPER_CREATE_VRH_MAIN_MANIFEST_DOCUMENT,
+  DEVELOPER_CREATE_VRH_NARRATIVE_CONTRACT_BOUNDARY,
+  DEVELOPER_CREATE_VRH_SUCCESSFUL_NARRATIVE_CRITERIA,
+  DEVELOPER_CREATE_VRH_VISUAL_EVIDENCE_POLICY,
+} from '../extrimli/developer-create-vrh-ekviladenta-contract';
 
 export type ExtrimliExtremConflictIntensity = 'LOW' | 'MODERATE' | 'HIGH' | 'CRITICAL';
 
@@ -2493,9 +2504,12 @@ export interface ExtrimliDokDikDakDukConsistencyHealth {
   };
   developerAndCreateRepoWideReflection: {
     canonicalName: 'DEVELOPER AND CREATE';
-    canonicalScopeLock: 'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA';
-    equalityLock: 'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == RADNI TAKT MOZGA (MISLILAC)';
+    mainManifestDocument: typeof DEVELOPER_CREATE_VRH_MAIN_MANIFEST_DOCUMENT;
+    canonicalNarrativeSentence: typeof DEVELOPER_CREATE_VRH_CANONICAL_NARRATIVE_SENTENCE;
+    canonicalScopeLock: typeof DEVELOPER_CREATE_VRH_CANONICAL_NARRATIVE_SENTENCE;
+    equalityLock: typeof DEVELOPER_CREATE_VRH_INTERPRETATION_ALIASES[0];
     canonicalMapeUmaScopeLock: 'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == MAPE UMA';
+    interpretationAliases: typeof DEVELOPER_CREATE_VRH_INTERPRETATION_ALIASES;
     scope: 'repo-wide-rhythm-readiness-guidance';
     additiveOnlyProfile: 'EXTRIMLI-EXTRONDOL-EXTREM';
     sourceOfTruthRoutes: readonly ['/api/extrimli/extrem', '/api/extrimli/extrondol', '/api/extrimli/spaja-kod'];
@@ -2504,6 +2518,12 @@ export interface ExtrimliDokDikDakDukConsistencyHealth {
       dakDuk: 'EXTRONDOL';
       spajaKod: 'audit-safe-summary-only';
     };
+    fourPermanentLayers: typeof DEVELOPER_CREATE_VRH_FOUR_PERMANENT_LAYERS;
+    canonicalTokenVocabulary: typeof DEVELOPER_CREATE_VRH_CANONICAL_TOKEN_VOCABULARY;
+    narrativeContractBoundary: typeof DEVELOPER_CREATE_VRH_NARRATIVE_CONTRACT_BOUNDARY;
+    visualEvidencePolicy: typeof DEVELOPER_CREATE_VRH_VISUAL_EVIDENCE_POLICY;
+    downstreamSummaryPolicy: typeof DEVELOPER_CREATE_VRH_DOWNSTREAM_SUMMARY_POLICY;
+    successfulNarrativeCriteria: typeof DEVELOPER_CREATE_VRH_SUCCESSFUL_NARRATIVE_CRITERIA;
     globalPageExplanationContract: {
       title: 'DEVELOPER AND CREATE + VRH PROGRAMSKOG EKVILADENTA + MAPE UMA';
       readinessModel: readonly ['READY', 'WATCH', 'BLOCKED'];

@@ -27,6 +27,17 @@ import {
   EXTRIMLI_EXTREM_SPAJINO_PROPORCIONALNO_PROGRAMIRANJE_UNIVERZITET_CONTRACT_VERSION,
   EXTRIMLI_EXTREM_VRH_PROGRAMSKOG_EKVILADENTA_CONTRACT_VERSION,
 } from '../../lib/extrimli-extrem/types';
+import {
+  DEVELOPER_CREATE_VRH_CANONICAL_NARRATIVE_SENTENCE,
+  DEVELOPER_CREATE_VRH_CANONICAL_TOKEN_VOCABULARY,
+  DEVELOPER_CREATE_VRH_DOWNSTREAM_SUMMARY_POLICY,
+  DEVELOPER_CREATE_VRH_FOUR_PERMANENT_LAYERS,
+  DEVELOPER_CREATE_VRH_INTERPRETATION_ALIASES,
+  DEVELOPER_CREATE_VRH_MAIN_MANIFEST_DOCUMENT,
+  DEVELOPER_CREATE_VRH_NARRATIVE_CONTRACT_BOUNDARY,
+  DEVELOPER_CREATE_VRH_SUCCESSFUL_NARRATIVE_CRITERIA,
+  DEVELOPER_CREATE_VRH_VISUAL_EVIDENCE_POLICY,
+} from '../../lib/extrimli/developer-create-vrh-ekviladenta-contract';
 
 let passed = 0;
 let failed = 0;
@@ -248,9 +259,36 @@ async function runTests(): Promise<void> {
     assert(body.data.dokDikDakDukConsistencyHealth.programskiJezikProucavanja.programskiEkanalog.canonicalName === 'PROGRAMSKI EKANALOG', 'unexpected programski ekanalog name');
     assert(body.data.dokDikDakDukConsistencyHealth.programskiJezikProucavanja.programskiEkanalog.meaning === 'razumevanje logike', 'unexpected programski ekanalog meaning');
     assert(body.data.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.canonicalName === 'DEVELOPER AND CREATE', 'unexpected developer/create reflection name');
-    assert(body.data.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.canonicalScopeLock === 'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA', 'unexpected developer/create canonical scope lock');
+    assert(body.data.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.mainManifestDocument === DEVELOPER_CREATE_VRH_MAIN_MANIFEST_DOCUMENT, 'unexpected developer/create main manifest');
+    assert(body.data.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.canonicalNarrativeSentence === DEVELOPER_CREATE_VRH_CANONICAL_NARRATIVE_SENTENCE, 'unexpected developer/create canonical narrative sentence');
+    assert(body.data.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.canonicalScopeLock === DEVELOPER_CREATE_VRH_CANONICAL_NARRATIVE_SENTENCE, 'unexpected developer/create canonical scope lock');
+    assert(body.data.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.interpretationAliases.join(',') === DEVELOPER_CREATE_VRH_INTERPRETATION_ALIASES.join(','), 'unexpected developer/create interpretation aliases');
     assert(body.data.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.canonicalMapeUmaScopeLock === 'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == MAPE UMA', 'unexpected developer/create MAPE UMA canonical scope lock');
     assert(body.data.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readinessModel.join(',') === 'READY,WATCH,BLOCKED', 'unexpected developer/create readiness model');
+    assert(body.data.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.canonicalTokenVocabulary.dok === DEVELOPER_CREATE_VRH_CANONICAL_TOKEN_VOCABULARY.dok, 'unexpected developer/create DOK role');
+    assert(body.data.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.canonicalTokenVocabulary.dik === DEVELOPER_CREATE_VRH_CANONICAL_TOKEN_VOCABULARY.dik, 'unexpected developer/create DIK role');
+    assert(body.data.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.canonicalTokenVocabulary.dak === DEVELOPER_CREATE_VRH_CANONICAL_TOKEN_VOCABULARY.dak, 'unexpected developer/create DAK role');
+    assert(body.data.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.canonicalTokenVocabulary.duk === DEVELOPER_CREATE_VRH_CANONICAL_TOKEN_VOCABULARY.duk, 'unexpected developer/create DUK role');
+    assert(body.data.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.canonicalTokenVocabulary.for === DEVELOPER_CREATE_VRH_CANONICAL_TOKEN_VOCABULARY.for, 'unexpected developer/create FOR role');
+    assert(body.data.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.fourPermanentLayers.developerCreateVrh.role === DEVELOPER_CREATE_VRH_FOUR_PERMANENT_LAYERS.developerCreateVrh.role, 'unexpected developer/create apex layer role');
+    assert(body.data.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.fourPermanentLayers.extrem.role === DEVELOPER_CREATE_VRH_FOUR_PERMANENT_LAYERS.extrem.role, 'unexpected developer/create EXTREM layer role');
+    assert(body.data.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.fourPermanentLayers.extrondol.role === DEVELOPER_CREATE_VRH_FOUR_PERMANENT_LAYERS.extrondol.role, 'unexpected developer/create EXTRONDOL layer role');
+    assert(body.data.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.fourPermanentLayers.spajaKod.role === DEVELOPER_CREATE_VRH_FOUR_PERMANENT_LAYERS.spajaKod.role, 'unexpected developer/create SPAJA KOD layer role');
+    assert(body.data.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.narrativeContractBoundary.contractRole === DEVELOPER_CREATE_VRH_NARRATIVE_CONTRACT_BOUNDARY.contractRole, 'unexpected developer/create contract boundary role');
+    assert(body.data.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.narrativeContractBoundary.noNewRuntimeModule === DEVELOPER_CREATE_VRH_NARRATIVE_CONTRACT_BOUNDARY.noNewRuntimeModule, 'unexpected developer/create no-new-runtime boundary');
+    assert(body.data.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.narrativeContractBoundary.noParallelSourceOfTruth === DEVELOPER_CREATE_VRH_NARRATIVE_CONTRACT_BOUNDARY.noParallelSourceOfTruth, 'unexpected developer/create no-parallel-source-of-truth boundary');
+    assert(body.data.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.visualEvidencePolicy.role === DEVELOPER_CREATE_VRH_VISUAL_EVIDENCE_POLICY.role, 'unexpected developer/create visual evidence role');
+    assert(body.data.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.visualEvidencePolicy.confirmsExistingContract === DEVELOPER_CREATE_VRH_VISUAL_EVIDENCE_POLICY.confirmsExistingContract, 'unexpected developer/create visual confirmation flag');
+    assert(body.data.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.visualEvidencePolicy.introducesNewLogic === DEVELOPER_CREATE_VRH_VISUAL_EVIDENCE_POLICY.introducesNewLogic, 'unexpected developer/create visual new-logic flag');
+    assert(body.data.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.visualEvidencePolicy.introducesNewSemantics === DEVELOPER_CREATE_VRH_VISUAL_EVIDENCE_POLICY.introducesNewSemantics, 'unexpected developer/create visual new-semantics flag');
+    assert(body.data.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.visualEvidencePolicy.introducesNewSourceOfTruth === DEVELOPER_CREATE_VRH_VISUAL_EVIDENCE_POLICY.introducesNewSourceOfTruth, 'unexpected developer/create visual source-of-truth boundary');
+    assert(body.data.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.downstreamSummaryPolicy.linkedRepo === DEVELOPER_CREATE_VRH_DOWNSTREAM_SUMMARY_POLICY.linkedRepo, 'unexpected developer/create downstream linked repo');
+    assert(body.data.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.downstreamSummaryPolicy.syncMode === DEVELOPER_CREATE_VRH_DOWNSTREAM_SUMMARY_POLICY.syncMode, 'unexpected developer/create downstream sync mode');
+    assert(body.data.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.downstreamSummaryPolicy.repoLocalNarrativeRemainsRich === DEVELOPER_CREATE_VRH_DOWNSTREAM_SUMMARY_POLICY.repoLocalNarrativeRemainsRich, 'unexpected developer/create downstream rich-narrative flag');
+    assert(body.data.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.downstreamSummaryPolicy.rawNarrativeStaysRepoLocal === DEVELOPER_CREATE_VRH_DOWNSTREAM_SUMMARY_POLICY.rawNarrativeStaysRepoLocal, 'unexpected developer/create downstream repo-local narrative rule');
+    assert(body.data.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.successfulNarrativeCriteria.requiresSharedStoryAcross.join(',') === DEVELOPER_CREATE_VRH_SUCCESSFUL_NARRATIVE_CRITERIA.requiresSharedStoryAcross.join(','), 'unexpected developer/create successful narrative layers');
+    assert(body.data.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.successfulNarrativeCriteria.stableWithoutPerFileRetelling === DEVELOPER_CREATE_VRH_SUCCESSFUL_NARRATIVE_CRITERIA.stableWithoutPerFileRetelling, 'unexpected developer/create stable-without-retelling flag');
+    assert(body.data.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.successfulNarrativeCriteria.failureMode === DEVELOPER_CREATE_VRH_SUCCESSFUL_NARRATIVE_CRITERIA.failureMode, 'unexpected developer/create successful narrative failure mode');
     assert(body.data.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.globalPageExplanationContract.boundedThematicSignals.join(',') === 'mape-uma,slike-plus-znacenje,ucenje,znanje,kreativnost,saradnja,odrzivost,mir', 'unexpected developer/create global explanation thematic signals');
     assert(body.data.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.dailyOperationalCadence.cadenceBlocks.join(',') === 'morning-startup,deep-focus-block,midday-checkpoint,end-of-day-closeout', 'unexpected developer/create cadence blocks');
     assert(['READY', 'WATCH', 'BLOCKED'].includes(body.data.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.status), 'unexpected developer/create reflection status');
