@@ -9056,6 +9056,9 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
       ? ['deterministic-fallback-required']
       : []),
   ];
+  const inspektoriDeterministicFallbackRequired =
+    dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness
+      .deterministicFallbackRequired;
   const inspektoriActiveUniversityTracks = [
     'KRALJEVSKI PRAVNI UNIVERZITET',
     'MATEMATIČKI FAKULTET',
@@ -9064,7 +9067,8 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
     'GRAĐEVINSKI FAKULTET',
   ] as const;
   const inspektoriJusticePathConsistency =
-    inspektoriBlockerSummary.length > 0
+    inspektoriDeterministicFallbackRequired
+      || inspektoriBlockerSummary.length > 0
       || [inspektoriRuleConsistencyStatus, inspektoriEvidentiaryCompletenessStatus].includes('BLOCKED')
       ? 'BLOCKED'
       : [inspektoriRuleConsistencyStatus, inspektoriEvidentiaryCompletenessStatus].includes('WATCH')
@@ -9123,9 +9127,7 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
       score: inspektoriReadinessScore,
       investigationBreadthScore: inspektoriInvestigationBreadthScore,
       evidenceQualityScore: inspektoriEvidenceQualityScore,
-      deterministicFallbackRequired:
-        dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness
-          .deterministicFallbackRequired,
+      deterministicFallbackRequired: inspektoriDeterministicFallbackRequired,
     },
     summary:
       'INSPEKTORI ostaju additive-only governance/evidence narativ pod KRALJEVSKI PRAVNI UNIVERZITET + PRAVNI POREDAK PO PRAVU GRAĐANSTVA, sa neutral civic-order/compliance/evidence modelom, bounded univerzitetskim katalogom za dublju proveru i strogo summary-only javnim izlazom bez operativnih bezbednosnih detalja.',
