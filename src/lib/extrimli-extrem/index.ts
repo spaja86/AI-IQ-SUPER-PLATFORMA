@@ -8624,6 +8624,11 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
     audioVisualKontrabasSignalScores.reduce((sum, score) => sum + score, 0) / audioVisualKontrabasSignalScores.length,
     2,
   );
+  const audioVisualKontrabasBlockerReason = audioVisualKontrabasReadinessStatus === 'BLOCKED'
+    ? `audio-visual-kontrabas-package-blocked-conflict-pressure-${round(clamp(100 - audioVisualKontrabasReadinessScore, 0, 100), 2)}`
+    : audioVisualKontrabasReadinessStatus === 'WATCH'
+      ? 'audio-visual-kontrabas-package-review-required'
+      : null;
   const getAudioVisualSceneTrackStatus = (
     mappedTrack: (typeof DEVELOPER_CREATE_AUDIO_VISUAL_SCENE_VOCABULARY)[number]['mappedTrack'],
   ) => {
@@ -8666,6 +8671,13 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
     readinessModel: ['READY', 'WATCH', 'BLOCKED'],
     readinessStatus: audioVisualKontrabasReadinessStatus,
     readinessScore: audioVisualKontrabasReadinessScore,
+    blockerReason: audioVisualKontrabasBlockerReason,
+    reviewPosture:
+      audioVisualKontrabasReadinessStatus === 'BLOCKED'
+        ? 'REVIEW_REQUIRED'
+        : audioVisualKontrabasReadinessStatus === 'WATCH'
+          ? 'WATCH'
+          : 'ALIGNED',
     audioSceneVocabulary: DEVELOPER_CREATE_AUDIO_VISUAL_SCENE_VOCABULARY.map((entry) => ({
       ...entry,
       status: getAudioVisualSceneTrackStatus(entry.mappedTrack),

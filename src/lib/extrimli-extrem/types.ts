@@ -2680,6 +2680,8 @@ export interface ExtrimliDokDikDakDukConsistencyHealth {
       readinessModel: readonly ['READY', 'WATCH', 'BLOCKED'];
       readinessStatus: 'READY' | 'WATCH' | 'BLOCKED';
       readinessScore: number;
+      blockerReason: string | null;
+      reviewPosture: 'ALIGNED' | 'WATCH' | 'REVIEW_REQUIRED';
       audioSceneVocabulary: {
         readonly [Index in keyof typeof DEVELOPER_CREATE_AUDIO_VISUAL_SCENE_VOCABULARY]:
           (typeof DEVELOPER_CREATE_AUDIO_VISUAL_SCENE_VOCABULARY)[Index] & {
