@@ -452,17 +452,17 @@ function buildKraljevskaPlataSummary(
   paymentVerification: ExtrimliExtrondolReport['paymentVerification'],
 ) {
   const blockerReason =
-    paymentVerification.status !== 'VERIFIED'
-      ? paymentVerification.blockers[0] ?? 'payment-verification-required'
-      : kraljevskaPlataPolicy.approvalStatus === 'BLOCKED'
-        ? 'approval-status-blocked'
-        : kraljevskaPlataPolicy.approvalStatus === 'WATCH'
-          ? 'approval-status-watch'
-        : kraljevskaPlataPolicy.payoutReadinessStatus === 'BLOCKED'
-          ? 'payout-readiness-blocked'
-          : kraljevskaPlataPolicy.payoutReadinessStatus === 'WATCH'
-            ? 'payout-readiness-watch'
-          : null;
+    kraljevskaPlataPolicy.approvalStatus === 'BLOCKED'
+      ? 'approval-status-blocked'
+      : kraljevskaPlataPolicy.payoutReadinessStatus === 'BLOCKED'
+        ? 'payout-readiness-blocked'
+        : paymentVerification.status !== 'VERIFIED'
+          ? paymentVerification.blockers[0] ?? 'payment-verification-required'
+          : kraljevskaPlataPolicy.approvalStatus === 'WATCH'
+            ? 'approval-status-watch'
+            : kraljevskaPlataPolicy.payoutReadinessStatus === 'WATCH'
+              ? 'payout-readiness-watch'
+              : null;
 
   return {
     canonicalName: kraljevskaPlataPolicy.canonicalName,
