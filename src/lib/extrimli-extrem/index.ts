@@ -9016,8 +9016,16 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
     ) / 3,
     2,
   );
+  const inspektoriEvidentiarySourceStatuses = [
+    dokDikDakDukConsistencyHealth.status,
+    kraljevskiPravniUniverzitetTrack.readiness.status,
+  ];
   const inspektoriEvidentiaryCompletenessStatus =
-    resolveDeveloperCreateExtensionStatus(inspektoriEvidentiaryCompletenessScore);
+    inspektoriEvidentiarySourceStatuses.includes('BLOCKED')
+      ? 'BLOCKED'
+      : inspektoriEvidentiarySourceStatuses.includes('WATCH')
+        ? 'WATCH'
+        : resolveDeveloperCreateExtensionStatus(inspektoriEvidentiaryCompletenessScore);
   const inspektoriInvestigationBreadthScore = round(
     (
       kraljevskiPravniUniverzitetTrack.readiness.completenessScore
