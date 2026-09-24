@@ -63,6 +63,7 @@ Additive implementation package lock:
 - `/api/extrimli/spaja-kod` izlaže samo audit-safe summary paket kroz `publicSignals.developerAndCreateImplementationStatus` i `developerAndCreateImplementationPackage`, bez sirovih EXTREM/EXTRONDOL formula.
 - Novi additive-only `audioVisualKontrabasPackage` ostaje deo istog reflection paketa: EXTREM meri tehničku spremnost audio/video toka, EXTRONDOL ga zrcali kroz WAWE/review/rollback governance, a SPAJA KOD objavljuje samo `readinessStatus`, `blockerReason`, `reviewPosture`, `downstreamReference` i `videoStoryboardSummary`.
 - Audio-vizuelni scope ostaje zaključan na snimanje glasa, glasovnu reprodukciju, glas-na-video montažu i ciklusno nadglašavanje/podglašavanje, bez novog DSP engine-a, bez nove rute i bez paralelnog source-of-truth sistema.
+- `SELEKCIONIRANJE U SELEKCIJAMA PREMA AKTIVNOM NADMAŠAJU / NAPOLEON DISKAVERI` ulazi samo kao bounded interpretativni alias unutar postojećeg Developer/Create / VRH / MAPE UMA paketa: EXTREM objavljuje readiness/discovery/selection signal, EXTRONDOL review/freeze/promotion/rollback ogledalo, a SPAJA KOD samo audit-safe status + blocker/watch razloge + downstream reference.
 
 Ownership hard lock:
 
@@ -92,6 +93,15 @@ Svaka faza mora imati: `roadmapStageId`, `measurableOutput`, `acceptanceEvidence
 - `regtonske proporcije`, `vuferske/kontrabasovne promene` i `tonski aspekt u revolucionom smislu kontrabasa` ostaju bounded signalni rečnik za audio dramaturgiju i dinamički balans, nikad novi muzički runtime modul.
 - Zaključani terminološki/audio-scene vokabular ostaje: `GUN, DEN, DIN, KON, SUR, DIR, DUR, DOG, DUK, DOP, KIDO, DUKAT, DJUKAS, DIKTON, GRAFON, SIRON, DJOKUZ, OTKUZ, DIPAS, CVIKROT, ZIPAN`.
 - Acceptance paket za ovu traku ostaje isti narativ kroz `docs + types + routes + tests + workflows`, deterministički `READY | WATCH | BLOCKED` model, audit trail u EXTREM/EXTRONDOL slojevima i summary-only downstream sync prema `spaja86/IO-OPENUI-AO`.
+
+
+### 2.2.2) Napoleon Diskaveri bounded discovery-selection alias
+
+- Alias ostaje zaključan na naziv `SELEKCIONIRANJE U SELEKCIJAMA PREMA AKTIVNOM NADMAŠAJU / NAPOLEON DISKAVERI`.
+- Ne uvodi novi runtime engine, novu rutu, novu discovery payload familiju ili paralelni source-of-truth sistem.
+- `DOK + DIK + FOR` ostaju EXTREM tehnički signal za readiness/discovery/selection posture, uz deterministički `READY | WATCH | BLOCKED` izlaz i fallback za `empty`, `conflict` i `nondeterministic` ulaze.
+- `DAK + DUK` ostaju EXTRONDOL governance ogledalo za review posture, promotion freeze, rollout/rollback disciplinu, acceptance evidence i downstream reference.
+- `SPAJA KOD` objavljuje samo summary-safe izlaz: naziv bounded trake, status, blocker/watch razloge, human-review posture i downstream reference.
 
 Prioritet realizacije ostaje zaključan:
 

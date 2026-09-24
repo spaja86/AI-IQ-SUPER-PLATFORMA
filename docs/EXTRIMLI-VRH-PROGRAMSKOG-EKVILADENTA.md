@@ -43,6 +43,15 @@ Repo-wide reflection sada obavezno uključuje i dnevni operativni cadence: `morn
 - Zaključani audio-scene termini ostaju `GUN, DEN, DIN, KON, SUR, DIR, DUR, DOG, DUK, DOP, KIDO, DUKAT, DJUKAS, DIKTON, GRAFON, SIRON, DJOKUZ, OTKUZ, DIPAS, CVIKROT, ZIPAN`.
 - Ako postoje storyboard ili vizuelni asset-i, EXTREM ih vodi kao audit/reference evidence, EXTRONDOL ih zrcali kroz governance summary, a `spaja86/IO-OPENUI-AO` dobija samo summary-safe downstream reference.
 
+## Napoleon Diskaveri bounded alias
+
+`SELEKCIONIRANJE U SELEKCIJAMA PREMA AKTIVNOM NADMAŠAJU / NAPOLEON DISKAVERI` ostaje samo bounded interpretativni alias unutar `DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == MAPE UMA`.
+
+- `EXTREM` ostaje tehnički sloj za readiness/discovery/selection signal i deterministički `READY | WATCH | BLOCKED` izlaz.
+- `EXTRONDOL` ostaje governance ogledalo za review posture, freeze/promotion odluke, rollout/rollback disciplinu i audit evidence.
+- `SPAJA KOD` ostaje summary-safe boundary i izlaže samo naziv bounded trake, status, blocker/watch razloge, human-review posture i downstream reference.
+- Prazni, konfliktni i nedeterministički ulazi ostaju vezani za postojeći fallback lock (`partial-payload-no-500`, bez novog engine-a i bez nove rute).
+
 ## Kingdom ecosystem federation
 
 `VRH PROGRAMSKOG EKVILADENTA` je zaključani vršni interpretativni sloj i za federaciju `KRALJEVSTVA`; ne uvodi novu runtime domenu, nego orkestrira postojeće EXTRIMLI/EXTREM/EXTRONDOL/SPAJA KOD ugovore kroz bounded ecosystem contract.
