@@ -65,3 +65,146 @@ export const DEVELOPER_CREATE_VRH_SUCCESSFUL_NARRATIVE_CRITERIA = {
   failureMode:
     'narrative-not-stabilized-if-each-file-needs-a-new-explanation',
 } as const;
+
+export const DEVELOPER_CREATE_AUDIO_VISUAL_KONTRABAS_CANONICAL_NAME =
+  'DEVELOPER AND CREATE / AUDIO-VIZUELNI KONTRABAS PAKET' as const;
+
+export const DEVELOPER_CREATE_AUDIO_VISUAL_KONTRABAS_SCOPE_STATEMENT =
+  'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == AUDIO-VIZUELNI KONTRABAS PAKET' as const;
+
+export const DEVELOPER_CREATE_AUDIO_VISUAL_BOUNDED_SIGNAL_VOCABULARY = {
+  regtonskeProporcije: 'tonal-proportion-and-registration-guidance-only',
+  vuferskeKontrabasovnePromene: 'low-end-dynamic-balance-guidance-only',
+  tonskiAspektKontrabasa: 'bounded-contrabass-dramaturgy-without-new-dsp-engine',
+  ciklusnoNadglasavanjeIPodglasavanje:
+    'cyclical-overvoice-undervoice-transition-guidance-only',
+} as const;
+
+export const DEVELOPER_CREATE_AUDIO_VISUAL_SCENE_VOCABULARY = [
+  {
+    token: 'GUN',
+    meaning: 'ulazni glasovni kadar',
+    role: 'voice-capture-entry',
+    mappedTrack: 'SINEMETRIČKO PROGRAMIRANJE',
+  },
+  {
+    token: 'DEN',
+    meaning: 'narativni glasovni kadar',
+    role: 'voice-narrative-sequence',
+    mappedTrack: 'SINEMETRIČKO PROGRAMIRANJE',
+  },
+  {
+    token: 'DIN',
+    meaning: 'intonacioni signal',
+    role: 'voice-inflection-anchor',
+    mappedTrack: 'SINEMETRIČKO PROGRAMIRANJE',
+  },
+  {
+    token: 'KON',
+    meaning: 'glasovni kontekst',
+    role: 'narrative-context-bridge',
+    mappedTrack: 'SINEMETRIČKO PROGRAMIRANJE',
+  },
+  {
+    token: 'SUR',
+    meaning: 'scenska površina glasa',
+    role: 'voice-surface-layer',
+    mappedTrack: 'SINEMETRIČKO PROGRAMIRANJE',
+  },
+  {
+    token: 'DIR',
+    meaning: 'direktna reprodukcija',
+    role: 'playback-direct-lane',
+    mappedTrack: 'OBJEKTNO ORIJENTISANA REPRODUKCIJA',
+  },
+  {
+    token: 'DUR',
+    meaning: 'dualna reprodukcija',
+    role: 'playback-dual-layer',
+    mappedTrack: 'OBJEKTNO ORIJENTISANA REPRODUKCIJA',
+  },
+  {
+    token: 'DOG',
+    meaning: 'dogradnja glasa',
+    role: 'playback-extension-layer',
+    mappedTrack: 'OBJEKTNO ORIJENTISANA REPRODUKCIJA',
+  },
+  {
+    token: 'DUK',
+    meaning: 'audio-scene preklop distinct od governance DUK tokena',
+    role: 'playback-scene-switch',
+    mappedTrack: 'OBJEKTNO ORIJENTISANA REPRODUKCIJA',
+  },
+  {
+    token: 'DOP',
+    meaning: 'dopunski montažni prelaz',
+    role: 'montage-support-transition',
+    mappedTrack: 'PARADIJOGONALNO PROGRAMIRANJE',
+  },
+  {
+    token: 'KIDO',
+    meaning: 'kadar i dogadjaj orkestracija',
+    role: 'montage-event-orchestration',
+    mappedTrack: 'PARADIJOGONALNO PROGRAMIRANJE',
+  },
+  {
+    token: 'DUKAT',
+    meaning: 'zaključani montažni takt',
+    role: 'montage-lockstep-cadence',
+    mappedTrack: 'PARADIJOGONALNO PROGRAMIRANJE',
+  },
+  {
+    token: 'DJUKAS',
+    meaning: 'sekvencijalni spoj kadrova',
+    role: 'montage-sequence-join',
+    mappedTrack: 'PARADIJOGONALNO PROGRAMIRANJE',
+  },
+  {
+    token: 'DIKTON',
+    meaning: 'tonska proporcija glasa',
+    role: 'tonal-proportion-anchor',
+    mappedTrack: 'PROPORCIONALNO PROGRAMIRANJE',
+  },
+  {
+    token: 'GRAFON',
+    meaning: 'graf tonskog kretanja',
+    role: 'tonal-curve-graph',
+    mappedTrack: 'PROPORCIONALNO PROGRAMIRANJE',
+  },
+  {
+    token: 'SIRON',
+    meaning: 'širina tonalnog spektra',
+    role: 'tonal-spectrum-width',
+    mappedTrack: 'PROPORCIONALNO PROGRAMIRANJE',
+  },
+  {
+    token: 'DJOKUZ',
+    meaning: 'ciklični ulaz nadglasa',
+    role: 'overvoice-cycle-entry',
+    mappedTrack: 'METRIČKO PROGRAMIRANJE',
+  },
+  {
+    token: 'OTKUZ',
+    meaning: 'ciklični izlaz podglasa',
+    role: 'undervoice-cycle-exit',
+    mappedTrack: 'METRIČKO PROGRAMIRANJE',
+  },
+  {
+    token: 'DIPAS',
+    meaning: 'trajanje prelaza',
+    role: 'duration-transition-meter',
+    mappedTrack: 'METRIČKO PROGRAMIRANJE',
+  },
+  {
+    token: 'CVIKROT',
+    meaning: 'ritmička rotacija ciklusa',
+    role: 'cycle-rotation-meter',
+    mappedTrack: 'METRIČKO PROGRAMIRANJE',
+  },
+  {
+    token: 'ZIPAN',
+    meaning: 'zatvaranje ciklusa',
+    role: 'cycle-closeout-meter',
+    mappedTrack: 'METRIČKO PROGRAMIRANJE',
+  },
+] as const;

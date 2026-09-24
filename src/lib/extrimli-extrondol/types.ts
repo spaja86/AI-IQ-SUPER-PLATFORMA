@@ -864,6 +864,23 @@ export interface ExtrimliExtrondolDeveloperAndCreateRepoWideReflectionGovernance
     promotionFreeze: boolean;
     reviewRequiredBeforeWideRollout: boolean;
   };
+  audioVisualKontrabasPackage: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['audioVisualKontrabasPackage'] & {
+    currentWawe: ExtrimliExtrondolWaweStage;
+    eligibleNextWawe: ExtrimliExtrondolWaweStage;
+    promotionFreeze: boolean;
+    reviewRequiredBeforeWideRollout: boolean;
+    blockerReason: string | null;
+    reviewPosture: 'ALIGNED' | 'WATCH' | 'REVIEW_REQUIRED';
+    rolloutPlan: string;
+    rollbackPlan: string;
+    acceptanceEvidence: readonly [
+      'developerAndCreateRepoWideReflection.audioVisualKontrabasPackage',
+      'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.audioVisualKontrabasPackage',
+      'spajaKod.publicSignals.developerAndCreateAudioVisualStatus',
+      'spajaKod.developerAndCreateVisualReflection.audioVisualKontrabasPackage'
+    ];
+    downstreamReference: 'docs/MULTI-REPO-LINKS.md -> spaja86/IO-OPENUI-AO (summary-only)';
+  };
   repoWideReflection: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['repoWideReflection'];
   dailyOperationalCadence: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['dailyOperationalCadence'] & {
     status: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['readiness']['status'];
@@ -871,11 +888,12 @@ export interface ExtrimliExtrondolDeveloperAndCreateRepoWideReflectionGovernance
   };
   roadmapExecution: {
     roadmapStageId: 'v5-extrondol-release-audit-and-orchestration';
-    measurableOutput: 'EXTRONDOL consumes the repo-wide technical profile plus KRALJEVSKI DRUŠTVENI POREDAK governance, KRALJEVSKI AKT BEZBEDNOSTI bounded civil-readiness, AI identity-finance governance, KRALJEVSKI BAŠTA UNEVERZITE bounded narrative metadata, and primary/supplemental/companion audit visual metadata, then publishes only audit-safe WAWE/review/rollback governance';
+    measurableOutput: 'EXTRONDOL consumes the repo-wide technical profile plus KRALJEVSKI DRUŠTVENI POREDAK governance, KRALJEVSKI AKT BEZBEDNOSTI bounded civil-readiness, AI identity-finance governance, KRALJEVSKI BAŠTA UNEVERZITE bounded narrative metadata, additive audio-vizuelni kontrabas package metadata, and primary/supplemental/companion audit visual metadata, then publishes only audit-safe WAWE/review/rollback governance';
     acceptanceEvidence: readonly [
       'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.implementationPackage',
       'developerAndCreateRepoWideReflection',
       'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance',
+      'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.audioVisualKontrabasPackage',
       'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.kraljevskiDrustveniPoredak',
       'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.kraljevskiDrustveniPoredak.kraljevskiAktBezbednosti',
       'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.kraljevskiBastaUneverzite',
@@ -2052,16 +2070,18 @@ export interface ExtrimliExtrondolDeveloperAndCreateRepoWideReflection
   extends Omit<ExtrimliExtrondolDeveloperAndCreateRepoWideReflectionGovernance, 'roadmapExecution'> {
   roadmapExecution: {
     roadmapStageId: 'v5-extrondol-release-audit-and-orchestration';
-    measurableOutput: 'EXTRONDOL consumes the repo-wide technical profile plus AI identity-finance governance, KRALJEVSKI BAŠTA UNEVERZITE bounded narrative metadata, and primary/supplemental/companion audit visual metadata, then publishes only audit-safe WAWE/review/rollback governance';
+    measurableOutput: 'EXTRONDOL consumes the repo-wide technical profile plus AI identity-finance governance, KRALJEVSKI BAŠTA UNEVERZITE bounded narrative metadata, additive audio-vizuelni kontrabas package metadata, and primary/supplemental/companion audit visual metadata, then publishes only audit-safe WAWE/review/rollback governance';
     acceptanceEvidence: readonly [
       'developerAndCreateRepoWideReflection.implementationPackage',
       'developerAndCreateRepoWideReflection',
+      'developerAndCreateRepoWideReflection.audioVisualKontrabasPackage',
       'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance',
       'developerAndCreateRepoWideReflection.kraljevskiBastaUneverzite',
       'developerAndCreateRepoWideReflection.covecnostAuditVisualReference.supplementalVisualReferences',
       'developerAndCreateRepoWideReflection.covecnostAuditVisualReference.companionAuditVisualReferences',
       'developerAndCreateRepoWideReflection.aiPlateGovernance',
       'spajaKod.publicSignals.developerAndCreateStatus',
+      'spajaKod.publicSignals.developerAndCreateAudioVisualStatus',
       'spajaKod.publicSignals.developerAndCreateImplementationStatus',
       'spajaKod.publicSignals.aiPlateStatus'
     ];
@@ -2468,6 +2488,7 @@ export interface ExtrimliSpajaKodPublicFacade {
     vrhProgramskogEkviladentaStatus: ExtrimliExtremProfilerReport['vrhProgramskogEkviladenta']['readiness']['status'];
     developerAndCreateStatus: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['readiness']['status'];
     developerAndCreateImplementationStatus: ExtrimliSpajaKodPublicStatus;
+    developerAndCreateAudioVisualStatus: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['audioVisualKontrabasPackage']['readinessStatus'];
     developerAndCreateGlobalPageExplanationStatus: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['readiness']['status'];
     developerAndCreateGlobalPageExplanationSignals: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['globalPageExplanationContract']['boundedThematicSignals'];
     kraljevskiProgramskiUneverzitetStatus: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['kraljevskiProgramskiUneverzitet']['readiness']['status'];
@@ -2543,6 +2564,15 @@ export interface ExtrimliSpajaKodPublicFacade {
       visualReference: string;
       thematicSignals: string[];
     }>;
+    audioVisualKontrabasPackage: {
+      canonicalName: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['audioVisualKontrabasPackage']['canonicalName'];
+      readinessStatus: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['audioVisualKontrabasPackage']['readinessStatus'];
+      blockerReason: string | null;
+      reviewPosture: 'ALIGNED' | 'WATCH' | 'REVIEW_REQUIRED';
+      downstreamReference: 'docs/MULTI-REPO-LINKS.md -> spaja86/IO-OPENUI-AO (summary-only)';
+      videoStoryboardSummary: string;
+      summarySafeFields: readonly ['readinessStatus', 'blockerReason', 'reviewPosture', 'downstreamReference', 'videoStoryboardSummary'];
+    };
     kraljevskiBastaUneverzite: {
       canonicalNarrativeId: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['kraljevskiBastaUneverzite']['canonicalNarrativeId'];
       supportingNarratives: string[];
@@ -2557,6 +2587,7 @@ export interface ExtrimliSpajaKodPublicFacade {
     routeSummaryFields: readonly [
       'publicSignals.developerAndCreateStatus',
       'publicSignals.developerAndCreateImplementationStatus',
+      'publicSignals.developerAndCreateAudioVisualStatus',
       'publicSignals.kraljevskiPravniUniverzitetStatus',
       'publicSignals.kraljevskiPravniAktStatus',
       'publicSignals.kraljevskiAktBezbednostiStatus',
@@ -2566,6 +2597,7 @@ export interface ExtrimliSpajaKodPublicFacade {
       'publicSignals.aiIdentityMonthlyPrimanjaStatus',
       'publicSignals.aiIdentityMinorProtectionStatus',
       'publicSignals.developerAndCreateUniversitySummary',
+      'developerAndCreateVisualReflection.audioVisualKontrabasPackage',
       'developerAndCreateVisualReflection.kraljevskiBastaUneverzite',
       'developerAndCreateVisualReflection.packageOutputs',
       'developerAndCreateImplementationPackage.aiIqWorldBankPrepiskaSummary',
@@ -2604,6 +2636,14 @@ export interface ExtrimliSpajaKodPublicFacade {
       publicSummary: string;
       noNewFinancialRuntimeFormulas: true;
       noOperationalExecutionEngine: true;
+    };
+    audioVisualKontrabasSummary: {
+      canonicalName: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['audioVisualKontrabasPackage']['canonicalName'];
+      readinessStatus: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['audioVisualKontrabasPackage']['readinessStatus'];
+      reviewPosture: 'ALIGNED' | 'WATCH' | 'REVIEW_REQUIRED';
+      publicBoundary: 'audit-safe-summary-only';
+      downstreamReference: 'docs/MULTI-REPO-LINKS.md -> spaja86/IO-OPENUI-AO (summary-only)';
+      videoStoryboardSummary: string;
     };
     aiIqWorldBankPrepiskaSummary: {
       canonicalName: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['aiIdentityFinanceGovernance']['aiIqWorldBankPrepiska']['canonicalName'];

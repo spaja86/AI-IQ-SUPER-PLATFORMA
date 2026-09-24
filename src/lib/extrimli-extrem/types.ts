@@ -15,6 +15,10 @@ import { EXTRIMLI_OBJEKTNO_ORIJENTISANA_REPRODUKCIJA_CONTRACT_VERSION } from '..
 import { EXTRIMLI_OBJEKTNO_ORIJENTUSANO_UZDIZANJE_EPSKIH_ELIKVADENATA_CONTRACT_VERSION } from '../extrimli-objektno-orijentusano-uzdizanje-epskih-elikvadenata-contract';
 import type {
   DEVELOPER_CREATE_VRH_CANONICAL_NARRATIVE_SENTENCE,
+  DEVELOPER_CREATE_AUDIO_VISUAL_BOUNDED_SIGNAL_VOCABULARY,
+  DEVELOPER_CREATE_AUDIO_VISUAL_KONTRABAS_CANONICAL_NAME,
+  DEVELOPER_CREATE_AUDIO_VISUAL_KONTRABAS_SCOPE_STATEMENT,
+  DEVELOPER_CREATE_AUDIO_VISUAL_SCENE_VOCABULARY,
   DEVELOPER_CREATE_VRH_CANONICAL_TOKEN_VOCABULARY,
   DEVELOPER_CREATE_VRH_DOWNSTREAM_SUMMARY_POLICY,
   DEVELOPER_CREATE_VRH_FOUR_PERMANENT_LAYERS,
@@ -2652,6 +2656,64 @@ export interface ExtrimliDokDikDakDukConsistencyHealth {
       };
       consolidatedRhythmStatus: 'READY' | 'WATCH' | 'BLOCKED';
     };
+    audioVisualKontrabasPackage: {
+      canonicalName: typeof DEVELOPER_CREATE_AUDIO_VISUAL_KONTRABAS_CANONICAL_NAME;
+      scopeStatement: typeof DEVELOPER_CREATE_AUDIO_VISUAL_KONTRABAS_SCOPE_STATEMENT;
+      additiveOnly: true;
+      noNewRuntimeRoutes: true;
+      noParallelSourceOfTruth: true;
+      noNewDspEngine: true;
+      sourceOfTruthRoutes: readonly ['/api/extrimli/extrem', '/api/extrimli/extrondol', '/api/extrimli/spaja-kod'];
+      ownershipLock: {
+        dokDikFor: 'EXTREM';
+        dakDuk: 'EXTRONDOL';
+        spajaKod: 'audit-safe-summary-only';
+      };
+      mappedMediaTracks: {
+        vocalNarrative: 'SINEMETRIČKO PROGRAMIRANJE';
+        voiceReproductionSupport: 'OBJEKTNO ORIJENTISANA REPRODUKCIJA';
+        tonalProportions: 'PROPORCIONALNO PROGRAMIRANJE';
+        rhythmDurationCycle: 'METRIČKO PROGRAMIRANJE';
+        montageOrchestration: 'PARADIJOGONALNO PROGRAMIRANJE';
+      };
+      boundedSignalVocabulary: typeof DEVELOPER_CREATE_AUDIO_VISUAL_BOUNDED_SIGNAL_VOCABULARY;
+      readinessModel: readonly ['READY', 'WATCH', 'BLOCKED'];
+      readinessStatus: 'READY' | 'WATCH' | 'BLOCKED';
+      readinessScore: number;
+      blockerReason: string | null;
+      reviewPosture: 'ALIGNED' | 'WATCH' | 'REVIEW_REQUIRED';
+      audioSceneVocabulary: readonly ((typeof DEVELOPER_CREATE_AUDIO_VISUAL_SCENE_VOCABULARY)[number] & {
+        readonly status: 'READY' | 'WATCH' | 'BLOCKED';
+      })[];
+      technicalProfile: {
+        consolidatedStatus: 'READY' | 'WATCH' | 'BLOCKED';
+        vocalConsistencyStatus: ExtrimliExtremSinemetrickoProgramiranjeSignal['readiness']['status'];
+        vocalConsistencyScore: number;
+        reproductionLayeringStatus: ExtrimliExtremObjektnoOrijentisanaReprodukcijaSignal['readiness']['status'];
+        reproductionLayeringScore: number;
+        montageStabilityStatus: ExtrimliExtremParadijogonalnoProgrimiranjeSignal['readiness']['status'];
+        montageStabilityScore: number;
+        nadglasPodglasCycleStatus: ExtrimliExtremMetrickoProgramiranjeSignal['readiness']['status'];
+        nadglasPodglasCycleScore: number;
+        tonalAlignmentStatus: ExtrimliExtremProporcionalnoProgramiranjeSignal['readiness']['status'];
+        tonalAlignmentScore: number;
+        conflictPressurePercent: number;
+      };
+      videoStoryboardSummary: string;
+      auditReferencePackage: {
+        visualEvidenceSource: 'covecnostAuditVisualReference';
+        governanceMirrorTarget: 'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.audioVisualKontrabasPackage';
+        publicSummaryTarget: 'spajaKod.developerAndCreateVisualReflection.audioVisualKontrabasPackage';
+        downstreamSyncMode: 'summary-only';
+        summarySafeFields: readonly [
+          'readinessStatus',
+          'blockerReason',
+          'reviewPosture',
+          'downstreamReference',
+          'videoStoryboardSummary'
+        ];
+      };
+    };
     priorityExecutionOrder: readonly [
       'terminology-and-scope-lock',
       'extrem-technical-readiness-profile',
@@ -3612,10 +3674,11 @@ export interface ExtrimliDokDikDakDukConsistencyHealth {
     aiIdentityFinanceGovernance: AiIdentityFinanceGovernancePackage;
     currentImplementationStage: {
       roadmapStageId: 'v5-extrondol-release-audit-and-orchestration';
-      measurableOutput: 'audit-safe repo-wide reflection status plus AI identity-finance governance, primary ČOVEČNOST, supplemental ČOVEČANSTVO, KRALJEVSKI BAŠTA UNEVERZITE bounded narrative metadata, companion ČOVEČANSTVO / OSEĆAJ OSEBENOSTI visual metadata, and OSNOVE / RISPEKT protocol evidence are published only through existing EXTRIMLI/EXTREM/EXTRONDOL/SPAJA KOD surfaces';
+      measurableOutput: 'audit-safe repo-wide reflection status plus AI identity-finance governance, primary ČOVEČNOST, supplemental ČOVEČANSTVO, KRALJEVSKI BAŠTA UNEVERZITE bounded narrative metadata, additive audio-vizuelni kontrabas package metadata, companion ČOVEČANSTVO / OSEĆAJ OSEBENOSTI visual metadata, and OSNOVE / RISPEKT protocol evidence are published only through existing EXTRIMLI/EXTREM/EXTRONDOL/SPAJA KOD surfaces';
       acceptanceEvidence: readonly [
         'dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.implementationPackage',
         'dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection',
+        'dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.audioVisualKontrabasPackage',
         'dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.kraljevskiBastaUneverzite',
         'dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.covecnostAuditVisualReference',
         'dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.covecnostAuditVisualReference.supplementalVisualReferences',
@@ -3780,6 +3843,23 @@ export interface ExtrimliDokDikDakDukConsistencyHealth {
           paradijogonalnoProgramiranje: 'operativna-tabla';
           radniTaktMozgaMislilac: 'readiness-disciplina';
         };
+      };
+      audioVisualKontrabasBoundary: {
+        trackRole: 'audio-visual-reflection-package';
+        extremPublishes: 'technical-audio-visual-readiness-only';
+        extrondolPublishes: 'wawe-freeze-promotion-audit-summary-only';
+        spajaKodPublishes: 'audit-safe-readiness-review-and-downstream-reference-only';
+        mappedTracks: readonly [
+          'SINEMETRIČKO PROGRAMIRANJE',
+          'OBJEKTNO ORIJENTISANA REPRODUKCIJA',
+          'PROPORCIONALNO PROGRAMIRANJE',
+          'METRIČKO PROGRAMIRANJE',
+          'PARADIJOGONALNO PROGRAMIRANJE'
+        ];
+        noNewRuntimeModule: true;
+        noNewDspEngine: true;
+        noParallelSourceOfTruth: true;
+        rawInternalsExposed: false;
       };
       kraljevskiPravniUniverzitetBoundary: {
         trackRole: 'legal-governance-track';

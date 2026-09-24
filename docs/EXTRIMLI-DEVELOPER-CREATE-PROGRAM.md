@@ -61,6 +61,8 @@ Additive implementation package lock:
 - `dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.implementationPackage` ostaje kanonski EXTREM signal za source-of-truth surface-ove, ownership split, V2–V7 roadmap mapiranje, `ČOVEČANSTVU` summary-only boundary i validation lock.
 - `developerAndCreateRepoWideReflectionGovernance.implementationPackage` ostaje EXTRONDOL governance mirror istog paketa, uz WAWE/review/rollback kontekst.
 - `/api/extrimli/spaja-kod` izlaže samo audit-safe summary paket kroz `publicSignals.developerAndCreateImplementationStatus` i `developerAndCreateImplementationPackage`, bez sirovih EXTREM/EXTRONDOL formula.
+- Novi additive-only `audioVisualKontrabasPackage` ostaje deo istog reflection paketa: EXTREM meri tehničku spremnost audio/video toka, EXTRONDOL ga zrcali kroz WAWE/review/rollback governance, a SPAJA KOD objavljuje samo `readinessStatus`, `blockerReason`, `reviewPosture`, `downstreamReference` i `videoStoryboardSummary`.
+- Audio-vizuelni scope ostaje zaključan na snimanje glasa, glasovnu reprodukciju, glas-na-video montažu i ciklusno nadglašavanje/podglašavanje, bez novog DSP engine-a, bez nove rute i bez paralelnog source-of-truth sistema.
 
 Ownership hard lock:
 
@@ -82,6 +84,14 @@ Centralni paket `developerAndCreateRepoWideReflection` mora ostati jedinstveni d
 4. **Poslovna traka** — Kompanija SPAJA / Digitalna Industrija kao bounded enterprise interpretacija bez novih finansijskih ili operativnih runtime formula
 
 Svaka faza mora imati: `roadmapStageId`, `measurableOutput`, `acceptanceEvidence`, `rolloutPlan`, `rollbackPlan`, `humanReviewStatus`, `downstreamReference`.
+
+### 2.2.1) Audio-vizuelni kontrabas reflection paket
+
+- Paket ostaje zaključan kao `DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == AUDIO-VIZUELNI KONTRABAS PAKET`.
+- Mapiranje traka ostaje fiksno: vokalni/narativni sloj -> `SINEMETRIČKO PROGRAMIRANJE`, reprodukcioni sloj -> `OBJEKTNO ORIJENTISANA REPRODUKCIJA`, proporcije/tonalni odnosi -> `PROPORCIONALNO PROGRAMIRANJE`, ritam/duracije/ciklus -> `METRIČKO PROGRAMIRANJE`, montažno-orkestracioni tok -> `PARADIJOGONALNO PROGRAMIRANJE`.
+- `regtonske proporcije`, `vuferske/kontrabasovne promene` i `tonski aspekt u revolucionom smislu kontrabasa` ostaju bounded signalni rečnik za audio dramaturgiju i dinamički balans, nikad novi muzički runtime modul.
+- Zaključani terminološki/audio-scene vokabular ostaje: `GUN, DEN, DIN, KON, SUR, DIR, DUR, DOG, DUK, DOP, KIDO, DUKAT, DJUKAS, DIKTON, GRAFON, SIRON, DJOKUZ, OTKUZ, DIPAS, CVIKROT, ZIPAN`.
+- Acceptance paket za ovu traku ostaje isti narativ kroz `docs + types + routes + tests + workflows`, deterministički `READY | WATCH | BLOCKED` model, audit trail u EXTREM/EXTRONDOL slojevima i summary-only downstream sync prema `spaja86/IO-OPENUI-AO`.
 
 Prioritet realizacije ostaje zaključan:
 
