@@ -434,14 +434,18 @@ function mapDeveloperCreateCovecnostAuditVisualReference(
 function mapInspektoriGovernance(
   inspektori: ExtrimliExtrondolReport['extremProfiler']['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['inspektori'],
 ) {
+  const escalatedReviewRequiredBeforeWideRollout =
+    inspektori.justicePath.reviewPosture !== 'ALIGNED'
+    || inspektori.readiness.status !== 'READY';
   return {
     ...inspektori,
     sourceOfTruth: '/api/extrimli/extrondol' as const,
     technicalSignalSource: '/api/extrimli/extrem' as const,
     publicBoundary: '/api/extrimli/spaja-kod' as const,
     reviewRequiredBeforeWideRollout:
-      inspektori.justicePath.reviewPosture !== 'ALIGNED'
-      || inspektori.readiness.status !== 'READY',
+      inspektori.justicePath.humanReviewRequired
+      || escalatedReviewRequiredBeforeWideRollout,
+    escalatedReviewRequiredBeforeWideRollout,
     complianceReviewRequired: true as const,
     downstreamSync: 'follow-up-only-until-io-openui-ao-adopts-audit-safe-summary' as const,
   };

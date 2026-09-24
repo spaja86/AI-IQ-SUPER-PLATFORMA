@@ -1728,6 +1728,7 @@ export interface ExtrimliExtrondolReleaseAuditSummary {
       technicalSignalSource: '/api/extrimli/extrem';
       publicBoundary: '/api/extrimli/spaja-kod';
       reviewRequiredBeforeWideRollout: boolean;
+      escalatedReviewRequiredBeforeWideRollout: boolean;
       complianceReviewRequired: true;
       downstreamSync: 'follow-up-only-until-io-openui-ao-adopts-audit-safe-summary';
     };
