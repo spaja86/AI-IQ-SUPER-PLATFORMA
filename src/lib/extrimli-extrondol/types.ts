@@ -679,6 +679,7 @@ export interface ExtrimliExtrondolRadniTaktMozgaMislilacGovernance {
 
 export interface ExtrimliExtrondolDeveloperAndCreateRepoWideReflectionGovernance {
   term: 'DEVELOPER AND CREATE';
+  canonicalScopeLock: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['canonicalScopeLock'];
   equalityLock: 'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == RADNI TAKT MOZGA (MISLILAC)';
   canonicalMapeUmaScopeLock: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['canonicalMapeUmaScopeLock'];
   sourceOfTruth: '/api/extrimli/extrondol';
@@ -699,6 +700,8 @@ export interface ExtrimliExtrondolDeveloperAndCreateRepoWideReflectionGovernance
   osnoveRispektProtocol: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['osnoveRispektProtocol'];
   mappedTracks: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['mappedTracks'];
   technicalReadinessProfile: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['technicalReadinessProfile'];
+  priorityExecutionOrder: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['priorityExecutionOrder'];
+  fourTrackProgramPackage: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['fourTrackProgramPackage'];
   universityLifecycle: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['universityLifecycle'] & {
     reviewRequiredBeforePayout: true;
   };
@@ -866,6 +869,10 @@ export interface ExtrimliExtrondolDeveloperAndCreateRepoWideReflectionGovernance
       'spajaKod.publicSignals.developerAndCreateImplementationStatus',
       'spajaKod.publicSignals.aiPlateStatus'
     ];
+    rolloutPlan: string;
+    rollbackPlan: string;
+    humanReviewStatus: 'required-before-promotion';
+    downstreamReference: 'docs/MULTI-REPO-LINKS.md -> spaja86/IO-OPENUI-AO (summary-only)';
     downstreamSync: 'follow-up-only-until-io-openui-ao-adopts-audit-safe-summary';
   };
   covecnostAuditVisualGovernance: {
@@ -2039,6 +2046,10 @@ export interface ExtrimliExtrondolDeveloperAndCreateRepoWideReflection
       'spajaKod.publicSignals.developerAndCreateImplementationStatus',
       'spajaKod.publicSignals.aiPlateStatus'
     ];
+    rolloutPlan: string;
+    rollbackPlan: string;
+    humanReviewStatus: 'required-before-promotion';
+    downstreamReference: 'docs/MULTI-REPO-LINKS.md -> spaja86/IO-OPENUI-AO (summary-only)';
     downstreamSync: 'follow-up-only-until-io-openui-ao-adopts-audit-safe-summary';
   };
 }
@@ -2523,6 +2534,7 @@ export interface ExtrimliSpajaKodPublicFacade {
     additiveOnly: true;
     sourceOfTruthRoutes: readonly ['/api/extrimli/extrem', '/api/extrimli/extrondol', '/api/extrimli/spaja-kod'];
     ownershipModel: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['implementationPackage']['canonicalOwnershipSplit'];
+    canonicalScopeLock: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['canonicalScopeLock'];
     routeSummaryFields: readonly [
       'publicSignals.developerAndCreateStatus',
       'publicSignals.developerAndCreateImplementationStatus',
@@ -2546,6 +2558,34 @@ export interface ExtrimliSpajaKodPublicFacade {
     validationStatus: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['readiness']['status'];
     covecanstvuPublicOutput: 'summary-only';
     downstreamSyncRepo: 'spaja86/IO-OPENUI-AO';
+    fourTrackSummary: {
+      technical: {
+        owner: 'EXTREM';
+        status: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['technicalReadinessProfile']['consolidatedRhythmStatus'];
+      };
+      governance: {
+        owner: 'EXTRONDOL';
+        status: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['readiness']['status'];
+      };
+      publicBoundary: {
+        owner: 'SPAJA KOD';
+        status: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['readiness']['status'];
+        summaryOnly: true;
+      };
+      business: {
+        canonicalName: 'Kompanija SPAJA / Digitalna Industrija';
+        status: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['readiness']['status'];
+        summaryOnly: true;
+      };
+    };
+    kompanijaSpajaDigitalnaIndustrijaSummary: {
+      canonicalName: 'Kompanija SPAJA / Digitalna Industrija';
+      umbrellaModel: 'DIGITALNA INDUSTRIJA';
+      interpretation: 'bounded-enterprise-interpretation';
+      publicSummary: string;
+      noNewFinancialRuntimeFormulas: true;
+      noOperationalExecutionEngine: true;
+    };
     aiIqWorldBankPrepiskaSummary: {
       canonicalName: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['aiIdentityFinanceGovernance']['aiIqWorldBankPrepiska']['canonicalName'];
       canonicalSourceDocument: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['aiIdentityFinanceGovernance']['aiIqWorldBankPrepiska']['canonicalSourceDocument'];

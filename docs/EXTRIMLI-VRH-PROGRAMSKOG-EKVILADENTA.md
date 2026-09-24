@@ -6,6 +6,14 @@
 
 `DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == RADNI TAKT MOZGA (MISLILAC)` je zaključan kao repo-wide reflection nad postojećim EXTREM/EXTRONDOL/SPAJA KOD kontraktima, bez novih runtime ruta i uz centralni dokaz u `dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection`.
 
+Kanonski scope lock ostaje i u kraćem obliku: `DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA`.
+
+Bounded vokabular ostaje zaključan na `EXTRIMLI EXTRONDOL EXTREM DOK DUK DAK DIK FOR`, sa nepromenjenim ownership split-om:
+
+- `DOK + DIK + FOR` → EXTREM tehnički signal
+- `DAK + DUK` → EXTRONDOL governance / WAWE / audit / rollback
+- `SPAJA KOD` → samo audit-safe javni rezime
+
 - nema novih runtime ruta
 - nema paralelnog source-of-truth sistema
 - oslonac ostaju `/api/extrimli/extrem`, `/api/extrimli/extrondol` i `/api/extrimli/spaja-kod`
@@ -17,6 +25,8 @@
 - Model: interpretativni orkestracioni/governance narativ nad postojećim EXTRIMLI i AI IQ slojevima
 
 `VRH PROGRAMSKOG EKVILADENTA` nije novi modul, već vršni plan koji orkestrira postojeće proporcionalne, metričke, sinemetričke, paradijogonalne i AI-IQ jezičke slojeve u jednu governance priču.
+
+U istom vršnom planu `Kompanija SPAJA / Digitalna Industrija` ostaje bounded poslovna interpretacija: Developer/Create je vrh programski i governance sloj, dok Digitalna Industrija ostaje umbrella poslovni/operativni agregat bez novih finansijskih ili operativnih runtime formula.
 
 Repo-wide reflection sada obavezno uključuje i dnevni operativni cadence: `morning-startup`, `deep-focus-block`, `midday-checkpoint` i `end-of-day-closeout`, uz dnevni task set prioriteta `1–3` vezan za jednu aktivnu roadmap fazu.
 

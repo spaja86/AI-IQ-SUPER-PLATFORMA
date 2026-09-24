@@ -2493,6 +2493,7 @@ export interface ExtrimliDokDikDakDukConsistencyHealth {
   };
   developerAndCreateRepoWideReflection: {
     canonicalName: 'DEVELOPER AND CREATE';
+    canonicalScopeLock: 'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA';
     equalityLock: 'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == RADNI TAKT MOZGA (MISLILAC)';
     canonicalMapeUmaScopeLock: 'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == MAPE UMA';
     scope: 'repo-wide-rhythm-readiness-guidance';
@@ -2537,6 +2538,7 @@ export interface ExtrimliDokDikDakDukConsistencyHealth {
       unutrasnjaKontrolaGradjanstvaUInformacionomStavu: 'UNUTRAŠNJA KONTROLA GRAĐANSTVA U INFORMACIONOM STAVU';
       puteviIstinskePravde: 'PUTEVI ISTINSKE PRAVDE';
       kraljevskiBastaUneverzite: 'KRALJEVSKI BAŠTA UNEVERZITE';
+      kompanijaSpajaDigitalnaIndustrija: 'Kompanija SPAJA / Digitalna Industrija';
     };
     canonicalGovernanceVocabulary: {
       extremExtrimliExtrondol: 'EXTRIMLI EXTRONDOL EXTREM';
@@ -2564,6 +2566,8 @@ export interface ExtrimliDokDikDakDukConsistencyHealth {
       prosecnoGradjanskiDohodak: 'PROSEČNO GRAĐANSKI DOHODAK';
       nezbrinuti: 'NEZBRINUTI';
       nezaposleni: 'NEZAPOSLENI';
+      kompanijaSpaja: 'KOMPANIJA SPAJA';
+      digitalnaIndustrija: 'DIGITALNA INDUSTRIJA';
     };
     osnoveRispektProtocol: {
       title: 'OSNOVE / RISPEKT';
@@ -2627,6 +2631,54 @@ export interface ExtrimliDokDikDakDukConsistencyHealth {
         readinessScore: number;
       };
       consolidatedRhythmStatus: 'READY' | 'WATCH' | 'BLOCKED';
+    };
+    priorityExecutionOrder: readonly [
+      'terminology-and-scope-lock',
+      'extrem-technical-readiness-profile',
+      'extrondol-release-audit-and-governance-mirror',
+      'spaja-kod-public-safe-summary',
+      'kompanija-spaja-digitalna-industrija-business-mapping',
+      'drift-zero-validation'
+    ];
+    fourTrackProgramPackage: {
+      canonicalScopeLock: 'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA';
+      technicalTrack: {
+        label: 'Tehnička traka';
+        owner: 'EXTREM';
+        sourceOfTruth: '/api/extrimli/extrem';
+        readinessStatus: 'READY' | 'WATCH' | 'BLOCKED';
+        focus: readonly ['readiness', 'conflict', 'cadence', 'profile', 'signal-model'];
+        additiveOnly: true;
+        noNewRuntimeRoutes: true;
+      };
+      governanceTrack: {
+        label: 'Governance traka';
+        owner: 'EXTRONDOL';
+        sourceOfTruth: '/api/extrimli/extrondol';
+        readinessStatus: 'READY' | 'WATCH' | 'BLOCKED';
+        focus: readonly ['human-review', 'compliance', 'freeze-promotion', 'rollout-rollback', 'audit'];
+        additiveOnly: true;
+        auditSafeOnly: true;
+      };
+      publicBoundaryTrack: {
+        label: 'Javni boundary';
+        owner: 'SPAJA KOD';
+        sourceOfTruth: '/api/extrimli/spaja-kod';
+        readinessStatus: 'READY' | 'WATCH' | 'BLOCKED';
+        summaryOnly: true;
+        exposes: readonly ['status', 'blocker-summary', 'audit-safe-public-summary'];
+      };
+      businessTrack: {
+        label: 'Poslovna traka';
+        canonicalName: 'Kompanija SPAJA / Digitalna Industrija';
+        sourceDocument: 'docs/DIGITALNA-INDUSTRIJA.md';
+        readinessStatus: 'READY' | 'WATCH' | 'BLOCKED';
+        mappingMode: 'bounded-enterprise-interpretation';
+        umbrellaModel: 'DIGITALNA INDUSTRIJA';
+        noNewFinancialRuntimeFormulas: true;
+        noOperationalExecutionEngine: true;
+        publicBoundary: 'summary-only';
+      };
     };
     universityLifecycle: {
       additiveOnly: true;
@@ -3558,6 +3610,10 @@ export interface ExtrimliDokDikDakDukConsistencyHealth {
         'paradijogonalnoProgrimiranje.readiness',
         'vrhProgramskogEkviladenta.readiness'
       ];
+      rolloutPlan: string;
+      rollbackPlan: string;
+      humanReviewStatus: 'required-before-promotion';
+      downstreamReference: 'docs/MULTI-REPO-LINKS.md -> spaja86/IO-OPENUI-AO (summary-only)';
     };
     covecnostAuditVisualReference: {
       title: 'ČOVEČNOST';
@@ -3787,6 +3843,24 @@ export interface ExtrimliDokDikDakDukConsistencyHealth {
         phrase: 'EXTRIMLI EXTRONDOL EXTREM DOK DUK DAK DIK FOR';
         nucleusLayers: readonly ['documentation', 'types', 'route-summary-fields', 'tests', 'workflow-audit-layer'];
         additivePayloadOnly: true;
+      };
+      programTracksSummary: {
+        canonicalScopeLock: 'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA';
+        technicalOwner: 'EXTREM';
+        governanceOwner: 'EXTRONDOL';
+        publicBoundaryOwner: 'SPAJA KOD';
+        businessCanonicalName: 'Kompanija SPAJA / Digitalna Industrija';
+        activeTracks: readonly ['technical', 'governance', 'public-boundary', 'business'];
+        summaryOnlyBusinessBoundary: true;
+      };
+      businessLayerSummary: {
+        canonicalName: 'Kompanija SPAJA / Digitalna Industrija';
+        sourceDocument: 'docs/DIGITALNA-INDUSTRIJA.md';
+        umbrellaModel: 'DIGITALNA INDUSTRIJA';
+        operatingMode: 'bounded-enterprise-interpretation';
+        noNewFinancialRuntimeFormulas: true;
+        noOperationalExecutionEngine: true;
+        publicSummary: string;
       };
       covecanstvuEpilogBoundary: {
         mode: 'audit-evidence-or-epilog-package-only';

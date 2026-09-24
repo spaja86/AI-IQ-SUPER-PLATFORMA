@@ -1138,7 +1138,14 @@ async function runTests(): Promise<void> {
       'AI PLATE governance wave mismatch',
     );
     assert(report.developerAndCreateRepoWideReflection.roadmapExecution.roadmapStageId === 'v5-extrondol-release-audit-and-orchestration', 'developer/create governance roadmap stage mismatch');
+    assert(report.developerAndCreateRepoWideReflection.canonicalScopeLock === 'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA', 'developer/create governance canonical scope lock mismatch');
+    assert(report.developerAndCreateRepoWideReflection.priorityExecutionOrder.join(',') === 'terminology-and-scope-lock,extrem-technical-readiness-profile,extrondol-release-audit-and-governance-mirror,spaja-kod-public-safe-summary,kompanija-spaja-digitalna-industrija-business-mapping,drift-zero-validation', 'developer/create governance priority order mismatch');
+    assert(report.developerAndCreateRepoWideReflection.fourTrackProgramPackage.businessTrack.canonicalName === 'Kompanija SPAJA / Digitalna Industrija', 'developer/create governance business track mismatch');
     assert(report.developerAndCreateRepoWideReflection.roadmapExecution.downstreamSync === 'follow-up-only-until-io-openui-ao-adopts-audit-safe-summary', 'developer/create governance downstream boundary mismatch');
+    assert(report.developerAndCreateRepoWideReflection.roadmapExecution.rolloutPlan.length > 0, 'developer/create governance rollout plan mismatch');
+    assert(report.developerAndCreateRepoWideReflection.roadmapExecution.rollbackPlan.length > 0, 'developer/create governance rollback plan mismatch');
+    assert(report.developerAndCreateRepoWideReflection.roadmapExecution.humanReviewStatus === 'required-before-promotion', 'developer/create governance human review status mismatch');
+    assert(report.developerAndCreateRepoWideReflection.roadmapExecution.downstreamReference === 'docs/MULTI-REPO-LINKS.md -> spaja86/IO-OPENUI-AO (summary-only)', 'developer/create governance downstream reference mismatch');
     assert(report.releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.implementationPackage.currentWawe === report.rollout.currentWawe, 'developer/create release-audit implementation package current WAWE mismatch');
     assert(report.releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.implementationPackage.eligibleNextWawe === report.rollout.eligibleNextWawe, 'developer/create release-audit implementation package next WAWE mismatch');
     assert(report.releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.implementationPackage.canonicalTerminologyMapping.phrase === 'EXTRIMLI EXTRONDOL EXTREM DOK DUK DAK DIK FOR', 'developer/create release-audit implementation package terminology mismatch');
@@ -1151,6 +1158,10 @@ async function runTests(): Promise<void> {
     assert(report.spajaKod.publicSignals.developerAndCreateStatus === report.developerAndCreateRepoWideReflection.status, 'SPAJA KOD developer/create status mismatch');
     assert(['READY', 'WATCH', 'BLOCKED'].includes(report.spajaKod.publicSignals.developerAndCreateImplementationStatus), 'SPAJA KOD developer/create implementation status mismatch');
     assert(report.spajaKod.developerAndCreateImplementationPackage.validationStatus === report.spajaKod.publicSignals.developerAndCreateImplementationStatus, 'SPAJA KOD implementation package validation status mismatch');
+    assert(report.spajaKod.developerAndCreateImplementationPackage.canonicalScopeLock === 'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA', 'SPAJA KOD implementation package canonical scope lock mismatch');
+    assert(report.spajaKod.developerAndCreateImplementationPackage.fourTrackSummary.business.canonicalName === 'Kompanija SPAJA / Digitalna Industrija', 'SPAJA KOD implementation package business summary mismatch');
+    assert(report.spajaKod.developerAndCreateImplementationPackage.kompanijaSpajaDigitalnaIndustrijaSummary.umbrellaModel === 'DIGITALNA INDUSTRIJA', 'SPAJA KOD implementation package business umbrella mismatch');
+    assert(report.spajaKod.developerAndCreateImplementationPackage.kompanijaSpajaDigitalnaIndustrijaSummary.noNewFinancialRuntimeFormulas, 'SPAJA KOD implementation package business runtime boundary mismatch');
     assert(report.spajaKod.publicSignals.aiPlateStatus === report.developerAndCreateRepoWideReflection.aiPlateGovernance.status, 'SPAJA KOD AI PLATE status mismatch');
     assert(report.releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.aiPlateGovernance.packageOutputs.auditShortSummary.includes('AI PLATE'), 'AI PLATE release-audit summary mismatch');
     assert(report.spajaKod.publicSignals.kraljevskiProgramskiUneverzitetStatus === report.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.kraljevskiProgramskiUneverzitet.readiness.status, 'SPAJA KOD programmatic summary mismatch');
