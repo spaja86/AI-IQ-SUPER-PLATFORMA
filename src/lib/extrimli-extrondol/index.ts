@@ -244,6 +244,22 @@ const DEVELOPER_CREATE_GOVERNANCE_ACCEPTANCE_EVIDENCE: ExtrimliExtrondolReport['
   'spajaKod.publicSignals.aiPlateStatus',
 ];
 
+function getAudioVisualKontrabasBlockerReason(
+  audioVisualKontrabasPackage: ExtrimliDokDikDakDukConsistencyHealth['developerAndCreateRepoWideReflection']['audioVisualKontrabasPackage'],
+): string | null {
+  if (audioVisualKontrabasPackage.readinessStatus === 'BLOCKED') {
+    return audioVisualKontrabasPackage.technicalProfile.conflictPressurePercent > 0
+      ? `audio-visual-kontrabas-package-blocked-conflict-pressure-${audioVisualKontrabasPackage.technicalProfile.conflictPressurePercent}`
+      : 'audio-visual-kontrabas-package-blocked';
+  }
+
+  if (audioVisualKontrabasPackage.readinessStatus === 'WATCH') {
+    return 'audio-visual-kontrabas-package-review-required';
+  }
+
+  return null;
+}
+
 const EXTRONDOL_WAWE_THRESHOLDS = {
   wawe2: 60,
   wawe3: 72,
@@ -3095,13 +3111,7 @@ function buildSpajaKodFacade(params: {
     : developerAndCreateAudioVisualStatus === 'WATCH'
       ? 'WATCH'
       : 'ALIGNED';
-  const developerAndCreateAudioVisualBlockerReason = developerAndCreateAudioVisualStatus === 'BLOCKED'
-    ? params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.reasons[0]
-      ?? 'audio-visual-kontrabas-package-blocked'
-    : developerAndCreateAudioVisualStatus === 'WATCH'
-      ? params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.reasons[0]
-        ?? 'audio-visual-kontrabas-package-review-required'
-      : null;
+  const developerAndCreateAudioVisualBlockerReason = getAudioVisualKontrabasBlockerReason(audioVisualKontrabasPackage);
   const completeness = {
     extremSignalPresent: params.extremProfiler.spajaKodEncapsulation.surfaceName === 'SPAJA KOD',
     extrondolGovernancePresent: true,
@@ -4808,14 +4818,9 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
           promotionFreeze,
           reviewRequiredBeforeWideRollout:
             extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.audioVisualKontrabasPackage.readinessStatus !== 'READY',
-          blockerReason:
-            extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.audioVisualKontrabasPackage.readinessStatus === 'BLOCKED'
-              ? extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.reasons[0]
-                ?? 'audio-visual-kontrabas-package-blocked'
-              : extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.audioVisualKontrabasPackage.readinessStatus === 'WATCH'
-                ? extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.reasons[0]
-                  ?? 'audio-visual-kontrabas-package-review-required'
-                : null,
+          blockerReason: getAudioVisualKontrabasBlockerReason(
+            extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.audioVisualKontrabasPackage,
+          ),
           reviewPosture:
             promotionFreeze
             || extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.audioVisualKontrabasPackage.readinessStatus === 'BLOCKED'
@@ -6586,14 +6591,9 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
             promotionFreeze,
             reviewRequiredBeforeWideRollout:
               extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.audioVisualKontrabasPackage.readinessStatus !== 'READY',
-            blockerReason:
-              extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.audioVisualKontrabasPackage.readinessStatus === 'BLOCKED'
-                ? extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.reasons[0]
-                  ?? 'audio-visual-kontrabas-package-blocked'
-                : extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.audioVisualKontrabasPackage.readinessStatus === 'WATCH'
-                  ? extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.reasons[0]
-                    ?? 'audio-visual-kontrabas-package-review-required'
-                  : null,
+            blockerReason: getAudioVisualKontrabasBlockerReason(
+              extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.audioVisualKontrabasPackage,
+            ),
             reviewPosture:
               promotionFreeze
               || extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.audioVisualKontrabasPackage.readinessStatus === 'BLOCKED'
@@ -7507,14 +7507,9 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
         promotionFreeze,
         reviewRequiredBeforeWideRollout:
           extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.audioVisualKontrabasPackage.readinessStatus !== 'READY',
-        blockerReason:
-          extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.audioVisualKontrabasPackage.readinessStatus === 'BLOCKED'
-            ? extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.reasons[0]
-              ?? 'audio-visual-kontrabas-package-blocked'
-            : extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.audioVisualKontrabasPackage.readinessStatus === 'WATCH'
-              ? extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.reasons[0]
-                ?? 'audio-visual-kontrabas-package-review-required'
-              : null,
+        blockerReason: getAudioVisualKontrabasBlockerReason(
+          extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.audioVisualKontrabasPackage,
+        ),
         reviewPosture:
           promotionFreeze
           || extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.audioVisualKontrabasPackage.readinessStatus === 'BLOCKED'
