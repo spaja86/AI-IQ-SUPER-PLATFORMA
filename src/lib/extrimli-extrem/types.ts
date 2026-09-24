@@ -2552,6 +2552,7 @@ export interface ExtrimliDokDikDakDukConsistencyHealth {
       vinogradarstvo: 'VINOGRADARSTVO';
       poljoprivredniFakultet: 'POLJOPRIVREDNI FAKULTET';
       gradjevinskiFakultet: 'GRAĐEVINSKI FAKULTET';
+      matematickiFakultet: 'MATEMATIČKI FAKULTET';
       pedagoskiFakultet: 'PEDAGOŠKI FAKULTET';
       psiholoskiFakultet: 'PSIHOLOŠKI FAKULTET';
       gradjevinskiAkt: 'GRAĐEVINSKI AKT';
@@ -3003,6 +3004,40 @@ export interface ExtrimliDokDikDakDukConsistencyHealth {
           };
           workforcePosture: 'READY' | 'WATCH' | 'BLOCKED';
           infrastructurePosture: 'READY' | 'WATCH' | 'BLOCKED';
+          readiness: {
+            status: 'READY' | 'WATCH' | 'BLOCKED';
+            score: number;
+            deterministicFallbackRequired: boolean;
+          };
+          noNewRuntimeModule: true;
+          noNewSourceOfTruthModule: true;
+          noNewRuntimeFormulas: true;
+          summary: string;
+        };
+        matematickiFakultet: {
+          canonicalName: 'MATEMATIČKI FAKULTET';
+          additiveOnly: true;
+          facultyRole: 'bounded-mathematical-modeling-track-under-kraljevski-matematicki-univerzitet';
+          sourceOfTruthRoutes: readonly ['/api/extrimli/extrem', '/api/extrimli/extrondol', '/api/extrimli/spaja-kod'];
+          technicalReadinessBinding: {
+            sourceProfile: 'dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.technicalReadinessProfile';
+            sourceTrack: 'vrhProgramskogEkviladenta';
+            parentInterpretativeTrack: 'KRALJEVSKI MATEMATIČKI UNIVERZITET';
+            contributingSignals: readonly ['vrhProgramskogEkviladenta', 'metrikoProgramiranje', 'sinemetrickoProgramiranje'];
+            boundedInterpretation: 'eksponencijalno-proporcionalno-sekvencijalno-modelovanje-over-existing-readiness-signals-only';
+          };
+          governanceBinding: {
+            linkedProgrammaticDomains: readonly ['VRH PROGRAMSKOG EKVILADENTA', 'METRIČKO PROGRAMIRANJE', 'SINEMETRIČKO PROGRAMIRANJE'];
+            technicalOwnership: 'DOK+DIK+FOR->EXTREM';
+            governanceOwnership: 'DAK+DUK->EXTRONDOL';
+            publicBoundary: 'SPAJA KOD';
+            certificationSurface: 'audit-safe-mathematical-modeling-summary-only';
+          };
+          deterministicFallbackPolicy: {
+            statusModel: readonly ['READY', 'WATCH', 'BLOCKED'];
+            fallbackInputs: readonly ['NaN', 'Infinity', 'empty', 'conflict'];
+            noNewRuntimeFormulas: true;
+          };
           readiness: {
             status: 'READY' | 'WATCH' | 'BLOCKED';
             score: number;
@@ -3488,7 +3523,7 @@ export interface ExtrimliDokDikDakDukConsistencyHealth {
         extremPublishes: 'derived-technical-readiness-profile-only';
         extrondolPublishes: 'audit-freeze-promotion-review-summary-only';
         spajaKodPublishes: 'final-audit-safe-status-only';
-        boundedFacultyDomains: readonly ['POLJOPRIVREDNI FAKULTET', 'GRAĐEVINSKI FAKULTET'];
+        boundedFacultyDomains: readonly ['POLJOPRIVREDNI FAKULTET', 'GRAĐEVINSKI FAKULTET', 'MATEMATIČKI FAKULTET'];
         boundedCivicTrack: 'KRALJEVSKI DRUŠTVENI POREDAK';
         noNewRuntimeModule: true;
         noParallelSourceOfTruth: true;
