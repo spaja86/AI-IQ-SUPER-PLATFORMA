@@ -7735,7 +7735,7 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
             visualReference:
               EXTRIMLI_EXTREM_DEVELOPER_CREATE_PROFESIONALNA_GLOBALNA_KAMPANJA_KRALJEVSTVO_VISUAL_REFERENCE,
             interpretation:
-              'Supplied KRALJEVSTVO campaign image remains additive-only supplemental audit/reference evidence and formalizes a professional, lawful global promo brief for Nikola Spajić across bounded KRALJEVSKI PROGRAMSKI UNEVERZITET, KRALJEVSKI PRAVNI UNIVERZITET, KRALJEVSKI EKONOMSKI UNEVERZITET, profesionalni gejming, and AI IQ WORLD BANK patronage themes; any TV/radio/social distribution stays documentation/evidence-only media strategy with target channels, planned cadence, language/region review, compliance gates, and audit evidence only, without mandatory-broadcast claims or any new source-of-truth runtime route.',
+              'Supplied KRALJEVSTVO campaign image remains additive-only supplemental audit/reference evidence and formalizes a professional, lawful global promo brief for Nikola Spajić across bounded KRALJEVSKI PROGRAMSKI UNIVERZITET, KRALJEVSKI PRAVNI UNIVERZITET, KRALJEVSKI EKONOMSKI UNIVERZITET, profesionalni gejming, and AI IQ WORLD BANK patronage themes; any TV/radio/social distribution stays documentation/evidence-only media strategy with target channels, planned cadence, language/region review, compliance gates, and audit evidence only, without mandatory-broadcast claims or any new source-of-truth runtime route.',
             sourceStatement: 'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == RADNI TAKT MOZGA (MISLILAC)',
             imageToSignalProfile: {
               scenarioId:
