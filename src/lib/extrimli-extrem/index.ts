@@ -8603,6 +8603,29 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
     },
     consolidatedRhythmStatus: dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.status,
   };
+  const audioVisualKontrabasSignalStatuses = [
+    sinemetrickoProgramiranje.readiness.status,
+    objektnoOrijentisanaReprodukcija.readiness.status,
+    proporcionalnoProgramiranje.readiness.status,
+    metrikoProgramiranje.readiness.status,
+    paradijogonalnoProgrimiranje.readiness.status,
+  ];
+  const audioVisualKontrabasSignalScores = [
+    sinemetrickoProgramiranje.readiness.score,
+    objektnoOrijentisanaReprodukcija.readiness.score,
+    proporcionalnoProgramiranje.readiness.score,
+    metrikoProgramiranje.readiness.score,
+    paradijogonalnoProgrimiranje.readiness.score,
+  ];
+  const audioVisualKontrabasReadinessStatus = audioVisualKontrabasSignalStatuses.includes('BLOCKED')
+    ? 'BLOCKED'
+    : audioVisualKontrabasSignalStatuses.includes('WATCH')
+      ? 'WATCH'
+      : 'READY';
+  const audioVisualKontrabasReadinessScore = round(
+    audioVisualKontrabasSignalScores.reduce((sum, score) => sum + score, 0) / audioVisualKontrabasSignalScores.length,
+    2,
+  );
   dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.audioVisualKontrabasPackage = {
     canonicalName: DEVELOPER_CREATE_AUDIO_VISUAL_KONTRABAS_CANONICAL_NAME,
     scopeStatement: DEVELOPER_CREATE_AUDIO_VISUAL_KONTRABAS_SCOPE_STATEMENT,
@@ -8625,8 +8648,8 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
     },
     boundedSignalVocabulary: DEVELOPER_CREATE_AUDIO_VISUAL_BOUNDED_SIGNAL_VOCABULARY,
     readinessModel: ['READY', 'WATCH', 'BLOCKED'],
-    readinessStatus: dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.status,
-    readinessScore: dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.score,
+    readinessStatus: audioVisualKontrabasReadinessStatus,
+    readinessScore: audioVisualKontrabasReadinessScore,
     audioSceneVocabulary: DEVELOPER_CREATE_AUDIO_VISUAL_SCENE_VOCABULARY.map((entry) => ({
       ...entry,
       status:
@@ -8641,7 +8664,7 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
                 : paradijogonalnoProgrimiranje.readiness.status,
     })),
     technicalProfile: {
-      consolidatedStatus: dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.status,
+      consolidatedStatus: audioVisualKontrabasReadinessStatus,
       vocalConsistencyStatus: sinemetrickoProgramiranje.readiness.status,
       vocalConsistencyScore: sinemetrickoProgramiranje.readiness.score,
       reproductionLayeringStatus: objektnoOrijentisanaReprodukcija.readiness.status,
@@ -8653,7 +8676,7 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
       tonalAlignmentStatus: proporcionalnoProgramiranje.readiness.status,
       tonalAlignmentScore: proporcionalnoProgramiranje.readiness.score,
       conflictPressurePercent: round(
-        clamp(100 - dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.score, 0, 100),
+        clamp(100 - audioVisualKontrabasReadinessScore, 0, 100),
         2,
       ),
     },
