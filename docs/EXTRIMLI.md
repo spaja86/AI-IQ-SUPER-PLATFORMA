@@ -35,6 +35,7 @@ This repository now exposes five aligned surfaces:
 - `DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == RADNI TAKT MOZGA (MISLILAC)` ostaje additive-only repo-wide reflection nad postojećim `VRH`, `RADNI TAKT`, `METRIČKO`, `SINEMETRIČKO` i `PARADIJOGONALNO` track-ovima.
 - Additive-only `AUDIO-VIZUELNI KONTRABAS PAKET` ostaje deo istog Developer/Create reflection-a: EXTREM objavljuje tehničku spremnost audio/video toka, EXTRONDOL WAWE/review/rollback mirror, a SPAJA KOD samo audit-safe summary bez sirovih glasovnih ili montažnih detalja.
 - Additive-only alias `EKSPERIMENT PROGRAMSKI JEZIK (PRODUKCIJA FILMSKOG I AUDIO REPERTOARA)` ostaje u istom Developer/Create reflection paketu: EXTREM objavljuje readiness/blocker/watch/fallback signal, EXTRONDOL objavljuje governance mirror (`WAWE`, `review`, `freeze`, `promotion`, `rollback`, `release audit`), a SPAJA KOD objavljuje samo summary-safe status + blocker razlog + review posture + downstream reference.
+- Additive-only alias `VIZUELIZACIJA EKSTREMNOG KVALITETA PROGRAMSKI JEZIK (SPOZNAVANJE OBJEKTNIH PRIMESA U OKTAVNOM SISTEMU)` ostaje u istom Developer/Create reflection paketu: EXTREM zaključava tehnički signal za vizuelni kvalitet + objekt/funkcija/FOR readiness, EXTRONDOL zaključava governance mirror (`WAWE`, `freeze`, `promotion`, `human review`, `release audit`, `rollback`), a SPAJA KOD ostaje audit-safe summary-only boundary.
 - `KRALJEVSKI PROGRAMSKI UNEVERZITET` je additive-only vršni programski alias unutar istog reflection paketa: nije novi modul, nema nove rute i samo sabira postojeće `VRH PROGRAMSKOG EKVILADENTA`, `METRIČKO PROGRAMIRANJE`, `SINEMETRIČKO PROGRAMIRANJE`, `PARADIJOGONALNO PROGRAMIRANJE` i `RADNI TAKT MOZGA (MISLILAC)` signale kroz isti `technicalReadinessProfile`.
 - `KRALJEVSKI EKONOMSKI UNEVERZITET` je novi additive-only interpretativni sloj unutar tog istog repo-wide reflection paketa: koristi postojeći `technicalReadinessProfile`, isti `READY | WATCH | BLOCKED` model i ne uvodi novi runtime modul niti paralelni source-of-truth sistem.
 - `PRIVREDNI AKT` je additive-only policy-gated governance podtraka unutar `KRALJEVSKI EKONOMSKI UNEVERZITET` + `AI IQ WORLD BANK` okvira sa zaključanim kanonskim vokabularom `EXTRIMLI EXTRONDOL EXTREM DOK DUK DAK DIK FOR`.
@@ -1672,6 +1673,18 @@ Downstream note: ako linked repo `spaja86/IO-OPENUI-AO` koristi DUEL KING readin
 - Dozvoljene status klase ostaju `READY | WATCH | BLOCKED`, uz obavezan deterministic fallback za `NaN`, `Infinity`, out-of-range vrednosti i nevalidne sekvence.
 - Governance mapiranje ostaje direktno povezano sa `promotionFreeze`, `humanReviewRequired`, `rollbackPlanRequired`, `releaseAuditSummary`, WAWE progresijom i downstream referencom ka `spaja86/IO-OPENUI-AO`.
 - Public boundary ostaje zaključan: nema curenja internih tehničkih detalja u SPAJA KOD ili druge javne slojeve.
+
+
+## VIZUELIZACIJA EKSTREMNOG KVALITETA PROGRAMSKI JEZIK
+
+- Kanonski bounded alias ostaje zaključan: `DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == VIZUELIZACIJA EKSTREMNOG KVALITETA PROGRAMSKI JEZIK (SPOZNAVANJE OBJEKTNIH PRIMESA U OKTAVNOM SISTEMU)`.
+- Traka je additive-only i ostaje unutar postojećih `/api/extrimli/extrem`, `/api/extrimli/extrondol` i `/api/extrimli/spaja-kod` granica bez novih runtime ruta i bez paralelnog source-of-truth sistema.
+- `EXTREM` ostaje tehnički signal za readiness, conflict, deterministic fallback, objekt/funkcija/FOR signal i bounded vizuelni kvalitet, dok `EXTRONDOL` ostaje governance sloj za `WAWE`, `promotionFreeze`, `humanReviewRequired`, `rollbackPlanRequired`, `releaseAuditSummary` i downstream reference.
+- `PROGRAMSKI JEZIK DEKORACIJE OBJEKTNIH PRIMESA` i `PROGRAMSKI JEZIK PARADIGMA I OBLIKOVANJE TELA` ostaju neposredni interpretativni izvori za objektne primese, a postojeći oktavni/orchestracioni modeli ostaju samo dokumentaciono objašnjenje vizuelnog sloja.
+- Vizuelna traka ostaje evidence-only: EXTREM vodi primarne i supplemental visual reference, EXTRONDOL ih zrcali samo kroz governance summary, a SPAJA KOD objavljuje samo audit-safe status, blocker reason, review posture i downstream reference.
+- Ownership split ostaje zaključan: `DOK/DIK/FOR -> EXTREM`, `DAK/DUK -> EXTRONDOL`, `SPAJA KOD -> audit-safe summary only`.
+- Dozvoljene status klase ostaju `READY | WATCH | BLOCKED`, uz obavezan deterministic fallback za `NaN`, `Infinity`, prazne, konfliktne i out-of-range vizuelno-programske signale.
+- Acceptance evidence ostaje zaključan na `roadmapStageId`, `measurableOutput`, `acceptanceEvidence`, `rolloutPlan`, `rollbackPlan`, `humanReviewStatus` i `downstreamReference`; sirove interne formule, scoring detalji i oktavne interpretacije ne izlaze u javni sloj.
 
 
 ## PROGRAMSKI JEZIK PARADIGMA I OBLIKOVANJE TELA
