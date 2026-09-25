@@ -11380,8 +11380,10 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
     (konstrukcijeIProjektovanjeMatchedTokenCount / konstrukcijeIProjektovanjeTokenDenominator) * 100,
     2,
   );
+  const konstrukcijeIProjektovanjeNormalizedFallbackInputs =
+    konstrukcijeIProjektovanjeTrack.readinessSignal.fallbackInputs.map(normalizeKonstrukcijeIProjektovanjeToken);
   const konstrukcijeIProjektovanjeContainsConflictToken = normalizedKonstrukcijeIProjektovanjeTokens.some((token) =>
-    ['UNKNOWN', 'UNKNOWN-TOKEN', 'CONFLICT', 'EMPTY'].includes(token),
+    konstrukcijeIProjektovanjeNormalizedFallbackInputs.includes(token),
   );
   const gradjevinskiFakultetStatus =
     dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.kraljevskiProgramskiUneverzitet
