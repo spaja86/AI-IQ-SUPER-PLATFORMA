@@ -651,7 +651,7 @@ Bez kompletnog audit paketa release ostaje u freeze režimu.
 |---|---|---|---|
 | Docs | `docs/EXTRIMLI.md`, `docs/EXTRIMLI-DEVELOPER-CREATE-PROGRAM.md`, `docs/EXTRIMLI-VRH-PROGRAMSKOG-EKVILADENTA.md` | **završeno** | Scope/ownership lock konzistentan |
 | Lib kontrakti | `src/lib/extrimli-extrem/**`, `src/lib/extrimli-extrondol/**`, `src/lib/extrimli/developer-create-vrh-ekviladenta-contract.ts` | **završeno** | Contract i release audit sloj prisutni |
-| API rute | `/home/runner/work/AI-IQ-SUPER-PLATFORMA/AI-IQ-SUPER-PLATFORMA/src/app/api/extrimli/extrem/route.ts`, `/home/runner/work/AI-IQ-SUPER-PLATFORMA/AI-IQ-SUPER-PLATFORMA/src/app/api/extrimli/extrondol/route.ts`, `/home/runner/work/AI-IQ-SUPER-PLATFORMA/AI-IQ-SUPER-PLATFORMA/src/app/api/extrimli/spaja-kod/route.ts` | **završeno** | Source-of-truth surface aktivan |
+| API rute | `src/app/api/extrimli/extrem/route.ts`, `src/app/api/extrimli/extrondol/route.ts`, `src/app/api/extrimli/spaja-kod/route.ts` | **završeno** | Source-of-truth surface aktivan |
 | Testovi | `src/tests/lib/extrimli-extrem.test.ts`, `src/tests/lib/extrimli-extrondol.test.ts`, `src/tests/api/extrimli-route.test.ts` | **završeno** | Fokus set izvršen bez padova |
 | Workflow-i | `.github/workflows/extrimli-governance-conformance.yml` | **delimično** | Lokalna drift validacija prošla; ručni GitHub `workflow_dispatch` run ostaje preporuka |
 
