@@ -146,6 +146,8 @@ Prioritetna realizacija ostaje:
 - Javni izlaz ostaje strogo audit-safe summary: `zadrugaOperationalStatus`, `instrumentTablaStatus`, `payoutGovernancePosture` (`READY | WATCH | BLOCKED`), bez internih formula i bez operativnih finansijskih detalja.
 - Audit-safe summary za nove bounded oblasti uključuje samo readiness, workforce/infrastructure posture, review posture i rollout freeze signal; sirovi projektni, radni i finansijski detalji ostaju repo-local.
 - `GRAĐEVINSKI AKT` ostaje additive-only pod `GRAĐEVINSKI FAKULTET` + `ZADRUGA / INSTRUMENT TABLA`: infrastruktura i operativna spremnost ostaju bounded readiness signal bez novog runtime modula.
+- `GRĐEVINARSKI FAKULTET` ostaje dozvoljen kao bounded alias istog domena, a fraza `GRADITI TOPOLOGIJOM JE ZAKONODAVNO PRAVO U STILU PRIVREDE KONJSKOG VLAHA PO METRU KVADRATNOM` ostaje policy/readiness interpretacija unutar postojećeg `GRAĐEVINSKI AKT` sloja.
+- Za isti alias/domain javni izlaz ostaje strogo audit-safe (`readiness`, `review posture`, `blocker reason`), bez novih runtime formula “po m²”, bez novih ruta i bez paralelnog source-of-truth sistema.
 - `KRALJEVSKA DOPUNA` ostaje policy-gated support/payout governance pod `KRALJEVSKI PRAVNI AKT` + `AI IQ WORLD BANK`; `osnovne životne potrebe` i `prosečno građanski dohodak` ostaju documentation-only interpretativni input-i, nikada računovodstveni source-of-truth.
 - Zabranjeno je unošenje realnih KYC, bankarskih i osetljivih socijalnih podataka za `nezbrinuti` i `nezaposleni` scope; dozvoljeni su samo audit-safe eligibility, review, approval i payout snapshot-i.
 
