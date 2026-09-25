@@ -11131,12 +11131,26 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
     ) * 100,
     2,
   );
+  const aiIqKonferencijaZaStampuHasSummarySurface =
+    aiIqKonferencijaZaStampuTrack.summarySafePublicFields.includes('mediaSummary')
+    && aiIqKonferencijaZaStampuTrack.summarySafePublicFields.includes('blockerReason')
+    && aiIqKonferencijaZaStampuTrack.summarySafePublicFields.includes('watchReasons');
+  const aiIqKonferencijaZaStampuHasBoundedEvidenceSurface =
+    aiIqKonferencijaZaStampuTrack.boundedEvidence.summaryPolicy === 'audit-safe-summary-only'
+    && aiIqKonferencijaZaStampuTrack.boundedEvidence.noRawTokenLeakage
+    && aiIqKonferencijaZaStampuTrack.acceptanceEvidence.length === 4;
   const aiIqKonferencijaZaStampuPublicPackageStatus =
     aiIqKonferencijaZaStampuTokenCoveragePercent === 100
-    && aiIqKonferencijaZaStampuTrack.summarySafePublicFields.includes('mediaSummary')
+    && aiIqKonferencijaZaStampuHasSummarySurface
+    && aiIqKonferencijaZaStampuHasBoundedEvidenceSurface
     && aiIqKonferencijaZaStampuMediaSummary.length > 0
       ? 'READY'
-      : 'BLOCKED';
+      : aiIqKonferencijaZaStampuTokenCoveragePercent >= 75
+        && aiIqKonferencijaZaStampuHasSummarySurface
+        && aiIqKonferencijaZaStampuHasBoundedEvidenceSurface
+        && aiIqKonferencijaZaStampuMediaSummary.length > 0
+          ? 'WATCH'
+          : 'BLOCKED';
   const aiIqKonferencijaZaStampuSignalStatuses = [
     dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.status,
     dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.technicalReadinessProfile.consolidatedRhythmStatus,
