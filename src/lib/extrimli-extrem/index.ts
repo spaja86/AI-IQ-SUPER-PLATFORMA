@@ -10969,11 +10969,15 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
     sarkazamPrivrednaGranaDigitalizmaReflection.reviewPosture;
   dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.sarkazamPrivrednaGranaDigitalizmaTrack.oblastCinSummary =
     sarkazamPrivrednaGranaDigitalizmaReflection.oblastCinSummary;
-  const notes1450Statuses = [
-    dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.status,
-    dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.technicalReadinessProfile.consolidatedRhythmStatus,
-    dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.dailyOperationalCadence.status,
-  ];
+  const notes1450Signals = {
+    goalClarityStatus:
+      dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.status,
+    contextIntegrityStatus:
+      dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.technicalReadinessProfile.consolidatedRhythmStatus,
+    taskContinuityStatus:
+      dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.dailyOperationalCadence.status,
+  };
+  const notes1450Statuses = Object.values(notes1450Signals);
   const notes1450Status = aggregateSignalReadinessStatus(notes1450Statuses);
   const notes1450ReadinessScore = round(
     (
@@ -11006,12 +11010,9 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
     );
   notes1450Track.readinessSignal.status = notes1450Status;
   notes1450Track.readinessSignal.readinessScore = notes1450ReadinessScore;
-  notes1450Track.readinessSignal.goalClarityStatus =
-    dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.status;
-  notes1450Track.readinessSignal.contextIntegrityStatus =
-    dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.technicalReadinessProfile.consolidatedRhythmStatus;
-  notes1450Track.readinessSignal.taskContinuityStatus =
-    dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.dailyOperationalCadence.status;
+  notes1450Track.readinessSignal.goalClarityStatus = notes1450Signals.goalClarityStatus;
+  notes1450Track.readinessSignal.contextIntegrityStatus = notes1450Signals.contextIntegrityStatus;
+  notes1450Track.readinessSignal.taskContinuityStatus = notes1450Signals.taskContinuityStatus;
   notes1450Track.readinessSignal.aiMaterialSaturationRiskStatus =
     notes1450AiMaterialSaturationRiskScore >= 60
       ? 'BLOCKED'
@@ -11019,7 +11020,7 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
         ? 'WATCH'
         : 'READY';
   notes1450Track.readinessSignal.deterministicNextStepStatus =
-    dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.dailyOperationalCadence.status;
+    notes1450Signals.taskContinuityStatus;
   notes1450Track.readinessSignal.deterministicFallbackRequired =
     dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.deterministicFallbackRequired;
   notes1450Track.blockerReason =
