@@ -11400,10 +11400,19 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
     !konstrukcijeIProjektovanjeTrack.normalizationRules.requireExactDuplicateCounts
     || konstrukcijeIProjektovanjeDuplicateTokenEntries.length === 0
     || konstrukcijeIProjektovanjeDuplicateMatchCount === konstrukcijeIProjektovanjeDuplicateTokenEntries.length;
+  const konstrukcijeIProjektovanjeDuplicateMismatchCount =
+    konstrukcijeIProjektovanjeTrack.normalizationRules.requireExactDuplicateCounts
+    && konstrukcijeIProjektovanjeDuplicateTokenEntries.length > 0
+      ? konstrukcijeIProjektovanjeDuplicateTokenEntries.length - konstrukcijeIProjektovanjeDuplicateMatchCount
+      : 0;
+  const konstrukcijeIProjektovanjeEffectiveMatchedTokenCount = Math.max(
+    0,
+    konstrukcijeIProjektovanjeMatchedTokenCount - konstrukcijeIProjektovanjeDuplicateMismatchCount,
+  );
   const konstrukcijeIProjektovanjeTokenDenominator =
     normalizedExpectedKonstrukcijeIProjektovanjeTokens.length || 1;
   const konstrukcijeIProjektovanjeTokenCoveragePercent = round(
-    (konstrukcijeIProjektovanjeMatchedTokenCount / konstrukcijeIProjektovanjeTokenDenominator) * 100,
+    (konstrukcijeIProjektovanjeEffectiveMatchedTokenCount / konstrukcijeIProjektovanjeTokenDenominator) * 100,
     2,
   );
   const konstrukcijeIProjektovanjeNormalizedConflictTokenInputs =
