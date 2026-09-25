@@ -11150,6 +11150,8 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
   aiIqKonferencijaZaStampuTrack.blockerReason =
     aiIqKonferencijaZaStampuStatus === 'BLOCKED'
       ? 'AI IQ KONFERENCIJA ZA ŠTAMPU ostaje BLOCKED dok bounded novine/digitalne novine paket ne zadrži postojeći EXTREM/EXTRONDOL/SPAJA KOD ownership lock i audit-safe summary disciplinu bez novog media engine-a.'
+      : aiIqKonferencijaZaStampuStatus === 'WATCH'
+        ? 'AI IQ KONFERENCIJA ZA ŠTAMPU ostaje u WATCH režimu dok bounded novine/digitalne novine paket još zahteva dodatni review za javni media-summary, token coverage i audit-safe ownership disciplinu.'
       : null;
   aiIqKonferencijaZaStampuTrack.watchReasons =
     aiIqKonferencijaZaStampuStatus === 'WATCH'
