@@ -1992,6 +1992,13 @@ Koristiti format `AI-IQ-SUPER-PLATFORMA#VPOREKLO-2026-09 -> IO-OPENUI-AO#123` gd
 - Raw bounded-token interpretation internals and raw EXTREM/EXTRONDOL formulas remain repo-local.
 - Ownership lock remains unchanged: `DOK/DIK/FOR -> EXTREM`, `DAK/DUK -> EXTRONDOL`, `SPAJA KOD -> summary-only`.
 
+## Developer/Create AI IQ laboratorija downstream reference
+
+- Scope lock: `DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == AI IQ LABORATORIJA == LABORATORIJSKI NALAZI FAUNE I FLORE I GRAĐEVINSKOG MATERIJALA`.
+- Locked bounded token sequence (additive-only alias): `ZUM, DUM, SAK, IK, MUN, DIKOT, DUN, ZAT, DJKUON, SIM, IKAR, DUKAR, IBAP, IRO, DUNOR, IBAN, UKOR, UTVAR, ZIPOT`.
+- Linked repo: `spaja86/IO-OPENUI-AO` — Follow-up only / audit-safe summary sync.
+- Sync only audit-safe outputs (`developerAndCreateRepoWideReflection.aiIqLaboratorijaTrack`, `releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.aiIqLaboratorijaTrack`, `spajaKod.publicSignals.aiIqLaboratorijaStatus`, `spajaKod.developerAndCreateImplementationPackage.aiIqLaboratorijaSummary`) covering status, blocker/watch posture, review posture, downstream reference and `nalazSummary`.
+- Raw bounded-token interpretation internals, raw EXTREM/EXTRONDOL formulas and internal domain mappings (`AI IQ LABORATORIJA`, `FAUNA I FLORA`, `GRAĐEVINSKI MATERIJAL`) remain repo-local.
 ## Developer/Create KONSTRUKCIJE I PROJEKTOVANJE downstream reference
 
 - Scope lock: `DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == KONSTRUKCIJE I PROJEKTOVANJE`.

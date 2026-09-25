@@ -225,6 +225,7 @@ const DEVELOPER_CREATE_ROADMAP_ACCEPTANCE_EVIDENCE_BASE = [
   'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.sarkazamPrivrednaGranaDigitalizmaTrack',
   'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.notes1450Track',
   'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.radniProstorTrack',
+  'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.aiIqLaboratorijaTrack',
   'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.konstrukcijeIProjektovanjeTrack',
   'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.aiIqKonferencijaZaStampuTrack',
   'spajaKod.publicSignals.developerAndCreateStatus',
@@ -235,6 +236,7 @@ const DEVELOPER_CREATE_ROADMAP_ACCEPTANCE_EVIDENCE_BASE = [
   'spajaKod.publicSignals.sarkazamPrivrednaGranaDigitalizmaStatus',
   'spajaKod.publicSignals.notes1450Status',
   'spajaKod.publicSignals.radniProstorStatus',
+  'spajaKod.publicSignals.aiIqLaboratorijaStatus',
   'spajaKod.publicSignals.konstrukcijeIProjektovanjeStatus',
   'spajaKod.publicSignals.aiIqKonferencijaZaStampuStatus',
   'spajaKod.publicSignals.aiPlateStatus',
@@ -260,6 +262,7 @@ const DEVELOPER_CREATE_GOVERNANCE_ACCEPTANCE_EVIDENCE: ExtrimliExtrondolReport['
   'developerAndCreateRepoWideReflection.sarkazamPrivrednaGranaDigitalizmaTrack',
   'developerAndCreateRepoWideReflection.notes1450Track',
   'developerAndCreateRepoWideReflection.radniProstorTrack',
+  'developerAndCreateRepoWideReflection.aiIqLaboratorijaTrack',
   'developerAndCreateRepoWideReflection.konstrukcijeIProjektovanjeTrack',
   'developerAndCreateRepoWideReflection.aiIqKonferencijaZaStampuTrack',
   'spajaKod.publicSignals.developerAndCreateStatus',
@@ -270,6 +273,7 @@ const DEVELOPER_CREATE_GOVERNANCE_ACCEPTANCE_EVIDENCE: ExtrimliExtrondolReport['
   'spajaKod.publicSignals.sarkazamPrivrednaGranaDigitalizmaStatus',
   'spajaKod.publicSignals.notes1450Status',
   'spajaKod.publicSignals.radniProstorStatus',
+  'spajaKod.publicSignals.aiIqLaboratorijaStatus',
   'spajaKod.publicSignals.konstrukcijeIProjektovanjeStatus',
   'spajaKod.publicSignals.aiIqKonferencijaZaStampuStatus',
   'spajaKod.publicSignals.aiPlateStatus',
@@ -3144,6 +3148,7 @@ function buildSpajaKodFacade(params: {
   sarkazamPrivrednaGranaDigitalizmaStatus: ExtrimliExtrondolReport['extremProfiler']['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['sarkazamPrivrednaGranaDigitalizmaTrack']['reflectionSignal']['status'];
   notes1450Status: ExtrimliExtrondolReport['extremProfiler']['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['notes1450Track']['readinessSignal']['status'];
   radniProstorStatus: ExtrimliExtrondolReport['extremProfiler']['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['radniProstorTrack']['readinessSignal']['status'];
+  aiIqLaboratorijaStatus: ExtrimliExtrondolReport['extremProfiler']['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['aiIqLaboratorijaTrack']['readinessSignal']['status'];
   konstrukcijeIProjektovanjeStatus: ExtrimliExtrondolReport['extremProfiler']['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['konstrukcijeIProjektovanjeTrack']['readinessSignal']['status'];
   aiIqKonferencijaZaStampuStatus: ExtrimliExtrondolReport['extremProfiler']['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['aiIqKonferencijaZaStampuTrack']['readinessSignal']['status'];
   aiPlateStatus: ExtrimliExtrondolReport['extremProfiler']['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['aiPlateOffer']['boundedReadinessProfile']['consolidatedStatus'];
@@ -3268,6 +3273,7 @@ function buildSpajaKodFacade(params: {
       sarkazamPrivrednaGranaDigitalizmaStatus: params.sarkazamPrivrednaGranaDigitalizmaStatus,
       notes1450Status: params.notes1450Status,
       radniProstorStatus: params.radniProstorStatus,
+      aiIqLaboratorijaStatus: params.aiIqLaboratorijaStatus,
       konstrukcijeIProjektovanjeStatus: params.konstrukcijeIProjektovanjeStatus,
       aiIqKonferencijaZaStampuStatus: params.aiIqKonferencijaZaStampuStatus,
       developerAndCreateStatus: params.developerAndCreateStatus,
@@ -3365,6 +3371,7 @@ function buildSpajaKodFacade(params: {
         'publicSignals.sarkazamPrivrednaGranaDigitalizmaStatus',
         'publicSignals.notes1450Status',
         'publicSignals.radniProstorStatus',
+        'publicSignals.aiIqLaboratorijaStatus',
         'publicSignals.konstrukcijeIProjektovanjeStatus',
         'publicSignals.aiIqKonferencijaZaStampuStatus',
         'publicSignals.napoleonDiskaveriStatus',
@@ -3388,6 +3395,7 @@ function buildSpajaKodFacade(params: {
         'developerAndCreateImplementationPackage.sarkazamPrivrednaGranaDigitalizmaSummary',
         'developerAndCreateImplementationPackage.notes1450Summary',
         'developerAndCreateImplementationPackage.radniProstorSummary',
+        'developerAndCreateImplementationPackage.aiIqLaboratorijaSummary',
         'developerAndCreateImplementationPackage.konstrukcijeIProjektovanjeSummary',
         'developerAndCreateImplementationPackage.aiIqKonferencijaZaStampuSummary',
         'developerAndCreateImplementationPackage.napoleonDiskaveriSummary',
@@ -3528,6 +3536,25 @@ function buildSpajaKodFacade(params: {
           ...params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.radniProstorTrack.tokenSequenceLock,
         },
       },
+      aiIqLaboratorijaSummary: {
+        canonicalAlias:
+          params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.aiIqLaboratorijaTrack.canonicalAlias,
+        roleClassification:
+          params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.aiIqLaboratorijaTrack.roleClassification,
+        status:
+          params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.aiIqLaboratorijaTrack.readinessSignal.status,
+        blockerReason:
+          params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.aiIqLaboratorijaTrack.blockerReason,
+        watchReasons: [
+          ...params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.aiIqLaboratorijaTrack.watchReasons,
+        ],
+        reviewPosture:
+          params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.aiIqLaboratorijaTrack.reviewPosture,
+        downstreamReference:
+          params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.aiIqLaboratorijaTrack.downstreamReference,
+        publicBoundary: 'audit-safe-summary-only',
+        nalazSummary:
+          params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.aiIqLaboratorijaTrack.nalazSummary,
       konstrukcijeIProjektovanjeSummary: {
         canonicalAlias:
           params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.konstrukcijeIProjektovanjeTrack.canonicalAlias,
@@ -5962,6 +5989,8 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
       extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.notes1450Track.readinessSignal.status,
     radniProstorStatus:
       extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.radniProstorTrack.readinessSignal.status,
+    aiIqLaboratorijaStatus:
+      extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.aiIqLaboratorijaTrack.readinessSignal.status,
     konstrukcijeIProjektovanjeStatus:
       extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.konstrukcijeIProjektovanjeTrack.readinessSignal.status,
     aiIqKonferencijaZaStampuStatus:
@@ -7850,6 +7879,31 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
         ],
         downstreamReference: 'docs/MULTI-REPO-LINKS.md -> spaja86/IO-OPENUI-AO (summary-only)',
       },
+      aiIqLaboratorijaTrack: {
+        ...extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.aiIqLaboratorijaTrack,
+        sourceOfTruth: '/api/extrimli/extrem',
+        governanceSource: '/api/extrimli/extrondol',
+        publicBoundary: '/api/extrimli/spaja-kod',
+        currentWawe,
+        eligibleNextWawe: eligibleNextWave,
+        promotionFreeze:
+          promotionFreeze
+          || extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.aiIqLaboratorijaTrack.readinessSignal.status !== 'READY',
+        reviewRequiredBeforeWideRollout:
+          extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.aiIqLaboratorijaTrack.readinessSignal.status !== 'READY'
+          || extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.aiIqLaboratorijaTrack.reviewPosture === 'REVIEW_REQUIRED',
+        reviewPosture:
+          extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.aiIqLaboratorijaTrack.reviewPosture,
+        rolloutPlan:
+          'Advance AI IQ LABORATORIJA only as an additive-only bounded laboratorijski evidencioni paket through existing EXTREM technical signals, EXTRONDOL WAWE governance, and SPAJA KOD summary-safe outputs.',
+        rollbackPlan:
+          'Freeze promotion and fall back to the previously verified Developer/Create package if AI IQ LABORATORIJA sequence lock, nalaz summary, review posture, or downstream summary alignment drifts.',
+        humanReviewStatus: 'required-before-promotion',
+        acceptanceEvidence: [
+          'developerAndCreateRepoWideReflection.aiIqLaboratorijaTrack',
+          'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.aiIqLaboratorijaTrack',
+          'spajaKod.publicSignals.aiIqLaboratorijaStatus',
+          'spajaKod.developerAndCreateImplementationPackage.aiIqLaboratorijaSummary',
       konstrukcijeIProjektovanjeTrack: {
         ...extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.konstrukcijeIProjektovanjeTrack,
         sourceOfTruth: '/api/extrimli/extrem',

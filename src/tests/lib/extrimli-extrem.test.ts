@@ -173,6 +173,8 @@ async function runTests(): Promise<void> {
       report.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.napoleonDiskaveriSelectionTrack;
     const radniProstorTrack =
       report.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.radniProstorTrack;
+    const aiIqLaboratorijaTrack =
+      report.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.aiIqLaboratorijaTrack;
     const konstrukcijeIProjektovanjeTrack =
       report.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.konstrukcijeIProjektovanjeTrack;
     const aiIqKonferencijaZaStampuTrack =
@@ -260,6 +262,16 @@ async function runTests(): Promise<void> {
     assert(radniProstorTrack.boundedTokenSequence.join(',') === 'OKUR,DJUKUR,DAR,ZOR,IKON,ZULUM,DABRE,IZOS,JAKOR,DAPR,ZUKUR,ENTER,DIKAR,ZUMBUL,SIRGED,ZIKOR,DJENDER,ĆUR,NIKON,DERKO,ZUKAL,IKON,ZAJDI', 'developer/create RADNI PROSTOR token sequence mismatch');
     assert(['READY', 'WATCH', 'BLOCKED'].includes(radniProstorTrack.readinessSignal.status), 'developer/create RADNI PROSTOR status mismatch');
     assert(radniProstorTrack.summarySafePublicFields.join(',') === 'canonicalAlias,status,blockerReason,watchReasons,reviewPosture,downstreamReference,tokenSequenceLock', 'developer/create RADNI PROSTOR summary-safe fields mismatch');
+    assert(aiIqLaboratorijaTrack.canonicalAlias === 'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == AI IQ LABORATORIJA == LABORATORIJSKI NALAZI FAUNE I FLORE I GRAĐEVINSKOG MATERIJALA', 'developer/create AI IQ LABORATORIJA canonical alias mismatch');
+    assert(aiIqLaboratorijaTrack.roleClassification === 'additive-only-bounded-laboratory-evidence-track', 'developer/create AI IQ LABORATORIJA role classification mismatch');
+    assert(aiIqLaboratorijaTrack.boundedTokenSequence.join(',') === 'ZUM,DUM,SAK,IK,MUN,DIKOT,DUN,ZAT,DJKUON,SIM,IKAR,DUKAR,IBAP,IRO,DUNOR,IBAN,UKOR,UTVAR,ZIPOT', 'developer/create AI IQ LABORATORIJA token sequence mismatch');
+    assert(aiIqLaboratorijaTrack.domainTracks.aiIqLaboratorija.canonicalName === 'AI IQ LABORATORIJA', 'developer/create AI IQ LABORATORIJA domain root mismatch');
+    assert(aiIqLaboratorijaTrack.domainTracks.faunaIFLora.canonicalName === 'FAUNA I FLORA', 'developer/create AI IQ LABORATORIJA fauna/flora domain mismatch');
+    assert(aiIqLaboratorijaTrack.domainTracks.gradjevinskiMaterijal.canonicalName === 'GRAĐEVINSKI MATERIJAL', 'developer/create AI IQ LABORATORIJA građevinski domen mismatch');
+    assert(['READY', 'WATCH', 'BLOCKED'].includes(aiIqLaboratorijaTrack.readinessSignal.status), 'developer/create AI IQ LABORATORIJA status mismatch');
+    assert(aiIqLaboratorijaTrack.summarySafePublicFields.join(',') === 'canonicalAlias,status,blockerReason,watchReasons,reviewPosture,downstreamReference,nalazSummary', 'developer/create AI IQ LABORATORIJA summary-safe fields mismatch');
+    assert(implementationPackage.aiIqLaboratorijaBoundary.trackRole === 'bounded-ai-iq-laboratorija-evidence-track', 'developer/create implementation package AI IQ LABORATORIJA boundary role mismatch');
+    assert(implementationPackage.aiIqLaboratorijaBoundary.noNewRuntimeRoutes, 'developer/create implementation package AI IQ LABORATORIJA boundary must forbid new runtime routes');
     assert(konstrukcijeIProjektovanjeTrack.canonicalAlias === 'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == KONSTRUKCIJE I PROJEKTOVANJE', 'developer/create KONSTRUKCIJE I PROJEKTOVANJE canonical alias mismatch');
     assert(konstrukcijeIProjektovanjeTrack.roleClassification === 'additive-only-bounded-construction-design-alias-track', 'developer/create KONSTRUKCIJE I PROJEKTOVANJE role classification mismatch');
     assert(konstrukcijeIProjektovanjeTrack.boundedTokenSequence.join(',') === 'DUR,DJON,TUR,ZIM,UBAR,DOKOR,SINGAR,UKOR,IOP,TUR,UBAR,SINGOF,SIGRAD,OKDEN,UMAR', 'developer/create KONSTRUKCIJE I PROJEKTOVANJE token sequence mismatch');

@@ -998,6 +998,8 @@ async function runTests(): Promise<void> {
           napoleonDiskaveriStatus: string;
           sarkazamPrivrednaGranaDigitalizmaStatus: string;
           notes1450Status: string;
+          radniProstorStatus: string;
+          aiIqLaboratorijaStatus: string;
           konstrukcijeIProjektovanjeStatus: string;
           aiIqKonferencijaZaStampuStatus: string;
           funkcinalnoProgramiranjeEnergetskogMisaonogTokaStatus: string;
@@ -1035,7 +1037,44 @@ async function runTests(): Promise<void> {
         };
         developerAndCreateImplementationPackage: {
           sourceOfTruthRoutes: string[];
-          routeSummaryFields: string[];
+          routeSummaryFields: Array<
+            | 'publicSignals.developerAndCreateStatus'
+            | 'publicSignals.developerAndCreateImplementationStatus'
+            | 'publicSignals.developerAndCreateAudioVisualStatus'
+            | 'publicSignals.smartProgramskiJezikStatus'
+            | 'publicSignals.immersiveVisualization3dStatus'
+            | 'publicSignals.eksperimentProgramskiJezikStatus'
+            | 'publicSignals.sarkazamPrivrednaGranaDigitalizmaStatus'
+            | 'publicSignals.notes1450Status'
+            | 'publicSignals.radniProstorStatus'
+            | 'publicSignals.aiIqLaboratorijaStatus'
+            | 'publicSignals.aiIqKonferencijaZaStampuStatus'
+            | 'publicSignals.napoleonDiskaveriStatus'
+            | 'publicSignals.kraljevskiPravniUniverzitetStatus'
+            | 'publicSignals.kraljevskiPravniAktStatus'
+            | 'publicSignals.kraljevskiAktBezbednostiStatus'
+            | 'publicSignals.kraljevskiProgramskiUneverzitetStatus'
+            | 'publicSignals.inspektoriStatus'
+            | 'publicSignals.inspektoriSummary'
+            | 'publicSignals.aiIdentityMonthlyPrimanjaStatus'
+            | 'publicSignals.aiIdentityMinorProtectionStatus'
+            | 'publicSignals.developerAndCreateUniversitySummary'
+            | 'developerAndCreateVisualReflection.audioVisualKontrabasPackage'
+            | 'developerAndCreateVisualReflection.kraljevskiBastaUneverzite'
+            | 'developerAndCreateVisualReflection.packageOutputs'
+            | 'developerAndCreateImplementationPackage.aiIqWorldBankPrepiskaSummary'
+            | 'developerAndCreateImplementationPackage.kraljevskiDrustveniPoredakSummary'
+            | 'developerAndCreateImplementationPackage.kraljevskiAktBezbednostiSummary'
+            | 'developerAndCreateImplementationPackage.smartProgramskiJezikSummary'
+            | 'developerAndCreateImplementationPackage.eksperimentProgramskiJezikSummary'
+            | 'developerAndCreateImplementationPackage.sarkazamPrivrednaGranaDigitalizmaSummary'
+            | 'developerAndCreateImplementationPackage.notes1450Summary'
+            | 'developerAndCreateImplementationPackage.radniProstorSummary'
+            | 'developerAndCreateImplementationPackage.aiIqLaboratorijaSummary'
+            | 'developerAndCreateImplementationPackage.aiIqKonferencijaZaStampuSummary'
+            | 'developerAndCreateImplementationPackage.napoleonDiskaveriSummary'
+            | 'epilogijaCovecnosti.packageOutputs'
+          >;
           covecanstvuPublicOutput: string;
           aiIqWorldBankPrepiskaSummary: {
             canonicalName: string;
@@ -1051,6 +1090,7 @@ async function runTests(): Promise<void> {
           eksperimentProgramskiJezikSummary: { canonicalAlias: string; status: string; blockerReasons: string[]; watchReasons: string[]; humanReviewPosture: string; downstreamReference: string; publicBoundary: string };
           sarkazamPrivrednaGranaDigitalizmaSummary: { canonicalAlias: string; scopeClassification: string; status: string; blockerReason: string | null; reviewPosture: string; downstreamReference: string; publicBoundary: string; oblastCinSummary: { oblastStatus: string; cinStatus: string; publicSummary: string } };
           notes1450Summary: { canonicalAlias: string; roleClassification: string; status: string; blockerReason: string | null; watchReasons: string[]; reviewPosture: string; downstreamReference: string; publicBoundary: string; businessValueSummary: string };
+          aiIqLaboratorijaSummary: { canonicalAlias: string; roleClassification: string; status: string; blockerReason: string | null; watchReasons: string[]; reviewPosture: string; downstreamReference: string; publicBoundary: string; nalazSummary: string };
           konstrukcijeIProjektovanjeSummary: { canonicalAlias: string; roleClassification: string; status: string; blockerReason: string | null; watchReasons: string[]; reviewPosture: string; downstreamReference: string; publicBoundary: string; constructionDesignSummary: string; gradjevinskiFakultetStatus: string; gradjevinskiAktStatus: string };
           aiIqKonferencijaZaStampuSummary: { canonicalAlias: string; roleClassification: string; status: string; blockerReason: string | null; watchReasons: string[]; reviewPosture: string; downstreamReference: string; publicBoundary: string; mediaSummary: string };
         };
@@ -1084,6 +1124,8 @@ async function runTests(): Promise<void> {
     assert(['READY', 'WATCH', 'BLOCKED'].includes(body.data.publicSignals.eksperimentProgramskiJezikStatus), 'unexpected SPAJA KOD Eksperiment Programski Jezik summary status');
     assert(['READY', 'WATCH', 'BLOCKED'].includes(body.data.publicSignals.sarkazamPrivrednaGranaDigitalizmaStatus), 'unexpected SPAJA KOD Sarkazam summary status');
     assert(['READY', 'WATCH', 'BLOCKED'].includes(body.data.publicSignals.notes1450Status), 'unexpected SPAJA KOD NOTES 1450 summary status');
+    assert(['READY', 'WATCH', 'BLOCKED'].includes(body.data.publicSignals.radniProstorStatus), 'unexpected SPAJA KOD RADNI PROSTOR summary status');
+    assert(['READY', 'WATCH', 'BLOCKED'].includes(body.data.publicSignals.aiIqLaboratorijaStatus), 'unexpected SPAJA KOD AI IQ laboratorija summary status');
     assert(['READY', 'WATCH', 'BLOCKED'].includes(body.data.publicSignals.konstrukcijeIProjektovanjeStatus), 'unexpected SPAJA KOD KONSTRUKCIJE I PROJEKTOVANJE summary status');
     assert(['READY', 'WATCH', 'BLOCKED'].includes(body.data.publicSignals.aiIqKonferencijaZaStampuStatus), 'unexpected SPAJA KOD AI IQ press summary status');
     assert(['READY', 'WATCH', 'BLOCKED'].includes(body.data.publicSignals.kraljevskiPravniAktStatus), 'unexpected SPAJA KOD KRALJEVSKI PRAVNI AKT summary status');
@@ -1104,6 +1146,8 @@ async function runTests(): Promise<void> {
     assert(body.data.developerAndCreateImplementationPackage.validationStatus === body.data.publicSignals.developerAndCreateImplementationStatus, 'unexpected SPAJA KOD implementation package validation mismatch');
     assert(body.data.developerAndCreateImplementationPackage.aiIqKonferencijaZaStampuSummary.canonicalAlias === 'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == AI IQ KONFERENCIJA ZA ŠTAMPU (NOVINE, DIGITALNE NOVINE)', 'unexpected SPAJA KOD AI IQ press canonical alias');
     assert(body.data.developerAndCreateImplementationPackage.aiIqKonferencijaZaStampuSummary.publicBoundary === 'audit-safe-summary-only', 'unexpected SPAJA KOD AI IQ press boundary');
+    assert(body.data.developerAndCreateImplementationPackage.aiIqLaboratorijaSummary.canonicalAlias === 'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == AI IQ LABORATORIJA == LABORATORIJSKI NALAZI FAUNE I FLORE I GRAĐEVINSKOG MATERIJALA', 'unexpected SPAJA KOD AI IQ laboratorija canonical alias');
+    assert(body.data.developerAndCreateImplementationPackage.aiIqLaboratorijaSummary.publicBoundary === 'audit-safe-summary-only', 'unexpected SPAJA KOD AI IQ laboratorija boundary');
     assert(body.data.epilogijaCovecnosti.title === 'EPILOGIJA ČOVEČANSTVA', 'unexpected SPAJA KOD epilog title');
     assert(body.data.epilogijaCovecnosti.canonicalNarrativeId === 'priroda-zdrav-zivot-covecanstvo', 'unexpected SPAJA KOD canonical epilog narrative id');
     assert(body.data.epilogijaCovecnosti.citation.includes('Priroda izum samoživost'), 'SPAJA KOD epilog citation should preserve canonical narrative');
@@ -1139,6 +1183,19 @@ async function runTests(): Promise<void> {
     assert(body.data.developerAndCreateImplementationPackage.notes1450Summary.status === body.data.publicSignals.notes1450Status, 'unexpected SPAJA KOD NOTES 1450 summary/status mismatch');
     assert(body.data.developerAndCreateImplementationPackage.notes1450Summary.roleClassification === 'additive-only-bounded-work-continuation-package', 'unexpected SPAJA KOD NOTES 1450 role classification');
     assert(body.data.developerAndCreateImplementationPackage.notes1450Summary.publicBoundary === 'audit-safe-summary-only', 'unexpected SPAJA KOD NOTES 1450 public boundary');
+    const routeSummaryFields = body.data.developerAndCreateImplementationPackage.routeSummaryFields;
+    assert(routeSummaryFields.includes('publicSignals.aiIqLaboratorijaStatus'), 'unexpected SPAJA KOD AI IQ laboratorija public route summary field');
+    assert(routeSummaryFields.includes('developerAndCreateImplementationPackage.aiIqLaboratorijaSummary'), 'unexpected SPAJA KOD AI IQ laboratorija package route summary field');
+    assert(
+      routeSummaryFields.indexOf('publicSignals.aiIqLaboratorijaStatus') > routeSummaryFields.indexOf('publicSignals.radniProstorStatus')
+      && routeSummaryFields.indexOf('publicSignals.aiIqLaboratorijaStatus') < routeSummaryFields.indexOf('publicSignals.aiIqKonferencijaZaStampuStatus'),
+      'unexpected SPAJA KOD AI IQ laboratorija public route summary field ordering',
+    );
+    assert(
+      routeSummaryFields.indexOf('developerAndCreateImplementationPackage.aiIqLaboratorijaSummary') > routeSummaryFields.indexOf('developerAndCreateImplementationPackage.radniProstorSummary')
+      && routeSummaryFields.indexOf('developerAndCreateImplementationPackage.aiIqLaboratorijaSummary') < routeSummaryFields.indexOf('developerAndCreateImplementationPackage.aiIqKonferencijaZaStampuSummary'),
+      'unexpected SPAJA KOD AI IQ laboratorija package route summary field ordering',
+    );
     assert(body.data.developerAndCreateImplementationPackage.routeSummaryFields.join(',') === 'publicSignals.developerAndCreateStatus,publicSignals.developerAndCreateImplementationStatus,publicSignals.developerAndCreateAudioVisualStatus,publicSignals.smartProgramskiJezikStatus,publicSignals.immersiveVisualization3dStatus,publicSignals.eksperimentProgramskiJezikStatus,publicSignals.sarkazamPrivrednaGranaDigitalizmaStatus,publicSignals.notes1450Status,publicSignals.radniProstorStatus,publicSignals.konstrukcijeIProjektovanjeStatus,publicSignals.aiIqKonferencijaZaStampuStatus,publicSignals.napoleonDiskaveriStatus,publicSignals.kraljevskiPravniUniverzitetStatus,publicSignals.kraljevskiPravniAktStatus,publicSignals.kraljevskiAktBezbednostiStatus,publicSignals.kraljevskiProgramskiUneverzitetStatus,publicSignals.inspektoriStatus,publicSignals.inspektoriSummary,publicSignals.aiIdentityMonthlyPrimanjaStatus,publicSignals.aiIdentityMinorProtectionStatus,publicSignals.developerAndCreateUniversitySummary,developerAndCreateVisualReflection.audioVisualKontrabasPackage,developerAndCreateVisualReflection.kraljevskiBastaUneverzite,developerAndCreateVisualReflection.packageOutputs,developerAndCreateImplementationPackage.aiIqWorldBankPrepiskaSummary,developerAndCreateImplementationPackage.kraljevskiDrustveniPoredakSummary,developerAndCreateImplementationPackage.kraljevskiAktBezbednostiSummary,developerAndCreateImplementationPackage.smartProgramskiJezikSummary,developerAndCreateImplementationPackage.eksperimentProgramskiJezikSummary,developerAndCreateImplementationPackage.sarkazamPrivrednaGranaDigitalizmaSummary,developerAndCreateImplementationPackage.notes1450Summary,developerAndCreateImplementationPackage.radniProstorSummary,developerAndCreateImplementationPackage.konstrukcijeIProjektovanjeSummary,developerAndCreateImplementationPackage.aiIqKonferencijaZaStampuSummary,developerAndCreateImplementationPackage.napoleonDiskaveriSummary,epilogijaCovecnosti.packageOutputs', 'unexpected SPAJA KOD implementation package route summary fields');
     assert(body.data.developerAndCreateImplementationPackage.konstrukcijeIProjektovanjeSummary.status === body.data.publicSignals.konstrukcijeIProjektovanjeStatus, 'unexpected SPAJA KOD KONSTRUKCIJE I PROJEKTOVANJE summary/status mismatch');
     assert(body.data.developerAndCreateImplementationPackage.konstrukcijeIProjektovanjeSummary.publicBoundary === 'audit-safe-summary-only', 'unexpected SPAJA KOD KONSTRUKCIJE I PROJEKTOVANJE public boundary');

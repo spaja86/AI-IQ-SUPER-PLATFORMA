@@ -22,6 +22,7 @@ export const DEVELOPER_CREATE_VRH_INTERPRETATION_ALIASES = [
   'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == RADNI PROSTOR',
   'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == SARKAZAM / PRIVREDNA GRANA DIGITALIZMA / PROJEKTI ENTUZIJAZMA PO ČINU OBLASTIMA',
   'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == AI IQ KONFERENCIJA ZA ŠTAMPU (NOVINE, DIGITALNE NOVINE)',
+  'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == AI IQ LABORATORIJA == LABORATORIJSKI NALAZI FAUNE I FLORE I GRAĐEVINSKOG MATERIJALA',
   'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == POSLOVNA PONUDA',
 ] as const;
 
@@ -280,6 +281,69 @@ export const DEVELOPER_CREATE_AI_IQ_KONFERENCIJA_ZA_STAMPU_TOKEN_VOCABULARY = {
     'deterministic-fallback-required-on-conflict',
     'no-new-runtime-media-engine',
   ],
+} as const;
+
+export const DEVELOPER_CREATE_AI_IQ_LABORATORIJA_CANONICAL_ALIAS =
+  'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == AI IQ LABORATORIJA == LABORATORIJSKI NALAZI FAUNE I FLORE I GRAĐEVINSKOG MATERIJALA' as const;
+
+export const DEVELOPER_CREATE_AI_IQ_LABORATORIJA_SCOPE_STATEMENT =
+  'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == AI IQ LABORATORIJA == LABORATORIJSKI NALAZI FAUNE I FLORE I GRAĐEVINSKOG MATERIJALA == additive-only laboratorijsko-interpretativni sloj nad PROGRAMSKI JEZIK PROUČAVANJA i PROGRAMSKI EKANALOG bez novih ruta i bez paralelnog source-of-truth sistema' as const;
+
+export const DEVELOPER_CREATE_AI_IQ_LABORATORIJA_ROLE_CLASSIFICATION =
+  'additive-only-bounded-laboratory-evidence-track' as const;
+
+export const DEVELOPER_CREATE_AI_IQ_LABORATORIJA_DOMAIN_TRACKS = {
+  aiIqLaboratorija: {
+    canonicalName: 'AI IQ LABORATORIJA',
+    role: 'krovni-laboratorijski-kontekst-audit-evidence-readiness-only',
+  },
+  faunaIFLora: {
+    canonicalName: 'FAUNA I FLORA',
+    role: 'bounded-prirodni-bioloski-evidencioni-domen',
+  },
+  gradjevinskiMaterijal: {
+    canonicalName: 'GRAĐEVINSKI MATERIJAL',
+    role: 'bounded-infrastrukturni-gradjevinski-evidencioni-domen',
+  },
+} as const;
+
+export const DEVELOPER_CREATE_AI_IQ_LABORATORIJA_BOUNDED_TOKEN_SEQUENCE = [
+  'ZUM',
+  'DUM',
+  'SAK',
+  'IK',
+  'MUN',
+  'DIKOT',
+  'DUN',
+  'ZAT',
+  'DJKUON',
+  'SIM',
+  'IKAR',
+  'DUKAR',
+  'IBAP',
+  'IRO',
+  'DUNOR',
+  'IBAN',
+  'UKOR',
+  'UTVAR',
+  'ZIPOT',
+] as const;
+
+export const DEVELOPER_CREATE_AI_IQ_LABORATORIJA_FALLBACK_INPUTS = [
+  'NaN',
+  'Infinity',
+  'empty',
+  'conflict',
+  'unknown-token',
+] as const;
+
+export const DEVELOPER_CREATE_AI_IQ_LABORATORIJA_NORMALIZATION_RULES = {
+  trimWhitespace: true,
+  uppercaseTokens: true,
+  collapseMultipleSpaces: true,
+  keepCanonicalOrder: true,
+  unknownTokenHandling: 'map-to-watch-and-require-review',
+  conflictHandling: 'map-to-blocked-and-require-review',
 } as const;
 
 export const DEVELOPER_CREATE_SARKAZAM_PRIVREDNA_GRANA_DIGITALIZMA_CANONICAL_ALIAS =
