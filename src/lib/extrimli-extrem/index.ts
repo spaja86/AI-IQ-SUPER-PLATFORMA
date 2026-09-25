@@ -4380,13 +4380,6 @@ export function resolveSarkazamPrivrednaGranaDigitalizmaReflection(params: {
     params.kraljevskiProgramskiUneverzitetReadiness.deterministicFallbackRequired,
   ];
   const status = aggregateReadinessStatus(signalStatuses);
-  const normalizedFallbackInputs = Array.from(
-    new Set(
-      params.fallbackInputs
-        .map((input) => input.trim())
-        .filter((input) => input.length > 0),
-    ),
-  );
   const readinessScore = round(
     (
       params.repoWideReadiness.score
@@ -4396,17 +4389,9 @@ export function resolveSarkazamPrivrednaGranaDigitalizmaReflection(params: {
     2,
   );
   const deterministicFallbackRequired = fallbackSignals.some(Boolean);
-  const alignedFallbackInputs =
-    deterministicFallbackRequired
-      && (
-        normalizedFallbackInputs.length !== canonicalFallbackInputs.length
-        || canonicalFallbackInputs.some((input) => !normalizedFallbackInputs.includes(input))
-      )
-      ? [...canonicalFallbackInputs]
-      : normalizedFallbackInputs;
   const fallbackSentence =
     deterministicFallbackRequired
-      ? `Deterministic fallback ostaje aktivan za ${alignedFallbackInputs.join(', ')} ulaze.`
+      ? `Deterministic fallback ostaje aktivan za ${canonicalFallbackInputs.join(', ')} ulaze.`
       : null;
   const blockerReason =
     'SARKAZAM ostaje BLOCKED dok bounded Digitalna Industrija, PRIVREDNI AKT i testovi-po-oblastima signali nisu usklađeni unutar postojećeg Developer/Create reflection paketa bez novih formula i bez nove semantike odlučivanja.';
