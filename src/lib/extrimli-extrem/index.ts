@@ -10985,6 +10985,7 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
   );
   const notes1450Track =
     dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.notes1450Track;
+  const notes1450AiMaterialSaturationRiskScore = round(100 - notes1450ReadinessScore, 2);
   notes1450Track.readinessSignal.status = notes1450Status;
   notes1450Track.readinessSignal.readinessScore = notes1450ReadinessScore;
   notes1450Track.readinessSignal.goalClarityStatus =
@@ -10996,9 +10997,9 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
   notes1450Track.readinessSignal.aiMaterialSaturationRiskStatus =
     dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.deterministicFallbackRequired
       ? 'BLOCKED'
-      : notes1450ReadinessScore >= 85
+      : notes1450AiMaterialSaturationRiskScore <= 15
         ? 'READY'
-        : notes1450ReadinessScore >= 70
+        : notes1450AiMaterialSaturationRiskScore <= 30
           ? 'WATCH'
           : 'BLOCKED';
   notes1450Track.readinessSignal.deterministicNextStepStatus =
