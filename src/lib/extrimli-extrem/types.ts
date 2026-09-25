@@ -2645,6 +2645,7 @@ export interface ExtrimliDokDikDakDukConsistencyHealth {
         'canonicalAlias',
         'status',
         'blockerReason',
+        'watchReasons',
         'reviewPosture',
         'downstreamReference',
         'scopeClassification'

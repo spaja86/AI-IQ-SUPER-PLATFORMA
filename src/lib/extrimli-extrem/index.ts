@@ -6863,6 +6863,7 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
           'canonicalAlias',
           'status',
           'blockerReason',
+          'watchReasons',
           'reviewPosture',
           'downstreamReference',
           'scopeClassification',
