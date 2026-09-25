@@ -229,6 +229,7 @@ const DEVELOPER_CREATE_ROADMAP_ACCEPTANCE_EVIDENCE_BASE = [
   'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.aiIqLaboratorijaTrack',
   'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.konstrukcijeIProjektovanjeTrack',
   'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.aiIqKonferencijaZaStampuTrack',
+  'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.radioTrack',
   'spajaKod.publicSignals.developerAndCreateStatus',
   'spajaKod.publicSignals.developerAndCreateAudioVisualStatus',
   'spajaKod.publicSignals.developerAndCreateImplementationStatus',
@@ -240,6 +241,7 @@ const DEVELOPER_CREATE_ROADMAP_ACCEPTANCE_EVIDENCE_BASE = [
   'spajaKod.publicSignals.aiIqLaboratorijaStatus',
   'spajaKod.publicSignals.konstrukcijeIProjektovanjeStatus',
   'spajaKod.publicSignals.aiIqKonferencijaZaStampuStatus',
+  'spajaKod.publicSignals.radioStatus',
   'spajaKod.publicSignals.aiPlateStatus',
 ] as const;
 
@@ -266,6 +268,7 @@ const DEVELOPER_CREATE_GOVERNANCE_ACCEPTANCE_EVIDENCE: ExtrimliExtrondolReport['
   'developerAndCreateRepoWideReflection.aiIqLaboratorijaTrack',
   'developerAndCreateRepoWideReflection.konstrukcijeIProjektovanjeTrack',
   'developerAndCreateRepoWideReflection.aiIqKonferencijaZaStampuTrack',
+  'developerAndCreateRepoWideReflection.radioTrack',
   'spajaKod.publicSignals.developerAndCreateStatus',
   'spajaKod.publicSignals.developerAndCreateAudioVisualStatus',
   'spajaKod.publicSignals.developerAndCreateImplementationStatus',
@@ -277,6 +280,7 @@ const DEVELOPER_CREATE_GOVERNANCE_ACCEPTANCE_EVIDENCE: ExtrimliExtrondolReport['
   'spajaKod.publicSignals.aiIqLaboratorijaStatus',
   'spajaKod.publicSignals.konstrukcijeIProjektovanjeStatus',
   'spajaKod.publicSignals.aiIqKonferencijaZaStampuStatus',
+  'spajaKod.publicSignals.radioStatus',
   'spajaKod.publicSignals.aiPlateStatus',
 ];
 const AUDIO_VISUAL_KONTRABAS_ACCEPTANCE_EVIDENCE = [
@@ -6023,6 +6027,8 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
       extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.konstrukcijeIProjektovanjeTrack.readinessSignal.status,
     aiIqKonferencijaZaStampuStatus:
       extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.aiIqKonferencijaZaStampuTrack.readinessSignal.status,
+    radioStatus:
+      extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.radioTrack.readinessSignal.status,
     aiPlateStatus: extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.aiPlateOffer.boundedReadinessProfile.consolidatedStatus,
     aiPlateEnterprisePackageStatus,
   });
@@ -7932,6 +7938,9 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
           'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.aiIqLaboratorijaTrack',
           'spajaKod.publicSignals.aiIqLaboratorijaStatus',
           'spajaKod.developerAndCreateImplementationPackage.aiIqLaboratorijaSummary',
+        ],
+        downstreamReference: 'docs/MULTI-REPO-LINKS.md -> spaja86/IO-OPENUI-AO (summary-only)',
+      },
       konstrukcijeIProjektovanjeTrack: {
         ...extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.konstrukcijeIProjektovanjeTrack,
         sourceOfTruth: '/api/extrimli/extrem',

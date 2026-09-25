@@ -973,6 +973,20 @@ export interface ExtrimliExtrondolDeveloperAndCreateRepoWideReflectionGovernance
     publicBoundary: '/api/extrimli/spaja-kod';
     currentWawe: ExtrimliExtrondolWaweStage;
     eligibleNextWawe: ExtrimliExtrondolWaweStage;
+    promotionFreeze: boolean;
+    reviewRequiredBeforeWideRollout: boolean;
+    reviewPosture: 'ALIGNED' | 'WATCH' | 'REVIEW_REQUIRED';
+    rolloutPlan: string;
+    rollbackPlan: string;
+    humanReviewStatus: 'required-before-promotion';
+    acceptanceEvidence: readonly [
+      'developerAndCreateRepoWideReflection.aiIqLaboratorijaTrack',
+      'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.aiIqLaboratorijaTrack',
+      'spajaKod.publicSignals.aiIqLaboratorijaStatus',
+      'spajaKod.developerAndCreateImplementationPackage.aiIqLaboratorijaSummary'
+    ];
+    downstreamReference: 'docs/MULTI-REPO-LINKS.md -> spaja86/IO-OPENUI-AO (summary-only)';
+  };
   konstrukcijeIProjektovanjeTrack: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['konstrukcijeIProjektovanjeTrack'] & {
     sourceOfTruth: '/api/extrimli/extrem';
     governanceSource: '/api/extrimli/extrondol';
@@ -986,10 +1000,6 @@ export interface ExtrimliExtrondolDeveloperAndCreateRepoWideReflectionGovernance
     rollbackPlan: string;
     humanReviewStatus: 'required-before-promotion';
     acceptanceEvidence: readonly [
-      'developerAndCreateRepoWideReflection.aiIqLaboratorijaTrack',
-      'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.aiIqLaboratorijaTrack',
-      'spajaKod.publicSignals.aiIqLaboratorijaStatus',
-      'spajaKod.developerAndCreateImplementationPackage.aiIqLaboratorijaSummary'
       'developerAndCreateRepoWideReflection.konstrukcijeIProjektovanjeTrack',
       'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.konstrukcijeIProjektovanjeTrack',
       'spajaKod.publicSignals.konstrukcijeIProjektovanjeStatus',
@@ -2923,6 +2933,13 @@ export interface ExtrimliSpajaKodPublicFacade {
       canonicalAlias: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['aiIqLaboratorijaTrack']['canonicalAlias'];
       roleClassification: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['aiIqLaboratorijaTrack']['roleClassification'];
       status: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['aiIqLaboratorijaTrack']['readinessSignal']['status'];
+      blockerReason: string | null;
+      watchReasons: string[];
+      reviewPosture: 'ALIGNED' | 'WATCH' | 'REVIEW_REQUIRED';
+      downstreamReference: 'docs/MULTI-REPO-LINKS.md -> spaja86/IO-OPENUI-AO (summary-only)';
+      publicBoundary: 'audit-safe-summary-only';
+      nalazSummary: string;
+    };
     konstrukcijeIProjektovanjeSummary: {
       canonicalAlias: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['konstrukcijeIProjektovanjeTrack']['canonicalAlias'];
       roleClassification: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['konstrukcijeIProjektovanjeTrack']['roleClassification'];
