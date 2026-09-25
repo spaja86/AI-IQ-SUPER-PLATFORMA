@@ -34,14 +34,15 @@ test('kompanija page exposes a professional Nikola Spajić founder profile', () 
 
 test('kompanija metadata stays founder-focused and professional', () => {
   const title = typeof metadata.title === 'string' ? metadata.title : metadata.title?.absolute;
+  const description = metadata.description ?? '';
   assert(
     title?.includes(osnivacProfil.punoIme) && title.includes(KOMPANIJA),
     'metadata title must center the founder profile and company identity',
   );
   assert(
-    metadata.description?.includes(osnivacProfil.punoIme)
-      && metadata.description.includes('osnivač i CEO')
-      && metadata.description.includes('poslovne saradnje'),
+    description.includes(osnivacProfil.punoIme)
+      && description.includes('osnivač i CEO')
+      && description.includes('poslovne saradnje'),
     'metadata description must describe Nikola Spajić professionally',
   );
 });
