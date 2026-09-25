@@ -144,8 +144,18 @@ function resolveFallbackQuality(
 
 let cachedInnovationRegistry: ExtrimliInnovationRegistryModel | null = null;
 
+function deepFreeze<T>(value: T): T {
+  if (value && typeof value === 'object' && !Object.isFrozen(value)) {
+    Object.freeze(value);
+    for (const key of Object.keys(value as Record<string, unknown>)) {
+      deepFreeze((value as Record<string, unknown>)[key]);
+    }
+  }
+  return value;
+}
+
 export function buildExtrimliInnovationRegistry(): ExtrimliInnovationRegistryModel {
-  if (cachedInnovationRegistry) return structuredClone(cachedInnovationRegistry);
+  if (cachedInnovationRegistry) return cachedInnovationRegistry;
 
   const innovations: ExtrimliInnovationRegistryEntry[] = [];
   const clusters: ExtrimliInnovationRegistryCluster[] = [];
@@ -245,7 +255,7 @@ export function buildExtrimliInnovationRegistry(): ExtrimliInnovationRegistryMod
   const summaryStatus: ExtrimliInnovationReadinessStatus =
     byReadiness.BLOCKED > 0 ? 'BLOCKED' : byReadiness.WATCH > 0 ? 'WATCH' : 'READY';
 
-  cachedInnovationRegistry = {
+  cachedInnovationRegistry = deepFreeze({
     canonicalAlias: 'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == 13000 INOVACIJA',
     additiveOnly: true,
     sourceOfTruthRoutes: ['/api/extrimli/extrem', '/api/extrimli/extrondol', '/api/extrimli/spaja-kod'],
@@ -311,7 +321,7 @@ export function buildExtrimliInnovationRegistry(): ExtrimliInnovationRegistryMod
       ],
       downstreamReference: 'docs/MULTI-REPO-LINKS.md -> spaja86/IO-OPENUI-AO (summary-only)',
     },
-  };
+  });
 
-  return structuredClone(cachedInnovationRegistry);
+  return cachedInnovationRegistry;
 }
