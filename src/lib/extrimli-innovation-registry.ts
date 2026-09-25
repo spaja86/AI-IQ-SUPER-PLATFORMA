@@ -124,7 +124,7 @@ function resolveReadiness(globalIndex: number): ExtrimliInnovationReadinessStatu
   return 'READY';
 }
 
-function resolveWawePriority(
+function resolveWavePriority(
   readinessStatus: ExtrimliInnovationReadinessStatus,
   globalIndex: number,
 ): ExtrimliInnovationWavePriority {
@@ -188,7 +188,7 @@ export function buildExtrimliInnovationRegistry(): ExtrimliInnovationRegistryMod
       const readinessStatus = resolveReadiness(globalIndex);
       const governanceStatus: ExtrimliInnovationGovernanceStatus =
         readinessStatus === 'READY' ? 'promote' : readinessStatus === 'WATCH' ? 'freeze' : 'rollback';
-      const wavePriority = resolveWawePriority(readinessStatus, globalIndex);
+      const wavePriority = resolveWavePriority(readinessStatus, globalIndex);
       const track = TRACKS[globalIndex % TRACKS.length];
 
       if (readinessStatus === 'BLOCKED' && wavePriority === 'critical') blockedCriticalCount += 1;

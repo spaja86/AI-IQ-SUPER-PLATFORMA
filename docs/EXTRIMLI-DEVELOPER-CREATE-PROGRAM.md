@@ -67,7 +67,7 @@ Program je zaključan na postojeći roadmap:
   - quality: READY inovacije bez kritičnih blokera
   - governance: promotion/freeze/rollback odnos i review prolaznost
   - ecosystem: stabilnost između EXTRIMLI/EXTREM/EXTRONDOL slojeva
-- Operativni ritam ostaje: dnevni cadence (planiranje/validacija/odluka/summary), nedeljni WAWE prioriteti i mesečni audit benchmark.
+- Operativni ritam ostaje: dnevni cadence (planiranje/validacija/odluka/summary), nedeljni WAVE prioriteti i mesečni audit benchmark.
 
 Sledeći artefakti ostaju zaključano jezgro Developer/Create programa:
 
