@@ -12107,18 +12107,21 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
     && mikrofonProjectionAlias.summarySafePublicFields.includes('semanticPreservation')
     && mikrofonProjectionAlias.summarySafePublicFields.includes('blockerReason');
   const mikrofonProjectionPublicPackageStatus =
-    mikrofonProjectionNormalizationReady
-    && mikrofonProjectionHasSummarySurface
-    && mikrofonSummary.length > 0
-    && mikrofonProjectionAlias.semanticPreservation.noSemanticConflict
-    && mikrofonProjectionContractAligned
-      ? 'READY'
-      : mikrofonProjectionHasSummarySurface
+    radioStatus === 'BLOCKED'
+      ? 'BLOCKED'
+      : mikrofonProjectionNormalizationReady
+          && mikrofonProjectionHasSummarySurface
           && mikrofonSummary.length > 0
           && mikrofonProjectionAlias.semanticPreservation.noSemanticConflict
-          && mikrofonProjectionCanonicalCoverageCount > 0
-        ? 'WATCH'
-        : 'BLOCKED';
+          && mikrofonProjectionContractAligned
+          && radioStatus === 'READY'
+        ? 'READY'
+        : mikrofonProjectionHasSummarySurface
+            && mikrofonSummary.length > 0
+            && mikrofonProjectionAlias.semanticPreservation.noSemanticConflict
+            && mikrofonProjectionCanonicalCoverageCount > 0
+          ? 'WATCH'
+          : 'BLOCKED';
   const mikrofonProjectionCaptureSignalPresent =
     actualMikrofonProjectionSequence.includes('MIKROFON')
     && actualMikrofonProjectionCategorizedTokens.has('MIKROFON');
