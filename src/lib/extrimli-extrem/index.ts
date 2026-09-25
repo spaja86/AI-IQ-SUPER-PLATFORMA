@@ -12087,9 +12087,11 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
     && mikrofonProjectionUnexpectedContractTokens.length === 0
     && actualMikrofonProjectionSequence.join(',')
       === expectedMikrofonProjectionSequence.join(',');
+  const mikrofonProjectionExpectedTokenCount =
+    expectedMikrofonProjectionSequence.length || 1;
   const mikrofonProjectionCoveragePercent = round(
     clamp(
-      (mikrofonProjectionCanonicalCoverageCount / expectedMikrofonProjectionSequence.length)
+      (mikrofonProjectionCanonicalCoverageCount / mikrofonProjectionExpectedTokenCount)
         * 100,
       0,
       100,
