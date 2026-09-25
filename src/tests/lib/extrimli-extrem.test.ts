@@ -310,6 +310,25 @@ async function runTests(): Promise<void> {
     assert(reflection.oblastCinSummary.cinStatus === 'READY', 'Sarkazam helper READY čin status mismatch');
   });
 
+  await test('KONSTRUKCIJE I PROJEKTOVANJE duplicate mismatches degrade to WATCH', async () => {
+    await withEnv(
+      {
+        NODE_ENV: 'test',
+        EXTRIMLI_KONSTRUKCIJE_I_PROJEKTOVANJE_TOKEN_INPUT:
+          'DUR,DJON,TUR,ZIM,UBAR,DOKOR,SINGAR,UKOR,IOP,TUR,ZIM,SINGOF,SIGRAD,OKDEN,UMAR',
+      },
+      () => {
+        const report = getExtrimliExtremProfilerReport();
+        const track =
+          report.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.konstrukcijeIProjektovanjeTrack;
+
+        assert(track.readinessSignal.status !== 'READY', 'duplicate mismatch should prevent READY status for KONSTRUKCIJE I PROJEKTOVANJE');
+        assert(track.readinessSignal.tokenCoveragePercent < 100, 'duplicate mismatch should reduce KONSTRUKCIJE I PROJEKTOVANJE token coverage');
+        assert(track.readinessSignal.deterministicFallbackRequired, 'duplicate mismatch should require deterministic fallback');
+      },
+    );
+  });
+
   await test('Sarkazam helper resolves WATCH with fallback-aware review messaging when bounded sources degrade softly', () => {
     const reflection = resolveSarkazamPrivrednaGranaDigitalizmaReflection({
       repoWideReadiness: {

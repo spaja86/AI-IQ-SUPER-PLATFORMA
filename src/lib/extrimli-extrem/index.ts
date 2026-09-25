@@ -11376,10 +11376,40 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
         0,
       )
     : 0;
+  const konstrukcijeIProjektovanjeDuplicateTokenEntries = Object.entries(
+    konstrukcijeIProjektovanjeTrack.normalizationRules.duplicateTokenCounts ?? {},
+  );
+  const konstrukcijeIProjektovanjeObservedTokenCounts = normalizedKonstrukcijeIProjektovanjeTokens.reduce<
+    Record<string, number>
+  >((counts, token) => {
+    counts[token] = (counts[token] ?? 0) + 1;
+    return counts;
+  }, {});
+  const konstrukcijeIProjektovanjeDuplicateMatchCount = konstrukcijeIProjektovanjeDuplicateTokenEntries.reduce(
+    (count, [token, expectedCount]) =>
+      count
+      + Number(
+        (konstrukcijeIProjektovanjeObservedTokenCounts[normalizeKonstrukcijeIProjektovanjeToken(token)] ?? 0)
+          === expectedCount,
+      ),
+    0,
+  );
+  const konstrukcijeIProjektovanjeDuplicateCoveragePercent =
+    konstrukcijeIProjektovanjeTrack.normalizationRules.requireExactDuplicateCounts
+    && konstrukcijeIProjektovanjeDuplicateTokenEntries.length > 0
+      ? round(
+          (konstrukcijeIProjektovanjeDuplicateMatchCount / konstrukcijeIProjektovanjeDuplicateTokenEntries.length) * 100,
+          2,
+        )
+      : 100;
   const konstrukcijeIProjektovanjeTokenDenominator =
     normalizedExpectedKonstrukcijeIProjektovanjeTokens.length || 1;
-  const konstrukcijeIProjektovanjeTokenCoveragePercent = round(
+  const konstrukcijeIProjektovanjePositionalCoveragePercent = round(
     (konstrukcijeIProjektovanjeMatchedTokenCount / konstrukcijeIProjektovanjeTokenDenominator) * 100,
+    2,
+  );
+  const konstrukcijeIProjektovanjeTokenCoveragePercent = round(
+    (konstrukcijeIProjektovanjePositionalCoveragePercent + konstrukcijeIProjektovanjeDuplicateCoveragePercent) / 2,
     2,
   );
   const konstrukcijeIProjektovanjeNormalizedConflictTokenInputs =
@@ -11420,7 +11450,7 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
     gradjevinskiAktStatus,
     konstrukcijeIProjektovanjeTokenInputStatus,
   ] as const;
-  const konstrukcijeIProjektovanjeStatus = aggregateSignalReadinessStatus([
+  const konstrukcijeIProjektovanjeStatus = aggregateReadinessStatus([
     ...konstrukcijeIProjektovanjeSignalStatuses,
   ]);
   const konstrukcijeIProjektovanjeReadinessScore = round(
