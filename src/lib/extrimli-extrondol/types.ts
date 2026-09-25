@@ -2786,8 +2786,9 @@ export interface ExtrimliSpajaKodPublicFacade {
       'developerAndCreateImplementationPackage.eksperimentProgramskiJezikSummary',
       'developerAndCreateImplementationPackage.sarkazamPrivrednaGranaDigitalizmaSummary',
       'developerAndCreateImplementationPackage.notes1450Summary',
-      'developerAndCreateImplementationPackage.aiIqKonferencijaZaStampuSummary',
+      'developerAndCreateImplementationPackage.radniProstorSummary',
       'developerAndCreateImplementationPackage.konstrukcijeIProjektovanjeSummary',
+      'developerAndCreateImplementationPackage.aiIqKonferencijaZaStampuSummary',
       'developerAndCreateImplementationPackage.napoleonDiskaveriSummary',
       'epilogijaCovecnosti.packageOutputs'
     ];
