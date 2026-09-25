@@ -633,3 +633,81 @@ Bez kompletnog audit paketa release ostaje u freeze režimu.
 - `SARADNJA_READY_QUALITY_GATES`: obavezni gate-ovi za sve buduće saradnje ostaju `human review` pre promocije, status jezik `READY | WATCH | BLOCKED`, `downstream reference` prema linked-repo toku, dokumentovan `rollback plan` i KPI impact summary.
 - `SARADNJA_READY_PACKAGE_LOCK`: završni saradnja-ready paket ostaje jedinstven manifest + roadmap faze + kriterijumi prihvatanja + standardizovan audit summary za svaku promenu.
 - `SARADNJA_READY_SIGNATURE`: potpisna poruka za buduće uspešne saradnje ostaje zaključana kao `Srdačan pozdrav, Nikola Spajić`.
+
+## 14) Implementacija plana — audit snapshot (2026-09-25)
+
+### 14.1) Scope lock potvrda (Dan 1)
+
+- **Centralni lock potvrđen**: `DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA` je prisutan i u glavnom manifestu i u VRH dokumentu.
+- **Bounded rečnik potvrđen**: `EXTRIMLI EXTRONDOL EXTREM DOK DUK DAK DIK FOR` ostaje zaključan.
+- **Ownership split potvrđen**:
+  - `DOK/DIK/FOR -> EXTREM`
+  - `DAK/DUK -> EXTRONDOL`
+  - `SPAJA KOD -> audit-safe summary`
+
+### 14.2) Jedinstven inventar “kolko čega smo uradili” (Dan 1–2)
+
+| Sloj | Artefakti | Status | Napomena |
+|---|---|---|---|
+| Docs | `docs/EXTRIMLI.md`, `docs/EXTRIMLI-DEVELOPER-CREATE-PROGRAM.md`, `docs/EXTRIMLI-VRH-PROGRAMSKOG-EKVILADENTA.md` | **završeno** | Scope/ownership lock konzistentan |
+| Lib kontrakti | `src/lib/extrimli-extrem/**`, `src/lib/extrimli-extrondol/**`, `src/lib/extrimli/developer-create-vrh-ekviladenta-contract.ts` | **završeno** | Contract i release audit sloj prisutni |
+| API rute | `/home/runner/work/AI-IQ-SUPER-PLATFORMA/AI-IQ-SUPER-PLATFORMA/src/app/api/extrimli/extrem/route.ts`, `/home/runner/work/AI-IQ-SUPER-PLATFORMA/AI-IQ-SUPER-PLATFORMA/src/app/api/extrimli/extrondol/route.ts`, `/home/runner/work/AI-IQ-SUPER-PLATFORMA/AI-IQ-SUPER-PLATFORMA/src/app/api/extrimli/spaja-kod/route.ts` | **završeno** | Source-of-truth surface aktivan |
+| Testovi | `src/tests/lib/extrimli-extrem.test.ts`, `src/tests/lib/extrimli-extrondol.test.ts`, `src/tests/api/extrimli-route.test.ts` | **završeno** | Fokus set izvršen bez padova |
+| Workflow-i | `.github/workflows/extrimli-governance-conformance.yml` | **delimično** | Lokalna drift validacija prošla; ručni GitHub `workflow_dispatch` run ostaje preporuka |
+
+### 14.3) Implementacioni status po slojevima (Dan 3–8)
+
+| Sloj | Status | Kratak zaključak |
+|---|---|---|
+| EXTREM | **završeno** | Tehnički signal + readiness/fallback konzistentni kroz test suite |
+| EXTRONDOL | **završeno** | WAWE/releaseAuditSummary/freeze-promotion tok konzistentan kroz test suite |
+| SPAJA KOD | **završeno** | Održan summary-only boundary bez izlaganja internih formula |
+| Dokumentacija | **delimično** | Glavni lock i ownership usklađeni; ostaje periodično drift praćenje kroz workflow run u GitHub-u |
+
+### 14.4) Totalno testiranje (Dan 9–11)
+
+Izvršeni fokus testovi:
+
+- `npx tsx src/tests/lib/extrimli-extrem.test.ts` → **73 passed / 0 failed**
+- `npx tsx src/tests/lib/extrimli-extrondol.test.ts` → **63 passed / 0 failed**
+- `npx tsx src/tests/api/extrimli-route.test.ts` → **32 passed / 0 failed**
+- Lokalna governance drift sanity provera docs/types/routes/workflows → **8 passed / 0 failed**
+
+**Zbirno:** **176 passed / 0 failed**
+
+Pokrivene oblasti:
+
+- scope/terminology/ownership lock
+- EXTREM readiness/fallback i signali
+- EXTRONDOL governance/WAWE/release audit
+- API contracti (`extrem`, `extrondol`, `spaja-kod`)
+- governance conformance/drift polja
+
+Neproverene oblasti (u ovom ciklusu):
+
+- pun `workflow_dispatch` execution u GitHub Actions okruženju (runner-level potvrda summary izlaza)
+
+### 14.5) Zastoji i rizici (Dan 11–12)
+
+| Zastoj/Rizik | Uzrok | Blokirani sloj | Uticaj | Prioritet | Predlog odblokiranja |
+|---|---|---|---|---|---|
+| Potencijalni contract drift između docs/types/routes/workflows | Paralelne izmene bez istovremenog conformance run-a | docs/tests/workflow | Srednji | Visok | Obavezni conformance run pre promotion freeze odluke |
+| Moguće neslaganje ownership split-a pri budućim izmenama | Dodavanje novih alias/track sekcija bez lock discipline | EXTREM/EXTRONDOL/docs | Srednji | Visok | Svaku izmenu vezati za `DOK/DIK/FOR` vs `DAK/DUK` check-listu |
+| Fallback nekonzistentnost pri novim edge-case pravilima | Dodavanje novih signala bez deterministic fallback pravila | EXTREM/EXTRONDOL | Srednji | Srednji | Gate: `READY|WATCH|BLOCKED` + `NaN/Infinity/empty/conflict` fallback test pre merge-a |
+| Downstream sync rupa | Kasno ažuriranje summary-only referenci ka linked repo-u | docs/workflow | Nizak | Srednji | Uvek ažurirati `docs/MULTI-REPO-LINKS.md` u istom release ciklusu |
+
+### 14.6) Završni audit paket (Dan 12–13)
+
+| Blok | Šta je gotovo | Šta nije | Zašto stoji | Sledeći korak | Promotion/Freeze |
+|---|---|---|---|---|---|
+| Scope lock | Centralna jednačina, bounded rečnik, ownership split potvrđeni | — | — | Održavati drift-zero disciplinu | **Spremno za promotion** |
+| EXTREM | Tehnički readiness/fallback testiran | — | — | Nastaviti regresione run-ove pri svakoj izmeni | **Spremno za promotion** |
+| EXTRONDOL | WAWE/releaseAuditSummary/freeze-promotion testirani | — | — | Nastaviti governance conformance run | **Spremno za promotion** |
+| SPAJA KOD boundary | Summary-only izlaz potvrđen kroz API testove | — | — | Održavati encapsulation check | **Spremno za promotion** |
+| Governance conformance operativa | Lokalni drift check i test pokriveni | Pun GitHub `workflow_dispatch` run u ovom ciklusu | Nije pokrenut iz CI runner okruženja | Pokrenuti `.github/workflows/extrimli-governance-conformance.yml` na PR-u | **WATCH do CI potvrde** |
+
+### 14.7) Procena preostalog rada
+
+- **1 senior developer:** ~13 radnih dana (2.5 nedelje)
+- **2 developera paralelno (EXTREM + EXTRONDOL split):** ~8–9 radnih dana
+- **Ako se pojavi veći contract drift docs/types/routes/workflows:** +2 do +4 dana
