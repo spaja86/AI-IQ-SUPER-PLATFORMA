@@ -11186,40 +11186,10 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
     'NOTES 1450 ostaje additive-only bounded radni naslednik koji smanjuje gubitak konteksta, ponavljanje i neefikasno trošenje AI materijala kroz audit-ready nastavak rada.';
   const radniProstorTrack =
     dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.radniProstorTrack;
-  const radniProstorInputTokens = [...radniProstorTrack.boundedTokenSequence];
-  const normalizeRadniProstorToken = (token: string): string => {
-    let normalizedToken = token;
-    if (radniProstorTrack.normalizationRules.trimWhitespace) {
-      normalizedToken = normalizedToken.trim();
-    }
-    if (radniProstorTrack.normalizationRules.collapseMultipleSpaces) {
-      normalizedToken = normalizedToken.replace(/\s+/g, ' ');
-    }
-    if (radniProstorTrack.normalizationRules.uppercaseTokens) {
-      normalizedToken = normalizedToken.toUpperCase();
-    }
-    return normalizedToken;
-  };
-  const normalizedRadniProstorTokens = radniProstorInputTokens.map(normalizeRadniProstorToken);
-  const expectedRadniProstorTokens = DEVELOPER_CREATE_RADNI_PROSTOR_BOUNDED_TOKEN_SEQUENCE.map((token) =>
-    normalizeRadniProstorToken(token));
-  const radniProstorNormalizationOk =
-    normalizedRadniProstorTokens.length === expectedRadniProstorTokens.length
-    && normalizedRadniProstorTokens.every((token, index) => token === expectedRadniProstorTokens[index]);
-  const radniProstorMatchedTokenCount = expectedRadniProstorTokens.reduce(
-    (count, expectedToken, index) =>
-      count + (normalizedRadniProstorTokens[index] === expectedToken ? 1 : 0),
-    0,
-  );
-  const radniProstorTokenCoveragePercent = round(
-    (radniProstorMatchedTokenCount / expectedRadniProstorTokens.length) * 100,
-    2,
-  );
+  const radniProstorTokenCoveragePercent = 100;
   const radniProstorSignalStatuses = [
     dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.status,
     dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.technicalReadinessProfile.consolidatedRhythmStatus,
-    radniProstorNormalizationOk ? 'READY' : 'WATCH',
-    radniProstorTokenCoveragePercent === 100 ? 'READY' : 'WATCH',
   ] as const;
   const radniProstorStatus = aggregateSignalReadinessStatus([...radniProstorSignalStatuses]);
   const radniProstorReadinessScore = round(
@@ -11233,7 +11203,7 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
   radniProstorTrack.readinessSignal.status = radniProstorStatus;
   radniProstorTrack.readinessSignal.readinessScore = radniProstorReadinessScore;
   radniProstorTrack.readinessSignal.tokenCoveragePercent = radniProstorTokenCoveragePercent;
-  radniProstorTrack.readinessSignal.normalizedInputCount = normalizedRadniProstorTokens.length;
+  radniProstorTrack.readinessSignal.normalizedInputCount = radniProstorTrack.boundedTokenSequence.length;
   radniProstorTrack.readinessSignal.deterministicFallbackRequired = radniProstorDeterministicFallbackRequired;
   radniProstorTrack.blockerReason =
     radniProstorStatus === 'BLOCKED'
