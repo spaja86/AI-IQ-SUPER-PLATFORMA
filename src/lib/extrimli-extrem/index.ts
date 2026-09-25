@@ -8727,11 +8727,17 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
       spatialEffectStatus: metrikoProgramiranje.readiness.status,
     },
   ];
-  const immersiveVisualization3dStatuses = immersiveVisualization3dDimensionalSignals.map(aggregateSignalReadinessStatus);
+  const immersiveVisualization3dEvaluatedSignals = immersiveVisualization3dDimensionalSignals.map((signal) => ({
+    signal,
+    aggregateStatus: aggregateSignalReadinessStatus(signal),
+  }));
+  const immersiveVisualization3dStatuses = immersiveVisualization3dEvaluatedSignals.map(
+    (evaluatedSignal) => evaluatedSignal.aggregateStatus,
+  );
   const immersiveVisualization3dScore = round(
-    immersiveVisualization3dStatuses.reduce((sum, aggregateStatus) => {
-      return sum + readinessStatusScore(aggregateStatus);
-    }, 0) / immersiveVisualization3dStatuses.length,
+    immersiveVisualization3dEvaluatedSignals.reduce((sum, evaluatedSignal) => {
+      return sum + readinessStatusScore(evaluatedSignal.aggregateStatus);
+    }, 0) / immersiveVisualization3dEvaluatedSignals.length,
     2,
   );
   const immersiveVisualization3dStatus = aggregateReadinessStatus(immersiveVisualization3dStatuses);
