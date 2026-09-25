@@ -4,7 +4,11 @@ import {
   clamp,
   round,
 } from '../extrimli';
-import { aggregateReadinessStatus, aggregateSignalReadinessStatus } from '../extrimli-readiness';
+import {
+  aggregateReadinessStatus,
+  aggregateSignalReadinessStatus,
+  readinessStatusScore,
+} from '../extrimli-readiness';
 import { buildDokerKuratIzekDokarExtremTrack } from '../extrimli-doker-kurat-izek-dokar-track';
 import {
   DEVELOPER_CREATE_AUDIO_VISUAL_BOUNDED_SIGNAL_VOCABULARY,
@@ -8651,6 +8655,14 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
     || privredniAktQuarterlyMarketInput.deterministicFallbackRequired
     || activeRoadmapStageCount !== 1
     || !dokDikDakDukConsistencyHealth.consistent;
+  const immersiveAudioVisualSyncStatuses = [
+    sinemetrickoProgramiranje.readiness.status,
+    objektnoOrijentisanaReprodukcija.readiness.status,
+    proporcionalnoProgramiranje.readiness.status,
+    metrikoProgramiranje.readiness.status,
+    paradijogonalnoProgrimiranje.readiness.status,
+  ];
+  const immersiveAudioVisualSyncStatus = aggregateReadinessStatus(immersiveAudioVisualSyncStatuses);
   const immersiveVisualization3dDimensionalSignals: ExtrimliDokDikDakDukConsistencyHealth['developerAndCreateRepoWideReflection']['technicalReadinessProfile']['immersiveVisualization3dTrack']['dimensionalSignals'] = [
     {
       dimension: '360D',
@@ -8691,7 +8703,7 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
       lawCount: 4,
       tridniEnabled: true,
       particleSistemEnabled: false,
-      audioVisualSyncStatus: 'WATCH',
+      audioVisualSyncStatus: immersiveAudioVisualSyncStatus,
       spatialEffectStatus: vrhProgramskogEkviladenta.readiness.status,
     },
     {
@@ -8701,7 +8713,7 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
       lawCount: 5,
       tridniEnabled: true,
       particleSistemEnabled: true,
-      audioVisualSyncStatus: 'WATCH',
+      audioVisualSyncStatus: immersiveAudioVisualSyncStatus,
       spatialEffectStatus: paradijogonalnoProgrimiranje.readiness.status,
     },
     {
@@ -8711,29 +8723,14 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
       lawCount: 6,
       tridniEnabled: true,
       particleSistemEnabled: true,
-      audioVisualSyncStatus: 'WATCH',
+      audioVisualSyncStatus: immersiveAudioVisualSyncStatus,
       spatialEffectStatus: metrikoProgramiranje.readiness.status,
     },
   ];
-  const immersiveAudioVisualSyncStatuses = [
-    sinemetrickoProgramiranje.readiness.status,
-    objektnoOrijentisanaReprodukcija.readiness.status,
-    proporcionalnoProgramiranje.readiness.status,
-    metrikoProgramiranje.readiness.status,
-    paradijogonalnoProgrimiranje.readiness.status,
-  ];
-  const immersiveAudioVisualSyncStatus = aggregateReadinessStatus(immersiveAudioVisualSyncStatuses);
-  immersiveVisualization3dDimensionalSignals.forEach((signal) => {
-    if (signal.dimension === '1440D' || signal.dimension === '2880D' || signal.dimension === '5760D') {
-      signal.audioVisualSyncStatus = immersiveAudioVisualSyncStatus;
-    }
-  });
   const immersiveVisualization3dStatuses = immersiveVisualization3dDimensionalSignals.map(aggregateSignalReadinessStatus);
   const immersiveVisualization3dScore = round(
     immersiveVisualization3dStatuses.reduce((sum, aggregateStatus) => {
-      if (aggregateStatus === 'READY') return sum + 100;
-      if (aggregateStatus === 'WATCH') return sum + 70;
-      return sum + 40;
+      return sum + readinessStatusScore(aggregateStatus);
     }, 0) / immersiveVisualization3dStatuses.length,
     2,
   );
