@@ -13,6 +13,9 @@ export const DEVELOPER_CREATE_VRH_ZIVOPIS_U_DIGITALIZMU_ALIAS =
 export const DEVELOPER_CREATE_VRH_MAPA_UMA_ALIAS =
   'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == MAPA UMA' as const;
 
+export const DEVELOPER_CREATE_VRH_NAVIGACIONI_SISTEM_SA_TREKEROM_ALIAS =
+  'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == NAVIGACIONI SISTEM SA TREKEROM' as const;
+
 export const DEVELOPER_CREATE_VRH_INTERPRETATION_ALIASES = [
   'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == RADNI TAKT MOZGA (MISLILAC)',
   'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == MAPE UMA',
@@ -20,6 +23,7 @@ export const DEVELOPER_CREATE_VRH_INTERPRETATION_ALIASES = [
   DEVELOPER_CREATE_VRH_ZIVOPIS_U_DIGITALIZMU_ALIAS,
   DEVELOPER_CREATE_VRH_DIJALIZA_POGONSKOG_OMOTACA_ALIAS,
   'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == RADNI PROSTOR',
+  DEVELOPER_CREATE_VRH_NAVIGACIONI_SISTEM_SA_TREKEROM_ALIAS,
   'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == SARKAZAM / PRIVREDNA GRANA DIGITALIZMA / PROJEKTI ENTUZIJAZMA PO ČINU OBLASTIMA',
   'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == AI IQ KONFERENCIJA ZA ŠTAMPU (NOVINE, DIGITALNE NOVINE)',
   'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == RADIO',
@@ -275,6 +279,91 @@ export const DEVELOPER_CREATE_RADNI_PROSTOR_NORMALIZATION_RULES = {
   keepCanonicalOrder: true,
   unknownTokenHandling: 'map-to-watch-and-require-review',
   conflictHandling: 'map-to-blocked-and-require-review',
+} as const;
+
+export const DEVELOPER_CREATE_NAVIGACIONI_SISTEM_SA_TREKEROM_CANONICAL_ALIAS =
+  DEVELOPER_CREATE_VRH_NAVIGACIONI_SISTEM_SA_TREKEROM_ALIAS;
+
+export const DEVELOPER_CREATE_NAVIGACIONI_SISTEM_SA_TREKEROM_SCOPE_STATEMENT =
+  'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == NAVIGACIONI SISTEM SA TREKEROM == additive-only bounded navigacioni/tracker alias bez novih ruta i bez paralelnog source-of-truth sistema' as const;
+
+export const DEVELOPER_CREATE_NAVIGACIONI_SISTEM_SA_TREKEROM_ROLE_CLASSIFICATION =
+  'additive-only-bounded-navigation-tracker-alias-track' as const;
+
+export const DEVELOPER_CREATE_NAVIGACIONI_SISTEM_SA_TREKEROM_BOUNDED_TOKEN_VOCABULARY = {
+  boundedVocabularyPhrase: 'EXTRIMLI EXTRONDOL EXTREM DOK DUK DAK DIK FOR',
+  extremTechnicalOwnership: {
+    tokens: ['DOK', 'DIK', 'FOR'],
+    statusModel: ['READY', 'WATCH', 'BLOCKED'],
+    role: 'navigacioni-i-treking-signal',
+  },
+  extrondolGovernanceOwnership: {
+    tokens: ['DAK', 'DUK'],
+    role: 'governance-freeze-promotion-audit-rollback-human-review',
+  },
+  spajaKodBoundary: {
+    mode: 'audit-safe-summary-only',
+    blocksRawFormulas: true,
+    blocksInternalTokenMapping: true,
+  },
+} as const;
+
+export const DEVELOPER_CREATE_NAVIGACIONI_SISTEM_SA_TREKEROM_REQUIRED_TRACKER_FIELDS = [
+  'canonicalAlias',
+  'status',
+  'conflictIntensity',
+  'currentWave',
+  'auditEvidence',
+  'rollbackReadiness',
+  'downstreamReference',
+] as const;
+
+export const DEVELOPER_CREATE_NAVIGACIONI_SISTEM_SA_TREKEROM_REQUIRED_GOVERNANCE_OUTPUTS = [
+  'promotionFreeze',
+  'humanReviewStatus',
+  'reviewPosture',
+  'releaseAuditSummary',
+  'rolloutPlan',
+  'rollbackPlan',
+] as const;
+
+export const DEVELOPER_CREATE_NAVIGACIONI_SISTEM_SA_TREKEROM_TRACKER_CONTRACT = {
+  requiredTrackerFields: DEVELOPER_CREATE_NAVIGACIONI_SISTEM_SA_TREKEROM_REQUIRED_TRACKER_FIELDS,
+  requiredGovernanceOutputs:
+    DEVELOPER_CREATE_NAVIGACIONI_SISTEM_SA_TREKEROM_REQUIRED_GOVERNANCE_OUTPUTS,
+  ownershipSplit: {
+    dokDikFor: 'EXTREM',
+    dakDuk: 'EXTRONDOL',
+    spajaKod: 'audit-safe-summary-only',
+  },
+  downstreamReference: 'spaja86/IO-OPENUI-AO',
+} as const;
+
+export const DEVELOPER_CREATE_NAVIGACIONI_SISTEM_SA_TREKEROM_SUMMARY_SAFE_FIELDS = [
+  DEVELOPER_CREATE_NAVIGACIONI_SISTEM_SA_TREKEROM_REQUIRED_TRACKER_FIELDS[0],
+  DEVELOPER_CREATE_NAVIGACIONI_SISTEM_SA_TREKEROM_REQUIRED_TRACKER_FIELDS[1],
+  DEVELOPER_CREATE_NAVIGACIONI_SISTEM_SA_TREKEROM_REQUIRED_TRACKER_FIELDS[2],
+  DEVELOPER_CREATE_NAVIGACIONI_SISTEM_SA_TREKEROM_REQUIRED_TRACKER_FIELDS[3],
+  DEVELOPER_CREATE_NAVIGACIONI_SISTEM_SA_TREKEROM_REQUIRED_TRACKER_FIELDS[4],
+  DEVELOPER_CREATE_NAVIGACIONI_SISTEM_SA_TREKEROM_REQUIRED_TRACKER_FIELDS[5],
+  'reviewPosture',
+  'promotionFreeze',
+  DEVELOPER_CREATE_NAVIGACIONI_SISTEM_SA_TREKEROM_REQUIRED_TRACKER_FIELDS[6],
+] as const;
+
+export const DEVELOPER_CREATE_NAVIGACIONI_SISTEM_SA_TREKEROM_ACCEPTANCE_CRITERIA = [
+  'no-new-extrimli-extrem-extrondol-routes',
+  'preserve-canonical-narrative-and-additive-only-rule',
+  'extrem-can-trigger-freeze-independently',
+  'extrondol-must-provide-complete-release-audit-set',
+  'spaja-kod-remains-summary-only-boundary',
+] as const;
+
+export const DEVELOPER_CREATE_NAVIGACIONI_SISTEM_SA_TREKEROM_DOWNSTREAM_POLICY = {
+  linkedRepo: 'spaja86/IO-OPENUI-AO',
+  syncMode: 'summary-only',
+  rawTokenMappingStaysRepoLocal: true,
+  rawExtremExtrondolInternalsStayRepoLocal: true,
 } as const;
 
 export const DEVELOPER_CREATE_KONSTRUKCIJE_I_PROJEKTOVANJE_CANONICAL_ALIAS =

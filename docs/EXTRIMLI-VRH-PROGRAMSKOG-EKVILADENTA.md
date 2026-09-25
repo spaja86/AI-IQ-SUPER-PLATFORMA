@@ -8,8 +8,8 @@
 
 Kanonski scope lock ostaje i u kraćem obliku: `DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA`.
 
-Ovaj dokument ostaje **interpretativni extension document**, dok `docs/EXTRIMLI-DEVELOPER-CREATE-PROGRAM.md` ostaje glavni manifest. Sve duže varijante (`RADNI TAKT MOZGA (MISLILAC)`, `MAPE UMA`, `MAPA UMA`, `ŽIVOPIS U DIGITALIZMU`, `DIJALIZA POGONSKOG OMOTAČA`, `RADNI PROSTOR`, `AI IQ KONFERENCIJA ZA ŠTAMPU (NOVINE, DIGITALNE NOVINE)`, `AI IQ LABORATORIJA == LABORATORIJSKI NALAZI FAUNE I FLORE I GRAĐEVINSKOG MATERIJALA`, `RADIO`, `MUZIČKA KUTIJA`, `TELEVIZIJA` i slične trake) moraju ostati alias-i ili proširenja iste centralne rečenice, nikad novi centri priče.
-Ovaj dokument ostaje **interpretativni extension document**, dok `docs/EXTRIMLI-DEVELOPER-CREATE-PROGRAM.md` ostaje glavni manifest. Sve duže varijante (`RADNI TAKT MOZGA (MISLILAC)`, `MAPE UMA`, `MAPA UMA`, `ŽIVOPIS U DIGITALIZMU`, `DIJALIZA POGONSKOG OMOTAČA`, `RADNI PROSTOR`, `KONSTRUKCIJE I PROJEKTOVANJE`, `AI IQ KONFERENCIJA ZA ŠTAMPU (NOVINE, DIGITALNE NOVINE)`, `RADIO`, `MUZIČKA KUTIJA`, `TELEVIZIJA`, `POSLOVNA PONUDA` i slične trake) moraju ostati alias-i ili proširenja iste centralne rečenice, nikad novi centri priče.
+Ovaj dokument ostaje **interpretativni extension document**, dok `docs/EXTRIMLI-DEVELOPER-CREATE-PROGRAM.md` ostaje glavni manifest. Sve duže varijante (`RADNI TAKT MOZGA (MISLILAC)`, `MAPE UMA`, `MAPA UMA`, `ŽIVOPIS U DIGITALIZMU`, `DIJALIZA POGONSKOG OMOTAČA`, `RADNI PROSTOR`, `NAVIGACIONI SISTEM SA TREKEROM`, `AI IQ KONFERENCIJA ZA ŠTAMPU (NOVINE, DIGITALNE NOVINE)`, `AI IQ LABORATORIJA == LABORATORIJSKI NALAZI FAUNE I FLORE I GRAĐEVINSKOG MATERIJALA`, `RADIO`, `MUZIČKA KUTIJA`, `TELEVIZIJA` i slične trake) moraju ostati alias-i ili proširenja iste centralne rečenice, nikad novi centri priče.
+Ovaj dokument ostaje **interpretativni extension document**, dok `docs/EXTRIMLI-DEVELOPER-CREATE-PROGRAM.md` ostaje glavni manifest. Sve duže varijante (`RADNI TAKT MOZGA (MISLILAC)`, `MAPE UMA`, `MAPA UMA`, `ŽIVOPIS U DIGITALIZMU`, `DIJALIZA POGONSKOG OMOTAČA`, `RADNI PROSTOR`, `NAVIGACIONI SISTEM SA TREKEROM`, `KONSTRUKCIJE I PROJEKTOVANJE`, `AI IQ KONFERENCIJA ZA ŠTAMPU (NOVINE, DIGITALNE NOVINE)`, `RADIO`, `MUZIČKA KUTIJA`, `TELEVIZIJA`, `POSLOVNA PONUDA` i slične trake) moraju ostati alias-i ili proširenja iste centralne rečenice, nikad novi centri priče.
 
 ## MALI/VEĆI PROJEKAT — VRH lock sa ortogonalnom projekcijom
 
@@ -36,6 +36,7 @@ Bounded vokabular ostaje zaključan na `EXTRIMLI EXTRONDOL EXTREM DOK DUK DAK DI
 - `SARKAZAM / PRIVREDNA GRANA DIGITALIZMA / PROJEKTI ENTUZIJAZMA PO ČINU OBLASTIMA` → bounded interpretativni/enterprise-policy/pedagoški alias istog lock-a; `SARKAZAM` ostaje samo narativni marker, nikad nova izvršna formula ili novi engine
 - `NOTES 1450` → bounded work-continuation paket istog lock-a; služi kao nastavak rada umesto obične beleške, ali ostaje additive-only, bez nove rute i bez paralelnog source-of-truth sistema
 - `RADNI PROSTOR` → additive-only bounded alias istog lock-a sa zaključanom token sekvencom `OKUR, DJUKUR, DAR, ZOR, IKON, ZULUM, DABRE, IZOS, JAKOR, DAPR, ZUKUR, ENTER, DIKAR, ZUMBUL, SIRGED, ZIKOR, DJENDER, ĆUR, NIKON, DERKO, ZUKAL, IKON, ZAJDI`, bez novih ruta i bez paralelnog source-of-truth sistema
+- `NAVIGACIONI SISTEM SA TREKEROM` → additive-only bounded navigacioni/tracking alias istog lock-a: `DOK + DIK + FOR` ostaju EXTREM tehnički signal (`READY | WATCH | BLOCKED`), `DAK + DUK` ostaju EXTRONDOL governance (`rollout-stage/freeze/promotion/release-audit/rollback/human-review`), a `SPAJA KOD` ostaje summary-only boundary bez internog token mapiranja
 - `AI IQ LABORATORIJA == LABORATORIJSKI NALAZI FAUNE I FLORE I GRAĐEVINSKOG MATERIJALA` → bounded laboratorijsko-interpretativni paket istog lock-a sa zaključanom token sekvencom `ZUM, DUM, SAK, IK, MUN, DIKOT, DUN, ZAT, DJKUON, SIM, IKAR, DUKAR, IBAP, IRO, DUNOR, IBAN, UKOR, UTVAR, ZIPOT`; EXTREM objavljuje readiness + token coverage + bounded domain status (`AI IQ LABORATORIJA`, `FAUNA I FLORA`, `GRAĐEVINSKI MATERIJAL`), EXTRONDOL governance ogledalo, a SPAJA KOD samo audit-safe nalaz summary bez sirovog token modela
 - `KONSTRUKCIJE I PROJEKTOVANJE` → additive-only bounded građevinsko-projektantski alias istog lock-a sa zaključanim rečnikom `DUR, DJON, TUR, ZIM, UBAR, DOKOR, SINGAR, UKOR, IOP, TUR, UBAR, SINGOF, SIGRAD, OKDEN, UMAR`, pod postojećim domenom `GRAĐEVINSKI FAKULTET / GRAĐEVINSKI AKT`, bez novih ruta i bez paralelnog source-of-truth sistema
 - `AI IQ KONFERENCIJA ZA ŠTAMPU (NOVINE, DIGITALNE NOVINE)` → bounded media/documentation/explanation paket istog lock-a; EXTREM objavljuje readiness + token coverage + bounded evidence, EXTRONDOL governance ogledalo, a SPAJA KOD samo audit-safe press summary bez sirovog token modela
@@ -121,6 +122,18 @@ Repo-wide reflection sada obavezno uključuje i dnevni operativni cadence: `morn
 - Zahtev za `kanal 1` ostaje dozvoljen samo kao `requested-prominence` komercijalni cilj sa fallback-ovima `premium-news/featured/category placement` i `branded landing/promotional slot`.
 - Zabranjeni ostaju obavezno emitovanje, neuklonjivost, provider bypass i svaka enforcement logika.
 - Downstream prema `spaja86/IO-OPENUI-AO` ostaje summary-only i troši samo audit-safe status distribucije i bounded provider-plan summary.
+
+## NAVIGACIONI SISTEM SA TREKEROM bounded navigacioni/tracker paket
+
+`DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == NAVIGACIONI SISTEM SA TREKEROM` ostaje additive-only bounded alias u okviru istog vršnog lock-a.
+
+- Nema novih runtime ruta i nema paralelnog source-of-truth sistema.
+- `EXTREM` ostaje tehnički sloj za navigacioni/treking signal (`status`, `conflictIntensity`) sa zaključanim izlazom `READY | WATCH | BLOCKED`.
+- `EXTRONDOL` ostaje governance ogledalo koje troši tracker polje `currentWave` i mora izvesti `promotionFreeze`, `humanReviewStatus`, `reviewPosture`, `releaseAuditSummary`, `rolloutPlan` i `rollbackPlan`.
+- `SPAJA KOD` ostaje audit-safe summary boundary i izlaže samo `canonicalAlias`, `status`, `conflictIntensity`, `currentWave`, `auditEvidence`, `rollbackReadiness`, `reviewPosture`, `promotionFreeze` i `downstreamReference`.
+- Obavezni tracker contract ostaje: `canonicalAlias`, `status`, `conflictIntensity`, `currentWave`, `auditEvidence`, `rollbackReadiness`, `downstreamReference`.
+- Obavezni EXTRONDOL governance/release-audit izlazi za isti tracker paket ostaju: `promotionFreeze`, `humanReviewStatus`, `reviewPosture`, `releaseAuditSummary`, `rolloutPlan`, `rollbackPlan`.
+- Acceptance lock ostaje nepromenjen: `EXTREM` može nezavisno aktivirati freeze (`extrem-can-trigger-freeze-independently`) i EXTRONDOL release-audit se smatra kompletnim samo kada uključuje `rolloutPlan` + `rollbackPlan` uz ostale obavezne governance izlaze.
 
 ## Napoleon Diskaveri bounded alias
 
