@@ -11164,7 +11164,11 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
   aiIqKonferencijaZaStampuTrack.readinessSignal.visualEditorialStatus =
     dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.covecnostAuditVisualReference.imageToSignalProfile.signalOutputs.readinessStatus;
   aiIqKonferencijaZaStampuTrack.readinessSignal.fallbackSummaryStatus =
-    aiIqKonferencijaZaStampuDeterministicFallbackRequired ? 'WATCH' : 'READY';
+    aiIqKonferencijaZaStampuStatus === 'BLOCKED'
+      ? 'BLOCKED'
+      : aiIqKonferencijaZaStampuDeterministicFallbackRequired
+        ? 'WATCH'
+        : 'READY';
   aiIqKonferencijaZaStampuTrack.readinessSignal.tokenCoveragePercent = aiIqKonferencijaZaStampuTokenCoveragePercent;
   aiIqKonferencijaZaStampuTrack.readinessSignal.deterministicFallbackRequired =
     aiIqKonferencijaZaStampuDeterministicFallbackRequired;
