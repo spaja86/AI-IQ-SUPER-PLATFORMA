@@ -11,6 +11,7 @@ import { getExtrimliExtendolReport } from '../extrimli-extendol';
 import { getExtrimliKoronHealthReport } from '../extrimli-koron';
 import { getExtrimliExtremProfilerReport } from '../extrimli-extrem';
 import type { ExtrimliDokDikDakDukConsistencyHealth } from '../extrimli-extrem/types';
+import type { ExtrimliInnovationRegistryModel } from '../extrimli-innovation-registry';
 import {
   getExtrimliVersionRoadmap,
   isExtrimliDeveloperCreateLockAligned,
@@ -3930,6 +3931,15 @@ function buildPaymentVerification(): ExtrimliExtrondolPaymentVerification {
   };
 }
 
+function summarizeInnovationRegistryForExtrondol(
+  registry: ExtrimliInnovationRegistryModel,
+): ExtrimliInnovationRegistryModel {
+  if (!registry.innovationsMaterialized && registry.innovations.length === 0) {
+    return registry;
+  }
+  return { ...registry, innovationsMaterialized: false, innovations: [] };
+}
+
 /**
  * Builds the EXTRONDOL readiness report.
  * Explicit `evidence` values take precedence; when omitted, governance evidence
@@ -4989,7 +4999,9 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
         globalPageExplanationContract:
           extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.globalPageExplanationContract,
         innovationRegistry13k:
-          extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.innovationRegistry13k,
+          summarizeInnovationRegistryForExtrondol(
+            extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.innovationRegistry13k
+          ),
         canonicalGovernanceVocabulary:
           extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.canonicalGovernanceVocabulary,
         osnoveRispektProtocol:
@@ -6286,7 +6298,9 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
       downstreamSummaryPolicy: DEVELOPER_CREATE_VRH_DOWNSTREAM_SUMMARY_POLICY,
       successfulNarrativeCriteria: DEVELOPER_CREATE_VRH_SUCCESSFUL_NARRATIVE_CRITERIA,
       innovationRegistry13k:
-        extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.innovationRegistry13k,
+        summarizeInnovationRegistryForExtrondol(
+          extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.innovationRegistry13k
+        ),
       globalPageExplanationContract:
         extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.globalPageExplanationContract,
       mappedTracks: extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.mappedTracks,
@@ -6821,7 +6835,9 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
           globalPageExplanationContract:
             extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.globalPageExplanationContract,
           innovationRegistry13k:
-            extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.innovationRegistry13k,
+            summarizeInnovationRegistryForExtrondol(
+              extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.innovationRegistry13k
+            ),
           mappedTracks: extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.mappedTracks,
           technicalReadinessProfile: extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.technicalReadinessProfile,
           universityLifecycle: {
@@ -7716,7 +7732,9 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
       globalPageExplanationContract:
         extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.globalPageExplanationContract,
       innovationRegistry13k:
-        extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.innovationRegistry13k,
+        summarizeInnovationRegistryForExtrondol(
+          extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.innovationRegistry13k
+        ),
       mappedTracks: extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.mappedTracks,
       technicalReadinessProfile: extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.technicalReadinessProfile,
       priorityExecutionOrder:
