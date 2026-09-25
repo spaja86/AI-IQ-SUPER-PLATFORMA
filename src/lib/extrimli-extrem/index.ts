@@ -11211,11 +11211,15 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
     radniProstorObservedTokens.map(normalizeRadniProstorToken);
   const normalizedExpectedRadniProstorTokens =
     DEVELOPER_CREATE_RADNI_PROSTOR_BOUNDED_TOKEN_SEQUENCE.map(normalizeRadniProstorToken);
-  const radniProstorMatchedTokenCount = normalizedExpectedRadniProstorTokens.reduce(
-    (count, expectedToken, index) =>
-      count + (normalizedRadniProstorTokens[index] === expectedToken ? 1 : 0),
-    0,
-  );
+  const radniProstorHasExactTokenLength =
+    normalizedRadniProstorTokens.length === normalizedExpectedRadniProstorTokens.length;
+  const radniProstorMatchedTokenCount = radniProstorHasExactTokenLength
+    ? normalizedExpectedRadniProstorTokens.reduce(
+        (count, expectedToken, index) =>
+          count + (normalizedRadniProstorTokens[index] === expectedToken ? 1 : 0),
+        0,
+      )
+    : 0;
   const radniProstorTokenDenominator = normalizedExpectedRadniProstorTokens.length || 1;
   const radniProstorSignalStatuses = [
     dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.status,
