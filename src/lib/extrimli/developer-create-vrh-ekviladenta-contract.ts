@@ -30,6 +30,7 @@ export const DEVELOPER_CREATE_VRH_INTERPRETATION_ALIASES = [
   'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == MUZIČKA KUTIJA',
   'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == AI IQ LABORATORIJA == LABORATORIJSKI NALAZI FAUNE I FLORE I GRAĐEVINSKOG MATERIJALA',
   'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == POSLOVNA PONUDA',
+  'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == KRALJEVSKI POKLONI ZA SVAČIJI ROĐENDAN',
 ] as const;
 
 export const DEVELOPER_CREATE_VRH_DIJALIZA_POGONSKOG_OMOTACA_ALIAS_BOUNDARY = {
@@ -227,6 +228,49 @@ export const DEVELOPER_CREATE_KRALJEVSKO_TAKMICENJE_REWARDS_POLICY = {
   requiresVerification: true,
   requiresHumanReview: true,
   priorityModel: 'score-then-governance-clearance',
+} as const;
+
+export const DEVELOPER_CREATE_KRALJEVSKI_POKLONI_ZA_SVACIJI_RODJENDAN_CANONICAL_ALIAS =
+  'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == KRALJEVSKI POKLONI ZA SVAČIJI ROĐENDAN' as const;
+
+export const DEVELOPER_CREATE_KRALJEVSKI_POKLONI_ZA_SVACIJI_RODJENDAN_SCOPE_STATEMENT =
+  'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == KRALJEVSKI POKLONI ZA SVAČIJI ROĐENDAN == additive-only bounded paket bez novih runtime ruta i bez novog source-of-truth sloja; ownership ostaje zaključan na EXTREM (DOK/DIK/FOR), EXTRONDOL (DAK/DUK) i SPAJA KOD (audit-safe summary-only).' as const;
+
+export const DEVELOPER_CREATE_KRALJEVSKI_POKLONI_ZA_SVACIJI_RODJENDAN_ROLE_CLASSIFICATION =
+  'additive-only-bounded-kraljevski-pokloni-za-svaciji-rodjendan-track' as const;
+
+export const DEVELOPER_CREATE_KRALJEVSKI_POKLONI_ZA_SVACIJI_RODJENDAN_BOUNDED_SIGNALS = [
+  'birthday-readiness',
+  'gift-catalog-readiness',
+  'coverage-for-everyone',
+  'blocker-watch-reason-discipline',
+  'deterministic-fallback-signal',
+] as const;
+
+export const DEVELOPER_CREATE_KRALJEVSKI_POKLONI_ZA_SVACIJI_RODJENDAN_FALLBACK_INPUTS = [
+  'NaN',
+  'Infinity',
+  'empty',
+  'conflict',
+] as const;
+
+export const DEVELOPER_CREATE_KRALJEVSKI_POKLONI_ZA_SVACIJI_RODJENDAN_SUMMARY_SAFE_FIELDS = [
+  'canonicalAlias',
+  'status',
+  'blockerReason',
+  'watchReasons',
+  'reviewPosture',
+  'downstreamReference',
+  'birthdayGiftSummary',
+  'fallbackInputStatus',
+] as const;
+
+export const DEVELOPER_CREATE_KRALJEVSKI_POKLONI_ZA_SVACIJI_RODJENDAN_DOWNSTREAM_POLICY = {
+  linkedRepo: 'spaja86/IO-OPENUI-AO',
+  syncMode: 'summary-only',
+  rawGiftInterpretationStaysRepoLocal: true,
+  rawExtremFormulasStayRepoLocal: true,
+  rawExtrondolGovernanceFormulasStayRepoLocal: true,
 } as const;
 
 export const DEVELOPER_CREATE_RADNI_PROSTOR_CANONICAL_ALIAS =

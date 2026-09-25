@@ -41,6 +41,12 @@ import {
   DEVELOPER_CREATE_KRALJEVSKO_TAKMICENJE_ROLE_CLASSIFICATION,
   DEVELOPER_CREATE_KRALJEVSKO_TAKMICENJE_SCOPE_STATEMENT,
   DEVELOPER_CREATE_KRALJEVSKO_TAKMICENJE_TOURNAMENT_MODEL,
+  DEVELOPER_CREATE_KRALJEVSKI_POKLONI_ZA_SVACIJI_RODJENDAN_BOUNDED_SIGNALS,
+  DEVELOPER_CREATE_KRALJEVSKI_POKLONI_ZA_SVACIJI_RODJENDAN_CANONICAL_ALIAS,
+  DEVELOPER_CREATE_KRALJEVSKI_POKLONI_ZA_SVACIJI_RODJENDAN_FALLBACK_INPUTS,
+  DEVELOPER_CREATE_KRALJEVSKI_POKLONI_ZA_SVACIJI_RODJENDAN_ROLE_CLASSIFICATION,
+  DEVELOPER_CREATE_KRALJEVSKI_POKLONI_ZA_SVACIJI_RODJENDAN_SCOPE_STATEMENT,
+  DEVELOPER_CREATE_KRALJEVSKI_POKLONI_ZA_SVACIJI_RODJENDAN_SUMMARY_SAFE_FIELDS,
   DEVELOPER_CREATE_NOTES_1450_BOUNDED_SIGNALS,
   DEVELOPER_CREATE_NOTES_1450_CANONICAL_ALIAS,
   DEVELOPER_CREATE_NOTES_1450_ROLE_CLASSIFICATION,
@@ -7215,6 +7221,47 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
         ],
         downstreamReference: 'docs/MULTI-REPO-LINKS.md -> spaja86/IO-OPENUI-AO (summary-only)',
       },
+      kraljevskiPokloniZaSvacijiRodjendanTrack: {
+        canonicalAlias: DEVELOPER_CREATE_KRALJEVSKI_POKLONI_ZA_SVACIJI_RODJENDAN_CANONICAL_ALIAS,
+        scopeStatement: DEVELOPER_CREATE_KRALJEVSKI_POKLONI_ZA_SVACIJI_RODJENDAN_SCOPE_STATEMENT,
+        roleClassification: DEVELOPER_CREATE_KRALJEVSKI_POKLONI_ZA_SVACIJI_RODJENDAN_ROLE_CLASSIFICATION,
+        boundedSignals: DEVELOPER_CREATE_KRALJEVSKI_POKLONI_ZA_SVACIJI_RODJENDAN_BOUNDED_SIGNALS,
+        boundedVocabularyPhrase: 'EXTRIMLI EXTRONDOL EXTREM DOK DUK DAK DIK FOR',
+        additiveOnly: true,
+        noNewRuntimeEngine: true,
+        noNewRuntimeRoutes: true,
+        noParallelSourceOfTruth: true,
+        sourceOfTruthRoutes: ['/api/extrimli/extrem', '/api/extrimli/extrondol', '/api/extrimli/spaja-kod'],
+        ownershipLock: {
+          dokDikFor: 'EXTREM',
+          dakDuk: 'EXTRONDOL',
+          spajaKod: 'audit-safe-summary-only',
+        },
+        summarySafePublicFields: DEVELOPER_CREATE_KRALJEVSKI_POKLONI_ZA_SVACIJI_RODJENDAN_SUMMARY_SAFE_FIELDS,
+        readinessSignal: {
+          status: 'BLOCKED',
+          readinessScore: 0,
+          birthdayCoverageStatus: 'BLOCKED',
+          giftCatalogStatus: 'BLOCKED',
+          fallbackInputStatus: 'BLOCKED',
+          deterministicFallbackRequired: true,
+          fallbackInputs: DEVELOPER_CREATE_KRALJEVSKI_POKLONI_ZA_SVACIJI_RODJENDAN_FALLBACK_INPUTS,
+          driver:
+            'developerAndCreateRepoWideReflection.readiness + developerAndCreateRepoWideReflection.technicalReadinessProfile.consolidatedRhythmStatus + runtimeFallbackInput',
+        },
+        blockerReason:
+          'kraljevski-pokloni-za-svaciji-rodjendan-track-awaits-bounded-readiness-and-governance-alignment',
+        watchReasons: [],
+        reviewPosture: 'REVIEW_REQUIRED',
+        birthdayGiftSummary: '',
+        acceptanceEvidence: [
+          'developerAndCreateRepoWideReflection.kraljevskiPokloniZaSvacijiRodjendanTrack',
+          'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.kraljevskiPokloniZaSvacijiRodjendanTrack',
+          'spajaKod.publicSignals.kraljevskiPokloniZaSvacijiRodjendanStatus',
+          'spajaKod.developerAndCreateImplementationPackage.kraljevskiPokloniZaSvacijiRodjendanSummary',
+        ],
+        downstreamReference: 'docs/MULTI-REPO-LINKS.md -> spaja86/IO-OPENUI-AO (summary-only)',
+      },
       radniProstorTrack: {
         canonicalAlias: DEVELOPER_CREATE_RADNI_PROSTOR_CANONICAL_ALIAS,
         scopeStatement: DEVELOPER_CREATE_RADNI_PROSTOR_SCOPE_STATEMENT,
@@ -7533,6 +7580,7 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
         kompanijaSpajaDigitalnaIndustrija: 'Kompanija SPAJA / Digitalna Industrija',
         sarkazamPrivrednaGranaDigitalizma: 'SARKAZAM / PRIVREDNA GRANA DIGITALIZMA / PROJEKTI ENTUZIJAZMA PO ČINU OBLASTIMA',
         kraljevskoTakmicenje: 'KRALJEVSKO TAKMIČENJE',
+        kraljevskiPokloniZaSvacijiRodjendan: 'KRALJEVSKI POKLONI ZA SVAČIJI ROĐENDAN',
         aiIqKonferencijaZaStampu: 'AI IQ KONFERENCIJA ZA ŠTAMPU (NOVINE, DIGITALNE NOVINE)',
         radio: 'RADIO',
         radniProstor: 'RADNI PROSTOR',
@@ -11902,6 +11950,64 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
     'KRALJEVSKO TAKMIČENJE je additive-only bounded turnirski (svako-sa-svakim) paket za originalne pesme, igru i umetnički nastup bez AI asistencije u izvođenju; EXTREM daje samo readiness signal bez novih ruta ili formula.';
   kraljevskoTakmicenjeTrack.rewardsGovernanceSummary =
     'Top-100 kraljevske nagrade ostaju governance-only paket: prioritet po summary-safe score/status + obavezan human review + freeze/promotion/rollback evidencija kroz EXTRONDOL, bez objave osetljivih internih detalja u SPAJA KOD sloju.';
+  const kraljevskiPokloniZaSvacijiRodjendanTrack =
+    dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.kraljevskiPokloniZaSvacijiRodjendanTrack;
+  const kraljevskiPokloniBirthdayCoverageStatus =
+    dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.status;
+  const kraljevskiPokloniGiftCatalogStatus =
+    dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.technicalReadinessProfile.consolidatedRhythmStatus;
+  const kraljevskiPokloniRuntimeInput = process.env.EXTRIMLI_KRALJEVSKI_POKLONI_INPUT;
+  const kraljevskiPokloniNormalizedInput = (kraljevskiPokloniRuntimeInput ?? '').trim().toLowerCase();
+  const kraljevskiPokloniFallbackInputStatus: ExtrimliExtremReadinessStatus =
+    kraljevskiPokloniNormalizedInput.includes('conflict')
+      ? 'BLOCKED'
+      : (
+        kraljevskiPokloniNormalizedInput.includes('nan')
+        || kraljevskiPokloniNormalizedInput.includes('infinity')
+        || kraljevskiPokloniNormalizedInput.includes('empty')
+      )
+        ? 'WATCH'
+        : 'READY';
+  const kraljevskiPokloniStatuses = [
+    kraljevskiPokloniBirthdayCoverageStatus,
+    kraljevskiPokloniGiftCatalogStatus,
+    kraljevskiPokloniFallbackInputStatus,
+  ] as const;
+  const kraljevskiPokloniStatus = aggregateReadinessStatus([...kraljevskiPokloniStatuses]);
+  const kraljevskiPokloniReadinessScore = round(
+    kraljevskiPokloniStatuses.reduce((sum, status) => sum + readinessStatusScore(status), 0)
+      / kraljevskiPokloniStatuses.length,
+    2,
+  );
+  kraljevskiPokloniZaSvacijiRodjendanTrack.readinessSignal.status = kraljevskiPokloniStatus;
+  kraljevskiPokloniZaSvacijiRodjendanTrack.readinessSignal.readinessScore = kraljevskiPokloniReadinessScore;
+  kraljevskiPokloniZaSvacijiRodjendanTrack.readinessSignal.birthdayCoverageStatus =
+    kraljevskiPokloniBirthdayCoverageStatus;
+  kraljevskiPokloniZaSvacijiRodjendanTrack.readinessSignal.giftCatalogStatus =
+    kraljevskiPokloniGiftCatalogStatus;
+  kraljevskiPokloniZaSvacijiRodjendanTrack.readinessSignal.fallbackInputStatus =
+    kraljevskiPokloniFallbackInputStatus;
+  kraljevskiPokloniZaSvacijiRodjendanTrack.readinessSignal.deterministicFallbackRequired =
+    kraljevskiPokloniStatus !== 'READY'
+    || dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.deterministicFallbackRequired;
+  kraljevskiPokloniZaSvacijiRodjendanTrack.blockerReason =
+    kraljevskiPokloniStatus === 'BLOCKED'
+      ? 'KRALJEVSKI POKLONI ZA SVAČIJI ROĐENDAN ostaje BLOCKED dok bounded ulaz signalizuje konflikt ili dok birthday/gift readiness nije stabilno READY bez novog runtime sloja.'
+      : null;
+  kraljevskiPokloniZaSvacijiRodjendanTrack.watchReasons =
+    kraljevskiPokloniStatus === 'WATCH'
+      ? [
+          'KRALJEVSKI POKLONI ZA SVAČIJI ROĐENDAN je u WATCH režimu zbog deterministic fallback ulaza (NaN/Infinity/empty) i zahteva human/governance proveru pre promocije.',
+        ]
+      : [];
+  kraljevskiPokloniZaSvacijiRodjendanTrack.reviewPosture =
+    kraljevskiPokloniStatus === 'READY'
+      ? 'ALIGNED'
+      : kraljevskiPokloniStatus === 'WATCH'
+        ? 'WATCH'
+        : 'REVIEW_REQUIRED';
+  kraljevskiPokloniZaSvacijiRodjendanTrack.birthdayGiftSummary =
+    'KRALJEVSKI POKLONI ZA SVAČIJI ROĐENDAN ostaje additive-only bounded paket: EXTREM (DOK/DIK/FOR) objavljuje tehnički readiness/fallback signal, EXTRONDOL (DAK/DUK) vodi freeze/promotion/review/audit, a SPAJA KOD objavljuje samo audit-safe summary bez novih ruta i bez novog source-of-truth sloja.';
   const radniProstorTrack =
     dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.radniProstorTrack;
   const radniProstorRuntimeTokenInput =
