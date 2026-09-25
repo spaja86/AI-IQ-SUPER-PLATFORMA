@@ -264,7 +264,6 @@ async function runTests(): Promise<void> {
         score: 88,
         deterministicFallbackRequired: false,
       },
-      fallbackInputs: ['NaN', 'Infinity', 'empty', 'conflict'],
     });
 
     assert(reflection.reflectionSignal.status === 'READY', 'Sarkazam helper should resolve READY for aligned bounded inputs');
@@ -295,7 +294,6 @@ async function runTests(): Promise<void> {
         score: 84,
         deterministicFallbackRequired: false,
       },
-      fallbackInputs: ['NaN', 'Infinity', 'empty', 'conflict'],
     });
 
     assert(reflection.reflectionSignal.status === 'WATCH', 'Sarkazam helper should resolve WATCH for soft bounded degradation');
@@ -326,7 +324,6 @@ async function runTests(): Promise<void> {
         score: 84,
         deterministicFallbackRequired: false,
       },
-      fallbackInputs: ['NaN', 'Infinity', 'empty', 'conflict'],
     });
 
     assert(reflection.watchReasons.length === 1, 'Sarkazam helper clean WATCH case should still emit watch reason');
@@ -351,7 +348,6 @@ async function runTests(): Promise<void> {
         score: 81,
         deterministicFallbackRequired: false,
       },
-      fallbackInputs: ['NaN', 'Infinity', 'empty', 'conflict'],
     });
 
     assert(reflection.reflectionSignal.status === 'BLOCKED', 'Sarkazam helper should resolve BLOCKED for bounded conflicts');
@@ -361,58 +357,6 @@ async function runTests(): Promise<void> {
     assert(reflection.reviewPosture === 'REVIEW_REQUIRED', 'Sarkazam helper BLOCKED review posture mismatch');
     assert(reflection.oblastCinSummary.oblastStatus === 'BLOCKED', 'Sarkazam helper BLOCKED oblast status mismatch');
     assert(reflection.oblastCinSummary.cinStatus === 'BLOCKED', 'Sarkazam helper BLOCKED čin status mismatch');
-  });
-
-  await test('Sarkazam helper falls back to the canonical bounded fallback vocabulary when caller inputs are empty', () => {
-    const reflection = resolveSarkazamPrivrednaGranaDigitalizmaReflection({
-      repoWideReadiness: {
-        score: 52,
-        status: 'WATCH',
-        deterministicFallbackRequired: true,
-        reasons: [],
-      },
-      kraljevskiEkonomskiUneverzitetReadiness: {
-        status: 'WATCH',
-        score: 58,
-        deterministicFallbackRequired: false,
-      },
-      kraljevskiProgramskiUneverzitetReadiness: {
-        status: 'READY',
-        score: 80,
-        deterministicFallbackRequired: false,
-      },
-      fallbackInputs: [],
-    });
-
-    assert(reflection.watchReasons.length === 1, 'Sarkazam helper empty fallback input case should still emit watch reason');
-    assert(reflection.watchReasons[0]?.includes('Deterministic fallback ostaje aktivan za NaN, Infinity, empty, conflict ulaze.'), 'Sarkazam helper empty fallback input case should restore canonical fallback wording');
-    assert(!reflection.watchReasons[0]?.includes('Deterministic fallback ostaje aktivan za  ulaze.'), 'Sarkazam helper empty fallback input case should avoid broken fallback wording');
-  });
-
-  await test('Sarkazam helper normalizes duplicate and padded fallback inputs before exposing summary-safe wording', () => {
-    const reflection = resolveSarkazamPrivrednaGranaDigitalizmaReflection({
-      repoWideReadiness: {
-        score: 52,
-        status: 'WATCH',
-        deterministicFallbackRequired: true,
-        reasons: [],
-      },
-      kraljevskiEkonomskiUneverzitetReadiness: {
-        status: 'WATCH',
-        score: 58,
-        deterministicFallbackRequired: false,
-      },
-      kraljevskiProgramskiUneverzitetReadiness: {
-        status: 'READY',
-        score: 80,
-        deterministicFallbackRequired: false,
-      },
-      fallbackInputs: [' NaN ', 'Infinity', 'NaN', ' empty ', ''],
-    });
-
-    assert(reflection.watchReasons.length === 1, 'Sarkazam helper normalized fallback case should still emit watch reason');
-    assert(reflection.watchReasons[0]?.includes('Deterministic fallback ostaje aktivan za NaN, Infinity, empty, conflict ulaze.'), 'Sarkazam helper normalized fallback case should restore canonical fallback vocabulary when the caller input is partial');
-    assert(!reflection.watchReasons[0]?.includes(' NaN '), 'Sarkazam helper normalized fallback case should not leak padded fallback inputs');
   });
 
   await test('Sarkazam report stays WATCH with fallback-aware review messaging when roadmap drift is cleared but DAK/DUK remain governance-only', async () => {
