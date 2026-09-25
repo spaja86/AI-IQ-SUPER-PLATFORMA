@@ -7233,8 +7233,8 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
           distributionAudioStatus: 'BLOCKED',
           scheduleContinuityStatus: 'BLOCKED',
           governanceFallbackStatus: 'BLOCKED',
-          tokenCoveragePercent: 100,
-          normalizedInputCount: DEVELOPER_CREATE_RADIO_TOKEN_VOCABULARY.canonicalSequence.length,
+          tokenCoveragePercent: 0,
+          normalizedInputCount: 0,
           deterministicFallbackRequired: true,
           driver:
             'developerAndCreateRepoWideReflection.readiness + developerAndCreateRepoWideReflection.technicalReadinessProfile.consolidatedRhythmStatus + developerAndCreateRepoWideReflection.globalPageExplanationContract',
