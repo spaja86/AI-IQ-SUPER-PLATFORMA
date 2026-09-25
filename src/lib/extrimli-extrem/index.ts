@@ -12101,7 +12101,11 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
     && mikrofonProjectionAlias.normalizationRules.uppercaseTokens
     && mikrofonProjectionAlias.normalizationRules.collapseMultipleSpaces
     && mikrofonProjectionAlias.normalizationRules.keepCanonicalOrder
-    && mikrofonProjectionAlias.normalizationRules.requireAllProjectionRoles;
+    && mikrofonProjectionAlias.normalizationRules.requireAllProjectionRoles
+    && mikrofonProjectionAlias.normalizationRules.unknownTokenHandling
+      === 'map-to-watch-and-require-review'
+    && mikrofonProjectionAlias.normalizationRules.conflictHandling
+      === 'map-to-blocked-and-require-review';
   const mikrofonProjectionHasSummarySurface =
     mikrofonProjectionAlias.summarySafePublicFields.includes('mikrofonSummary')
     && mikrofonProjectionAlias.summarySafePublicFields.includes('semanticPreservation')
@@ -12193,13 +12197,12 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
   mikrofonProjectionAlias.blockerReason =
     mikrofonProjectionStatus === 'BLOCKED'
       ? 'MIKROFON == MEGAFON, DISTRIBUTER, SAKSOFON ostaje BLOCKED dok bounded RADIO projekcija ne zadrži semantic-preservation, summary-only boundary i deterministic fallback disciplinu bez novog audio/distribution engine-a.'
-      : mikrofonProjectionStatus === 'WATCH'
-        ? 'MIKROFON == MEGAFON, DISTRIBUTER, SAKSOFON ostaje u WATCH režimu dok bounded RADIO projekcija još zahteva dodatni review za projection lock, semantic-preservation i audit-safe mikrofon summary.'
-        : null;
+      : null;
   mikrofonProjectionAlias.watchReasons =
     mikrofonProjectionStatus === 'WATCH'
       ? [
         'MIKROFON == MEGAFON, DISTRIBUTER, SAKSOFON ostaje u WATCH režimu dok bounded RADIO projekcija još zahteva dodatni review za capture/distribution/tonal alignment i downstream summary disciplinu.',
+        'MIKROFON == MEGAFON, DISTRIBUTER, SAKSOFON ostaje u WATCH režimu dok bounded RADIO projekcija još zahteva dodatni review za projection lock, semantic-preservation i audit-safe mikrofon summary.',
       ]
       : [];
   mikrofonProjectionAlias.reviewPosture =
