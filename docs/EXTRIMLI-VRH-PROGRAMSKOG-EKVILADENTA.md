@@ -17,6 +17,7 @@ Bounded vokabular ostaje zaključan na `EXTRIMLI EXTRONDOL EXTREM DOK DUK DAK DI
 - `SPAJA KOD` → samo audit-safe javni rezime
 - `DIJALIZA POGONSKOG OMOTAČA` → isključivo dokumentacioni/interpretativni alias unutar istog lock-a (bez novih runtime ruta i bez promene governance strukture)
 - `SARKAZAM / PRIVREDNA GRANA DIGITALIZMA / PROJEKTI ENTUZIJAZMA PO ČINU OBLASTIMA` → bounded interpretativni/enterprise-policy/pedagoški alias istog lock-a; `SARKAZAM` ostaje samo narativni marker, nikad nova izvršna formula ili novi engine
+- `NOTES 1450` → bounded work-continuation paket istog lock-a; služi kao nastavak rada umesto obične beleške, ali ostaje additive-only, bez nove rute i bez paralelnog source-of-truth sistema
 
 - nema novih runtime ruta
 - nema paralelnog source-of-truth sistema
@@ -67,6 +68,15 @@ Repo-wide reflection sada obavezno uključuje i dnevni operativni cadence: `morn
 - `EXTRONDOL` ostaje governance ogledalo za `human review`, `promotion freeze`, `rollout/rollback`, `releaseAuditSummary` i downstream reference.
 - `SPAJA KOD` ostaje summary-safe boundary i izlaže samo status, blocker reason, review posture i downstream reference.
 - `SARKAZAM` se tretira isključivo kao bounded interpretativni/narativni marker; ne uvodi novu semantiku odlučivanja, novu poslovnu formulu ili novu runtime arhitekturu.
+
+## NOTES 1450 bounded radni-handoff paket
+
+`DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == NOTES 1450` ostaje additive-only bounded paket za nastavak rada unutar postojećeg Developer/Create okvira.
+
+- `EXTREM` meri samo bounded tehničke signale `goal-clarity`, `context-integrity`, `task-continuity`, `ai-material-saturation-risk` i `deterministic-next-step`, uz status jezik `READY | WATCH | BLOCKED`.
+- `EXTRONDOL` prevodi te signale u governance odluku: da li paket može da vodi nastavak rada, da li traži human review, da li postoji freeze razlog i da li postoji rollback potreba.
+- `SPAJA KOD` objavljuje samo audit-safe summary: status nastavka rada, blocker/watch razlog, review posture, downstream reference i poslovni rezime bez sirovih internih AI analiza.
+- `NOTES 1450` je prihvatljiv samo kada postoji audit-ready dokaz da daje bolji kontinuitet rada i bolju iskorišćenost AI materijala od običnog notes režima.
 
 ## Kingdom ecosystem federation
 
