@@ -68,6 +68,13 @@ import {
   DEVELOPER_CREATE_RADIO_SCOPE_STATEMENT,
   DEVELOPER_CREATE_RADIO_SUMMARY_SAFE_FIELDS,
   DEVELOPER_CREATE_RADIO_TOKEN_VOCABULARY,
+  DEVELOPER_CREATE_MUZICKA_KUTIJA_BOUNDED_DESCRIPTION,
+  DEVELOPER_CREATE_MUZICKA_KUTIJA_BOUNDED_THEMATIC_SIGNALS,
+  DEVELOPER_CREATE_MUZICKA_KUTIJA_CANONICAL_ALIAS,
+  DEVELOPER_CREATE_MUZICKA_KUTIJA_DOWNSTREAM_POLICY,
+  DEVELOPER_CREATE_MUZICKA_KUTIJA_ROLE_CLASSIFICATION,
+  DEVELOPER_CREATE_MUZICKA_KUTIJA_SCOPE_STATEMENT,
+  DEVELOPER_CREATE_MUZICKA_KUTIJA_SUMMARY_SAFE_FIELDS,
   DEVELOPER_CREATE_NAPOLEON_DISKAVERI_BOUNDED_SIGNALS,
   DEVELOPER_CREATE_NAPOLEON_DISKAVERI_CANONICAL_ALIAS,
   DEVELOPER_CREATE_NAPOLEON_DISKAVERI_SCOPE_STATEMENT,
@@ -7461,6 +7468,55 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
         radioSummary: '',
         downstreamReference: 'docs/MULTI-REPO-LINKS.md -> spaja86/IO-OPENUI-AO (summary-only)',
       },
+      muzickaKutijaTrack: {
+        canonicalAlias: DEVELOPER_CREATE_MUZICKA_KUTIJA_CANONICAL_ALIAS,
+        scopeStatement: DEVELOPER_CREATE_MUZICKA_KUTIJA_SCOPE_STATEMENT,
+        roleClassification: DEVELOPER_CREATE_MUZICKA_KUTIJA_ROLE_CLASSIFICATION,
+        boundedDescription: DEVELOPER_CREATE_MUZICKA_KUTIJA_BOUNDED_DESCRIPTION,
+        boundedThematicSignals: [...DEVELOPER_CREATE_MUZICKA_KUTIJA_BOUNDED_THEMATIC_SIGNALS],
+        summarySafePublicFields: [...DEVELOPER_CREATE_MUZICKA_KUTIJA_SUMMARY_SAFE_FIELDS],
+        downstreamPolicy: DEVELOPER_CREATE_MUZICKA_KUTIJA_DOWNSTREAM_POLICY,
+        boundedVocabularyPhrase: 'EXTRIMLI EXTRONDOL EXTREM DOK DUK DAK DIK FOR',
+        additiveOnly: true,
+        noNewRuntimeEngine: true,
+        noNewRuntimeRoutes: true,
+        noParallelSourceOfTruth: true,
+        sourceOfTruthRoutes: ['/api/extrimli/extrem', '/api/extrimli/extrondol', '/api/extrimli/spaja-kod'],
+        ownershipLock: {
+          dokDikFor: 'EXTREM',
+          dakDuk: 'EXTRONDOL',
+          spajaKod: 'audit-safe-summary-only',
+        },
+        mappedAudioInstrumentLayers: {
+          instrumentTabla: 'PARADIJOGONALNO PROGRAMIRANJE',
+          ritamDuracije: 'METRIČKO PROGRAMIRANJE',
+          narativVokal: 'SINEMETRIČKO PROGRAMIRANJE',
+          audioVizuelniPaket: 'AUDIO-VIZUELNI KONTRABAS PAKET',
+        },
+        readinessSignal: {
+          status: 'BLOCKED',
+          readinessScore: 0,
+          instrumentTablaStatus: 'BLOCKED',
+          ritamDuracijeStatus: 'BLOCKED',
+          narativVokalStatus: 'BLOCKED',
+          audioVizuelniPaketStatus: 'BLOCKED',
+          deterministicFallbackRequired: true,
+          driver:
+            'developerAndCreateRepoWideReflection.readiness + paradijogonalnoProgrimiranje + metrikoProgramiranje + sinemetrickoProgramiranje + developerAndCreateRepoWideReflection.audioVisualKontrabasPackage',
+        },
+        blockerReason: 'muzicka-kutija-awaits-existing-layer-alignment-and-audit-safe-summary-discipline',
+        watchReasons: [],
+        reviewPosture: 'REVIEW_REQUIRED',
+        acceptanceEvidence: [
+          'developerAndCreateRepoWideReflection.muzickaKutijaTrack',
+          'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.muzickaKutijaTrack',
+          'spajaKod.publicSignals.muzickaKutijaStatus',
+          'spajaKod.developerAndCreateImplementationPackage.muzickaKutijaSummary',
+        ],
+        musicBoxSummary: '',
+        mappedLayerSummary: '',
+        downstreamReference: 'docs/MULTI-REPO-LINKS.md -> spaja86/IO-OPENUI-AO (summary-only)',
+      },
       mappedTracks: {
         vrhProgramskogEkviladenta: 'VRH PROGRAMSKOG EKVILADENTA',
         radniTaktMozgaMislilac: 'RADNI TAKT MOZGA (MISLILAC)',
@@ -11420,6 +11476,20 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
       noParallelSourceOfTruth: true,
       rawInternalsExposed: false,
     },
+    muzickaKutijaBoundary: {
+      trackRole: 'bounded-music-box-audio-instrument-alias-track',
+      parentTrack: 'VRH PROGRAMSKOG EKVILADENTA',
+      canonicalAlias: DEVELOPER_CREATE_MUZICKA_KUTIJA_CANONICAL_ALIAS,
+      roleClassification: DEVELOPER_CREATE_MUZICKA_KUTIJA_ROLE_CLASSIFICATION,
+      extremPublishes: 'status-instrument-summary-layer-mapping-and-deterministic-fallback-signal-only',
+      extrondolPublishes: 'wawe-freeze-promotion-review-rollback-audit-summary-only',
+      spajaKodPublishes: 'status-blocker-review-downstream-and-music-box-summary-only',
+      technicalBinding: 'developerAndCreateRepoWideReflection.muzickaKutijaTrack',
+      noNewRuntimeEngine: true,
+      noNewRuntimeRoutes: true,
+      noParallelSourceOfTruth: true,
+      rawInternalsExposed: false,
+    },
     konstrukcijeIProjektovanjeBoundary: {
       trackRole: 'bounded-construction-design-alias-track',
       parentTrack: 'VRH PROGRAMSKOG EKVILADENTA',
@@ -12569,6 +12639,86 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
         ? 'WATCH'
         : 'REVIEW_REQUIRED';
   mikrofonProjectionAlias.mikrofonSummary = mikrofonSummary;
+
+  const muzickaKutijaTrack =
+    dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.muzickaKutijaTrack;
+  const muzickaKutijaOwningSurfaceStatuses = [
+    radniTaktMozgaMislilac.readiness.status,
+    metrikoProgramiranje.readiness.status,
+    sinemetrickoProgramiranje.readiness.status,
+    paradijogonalnoProgrimiranje.readiness.status,
+    vrhProgramskogEkviladenta.readiness.status,
+  ];
+  const muzickaKutijaOwningSurfaceStatus =
+    muzickaKutijaOwningSurfaceStatuses.includes('BLOCKED')
+    || activeRoadmapStageCount !== 1
+    || dokDikDakDukConsistencyHealth.status === 'BLOCKED'
+      ? 'BLOCKED'
+      : muzickaKutijaOwningSurfaceStatuses.includes('WATCH')
+        || dokDikDakDukConsistencyHealth.status === 'WATCH'
+        ? 'WATCH'
+        : 'READY';
+  const muzickaKutijaSignalStatuses = [
+    paradijogonalnoProgrimiranje.readiness.status,
+    metrikoProgramiranje.readiness.status,
+    sinemetrickoProgramiranje.readiness.status,
+    dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.audioVisualKontrabasPackage.readinessStatus,
+    muzickaKutijaOwningSurfaceStatus,
+  ] as const;
+  const muzickaKutijaStatus = aggregateReadinessStatus([...muzickaKutijaSignalStatuses]);
+  const muzickaKutijaReadinessScore = round(
+    muzickaKutijaSignalStatuses.reduce((sum, status) => sum + readinessStatusScore(status), 0)
+      / muzickaKutijaSignalStatuses.length,
+    2,
+  );
+  const muzickaKutijaDeterministicFallbackRequired = muzickaKutijaStatus !== 'READY';
+  const muzickaKutijaMappedLayerSummary =
+    'PARADIJOGONALNO PROGRAMIRANJE vodi instrument tablu, METRIČKO PROGRAMIRANJE ritam/duracije, SINEMETRIČKO PROGRAMIRANJE narativ/vokal, a AUDIO-VIZUELNI KONTRABAS PAKET bounded audio-vizuelni reflection.';
+  const muzickaKutijaSummary =
+    muzickaKutijaStatus === 'READY'
+      ? 'MUZIČKA KUTIJA ostaje additive-only bounded audio/instrument traka: postojeći instrument, ritam, narativ i audio-vizuelni slojevi su READY bez novog muzičkog engine-a i bez novih ruta.'
+      : muzickaKutijaStatus === 'WATCH'
+        ? 'MUZIČKA KUTIJA ostaje additive-only bounded audio/instrument traka u WATCH režimu dok postojeći instrument, ritam, narativ ili audio-vizuelni sloj još traže dodatni review, ali bez novog runtime modula.'
+        : 'MUZIČKA KUTIJA ostaje BLOCKED dok postojeći instrument, ritam, narativ i audio-vizuelni slojevi ne vrate bounded readiness bez novog muzičkog engine-a i bez novih ruta.';
+  const muzickaKutijaNonReadyLayers = [
+    ['instrument tabla', paradijogonalnoProgrimiranje.readiness.status],
+    ['ritam/duracije', metrikoProgramiranje.readiness.status],
+    ['narativ/vokal', sinemetrickoProgramiranje.readiness.status],
+    [
+      'audio-vizuelni reflection',
+      dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.audioVisualKontrabasPackage.readinessStatus,
+    ],
+    ['owning Developer/Create surface', muzickaKutijaOwningSurfaceStatus],
+  ].filter(([, status]) => status !== 'READY');
+  const muzickaKutijaLayerReasonSummary =
+    muzickaKutijaNonReadyLayers.map(([layer, status]) => `${layer}:${status}`).join(', ');
+  muzickaKutijaTrack.readinessSignal.status = muzickaKutijaStatus;
+  muzickaKutijaTrack.readinessSignal.readinessScore = muzickaKutijaReadinessScore;
+  muzickaKutijaTrack.readinessSignal.instrumentTablaStatus = paradijogonalnoProgrimiranje.readiness.status;
+  muzickaKutijaTrack.readinessSignal.ritamDuracijeStatus = metrikoProgramiranje.readiness.status;
+  muzickaKutijaTrack.readinessSignal.narativVokalStatus = sinemetrickoProgramiranje.readiness.status;
+  muzickaKutijaTrack.readinessSignal.audioVizuelniPaketStatus =
+    dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.audioVisualKontrabasPackage.readinessStatus;
+  muzickaKutijaTrack.readinessSignal.deterministicFallbackRequired =
+    muzickaKutijaDeterministicFallbackRequired;
+  muzickaKutijaTrack.blockerReason =
+    muzickaKutijaStatus === 'BLOCKED'
+      ? `MUZIČKA KUTIJA ostaje BLOCKED dok bounded slojevi ne ostanu audit-safe i additive-only bez novog muzičkog engine-a (${muzickaKutijaLayerReasonSummary}).`
+      : null;
+  muzickaKutijaTrack.watchReasons =
+    muzickaKutijaStatus === 'WATCH'
+      ? [
+        `MUZIČKA KUTIJA ostaje u WATCH režimu dok bounded slojevi još traže dodatni review (${muzickaKutijaLayerReasonSummary}).`,
+      ]
+      : [];
+  muzickaKutijaTrack.reviewPosture =
+    muzickaKutijaStatus === 'READY'
+      ? 'ALIGNED'
+      : muzickaKutijaStatus === 'WATCH'
+        ? 'WATCH'
+        : 'REVIEW_REQUIRED';
+  muzickaKutijaTrack.musicBoxSummary = muzickaKutijaSummary;
+  muzickaKutijaTrack.mappedLayerSummary = muzickaKutijaMappedLayerSummary;
 
   dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.fourTrackProgramPackage.technicalTrack.readinessStatus =
     dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.status;
