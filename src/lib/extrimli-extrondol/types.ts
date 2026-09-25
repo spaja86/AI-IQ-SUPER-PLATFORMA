@@ -2745,7 +2745,7 @@ export interface ExtrimliSpajaKodPublicFacade {
     napoleonDiskaveriStatus: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['napoleonDiskaveriSelectionTrack']['discoverySelectionSignal']['selectionStatus'];
     developerAndCreateGlobalPageExplanationStatus: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['readiness']['status'];
     developerAndCreateGlobalPageExplanationSignals: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['globalPageExplanationContract']['boundedThematicSignals'];
-    innovationRegistryStatus: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['readiness']['status'];
+    innovationRegistryStatus: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['innovationRegistry13k']['summarySafeDashboard']['status'];
     innovationRegistryTotal: number;
     innovationRegistryClusters: number;
     innovationRegistryCoveragePercent: number;

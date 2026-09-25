@@ -85,6 +85,7 @@ export interface ExtrimliInnovationRegistryModel {
   clusters: ExtrimliInnovationRegistryCluster[];
   innovations: ExtrimliInnovationRegistryEntry[];
   summarySafeDashboard: {
+    status: ExtrimliInnovationReadinessStatus;
     totalInnovations: number;
     clusterCount: number;
     coveragePercent: number;
@@ -233,6 +234,8 @@ export function buildExtrimliInnovationRegistry(): ExtrimliInnovationRegistryMod
   const governancePromotionRatioPercent = Math.round((byGovernance.promote / totalInnovations) * 10000) / 100;
   const governanceRollbackRatioPercent = Math.round((byGovernance.rollback / totalInnovations) * 10000) / 100;
   const ecosystemStabilityPercent = Math.round(((byReadiness.READY + byReadiness.WATCH) / totalInnovations) * 10000) / 100;
+  const summaryStatus: ExtrimliInnovationReadinessStatus =
+    byReadiness.BLOCKED > 0 ? 'BLOCKED' : byReadiness.WATCH > 0 ? 'WATCH' : 'READY';
 
   return {
     canonicalAlias: 'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == 13000 INOVACIJA',
@@ -287,6 +290,7 @@ export function buildExtrimliInnovationRegistry(): ExtrimliInnovationRegistryMod
     clusters,
     innovations,
     summarySafeDashboard: {
+      status: summaryStatus,
       totalInnovations,
       clusterCount: CLUSTER_COUNT,
       coveragePercent,

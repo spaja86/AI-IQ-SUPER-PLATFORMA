@@ -3296,7 +3296,7 @@ function buildSpajaKodFacade(params: {
         params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.napoleonDiskaveriSelectionTrack.discoverySelectionSignal.selectionStatus,
       developerAndCreateGlobalPageExplanationStatus: params.developerAndCreateStatus,
       developerAndCreateGlobalPageExplanationSignals: DEVELOPER_CREATE_VRH_MAPE_UMA_THEMATIC_SIGNALS,
-      innovationRegistryStatus: params.developerAndCreateStatus,
+      innovationRegistryStatus: innovationRegistry13k.summarySafeDashboard.status,
       innovationRegistryTotal: innovationRegistry13k.summarySafeDashboard.totalInnovations,
       innovationRegistryClusters: innovationRegistry13k.summarySafeDashboard.clusterCount,
       innovationRegistryCoveragePercent: innovationRegistry13k.summarySafeDashboard.coveragePercent,
