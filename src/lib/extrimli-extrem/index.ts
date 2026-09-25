@@ -11958,13 +11958,16 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
     dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.technicalReadinessProfile.consolidatedRhythmStatus;
   const kraljevskiPokloniRuntimeInput = process.env.EXTRIMLI_KRALJEVSKI_POKLONI_INPUT;
   const kraljevskiPokloniNormalizedInput = (kraljevskiPokloniRuntimeInput ?? '').trim().toLowerCase();
+  const kraljevskiPokloniNormalizedTokens = kraljevskiPokloniNormalizedInput
+    .split(/[\s,;|]+/)
+    .filter((token) => token.length > 0);
   const kraljevskiPokloniFallbackInputStatus: ExtrimliExtremReadinessStatus =
-    kraljevskiPokloniNormalizedInput.includes('conflict')
+    kraljevskiPokloniNormalizedTokens.includes('conflict')
       ? 'BLOCKED'
       : (
-        kraljevskiPokloniNormalizedInput.includes('nan')
-        || kraljevskiPokloniNormalizedInput.includes('infinity')
-        || kraljevskiPokloniNormalizedInput.includes('empty')
+        kraljevskiPokloniNormalizedTokens.includes('nan')
+        || kraljevskiPokloniNormalizedTokens.includes('infinity')
+        || kraljevskiPokloniNormalizedTokens.includes('empty')
       )
         ? 'WATCH'
         : 'READY';
