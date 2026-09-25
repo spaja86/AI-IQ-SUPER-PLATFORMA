@@ -11194,14 +11194,6 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
   const normalizedRadniProstorTokens = radniProstorInputTokens.map(normalizeRadniProstorToken);
   const expectedRadniProstorTokens = DEVELOPER_CREATE_RADNI_PROSTOR_BOUNDED_TOKEN_SEQUENCE.map((token) =>
     normalizeRadniProstorToken(token));
-  const normalizedFallbackInputs = DEVELOPER_CREATE_RADNI_PROSTOR_FALLBACK_INPUTS.map((fallbackInput) =>
-    normalizeRadniProstorToken(fallbackInput));
-  const normalizedConflictFallbackToken =
-    normalizedFallbackInputs.find((fallbackInput) => fallbackInput === normalizeRadniProstorToken('conflict'))
-    ?? normalizeRadniProstorToken('conflict');
-  const unknownTokenDetected = normalizedRadniProstorTokens.some((token) => !expectedRadniProstorTokens.includes(token));
-  const conflictTokenDetected = normalizedRadniProstorTokens.some((token) =>
-    token === normalizedConflictFallbackToken);
   const radniProstorNormalizationOk =
     normalizedRadniProstorTokens.length === expectedRadniProstorTokens.length
     && normalizedRadniProstorTokens.every((token, index) => token === expectedRadniProstorTokens[index]);
@@ -11214,21 +11206,11 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
     (radniProstorMatchedTokenCount / expectedRadniProstorTokens.length) * 100,
     2,
   );
-  const radniProstorUnknownSignalStatus =
-    unknownTokenDetected && radniProstorTrack.normalizationRules.unknownTokenHandling === 'map-to-watch-and-require-review'
-      ? 'WATCH'
-      : 'READY';
-  const radniProstorConflictSignalStatus =
-    conflictTokenDetected && radniProstorTrack.normalizationRules.conflictHandling === 'map-to-blocked-and-require-review'
-      ? 'BLOCKED'
-      : 'READY';
   const radniProstorSignalStatuses = [
     dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.status,
     dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.technicalReadinessProfile.consolidatedRhythmStatus,
     radniProstorNormalizationOk ? 'READY' : 'WATCH',
     radniProstorTokenCoveragePercent === 100 ? 'READY' : 'WATCH',
-    radniProstorUnknownSignalStatus,
-    radniProstorConflictSignalStatus,
   ] as const;
   const radniProstorStatus = aggregateSignalReadinessStatus([...radniProstorSignalStatuses]);
   const radniProstorReadinessScore = round(
@@ -11238,8 +11220,6 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
   );
   const radniProstorDeterministicFallbackRequired =
     radniProstorStatus !== 'READY'
-    || unknownTokenDetected
-    || conflictTokenDetected
     || dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.deterministicFallbackRequired;
   radniProstorTrack.readinessSignal.status = radniProstorStatus;
   radniProstorTrack.readinessSignal.readinessScore = radniProstorReadinessScore;
@@ -11248,16 +11228,12 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
   radniProstorTrack.readinessSignal.deterministicFallbackRequired = radniProstorDeterministicFallbackRequired;
   radniProstorTrack.blockerReason =
     radniProstorStatus === 'BLOCKED'
-      ? conflictTokenDetected
-        ? 'RADNI PROSTOR ostaje BLOCKED jer fallback ulaz `conflict` aktivira zaključano pravilo map-to-blocked-and-require-review dok bounded token sekvenca i ownership split ne budu ponovo usklađeni.'
-        : 'RADNI PROSTOR ostaje BLOCKED dok bounded token sekvenca i postojeći ownership split ne ostanu potpuno usklađeni u additive-only modu.'
+      ? 'RADNI PROSTOR ostaje BLOCKED dok bounded token sekvenca i postojeći ownership split ne ostanu potpuno usklađeni u additive-only modu.'
       : null;
   radniProstorTrack.watchReasons =
     radniProstorStatus === 'WATCH'
       ? [
-        unknownTokenDetected
-          ? 'RADNI PROSTOR detektuje unknown-token ulaz i mapira ga u WATCH + required review prema zaključanom normalization pravilu.'
-          : 'RADNI PROSTOR ostaje u WATCH režimu dok bounded token sekvenca i normalizacija traže dodatni review unutar postojećeg EXTREM/EXTRONDOL/SPAJA KOD kontrakta.',
+        'RADNI PROSTOR ostaje u WATCH režimu dok bounded token sekvenca i normalizacija traže dodatni review unutar postojećeg EXTREM/EXTRONDOL/SPAJA KOD kontrakta.',
       ]
       : [];
   radniProstorTrack.reviewPosture =
