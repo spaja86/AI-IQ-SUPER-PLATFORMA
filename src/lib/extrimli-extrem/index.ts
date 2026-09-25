@@ -11351,6 +11351,12 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
     laboratoryCase: aiIqLaboratorijaExpectedTokens.slice(10, 15),
     programskiEkanalog: aiIqLaboratorijaExpectedTokens.slice(15),
   } as const;
+  const aiIqLaboratorijaProgramskiEkanalogStatus: ExtrimliExtremReadinessStatus =
+    dokDikDakDukConsistencyHealth.programskiJezikProucavanja.programskiEkanalog.auditReady
+      ? 'READY'
+      : dokDikDakDukConsistencyHealth.programskiJezikProucavanja.laboratoryCaseProfile.consolidatedStatus === 'WATCH'
+        ? 'WATCH'
+        : 'BLOCKED';
   const resolveAiIqLaboratorijaObservedSegment = (
     status: ExtrimliExtremReadinessStatus,
     tokens: readonly string[],
@@ -11374,9 +11380,7 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
       aiIqLaboratorijaTokenSegments.laboratoryCase,
     ),
     ...resolveAiIqLaboratorijaObservedSegment(
-      dokDikDakDukConsistencyHealth.programskiJezikProucavanja.programskiEkanalog.auditReady
-        ? 'READY'
-        : 'BLOCKED',
+      aiIqLaboratorijaProgramskiEkanalogStatus,
       aiIqLaboratorijaTokenSegments.programskiEkanalog,
     ),
   ];
@@ -11420,9 +11424,7 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
     dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.status,
     dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.technicalReadinessProfile.consolidatedRhythmStatus,
     dokDikDakDukConsistencyHealth.programskiJezikProucavanja.laboratoryCaseProfile.consolidatedStatus,
-    dokDikDakDukConsistencyHealth.programskiJezikProucavanja.programskiEkanalog.auditReady
-      ? 'READY'
-      : 'BLOCKED',
+    aiIqLaboratorijaProgramskiEkanalogStatus,
     aiIqLaboratorijaLaboratoryProfileStatus,
   ] as const;
   const aiIqLaboratorijaStatus = aggregateSignalReadinessStatus([...aiIqLaboratorijaSignalStatuses]);
