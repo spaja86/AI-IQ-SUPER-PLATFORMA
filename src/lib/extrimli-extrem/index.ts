@@ -11212,11 +11212,10 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
     dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.status,
     dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.technicalReadinessProfile.consolidatedRhythmStatus,
   ] as const;
-  const radniProstorTokenCoveragePercent = radniProstorSignalStatuses.includes('BLOCKED')
-    ? 0
-    : radniProstorSignalStatuses.every((status) => status === 'READY')
-      ? round((radniProstorMatchedTokenCount / normalizedExpectedRadniProstorTokens.length) * 100, 2)
-      : round((radniProstorMatchedTokenCount / normalizedExpectedRadniProstorTokens.length) * 50, 2);
+  const radniProstorTokenCoveragePercent = round(
+    (radniProstorMatchedTokenCount / normalizedExpectedRadniProstorTokens.length) * 100,
+    2,
+  );
   const radniProstorStatus = aggregateSignalReadinessStatus([...radniProstorSignalStatuses]);
   const radniProstorReadinessScore = round(
     radniProstorSignalStatuses.reduce((sum, status) => sum + readinessStatusScore(status), 0)
