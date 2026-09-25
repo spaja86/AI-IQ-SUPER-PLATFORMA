@@ -10797,33 +10797,38 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
       : eksperimentProgramskiJezikStatus === 'WATCH'
         ? 'WATCH'
         : 'REVIEW_REQUIRED';
+  const sarkazamPrivrednaGranaDigitalizmaSourceReadiness =
+    dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection;
   const sarkazamPrivrednaGranaDigitalizmaSignalStatuses = [
-    dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.status,
-    dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.kraljevskiEkonomskiUneverzitet.readiness.status,
-    dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.kraljevskiProgramskiUneverzitet.readiness.status,
+    sarkazamPrivrednaGranaDigitalizmaSourceReadiness.readiness.status,
+    sarkazamPrivrednaGranaDigitalizmaSourceReadiness.kraljevskiEkonomskiUneverzitet.readiness.status,
+    sarkazamPrivrednaGranaDigitalizmaSourceReadiness.kraljevskiProgramskiUneverzitet.readiness.status,
+  ];
+  const sarkazamPrivrednaGranaDigitalizmaFallbackSignals = [
+    sarkazamPrivrednaGranaDigitalizmaSourceReadiness.readiness.deterministicFallbackRequired,
+    sarkazamPrivrednaGranaDigitalizmaSourceReadiness.kraljevskiEkonomskiUneverzitet.readiness.deterministicFallbackRequired,
+    sarkazamPrivrednaGranaDigitalizmaSourceReadiness.kraljevskiProgramskiUneverzitet.readiness.deterministicFallbackRequired,
   ];
   const sarkazamPrivrednaGranaDigitalizmaStatus = aggregateReadinessStatus(
     sarkazamPrivrednaGranaDigitalizmaSignalStatuses,
   );
   const sarkazamPrivrednaGranaDigitalizmaReadinessScore = round(
     (
-      dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.score
-      + dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.kraljevskiEkonomskiUneverzitet.readiness.score
-      + dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.kraljevskiProgramskiUneverzitet.readiness.score
+      sarkazamPrivrednaGranaDigitalizmaSourceReadiness.readiness.score
+      + sarkazamPrivrednaGranaDigitalizmaSourceReadiness.kraljevskiEkonomskiUneverzitet.readiness.score
+      + sarkazamPrivrednaGranaDigitalizmaSourceReadiness.kraljevskiProgramskiUneverzitet.readiness.score
     ) / 3,
     2,
   );
   const sarkazamPrivrednaGranaDigitalizmaDeterministicFallbackRequired =
-    dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.deterministicFallbackRequired
-    || dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.kraljevskiEkonomskiUneverzitet.readiness.deterministicFallbackRequired
-    || dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.kraljevskiProgramskiUneverzitet.readiness.deterministicFallbackRequired;
+    sarkazamPrivrednaGranaDigitalizmaFallbackSignals.some(Boolean);
   const sarkazamPrivrednaGranaDigitalizmaOblastStatus = aggregateReadinessStatus([
-    dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.status,
-    dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.kraljevskiProgramskiUneverzitet.readiness.status,
+    sarkazamPrivrednaGranaDigitalizmaSourceReadiness.readiness.status,
+    sarkazamPrivrednaGranaDigitalizmaSourceReadiness.kraljevskiProgramskiUneverzitet.readiness.status,
   ]);
   const sarkazamPrivrednaGranaDigitalizmaCinStatus = aggregateReadinessStatus([
-    dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.status,
-    dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.kraljevskiEkonomskiUneverzitet.readiness.status,
+    sarkazamPrivrednaGranaDigitalizmaSourceReadiness.readiness.status,
+    sarkazamPrivrednaGranaDigitalizmaSourceReadiness.kraljevskiEkonomskiUneverzitet.readiness.status,
   ]);
   dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.sarkazamPrivrednaGranaDigitalizmaTrack.reflectionSignal.status =
     sarkazamPrivrednaGranaDigitalizmaStatus;
