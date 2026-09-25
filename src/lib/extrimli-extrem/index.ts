@@ -8731,11 +8731,25 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
       signal.audioVisualSyncStatus = immersiveAudioVisualSyncStatus;
     }
   });
-  const immersiveVisualization3dStatuses = immersiveVisualization3dDimensionalSignals.map((signal) => signal.status);
+  const resolveSignalAggregateStatus = (signal: {
+    status: ReadinessStatus;
+    audioVisualSyncStatus: ReadinessStatus;
+    spatialEffectStatus: ReadinessStatus;
+  }): ReadinessStatus => {
+    if ([signal.status, signal.audioVisualSyncStatus, signal.spatialEffectStatus].includes('BLOCKED')) {
+      return 'BLOCKED';
+    }
+    if ([signal.status, signal.audioVisualSyncStatus, signal.spatialEffectStatus].includes('WATCH')) {
+      return 'WATCH';
+    }
+    return 'READY';
+  };
+  const immersiveVisualization3dStatuses = immersiveVisualization3dDimensionalSignals.map(resolveSignalAggregateStatus);
   const immersiveVisualization3dScore = round(
     immersiveVisualization3dDimensionalSignals.reduce((sum, signal) => {
-      if (signal.status === 'READY') return sum + 100;
-      if (signal.status === 'WATCH') return sum + 70;
+      const aggregateStatus = resolveSignalAggregateStatus(signal);
+      if (aggregateStatus === 'READY') return sum + 100;
+      if (aggregateStatus === 'WATCH') return sum + 70;
       return sum + 40;
     }, 0) / immersiveVisualization3dDimensionalSignals.length,
     2,
