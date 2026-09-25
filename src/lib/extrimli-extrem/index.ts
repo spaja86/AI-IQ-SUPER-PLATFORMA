@@ -20,11 +20,13 @@ import {
   DEVELOPER_CREATE_AI_IQ_KONFERENCIJA_ZA_STAMPU_SCOPE_STATEMENT,
   DEVELOPER_CREATE_AI_IQ_KONFERENCIJA_ZA_STAMPU_TOKEN_VOCABULARY,
   DEVELOPER_CREATE_KONSTRUKCIJE_I_PROJEKTOVANJE_BOUNDED_TOKEN_SEQUENCE,
+  DEVELOPER_CREATE_KONSTRUKCIJE_I_PROJEKTOVANJE_BLOCKED_FALLBACK_INPUTS,
   DEVELOPER_CREATE_KONSTRUKCIJE_I_PROJEKTOVANJE_CANONICAL_ALIAS,
   DEVELOPER_CREATE_KONSTRUKCIJE_I_PROJEKTOVANJE_FALLBACK_INPUTS,
   DEVELOPER_CREATE_KONSTRUKCIJE_I_PROJEKTOVANJE_NORMALIZATION_RULES,
   DEVELOPER_CREATE_KONSTRUKCIJE_I_PROJEKTOVANJE_ROLE_CLASSIFICATION,
   DEVELOPER_CREATE_KONSTRUKCIJE_I_PROJEKTOVANJE_SCOPE_STATEMENT,
+  DEVELOPER_CREATE_KONSTRUKCIJE_I_PROJEKTOVANJE_WATCH_FALLBACK_INPUTS,
   DEVELOPER_CREATE_NOTES_1450_BOUNDED_SIGNALS,
   DEVELOPER_CREATE_NOTES_1450_CANONICAL_ALIAS,
   DEVELOPER_CREATE_NOTES_1450_ROLE_CLASSIFICATION,
@@ -11380,15 +11382,13 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
     (konstrukcijeIProjektovanjeMatchedTokenCount / konstrukcijeIProjektovanjeTokenDenominator) * 100,
     2,
   );
-  const konstrukcijeIProjektovanjeNormalizedFallbackInputs =
-    konstrukcijeIProjektovanjeTrack.readinessSignal.fallbackInputs.map(normalizeKonstrukcijeIProjektovanjeToken);
   const konstrukcijeIProjektovanjeNormalizedConflictTokenInputs =
-    konstrukcijeIProjektovanjeTrack.readinessSignal.fallbackInputs
-      .filter((token) => normalizeKonstrukcijeIProjektovanjeToken(token) === 'CONFLICT')
-      .map(normalizeKonstrukcijeIProjektovanjeToken);
+    DEVELOPER_CREATE_KONSTRUKCIJE_I_PROJEKTOVANJE_BLOCKED_FALLBACK_INPUTS.map(
+      normalizeKonstrukcijeIProjektovanjeToken,
+    );
   const konstrukcijeIProjektovanjeNormalizedWatchFallbackInputs =
-    konstrukcijeIProjektovanjeNormalizedFallbackInputs.filter(
-      (token) => !konstrukcijeIProjektovanjeNormalizedConflictTokenInputs.includes(token),
+    DEVELOPER_CREATE_KONSTRUKCIJE_I_PROJEKTOVANJE_WATCH_FALLBACK_INPUTS.map(
+      normalizeKonstrukcijeIProjektovanjeToken,
     );
   const konstrukcijeIProjektovanjeContainsWatchFallbackToken = normalizedKonstrukcijeIProjektovanjeTokens.some((token) =>
     konstrukcijeIProjektovanjeNormalizedWatchFallbackInputs.includes(token),
