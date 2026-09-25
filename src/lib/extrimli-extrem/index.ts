@@ -11341,14 +11341,7 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
         : 'REVIEW_REQUIRED';
   const aiIqLaboratorijaTrack =
     dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.aiIqLaboratorijaTrack;
-  const aiIqLaboratorijaRuntimeTokenInput =
-    process.env.NODE_ENV === 'test'
-      ? process.env.EXTRIMLI_AI_IQ_LABORATORIJA_TOKEN_INPUT
-      : undefined;
-  const aiIqLaboratorijaObservedTokens =
-    aiIqLaboratorijaRuntimeTokenInput && aiIqLaboratorijaRuntimeTokenInput.trim().length > 0
-      ? aiIqLaboratorijaRuntimeTokenInput.split(',').map((token) => token.trim()).filter((token) => token.length > 0)
-      : [...aiIqLaboratorijaTrack.boundedTokenSequence];
+  const aiIqLaboratorijaObservedTokens = [...aiIqLaboratorijaTrack.boundedTokenSequence];
   const normalizeAiIqLaboratorijaToken = (token: string): string => {
     let normalizedToken = token;
     if (aiIqLaboratorijaTrack.normalizationRules.trimWhitespace) {
