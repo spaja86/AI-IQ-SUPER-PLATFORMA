@@ -466,3 +466,11 @@ Implementacioni redosled ostaje zaključan:
 - `AI PLATE` nije novi runtime modul i ne uvodi novu rutu; bounded readiness profil ostaje izveden iz postojećeg `developerAndCreateRepoWideReflection`.
 - `12000 EURA nedeljno` ostaje business/finops target i mora proći billing approval, Vercel sales alignment, audit evidence i legal/tax review pre WAWE promocije.
 - Public boundary ostaje zaključan na `SPAJA KOD` audit-safe summary bez finansijskih detalja, sirovih governance mapa ili internih formula.
+
+## KRALJEVSKO TAKMIČENJE (bounded extension)
+
+- `DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == KRALJEVSKO TAKMIČENJE` je additive-only bounded extension postojećeg VRH modela.
+- EXTREM vodi tehnički readiness (`READY | WATCH | BLOCKED`) za umetničke kriterijume i autentičnost (sopstvene pesme, bez imitacije, bez AI asistencije u izvođenju).
+- EXTRONDOL vodi round-robin governance (`svako sa svakim`), review/freeze/promotion/rollback i release-audit evidenciju.
+- SPAJA KOD objavljuje samo summary-safe status, razloge, review posture i audit reference bez internih formula.
+- Top-100 kraljevske nagrade ostaju audit-governed governance paket sa obaveznim human review pre promocije.

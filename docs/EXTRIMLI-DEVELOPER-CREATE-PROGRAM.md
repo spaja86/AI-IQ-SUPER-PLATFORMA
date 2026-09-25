@@ -884,3 +884,17 @@ Neproverene oblasti (u ovom ciklusu):
 - `AI KLASTER` pretplata ostaje enterprise governance paket: seats/prava pristupa, build/deploy/analytics/SLA nivo, mesečni budžeti, warning pragovi, ownership backup i payment verification; aktivacija ostaje zabranjena dok ugovor i plaćanje nisu potvrđeni.
 - Obavezni acceptance lock ostaje: nema novih ruta, nema garantovanog ili prisilnog EPG plasmana, nema obaveznog emitovanja, nema internih pregovora u javnom sloju i svi izlazi ostaju `READY | WATCH | BLOCKED`.
 - Detaljni documentation-only plan za ovu traku ostaje u `docs/EXTRIMLI-AI-KLASTER-TELEVIZIJA-PRETPLATA.md`, dok downstream sync prema `spaja86/IO-OPENUI-AO` ostaje summary-only.
+
+### 2.2.7) KRALJEVSKO TAKMIČENJE bounded audit track
+
+- Alias je zaključan na `DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == KRALJEVSKO TAKMIČENJE`.
+- Traka je additive-only i ostaje unutar postojećih `/api/extrimli/extrem`, `/api/extrimli/extrondol` i `/api/extrimli/spaja-kod` granica (bez novih ruta i bez paralelnog source-of-truth sistema).
+- Scope je audit-governed turnirski model `svako sa svakim` sa kriterijumima: umetnički dizajn, igrački pohod, lepota glasa, intonacija umetničkog pevanja, stilski aranžman, pevački stil, originalni stav/autentičnost.
+- Originalnost pravila su obavezna: samo sopstvene/originalne pesme, bez imitacije idola, bez AI asistencije u izvođenju.
+- Repo-locked autentičnost gate ostaje canonical i računa se iz postojećih EXTREM source-of-truth readiness signala (bez novog runtime ulaza). Mapiranje ostaje:
+  - `original-songs` ili `samo-originalne-pesme`
+  - `no-imitation` ili `bez-imitacije-idola`
+  - `no-ai-performance` ili `bez-ai-asistencije-u-izvodjenju`
+- Fallback ostaje deterministic `READY | WATCH | BLOCKED`; autentičnost pravilo ostaje `READY` samo kada su sva tri uslova `READY`, u suprotnom je `BLOCKED`, dok `WATCH` ostaje rezervisan za druge bounded readiness signale i review/freeze posture.
+- Ownership split ostaje nepromenjen: `DOK/DIK/FOR -> EXTREM`, `DAK/DUK -> EXTRONDOL`, `SPAJA KOD -> audit-safe summary-only`.
+- Nagradna politika za prvih 100 takmičarki ostaje governance-only (`top-100-audit-governed`) sa obaveznim human review i freeze/promotion/rollback evidencijom.

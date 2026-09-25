@@ -1726,3 +1726,11 @@ Downstream note: ako linked repo `spaja86/IO-OPENUI-AO` koristi DUEL KING readin
 - Kanonski gaming domen profila obuhvata: kategoriju igrice, runner kompatibilnost, dimenzionalni režim, render/fizika, AI/NPC ponašanje, multiplayer/sync, anti-cheat i analytics/performance readiness.
 - Javni izlaz ostaje audit-safe summary, a postojeći gaming potrošači ostaju `src/lib/igrice.ts` i `src/lib/gaming-endzin.ts`.
 - Downstream sync koristi samo audit-safe polja: `extremProfiler.programskiJezikSpecijalizovanZaIgrice.readiness`, `programskiJezikSpecijalizovanZaIgrice.waweImpact`, `releaseAuditSummary.programskiJezikSpecijalizovanZaIgriceGovernance` i `spajaKod.publicSignals.programskiJezikSpecijalizovanZaIgriceStatus`.
+
+## KRALJEVSKO TAKMIČENJE governance snapshot
+
+- Novi bounded paket: `DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == KRALJEVSKO TAKMIČENJE`.
+- EXTREM ownership: kriterijumski readiness signal (umetnički dizajn, igrački pohod, lepota glasa, intonacija, stilski aranžman, pevački stil, originalni stav/autentičnost) + deterministički fallback.
+- EXTRONDOL ownership: round-robin (`svako sa svakim`) governance, review gates, freeze/promotion/rollback, release-audit evidence, top-100 rewards verification.
+- SPAJA KOD boundary: summary-safe status (`kraljevskoTakmicenjeStatus`) i paket rezime (`kraljevskoTakmicenjeSummary`) bez internih formula i bez osetljivih detalja.
+- Hard lock ostaje: additive-only, bez novih runtime ruta i bez paralelnog source-of-truth sloja.

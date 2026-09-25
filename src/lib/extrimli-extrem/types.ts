@@ -37,6 +37,13 @@ import type {
   DEVELOPER_CREATE_KONSTRUKCIJE_I_PROJEKTOVANJE_NORMALIZATION_RULES,
   DEVELOPER_CREATE_KONSTRUKCIJE_I_PROJEKTOVANJE_ROLE_CLASSIFICATION,
   DEVELOPER_CREATE_KONSTRUKCIJE_I_PROJEKTOVANJE_SCOPE_STATEMENT,
+  DEVELOPER_CREATE_KRALJEVSKO_TAKMICENJE_AUTHENTICITY_RULES,
+  DEVELOPER_CREATE_KRALJEVSKO_TAKMICENJE_CANONICAL_ALIAS,
+  DEVELOPER_CREATE_KRALJEVSKO_TAKMICENJE_EVALUATION_CRITERIA,
+  DEVELOPER_CREATE_KRALJEVSKO_TAKMICENJE_REWARDS_POLICY,
+  DEVELOPER_CREATE_KRALJEVSKO_TAKMICENJE_ROLE_CLASSIFICATION,
+  DEVELOPER_CREATE_KRALJEVSKO_TAKMICENJE_SCOPE_STATEMENT,
+  DEVELOPER_CREATE_KRALJEVSKO_TAKMICENJE_TOURNAMENT_MODEL,
   DEVELOPER_CREATE_NOTES_1450_BOUNDED_SIGNALS,
   DEVELOPER_CREATE_NOTES_1450_CANONICAL_ALIAS,
   DEVELOPER_CREATE_NOTES_1450_ROLE_CLASSIFICATION,
@@ -2910,6 +2917,62 @@ export interface ExtrimliDokDikDakDukConsistencyHealth {
       ];
       downstreamReference: 'docs/MULTI-REPO-LINKS.md -> spaja86/IO-OPENUI-AO (summary-only)';
     };
+    kraljevskoTakmicenjeTrack: {
+      canonicalAlias: typeof DEVELOPER_CREATE_KRALJEVSKO_TAKMICENJE_CANONICAL_ALIAS;
+      scopeStatement: typeof DEVELOPER_CREATE_KRALJEVSKO_TAKMICENJE_SCOPE_STATEMENT;
+      roleClassification: typeof DEVELOPER_CREATE_KRALJEVSKO_TAKMICENJE_ROLE_CLASSIFICATION;
+      evaluationCriteria: typeof DEVELOPER_CREATE_KRALJEVSKO_TAKMICENJE_EVALUATION_CRITERIA;
+      authenticityRules: typeof DEVELOPER_CREATE_KRALJEVSKO_TAKMICENJE_AUTHENTICITY_RULES;
+      tournamentModel: typeof DEVELOPER_CREATE_KRALJEVSKO_TAKMICENJE_TOURNAMENT_MODEL;
+      rewardsPolicy: typeof DEVELOPER_CREATE_KRALJEVSKO_TAKMICENJE_REWARDS_POLICY;
+      boundedVocabularyPhrase: 'EXTRIMLI EXTRONDOL EXTREM DOK DUK DAK DIK FOR';
+      additiveOnly: true;
+      noNewRuntimeEngine: true;
+      noNewRuntimeRoutes: true;
+      noParallelSourceOfTruth: true;
+      sourceOfTruthRoutes: readonly ['/api/extrimli/extrem', '/api/extrimli/extrondol', '/api/extrimli/spaja-kod'];
+      ownershipLock: {
+        dokDikFor: 'EXTREM';
+        dakDuk: 'EXTRONDOL';
+        spajaKod: 'audit-safe-summary-only';
+      };
+      summarySafePublicFields: readonly [
+        'canonicalAlias',
+        'status',
+        'blockerReason',
+        'watchReasons',
+        'reviewPosture',
+        'downstreamReference',
+        'tournamentScopeSummary',
+        'rewardsGovernanceSummary'
+      ];
+      readinessSignal: {
+        status: 'READY' | 'WATCH' | 'BLOCKED';
+        readinessScore: number;
+        umetnickiDizajnStatus: 'READY' | 'WATCH' | 'BLOCKED';
+        igrackiPohodStatus: 'READY' | 'WATCH' | 'BLOCKED';
+        lepotaGlasaStatus: 'READY' | 'WATCH' | 'BLOCKED';
+        intonacijaStatus: 'READY' | 'WATCH' | 'BLOCKED';
+        stilskiAranzmanStatus: 'READY' | 'WATCH' | 'BLOCKED';
+        pevackiStilStatus: 'READY' | 'WATCH' | 'BLOCKED';
+        originalniStavStatus: 'READY' | 'WATCH' | 'BLOCKED';
+        authenticityStatus: 'READY' | 'WATCH' | 'BLOCKED';
+        deterministicFallbackRequired: boolean;
+        driver: 'developerAndCreateRepoWideReflection.readiness + developerAndCreateRepoWideReflection.technicalReadinessProfile.consolidatedRhythmStatus + developerAndCreateRepoWideReflection.covecnostAuditVisualReference + developerAndCreateRepoWideReflection.globalPageExplanationContract';
+      };
+      blockerReason: string | null;
+      watchReasons: string[];
+      reviewPosture: 'ALIGNED' | 'WATCH' | 'REVIEW_REQUIRED';
+      tournamentScopeSummary: string;
+      rewardsGovernanceSummary: string;
+      acceptanceEvidence: readonly [
+        'developerAndCreateRepoWideReflection.kraljevskoTakmicenjeTrack',
+        'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.kraljevskoTakmicenjeTrack',
+        'spajaKod.publicSignals.kraljevskoTakmicenjeStatus',
+        'spajaKod.developerAndCreateImplementationPackage.kraljevskoTakmicenjeSummary'
+      ];
+      downstreamReference: 'docs/MULTI-REPO-LINKS.md -> spaja86/IO-OPENUI-AO (summary-only)';
+    };
     radniProstorTrack: {
       canonicalAlias: typeof DEVELOPER_CREATE_RADNI_PROSTOR_CANONICAL_ALIAS;
       scopeStatement: typeof DEVELOPER_CREATE_RADNI_PROSTOR_SCOPE_STATEMENT;
@@ -3169,6 +3232,7 @@ export interface ExtrimliDokDikDakDukConsistencyHealth {
       kraljevskiBastaUneverzite: 'KRALJEVSKI BAŠTA UNEVERZITE';
       kompanijaSpajaDigitalnaIndustrija: 'Kompanija SPAJA / Digitalna Industrija';
       sarkazamPrivrednaGranaDigitalizma: 'SARKAZAM / PRIVREDNA GRANA DIGITALIZMA / PROJEKTI ENTUZIJAZMA PO ČINU OBLASTIMA';
+      kraljevskoTakmicenje: 'KRALJEVSKO TAKMIČENJE';
       radniProstor: 'RADNI PROSTOR';
       konstrukcijeIProjektovanje: 'KONSTRUKCIJE I PROJEKTOVANJE';
       radio: 'RADIO';
