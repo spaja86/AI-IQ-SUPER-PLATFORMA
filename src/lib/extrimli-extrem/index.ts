@@ -11396,22 +11396,14 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
       ),
     0,
   );
-  const konstrukcijeIProjektovanjeDuplicateCoveragePercent =
-    konstrukcijeIProjektovanjeTrack.normalizationRules.requireExactDuplicateCounts
-    && konstrukcijeIProjektovanjeDuplicateTokenEntries.length > 0
-      ? round(
-          (konstrukcijeIProjektovanjeDuplicateMatchCount / konstrukcijeIProjektovanjeDuplicateTokenEntries.length) * 100,
-          2,
-        )
-      : 100;
+  const konstrukcijeIProjektovanjeDuplicateCountsSatisfied =
+    !konstrukcijeIProjektovanjeTrack.normalizationRules.requireExactDuplicateCounts
+    || konstrukcijeIProjektovanjeDuplicateTokenEntries.length === 0
+    || konstrukcijeIProjektovanjeDuplicateMatchCount === konstrukcijeIProjektovanjeDuplicateTokenEntries.length;
   const konstrukcijeIProjektovanjeTokenDenominator =
     normalizedExpectedKonstrukcijeIProjektovanjeTokens.length || 1;
-  const konstrukcijeIProjektovanjePositionalCoveragePercent = round(
-    (konstrukcijeIProjektovanjeMatchedTokenCount / konstrukcijeIProjektovanjeTokenDenominator) * 100,
-    2,
-  );
   const konstrukcijeIProjektovanjeTokenCoveragePercent = round(
-    (konstrukcijeIProjektovanjePositionalCoveragePercent + konstrukcijeIProjektovanjeDuplicateCoveragePercent) / 2,
+    (konstrukcijeIProjektovanjeMatchedTokenCount / konstrukcijeIProjektovanjeTokenDenominator) * 100,
     2,
   );
   const konstrukcijeIProjektovanjeNormalizedConflictTokenInputs =
@@ -11433,7 +11425,7 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
       ? 'BLOCKED'
       : konstrukcijeIProjektovanjeContainsWatchFallbackToken
         ? 'WATCH'
-        : konstrukcijeIProjektovanjeTokenCoveragePercent === 100
+          : konstrukcijeIProjektovanjeTokenCoveragePercent === 100 && konstrukcijeIProjektovanjeDuplicateCountsSatisfied
           ? 'READY'
           : konstrukcijeIProjektovanjeTokenCoveragePercent >= 70
             ? 'WATCH'
