@@ -303,6 +303,13 @@ Promotion freeze je obavezan kada KPI/audit/sync nije potpun, uz rollback na pre
 - Release audit must include global licensing coverage posture, blocker reasons, and linked-repo downstream sync status.
 - Rollback stays mandatory if licensing governance drifts after promotion (same release gate posture as KPI/security/payment blockers).
 
+## Developer/Create bounded alias additions
+
+- `DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == SARKAZAM / PRIVREDNA GRANA DIGITALIZMA / PROJEKTI ENTUZIJAZMA PO ČINU OBLASTIMA` is additive-only and stays inside the existing `/api/extrimli/extrem` → `/api/extrimli/extrondol` → `/api/extrimli/spaja-kod` chain.
+- `EXTREM` owns the technical reflection signal (`READY | WATCH | BLOCKED`, blocker/watch reasons, deterministic fallback, `oblast/čin` summary).
+- `EXTRONDOL` mirrors the same track through `releaseAuditSummary` for review/freeze/promotion/rollout/rollback governance.
+- `SPAJA KOD` exposes only summary-safe status, blocker reason, review posture, and downstream reference.
+
   ## SPAJA KOD encapsulated public facade
 
   - Source of truth endpoint: `/api/extrimli/spaja-kod`

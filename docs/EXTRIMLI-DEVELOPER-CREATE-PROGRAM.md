@@ -20,6 +20,7 @@ Ovaj program standardizuje **developer/create** rad nad EXTRIMLI + EXTRONDOL + E
 - Ovaj dokument je **glavni manifest** za `DEVELOPER AND CREATE`.
 - Jedina centralna narativna rečenica ostaje `DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA`.
 - `DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == RADNI TAKT MOZGA (MISLILAC)`, `DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == MAPE UMA` i `DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == DIJALIZA POGONSKOG OMOTAČA` ostaju samo interpretativni alias-i postojećeg vrha priče.
+- `DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == SARKAZAM / PRIVREDNA GRANA DIGITALIZMA / PROJEKTI ENTUZIJAZMA PO ČINU OBLASTIMA` ulazi samo kao additive-only bounded alias istog vrha priče: `SARKAZAM` je audit-only interpretativni/narativni marker, dok `PRIVREDNA GRANA DIGITALIZMA` i `PROJEKTI ENTUZIJAZMA PO ČINU OBLASTIMA` ostaju bounded enterprise/policy/pedagoška interpretacija bez nove izvršne logike i bez novih finansijskih formula.
 - Četiri stalna sloja ostaju zaključana: `Developer/Create / VRH` = orkestracioni vršni smisao, `EXTREM` = tehnički signal, `EXTRONDOL` = governance/WAWE/audit/freeze-promotion, `SPAJA KOD` = javni audit-safe rezime.
 - Mali kanonski blok rečnika ostaje zaključan: `DOK = technical readiness proof`, `DIK = technical consistency proof`, `DAK = governance promotion decision`, `DUK = human-review and rollback governance`, `FOR = technical execution loop`.
 - Aktivna faza za ovu stabilizaciju ostaje `roadmapStageId=v5-extrondol-release-audit-and-orchestration`; ista promena mora ostati vezana za jedan merljiv izlaz i postojeće acceptance evidence.
@@ -64,6 +65,7 @@ Additive implementation package lock:
 - Novi additive-only `audioVisualKontrabasPackage` ostaje deo istog reflection paketa: EXTREM meri tehničku spremnost audio/video toka, EXTRONDOL ga zrcali kroz WAWE/review/rollback governance, a SPAJA KOD objavljuje samo `readinessStatus`, `blockerReason`, `reviewPosture`, `downstreamReference` i `videoStoryboardSummary`.
 - Audio-vizuelni scope ostaje zaključan na snimanje glasa, glasovnu reprodukciju, glas-na-video montažu i ciklusno nadglašavanje/podglašavanje, bez novog DSP engine-a, bez nove rute i bez paralelnog source-of-truth sistema.
 - `SELEKCIONIRANJE U SELEKCIJAMA PREMA AKTIVNOM NADMAŠAJU / NAPOLEON DISKAVERI` ulazi samo kao bounded interpretativni alias unutar postojećeg Developer/Create / VRH / MAPE UMA paketa: EXTREM objavljuje readiness/discovery/selection signal, EXTRONDOL review/freeze/promotion/rollback ogledalo, a SPAJA KOD samo audit-safe status + blocker/watch razloge + downstream reference.
+- `SARKAZAM / PRIVREDNA GRANA DIGITALIZMA / PROJEKTI ENTUZIJAZMA PO ČINU OBLASTIMA` ulazi samo kao bounded reflection traka unutar istog paketa: EXTREM objavljuje status, blocker/watch razloge, readiness posture, `oblast/čin` summary i deterministički fallback; EXTRONDOL objavljuje human-review, freeze/promotion, rollout/rollback i release-audit ogledalo; SPAJA KOD objavljuje samo summary-safe status, blocker reason, review posture i downstream reference.
 
 Ownership hard lock:
 

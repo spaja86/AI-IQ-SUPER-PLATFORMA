@@ -26,6 +26,8 @@ Umbrella nivo ostaje rukovodni i agregatni sloj. Specijalizovani moduli ostaju r
 
 `Kompanija SPAJA` je kanonski poslovni naziv ovog umbrella sloja. U okviru EXTRIMLI Developer/Create plana ovaj sloj se vezuje isključivo kao bounded enterprise interpretacija: **Developer/Create / VRH PROGRAMSKOG EKVILADENTA** ostaje vršni programski i governance okvir, dok **Digitalna Industrija** ostaje poslovni/operativni agregatni sloj bez novih finansijskih ili operativnih runtime formula.
 
+Additive bounded alias `DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == SARKAZAM / PRIVREDNA GRANA DIGITALIZMA / PROJEKTI ENTUZIJAZMA PO ČINU OBLASTIMA` ostaje vezan za isti umbrella sloj samo kao summary-safe enterprise/policy/pedagoška interpretacija. `SARKAZAM` je zaključan kao narativni marker bez izvršne semantike, a poslovni smisao ostaje ograničen na postojeće okvire `Kompanija SPAJA / Digitalna Industrija`, `KRALJEVSKI EKONOMSKI UNEVERZITET`, `PRIVREDNI AKT` i katalog `testovi po oblastima`.
+
 ## 2. Poslovni tokovi
 
 Kanonski grupisani tokovi su:
