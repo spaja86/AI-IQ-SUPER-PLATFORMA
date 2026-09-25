@@ -338,6 +338,32 @@ async function runTests(): Promise<void> {
     assert(reflection.oblastCinSummary.cinStatus === 'BLOCKED', 'Sarkazam helper BLOCKED čin status mismatch');
   });
 
+  await test('Sarkazam helper keeps generic fallback wording when fallback inputs are empty', () => {
+    const reflection = resolveSarkazamPrivrednaGranaDigitalizmaReflection({
+      repoWideReadiness: {
+        score: 52,
+        status: 'WATCH',
+        deterministicFallbackRequired: true,
+        reasons: [],
+      },
+      kraljevskiEkonomskiUneverzitetReadiness: {
+        status: 'WATCH',
+        score: 58,
+        deterministicFallbackRequired: false,
+      },
+      kraljevskiProgramskiUneverzitetReadiness: {
+        status: 'READY',
+        score: 80,
+        deterministicFallbackRequired: false,
+      },
+      fallbackInputs: [],
+    });
+
+    assert(reflection.watchReasons.length === 1, 'Sarkazam helper empty fallback input case should still emit watch reason');
+    assert(reflection.watchReasons[0]?.includes('Deterministic fallback ostaje aktivan za bounded ulaze.'), 'Sarkazam helper empty fallback input case should use generic fallback wording');
+    assert(!reflection.watchReasons[0]?.includes('Deterministic fallback ostaje aktivan za  ulaze.'), 'Sarkazam helper empty fallback input case should avoid broken fallback wording');
+  });
+
   await test('Sarkazam report stays WATCH with fallback-aware review messaging when roadmap drift is cleared but DAK/DUK remain governance-only', async () => {
     await withSingleActiveRoadmapStage(() => {
       const reflection =

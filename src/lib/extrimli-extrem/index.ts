@@ -4390,7 +4390,9 @@ export function resolveSarkazamPrivrednaGranaDigitalizmaReflection(params: {
   const deterministicFallbackRequired = fallbackSignals.some(Boolean);
   const fallbackReason =
     deterministicFallbackRequired
-      ? ` Deterministic fallback ostaje aktivan za ${params.fallbackInputs.join(', ')} ulaze.`
+      ? params.fallbackInputs.length > 0
+        ? ` Deterministic fallback ostaje aktivan za ${params.fallbackInputs.join(', ')} ulaze.`
+        : ' Deterministic fallback ostaje aktivan za bounded ulaze.'
       : '';
   const oblastStatus = aggregateReadinessStatus([
     params.repoWideReadiness.status,
