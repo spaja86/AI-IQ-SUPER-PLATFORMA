@@ -11193,8 +11193,13 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
   const radniProstorNormalizationOk =
     normalizedRadniProstorTokens.length === expectedRadniProstorTokens.length
     && normalizedRadniProstorTokens.every((token, index) => token === expectedRadniProstorTokens[index]);
+  const radniProstorMatchedTokenCount = expectedRadniProstorTokens.reduce(
+    (count, expectedToken, index) =>
+      count + (normalizedRadniProstorTokens[index] === expectedToken ? 1 : 0),
+    0,
+  );
   const radniProstorTokenCoveragePercent = round(
-    (normalizedRadniProstorTokens.filter(Boolean).length / expectedRadniProstorTokens.length) * 100,
+    (radniProstorMatchedTokenCount / expectedRadniProstorTokens.length) * 100,
     2,
   );
   const radniProstorSignalStatuses = [
