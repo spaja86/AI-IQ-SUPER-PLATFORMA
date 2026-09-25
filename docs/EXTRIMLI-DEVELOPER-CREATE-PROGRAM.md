@@ -895,6 +895,7 @@ Neproverene oblasti (u ovom ciklusu):
   - `original-songs` ili `samo-originalne-pesme`
   - `no-imitation` ili `bez-imitacije-idola`
   - `no-ai-performance` ili `bez-ai-asistencije-u-izvodjenju`
+- Test harness override je dozvoljen samo u `NODE_ENV=test` preko `EXTRIMLI_KRALJEVSKO_TAKMICENJE_AUTHENTICITY_INPUT`; produkcioni/source-of-truth sloj ostaje repo-locked canonical input.
 - Fallback ostaje deterministic `READY | WATCH | BLOCKED`; parcijalni/autentičnost drift ostavlja signal u `WATCH` i obaveznoj review/freeze posture dok sva tri uslova nisu potvrđena.
 - Ownership split ostaje nepromenjen: `DOK/DIK/FOR -> EXTREM`, `DAK/DUK -> EXTRONDOL`, `SPAJA KOD -> audit-safe summary-only`.
 - Nagradna politika za prvih 100 takmičarki ostaje governance-only (`top-100-audit-governed`) sa obaveznim human review i freeze/promotion/rollback evidencijom.

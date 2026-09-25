@@ -11774,8 +11774,15 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
     dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.technicalReadinessProfile.consolidatedRhythmStatus;
   const kraljevskoTakmicenjeVisualStatus =
     dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.covecnostAuditVisualReference.imageToSignalProfile.signalOutputs.readinessStatus;
+  const kraljevskoTakmicenjeRuntimeAuthenticityInput =
+    process.env.NODE_ENV === 'test'
+      ? process.env.EXTRIMLI_KRALJEVSKO_TAKMICENJE_AUTHENTICITY_INPUT
+      : undefined;
   const kraljevskoTakmicenjeAuthenticityInput =
-    DEVELOPER_CREATE_KRALJEVSKO_TAKMICENJE_AUTHENTICITY_TOKEN_INPUT;
+    kraljevskoTakmicenjeRuntimeAuthenticityInput
+    && kraljevskoTakmicenjeRuntimeAuthenticityInput.trim().length > 0
+      ? kraljevskoTakmicenjeRuntimeAuthenticityInput
+      : DEVELOPER_CREATE_KRALJEVSKO_TAKMICENJE_AUTHENTICITY_TOKEN_INPUT;
   const kraljevskoTakmicenjeAuthenticityTokens = kraljevskoTakmicenjeAuthenticityInput
     .split(',')
     .map((token) => token.trim().toLowerCase())
