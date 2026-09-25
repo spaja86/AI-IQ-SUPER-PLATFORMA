@@ -23,6 +23,12 @@ import type {
   DEVELOPER_CREATE_AI_IQ_KONFERENCIJA_ZA_STAMPU_ROLE_CLASSIFICATION,
   DEVELOPER_CREATE_AI_IQ_KONFERENCIJA_ZA_STAMPU_SCOPE_STATEMENT,
   DEVELOPER_CREATE_AI_IQ_KONFERENCIJA_ZA_STAMPU_TOKEN_VOCABULARY,
+  DEVELOPER_CREATE_KONSTRUKCIJE_I_PROJEKTOVANJE_BOUNDED_TOKEN_SEQUENCE,
+  DEVELOPER_CREATE_KONSTRUKCIJE_I_PROJEKTOVANJE_CANONICAL_ALIAS,
+  DEVELOPER_CREATE_KONSTRUKCIJE_I_PROJEKTOVANJE_FALLBACK_INPUTS,
+  DEVELOPER_CREATE_KONSTRUKCIJE_I_PROJEKTOVANJE_NORMALIZATION_RULES,
+  DEVELOPER_CREATE_KONSTRUKCIJE_I_PROJEKTOVANJE_ROLE_CLASSIFICATION,
+  DEVELOPER_CREATE_KONSTRUKCIJE_I_PROJEKTOVANJE_SCOPE_STATEMENT,
   DEVELOPER_CREATE_NOTES_1450_BOUNDED_SIGNALS,
   DEVELOPER_CREATE_NOTES_1450_CANONICAL_ALIAS,
   DEVELOPER_CREATE_NOTES_1450_ROLE_CLASSIFICATION,
@@ -2785,6 +2791,57 @@ export interface ExtrimliDokDikDakDukConsistencyHealth {
       };
       downstreamReference: 'docs/MULTI-REPO-LINKS.md -> spaja86/IO-OPENUI-AO (summary-only)';
     };
+    konstrukcijeIProjektovanjeTrack: {
+      canonicalAlias: typeof DEVELOPER_CREATE_KONSTRUKCIJE_I_PROJEKTOVANJE_CANONICAL_ALIAS;
+      scopeStatement: typeof DEVELOPER_CREATE_KONSTRUKCIJE_I_PROJEKTOVANJE_SCOPE_STATEMENT;
+      roleClassification: typeof DEVELOPER_CREATE_KONSTRUKCIJE_I_PROJEKTOVANJE_ROLE_CLASSIFICATION;
+      boundedTokenSequence: typeof DEVELOPER_CREATE_KONSTRUKCIJE_I_PROJEKTOVANJE_BOUNDED_TOKEN_SEQUENCE;
+      normalizationRules: typeof DEVELOPER_CREATE_KONSTRUKCIJE_I_PROJEKTOVANJE_NORMALIZATION_RULES;
+      boundedVocabularyPhrase: 'EXTRIMLI EXTRONDOL EXTREM DOK DUK DAK DIK FOR';
+      additiveOnly: true;
+      noNewRuntimeEngine: true;
+      noNewRuntimeRoutes: true;
+      noParallelSourceOfTruth: true;
+      sourceOfTruthRoutes: readonly ['/api/extrimli/extrem', '/api/extrimli/extrondol', '/api/extrimli/spaja-kod'];
+      ownershipLock: {
+        dokDikFor: 'EXTREM';
+        dakDuk: 'EXTRONDOL';
+        spajaKod: 'audit-safe-summary-only';
+      };
+      parentDomain: 'GRAĐEVINSKI FAKULTET / GRAĐEVINSKI AKT';
+      summarySafePublicFields: readonly [
+        'canonicalAlias',
+        'status',
+        'blockerReason',
+        'watchReasons',
+        'reviewPosture',
+        'downstreamReference',
+        'constructionDesignSummary',
+        'gradjevinskiFakultetStatus',
+        'gradjevinskiAktStatus'
+      ];
+      readinessSignal: {
+        status: 'READY' | 'WATCH' | 'BLOCKED';
+        readinessScore: number;
+        gradjevinskiFakultetStatus: 'READY' | 'WATCH' | 'BLOCKED';
+        gradjevinskiAktStatus: 'READY' | 'WATCH' | 'BLOCKED';
+        tokenCoveragePercent: number;
+        normalizedInputCount: number;
+        deterministicFallbackRequired: boolean;
+        fallbackInputs: typeof DEVELOPER_CREATE_KONSTRUKCIJE_I_PROJEKTOVANJE_FALLBACK_INPUTS;
+        driver: 'developerAndCreateRepoWideReflection.kraljevskiProgramskiUneverzitet.boundedFacultyDomains.gradjevinskiFakultet + developerAndCreateRepoWideReflection.kraljevskiDrustveniPoredak.gradjevinskiAkt + developerAndCreateRepoWideReflection.readiness';
+      };
+      blockerReason: string | null;
+      watchReasons: string[];
+      reviewPosture: 'ALIGNED' | 'WATCH' | 'REVIEW_REQUIRED';
+      constructionDesignSummary: string;
+      domainBinding: {
+        boundedFacultyDomain: 'GRAĐEVINSKI FAKULTET';
+        boundedGovernanceDomain: 'GRAĐEVINSKI AKT';
+        noNewRuntimeFormulas: true;
+      };
+      downstreamReference: 'docs/MULTI-REPO-LINKS.md -> spaja86/IO-OPENUI-AO (summary-only)';
+    };
     aiIqKonferencijaZaStampuTrack: {
       canonicalAlias: typeof DEVELOPER_CREATE_AI_IQ_KONFERENCIJA_ZA_STAMPU_CANONICAL_ALIAS;
       scopeStatement: typeof DEVELOPER_CREATE_AI_IQ_KONFERENCIJA_ZA_STAMPU_SCOPE_STATEMENT;
@@ -2855,6 +2912,7 @@ export interface ExtrimliDokDikDakDukConsistencyHealth {
       kompanijaSpajaDigitalnaIndustrija: 'Kompanija SPAJA / Digitalna Industrija';
       sarkazamPrivrednaGranaDigitalizma: 'SARKAZAM / PRIVREDNA GRANA DIGITALIZMA / PROJEKTI ENTUZIJAZMA PO ČINU OBLASTIMA';
       radniProstor: 'RADNI PROSTOR';
+      konstrukcijeIProjektovanje: 'KONSTRUKCIJE I PROJEKTOVANJE';
       notes1450: 'NOTES 1450';
     };
     canonicalGovernanceVocabulary: {
@@ -2887,6 +2945,7 @@ export interface ExtrimliDokDikDakDukConsistencyHealth {
       digitalnaIndustrija: 'DIGITALNA INDUSTRIJA';
       sarkazam: 'SARKAZAM';
       radniProstor: 'RADNI PROSTOR';
+      konstrukcijeIProjektovanje: 'KONSTRUKCIJE I PROJEKTOVANJE';
       privrednaGranaDigitalizma: 'PRIVREDNA GRANA DIGITALIZMA';
       projektiEntuzijazmaPoCinuOblastima: 'PROJEKTI ENTUZIJAZMA PO ČINU OBLASTIMA';
       aiIqKonferencijaZaStampu: 'AI IQ KONFERENCIJA ZA ŠTAMPU';
@@ -4382,6 +4441,21 @@ export interface ExtrimliDokDikDakDukConsistencyHealth {
         extrondolPublishes: 'wawe-freeze-promotion-review-rollback-audit-summary-only';
         spajaKodPublishes: 'status-blocker-review-downstream-and-token-sequence-lock-summary-only';
         technicalBinding: 'developerAndCreateRepoWideReflection.radniProstorTrack';
+        noNewRuntimeEngine: true;
+        noNewRuntimeRoutes: true;
+        noParallelSourceOfTruth: true;
+        rawInternalsExposed: false;
+      };
+      konstrukcijeIProjektovanjeBoundary: {
+        trackRole: 'bounded-construction-design-alias-track';
+        parentTrack: 'VRH PROGRAMSKOG EKVILADENTA';
+        canonicalAlias: typeof DEVELOPER_CREATE_KONSTRUKCIJE_I_PROJEKTOVANJE_CANONICAL_ALIAS;
+        roleClassification: typeof DEVELOPER_CREATE_KONSTRUKCIJE_I_PROJEKTOVANJE_ROLE_CLASSIFICATION;
+        parentDomain: 'GRAĐEVINSKI FAKULTET / GRAĐEVINSKI AKT';
+        extremPublishes: 'status-token-coverage-gradjevinski-readiness-and-deterministic-fallback-signal-only';
+        extrondolPublishes: 'wawe-freeze-promotion-review-rollback-audit-summary-only';
+        spajaKodPublishes: 'status-blocker-review-downstream-and-construction-design-summary-only';
+        technicalBinding: 'developerAndCreateRepoWideReflection.konstrukcijeIProjektovanjeTrack';
         noNewRuntimeEngine: true;
         noNewRuntimeRoutes: true;
         noParallelSourceOfTruth: true;
