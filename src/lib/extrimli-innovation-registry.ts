@@ -1,6 +1,6 @@
 export type ExtrimliInnovationReadinessStatus = 'READY' | 'WATCH' | 'BLOCKED';
 export type ExtrimliInnovationGovernanceStatus = 'promote' | 'freeze' | 'rollback';
-export type ExtrimliInnovationWawePriority = 'critical' | 'high' | 'medium' | 'experimental';
+export type ExtrimliInnovationWavePriority = 'critical' | 'high' | 'medium' | 'experimental';
 export type ExtrimliInnovationTrack =
   | 'funkcionalno'
   | 'objektno'
@@ -18,7 +18,7 @@ export interface ExtrimliInnovationRegistryEntry {
   expectedEffect: string;
   readinessStatus: ExtrimliInnovationReadinessStatus;
   governanceStatus: ExtrimliInnovationGovernanceStatus;
-  wawePriority: ExtrimliInnovationWawePriority;
+  wavePriority: ExtrimliInnovationWavePriority;
   track: ExtrimliInnovationTrack;
   deterministicFallbackQuality: 'strong' | 'bounded' | 'degraded';
   downstreamTag: 'summary-only-io-openui-ao';
@@ -58,7 +58,7 @@ export interface ExtrimliInnovationRegistryModel {
   ];
   cadence: {
     daily: readonly ['cluster-planning', 'technical-validation', 'governance-decision', 'summary-publish'];
-    weekly: readonly ['wawe-prioritization', 'blocker-closure'];
+    weekly: readonly ['wave-prioritization', 'blocker-closure'];
     monthly: readonly ['audit', 'ecosystem-benchmark'];
   };
   governancePolicy: {
@@ -78,7 +78,7 @@ export interface ExtrimliInnovationRegistryModel {
     totalInnovations: number;
     byReadiness: Record<ExtrimliInnovationReadinessStatus, number>;
     byGovernance: Record<ExtrimliInnovationGovernanceStatus, number>;
-    byWawePriority: Record<ExtrimliInnovationWawePriority, number>;
+    byWavePriority: Record<ExtrimliInnovationWavePriority, number>;
     byTrack: Record<ExtrimliInnovationTrack, number>;
     blockedCriticalCount: number;
   };
@@ -93,7 +93,7 @@ export interface ExtrimliInnovationRegistryModel {
     blockerReasons: readonly [
       'governance-review-required',
       'deterministic-fallback-quality-degraded',
-      'wawe-freeze-priority-critical'
+      'wave-freeze-priority-critical'
     ];
     downstreamReference: 'docs/MULTI-REPO-LINKS.md -> spaja86/IO-OPENUI-AO (summary-only)';
   };
@@ -127,7 +127,7 @@ function resolveReadiness(globalIndex: number): ExtrimliInnovationReadinessStatu
 function resolveWawePriority(
   readinessStatus: ExtrimliInnovationReadinessStatus,
   globalIndex: number,
-): ExtrimliInnovationWawePriority {
+): ExtrimliInnovationWavePriority {
   if (readinessStatus === 'BLOCKED') return globalIndex % 2 === 0 ? 'critical' : 'high';
   if (readinessStatus === 'WATCH') return globalIndex % 2 === 0 ? 'high' : 'medium';
   return globalIndex % 5 === 0 ? 'medium' : 'experimental';
@@ -155,7 +155,7 @@ export function buildExtrimliInnovationRegistry(): ExtrimliInnovationRegistryMod
     freeze: 0,
     rollback: 0,
   };
-  const byWawePriority: Record<ExtrimliInnovationWawePriority, number> = {
+  const byWavePriority: Record<ExtrimliInnovationWavePriority, number> = {
     critical: 0,
     high: 0,
     medium: 0,
@@ -188,10 +188,10 @@ export function buildExtrimliInnovationRegistry(): ExtrimliInnovationRegistryMod
       const readinessStatus = resolveReadiness(globalIndex);
       const governanceStatus: ExtrimliInnovationGovernanceStatus =
         readinessStatus === 'READY' ? 'promote' : readinessStatus === 'WATCH' ? 'freeze' : 'rollback';
-      const wawePriority = resolveWawePriority(readinessStatus, globalIndex);
+      const wavePriority = resolveWawePriority(readinessStatus, globalIndex);
       const track = TRACKS[globalIndex % TRACKS.length];
 
-      if (readinessStatus === 'BLOCKED' && wawePriority === 'critical') blockedCriticalCount += 1;
+      if (readinessStatus === 'BLOCKED' && wavePriority === 'critical') blockedCriticalCount += 1;
 
       const entry: ExtrimliInnovationRegistryEntry = {
         id: toInnovationId(clusterIndex, innovationIndex),
@@ -202,7 +202,7 @@ export function buildExtrimliInnovationRegistry(): ExtrimliInnovationRegistryMod
         expectedEffect: `Poboljsanje ekosistema kroz ${track} traku u klasteru ${clusterIndex}.`,
         readinessStatus,
         governanceStatus,
-        wawePriority,
+        wavePriority,
         track,
         deterministicFallbackQuality: resolveFallbackQuality(readinessStatus),
         downstreamTag: 'summary-only-io-openui-ao',
@@ -211,7 +211,7 @@ export function buildExtrimliInnovationRegistry(): ExtrimliInnovationRegistryMod
       innovations.push(entry);
       byReadiness[readinessStatus] += 1;
       byGovernance[governanceStatus] += 1;
-      byWawePriority[wawePriority] += 1;
+      byWavePriority[wavePriority] += 1;
       byTrack[track] += 1;
       clusterReadiness[readinessStatus] += 1;
       clusterGovernance[governanceStatus] += 1;
@@ -260,7 +260,7 @@ export function buildExtrimliInnovationRegistry(): ExtrimliInnovationRegistryMod
     ],
     cadence: {
       daily: ['cluster-planning', 'technical-validation', 'governance-decision', 'summary-publish'],
-      weekly: ['wawe-prioritization', 'blocker-closure'],
+      weekly: ['wave-prioritization', 'blocker-closure'],
       monthly: ['audit', 'ecosystem-benchmark'],
     },
     governancePolicy: {
@@ -280,7 +280,7 @@ export function buildExtrimliInnovationRegistry(): ExtrimliInnovationRegistryMod
       totalInnovations,
       byReadiness,
       byGovernance,
-      byWawePriority,
+      byWavePriority,
       byTrack,
       blockedCriticalCount,
     },
@@ -295,7 +295,7 @@ export function buildExtrimliInnovationRegistry(): ExtrimliInnovationRegistryMod
       blockerReasons: [
         'governance-review-required',
         'deterministic-fallback-quality-degraded',
-        'wawe-freeze-priority-critical',
+        'wave-freeze-priority-critical',
       ],
       downstreamReference: 'docs/MULTI-REPO-LINKS.md -> spaja86/IO-OPENUI-AO (summary-only)',
     },
