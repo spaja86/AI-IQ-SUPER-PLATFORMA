@@ -1996,6 +1996,14 @@ Koristiti format `AI-IQ-SUPER-PLATFORMA#VPOREKLO-2026-09 -> IO-OPENUI-AO#123` gd
 - Raw bounded-token interpretation internals and raw EXTREM/EXTRONDOL formulas remain repo-local.
 - Ownership lock remains unchanged: `DOK/DIK/FOR -> EXTREM`, `DAK/DUK -> EXTRONDOL`, `SPAJA KOD -> summary-only`.
 
+## Developer/Create NAVIGACIONI SISTEM SA TREKEROM downstream reference
+
+- Scope lock: `DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == NAVIGACIONI SISTEM SA TREKEROM`.
+- Linked repo: `spaja86/IO-OPENUI-AO` — Follow-up only / audit-safe summary sync.
+- Sync only audit-safe outputs (`developerAndCreateRepoWideReflection.navigacioniSistemSaTrekeromTrack`, `releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.navigacioniSistemSaTrekeromTrack`, `spajaKod.publicSignals.navigacioniSistemSaTrekeromStatus`, `spajaKod.developerAndCreateImplementationPackage.navigacioniSistemSaTrekeromSummary`) covering status, conflictIntensity, WAWE stage, review posture, rollback readiness and downstream reference.
+- Raw DOK/DIK/DAK/DUK/FOR token interpretation internals and raw EXTREM/EXTRONDOL formulas remain repo-local.
+- Ownership lock remains unchanged: `DOK/DIK/FOR -> EXTREM`, `DAK/DUK -> EXTRONDOL`, `SPAJA KOD -> summary-only`.
+
 ## Developer/Create AI IQ laboratorija downstream reference
 
 - Scope lock: `DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == AI IQ LABORATORIJA == LABORATORIJSKI NALAZI FAUNE I FLORE I GRAĐEVINSKOG MATERIJALA`.
