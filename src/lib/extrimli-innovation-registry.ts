@@ -82,6 +82,7 @@ export interface ExtrimliInnovationRegistryModel {
     byTrack: Record<ExtrimliInnovationTrack, number>;
     blockedCriticalCount: number;
   };
+  innovationsMaterialized: boolean;
   clusters: ExtrimliInnovationRegistryCluster[];
   innovations: ExtrimliInnovationRegistryEntry[];
   summarySafeDashboard: {
@@ -142,7 +143,11 @@ function resolveFallbackQuality(
   return 'strong';
 }
 
-let cachedInnovationRegistry: ExtrimliInnovationRegistryModel | null = null;
+let cachedInnovationRegistrySummary: ExtrimliInnovationRegistryModel | null = null;
+let cachedInnovationRegistryFull: ExtrimliInnovationRegistryModel | null = null;
+interface BuildInnovationRegistryOptions {
+  materializeInnovations?: boolean;
+}
 
 function deepFreeze<T>(value: T): T {
   if (value && typeof value === 'object' && !Object.isFrozen(value)) {
@@ -154,8 +159,12 @@ function deepFreeze<T>(value: T): T {
   return value;
 }
 
-export function buildExtrimliInnovationRegistry(): ExtrimliInnovationRegistryModel {
-  if (cachedInnovationRegistry) return cachedInnovationRegistry;
+export function buildExtrimliInnovationRegistry(
+  options: BuildInnovationRegistryOptions = {},
+): ExtrimliInnovationRegistryModel {
+  const shouldMaterializeInnovations = options.materializeInnovations !== false;
+  if (shouldMaterializeInnovations && cachedInnovationRegistryFull) return cachedInnovationRegistryFull;
+  if (!shouldMaterializeInnovations && cachedInnovationRegistrySummary) return cachedInnovationRegistrySummary;
 
   const innovations: ExtrimliInnovationRegistryEntry[] = [];
   const clusters: ExtrimliInnovationRegistryCluster[] = [];
@@ -209,22 +218,22 @@ export function buildExtrimliInnovationRegistry(): ExtrimliInnovationRegistryMod
 
       if (readinessStatus === 'BLOCKED' && wavePriority === 'critical') blockedCriticalCount += 1;
 
-      const entry: ExtrimliInnovationRegistryEntry = {
-        id: toInnovationId(clusterIndex, innovationIndex),
-        name: `INOVACIJA ${clusterIndex}.${innovationIndex} / ${track.toUpperCase()}`,
-        clusterId: toClusterId(clusterIndex),
-        clusterIndex,
-        innovationIndex,
-        expectedEffect: `Poboljsanje ekosistema kroz ${track} traku u klasteru ${clusterIndex}.`,
-        readinessStatus,
-        governanceStatus,
-        wavePriority,
-        track,
-        deterministicFallbackQuality: resolveFallbackQuality(readinessStatus),
-        downstreamTag: 'summary-only-io-openui-ao',
-      };
-
-      innovations.push(entry);
+      if (shouldMaterializeInnovations) {
+        innovations.push({
+          id: toInnovationId(clusterIndex, innovationIndex),
+          name: `INOVACIJA ${clusterIndex}.${innovationIndex} / ${track.toUpperCase()}`,
+          clusterId: toClusterId(clusterIndex),
+          clusterIndex,
+          innovationIndex,
+          expectedEffect: `Poboljsanje ekosistema kroz ${track} traku u klasteru ${clusterIndex}.`,
+          readinessStatus,
+          governanceStatus,
+          wavePriority,
+          track,
+          deterministicFallbackQuality: resolveFallbackQuality(readinessStatus),
+          downstreamTag: 'summary-only-io-openui-ao',
+        });
+      }
       byReadiness[readinessStatus] += 1;
       byGovernance[governanceStatus] += 1;
       byWavePriority[wavePriority] += 1;
@@ -243,7 +252,7 @@ export function buildExtrimliInnovationRegistry(): ExtrimliInnovationRegistryMod
     });
   }
 
-  const totalInnovations = innovations.length;
+  const totalInnovations = CLUSTER_COUNT * INNOVATIONS_PER_CLUSTER;
   const coveragePercent = Math.round((totalInnovations / (CLUSTER_COUNT * INNOVATIONS_PER_CLUSTER)) * 10000) / 100;
   const safeInnovationDenominator = totalInnovations > 0 ? totalInnovations : 1;
   const readyRatioPercent = Math.round((byReadiness.READY / safeInnovationDenominator) * 10000) / 100;
@@ -262,7 +271,7 @@ export function buildExtrimliInnovationRegistry(): ExtrimliInnovationRegistryMod
       ? 'READY'
       : 'WATCH';
 
-  cachedInnovationRegistry = deepFreeze({
+  const builtRegistry = deepFreeze({
     canonicalAlias: 'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == 13000 INOVACIJA',
     additiveOnly: true,
     sourceOfTruthRoutes: ['/api/extrimli/extrem', '/api/extrimli/extrondol', '/api/extrimli/spaja-kod'],
@@ -312,6 +321,7 @@ export function buildExtrimliInnovationRegistry(): ExtrimliInnovationRegistryMod
       byTrack,
       blockedCriticalCount,
     },
+    innovationsMaterialized: shouldMaterializeInnovations,
     clusters,
     innovations,
     summarySafeDashboard: {
@@ -330,5 +340,22 @@ export function buildExtrimliInnovationRegistry(): ExtrimliInnovationRegistryMod
     },
   });
 
-  return cachedInnovationRegistry;
+  if (shouldMaterializeInnovations) {
+    cachedInnovationRegistryFull = builtRegistry;
+    if (!cachedInnovationRegistrySummary) {
+      cachedInnovationRegistrySummary = deepFreeze({
+        ...builtRegistry,
+        innovationsMaterialized: false,
+        innovations: [],
+      });
+    }
+    return cachedInnovationRegistryFull;
+  }
+
+  cachedInnovationRegistrySummary = deepFreeze({
+    ...builtRegistry,
+    innovationsMaterialized: false,
+    innovations: [],
+  });
+  return cachedInnovationRegistrySummary;
 }
