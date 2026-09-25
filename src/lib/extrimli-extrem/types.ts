@@ -50,6 +50,12 @@ import type {
   DEVELOPER_CREATE_KRALJEVSKI_POKLONI_ZA_SVACIJI_RODJENDAN_ROLE_CLASSIFICATION,
   DEVELOPER_CREATE_KRALJEVSKI_POKLONI_ZA_SVACIJI_RODJENDAN_SCOPE_STATEMENT,
   DEVELOPER_CREATE_KRALJEVSKI_POKLONI_ZA_SVACIJI_RODJENDAN_SUMMARY_SAFE_FIELDS,
+  DEVELOPER_CREATE_LEKSIKON_BOUNDED_SIGNALS,
+  DEVELOPER_CREATE_LEKSIKON_CANONICAL_ALIAS,
+  DEVELOPER_CREATE_LEKSIKON_DOWNSTREAM_POLICY,
+  DEVELOPER_CREATE_LEKSIKON_ROLE_CLASSIFICATION,
+  DEVELOPER_CREATE_LEKSIKON_SCOPE_STATEMENT,
+  DEVELOPER_CREATE_LEKSIKON_SUMMARY_SAFE_FIELDS,
   DEVELOPER_CREATE_NOTES_1450_BOUNDED_SIGNALS,
   DEVELOPER_CREATE_NOTES_1450_CANONICAL_ALIAS,
   DEVELOPER_CREATE_NOTES_1450_ROLE_CLASSIFICATION,
@@ -2877,6 +2883,45 @@ export interface ExtrimliDokDikDakDukConsistencyHealth {
       businessValueSummary: string;
       downstreamReference: 'docs/MULTI-REPO-LINKS.md -> spaja86/IO-OPENUI-AO (summary-only)';
     };
+    leksikonTrack: {
+      canonicalAlias: typeof DEVELOPER_CREATE_LEKSIKON_CANONICAL_ALIAS;
+      scopeStatement: typeof DEVELOPER_CREATE_LEKSIKON_SCOPE_STATEMENT;
+      roleClassification: typeof DEVELOPER_CREATE_LEKSIKON_ROLE_CLASSIFICATION;
+      boundedSignals: typeof DEVELOPER_CREATE_LEKSIKON_BOUNDED_SIGNALS;
+      summarySafePublicFields: typeof DEVELOPER_CREATE_LEKSIKON_SUMMARY_SAFE_FIELDS;
+      downstreamPolicy: typeof DEVELOPER_CREATE_LEKSIKON_DOWNSTREAM_POLICY;
+      boundedVocabularyPhrase: 'EXTRIMLI EXTRONDOL EXTREM DOK DUK DAK DIK FOR';
+      additiveOnly: true;
+      noNewRuntimeEngine: true;
+      noNewRuntimeRoutes: true;
+      noParallelSourceOfTruth: true;
+      sourceOfTruthRoutes: readonly ['/api/extrimli/extrem', '/api/extrimli/extrondol', '/api/extrimli/spaja-kod'];
+      ownershipLock: {
+        dokDikFor: 'EXTREM';
+        dakDuk: 'EXTRONDOL';
+        spajaKod: 'audit-safe-summary-only';
+      };
+      readinessSignal: {
+        status: 'READY' | 'WATCH' | 'BLOCKED';
+        readinessScore: number;
+        blockerSignalStatus: 'READY' | 'WATCH' | 'BLOCKED';
+        watchSignalStatus: 'READY' | 'WATCH' | 'BLOCKED';
+        deterministicFallbackRequired: boolean;
+        fallbackInputs: readonly ['NaN', 'Infinity', 'empty', 'conflict'];
+        driver: 'developerAndCreateRepoWideReflection.readiness + developerAndCreateRepoWideReflection.technicalReadinessProfile.consolidatedRhythmStatus + developerAndCreateRepoWideReflection.implementationPackage';
+      };
+      blockerReason: string | null;
+      watchReasons: string[];
+      reviewPosture: 'ALIGNED' | 'WATCH' | 'REVIEW_REQUIRED';
+      lexiconSummary: string;
+      acceptanceEvidence: readonly [
+        'developerAndCreateRepoWideReflection.leksikonTrack',
+        'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.leksikonTrack',
+        'spajaKod.publicSignals.leksikonStatus',
+        'spajaKod.developerAndCreateImplementationPackage.leksikonSummary'
+      ];
+      downstreamReference: 'docs/MULTI-REPO-LINKS.md -> spaja86/IO-OPENUI-AO (summary-only)';
+    };
     promocijeTiketiBonusiPropusniceAdministrativniBonusiTrack: {
       canonicalAlias: typeof DEVELOPER_CREATE_PROMOCIJE_TIKETI_BONUSI_PROPUSNICE_ADMINISTRATIVNI_BONUSI_CANONICAL_ALIAS;
       scopeStatement: typeof DEVELOPER_CREATE_PROMOCIJE_TIKETI_BONUSI_PROPUSNICE_ADMINISTRATIVNI_BONUSI_SCOPE_STATEMENT;
@@ -4490,6 +4535,7 @@ export interface ExtrimliDokDikDakDukConsistencyHealth {
         'dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.osnoveRispektProtocol',
         'dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.aiIdentityFinanceGovernance',
         'dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.aiPlateOffer',
+        'dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.leksikonTrack',
         'dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.radniProstorTrack',
         'spajaKod.publicSignals.developerAndCreateStatus',
         'radniTaktMozgaMislilac.readiness',
@@ -4869,6 +4915,20 @@ export interface ExtrimliDokDikDakDukConsistencyHealth {
         extrondolPublishes: 'wawe-freeze-promotion-review-rollback-audit-summary-only';
         spajaKodPublishes: 'status-blocker-review-downstream-and-business-value-summary-only';
         technicalBinding: 'developerAndCreateRepoWideReflection.notes1450Track';
+        noNewRuntimeEngine: true;
+        noNewRuntimeRoutes: true;
+        noParallelSourceOfTruth: true;
+        rawInternalsExposed: false;
+      };
+      leksikonBoundary: {
+        trackRole: 'bounded-leksikon-interpretation-alias-track';
+        parentTrack: 'VRH PROGRAMSKOG EKVILADENTA';
+        canonicalAlias: typeof DEVELOPER_CREATE_LEKSIKON_CANONICAL_ALIAS;
+        roleClassification: typeof DEVELOPER_CREATE_LEKSIKON_ROLE_CLASSIFICATION;
+        extremPublishes: 'readiness-blocker-watch-deterministic-fallback-signal-only';
+        extrondolPublishes: 'wawe-freeze-promotion-review-rollback-audit-summary-only';
+        spajaKodPublishes: 'status-blocker-watch-review-and-downstream-reference-only';
+        technicalBinding: 'developerAndCreateRepoWideReflection.leksikonTrack';
         noNewRuntimeEngine: true;
         noNewRuntimeRoutes: true;
         noParallelSourceOfTruth: true;
