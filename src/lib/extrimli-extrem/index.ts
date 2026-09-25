@@ -11186,11 +11186,15 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
     'NOTES 1450 ostaje additive-only bounded radni naslednik koji smanjuje gubitak konteksta, ponavljanje i neefikasno trošenje AI materijala kroz audit-ready nastavak rada.';
   const radniProstorTrack =
     dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.radniProstorTrack;
-  const radniProstorTokenCoveragePercent = 100;
   const radniProstorSignalStatuses = [
     dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.status,
     dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.technicalReadinessProfile.consolidatedRhythmStatus,
   ] as const;
+  const radniProstorTokenCoveragePercent = radniProstorSignalStatuses.includes('BLOCKED')
+    ? 0
+    : radniProstorSignalStatuses.every((status) => status === 'READY')
+      ? 100
+      : 50;
   const radniProstorStatus = aggregateSignalReadinessStatus([...radniProstorSignalStatuses]);
   const radniProstorReadinessScore = round(
     radniProstorSignalStatuses.reduce((sum, status) => sum + readinessStatusScore(status), 0)
