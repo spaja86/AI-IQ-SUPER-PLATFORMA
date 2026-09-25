@@ -363,7 +363,7 @@ async function runTests(): Promise<void> {
     assert(reflection.oblastCinSummary.cinStatus === 'BLOCKED', 'Sarkazam helper BLOCKED čin status mismatch');
   });
 
-  await test('Sarkazam helper keeps generic fallback wording when fallback inputs are empty', () => {
+  await test('Sarkazam helper falls back to the canonical bounded fallback vocabulary when caller inputs are empty', () => {
     const reflection = resolveSarkazamPrivrednaGranaDigitalizmaReflection({
       repoWideReadiness: {
         score: 52,
@@ -385,7 +385,7 @@ async function runTests(): Promise<void> {
     });
 
     assert(reflection.watchReasons.length === 1, 'Sarkazam helper empty fallback input case should still emit watch reason');
-    assert(reflection.watchReasons[0]?.includes('Deterministic fallback ostaje aktivan za bounded ulaze.'), 'Sarkazam helper empty fallback input case should use generic fallback wording');
+    assert(reflection.watchReasons[0]?.includes('Deterministic fallback ostaje aktivan za NaN, Infinity, empty, conflict ulaze.'), 'Sarkazam helper empty fallback input case should restore canonical fallback wording');
     assert(!reflection.watchReasons[0]?.includes('Deterministic fallback ostaje aktivan za  ulaze.'), 'Sarkazam helper empty fallback input case should avoid broken fallback wording');
   });
 
@@ -411,7 +411,7 @@ async function runTests(): Promise<void> {
     });
 
     assert(reflection.watchReasons.length === 1, 'Sarkazam helper normalized fallback case should still emit watch reason');
-    assert(reflection.watchReasons[0]?.includes('Deterministic fallback ostaje aktivan za NaN, Infinity, empty ulaze.'), 'Sarkazam helper normalized fallback case should trim and deduplicate fallback inputs');
+    assert(reflection.watchReasons[0]?.includes('Deterministic fallback ostaje aktivan za NaN, Infinity, empty, conflict ulaze.'), 'Sarkazam helper normalized fallback case should restore canonical fallback vocabulary when the caller input is partial');
     assert(!reflection.watchReasons[0]?.includes(' NaN '), 'Sarkazam helper normalized fallback case should not leak padded fallback inputs');
   });
 

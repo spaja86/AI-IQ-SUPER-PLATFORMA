@@ -4368,6 +4368,7 @@ export function resolveSarkazamPrivrednaGranaDigitalizmaReflection(params: {
     'status' | 'readinessScore' | 'deterministicFallbackRequired'
   >;
 } {
+  const canonicalFallbackInputs = ['NaN', 'Infinity', 'empty', 'conflict'] as const;
   const signalStatuses = [
     params.repoWideReadiness.status,
     params.kraljevskiEkonomskiUneverzitetReadiness.status,
@@ -4395,10 +4396,18 @@ export function resolveSarkazamPrivrednaGranaDigitalizmaReflection(params: {
     2,
   );
   const deterministicFallbackRequired = fallbackSignals.some(Boolean);
+  const alignedFallbackInputs =
+    deterministicFallbackRequired
+      && (
+        normalizedFallbackInputs.length !== canonicalFallbackInputs.length
+        || canonicalFallbackInputs.some((input) => !normalizedFallbackInputs.includes(input))
+      )
+      ? [...canonicalFallbackInputs]
+      : normalizedFallbackInputs;
   const fallbackSentence =
     deterministicFallbackRequired
-      ? normalizedFallbackInputs.length > 0
-        ? `Deterministic fallback ostaje aktivan za ${normalizedFallbackInputs.join(', ')} ulaze.`
+      ? alignedFallbackInputs.length > 0
+        ? `Deterministic fallback ostaje aktivan za ${alignedFallbackInputs.join(', ')} ulaze.`
         : 'Deterministic fallback ostaje aktivan za bounded ulaze.'
       : null;
   const blockerReason =
