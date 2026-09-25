@@ -11419,10 +11419,13 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
   );
   const konstrukcijeIProjektovanjeTokenDenominator =
     normalizedExpectedKonstrukcijeIProjektovanjeTokens.length || 1;
-  const konstrukcijeIProjektovanjeTokenCoveragePercent = round(
+  let konstrukcijeIProjektovanjeTokenCoveragePercent = round(
     (konstrukcijeIProjektovanjeEffectiveMatchedTokenCount / konstrukcijeIProjektovanjeTokenDenominator) * 100,
     2,
   );
+  if (!konstrukcijeIProjektovanjeDuplicateCountsSatisfied && konstrukcijeIProjektovanjeTokenCoveragePercent >= 100) {
+    konstrukcijeIProjektovanjeTokenCoveragePercent = 99;
+  }
   const konstrukcijeIProjektovanjeNormalizedConflictTokenInputs =
     DEVELOPER_CREATE_KONSTRUKCIJE_I_PROJEKTOVANJE_BLOCKED_FALLBACK_INPUTS.map(
       normalizeKonstrukcijeIProjektovanjeToken,
