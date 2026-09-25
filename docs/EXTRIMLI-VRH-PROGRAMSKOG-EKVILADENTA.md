@@ -82,7 +82,7 @@ Repo-wide reflection sada obavezno uključuje i dnevni operativni cadence: `morn
 
 - Kanonski bounded RADIO rečnik ostaje zaključan: `DOR, TRU, SKU, GIVE, TRAJ, TUR, DIR, KON, ZION, KURA, DOKER`.
 - `TRU`, `DOKER` i `SKU` zadržavaju postojeća značenja i ne postaju novi RADIO source-of-truth.
-- `MIKROFON == MEGAFON, DISTRIBUTER, SAKSOFON` ostaje zaključana bounded projekcija unutar istog RADIO paketa: `MIKROFON` je capture ulaz, `MEGAFON` i `DISTRIBUTER` ostaju summary-safe amplifikacija/distribucija, a `SAKSOFON` bounded tonalna/projekciona pratnja bez novog audio/distribution engine-a.
+- `MIKROFON == MEGAFON, DISTRIBUTER, SAKSOFON` ostaje zaključana bounded projekcija unutar istog RADIO paketa: `MIKROFON` je capture ulaz, `MEGAFON` i `DISTRIBUTER` ostaju summary-safe amplifikacija/distribucija, a `SAKSOFON` bounded tonalna/projekciona pratnja bez novog audio/distribution engine-a; javni izlaz ide kroz poseban audit-safe `mikrofonProjectionAlias` summary objekat uz postojeći `radioSummary`.
 - `EXTREM` vodi readiness/status, blocker/watch razloge, bounded audio/distribution summary, deterministic fallback i acceptance evidence bez nove rute i bez izlaganja sirovog internog token modela.
 - `EXTRONDOL` vodi human-review, WAWE/promotion-freeze, rollout/rollback, release-audit summary i downstream reference za isti bounded paket.
 - `SPAJA KOD` objavljuje samo audit-safe javni status, blocker/watch razlog, review posture, downstream reference, kratak bounded radio summary i bounded mikrofon-projection summary.

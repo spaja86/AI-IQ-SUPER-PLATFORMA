@@ -12125,7 +12125,7 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
   const mikrofonProjectionCaptureSignalPresent =
     actualMikrofonProjectionSequence.includes('MIKROFON')
     && actualMikrofonProjectionCategorizedTokens.has('MIKROFON');
-  const mikrofonProjectionCaptureStatus =
+  const mikrofonProjectionLocalCaptureStatus =
     mikrofonProjectionNormalizationReady
     && mikrofonProjectionCaptureSignalPresent
     && mikrofonProjectionCoveragePercent === 100
@@ -12137,7 +12137,7 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
     actualMikrofonProjectionSequence.includes(token)
     && actualMikrofonProjectionCategorizedTokens.has(token),
   ).length;
-  const mikrofonProjectionDistributionStatus =
+  const mikrofonProjectionLocalDistributionStatus =
     mikrofonProjectionNormalizationReady
     && mikrofonProjectionDistributionCoverageCount === 2
       ? 'READY'
@@ -12147,12 +12147,24 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
   const mikrofonProjectionTonalSignalPresent =
     actualMikrofonProjectionSequence.includes('SAKSOFON')
     && actualMikrofonProjectionCategorizedTokens.has('SAKSOFON');
-  const mikrofonProjectionTonalStatus =
+  const mikrofonProjectionLocalTonalStatus =
     mikrofonProjectionNormalizationReady && mikrofonProjectionTonalSignalPresent
       ? 'READY'
       : mikrofonProjectionTonalSignalPresent
         ? 'WATCH'
         : 'BLOCKED';
+  const gateMikrofonProjectionComponentStatus = (status: ReadinessStatus): ReadinessStatus =>
+    radioStatus === 'BLOCKED'
+      ? 'BLOCKED'
+      : radioStatus === 'WATCH' && status === 'READY'
+        ? 'WATCH'
+        : status;
+  const mikrofonProjectionCaptureStatus =
+    gateMikrofonProjectionComponentStatus(mikrofonProjectionLocalCaptureStatus);
+  const mikrofonProjectionDistributionStatus =
+    gateMikrofonProjectionComponentStatus(mikrofonProjectionLocalDistributionStatus);
+  const mikrofonProjectionTonalStatus =
+    gateMikrofonProjectionComponentStatus(mikrofonProjectionLocalTonalStatus);
   const mikrofonProjectionSignalStatuses = [
     mikrofonProjectionCaptureStatus,
     mikrofonProjectionDistributionStatus,
