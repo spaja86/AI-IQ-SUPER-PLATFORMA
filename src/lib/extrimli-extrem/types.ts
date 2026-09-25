@@ -40,6 +40,13 @@ import type {
   DEVELOPER_CREATE_NOTES_1450_CANONICAL_ALIAS,
   DEVELOPER_CREATE_NOTES_1450_ROLE_CLASSIFICATION,
   DEVELOPER_CREATE_NOTES_1450_SCOPE_STATEMENT,
+  DEVELOPER_CREATE_PROMOCIJE_TIKETI_BONUSI_PROPUSNICE_ADMINISTRATIVNI_BONUSI_BOUNDED_SIGNALS,
+  DEVELOPER_CREATE_PROMOCIJE_TIKETI_BONUSI_PROPUSNICE_ADMINISTRATIVNI_BONUSI_CANONICAL_ALIAS,
+  DEVELOPER_CREATE_PROMOCIJE_TIKETI_BONUSI_PROPUSNICE_ADMINISTRATIVNI_BONUSI_DOWNSTREAM_POLICY,
+  DEVELOPER_CREATE_PROMOCIJE_TIKETI_BONUSI_PROPUSNICE_ADMINISTRATIVNI_BONUSI_ROLE_CLASSIFICATION,
+  DEVELOPER_CREATE_PROMOCIJE_TIKETI_BONUSI_PROPUSNICE_ADMINISTRATIVNI_BONUSI_SCOPE_STATEMENT,
+  DEVELOPER_CREATE_PROMOCIJE_TIKETI_BONUSI_PROPUSNICE_ADMINISTRATIVNI_BONUSI_SUBTRACKS,
+  DEVELOPER_CREATE_PROMOCIJE_TIKETI_BONUSI_PROPUSNICE_ADMINISTRATIVNI_BONUSI_SUMMARY_SAFE_FIELDS,
   DEVELOPER_CREATE_RANDOM_SELECTION_SCOPE_STATEMENT,
   DEVELOPER_CREATE_RADIO_CANONICAL_ALIAS,
   DEVELOPER_CREATE_RADIO_DOWNSTREAM_POLICY,
@@ -2848,6 +2855,59 @@ export interface ExtrimliDokDikDakDukConsistencyHealth {
       businessValueSummary: string;
       downstreamReference: 'docs/MULTI-REPO-LINKS.md -> spaja86/IO-OPENUI-AO (summary-only)';
     };
+    promocijeTiketiBonusiPropusniceAdministrativniBonusiTrack: {
+      canonicalAlias: typeof DEVELOPER_CREATE_PROMOCIJE_TIKETI_BONUSI_PROPUSNICE_ADMINISTRATIVNI_BONUSI_CANONICAL_ALIAS;
+      scopeStatement: typeof DEVELOPER_CREATE_PROMOCIJE_TIKETI_BONUSI_PROPUSNICE_ADMINISTRATIVNI_BONUSI_SCOPE_STATEMENT;
+      roleClassification: typeof DEVELOPER_CREATE_PROMOCIJE_TIKETI_BONUSI_PROPUSNICE_ADMINISTRATIVNI_BONUSI_ROLE_CLASSIFICATION;
+      boundedSignals: typeof DEVELOPER_CREATE_PROMOCIJE_TIKETI_BONUSI_PROPUSNICE_ADMINISTRATIVNI_BONUSI_BOUNDED_SIGNALS;
+      boundedSubtracks: typeof DEVELOPER_CREATE_PROMOCIJE_TIKETI_BONUSI_PROPUSNICE_ADMINISTRATIVNI_BONUSI_SUBTRACKS;
+      summarySafePublicFields: typeof DEVELOPER_CREATE_PROMOCIJE_TIKETI_BONUSI_PROPUSNICE_ADMINISTRATIVNI_BONUSI_SUMMARY_SAFE_FIELDS;
+      downstreamPolicy: typeof DEVELOPER_CREATE_PROMOCIJE_TIKETI_BONUSI_PROPUSNICE_ADMINISTRATIVNI_BONUSI_DOWNSTREAM_POLICY;
+      boundedVocabularyPhrase: 'EXTRIMLI EXTRONDOL EXTREM DOK DUK DAK DIK FOR';
+      additiveOnly: true;
+      noNewRuntimeEngine: true;
+      noNewRuntimeRoutes: true;
+      noParallelSourceOfTruth: true;
+      parentBusinessLayer: 'Kompanija SPAJA / Digitalna Industrija';
+      sourceOfTruthRoutes: readonly ['/api/extrimli/extrem', '/api/extrimli/extrondol', '/api/extrimli/spaja-kod'];
+      ownershipLock: {
+        dokDikFor: 'EXTREM';
+        dakDuk: 'EXTRONDOL';
+        spajaKod: 'audit-safe-summary-only';
+      };
+      readinessSignal: {
+        status: 'READY' | 'WATCH' | 'BLOCKED';
+        readinessScore: number;
+        promotionsStatus: 'READY' | 'WATCH' | 'BLOCKED';
+        ticketEvidenceStatus: 'READY' | 'WATCH' | 'BLOCKED';
+        bonusApprovalStatus: 'READY' | 'WATCH' | 'BLOCKED';
+        passEligibilityStatus: 'READY' | 'WATCH' | 'BLOCKED';
+        administrativeBonusOverrideStatus: 'READY' | 'WATCH' | 'BLOCKED';
+        conflictStatus: 'READY' | 'WATCH' | 'BLOCKED';
+        fallbackStatus: 'READY' | 'WATCH' | 'BLOCKED';
+        deterministicFallbackRequired: boolean;
+        driver: 'developerAndCreateRepoWideReflection.readiness + developerAndCreateRepoWideReflection.kraljevskiEkonomskiUneverzitet.readiness + developerAndCreateRepoWideReflection.privredniAkt.readiness + developerAndCreateRepoWideReflection.kraljevskiDrustveniPoredak.readiness';
+      };
+      blockerReason: string | null;
+      watchReasons: string[];
+      reviewPosture: 'ALIGNED' | 'WATCH' | 'REVIEW_REQUIRED';
+      subtrackStatuses: {
+        promotions: 'READY' | 'WATCH' | 'BLOCKED';
+        ticketEvidence: 'READY' | 'WATCH' | 'BLOCKED';
+        bonusApproval: 'READY' | 'WATCH' | 'BLOCKED';
+        passEligibility: 'READY' | 'WATCH' | 'BLOCKED';
+        administrativeBonusOverride: 'READY' | 'WATCH' | 'BLOCKED';
+      };
+      humanReviewOverrideStatus: 'ALIGNED' | 'WATCH' | 'REVIEW_REQUIRED';
+      enterpriseSummary: string;
+      acceptanceEvidence: readonly [
+        'developerAndCreateRepoWideReflection.promocijeTiketiBonusiPropusniceAdministrativniBonusiTrack',
+        'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.promocijeTiketiBonusiPropusniceAdministrativniBonusiTrack',
+        'spajaKod.publicSignals.promocijeTiketiBonusiPropusniceAdministrativniBonusiStatus',
+        'spajaKod.developerAndCreateImplementationPackage.promocijeTiketiBonusiPropusniceAdministrativniBonusiSummary'
+      ];
+      downstreamReference: 'docs/MULTI-REPO-LINKS.md -> spaja86/IO-OPENUI-AO (summary-only)';
+    };
     radniProstorTrack: {
       canonicalAlias: typeof DEVELOPER_CREATE_RADNI_PROSTOR_CANONICAL_ALIAS;
       scopeStatement: typeof DEVELOPER_CREATE_RADNI_PROSTOR_SCOPE_STATEMENT;
@@ -4641,6 +4701,21 @@ export interface ExtrimliDokDikDakDukConsistencyHealth {
         extrondolPublishes: 'wawe-freeze-promotion-review-rollback-audit-summary-only';
         spajaKodPublishes: 'status-blocker-review-downstream-and-business-value-summary-only';
         technicalBinding: 'developerAndCreateRepoWideReflection.notes1450Track';
+        noNewRuntimeEngine: true;
+        noNewRuntimeRoutes: true;
+        noParallelSourceOfTruth: true;
+        rawInternalsExposed: false;
+      };
+      promocijeTiketiBonusiPropusniceAdministrativniBonusiBoundary: {
+        trackRole: 'bounded-enterprise-promotions-tickets-bonuses-passes-admin-overrides-track';
+        parentTrack: 'VRH PROGRAMSKOG EKVILADENTA';
+        parentBusinessLayer: 'Kompanija SPAJA / Digitalna Industrija';
+        canonicalAlias: typeof DEVELOPER_CREATE_PROMOCIJE_TIKETI_BONUSI_PROPUSNICE_ADMINISTRATIVNI_BONUSI_CANONICAL_ALIAS;
+        roleClassification: typeof DEVELOPER_CREATE_PROMOCIJE_TIKETI_BONUSI_PROPUSNICE_ADMINISTRATIVNI_BONUSI_ROLE_CLASSIFICATION;
+        extremPublishes: 'readiness-eligibility-evidence-conflict-fallback-signal-only';
+        extrondolPublishes: 'wawe-freeze-promotion-review-rollback-audit-summary-only';
+        spajaKodPublishes: 'status-blocker-review-downstream-and-enterprise-summary-only';
+        technicalBinding: 'developerAndCreateRepoWideReflection.promocijeTiketiBonusiPropusniceAdministrativniBonusiTrack';
         noNewRuntimeEngine: true;
         noNewRuntimeRoutes: true;
         noParallelSourceOfTruth: true;

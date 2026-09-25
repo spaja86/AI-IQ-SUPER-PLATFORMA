@@ -34,6 +34,7 @@ import {
 } from '../extrimli-doker-kurat-izek-dokar-track';
 import {
   DEVELOPER_CREATE_AI_IQ_KONFERENCIJA_ZA_STAMPU_CANONICAL_ALIAS,
+  DEVELOPER_CREATE_PROMOCIJE_TIKETI_BONUSI_PROPUSNICE_ADMINISTRATIVNI_BONUSI_CANONICAL_ALIAS,
   DEVELOPER_CREATE_RADIO_CANONICAL_ALIAS,
   DEVELOPER_CREATE_RADIO_MIKROFON_PROJECTION_CANONICAL_EQUALITY,
   DEVELOPER_CREATE_NAPOLEON_DISKAVERI_CANONICAL_ALIAS,
@@ -229,6 +230,7 @@ const DEVELOPER_CREATE_ROADMAP_ACCEPTANCE_EVIDENCE_BASE = [
   'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.eksperimentProgramskiJezikTrack',
   'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.sarkazamPrivrednaGranaDigitalizmaTrack',
   'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.notes1450Track',
+  'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.promocijeTiketiBonusiPropusniceAdministrativniBonusiTrack',
   'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.radniProstorTrack',
   'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.aiIqLaboratorijaTrack',
   'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.konstrukcijeIProjektovanjeTrack',
@@ -241,6 +243,7 @@ const DEVELOPER_CREATE_ROADMAP_ACCEPTANCE_EVIDENCE_BASE = [
   'spajaKod.publicSignals.eksperimentProgramskiJezikStatus',
   'spajaKod.publicSignals.sarkazamPrivrednaGranaDigitalizmaStatus',
   'spajaKod.publicSignals.notes1450Status',
+  'spajaKod.publicSignals.promocijeTiketiBonusiPropusniceAdministrativniBonusiStatus',
   'spajaKod.publicSignals.radniProstorStatus',
   'spajaKod.publicSignals.aiIqLaboratorijaStatus',
   'spajaKod.publicSignals.konstrukcijeIProjektovanjeStatus',
@@ -268,6 +271,7 @@ const DEVELOPER_CREATE_GOVERNANCE_ACCEPTANCE_EVIDENCE: ExtrimliExtrondolReport['
   'developerAndCreateRepoWideReflection.eksperimentProgramskiJezikTrack',
   'developerAndCreateRepoWideReflection.sarkazamPrivrednaGranaDigitalizmaTrack',
   'developerAndCreateRepoWideReflection.notes1450Track',
+  'developerAndCreateRepoWideReflection.promocijeTiketiBonusiPropusniceAdministrativniBonusiTrack',
   'developerAndCreateRepoWideReflection.radniProstorTrack',
   'developerAndCreateRepoWideReflection.aiIqLaboratorijaTrack',
   'developerAndCreateRepoWideReflection.konstrukcijeIProjektovanjeTrack',
@@ -3156,6 +3160,7 @@ function buildSpajaKodFacade(params: {
   eksperimentProgramskiJezikStatus: ExtrimliExtrondolReport['extremProfiler']['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['eksperimentProgramskiJezikTrack']['readinessSignal']['status'];
   sarkazamPrivrednaGranaDigitalizmaStatus: ExtrimliExtrondolReport['extremProfiler']['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['sarkazamPrivrednaGranaDigitalizmaTrack']['reflectionSignal']['status'];
   notes1450Status: ExtrimliExtrondolReport['extremProfiler']['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['notes1450Track']['readinessSignal']['status'];
+  promocijeTiketiBonusiPropusniceAdministrativniBonusiStatus: ExtrimliExtrondolReport['extremProfiler']['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['promocijeTiketiBonusiPropusniceAdministrativniBonusiTrack']['readinessSignal']['status'];
   radniProstorStatus: ExtrimliExtrondolReport['extremProfiler']['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['radniProstorTrack']['readinessSignal']['status'];
   aiIqLaboratorijaStatus: ExtrimliExtrondolReport['extremProfiler']['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['aiIqLaboratorijaTrack']['readinessSignal']['status'];
   konstrukcijeIProjektovanjeStatus: ExtrimliExtrondolReport['extremProfiler']['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['konstrukcijeIProjektovanjeTrack']['readinessSignal']['status'];
@@ -3282,6 +3287,8 @@ function buildSpajaKodFacade(params: {
       eksperimentProgramskiJezikStatus: params.eksperimentProgramskiJezikStatus,
       sarkazamPrivrednaGranaDigitalizmaStatus: params.sarkazamPrivrednaGranaDigitalizmaStatus,
       notes1450Status: params.notes1450Status,
+      promocijeTiketiBonusiPropusniceAdministrativniBonusiStatus:
+        params.promocijeTiketiBonusiPropusniceAdministrativniBonusiStatus,
       radniProstorStatus: params.radniProstorStatus,
       aiIqLaboratorijaStatus: params.aiIqLaboratorijaStatus,
       konstrukcijeIProjektovanjeStatus: params.konstrukcijeIProjektovanjeStatus,
@@ -3381,6 +3388,7 @@ function buildSpajaKodFacade(params: {
         'publicSignals.eksperimentProgramskiJezikStatus',
         'publicSignals.sarkazamPrivrednaGranaDigitalizmaStatus',
         'publicSignals.notes1450Status',
+        'publicSignals.promocijeTiketiBonusiPropusniceAdministrativniBonusiStatus',
         'publicSignals.radniProstorStatus',
         'publicSignals.aiIqLaboratorijaStatus',
         'publicSignals.konstrukcijeIProjektovanjeStatus',
@@ -3406,6 +3414,7 @@ function buildSpajaKodFacade(params: {
         'developerAndCreateImplementationPackage.eksperimentProgramskiJezikSummary',
         'developerAndCreateImplementationPackage.sarkazamPrivrednaGranaDigitalizmaSummary',
         'developerAndCreateImplementationPackage.notes1450Summary',
+        'developerAndCreateImplementationPackage.promocijeTiketiBonusiPropusniceAdministrativniBonusiSummary',
         'developerAndCreateImplementationPackage.radniProstorSummary',
         'developerAndCreateImplementationPackage.aiIqLaboratorijaSummary',
         'developerAndCreateImplementationPackage.konstrukcijeIProjektovanjeSummary',
@@ -3527,6 +3536,31 @@ function buildSpajaKodFacade(params: {
         publicBoundary: 'audit-safe-summary-only',
         businessValueSummary:
           params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.notes1450Track.businessValueSummary,
+      },
+      promocijeTiketiBonusiPropusniceAdministrativniBonusiSummary: {
+        canonicalAlias:
+          params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.promocijeTiketiBonusiPropusniceAdministrativniBonusiTrack.canonicalAlias,
+        roleClassification:
+          params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.promocijeTiketiBonusiPropusniceAdministrativniBonusiTrack.roleClassification,
+        status:
+          params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.promocijeTiketiBonusiPropusniceAdministrativniBonusiTrack.readinessSignal.status,
+        blockerReason:
+          params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.promocijeTiketiBonusiPropusniceAdministrativniBonusiTrack.blockerReason,
+        watchReasons: [
+          ...params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.promocijeTiketiBonusiPropusniceAdministrativniBonusiTrack.watchReasons,
+        ],
+        reviewPosture:
+          params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.promocijeTiketiBonusiPropusniceAdministrativniBonusiTrack.reviewPosture,
+        downstreamReference:
+          params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.promocijeTiketiBonusiPropusniceAdministrativniBonusiTrack.downstreamReference,
+        publicBoundary: 'audit-safe-summary-only',
+        enterpriseSummary:
+          params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.promocijeTiketiBonusiPropusniceAdministrativniBonusiTrack.enterpriseSummary,
+        humanReviewOverrideStatus:
+          params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.promocijeTiketiBonusiPropusniceAdministrativniBonusiTrack.humanReviewOverrideStatus,
+        subtrackStatuses: {
+          ...params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.promocijeTiketiBonusiPropusniceAdministrativniBonusiTrack.subtrackStatuses,
+        },
       },
       radniProstorSummary: {
         canonicalAlias:
@@ -6066,6 +6100,8 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
       extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.sarkazamPrivrednaGranaDigitalizmaTrack.reflectionSignal.status,
     notes1450Status:
       extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.notes1450Track.readinessSignal.status,
+    promocijeTiketiBonusiPropusniceAdministrativniBonusiStatus:
+      extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.promocijeTiketiBonusiPropusniceAdministrativniBonusiTrack.readinessSignal.status,
     radniProstorStatus:
       extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.radniProstorTrack.readinessSignal.status,
     aiIqLaboratorijaStatus:
@@ -7948,6 +7984,42 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
           'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.notes1450Track',
           'spajaKod.publicSignals.notes1450Status',
           'spajaKod.developerAndCreateImplementationPackage.notes1450Summary',
+        ],
+        downstreamReference: 'docs/MULTI-REPO-LINKS.md -> spaja86/IO-OPENUI-AO (summary-only)',
+      },
+      promocijeTiketiBonusiPropusniceAdministrativniBonusiTrack: {
+        ...extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.promocijeTiketiBonusiPropusniceAdministrativniBonusiTrack,
+        sourceOfTruth: '/api/extrimli/extrem',
+        governanceSource: '/api/extrimli/extrondol',
+        publicBoundary: '/api/extrimli/spaja-kod',
+        currentWave: currentWawe,
+        eligibleNextWave: eligibleNextWave,
+        promotionFreeze:
+          promotionFreeze
+          || extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.promocijeTiketiBonusiPropusniceAdministrativniBonusiTrack.readinessSignal.status !== 'READY'
+          || extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.promocijeTiketiBonusiPropusniceAdministrativniBonusiTrack.humanReviewOverrideStatus !== 'ALIGNED',
+        reviewRequiredBeforeWideRollout:
+          extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.promocijeTiketiBonusiPropusniceAdministrativniBonusiTrack.readinessSignal.status !== 'READY'
+          || extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.promocijeTiketiBonusiPropusniceAdministrativniBonusiTrack.reviewPosture === 'REVIEW_REQUIRED',
+        reviewPosture:
+          extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.promocijeTiketiBonusiPropusniceAdministrativniBonusiTrack.reviewPosture,
+        rolloutPlan:
+          'Advance PROMOCIJE / TIKETI / BONUSI / PROPUSNICE / ADMINISTRATIVNI BONUSI only as an additive-only bounded enterprise/governance package through the existing EXTREM technical signal, EXTRONDOL governance mirror, and SPAJA KOD audit-safe summary boundary.',
+        rollbackPlan:
+          'Freeze promotion and fall back to the previously verified Developer/Create enterprise summary posture if promotions, ticket evidence, bonus approval, pass eligibility, or administrative override governance drifts away from the existing bounded lock.',
+        humanReviewStatus: 'required-before-promotion',
+        governancePosture: {
+          promotions: 'review-freeze-promotion-rollback-audit-summary-only',
+          ticketEvidence: 'review-freeze-promotion-rollback-audit-summary-only',
+          bonusApproval: 'review-freeze-promotion-rollback-audit-summary-only',
+          passEligibility: 'review-freeze-promotion-rollback-audit-summary-only',
+          administrativeBonusOverride: 'human-review-gated-override',
+        },
+        acceptanceEvidence: [
+          'developerAndCreateRepoWideReflection.promocijeTiketiBonusiPropusniceAdministrativniBonusiTrack',
+          'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.promocijeTiketiBonusiPropusniceAdministrativniBonusiTrack',
+          'spajaKod.publicSignals.promocijeTiketiBonusiPropusniceAdministrativniBonusiStatus',
+          'spajaKod.developerAndCreateImplementationPackage.promocijeTiketiBonusiPropusniceAdministrativniBonusiSummary',
         ],
         downstreamReference: 'docs/MULTI-REPO-LINKS.md -> spaja86/IO-OPENUI-AO (summary-only)',
       },
