@@ -11794,14 +11794,22 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
     && kraljevskoTakmicenjeNoIdolImitation
     && kraljevskoTakmicenjeNoAiPerformanceAssist
       ? 'READY'
-      : 'BLOCKED';
+      : kraljevskoTakmicenjeHasOriginalSongs
+        || kraljevskoTakmicenjeNoIdolImitation
+        || kraljevskoTakmicenjeNoAiPerformanceAssist
+        ? 'WATCH'
+        : 'BLOCKED';
   const kraljevskoTakmicenjeStatuses = [
     kraljevskoTakmicenjeCoreStatus,
     kraljevskoTakmicenjeRhythmStatus,
     kraljevskoTakmicenjeVisualStatus,
     kraljevskoTakmicenjeAuthStatus,
   ] as const;
-  const kraljevskoTakmicenjeStatus = aggregateSignalReadinessStatus([...kraljevskoTakmicenjeStatuses]);
+  const kraljevskoTakmicenjeAggregatedStatus = aggregateSignalReadinessStatus([...kraljevskoTakmicenjeStatuses]);
+  const kraljevskoTakmicenjeStatus: ExtrimliExtremReadinessStatus =
+    kraljevskoTakmicenjeAuthStatus === 'READY'
+      ? kraljevskoTakmicenjeAggregatedStatus
+      : 'BLOCKED';
   const kraljevskoTakmicenjeReadinessScore = round(
     kraljevskoTakmicenjeStatuses.reduce((sum, status) => sum + readinessStatusScore(status), 0)
       / kraljevskoTakmicenjeStatuses.length,
