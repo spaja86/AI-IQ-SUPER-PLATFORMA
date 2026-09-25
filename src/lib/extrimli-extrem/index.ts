@@ -7268,6 +7268,7 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
           fallbackInputs: DEVELOPER_CREATE_RADIO_MIKROFON_PROJECTION_FALLBACK_INPUTS,
           summarySafePublicFields: [...DEVELOPER_CREATE_RADIO_MIKROFON_PROJECTION_SUMMARY_SAFE_FIELDS],
           downstreamPolicy: DEVELOPER_CREATE_RADIO_MIKROFON_PROJECTION_DOWNSTREAM_POLICY,
+          downstreamReference: 'docs/MULTI-REPO-LINKS.md -> spaja86/IO-OPENUI-AO (summary-only)',
           additiveOnly: true,
           noNewRuntimeEngine: true,
           noNewRuntimeRoutes: true,

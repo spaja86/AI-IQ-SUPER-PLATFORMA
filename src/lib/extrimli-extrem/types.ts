@@ -3043,6 +3043,7 @@ export interface ExtrimliDokDikDakDukConsistencyHealth {
         fallbackInputs: typeof DEVELOPER_CREATE_RADIO_MIKROFON_PROJECTION_FALLBACK_INPUTS;
         summarySafePublicFields: typeof DEVELOPER_CREATE_RADIO_MIKROFON_PROJECTION_SUMMARY_SAFE_FIELDS;
         downstreamPolicy: typeof DEVELOPER_CREATE_RADIO_MIKROFON_PROJECTION_DOWNSTREAM_POLICY;
+        downstreamReference: 'docs/MULTI-REPO-LINKS.md -> spaja86/IO-OPENUI-AO (summary-only)';
         additiveOnly: true;
         noNewRuntimeEngine: true;
         noNewRuntimeRoutes: true;
