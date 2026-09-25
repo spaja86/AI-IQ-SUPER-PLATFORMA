@@ -256,9 +256,9 @@ export function buildExtrimliInnovationRegistry(): ExtrimliInnovationRegistryMod
   const blockedRatio = byReadiness.BLOCKED / safeInnovationDenominator;
   const blockedCriticalRatio = blockedCriticalCount / safeInnovationDenominator;
   const summaryStatus: ExtrimliInnovationReadinessStatus =
-    blockedRatio >= 0.2 || blockedCriticalRatio >= 0.1
+    blockedRatio > 0.2 || blockedCriticalRatio > 0.1
       ? 'BLOCKED'
-      : governancePromotionRatioPercent >= 55 && blockedCriticalRatio < 0.1
+      : governancePromotionRatioPercent >= 55 && blockedCriticalRatio <= 0.1
       ? 'READY'
       : 'WATCH';
 
