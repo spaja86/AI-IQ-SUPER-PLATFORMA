@@ -78,6 +78,7 @@ This repository now exposes five aligned surfaces:
 ## Global explanation governance lock (repo-wide)
 
 - Kanonski lock je: `DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == MAPE UMA`.
+- Additive-only alias lock ostaje: `DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == MAPA UMA` i `DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == ŽIVOPIS U DIGITALIZMU`.
 - Lock je additive-only reflection sloj: bez novih runtime ruta i bez promene ownership split-a.
 - DOK/DIK/FOR ostaju tehnički signal u EXTREM-u; DAK/DUK ostaju governance/release signal u EXTRONDOL-u; SPAJA KOD ostaje audit-safe summary-only boundary.
 - Objašnjenje ovog lock-a je obavezno na svakoj stranici kroz zajednički renderer sloj (`StranicaRenderer`) sa istim `READY | WATCH | BLOCKED` jezikom i istim bounded signal paketom: `mape-uma, slike-plus-znacenje, ucenje, znanje, kreativnost, saradnja, odrzivost, mir`.
