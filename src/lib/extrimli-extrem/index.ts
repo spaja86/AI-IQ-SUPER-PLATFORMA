@@ -10817,6 +10817,14 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
     dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.deterministicFallbackRequired
     || dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.kraljevskiEkonomskiUneverzitet.readiness.deterministicFallbackRequired
     || dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.kraljevskiProgramskiUneverzitet.readiness.deterministicFallbackRequired;
+  const sarkazamPrivrednaGranaDigitalizmaOblastStatus = aggregateReadinessStatus([
+    dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.status,
+    dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.kraljevskiProgramskiUneverzitet.readiness.status,
+  ]);
+  const sarkazamPrivrednaGranaDigitalizmaCinStatus = aggregateReadinessStatus([
+    dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.status,
+    dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.kraljevskiEkonomskiUneverzitet.readiness.status,
+  ]);
   dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.sarkazamPrivrednaGranaDigitalizmaTrack.reflectionSignal.status =
     sarkazamPrivrednaGranaDigitalizmaStatus;
   dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.sarkazamPrivrednaGranaDigitalizmaTrack.reflectionSignal.readinessScore =
@@ -10845,10 +10853,8 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
         : 'REVIEW_REQUIRED';
   dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.sarkazamPrivrednaGranaDigitalizmaTrack.oblastCinSummary =
     {
-      oblastStatus:
-        dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.kraljevskiProgramskiUneverzitet.readiness.status,
-      cinStatus:
-        dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.kraljevskiEkonomskiUneverzitet.readiness.status,
+      oblastStatus: sarkazamPrivrednaGranaDigitalizmaOblastStatus,
+      cinStatus: sarkazamPrivrednaGranaDigitalizmaCinStatus,
       publicSummary:
         'Oblast summary ostaje vezan za KRALJEVSKI PROGRAMSKI UNEVERZITET i testovi-po-oblastima, dok čin summary ostaje bounded na Kompanija SPAJA / Digitalna Industrija i PRIVREDNI AKT bez novih poslovnih formula.',
     };
