@@ -12142,6 +12142,7 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
         ? 'WATCH'
         : 'BLOCKED';
   const mikrofonProjectionSignalStatuses = [
+    mikrofonProjectionCaptureStatus,
     mikrofonProjectionDistributionStatus,
     dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.audioVisualKontrabasPackage.readinessStatus,
     mikrofonProjectionPublicPackageStatus,
