@@ -11902,15 +11902,16 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
     dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.radioTrack;
   const radioSummary =
     'RADIO ostaje additive-only bounded media/distribution/audio paket: EXTREM nosi readiness, semantic-preservation signal i bounded radio summary, EXTRONDOL governance mirror, a SPAJA KOD samo audit-safe radio rezime.';
+  const radioUniqueCategorizedTokens = new Set([
+    ...radioTrack.boundedTokenVocabulary.distributionAudioTokens,
+    ...radioTrack.boundedTokenVocabulary.scheduleContinuityTokens,
+    ...radioTrack.boundedTokenVocabulary.governanceFallbackTokens,
+  ]);
+  const radioCanonicalCoverageCount = radioTrack.boundedTokenVocabulary.canonicalSequence.filter((token) =>
+    radioUniqueCategorizedTokens.has(token),
+  ).length;
   const radioVocabularyCoveragePercent = round(
-    (
-      (
-        radioTrack.boundedTokenVocabulary.distributionAudioTokens.length
-        + radioTrack.boundedTokenVocabulary.scheduleContinuityTokens.length
-        + radioTrack.boundedTokenVocabulary.governanceFallbackTokens.length
-      )
-      / radioTrack.boundedTokenVocabulary.canonicalSequence.length
-    ) * 100,
+    (radioCanonicalCoverageCount / radioTrack.boundedTokenVocabulary.canonicalSequence.length) * 100,
     2,
   );
   const radioNormalizationReady =
