@@ -27,8 +27,10 @@ import {
   EXTRIMLI_EXTREM_SHEMA_MUSHEMA_CANONICAL_EXPRESSION,
   EXTRIMLI_EXTREM_ZELEZARA_PRETPLATA_IDENTITY_CONTRACT_VERSION,
   getExtrimliExtremProfilerReport,
+  resolveSarkazamPrivrednaGranaDigitalizmaReflection,
   resolveVrhProgramskogEkviladentaForSignal,
 } from '../../lib/extrimli-extrem';
+import { getExtrimliVersionRoadmap } from '../../lib/extrimli-version-roadmap';
 import { runForPetlja } from '../../lib/petlje';
 
 let passed = 0;
@@ -67,6 +69,21 @@ async function withEnv(overrides: Record<string, string | undefined>, fn: () => 
       if (typeof value === 'undefined') delete process.env[key];
       else process.env[key] = value;
     }
+  }
+}
+
+async function withSingleActiveRoadmapStage(fn: () => Promise<void> | void): Promise<void> {
+  const roadmap = getExtrimliVersionRoadmap();
+  const previousStatuses = roadmap.versions.map((stage) => stage.status);
+  roadmap.versions.forEach((stage, index) => {
+    stage.status = index === 0 ? 'ACTIVE-BASELINE' : 'PLANNED';
+  });
+  try {
+    await fn();
+  } finally {
+    roadmap.versions.forEach((stage, index) => {
+      stage.status = previousStatuses[index];
+    });
   }
 }
 
@@ -227,6 +244,118 @@ async function runTests(): Promise<void> {
     assert(lock.realizationSequence.join(',') === 'documentation-lock-and-roadmap,terminology-and-ownership-alignment,type-contract-alignment,route-and-health-outputs,test-and-governance-conformance,daily-task-cadence,downstream-sync-and-public-summary', 'developer/create realization sequence mismatch');
     assert(lock.definitionOfDone.docsTypesRoutesTestsWorkflowsAligned, 'developer/create DoD alignment must be required');
     assert(lock.definitionOfDone.securityRequired && lock.definitionOfDone.rollbackRequired, 'developer/create DoD security/rollback requirements missing');
+  });
+
+  await test('Sarkazam helper resolves READY without fallback when all bounded inputs are aligned', () => {
+    const reflection = resolveSarkazamPrivrednaGranaDigitalizmaReflection({
+      repoWideReadiness: {
+        score: 92,
+        status: 'READY',
+        deterministicFallbackRequired: false,
+        reasons: [],
+      },
+      kraljevskiEkonomskiUneverzitetReadiness: {
+        status: 'READY',
+        score: 90,
+        deterministicFallbackRequired: false,
+      },
+      kraljevskiProgramskiUneverzitetReadiness: {
+        status: 'READY',
+        score: 88,
+        deterministicFallbackRequired: false,
+      },
+      fallbackInputs: ['NaN', 'Infinity', 'empty', 'conflict'],
+    });
+
+    assert(reflection.reflectionSignal.status === 'READY', 'Sarkazam helper should resolve READY for aligned bounded inputs');
+    assert(reflection.reflectionSignal.readinessScore === 90, 'Sarkazam helper READY readiness score mismatch');
+    assert(!reflection.reflectionSignal.deterministicFallbackRequired, 'Sarkazam helper READY should not require deterministic fallback');
+    assert(reflection.blockerReason === null, 'Sarkazam helper READY should not emit blocker reason');
+    assert(reflection.watchReasons.length === 0, 'Sarkazam helper READY should not emit watch reasons');
+    assert(reflection.reviewPosture === 'ALIGNED', 'Sarkazam helper READY review posture mismatch');
+    assert(reflection.oblastCinSummary.oblastStatus === 'READY', 'Sarkazam helper READY oblast status mismatch');
+    assert(reflection.oblastCinSummary.cinStatus === 'READY', 'Sarkazam helper READY čin status mismatch');
+  });
+
+  await test('Sarkazam helper resolves WATCH with fallback-aware review messaging when bounded sources degrade softly', () => {
+    const reflection = resolveSarkazamPrivrednaGranaDigitalizmaReflection({
+      repoWideReadiness: {
+        score: 76,
+        status: 'WATCH',
+        deterministicFallbackRequired: true,
+        reasons: [],
+      },
+      kraljevskiEkonomskiUneverzitetReadiness: {
+        status: 'READY',
+        score: 82,
+        deterministicFallbackRequired: false,
+      },
+      kraljevskiProgramskiUneverzitetReadiness: {
+        status: 'READY',
+        score: 84,
+        deterministicFallbackRequired: false,
+      },
+      fallbackInputs: ['NaN', 'Infinity', 'empty', 'conflict'],
+    });
+
+    assert(reflection.reflectionSignal.status === 'WATCH', 'Sarkazam helper should resolve WATCH for soft bounded degradation');
+    assert(reflection.reflectionSignal.deterministicFallbackRequired, 'Sarkazam helper WATCH should keep fallback flag');
+    assert(reflection.blockerReason === null, 'Sarkazam helper WATCH should not emit blocker reason');
+    assert(reflection.watchReasons.length === 1, 'Sarkazam helper WATCH should emit a single watch reason');
+    assert(reflection.watchReasons[0]?.includes('Deterministic fallback ostaje aktivan za NaN, Infinity, empty, conflict ulaze.'), 'Sarkazam helper WATCH should mention fallback inputs');
+    assert(reflection.reviewPosture === 'WATCH', 'Sarkazam helper WATCH review posture mismatch');
+    assert(reflection.oblastCinSummary.oblastStatus === 'WATCH', 'Sarkazam helper WATCH oblast status mismatch');
+    assert(reflection.oblastCinSummary.cinStatus === 'WATCH', 'Sarkazam helper WATCH čin status mismatch');
+  });
+
+  await test('Sarkazam helper resolves BLOCKED with fallback-aware blocker messaging when bounded sources conflict', () => {
+    const reflection = resolveSarkazamPrivrednaGranaDigitalizmaReflection({
+      repoWideReadiness: {
+        score: 39,
+        status: 'BLOCKED',
+        deterministicFallbackRequired: true,
+        reasons: [],
+      },
+      kraljevskiEkonomskiUneverzitetReadiness: {
+        status: 'WATCH',
+        score: 63,
+        deterministicFallbackRequired: false,
+      },
+      kraljevskiProgramskiUneverzitetReadiness: {
+        status: 'READY',
+        score: 81,
+        deterministicFallbackRequired: false,
+      },
+      fallbackInputs: ['NaN', 'Infinity', 'empty', 'conflict'],
+    });
+
+    assert(reflection.reflectionSignal.status === 'BLOCKED', 'Sarkazam helper should resolve BLOCKED for bounded conflicts');
+    assert(reflection.reflectionSignal.deterministicFallbackRequired, 'Sarkazam helper BLOCKED should keep fallback flag');
+    assert(reflection.blockerReason?.includes('Deterministic fallback ostaje aktivan za NaN, Infinity, empty, conflict ulaze.'), 'Sarkazam helper BLOCKED should mention fallback inputs');
+    assert(reflection.watchReasons.length === 0, 'Sarkazam helper BLOCKED should not emit watch reasons');
+    assert(reflection.reviewPosture === 'REVIEW_REQUIRED', 'Sarkazam helper BLOCKED review posture mismatch');
+    assert(reflection.oblastCinSummary.oblastStatus === 'BLOCKED', 'Sarkazam helper BLOCKED oblast status mismatch');
+    assert(reflection.oblastCinSummary.cinStatus === 'BLOCKED', 'Sarkazam helper BLOCKED čin status mismatch');
+  });
+
+  await test('Sarkazam report stays WATCH with fallback-aware review messaging when roadmap drift is cleared but DAK/DUK remain governance-only', async () => {
+    await withSingleActiveRoadmapStage(() => {
+      const reflection =
+        getExtrimliExtremProfilerReport()
+          .dokDikDakDukConsistencyHealth
+          .developerAndCreateRepoWideReflection
+          .sarkazamPrivrednaGranaDigitalizmaTrack;
+
+      assert(reflection.reflectionSignal.status === 'WATCH', 'Sarkazam report should degrade to WATCH once roadmap drift is cleared');
+      assert(reflection.reflectionSignal.deterministicFallbackRequired, 'Sarkazam report WATCH should keep deterministic fallback flag');
+      assert(reflection.blockerReason === null, 'Sarkazam report WATCH should not emit blocker reason');
+      assert(reflection.watchReasons.length === 1, 'Sarkazam report WATCH should emit one watch reason');
+      assert(!reflection.watchReasons[0]?.includes('Deterministic fallback ostaje aktivan for'), 'Sarkazam report WATCH should keep localized fallback wording');
+      assert(reflection.watchReasons[0]?.includes('Deterministic fallback ostaje aktivan za NaN, Infinity, empty, conflict ulaze.'), 'Sarkazam report WATCH should mention fallback inputs');
+      assert(reflection.reviewPosture === 'WATCH', 'Sarkazam report WATCH review posture mismatch');
+      assert(reflection.oblastCinSummary.oblastStatus === 'WATCH', 'Sarkazam report WATCH oblast status mismatch');
+      assert(reflection.oblastCinSummary.cinStatus === 'WATCH', 'Sarkazam report WATCH čin status mismatch');
+    });
   });
 
   await test('default report normalizes REZOLUCIJA/EKODOR/REKULITI PO RAULETU/DISCAN/KIBEN vocabulary', () => {
