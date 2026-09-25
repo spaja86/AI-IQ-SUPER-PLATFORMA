@@ -11351,10 +11351,12 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
     laboratoryCase: aiIqLaboratorijaExpectedTokens.slice(10, 15),
     programskiEkanalog: aiIqLaboratorijaExpectedTokens.slice(15),
   } as const;
+  const aiIqLaboratorijaProgramskiEkanalogConclusion =
+    dokDikDakDukConsistencyHealth.programskiJezikProucavanja.programskiEkanalog.auditConclusion.toLowerCase();
   const aiIqLaboratorijaProgramskiEkanalogStatus: ExtrimliExtremReadinessStatus =
     dokDikDakDukConsistencyHealth.programskiJezikProucavanja.programskiEkanalog.auditReady
       ? 'READY'
-      : dokDikDakDukConsistencyHealth.programskiJezikProucavanja.laboratoryCaseProfile.consolidatedStatus === 'WATCH'
+      : aiIqLaboratorijaProgramskiEkanalogConclusion.includes('oprezan nastavak')
         ? 'WATCH'
         : 'BLOCKED';
   const resolveAiIqLaboratorijaObservedSegment = (
