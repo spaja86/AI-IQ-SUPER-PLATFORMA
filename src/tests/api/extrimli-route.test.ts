@@ -1036,7 +1036,44 @@ async function runTests(): Promise<void> {
         };
         developerAndCreateImplementationPackage: {
           sourceOfTruthRoutes: string[];
-          routeSummaryFields: string[];
+          routeSummaryFields: Array<
+            | 'publicSignals.developerAndCreateStatus'
+            | 'publicSignals.developerAndCreateImplementationStatus'
+            | 'publicSignals.developerAndCreateAudioVisualStatus'
+            | 'publicSignals.smartProgramskiJezikStatus'
+            | 'publicSignals.immersiveVisualization3dStatus'
+            | 'publicSignals.eksperimentProgramskiJezikStatus'
+            | 'publicSignals.sarkazamPrivrednaGranaDigitalizmaStatus'
+            | 'publicSignals.notes1450Status'
+            | 'publicSignals.radniProstorStatus'
+            | 'publicSignals.aiIqLaboratorijaStatus'
+            | 'publicSignals.aiIqKonferencijaZaStampuStatus'
+            | 'publicSignals.napoleonDiskaveriStatus'
+            | 'publicSignals.kraljevskiPravniUniverzitetStatus'
+            | 'publicSignals.kraljevskiPravniAktStatus'
+            | 'publicSignals.kraljevskiAktBezbednostiStatus'
+            | 'publicSignals.kraljevskiProgramskiUneverzitetStatus'
+            | 'publicSignals.inspektoriStatus'
+            | 'publicSignals.inspektoriSummary'
+            | 'publicSignals.aiIdentityMonthlyPrimanjaStatus'
+            | 'publicSignals.aiIdentityMinorProtectionStatus'
+            | 'publicSignals.developerAndCreateUniversitySummary'
+            | 'developerAndCreateVisualReflection.audioVisualKontrabasPackage'
+            | 'developerAndCreateVisualReflection.kraljevskiBastaUneverzite'
+            | 'developerAndCreateVisualReflection.packageOutputs'
+            | 'developerAndCreateImplementationPackage.aiIqWorldBankPrepiskaSummary'
+            | 'developerAndCreateImplementationPackage.kraljevskiDrustveniPoredakSummary'
+            | 'developerAndCreateImplementationPackage.kraljevskiAktBezbednostiSummary'
+            | 'developerAndCreateImplementationPackage.smartProgramskiJezikSummary'
+            | 'developerAndCreateImplementationPackage.eksperimentProgramskiJezikSummary'
+            | 'developerAndCreateImplementationPackage.sarkazamPrivrednaGranaDigitalizmaSummary'
+            | 'developerAndCreateImplementationPackage.notes1450Summary'
+            | 'developerAndCreateImplementationPackage.radniProstorSummary'
+            | 'developerAndCreateImplementationPackage.aiIqLaboratorijaSummary'
+            | 'developerAndCreateImplementationPackage.aiIqKonferencijaZaStampuSummary'
+            | 'developerAndCreateImplementationPackage.napoleonDiskaveriSummary'
+            | 'epilogijaCovecnosti.packageOutputs'
+          >;
           covecanstvuPublicOutput: string;
           aiIqWorldBankPrepiskaSummary: {
             canonicalName: string;
