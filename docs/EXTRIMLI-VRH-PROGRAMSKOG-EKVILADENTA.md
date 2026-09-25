@@ -8,7 +8,7 @@
 
 Kanonski scope lock ostaje i u kraćem obliku: `DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA`.
 
-Ovaj dokument ostaje **interpretativni extension document**, dok `docs/EXTRIMLI-DEVELOPER-CREATE-PROGRAM.md` ostaje glavni manifest. Sve duže varijante (`RADNI TAKT MOZGA (MISLILAC)`, `MAPE UMA`, `MAPA UMA`, `ŽIVOPIS U DIGITALIZMU`, `DIJALIZA POGONSKOG OMOTAČA`, `RADNI PROSTOR`, `AI IQ KONFERENCIJA ZA ŠTAMPU (NOVINE, DIGITALNE NOVINE)` i slične trake) moraju ostati alias-i ili proširenja iste centralne rečenice, nikad novi centri priče.
+Ovaj dokument ostaje **interpretativni extension document**, dok `docs/EXTRIMLI-DEVELOPER-CREATE-PROGRAM.md` ostaje glavni manifest. Sve duže varijante (`RADNI TAKT MOZGA (MISLILAC)`, `MAPE UMA`, `MAPA UMA`, `ŽIVOPIS U DIGITALIZMU`, `DIJALIZA POGONSKOG OMOTAČA`, `RADNI PROSTOR`, `AI IQ KONFERENCIJA ZA ŠTAMPU (NOVINE, DIGITALNE NOVINE)`, `TELEVIZIJA` i slične trake) moraju ostati alias-i ili proširenja iste centralne rečenice, nikad novi centri priče.
 
 ## MALI/VEĆI PROJEKAT — VRH lock sa ortogonalnom projekcijom
 
@@ -36,6 +36,7 @@ Bounded vokabular ostaje zaključan na `EXTRIMLI EXTRONDOL EXTREM DOK DUK DAK DI
 - `NOTES 1450` → bounded work-continuation paket istog lock-a; služi kao nastavak rada umesto obične beleške, ali ostaje additive-only, bez nove rute i bez paralelnog source-of-truth sistema
 - `RADNI PROSTOR` → additive-only bounded alias istog lock-a sa zaključanom token sekvencom `OKUR, DJUKUR, DAR, ZOR, IKON, ZULUM, DABRE, IZOS, JAKOR, DAPR, ZUKUR, ENTER, DIKAR, ZUMBUL, SIRGED, ZIKOR, DJENDER, ĆUR, NIKON, DERKO, ZUKAL, IKON, ZAJDI`, bez novih ruta i bez paralelnog source-of-truth sistema
 - `AI IQ KONFERENCIJA ZA ŠTAMPU (NOVINE, DIGITALNE NOVINE)` → bounded media/documentation/explanation paket istog lock-a; EXTREM objavljuje readiness + token coverage + bounded evidence, EXTRONDOL governance ogledalo, a SPAJA KOD samo audit-safe press summary bez sirovog token modela
+- `TELEVIZIJA` → bounded media/distribution paket istog lock-a; EXTREM objavljuje distribucioni readiness + provider/channel/region-language fallback posture, EXTRONDOL governance ogledalo za provider review/compliance/payment/rollout/rollback, a SPAJA KOD samo audit-safe distribution summary bez sirovih provider formula i bez enforcement logike
 - Ownership split za `RADNI PROSTOR` ostaje zaključan: `DOK/DIK/FOR -> EXTREM`, `DAK/DUK -> EXTRONDOL`, `SPAJA KOD -> summary-only`.
 
 - nema novih runtime ruta
@@ -69,6 +70,17 @@ Repo-wide reflection sada obavezno uključuje i dnevni operativni cadence: `morn
 - `regtonske proporcije`, `vuferske/kontrabasovne promene` i `tonski aspekt u revolucionom smislu kontrabasa` ostaju bounded signalni rečnik za audio dramaturgiju i dinamički balans.
 - Zaključani audio-scene termini ostaju `GUN, DEN, DIN, KON, SUR, DIR, DUR, DOG, DUK, DOP, KIDO, DUKAT, DJUKAS, DIKTON, GRAFON, SIRON, DJOKUZ, OTKUZ, DIPAS, CVIKROT, ZIPAN`.
 - Ako postoje storyboard ili vizuelni asset-i, EXTREM ih vodi kao audit/reference evidence, EXTRONDOL ih zrcali kroz governance summary, a `spaja86/IO-OPENUI-AO` dobija samo summary-safe downstream reference.
+
+## TELEVIZIJA bounded media/distribution paket
+
+`DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == TELEVIZIJA` ostaje additive-only bounded media/distribution alias u okviru istog vršnog lock-a.
+
+- `EXTREM` ostaje tehnički signal za distribucioni readiness, provider intake, region/jezik matrix i OTT/web/app fallback.
+- `EXTRONDOL` ostaje governance ogledalo za provider ugovore, licensing/content rights, review/compliance, rollout/rollback, payment verification i `AI KLASTER` pretplata posture.
+- `SPAJA KOD` ostaje summary-safe boundary i izlaže samo `distribution status`, `blocker/watch reason`, `review posture` i `downstream reference`.
+- Zahtev za `kanal 1` ostaje dozvoljen samo kao `requested-prominence` komercijalni cilj sa fallback-ovima `premium-news/featured/category placement` i `branded landing/promotional slot`.
+- Zabranjeni ostaju obavezno emitovanje, neuklonjivost, provider bypass i svaka enforcement logika.
+- Downstream prema `spaja86/IO-OPENUI-AO` ostaje summary-only i troši samo audit-safe status distribucije i bounded provider-plan summary.
 
 ## Napoleon Diskaveri bounded alias
 
