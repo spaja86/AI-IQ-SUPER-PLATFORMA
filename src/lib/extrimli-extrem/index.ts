@@ -11046,10 +11046,10 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
   notes1450Track.measurableProof = {
     continuityGainSummary:
       'NOTES 1450 objedinjuje cilj, kontekst, kontinuitet zadataka i deterministički sledeći korak kako bi bounded handoff nastavio rad umesto obične beleške.',
-    reducedContextLoss: notes1450Status !== 'BLOCKED',
+    reducedContextLoss: notes1450Track.readinessSignal.contextIntegrityStatus === 'READY',
     reducedRepetition: notes1450ReadinessScore >= 70,
-    clearerNextStep: notes1450Track.readinessSignal.deterministicNextStepStatus !== 'BLOCKED',
-    betterAiMaterialUtilization: notes1450Track.readinessSignal.aiMaterialSaturationRiskStatus !== 'BLOCKED',
+    clearerNextStep: notes1450Track.readinessSignal.deterministicNextStepStatus === 'READY',
+    betterAiMaterialUtilization: notes1450Track.readinessSignal.aiMaterialSaturationRiskStatus === 'READY',
   };
   notes1450Track.businessValueSummary =
     'NOTES 1450 ostaje additive-only bounded radni naslednik koji smanjuje gubitak konteksta, ponavljanje i neefikasno trošenje AI materijala kroz audit-ready nastavak rada.';
