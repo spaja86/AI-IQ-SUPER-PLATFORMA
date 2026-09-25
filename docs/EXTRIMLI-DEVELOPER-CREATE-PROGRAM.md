@@ -19,7 +19,7 @@ Ovaj program standardizuje **developer/create** rad nad EXTRIMLI + EXTRONDOL + E
 
 - Ovaj dokument je **glavni manifest** za `DEVELOPER AND CREATE`.
 - Jedina centralna narativna rečenica ostaje `DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA`.
-- `DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == RADNI TAKT MOZGA (MISLILAC)`, `DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == MAPE UMA`, `DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == MAPA UMA`, `DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == ŽIVOPIS U DIGITALIZMU`, `DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == DIJALIZA POGONSKOG OMOTAČA`, `DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == RADNI PROSTOR` i `DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == AI IQ KONFERENCIJA ZA ŠTAMPU (NOVINE, DIGITALNE NOVINE)` ostaju samo interpretativni alias-i postojećeg vrha priče.
+- `DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == RADNI TAKT MOZGA (MISLILAC)`, `DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == MAPE UMA`, `DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == MAPA UMA`, `DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == ŽIVOPIS U DIGITALIZMU`, `DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == DIJALIZA POGONSKOG OMOTAČA`, `DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == RADNI PROSTOR`, `DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == AI IQ KONFERENCIJA ZA ŠTAMPU (NOVINE, DIGITALNE NOVINE)` i `DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == POSLOVNA PONUDA` ostaju samo interpretativni alias-i postojećeg vrha priče.
 - `DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == SARKAZAM / PRIVREDNA GRANA DIGITALIZMA / PROJEKTI ENTUZIJAZMA PO ČINU OBLASTIMA` ulazi samo kao additive-only bounded alias istog vrha priče: `SARKAZAM` je audit-only interpretativni/narativni marker, dok `PRIVREDNA GRANA DIGITALIZMA` i `PROJEKTI ENTUZIJAZMA PO ČINU OBLASTIMA` ostaju bounded enterprise/policy/pedagoška interpretacija bez nove izvršne logike i bez novih finansijskih formula.
 - `DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == NOTES 1450` ulazi samo kao additive-only bounded radni-handoff paket za nastavak rada: nije novi runtime modul, nije običan slobodni notes format i ne sme postati paralelni source-of-truth.
 - Četiri stalna sloja ostaju zaključana: `Developer/Create / VRH` = orkestracioni vršni smisao, `EXTREM` = tehnički signal, `EXTRONDOL` = governance/WAWE/audit/freeze-promotion, `SPAJA KOD` = javni audit-safe rezime.
@@ -48,8 +48,10 @@ Sledeći artefakti ostaju zaključano jezgro Developer/Create programa:
 
 - `docs/EXTRIMLI.md`
 - `docs/EXTRIMLI-DEVELOPER-CREATE-PROGRAM.md`
+- `docs/EXTRIMLI-EXTERNAL-GITHUB.md` (kanonska governance površina za `POSLOVNA PONUDA` bridge režim)
 - `docs/EXTRIMLI-SINEMETRICKO-PROGRAMIRANJE.md`
 - `docs/EXTRIMLI-VRH-PROGRAMSKOG-EKVILADENTA.md`
+- `src/lib/extrimli/developer-create-vrh-ekviladenta-contract.ts`
 - `src/lib/extrimli-extrem/**`
 - `src/lib/extrimli-extrondol/**`
 - `src/app/api/extrimli/extrem/route.ts`
@@ -57,6 +59,11 @@ Sledeći artefakti ostaju zaključano jezgro Developer/Create programa:
 - `src/tests/lib/extrimli-extrem.test.ts`
 - `src/tests/lib/extrimli-extrondol.test.ts`
 - `src/tests/api/extrimli-route.test.ts`
+
+Legacy migration note:
+
+- Bivši dokumentacioni surface `docs/EXTRIMLI-AI-KLASTER-TELEVIZIJA-PRETPLATA.md` je deprecated kao zaseban artifact.
+- Njegov governance sadržaj se vodi kroz ovaj manifest (`docs/EXTRIMLI-DEVELOPER-CREATE-PROGRAM.md`) i `docs/EXTRIMLI-EXTERNAL-GITHUB.md`, dok `docs/EXTRIMLI-AI-KLASTER-TELEVIZIJA-PRETPLATA.md` ostaje legacy/deprecated referenca za provider/distribution-specifična pravila tokom migracije.
 
 Additive implementation package lock:
 
@@ -653,6 +660,14 @@ Bez kompletnog audit paketa release ostaje u freeze režimu.
 - `SARADNJA_READY_QUALITY_GATES`: obavezni gate-ovi za sve buduće saradnje ostaju `human review` pre promocije, status jezik `READY | WATCH | BLOCKED`, `downstream reference` prema linked-repo toku, dokumentovan `rollback plan` i KPI impact summary.
 - `SARADNJA_READY_PACKAGE_LOCK`: završni saradnja-ready paket ostaje jedinstven manifest + roadmap faze + kriterijumi prihvatanja + standardizovan audit summary za svaku promenu.
 - `SARADNJA_READY_SIGNATURE`: potpisna poruka za buduće uspešne saradnje ostaje zaključana kao `Srdačan pozdrav, Nikola Spajić`.
+- `SARADNJA_READY_POSLOVNA_PONUDA_SCOPE_LOCK`: `DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == POSLOVNA PONUDA` ulazi kao additive-only scope lock bez novih ruta i bez paralelnog source-of-truth sistema.
+- `SARADNJA_READY_VERCEL_CANONICAL_BUSINESS_MESSAGE`: kanonska poruka ostaje zaključana kao `Pozdravljam kompaniju Vercel i šaljem alternativnu poslovnu saradnju da međusobnu pretplatu vršimo preko GitHub-a dok ne uspemo da se međusobno susretnemo.` uz potpis `Srdačan pozdrav, Nikola Spajić`.
+- `SARADNJA_READY_GITHUB_SUBSCRIPTION_BRIDGE`: prelazni operativni režim `github-subscription-bridge-until-in-person-meeting` je dozvoljen samo kada su prisutni `contract approval`, `compliance review`, `human review`, `payment verification` i `downstream reference`; deaktivacija je obavezna kada je fizički susret potvrđen ili kada je freeze/rollback signal aktivan.
+- `SARADNJA_READY_WAWE_ALIGNMENT_LOCK`: poslovna ponuda mora proći WAWE 1–5 redosled (`pre-release validation`, `build+staging`, `downstream sync`, `progressive rollout`, `resilience+final audit`) bez preskakanja faza.
+- `SARADNJA_READY_AUDIT_FIELDS_LOCK`: svaka iteracija poslovne ponude mora sadržati `roadmapStageId`, `measurableOutput`, `acceptanceEvidence`, `rolloutPlan`, `rollbackPlan`, `humanReviewStatus`, `downstreamReference`.
+- `SARADNJA_READY_COMMUNICATION_FORMAT_LOCK`: javni i governance format ostaje `READY | WATCH | BLOCKED` uz obavezne `blocker reason` i `review posture` signale.
+- `SARADNJA_READY_CROSS_REPO_BOUNDARY_LOCK`: prema `spaja86/IO-OPENUI-AO` dozvoljen je samo summary-only sync poslovne ponude; sirove EXTREM/EXTRONDOL formule, interni scoring i komercijalni detalji ostaju repo-local.
+- `SARADNJA_READY_FINAL_PACKAGE_LOCK`: finalni izlaz ostaje jedinstven audit-ready poslovni paket za Vercel u postojećem EXTRIMLI/EXTRONDOL/EXTREM governance modelu.
 
 ## 13.1) MALI/VEĆI PROJEKAT — ORTOGONALNA PROJEKCIJA (implementation lock)
 

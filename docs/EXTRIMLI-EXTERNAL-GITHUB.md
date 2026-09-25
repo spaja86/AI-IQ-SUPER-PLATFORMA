@@ -116,6 +116,19 @@ Cilj je da EXTRIMLI ostane podeljen na dva jasno odvojena sloja:
 - Audit policy: approvals, freeze reasons, rollback triggeri i downstream references moraju biti traceable u PR summary / workflow summary.
 - "Neograničeno" guardrails: fair-use i abuse protection su obavezni; FinOps pragovi `50/75/90/100`; freeze/rollback ostaju aktivni kada KPI/audit/payment nisu kompletni.
 
+### 4.5 Vercel poslovna ponuda — GitHub subscription bridge (additive-only)
+
+- Scope lock ostaje: `DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == POSLOVNA PONUDA`.
+- Kanonska poruka ka Vercel-u ostaje governance artefakt: pozdrav, predlog alternativne saradnje i prelazni model međusobne pretplate preko GitHub-a do fizičkog susreta.
+- Ownership split ostaje zaključan:
+  - `EXTREM (DOK/DIK/FOR)` = tehnička spremnost i konzistentnost,
+  - `EXTRONDOL (DAK/DUK)` = governance, human review, rollout/freeze/rollback,
+  - `SPAJA KOD` = audit-safe public summary.
+- Aktivacija bridge režima je dozvoljena samo uz `contract approval`, `compliance review`, `human review`, `payment verification`, `downstream reference`.
+- Deaktivacija bridge režima je obavezna kada je fizički susret potvrđen ili kada je aktiviran `freeze/rollback` posture.
+- Komunikacioni format ostaje `READY | WATCH | BLOCKED` uz obavezne `blocker reason` i `review posture` signale.
+- Cross-repo sync prema `spaja86/IO-OPENUI-AO` ostaje summary-only; sirovi EXTREM/EXTRONDOL detalji i interni komercijalni scoring ostaju repo-local.
+
 ## 5. Locked source-of-truth artifacts
 
 | Surface | Locked artifact |
