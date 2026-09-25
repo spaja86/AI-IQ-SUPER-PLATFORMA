@@ -333,3 +333,66 @@ export const DEVELOPER_CREATE_SARADNJA_READY_PACKAGE = {
   standardizedAuditSummaryForEachChange: true,
   signature: 'Srdačan pozdrav, Nikola Spajić',
 } as const;
+
+export const DEVELOPER_CREATE_PROJECT_GRADATION_SCOPE_LOCK =
+  'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA' as const;
+
+export const DEVELOPER_CREATE_PROJECT_GRADATION_BOUNDED_VOCABULARY = [
+  'EXTRIMLI',
+  'EXTRONDOL',
+  'EXTREM',
+  'DOK',
+  'DUK',
+  'DAK',
+  'DIK',
+  'FOR',
+] as const;
+
+export const DEVELOPER_CREATE_PROJECT_GRADATION_SMALL_PROJECT_MANIFEST_CORE = {
+  role: 'manifest-core-with-minimal-readiness-proof',
+  resistanceCriteria: {
+    pass: 'meets-canonical-readiness-and-no-blocker',
+    watch: 'partial-signal-needs-human-review',
+    blocked: 'conflict-or-governance-blocker-present',
+  },
+  statusModel: ['READY', 'WATCH', 'BLOCKED'],
+} as const;
+
+export const DEVELOPER_CREATE_PROJECT_GRADATION_LARGE_PROJECT_ORTHOGONAL_PROJECTION = {
+  role: 'large-project-as-orthogonal-projection-over-small-project',
+  requiresProjectionSegments: true,
+  segmentRule: 'each-segment-inherits-small-project-manifest-criteria-and-status-language',
+  aggregateRule: 'segment-sum-forms-large-project-picture-without-changing-scope-lock',
+} as const;
+
+export const DEVELOPER_CREATE_PROJECT_GRADATION_LAYER_OWNERSHIP_LOCK = {
+  dokDikFor: 'EXTREM',
+  dakDuk: 'EXTRONDOL',
+  spajaKod: 'audit-safe-summary-only',
+} as const;
+
+export const DEVELOPER_CREATE_PROJECT_GRADATION_RESISTANCE_GRADIENT_MODEL = {
+  smallScope: 'lower-resistance-threshold-faster-validation',
+  mediumScope: 'reinforced-review-and-governance-gate',
+  largeScope: 'full-wawe-and-audit-discipline-before-promotion',
+} as const;
+
+export const DEVELOPER_CREATE_PROJECT_GRADATION_LANGUAGE_TRACK_BINDING = {
+  sinemetricko: 'narrative-signal-lane',
+  objektnoOrijentisano: 'structure-lane',
+  proporcionalno: 'relation-lane',
+  metricko: 'rhythm-cadence-lane',
+  paradijogonalno: 'projection-orchestration-lane',
+} as const;
+
+export const DEVELOPER_CREATE_PROJECT_GRADATION_ITERATION_MANDATORY_OUTPUTS = {
+  technicalReadinessSignal: 'required',
+  governanceDecisionPosture: 'promote-freeze-rollback-required',
+  auditSafeSummary: 'required-with-blocker-reason-and-downstream-reference',
+} as const;
+
+export const DEVELOPER_CREATE_PROJECT_GRADATION_ACCEPTANCE_LOCK = {
+  confirmsLargeProjectOrthogonalProjection: true,
+  confirmsDokDikForAndDakDukSplitUnchanged: true,
+  confirmsManifestResistanceMappedByScopeGradation: true,
+} as const;
