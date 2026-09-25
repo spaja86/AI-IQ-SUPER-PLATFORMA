@@ -389,6 +389,32 @@ async function runTests(): Promise<void> {
     assert(!reflection.watchReasons[0]?.includes('Deterministic fallback ostaje aktivan za  ulaze.'), 'Sarkazam helper empty fallback input case should avoid broken fallback wording');
   });
 
+  await test('Sarkazam helper normalizes duplicate and padded fallback inputs before exposing summary-safe wording', () => {
+    const reflection = resolveSarkazamPrivrednaGranaDigitalizmaReflection({
+      repoWideReadiness: {
+        score: 52,
+        status: 'WATCH',
+        deterministicFallbackRequired: true,
+        reasons: [],
+      },
+      kraljevskiEkonomskiUneverzitetReadiness: {
+        status: 'WATCH',
+        score: 58,
+        deterministicFallbackRequired: false,
+      },
+      kraljevskiProgramskiUneverzitetReadiness: {
+        status: 'READY',
+        score: 80,
+        deterministicFallbackRequired: false,
+      },
+      fallbackInputs: [' NaN ', 'Infinity', 'NaN', ' empty ', ''],
+    });
+
+    assert(reflection.watchReasons.length === 1, 'Sarkazam helper normalized fallback case should still emit watch reason');
+    assert(reflection.watchReasons[0]?.includes('Deterministic fallback ostaje aktivan za NaN, Infinity, empty ulaze.'), 'Sarkazam helper normalized fallback case should trim and deduplicate fallback inputs');
+    assert(!reflection.watchReasons[0]?.includes(' NaN '), 'Sarkazam helper normalized fallback case should not leak padded fallback inputs');
+  });
+
   await test('Sarkazam report stays WATCH with fallback-aware review messaging when roadmap drift is cleared but DAK/DUK remain governance-only', async () => {
     await withSingleActiveRoadmapStage(() => {
       const reflection =
