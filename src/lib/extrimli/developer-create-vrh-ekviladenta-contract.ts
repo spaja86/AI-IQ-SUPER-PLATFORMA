@@ -310,9 +310,10 @@ export const DEVELOPER_CREATE_NAVIGACIONI_SISTEM_SA_TREKEROM_BOUNDED_TOKEN_VOCAB
 
 export const DEVELOPER_CREATE_NAVIGACIONI_SISTEM_SA_TREKEROM_TRACKER_CONTRACT = {
   requiredTrackerFields: [
+    'canonicalAlias',
     'status',
     'conflictIntensity',
-    'waweStage',
+    'currentWave',
     'auditEvidence',
     'rollbackReadiness',
     'downstreamReference',
@@ -320,6 +321,7 @@ export const DEVELOPER_CREATE_NAVIGACIONI_SISTEM_SA_TREKEROM_TRACKER_CONTRACT = 
   requiredGovernanceOutputs: [
     'promotionFreeze',
     'humanReviewStatus',
+    'reviewPosture',
     'releaseAuditSummary',
     'rolloutPlan',
     'rollbackPlan',
@@ -336,7 +338,7 @@ export const DEVELOPER_CREATE_NAVIGACIONI_SISTEM_SA_TREKEROM_SUMMARY_SAFE_FIELDS
   'canonicalAlias',
   'status',
   'conflictIntensity',
-  'waweStage',
+  'currentWave',
   'auditEvidence',
   'rollbackReadiness',
   'reviewPosture',
