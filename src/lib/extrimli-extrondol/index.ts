@@ -3640,7 +3640,7 @@ function buildSpajaKodFacade(params: {
           reviewPosture:
             params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.radioTrack.mikrofonProjectionAlias.reviewPosture,
           downstreamReference:
-            params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.radioTrack.downstreamReference,
+            params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.radioTrack.mikrofonProjectionAlias.downstreamReference,
           publicBoundary: 'audit-safe-summary-only',
           semanticPreservation: {
             ...params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.radioTrack.mikrofonProjectionAlias.semanticPreservation,
