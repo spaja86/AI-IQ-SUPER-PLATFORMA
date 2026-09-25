@@ -229,7 +229,7 @@ export function buildExtrimliInnovationRegistry(): ExtrimliInnovationRegistryMod
 
   const totalInnovations = innovations.length;
   const coveragePercent = Math.round((totalInnovations / (CLUSTER_COUNT * INNOVATIONS_PER_CLUSTER)) * 10000) / 100;
-  const qualityReadyWithoutCriticalBlockersPercent = Math.round(((byReadiness.READY - blockedCriticalCount) / totalInnovations) * 10000) / 100;
+  const qualityReadyWithoutCriticalBlockersPercent = Math.round((byReadiness.READY / totalInnovations) * 10000) / 100;
   const governancePromotionRatioPercent = Math.round((byGovernance.promote / totalInnovations) * 10000) / 100;
   const governanceRollbackRatioPercent = Math.round((byGovernance.rollback / totalInnovations) * 10000) / 100;
   const ecosystemStabilityPercent = Math.round(((byReadiness.READY + byReadiness.WATCH) / totalInnovations) * 10000) / 100;

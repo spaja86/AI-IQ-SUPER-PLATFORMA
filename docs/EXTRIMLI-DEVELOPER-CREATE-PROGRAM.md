@@ -53,7 +53,7 @@ Program je zaključan na postojeći roadmap:
 
 ## 2.1) Locked implementation nucleus
 
-## 2.0.2) 13000 INOVACIJA locked model
+### 2.1.1) 13000 INOVACIJA locked model
 
 - `DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == 13000 INOVACIJA` ostaje additive-only i radi isključivo kroz postojeće rute:
   - `/api/extrimli/extrem` (tehnički signal: DOK/DIK/FOR)
