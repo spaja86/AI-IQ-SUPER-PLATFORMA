@@ -41,6 +41,14 @@ import {
   DEVELOPER_CREATE_RADIO_CANONICAL_ALIAS,
   DEVELOPER_CREATE_RADIO_DOWNSTREAM_POLICY,
   DEVELOPER_CREATE_RADIO_FALLBACK_INPUTS,
+  DEVELOPER_CREATE_RADIO_MIKROFON_PROJECTION_CANONICAL_EQUALITY,
+  DEVELOPER_CREATE_RADIO_MIKROFON_PROJECTION_DOWNSTREAM_POLICY,
+  DEVELOPER_CREATE_RADIO_MIKROFON_PROJECTION_FALLBACK_INPUTS,
+  DEVELOPER_CREATE_RADIO_MIKROFON_PROJECTION_NORMALIZATION_RULES,
+  DEVELOPER_CREATE_RADIO_MIKROFON_PROJECTION_ROLE_CLASSIFICATION,
+  DEVELOPER_CREATE_RADIO_MIKROFON_PROJECTION_SCOPE_STATEMENT,
+  DEVELOPER_CREATE_RADIO_MIKROFON_PROJECTION_SUMMARY_SAFE_FIELDS,
+  DEVELOPER_CREATE_RADIO_MIKROFON_PROJECTION_TOKEN_VOCABULARY,
   DEVELOPER_CREATE_RADIO_NORMALIZATION_RULES,
   DEVELOPER_CREATE_RADIO_ROLE_CLASSIFICATION,
   DEVELOPER_CREATE_RADIO_SCOPE_STATEMENT,
@@ -7251,6 +7259,47 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
           skuMeaning: DEVELOPER_CREATE_RADIO_TOKEN_VOCABULARY.semanticPreservation.SKU,
           noSemanticConflict: true,
         },
+        mikrofonProjectionAlias: {
+          canonicalEquality: DEVELOPER_CREATE_RADIO_MIKROFON_PROJECTION_CANONICAL_EQUALITY,
+          scopeStatement: DEVELOPER_CREATE_RADIO_MIKROFON_PROJECTION_SCOPE_STATEMENT,
+          roleClassification: DEVELOPER_CREATE_RADIO_MIKROFON_PROJECTION_ROLE_CLASSIFICATION,
+          boundedTokenVocabulary: DEVELOPER_CREATE_RADIO_MIKROFON_PROJECTION_TOKEN_VOCABULARY,
+          normalizationRules: DEVELOPER_CREATE_RADIO_MIKROFON_PROJECTION_NORMALIZATION_RULES,
+          fallbackInputs: DEVELOPER_CREATE_RADIO_MIKROFON_PROJECTION_FALLBACK_INPUTS,
+          summarySafePublicFields: [...DEVELOPER_CREATE_RADIO_MIKROFON_PROJECTION_SUMMARY_SAFE_FIELDS],
+          downstreamPolicy: DEVELOPER_CREATE_RADIO_MIKROFON_PROJECTION_DOWNSTREAM_POLICY,
+          additiveOnly: true,
+          noNewRuntimeEngine: true,
+          noNewRuntimeRoutes: true,
+          noParallelSourceOfTruth: true,
+          readinessSignal: {
+            status: 'BLOCKED',
+            readinessScore: 0,
+            captureStatus: 'BLOCKED',
+            distributionStatus: 'BLOCKED',
+            tonalProjectionStatus: 'BLOCKED',
+            projectionCoveragePercent: 0,
+            normalizedInputCount: 0,
+            deterministicFallbackRequired: true,
+            driver:
+              'developerAndCreateRepoWideReflection.radioTrack.readinessSignal + developerAndCreateRepoWideReflection.audioVisualKontrabasPackage + developerAndCreateRepoWideReflection.globalPageExplanationContract',
+          },
+          blockerReason: 'radio-mikrofon-projection-awaits-existing-radio-readiness-and-audit-safe-summary-alignment',
+          watchReasons: [],
+          reviewPosture: 'REVIEW_REQUIRED',
+          semanticPreservation: {
+            mikrofonMeaning:
+              DEVELOPER_CREATE_RADIO_MIKROFON_PROJECTION_TOKEN_VOCABULARY.semanticPreservation.MIKROFON,
+            megafonMeaning:
+              DEVELOPER_CREATE_RADIO_MIKROFON_PROJECTION_TOKEN_VOCABULARY.semanticPreservation.MEGAFON,
+            distributerMeaning:
+              DEVELOPER_CREATE_RADIO_MIKROFON_PROJECTION_TOKEN_VOCABULARY.semanticPreservation.DISTRIBUTER,
+            saksofonMeaning:
+              DEVELOPER_CREATE_RADIO_MIKROFON_PROJECTION_TOKEN_VOCABULARY.semanticPreservation.SAKSOFON,
+            noSemanticConflict: true,
+          },
+          mikrofonSummary: '',
+        },
         acceptanceEvidence: [
           'developerAndCreateRepoWideReflection.radioTrack',
           'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.radioTrack',
@@ -11173,6 +11222,8 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
       extrondolPublishes: 'wawe-freeze-promotion-review-rollback-audit-summary-only',
       spajaKodPublishes: 'status-blocker-review-downstream-and-radio-summary-only',
       technicalBinding: 'developerAndCreateRepoWideReflection.radioTrack',
+      mikrofonProjectionBinding:
+        'developerAndCreateRepoWideReflection.radioTrack.mikrofonProjectionAlias',
       noNewRuntimeEngine: true,
       noNewRuntimeRoutes: true,
       noParallelSourceOfTruth: true,
@@ -11901,7 +11952,7 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
   const radioTrack =
     dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.radioTrack;
   const radioSummary =
-    'RADIO ostaje additive-only bounded media/distribution/audio paket: EXTREM nosi readiness, semantic-preservation signal i bounded radio summary, EXTRONDOL governance mirror, a SPAJA KOD samo audit-safe radio rezime.';
+    'RADIO ostaje additive-only bounded media/distribution/audio paket: EXTREM nosi readiness, semantic-preservation signal, bounded radio summary i bounded `MIKROFON == MEGAFON, DISTRIBUTER, SAKSOFON` projekciju, EXTRONDOL governance mirror, a SPAJA KOD samo audit-safe radio rezime.';
   const expectedRadioCanonicalSequence = DEVELOPER_CREATE_RADIO_TOKEN_VOCABULARY.canonicalSequence;
   const expectedRadioTokenSet = new Set(expectedRadioCanonicalSequence);
   const actualRadioCanonicalSequence = radioTrack.boundedTokenVocabulary.canonicalSequence;
@@ -12004,6 +12055,165 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
         ? 'WATCH'
         : 'REVIEW_REQUIRED';
   radioTrack.radioSummary = radioSummary;
+  const mikrofonProjectionAlias = radioTrack.mikrofonProjectionAlias;
+  const mikrofonSummary =
+    'MIKROFON == MEGAFON, DISTRIBUTER, SAKSOFON ostaje additive-only bounded audio/distribution projekcija unutar RADIO paketa: EXTREM objavljuje readiness, semantic-preservation i deterministic fallback signal, EXTRONDOL governance mirror, a SPAJA KOD samo audit-safe mikrofon summary.';
+  const expectedMikrofonProjectionSequence =
+    DEVELOPER_CREATE_RADIO_MIKROFON_PROJECTION_TOKEN_VOCABULARY.canonicalSequence;
+  const expectedMikrofonProjectionTokenSet = new Set(expectedMikrofonProjectionSequence);
+  const actualMikrofonProjectionSequence =
+    mikrofonProjectionAlias.boundedTokenVocabulary.canonicalSequence;
+  const actualMikrofonProjectionCategorizedTokens = new Set([
+    ...mikrofonProjectionAlias.boundedTokenVocabulary.captureTokens,
+    ...mikrofonProjectionAlias.boundedTokenVocabulary.distributionTokens,
+    ...mikrofonProjectionAlias.boundedTokenVocabulary.tonalProjectionTokens,
+  ]);
+  const mikrofonProjectionMissingContractTokens = expectedMikrofonProjectionSequence.filter((token) =>
+    !actualMikrofonProjectionSequence.includes(token)
+    || !actualMikrofonProjectionCategorizedTokens.has(token),
+  );
+  const mikrofonProjectionUnexpectedContractTokens = [
+    ...new Set([
+      ...actualMikrofonProjectionSequence,
+      ...actualMikrofonProjectionCategorizedTokens,
+    ]),
+  ].filter((token) => !expectedMikrofonProjectionTokenSet.has(token));
+  const mikrofonProjectionCanonicalCoverageCount = expectedMikrofonProjectionSequence.filter((token) =>
+    actualMikrofonProjectionSequence.includes(token)
+    && actualMikrofonProjectionCategorizedTokens.has(token),
+  ).length;
+  const mikrofonProjectionContractAligned =
+    mikrofonProjectionMissingContractTokens.length === 0
+    && mikrofonProjectionUnexpectedContractTokens.length === 0
+    && actualMikrofonProjectionSequence.join(',')
+      === expectedMikrofonProjectionSequence.join(',');
+  const mikrofonProjectionExpectedTokenCount =
+    expectedMikrofonProjectionSequence.length || 1;
+  const mikrofonProjectionCoveragePercent = round(
+    clamp(
+      (mikrofonProjectionCanonicalCoverageCount / mikrofonProjectionExpectedTokenCount)
+        * 100,
+      0,
+      100,
+    ),
+    2,
+  );
+  const mikrofonProjectionNormalizationReady =
+    mikrofonProjectionAlias.normalizationRules.trimWhitespace
+    && mikrofonProjectionAlias.normalizationRules.uppercaseTokens
+    && mikrofonProjectionAlias.normalizationRules.collapseMultipleSpaces
+    && mikrofonProjectionAlias.normalizationRules.keepCanonicalOrder
+    && mikrofonProjectionAlias.normalizationRules.requireAllProjectionRoles
+    && mikrofonProjectionAlias.normalizationRules.unknownTokenHandling
+      === 'map-to-watch-and-require-review'
+    && mikrofonProjectionAlias.normalizationRules.conflictHandling
+      === 'map-to-blocked-and-require-review';
+  const mikrofonProjectionHasSummarySurface =
+    mikrofonProjectionAlias.summarySafePublicFields.includes('mikrofonSummary')
+    && mikrofonProjectionAlias.summarySafePublicFields.includes('semanticPreservation')
+    && mikrofonProjectionAlias.summarySafePublicFields.includes('blockerReason');
+  const mikrofonProjectionPublicPackageStatus =
+    radioStatus === 'BLOCKED'
+      ? 'BLOCKED'
+      : mikrofonProjectionNormalizationReady
+          && mikrofonProjectionHasSummarySurface
+          && mikrofonSummary.length > 0
+          && mikrofonProjectionAlias.semanticPreservation.noSemanticConflict
+          && mikrofonProjectionContractAligned
+          && radioStatus === 'READY'
+        ? 'READY'
+        : mikrofonProjectionHasSummarySurface
+            && mikrofonSummary.length > 0
+            && mikrofonProjectionAlias.semanticPreservation.noSemanticConflict
+            && mikrofonProjectionCanonicalCoverageCount > 0
+          ? 'WATCH'
+          : 'BLOCKED';
+  const mikrofonProjectionCaptureSignalPresent =
+    actualMikrofonProjectionSequence.includes('MIKROFON')
+    && actualMikrofonProjectionCategorizedTokens.has('MIKROFON');
+  const mikrofonProjectionLocalCaptureStatus =
+    mikrofonProjectionNormalizationReady
+    && mikrofonProjectionCaptureSignalPresent
+    && mikrofonProjectionCoveragePercent === 100
+      ? 'READY'
+      : mikrofonProjectionCaptureSignalPresent || mikrofonProjectionCanonicalCoverageCount > 0
+        ? 'WATCH'
+        : 'BLOCKED';
+  const mikrofonProjectionDistributionCoverageCount = ['MEGAFON', 'DISTRIBUTER'].filter((token) =>
+    actualMikrofonProjectionSequence.includes(token)
+    && actualMikrofonProjectionCategorizedTokens.has(token),
+  ).length;
+  const mikrofonProjectionLocalDistributionStatus =
+    mikrofonProjectionNormalizationReady
+    && mikrofonProjectionDistributionCoverageCount === 2
+      ? 'READY'
+      : mikrofonProjectionDistributionCoverageCount > 0
+        ? 'WATCH'
+        : 'BLOCKED';
+  const mikrofonProjectionTonalSignalPresent =
+    actualMikrofonProjectionSequence.includes('SAKSOFON')
+    && actualMikrofonProjectionCategorizedTokens.has('SAKSOFON');
+  const mikrofonProjectionLocalTonalStatus =
+    mikrofonProjectionNormalizationReady && mikrofonProjectionTonalSignalPresent
+      ? 'READY'
+      : mikrofonProjectionTonalSignalPresent
+        ? 'WATCH'
+        : 'BLOCKED';
+  const gateMikrofonProjectionComponentStatus = (status: ReadinessStatus): ReadinessStatus =>
+    radioStatus === 'BLOCKED'
+      ? 'BLOCKED'
+      : radioStatus === 'WATCH' && status === 'READY'
+        ? 'WATCH'
+        : status;
+  const mikrofonProjectionCaptureStatus =
+    gateMikrofonProjectionComponentStatus(mikrofonProjectionLocalCaptureStatus);
+  const mikrofonProjectionDistributionStatus =
+    gateMikrofonProjectionComponentStatus(mikrofonProjectionLocalDistributionStatus);
+  const mikrofonProjectionTonalStatus =
+    gateMikrofonProjectionComponentStatus(mikrofonProjectionLocalTonalStatus);
+  const mikrofonProjectionSignalStatuses = [
+    mikrofonProjectionCaptureStatus,
+    mikrofonProjectionDistributionStatus,
+    mikrofonProjectionTonalStatus,
+    mikrofonProjectionPublicPackageStatus,
+  ] as const;
+  const mikrofonProjectionStatus = aggregateReadinessStatus([...mikrofonProjectionSignalStatuses]);
+  const mikrofonProjectionReadinessScore = round(
+    mikrofonProjectionSignalStatuses.reduce((sum, status) => sum + readinessStatusScore(status), 0)
+      / mikrofonProjectionSignalStatuses.length,
+    2,
+  );
+  const mikrofonProjectionDeterministicFallbackRequired =
+    mikrofonProjectionStatus !== 'READY' || radioDeterministicFallbackRequired;
+  mikrofonProjectionAlias.readinessSignal.status = mikrofonProjectionStatus;
+  mikrofonProjectionAlias.readinessSignal.readinessScore = mikrofonProjectionReadinessScore;
+  mikrofonProjectionAlias.readinessSignal.captureStatus = mikrofonProjectionCaptureStatus;
+  mikrofonProjectionAlias.readinessSignal.distributionStatus = mikrofonProjectionDistributionStatus;
+  mikrofonProjectionAlias.readinessSignal.tonalProjectionStatus = mikrofonProjectionTonalStatus;
+  mikrofonProjectionAlias.readinessSignal.projectionCoveragePercent =
+    mikrofonProjectionCoveragePercent;
+  mikrofonProjectionAlias.readinessSignal.normalizedInputCount =
+    actualMikrofonProjectionCategorizedTokens.size;
+  mikrofonProjectionAlias.readinessSignal.deterministicFallbackRequired =
+    mikrofonProjectionDeterministicFallbackRequired;
+  mikrofonProjectionAlias.blockerReason =
+    mikrofonProjectionStatus === 'BLOCKED'
+      ? 'MIKROFON == MEGAFON, DISTRIBUTER, SAKSOFON ostaje BLOCKED dok bounded RADIO projekcija ne zadrži semantic-preservation, summary-only boundary i deterministic fallback disciplinu bez novog audio/distribution engine-a.'
+      : null;
+  mikrofonProjectionAlias.watchReasons =
+    mikrofonProjectionStatus === 'WATCH'
+      ? [
+        'MIKROFON == MEGAFON, DISTRIBUTER, SAKSOFON ostaje u WATCH režimu dok bounded RADIO projekcija još zahteva dodatni review za capture/distribution/tonal alignment i downstream summary disciplinu.',
+        'MIKROFON == MEGAFON, DISTRIBUTER, SAKSOFON ostaje u WATCH režimu dok bounded RADIO projekcija još zahteva dodatni review za projection lock, semantic-preservation i audit-safe mikrofon summary.',
+      ]
+      : [];
+  mikrofonProjectionAlias.reviewPosture =
+    mikrofonProjectionStatus === 'READY'
+      ? 'ALIGNED'
+      : mikrofonProjectionStatus === 'WATCH'
+        ? 'WATCH'
+        : 'REVIEW_REQUIRED';
+  mikrofonProjectionAlias.mikrofonSummary = mikrofonSummary;
 
   dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.fourTrackProgramPackage.technicalTrack.readinessStatus =
     dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.status;
@@ -12033,7 +12243,7 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
     'Supplied ČOVEČANSTVO / OSEĆAJ OSEBENOSTI image remains companion-only audit evidence for samospoznaja, razumevanje mozga, osećaj, čovečnost, shared-world alignment i epilog guidance bez novog source-of-truth sloja.',
     'SMART PROGRAMSKI JEZIK ostaje additive-only paket pod zaključanim scope-om `DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA`: AI IQ PROGRAMSKI JEZIK ostaje DSL/orchestration/explainability okvir, a SPAJINO PROPORCIONALNO PROGRAMIRANJE UNIVERZITET ostaje tehnički dokaz sprega funkcionalnog i objektnog programiranja u istom EXTREM profilu.',
     'EKSPERIMENT PROGRAMSKI JEZIK (PRODUKCIJA FILMSKOG I AUDIO REPERTOARA) ostaje additive-only alias unutar istog Developer/Create vršnog sloja: EXTREM drži DOK/DIK/FOR tehnički signal, EXTRONDOL drži DAK/DUK governance mirror, a SPAJA KOD objavljuje samo audit-safe summary.',
-    'RADIO ostaje additive-only bounded media/distribution/audio alias unutar istog Developer/Create vršnog sloja: EXTREM drži readiness + semantic-preservation + bounded radio summary, EXTRONDOL drži DAK/DUK governance mirror, a SPAJA KOD objavljuje samo audit-safe summary.',
+    'RADIO ostaje additive-only bounded media/distribution/audio alias unutar istog Developer/Create vršnog sloja: EXTREM drži readiness + semantic-preservation + bounded radio summary + bounded `MIKROFON == MEGAFON, DISTRIBUTER, SAKSOFON` projekciju, EXTRONDOL drži DAK/DUK governance mirror, a SPAJA KOD objavljuje samo audit-safe summary.',
     'Supplied Mjuzikl kraljevskog čina image remains supplemental audit/reference evidence only and extends the same bounded reflection package through muzički čin, epilog, čovečanstvo i zajednički ritam themes without introducing any new runtime source of truth.',
     'Implementation package zaključava postojeće source-of-truth surface-ove, ownership split, ČOVEČANSTVU summary-only boundary, V2–V7 roadmap mapu i READY/WATCH/BLOCKED validation lock bez novih runtime ruta i bez paralelnog source-of-truth sistema.',
     'SELEKCIONIRANJE U SELEKCIJAMA PREMA AKTIVNOM NADMAŠAJU / NAPOLEON DISKAVERI ostaje bounded Developer/Create / VRH / MAPE UMA alias: EXTREM objavljuje samo readiness/discovery/selection signal, EXTRONDOL samo governance ogledalo, a SPAJA KOD samo summary-safe status, blocker/watch razloge i downstream reference.',

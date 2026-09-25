@@ -348,6 +348,70 @@ export const DEVELOPER_CREATE_RADIO_DOWNSTREAM_POLICY = {
   repoLocalNarrativeRemainsRich: true,
 } as const;
 
+export const DEVELOPER_CREATE_RADIO_MIKROFON_PROJECTION_CANONICAL_EQUALITY =
+  'MIKROFON == MEGAFON, DISTRIBUTER, SAKSOFON' as const;
+
+export const DEVELOPER_CREATE_RADIO_MIKROFON_PROJECTION_SCOPE_STATEMENT =
+  'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == RADIO == MIKROFON == MEGAFON, DISTRIBUTER, SAKSOFON == additive-only bounded audio/distribution projection alias bez novih ruta i bez paralelnog source-of-truth sistema' as const;
+
+export const DEVELOPER_CREATE_RADIO_MIKROFON_PROJECTION_ROLE_CLASSIFICATION =
+  'additive-only-bounded-mikrofon-projection-alias' as const;
+
+export const DEVELOPER_CREATE_RADIO_MIKROFON_PROJECTION_TOKEN_VOCABULARY = {
+  canonicalSequence: ['MIKROFON', 'MEGAFON', 'DISTRIBUTER', 'SAKSOFON'],
+  captureTokens: ['MIKROFON'],
+  distributionTokens: ['MEGAFON', 'DISTRIBUTER'],
+  tonalProjectionTokens: ['SAKSOFON'],
+  semanticPreservation: {
+    MIKROFON: 'bounded-audio-capture-entry-point-without-new-runtime-engine',
+    MEGAFON: 'bounded-public-amplification-projection-without-new-distribution-engine',
+    DISTRIBUTER: 'existing-summary-safe-distribution-governance-channel',
+    SAKSOFON: 'bounded-tonal-expression-layer-inside-existing-audio-package',
+  },
+  fallbackSummaryRules: [
+    'summary-only-public-output',
+    'no-raw-token-model-exposure',
+    'deterministic-fallback-required-on-conflict',
+    'no-new-runtime-audio-distribution-engine',
+  ],
+} as const;
+
+export const DEVELOPER_CREATE_RADIO_MIKROFON_PROJECTION_NORMALIZATION_RULES = {
+  trimWhitespace: true,
+  uppercaseTokens: true,
+  collapseMultipleSpaces: true,
+  keepCanonicalOrder: true,
+  requireAllProjectionRoles: true,
+  unknownTokenHandling: 'map-to-watch-and-require-review',
+  conflictHandling: 'map-to-blocked-and-require-review',
+} as const;
+
+export const DEVELOPER_CREATE_RADIO_MIKROFON_PROJECTION_FALLBACK_INPUTS = [
+  'NaN',
+  'Infinity',
+  'empty',
+  'conflict',
+  'unknown-token',
+] as const;
+
+export const DEVELOPER_CREATE_RADIO_MIKROFON_PROJECTION_SUMMARY_SAFE_FIELDS = [
+  'canonicalEquality',
+  'status',
+  'blockerReason',
+  'watchReasons',
+  'reviewPosture',
+  'downstreamReference',
+  'mikrofonSummary',
+  'semanticPreservation',
+] as const;
+
+export const DEVELOPER_CREATE_RADIO_MIKROFON_PROJECTION_DOWNSTREAM_POLICY = {
+  linkedRepo: 'spaja86/IO-OPENUI-AO',
+  syncMode: 'summary-only',
+  rawTokenModelExposure: false,
+  rawNarrativeStaysRepoLocal: true,
+} as const;
+
 export const DEVELOPER_CREATE_AI_IQ_LABORATORIJA_CANONICAL_ALIAS =
   'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == AI IQ LABORATORIJA == LABORATORIJSKI NALAZI FAUNE I FLORE I GRAĐEVINSKOG MATERIJALA' as const;
 

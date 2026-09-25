@@ -20,6 +20,7 @@ import type { AiIdentityFinanceGovernancePackage } from '../ai-identity-finance-
 import type {
   DEVELOPER_CREATE_AI_IQ_KONFERENCIJA_ZA_STAMPU_CANONICAL_ALIAS,
   DEVELOPER_CREATE_RADIO_CANONICAL_ALIAS,
+  DEVELOPER_CREATE_RADIO_MIKROFON_PROJECTION_CANONICAL_EQUALITY,
   DEVELOPER_CREATE_NAPOLEON_DISKAVERI_CANONICAL_ALIAS,
   DEVELOPER_CREATE_VRH_CANONICAL_TOKEN_VOCABULARY,
   DEVELOPER_CREATE_VRH_DOWNSTREAM_SUMMARY_POLICY,
@@ -2979,6 +2980,23 @@ export interface ExtrimliSpajaKodPublicFacade {
         dokerMeaning: string;
         skuMeaning: string;
         noSemanticConflict: true;
+      };
+      mikrofonProjectionAlias: {
+        canonicalEquality: typeof DEVELOPER_CREATE_RADIO_MIKROFON_PROJECTION_CANONICAL_EQUALITY;
+        status: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['radioTrack']['mikrofonProjectionAlias']['readinessSignal']['status'];
+        blockerReason: string | null;
+        watchReasons: string[];
+        reviewPosture: 'ALIGNED' | 'WATCH' | 'REVIEW_REQUIRED';
+        downstreamReference: 'docs/MULTI-REPO-LINKS.md -> spaja86/IO-OPENUI-AO (summary-only)';
+        publicBoundary: 'audit-safe-summary-only';
+        semanticPreservation: {
+          mikrofonMeaning: string;
+          megafonMeaning: string;
+          distributerMeaning: string;
+          saksofonMeaning: string;
+          noSemanticConflict: true;
+        };
+        mikrofonSummary: string;
       };
       radioSummary: string;
     };
