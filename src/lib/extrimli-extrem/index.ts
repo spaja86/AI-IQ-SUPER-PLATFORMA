@@ -8736,12 +8736,11 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
     aggregateReadinessStatus([signal.status, signal.audioVisualSyncStatus, signal.spatialEffectStatus]);
   const immersiveVisualization3dStatuses = immersiveVisualization3dDimensionalSignals.map(resolveSignalAggregateStatus);
   const immersiveVisualization3dScore = round(
-    immersiveVisualization3dDimensionalSignals.reduce((sum, signal) => {
-      const aggregateStatus = resolveSignalAggregateStatus(signal);
+    immersiveVisualization3dStatuses.reduce((sum, aggregateStatus) => {
       if (aggregateStatus === 'READY') return sum + 100;
       if (aggregateStatus === 'WATCH') return sum + 70;
       return sum + 40;
-    }, 0) / immersiveVisualization3dDimensionalSignals.length,
+    }, 0) / immersiveVisualization3dStatuses.length,
     2,
   );
   const immersiveVisualization3dStatus = aggregateReadinessStatus(immersiveVisualization3dStatuses);
