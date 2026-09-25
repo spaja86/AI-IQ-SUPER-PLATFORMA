@@ -257,9 +257,9 @@ export function buildExtrimliInnovationRegistry(): ExtrimliInnovationRegistryMod
   const summaryStatus: ExtrimliInnovationReadinessStatus =
     blockedRatio >= 0.2 || blockedCriticalRatio >= 0.1
       ? 'BLOCKED'
-      : byReadiness.BLOCKED > 0 || byReadiness.WATCH > 0
-      ? 'WATCH'
-      : 'READY';
+      : governancePromotionRatioPercent >= 55 && blockedCriticalRatio < 0.1
+      ? 'READY'
+      : 'WATCH';
 
   cachedInnovationRegistry = deepFreeze({
     canonicalAlias: 'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == 13000 INOVACIJA',
