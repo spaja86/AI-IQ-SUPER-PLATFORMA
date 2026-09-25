@@ -10978,15 +10978,6 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
       dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.dailyOperationalCadence.status,
   };
   const notes1450Statuses = Object.values(notes1450Signals);
-  const notes1450Status = aggregateSignalReadinessStatus(notes1450Statuses);
-  const notes1450ReadinessScore = round(
-    (
-      dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.score
-      + readinessStatusScore(dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.technicalReadinessProfile.consolidatedRhythmStatus)
-      + readinessStatusScore(dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.dailyOperationalCadence.status)
-    ) / 3,
-    2,
-  );
   const notes1450Track =
     dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.notes1450Track;
   const notes1450AiMaterialSaturationRiskScore = [
@@ -11008,19 +10999,32 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
         ? 20
         : 0
     );
-  notes1450Track.readinessSignal.status = notes1450Status;
-  notes1450Track.readinessSignal.readinessScore = notes1450ReadinessScore;
-  notes1450Track.readinessSignal.goalClarityStatus = notes1450Signals.goalClarityStatus;
-  notes1450Track.readinessSignal.contextIntegrityStatus = notes1450Signals.contextIntegrityStatus;
-  notes1450Track.readinessSignal.taskContinuityStatus = notes1450Signals.taskContinuityStatus;
-  notes1450Track.readinessSignal.aiMaterialSaturationRiskStatus =
+  const notes1450AiMaterialSaturationRiskStatus =
     notes1450AiMaterialSaturationRiskScore >= 60
       ? 'BLOCKED'
       : notes1450AiMaterialSaturationRiskScore >= 20
         ? 'WATCH'
         : 'READY';
-  notes1450Track.readinessSignal.deterministicNextStepStatus =
-    notes1450Signals.taskContinuityStatus;
+  const notes1450DeterministicNextStepStatus = notes1450Signals.taskContinuityStatus;
+  const notes1450FinalStatuses = [
+    notes1450Signals.goalClarityStatus,
+    notes1450Signals.contextIntegrityStatus,
+    notes1450Signals.taskContinuityStatus,
+    notes1450AiMaterialSaturationRiskStatus,
+    notes1450DeterministicNextStepStatus,
+  ];
+  const notes1450Status = aggregateSignalReadinessStatus(notes1450FinalStatuses);
+  const notes1450ReadinessScore = round(
+    notes1450FinalStatuses.reduce((sum, status) => sum + readinessStatusScore(status), 0) / notes1450FinalStatuses.length,
+    2,
+  );
+  notes1450Track.readinessSignal.status = notes1450Status;
+  notes1450Track.readinessSignal.readinessScore = notes1450ReadinessScore;
+  notes1450Track.readinessSignal.goalClarityStatus = notes1450Signals.goalClarityStatus;
+  notes1450Track.readinessSignal.contextIntegrityStatus = notes1450Signals.contextIntegrityStatus;
+  notes1450Track.readinessSignal.taskContinuityStatus = notes1450Signals.taskContinuityStatus;
+  notes1450Track.readinessSignal.aiMaterialSaturationRiskStatus = notes1450AiMaterialSaturationRiskStatus;
+  notes1450Track.readinessSignal.deterministicNextStepStatus = notes1450DeterministicNextStepStatus;
   notes1450Track.readinessSignal.deterministicFallbackRequired =
     dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.deterministicFallbackRequired;
   notes1450Track.blockerReason =
