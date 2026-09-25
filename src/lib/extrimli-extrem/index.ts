@@ -11382,24 +11382,24 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
   );
   const konstrukcijeIProjektovanjeNormalizedFallbackInputs =
     konstrukcijeIProjektovanjeTrack.readinessSignal.fallbackInputs.map(normalizeKonstrukcijeIProjektovanjeToken);
-  const konstrukcijeIProjektovanjeNormalizedUnknownTokenInputs =
+  const konstrukcijeIProjektovanjeNormalizedConflictTokenInputs =
     konstrukcijeIProjektovanjeTrack.readinessSignal.fallbackInputs
-      .filter((token) => normalizeKonstrukcijeIProjektovanjeToken(token) === 'UNKNOWN-TOKEN')
+      .filter((token) => normalizeKonstrukcijeIProjektovanjeToken(token) === 'CONFLICT')
       .map(normalizeKonstrukcijeIProjektovanjeToken);
-  const konstrukcijeIProjektovanjeNormalizedBlockedFallbackInputs =
+  const konstrukcijeIProjektovanjeNormalizedWatchFallbackInputs =
     konstrukcijeIProjektovanjeNormalizedFallbackInputs.filter(
-      (token) => !konstrukcijeIProjektovanjeNormalizedUnknownTokenInputs.includes(token),
+      (token) => !konstrukcijeIProjektovanjeNormalizedConflictTokenInputs.includes(token),
     );
-  const konstrukcijeIProjektovanjeContainsUnknownToken = normalizedKonstrukcijeIProjektovanjeTokens.some((token) =>
-    konstrukcijeIProjektovanjeNormalizedUnknownTokenInputs.includes(token),
+  const konstrukcijeIProjektovanjeContainsWatchFallbackToken = normalizedKonstrukcijeIProjektovanjeTokens.some((token) =>
+    konstrukcijeIProjektovanjeNormalizedWatchFallbackInputs.includes(token),
   );
   const konstrukcijeIProjektovanjeContainsConflictToken = normalizedKonstrukcijeIProjektovanjeTokens.some((token) =>
-    konstrukcijeIProjektovanjeNormalizedBlockedFallbackInputs.includes(token),
+    konstrukcijeIProjektovanjeNormalizedConflictTokenInputs.includes(token),
   );
   const konstrukcijeIProjektovanjeTokenInputStatus =
     konstrukcijeIProjektovanjeContainsConflictToken
       ? 'BLOCKED'
-      : konstrukcijeIProjektovanjeContainsUnknownToken
+      : konstrukcijeIProjektovanjeContainsWatchFallbackToken
         ? 'WATCH'
         : konstrukcijeIProjektovanjeTokenCoveragePercent === 100
           ? 'READY'
@@ -11431,7 +11431,7 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
   const konstrukcijeIProjektovanjeDeterministicFallbackRequired =
     konstrukcijeIProjektovanjeStatus !== 'READY'
     || konstrukcijeIProjektovanjeContainsConflictToken
-    || konstrukcijeIProjektovanjeContainsUnknownToken
+    || konstrukcijeIProjektovanjeContainsWatchFallbackToken
     || dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.deterministicFallbackRequired;
   konstrukcijeIProjektovanjeTrack.readinessSignal.status = konstrukcijeIProjektovanjeStatus;
   konstrukcijeIProjektovanjeTrack.readinessSignal.readinessScore = konstrukcijeIProjektovanjeReadinessScore;
