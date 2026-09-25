@@ -129,10 +129,11 @@ Repo-wide reflection sada obavezno uključuje i dnevni operativni cadence: `morn
 
 - Nema novih runtime ruta i nema paralelnog source-of-truth sistema.
 - `EXTREM` ostaje tehnički sloj za navigacioni/treking signal (`status`, `conflictIntensity`) sa zaključanim izlazom `READY | WATCH | BLOCKED`.
-- `EXTRONDOL` ostaje governance ogledalo za `currentWave`, `promotionFreeze`, `releaseAuditSummary`, `rollbackReadiness` i `humanReviewStatus`.
+- `EXTRONDOL` ostaje governance ogledalo koje troši tracker polje `currentWave` i mora izvesti `promotionFreeze`, `humanReviewStatus`, `reviewPosture`, `releaseAuditSummary`, `rolloutPlan` i `rollbackPlan`.
 - `SPAJA KOD` ostaje audit-safe summary boundary i izlaže samo `canonicalAlias`, `status`, `conflictIntensity`, `currentWave`, `auditEvidence`, `rollbackReadiness`, `reviewPosture`, `promotionFreeze` i `downstreamReference`.
 - Obavezni tracker contract ostaje: `canonicalAlias`, `status`, `conflictIntensity`, `currentWave`, `auditEvidence`, `rollbackReadiness`, `downstreamReference`.
 - Obavezni EXTRONDOL governance/release-audit izlazi za isti tracker paket ostaju: `promotionFreeze`, `humanReviewStatus`, `reviewPosture`, `releaseAuditSummary`, `rolloutPlan`, `rollbackPlan`.
+- Acceptance lock ostaje nepromenjen: `EXTREM` može nezavisno aktivirati freeze (`extrem-can-trigger-freeze-independently`) i EXTRONDOL release-audit se smatra kompletnim samo kada uključuje `rolloutPlan` + `rollbackPlan` uz ostale obavezne governance izlaze.
 
 ## Napoleon Diskaveri bounded alias
 

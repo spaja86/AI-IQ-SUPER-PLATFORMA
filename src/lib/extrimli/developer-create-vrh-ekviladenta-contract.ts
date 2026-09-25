@@ -308,24 +308,29 @@ export const DEVELOPER_CREATE_NAVIGACIONI_SISTEM_SA_TREKEROM_BOUNDED_TOKEN_VOCAB
   },
 } as const;
 
+export const DEVELOPER_CREATE_NAVIGACIONI_SISTEM_SA_TREKEROM_REQUIRED_TRACKER_FIELDS = [
+  'canonicalAlias',
+  'status',
+  'conflictIntensity',
+  'currentWave',
+  'auditEvidence',
+  'rollbackReadiness',
+  'downstreamReference',
+] as const;
+
+export const DEVELOPER_CREATE_NAVIGACIONI_SISTEM_SA_TREKEROM_REQUIRED_GOVERNANCE_OUTPUTS = [
+  'promotionFreeze',
+  'humanReviewStatus',
+  'reviewPosture',
+  'releaseAuditSummary',
+  'rolloutPlan',
+  'rollbackPlan',
+] as const;
+
 export const DEVELOPER_CREATE_NAVIGACIONI_SISTEM_SA_TREKEROM_TRACKER_CONTRACT = {
-  requiredTrackerFields: [
-    'canonicalAlias',
-    'status',
-    'conflictIntensity',
-    'currentWave',
-    'auditEvidence',
-    'rollbackReadiness',
-    'downstreamReference',
-  ],
-  requiredGovernanceOutputs: [
-    'promotionFreeze',
-    'humanReviewStatus',
-    'reviewPosture',
-    'releaseAuditSummary',
-    'rolloutPlan',
-    'rollbackPlan',
-  ],
+  requiredTrackerFields: DEVELOPER_CREATE_NAVIGACIONI_SISTEM_SA_TREKEROM_REQUIRED_TRACKER_FIELDS,
+  requiredGovernanceOutputs:
+    DEVELOPER_CREATE_NAVIGACIONI_SISTEM_SA_TREKEROM_REQUIRED_GOVERNANCE_OUTPUTS,
   ownershipSplit: {
     dokDikFor: 'EXTREM',
     dakDuk: 'EXTRONDOL',
@@ -335,15 +340,15 @@ export const DEVELOPER_CREATE_NAVIGACIONI_SISTEM_SA_TREKEROM_TRACKER_CONTRACT = 
 } as const;
 
 export const DEVELOPER_CREATE_NAVIGACIONI_SISTEM_SA_TREKEROM_SUMMARY_SAFE_FIELDS = [
-  'canonicalAlias',
-  'status',
-  'conflictIntensity',
-  'currentWave',
-  'auditEvidence',
-  'rollbackReadiness',
+  DEVELOPER_CREATE_NAVIGACIONI_SISTEM_SA_TREKEROM_REQUIRED_TRACKER_FIELDS[0],
+  DEVELOPER_CREATE_NAVIGACIONI_SISTEM_SA_TREKEROM_REQUIRED_TRACKER_FIELDS[1],
+  DEVELOPER_CREATE_NAVIGACIONI_SISTEM_SA_TREKEROM_REQUIRED_TRACKER_FIELDS[2],
+  DEVELOPER_CREATE_NAVIGACIONI_SISTEM_SA_TREKEROM_REQUIRED_TRACKER_FIELDS[3],
+  DEVELOPER_CREATE_NAVIGACIONI_SISTEM_SA_TREKEROM_REQUIRED_TRACKER_FIELDS[4],
+  DEVELOPER_CREATE_NAVIGACIONI_SISTEM_SA_TREKEROM_REQUIRED_TRACKER_FIELDS[5],
   'reviewPosture',
   'promotionFreeze',
-  'downstreamReference',
+  DEVELOPER_CREATE_NAVIGACIONI_SISTEM_SA_TREKEROM_REQUIRED_TRACKER_FIELDS[6],
 ] as const;
 
 export const DEVELOPER_CREATE_NAVIGACIONI_SISTEM_SA_TREKEROM_ACCEPTANCE_CRITERIA = [
