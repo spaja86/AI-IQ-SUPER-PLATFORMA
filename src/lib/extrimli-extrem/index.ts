@@ -12163,7 +12163,7 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
   mikrofonProjectionAlias.readinessSignal.projectionCoveragePercent =
     mikrofonProjectionCoveragePercent;
   mikrofonProjectionAlias.readinessSignal.normalizedInputCount =
-    mikrofonProjectionAlias.boundedTokenVocabulary.canonicalSequence.length;
+    actualMikrofonProjectionCategorizedTokens.size;
   mikrofonProjectionAlias.readinessSignal.deterministicFallbackRequired =
     mikrofonProjectionDeterministicFallbackRequired;
   mikrofonProjectionAlias.blockerReason =
