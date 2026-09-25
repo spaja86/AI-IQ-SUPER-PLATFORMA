@@ -11208,12 +11208,13 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
       count + (normalizedRadniProstorTokens[index] === expectedToken ? 1 : 0),
     0,
   );
+  const radniProstorTokenDenominator = normalizedExpectedRadniProstorTokens.length || 1;
   const radniProstorSignalStatuses = [
     dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.status,
     dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.technicalReadinessProfile.consolidatedRhythmStatus,
   ] as const;
   const radniProstorTokenCoveragePercent = round(
-    (radniProstorMatchedTokenCount / normalizedExpectedRadniProstorTokens.length) * 100,
+    (radniProstorMatchedTokenCount / radniProstorTokenDenominator) * 100,
     2,
   );
   const radniProstorStatus = aggregateSignalReadinessStatus([...radniProstorSignalStatuses]);
