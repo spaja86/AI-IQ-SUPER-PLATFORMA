@@ -12119,6 +12119,17 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
           && mikrofonProjectionCanonicalCoverageCount > 0
         ? 'WATCH'
         : 'BLOCKED';
+  const mikrofonProjectionCaptureSignalPresent =
+    actualMikrofonProjectionSequence.includes('MIKROFON')
+    && actualMikrofonProjectionCategorizedTokens.has('MIKROFON');
+  const mikrofonProjectionCaptureStatus =
+    mikrofonProjectionNormalizationReady
+    && mikrofonProjectionCaptureSignalPresent
+    && mikrofonProjectionCoveragePercent === 100
+      ? 'READY'
+      : mikrofonProjectionCaptureSignalPresent || mikrofonProjectionCanonicalCoverageCount > 0
+        ? 'WATCH'
+        : 'BLOCKED';
   const mikrofonProjectionSignalStatuses = [
     radioStatus,
     dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.audioVisualKontrabasPackage.readinessStatus,
@@ -12134,7 +12145,7 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
     mikrofonProjectionStatus !== 'READY' || radioDeterministicFallbackRequired;
   mikrofonProjectionAlias.readinessSignal.status = mikrofonProjectionStatus;
   mikrofonProjectionAlias.readinessSignal.readinessScore = mikrofonProjectionReadinessScore;
-  mikrofonProjectionAlias.readinessSignal.captureStatus = radioPublicPackageStatus;
+  mikrofonProjectionAlias.readinessSignal.captureStatus = mikrofonProjectionCaptureStatus;
   mikrofonProjectionAlias.readinessSignal.distributionStatus =
     radioStatus;
   mikrofonProjectionAlias.readinessSignal.tonalProjectionStatus =
