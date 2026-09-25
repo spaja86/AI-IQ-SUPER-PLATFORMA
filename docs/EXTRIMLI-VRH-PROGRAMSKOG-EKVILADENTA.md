@@ -10,6 +10,21 @@ Kanonski scope lock ostaje i u kraćem obliku: `DEVELOPER AND CREATE == VRH PROG
 
 Ovaj dokument ostaje **interpretativni extension document**, dok `docs/EXTRIMLI-DEVELOPER-CREATE-PROGRAM.md` ostaje glavni manifest. Sve duže varijante (`RADNI TAKT MOZGA (MISLILAC)`, `MAPE UMA`, `MAPA UMA`, `ŽIVOPIS U DIGITALIZMU`, `DIJALIZA POGONSKOG OMOTAČA` i slične trake) moraju ostati alias-i ili proširenja iste centralne rečenice, nikad novi centri priče.
 
+## MALI/VEĆI PROJEKAT — VRH lock sa ortogonalnom projekcijom
+
+- `MALI PROJEKAT` je manifestno jezgro sa minimalnim dokazom spremnosti i statusima `READY | WATCH | BLOCKED`.
+- `VEĆI PROJEKAT` je ortogonalna projekcija na mali projekat: sastavlja se od malih projekcionih segmenata koji nasleđuju iste kriterijume i isti status jezik.
+- Ownership split ostaje zaključan i nepromenjen:
+  - `DOK + DIK + FOR` -> `EXTREM`
+  - `DAK + DUK` -> `EXTRONDOL`
+  - `SPAJA KOD` -> audit-safe summary-only.
+- `Otpor-gradacija` ostaje obavezna:
+  - manji obim = niži prag otpora / brža validacija,
+  - srednji obim = pojačan review + governance gate,
+  - veći obim = puna WAWE/audit disciplina pre promocije.
+- Jezičke trake ostaju vezane za postojeće konstrukcije (`SINEMETRIČKO`, `OBJEKTNO ORIJENTISANO`, `PROPORCIONALNO`, `METRIČKO`, `PARADIJOGONALNO`) bez novih runtime ruta.
+- Svaka iteracija mora završiti sa: tehničkim readiness signalom, governance odlukom (`promote/freeze/rollback`) i audit-safe summary izlazom sa blocker razlogom i downstream referencom.
+
 Bounded vokabular ostaje zaključan na `EXTRIMLI EXTRONDOL EXTREM DOK DUK DAK DIK FOR`, sa nepromenjenim ownership split-om:
 
 - `DOK + DIK + FOR` → EXTREM tehnički signal

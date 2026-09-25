@@ -644,6 +644,48 @@ Bez kompletnog audit paketa release ostaje u freeze režimu.
 - `SARADNJA_READY_PACKAGE_LOCK`: završni saradnja-ready paket ostaje jedinstven manifest + roadmap faze + kriterijumi prihvatanja + standardizovan audit summary za svaku promenu.
 - `SARADNJA_READY_SIGNATURE`: potpisna poruka za buduće uspešne saradnje ostaje zaključana kao `Srdačan pozdrav, Nikola Spajić`.
 
+## 13.1) MALI/VEĆI PROJEKAT — ORTOGONALNA PROJEKCIJA (implementation lock)
+
+- Scope i jezik ostaju zaključani na postojeći kanon `DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA` sa bounded rečnikom `EXTRIMLI EXTRONDOL EXTREM DOK DUK DAK DIK FOR`.
+- Bez novih runtime modula i bez paralelnog source-of-truth sloja.
+
+- `MALI PROJEKAT` ostaje manifestno jezgro:
+  - minimalni dokaz spremnosti,
+  - kriterijumi otpora u manifestovskom prostoru (`pass`, `watch`, `blocked`),
+  - status jezik `READY | WATCH | BLOCKED`.
+
+- `VEĆI PROJEKAT` ostaje ortogonalna projekcija na mali projekat:
+  - mora biti rastavljen na više malih projekcionih segmenata,
+  - svaki segment nasleđuje iste manifest kriterijume i isti status jezik,
+  - zbir segmenata daje ukupnu sliku većeg projekta bez promene osnovnog lock-a.
+
+- Ownership split ostaje nepromenjen:
+  - `DOK + DIK + FOR -> EXTREM` (tehnička spremnost i izvršni signal),
+  - `DAK + DUK -> EXTRONDOL` (governance/review/freeze/promotion/rollback),
+  - `SPAJA KOD -> audit-safe-summary-only`.
+
+- `Otpor-gradacija` model ostaje zaključan:
+  - manji obim: niži prag otpora i brža validacija,
+  - srednji obim: pojačan review + governance gate,
+  - veći obim: puna WAWE/audit disciplina pre promocije.
+
+- Jezičke trake ostaju vezane za postojeće konstrukcije:
+  - `SINEMETRIČKO` (narativ/signal),
+  - `OBJEKTNO ORIJENTISANO` (struktura),
+  - `PROPORCIONALNO` (odnosi),
+  - `METRIČKO` (ritam/cadenca),
+  - `PARADIJOGONALNO` (projekciona orkestracija).
+
+- Obavezni izlazi po svakoj iteraciji:
+  - tehnički readiness signal,
+  - governance odluka (`promote/freeze/rollback posture`),
+  - audit-safe summary sa `blocker reason` i `downstream reference`.
+
+- Završni acceptance lock:
+  - potvrda da veći projekat ostaje ortogonalna projekcija malog projekta,
+  - potvrda da `DOK/DIK/FOR ↔ DAK/DUK` split nije narušen,
+  - potvrda da je otpor u manifestovskom prostoru eksplicitno mapiran po gradaciji obima.
+
 ## 14) Implementacija plana — audit snapshot (2026-09-25)
 
 ### 14.1) Scope lock potvrda (Dan 1)
