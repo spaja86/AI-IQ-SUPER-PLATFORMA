@@ -12642,11 +12642,14 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
 
   const muzickaKutijaTrack =
     dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.muzickaKutijaTrack;
+  const developerAndCreateReadinessStatus =
+    dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.status;
   const muzickaKutijaSignalStatuses = [
     paradijogonalnoProgrimiranje.readiness.status,
     metrikoProgramiranje.readiness.status,
     sinemetrickoProgramiranje.readiness.status,
     dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.audioVisualKontrabasPackage.readinessStatus,
+    developerAndCreateReadinessStatus,
   ] as const;
   const muzickaKutijaStatus = aggregateReadinessStatus([...muzickaKutijaSignalStatuses]);
   const muzickaKutijaReadinessScore = round(
@@ -12654,9 +12657,7 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
       / muzickaKutijaSignalStatuses.length,
     2,
   );
-  const muzickaKutijaDeterministicFallbackRequired =
-    muzickaKutijaStatus !== 'READY'
-    || dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.status !== 'READY';
+  const muzickaKutijaDeterministicFallbackRequired = muzickaKutijaStatus !== 'READY';
   const muzickaKutijaMappedLayerSummary =
     'PARADIJOGONALNO PROGRAMIRANJE vodi instrument tablu, METRIČKO PROGRAMIRANJE ritam/duracije, SINEMETRIČKO PROGRAMIRANJE narativ/vokal, a AUDIO-VIZUELNI KONTRABAS PAKET bounded audio-vizuelni reflection.';
   const muzickaKutijaSummary =
@@ -12676,12 +12677,12 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
     muzickaKutijaDeterministicFallbackRequired;
   muzickaKutijaTrack.blockerReason =
     muzickaKutijaStatus === 'BLOCKED'
-      ? 'MUZIČKA KUTIJA ostaje BLOCKED dok bounded instrument/ritam/narativ/audio-vizuelni slojevi ne ostanu audit-safe i additive-only bez novog muzičkog engine-a.'
+      ? 'MUZIČKA KUTIJA ostaje BLOCKED dok bounded instrument/ritam/narativ/audio-vizuelni slojevi i parent Developer/Create readiness ne ostanu audit-safe i additive-only bez novog muzičkog engine-a.'
       : null;
   muzickaKutijaTrack.watchReasons =
     muzickaKutijaStatus === 'WATCH'
       ? [
-        'MUZIČKA KUTIJA ostaje u WATCH režimu dok bounded instrument tabla, ritam/duracije, narativ/vokal ili audio-vizuelni reflection još traže dodatni review.',
+        'MUZIČKA KUTIJA ostaje u WATCH režimu dok bounded instrument tabla, ritam/duracije, narativ/vokal, audio-vizuelni reflection ili parent Developer/Create readiness još traže dodatni review.',
       ]
       : [];
   muzickaKutijaTrack.reviewPosture =
