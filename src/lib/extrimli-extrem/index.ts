@@ -10985,7 +10985,25 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
   );
   const notes1450Track =
     dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.notes1450Track;
-  const notes1450AiMaterialSaturationRiskScore = round(100 - notes1450ReadinessScore, 2);
+  const notes1450AiMaterialSaturationRiskScore = [
+    dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.status,
+    dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.technicalReadinessProfile.consolidatedRhythmStatus,
+    dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.dailyOperationalCadence.status,
+  ].reduce((score, status) => {
+    if (status === 'BLOCKED') {
+      return score + 35;
+    }
+    if (status === 'WATCH') {
+      return score + 15;
+    }
+
+    return score;
+  }, 0)
+    + (
+      dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.deterministicFallbackRequired
+        ? 20
+        : 0
+    );
   notes1450Track.readinessSignal.status = notes1450Status;
   notes1450Track.readinessSignal.readinessScore = notes1450ReadinessScore;
   notes1450Track.readinessSignal.goalClarityStatus =
@@ -10995,13 +11013,11 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
   notes1450Track.readinessSignal.taskContinuityStatus =
     dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.dailyOperationalCadence.status;
   notes1450Track.readinessSignal.aiMaterialSaturationRiskStatus =
-    dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.deterministicFallbackRequired
+    notes1450AiMaterialSaturationRiskScore >= 60
       ? 'BLOCKED'
-      : notes1450AiMaterialSaturationRiskScore <= 15
-        ? 'READY'
-        : notes1450AiMaterialSaturationRiskScore <= 30
-          ? 'WATCH'
-          : 'BLOCKED';
+      : notes1450AiMaterialSaturationRiskScore >= 20
+        ? 'WATCH'
+        : 'READY';
   notes1450Track.readinessSignal.deterministicNextStepStatus =
     dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.dailyOperationalCadence.status;
   notes1450Track.readinessSignal.deterministicFallbackRequired =
