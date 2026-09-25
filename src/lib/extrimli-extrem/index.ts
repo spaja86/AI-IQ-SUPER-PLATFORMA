@@ -171,6 +171,7 @@ import type {
   ExtrimliExtremOptimizationTier,
   ExtrimliExtremProfileInput,
   ExtrimliExtremProfilerReport,
+  ExtrimliExtremReadinessStatus,
   ExtrimliExtremRekulitiPoRauletuPolicy,
   ExtrimliExtremResolutionInput,
   ExtrimliExtremSemaFormulaEvaluation,
@@ -11341,7 +11342,44 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
         : 'REVIEW_REQUIRED';
   const aiIqLaboratorijaTrack =
     dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.aiIqLaboratorijaTrack;
-  const aiIqLaboratorijaObservedTokens = [...aiIqLaboratorijaTrack.boundedTokenSequence];
+  const aiIqLaboratorijaExpectedTokens = [
+    ...DEVELOPER_CREATE_AI_IQ_LABORATORIJA_BOUNDED_TOKEN_SEQUENCE,
+  ];
+  const aiIqLaboratorijaTokenSegments = {
+    repoReadiness: aiIqLaboratorijaExpectedTokens.slice(0, 5),
+    technicalRhythm: aiIqLaboratorijaExpectedTokens.slice(5, 10),
+    laboratoryCase: aiIqLaboratorijaExpectedTokens.slice(10, 15),
+    programskiEkanalog: aiIqLaboratorijaExpectedTokens.slice(15),
+  } as const;
+  const resolveAiIqLaboratorijaObservedSegment = (
+    status: ExtrimliExtremReadinessStatus,
+    tokens: readonly string[],
+  ): string[] =>
+    status === 'READY'
+      ? [...tokens]
+      : status === 'WATCH'
+        ? tokens.slice(0, Math.max(tokens.length - 1, 0))
+        : [];
+  const aiIqLaboratorijaObservedTokens = [
+    ...resolveAiIqLaboratorijaObservedSegment(
+      dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.status,
+      aiIqLaboratorijaTokenSegments.repoReadiness,
+    ),
+    ...resolveAiIqLaboratorijaObservedSegment(
+      dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.technicalReadinessProfile.consolidatedRhythmStatus,
+      aiIqLaboratorijaTokenSegments.technicalRhythm,
+    ),
+    ...resolveAiIqLaboratorijaObservedSegment(
+      dokDikDakDukConsistencyHealth.programskiJezikProucavanja.laboratoryCaseProfile.consolidatedStatus,
+      aiIqLaboratorijaTokenSegments.laboratoryCase,
+    ),
+    ...resolveAiIqLaboratorijaObservedSegment(
+      dokDikDakDukConsistencyHealth.programskiJezikProucavanja.programskiEkanalog.auditReady
+        ? 'READY'
+        : 'BLOCKED',
+      aiIqLaboratorijaTokenSegments.programskiEkanalog,
+    ),
+  ];
   const normalizeAiIqLaboratorijaToken = (token: string): string => {
     let normalizedToken = token;
     if (aiIqLaboratorijaTrack.normalizationRules.trimWhitespace) {
@@ -11358,7 +11396,7 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
   const normalizedAiIqLaboratorijaTokens =
     aiIqLaboratorijaObservedTokens.map(normalizeAiIqLaboratorijaToken);
   const normalizedExpectedAiIqLaboratorijaTokens =
-    DEVELOPER_CREATE_AI_IQ_LABORATORIJA_BOUNDED_TOKEN_SEQUENCE.map(normalizeAiIqLaboratorijaToken);
+    aiIqLaboratorijaExpectedTokens.map(normalizeAiIqLaboratorijaToken);
   const aiIqLaboratorijaHasExactTokenLength =
     normalizedAiIqLaboratorijaTokens.length === normalizedExpectedAiIqLaboratorijaTokens.length;
   const aiIqLaboratorijaMatchedTokenCount = aiIqLaboratorijaHasExactTokenLength
