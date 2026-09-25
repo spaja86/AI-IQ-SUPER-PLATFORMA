@@ -11388,8 +11388,10 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
   const aiIqLaboratorijaSignalStatuses = [
     dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.status,
     dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.technicalReadinessProfile.consolidatedRhythmStatus,
-    dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.technicalReadinessProfile.programskiJezikProucavanjaTrack.readinessStatus,
-    dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.technicalReadinessProfile.programskiEkanalogTrack.readinessStatus,
+    dokDikDakDukConsistencyHealth.programskiJezikProucavanja.laboratoryCaseProfile.consolidatedStatus,
+    dokDikDakDukConsistencyHealth.programskiJezikProucavanja.programskiEkanalog.auditReady
+      ? 'READY'
+      : 'BLOCKED',
     aiIqLaboratorijaLaboratoryProfileStatus,
   ] as const;
   const aiIqLaboratorijaStatus = aggregateSignalReadinessStatus([...aiIqLaboratorijaSignalStatuses]);
