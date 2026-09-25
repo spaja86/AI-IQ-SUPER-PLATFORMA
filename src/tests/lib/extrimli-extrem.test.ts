@@ -308,6 +308,31 @@ async function runTests(): Promise<void> {
     assert(reflection.oblastCinSummary.cinStatus === 'WATCH', 'Sarkazam helper WATCH čin status mismatch');
   });
 
+  await test('Sarkazam helper keeps WATCH messaging clean when no fallback sentence is needed', () => {
+    const reflection = resolveSarkazamPrivrednaGranaDigitalizmaReflection({
+      repoWideReadiness: {
+        score: 76,
+        status: 'WATCH',
+        deterministicFallbackRequired: false,
+        reasons: [],
+      },
+      kraljevskiEkonomskiUneverzitetReadiness: {
+        status: 'READY',
+        score: 82,
+        deterministicFallbackRequired: false,
+      },
+      kraljevskiProgramskiUneverzitetReadiness: {
+        status: 'READY',
+        score: 84,
+        deterministicFallbackRequired: false,
+      },
+      fallbackInputs: ['NaN', 'Infinity', 'empty', 'conflict'],
+    });
+
+    assert(reflection.watchReasons.length === 1, 'Sarkazam helper clean WATCH case should still emit watch reason');
+    assert(reflection.watchReasons[0] === 'SARKAZAM ostaje u WATCH režimu dok privredna grana digitalizma i projekti entuzijazma po činu oblastima zahtevaju dodatni review unutar postojećeg enterprise/policy/pedagoškog bounded sloja.', 'Sarkazam helper clean WATCH case should keep base wording only');
+  });
+
   await test('Sarkazam helper resolves BLOCKED with fallback-aware blocker messaging when bounded sources conflict', () => {
     const reflection = resolveSarkazamPrivrednaGranaDigitalizmaReflection({
       repoWideReadiness: {

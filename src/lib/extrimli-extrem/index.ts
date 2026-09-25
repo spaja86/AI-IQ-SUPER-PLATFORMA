@@ -4388,12 +4388,16 @@ export function resolveSarkazamPrivrednaGranaDigitalizmaReflection(params: {
     2,
   );
   const deterministicFallbackRequired = fallbackSignals.some(Boolean);
-  const fallbackReason =
+  const fallbackSentence =
     deterministicFallbackRequired
       ? params.fallbackInputs.length > 0
-        ? ` Deterministic fallback ostaje aktivan za ${params.fallbackInputs.join(', ')} ulaze.`
-        : ' Deterministic fallback ostaje aktivan za bounded ulaze.'
-      : '';
+        ? `Deterministic fallback ostaje aktivan za ${params.fallbackInputs.join(', ')} ulaze.`
+        : 'Deterministic fallback ostaje aktivan za bounded ulaze.'
+      : null;
+  const blockerReason =
+    'SARKAZAM ostaje BLOCKED dok bounded Digitalna Industrija, PRIVREDNI AKT i testovi-po-oblastima signali nisu usklađeni unutar postojećeg Developer/Create reflection paketa bez novih formula i bez nove semantike odlučivanja.';
+  const watchReason =
+    'SARKAZAM ostaje u WATCH režimu dok privredna grana digitalizma i projekti entuzijazma po činu oblastima zahtevaju dodatni review unutar postojećeg enterprise/policy/pedagoškog bounded sloja.';
   const oblastStatus = aggregateReadinessStatus([
     params.repoWideReadiness.status,
     params.kraljevskiProgramskiUneverzitetReadiness.status,
@@ -4411,13 +4415,11 @@ export function resolveSarkazamPrivrednaGranaDigitalizmaReflection(params: {
     },
     blockerReason:
       status === 'BLOCKED'
-        ? `SARKAZAM ostaje BLOCKED dok bounded Digitalna Industrija, PRIVREDNI AKT i testovi-po-oblastima signali nisu usklađeni unutar postojećeg Developer/Create reflection paketa bez novih formula i bez nove semantike odlučivanja.${fallbackReason}`
+        ? fallbackSentence ? `${blockerReason} ${fallbackSentence}` : blockerReason
         : null,
     watchReasons:
       status === 'WATCH'
-        ? [
-          `SARKAZAM ostaje u WATCH režimu dok privredna grana digitalizma i projekti entuzijazma po činu oblastima zahtevaju dodatni review unutar postojećeg enterprise/policy/pedagoškog bounded sloja.${fallbackReason}`,
-        ]
+        ? [fallbackSentence ? `${watchReason} ${fallbackSentence}` : watchReason]
         : [],
     reviewPosture:
       status === 'READY'
