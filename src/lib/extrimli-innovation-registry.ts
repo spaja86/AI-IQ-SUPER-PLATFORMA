@@ -252,8 +252,14 @@ export function buildExtrimliInnovationRegistry(): ExtrimliInnovationRegistryMod
     Math.round((byGovernance.rollback / safeInnovationDenominator) * 10000) / 100;
   const ecosystemStabilityPercent =
     Math.round(((byReadiness.READY + byReadiness.WATCH) / safeInnovationDenominator) * 10000) / 100;
+  const blockedRatio = byReadiness.BLOCKED / safeInnovationDenominator;
+  const blockedCriticalRatio = blockedCriticalCount / safeInnovationDenominator;
   const summaryStatus: ExtrimliInnovationReadinessStatus =
-    byReadiness.BLOCKED > 0 ? 'BLOCKED' : byReadiness.WATCH > 0 ? 'WATCH' : 'READY';
+    blockedRatio >= 0.2 || blockedCriticalRatio >= 0.1
+      ? 'BLOCKED'
+      : byReadiness.BLOCKED > 0 || byReadiness.WATCH > 0
+      ? 'WATCH'
+      : 'READY';
 
   cachedInnovationRegistry = deepFreeze({
     canonicalAlias: 'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == 13000 INOVACIJA',
