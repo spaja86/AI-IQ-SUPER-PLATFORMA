@@ -148,6 +148,8 @@ async function runTests(): Promise<void> {
       report.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.audioVisualKontrabasPackage;
     const eksperimentProgramskiJezikTrack =
       report.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.eksperimentProgramskiJezikTrack;
+    const sarkazamPrivrednaGranaDigitalizmaTrack =
+      report.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.sarkazamPrivrednaGranaDigitalizmaTrack;
     const napoleonDiskaveriSelectionTrack =
       report.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.napoleonDiskaveriSelectionTrack;
     assert(implementationPackage.sourceOfTruthRoutes.join(',') === '/api/extrimli/extrem,/api/extrimli/extrondol,/api/extrimli/spaja-kod', 'developer/create implementation package source routes mismatch');
@@ -192,6 +194,8 @@ async function runTests(): Promise<void> {
     assert(implementationPackage.eksperimentProgramskiJezikBoundary.noNewRuntimeRoutes, 'developer/create implementation package Eksperiment Programski Jezik must forbid new runtime routes');
     assert(implementationPackage.eksperimentProgramskiJezikBoundary.noParallelSourceOfTruth, 'developer/create implementation package Eksperiment Programski Jezik must forbid parallel source-of-truth systems');
     assert(implementationPackage.eksperimentProgramskiJezikBoundary.rawInternalsExposed === false, 'developer/create implementation package Eksperiment Programski Jezik must hide internals');
+    assert(implementationPackage.sarkazamPrivrednaGranaDigitalizmaBoundary.trackRole === 'bounded-sarkazam-digitalizam-alias-track', 'developer/create implementation package Sarkazam boundary role mismatch');
+    assert(implementationPackage.sarkazamPrivrednaGranaDigitalizmaBoundary.noNewRuntimeRoutes, 'developer/create implementation package Sarkazam boundary must forbid new runtime routes');
     assert(implementationPackage.napoleonDiskaveriSelectionBoundary.trackRole === 'bounded-discovery-selection-alias-track', 'developer/create implementation package Napoleon Diskaveri boundary role mismatch');
     assert(implementationPackage.napoleonDiskaveriSelectionBoundary.parentTrack === 'MAPE UMA', 'developer/create implementation package Napoleon Diskaveri parent track mismatch');
     assert(implementationPackage.napoleonDiskaveriSelectionBoundary.noNewRuntimeEngine, 'developer/create implementation package Napoleon Diskaveri boundary must forbid new runtime engines');
@@ -209,6 +213,10 @@ async function runTests(): Promise<void> {
     assert(eksperimentProgramskiJezikTrack.ownershipLock.spajaKod === 'audit-safe-summary-only', 'developer/create Eksperiment Programski Jezik SPAJA KOD ownership mismatch');
     assert(['READY', 'WATCH', 'BLOCKED'].includes(eksperimentProgramskiJezikTrack.readinessSignal.status), 'developer/create Eksperiment Programski Jezik status mismatch');
     assert(eksperimentProgramskiJezikTrack.summarySafePublicFields.join(',') === 'canonicalAlias,status,blockerReasons,watchReasons,humanReviewPosture,downstreamReference', 'developer/create Eksperiment Programski Jezik summary-safe fields mismatch');
+    assert(sarkazamPrivrednaGranaDigitalizmaTrack.canonicalAlias === 'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == SARKAZAM / PRIVREDNA GRANA DIGITALIZMA / PROJEKTI ENTUZIJAZMA PO ČINU OBLASTIMA', 'developer/create Sarkazam canonical alias mismatch');
+    assert(sarkazamPrivrednaGranaDigitalizmaTrack.scopeClassification === 'audit-only-interpretative-enterprise-policy-pedagogical-alias', 'developer/create Sarkazam scope classification mismatch');
+    assert(['READY', 'WATCH', 'BLOCKED'].includes(sarkazamPrivrednaGranaDigitalizmaTrack.reflectionSignal.status), 'developer/create Sarkazam status mismatch');
+    assert(sarkazamPrivrednaGranaDigitalizmaTrack.summarySafePublicFields.join(',') === 'canonicalAlias,status,blockerReason,reviewPosture,downstreamReference,scopeClassification', 'developer/create Sarkazam summary-safe fields mismatch');
     assert(report.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.technicalReadinessProfile.immersiveVisualization3dTrack.dimensionalProgression.join(',') === '360D,720D,1440D,2880D,5760D', 'developer/create immersive dimensional progression mismatch');
     assert(report.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.technicalReadinessProfile.immersiveVisualization3dTrack.fallbackPolicy.degradedMode === 'partial-payload-no-500', 'developer/create immersive degraded policy mismatch');
     assert(report.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.technicalReadinessProfile.immersiveVisualization3dTrack.dimensionalSignals.length === 5, 'developer/create immersive dimensional signals mismatch');

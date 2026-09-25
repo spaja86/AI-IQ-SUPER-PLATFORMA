@@ -16,6 +16,7 @@ Bounded vokabular ostaje zaključan na `EXTRIMLI EXTRONDOL EXTREM DOK DUK DAK DI
 - `DAK + DUK` → EXTRONDOL governance / WAWE / audit / rollback
 - `SPAJA KOD` → samo audit-safe javni rezime
 - `DIJALIZA POGONSKOG OMOTAČA` → isključivo dokumentacioni/interpretativni alias unutar istog lock-a (bez novih runtime ruta i bez promene governance strukture)
+- `SARKAZAM / PRIVREDNA GRANA DIGITALIZMA / PROJEKTI ENTUZIJAZMA PO ČINU OBLASTIMA` → bounded interpretativni/enterprise-policy/pedagoški alias istog lock-a; `SARKAZAM` ostaje samo narativni marker, nikad nova izvršna formula ili novi engine
 
 - nema novih runtime ruta
 - nema paralelnog source-of-truth sistema
@@ -57,6 +58,15 @@ Repo-wide reflection sada obavezno uključuje i dnevni operativni cadence: `morn
 - `EXTRONDOL` ostaje governance ogledalo za review posture, freeze/promotion odluke, rollout/rollback disciplinu i audit evidence.
 - `SPAJA KOD` ostaje summary-safe boundary i izlaže samo naziv bounded trake, status, blocker/watch razloge, human-review posture i downstream reference.
 - Prazni, konfliktni i nedeterministički ulazi ostaju vezani za postojeći fallback lock (`partial-payload-no-500`, bez novog engine-a i bez nove rute).
+
+## Sarkazam / Privredna grana digitalizma bounded alias
+
+`DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == SARKAZAM / PRIVREDNA GRANA DIGITALIZMA / PROJEKTI ENTUZIJAZMA PO ČINU OBLASTIMA` ostaje additive-only bounded alias unutar postojećeg Developer/Create okvira.
+
+- `EXTREM` ostaje tehnički sloj za `status`, `blocker/watch reason`, readiness posture, `oblast/čin` summary i deterministički fallback.
+- `EXTRONDOL` ostaje governance ogledalo za `human review`, `promotion freeze`, `rollout/rollback`, `releaseAuditSummary` i downstream reference.
+- `SPAJA KOD` ostaje summary-safe boundary i izlaže samo status, blocker reason, review posture i downstream reference.
+- `SARKAZAM` se tretira isključivo kao bounded interpretativni/narativni marker; ne uvodi novu semantiku odlučivanja, novu poslovnu formulu ili novu runtime arhitekturu.
 
 ## Kingdom ecosystem federation
 
