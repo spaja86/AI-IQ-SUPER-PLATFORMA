@@ -11186,10 +11186,7 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
     'NOTES 1450 ostaje additive-only bounded radni naslednik koji smanjuje gubitak konteksta, ponavljanje i neefikasno trošenje AI materijala kroz audit-ready nastavak rada.';
   const radniProstorTrack =
     dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.radniProstorTrack;
-  const configuredRadniProstorInputSequence = process.env.EXTRIMLI_RADNI_PROSTOR_INPUT_SEQUENCE?.trim();
-  const radniProstorInputTokens = configuredRadniProstorInputSequence && configuredRadniProstorInputSequence.length > 0
-    ? configuredRadniProstorInputSequence.split(',').map((token) => token.trim()).filter((token) => token.length > 0)
-    : [...radniProstorTrack.boundedTokenSequence];
+  const radniProstorInputTokens = [...radniProstorTrack.boundedTokenSequence];
   const normalizeRadniProstorToken = (token: string): string =>
     radniProstorTrack.normalizationRules.uppercaseTokens
       ? token.trim().replace(/\s+/g, ' ').toUpperCase()
@@ -11199,9 +11196,12 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
     normalizeRadniProstorToken(token));
   const normalizedFallbackInputs = DEVELOPER_CREATE_RADNI_PROSTOR_FALLBACK_INPUTS.map((fallbackInput) =>
     normalizeRadniProstorToken(fallbackInput));
+  const normalizedConflictFallbackToken =
+    normalizedFallbackInputs.find((fallbackInput) => fallbackInput === normalizeRadniProstorToken('conflict'))
+    ?? normalizeRadniProstorToken('conflict');
   const unknownTokenDetected = normalizedRadniProstorTokens.some((token) => !expectedRadniProstorTokens.includes(token));
   const conflictTokenDetected = normalizedRadniProstorTokens.some((token) =>
-    token === normalizedFallbackInputs[3]);
+    token === normalizedConflictFallbackToken);
   const radniProstorNormalizationOk =
     normalizedRadniProstorTokens.length === expectedRadniProstorTokens.length
     && normalizedRadniProstorTokens.every((token, index) => token === expectedRadniProstorTokens[index]);
