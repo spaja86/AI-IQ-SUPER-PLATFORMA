@@ -11403,7 +11403,15 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
   const konstrukcijeIProjektovanjeDuplicateMismatchCount =
     konstrukcijeIProjektovanjeTrack.normalizationRules.requireExactDuplicateCounts
     && konstrukcijeIProjektovanjeDuplicateTokenEntries.length > 0
-      ? konstrukcijeIProjektovanjeDuplicateTokenEntries.length - konstrukcijeIProjektovanjeDuplicateMatchCount
+      ? konstrukcijeIProjektovanjeDuplicateTokenEntries.reduce(
+          (count, [token, expectedCount]) =>
+            count
+            + Math.abs(
+              (konstrukcijeIProjektovanjeObservedTokenCounts[normalizeKonstrukcijeIProjektovanjeToken(token)] ?? 0)
+              - expectedCount,
+            ),
+          0,
+        )
       : 0;
   const konstrukcijeIProjektovanjeEffectiveMatchedTokenCount = Math.max(
     0,
