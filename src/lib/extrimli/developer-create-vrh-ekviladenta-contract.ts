@@ -22,6 +22,7 @@ export const DEVELOPER_CREATE_VRH_INTERPRETATION_ALIASES = [
   'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == RADNI PROSTOR',
   'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == SARKAZAM / PRIVREDNA GRANA DIGITALIZMA / PROJEKTI ENTUZIJAZMA PO ČINU OBLASTIMA',
   'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == AI IQ KONFERENCIJA ZA ŠTAMPU (NOVINE, DIGITALNE NOVINE)',
+  'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == RADIO',
   'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == AI IQ LABORATORIJA == LABORATORIJSKI NALAZI FAUNE I FLORE I GRAĐEVINSKOG MATERIJALA',
   'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == POSLOVNA PONUDA',
 ] as const;
@@ -281,6 +282,70 @@ export const DEVELOPER_CREATE_AI_IQ_KONFERENCIJA_ZA_STAMPU_TOKEN_VOCABULARY = {
     'deterministic-fallback-required-on-conflict',
     'no-new-runtime-media-engine',
   ],
+} as const;
+
+
+export const DEVELOPER_CREATE_RADIO_CANONICAL_ALIAS =
+  'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == RADIO' as const;
+
+export const DEVELOPER_CREATE_RADIO_SCOPE_STATEMENT =
+  'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == RADIO == additive-only bounded media/distribution/audio alias bez novih ruta i bez paralelnog source-of-truth sistema' as const;
+
+export const DEVELOPER_CREATE_RADIO_ROLE_CLASSIFICATION =
+  'additive-only-bounded-media-distribution-audio-alias-track' as const;
+
+export const DEVELOPER_CREATE_RADIO_TOKEN_VOCABULARY = {
+  canonicalSequence: ['DOR', 'TRU', 'SKU', 'GIVE', 'TRAJ', 'TUR', 'DIR', 'KON', 'ZION', 'KURA', 'DOKER'],
+  distributionAudioTokens: ['DOR', 'TRU', 'SKU', 'GIVE'],
+  scheduleContinuityTokens: ['TRAJ', 'TUR', 'DIR'],
+  governanceFallbackTokens: ['KON', 'ZION', 'KURA', 'DOKER'],
+  semanticPreservation: {
+    TRU: 'preserve-existing-TRU-module-trust-readiness-meaning',
+    DOKER: 'preserve-existing-DOKER-downstream-governance-meaning',
+    SKU: 'preserve-existing-SKU-catalog-identity-meaning',
+  },
+  fallbackSummaryRules: [
+    'summary-only-public-output',
+    'no-raw-token-model-exposure',
+    'deterministic-fallback-required-on-conflict',
+    'no-new-runtime-radio-engine',
+  ],
+} as const;
+
+export const DEVELOPER_CREATE_RADIO_NORMALIZATION_RULES = {
+  trimWhitespace: true,
+  uppercaseTokens: true,
+  collapseMultipleSpaces: true,
+  keepCanonicalOrder: true,
+  unknownTokenHandling: 'map-to-watch-and-require-review',
+  conflictHandling: 'map-to-blocked-and-require-review',
+  preserveOverlappingMeanings: ['TRU', 'DOKER', 'SKU'],
+} as const;
+
+export const DEVELOPER_CREATE_RADIO_FALLBACK_INPUTS = [
+  'NaN',
+  'Infinity',
+  'empty',
+  'conflict',
+  'unknown-token',
+] as const;
+
+export const DEVELOPER_CREATE_RADIO_SUMMARY_SAFE_FIELDS = [
+  'canonicalAlias',
+  'status',
+  'blockerReason',
+  'watchReasons',
+  'reviewPosture',
+  'downstreamReference',
+  'radioSummary',
+  'semanticPreservation',
+] as const;
+
+export const DEVELOPER_CREATE_RADIO_DOWNSTREAM_POLICY = {
+  linkedRepo: 'spaja86/IO-OPENUI-AO',
+  syncMode: 'summary-only',
+  rawTokenModelExposure: false,
+  repoLocalNarrativeRemainsRich: true,
 } as const;
 
 export const DEVELOPER_CREATE_AI_IQ_LABORATORIJA_CANONICAL_ALIAS =

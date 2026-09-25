@@ -38,6 +38,14 @@ import {
   DEVELOPER_CREATE_NOTES_1450_CANONICAL_ALIAS,
   DEVELOPER_CREATE_NOTES_1450_ROLE_CLASSIFICATION,
   DEVELOPER_CREATE_NOTES_1450_SCOPE_STATEMENT,
+  DEVELOPER_CREATE_RADIO_CANONICAL_ALIAS,
+  DEVELOPER_CREATE_RADIO_DOWNSTREAM_POLICY,
+  DEVELOPER_CREATE_RADIO_FALLBACK_INPUTS,
+  DEVELOPER_CREATE_RADIO_NORMALIZATION_RULES,
+  DEVELOPER_CREATE_RADIO_ROLE_CLASSIFICATION,
+  DEVELOPER_CREATE_RADIO_SCOPE_STATEMENT,
+  DEVELOPER_CREATE_RADIO_SUMMARY_SAFE_FIELDS,
+  DEVELOPER_CREATE_RADIO_TOKEN_VOCABULARY,
   DEVELOPER_CREATE_NAPOLEON_DISKAVERI_BOUNDED_SIGNALS,
   DEVELOPER_CREATE_NAPOLEON_DISKAVERI_CANONICAL_ALIAS,
   DEVELOPER_CREATE_NAPOLEON_DISKAVERI_SCOPE_STATEMENT,
@@ -154,6 +162,7 @@ import type {
   ExtrimliExtremVrhProgramskogEkviladentaProfileInput,
   ExtrimliExtremVrhProgramskogEkviladentaSignal,
   ExtrimliExtremVrhProgramskogEkviladentaStatus,
+  ExtrimliDeveloperCreateAiIqLaboratorijaTrack,
   ExtrimliExtremKraljevskiPravniTrack,
   ExtrimliExtremMobilnaLinijaDeviceType,
   ExtrimliExtremMobilnaLinijaInput,
@@ -298,6 +307,66 @@ const EXTRIMLI_EXTREM_PROPORCIONALNO_PROGRAMIRANJE_OBJECT_SOURCE_TRACKS = [
   'Objektno orijentisana reprodukcija',
   'OBJEKTNO ORIJENTUSANO UZDIZANJE EPSKIH ELIKVADENATA',
 ] as const;
+
+const buildDefaultAiIqLaboratorijaTrack = (): ExtrimliDeveloperCreateAiIqLaboratorijaTrack => ({
+  canonicalAlias: DEVELOPER_CREATE_AI_IQ_LABORATORIJA_CANONICAL_ALIAS,
+  scopeStatement: DEVELOPER_CREATE_AI_IQ_LABORATORIJA_SCOPE_STATEMENT,
+  roleClassification: DEVELOPER_CREATE_AI_IQ_LABORATORIJA_ROLE_CLASSIFICATION,
+  domainTracks: DEVELOPER_CREATE_AI_IQ_LABORATORIJA_DOMAIN_TRACKS,
+  boundedTokenSequence: DEVELOPER_CREATE_AI_IQ_LABORATORIJA_BOUNDED_TOKEN_SEQUENCE,
+  normalizationRules: DEVELOPER_CREATE_AI_IQ_LABORATORIJA_NORMALIZATION_RULES,
+  boundedVocabularyPhrase: 'EXTRIMLI EXTRONDOL EXTREM DOK DUK DAK DIK FOR',
+  additiveOnly: true,
+  noNewRuntimeEngine: true,
+  noNewRuntimeRoutes: true,
+  noParallelSourceOfTruth: true,
+  sourceOfTruthRoutes: ['/api/extrimli/extrem', '/api/extrimli/extrondol', '/api/extrimli/spaja-kod'],
+  ownershipLock: {
+    dokDikFor: 'EXTREM',
+    dakDuk: 'EXTRONDOL',
+    spajaKod: 'audit-safe-summary-only',
+  },
+  summarySafePublicFields: [
+    'canonicalAlias',
+    'status',
+    'blockerReason',
+    'watchReasons',
+    'reviewPosture',
+    'downstreamReference',
+    'nalazSummary',
+  ],
+  readinessSignal: {
+    status: 'BLOCKED',
+    readinessScore: 0,
+    tokenCoveragePercent: 0,
+    normalizedInputCount: 0,
+    laboratoryProfileStatus: 'BLOCKED',
+    findingsStatus: 'BLOCKED',
+    faunaIFLoraStatus: 'BLOCKED',
+    gradjevinskiMaterijalStatus: 'BLOCKED',
+    deterministicFallbackRequired: true,
+    fallbackInputs: DEVELOPER_CREATE_AI_IQ_LABORATORIJA_FALLBACK_INPUTS,
+    driver:
+      'developerAndCreateRepoWideReflection.readiness + programskiJezikProucavanja + programskiEkanalog + developerAndCreateRepoWideReflection.technicalReadinessProfile.consolidatedRhythmStatus',
+  },
+  blockerReason:
+    'ai-iq-laboratorija-track-awaits-bounded-token-lock-and-existing-developer-create-readiness-alignment',
+  watchReasons: [],
+  reviewPosture: 'REVIEW_REQUIRED',
+  tokenSequenceLock: {
+    additiveOnlyAlias: true,
+    noNewRoutes: true,
+    noNewSourceOfTruth: true,
+  },
+  acceptanceEvidence: [
+    'developerAndCreateRepoWideReflection.aiIqLaboratorijaTrack',
+    'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.aiIqLaboratorijaTrack',
+    'spajaKod.publicSignals.aiIqLaboratorijaStatus',
+    'spajaKod.developerAndCreateImplementationPackage.aiIqLaboratorijaSummary',
+  ],
+  nalazSummary: '',
+  downstreamReference: 'docs/MULTI-REPO-LINKS.md -> spaja86/IO-OPENUI-AO (summary-only)',
+});
 
 const EXTRIMLI_EXTREM_RADNI_TAKT_MOZGA_MISLILAC_EPILOGIJA_COVECNOSTI_CITAT =
   'Priroda izum samoživost gde je svaka "osoba-biljka" poseban život u ekosistemima mnogobrojnih subjekata. Zato sam prizor na prirodu i njene ne istražene pejzaže nezamisliv doživljaj. Obogaćuj se "PRIRODOM" = "ZDRAV ŽIVOT".';
@@ -7025,13 +7094,7 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
         },
         downstreamReference: 'docs/MULTI-REPO-LINKS.md -> spaja86/IO-OPENUI-AO (summary-only)',
       },
-      aiIqLaboratorijaTrack: {
-        canonicalAlias: DEVELOPER_CREATE_AI_IQ_LABORATORIJA_CANONICAL_ALIAS,
-        scopeStatement: DEVELOPER_CREATE_AI_IQ_LABORATORIJA_SCOPE_STATEMENT,
-        roleClassification: DEVELOPER_CREATE_AI_IQ_LABORATORIJA_ROLE_CLASSIFICATION,
-        domainTracks: DEVELOPER_CREATE_AI_IQ_LABORATORIJA_DOMAIN_TRACKS,
-        boundedTokenSequence: DEVELOPER_CREATE_AI_IQ_LABORATORIJA_BOUNDED_TOKEN_SEQUENCE,
-        normalizationRules: DEVELOPER_CREATE_AI_IQ_LABORATORIJA_NORMALIZATION_RULES,
+      aiIqLaboratorijaTrack: buildDefaultAiIqLaboratorijaTrack(),
       konstrukcijeIProjektovanjeTrack: {
         canonicalAlias: DEVELOPER_CREATE_KONSTRUKCIJE_I_PROJEKTOVANJE_CANONICAL_ALIAS,
         scopeStatement: DEVELOPER_CREATE_KONSTRUKCIJE_I_PROJEKTOVANJE_SCOPE_STATEMENT,
@@ -7065,33 +7128,6 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
         readinessSignal: {
           status: 'BLOCKED',
           readinessScore: 0,
-          tokenCoveragePercent: 0,
-          normalizedInputCount: 0,
-          laboratoryProfileStatus: 'BLOCKED',
-          findingsStatus: 'BLOCKED',
-          faunaIFLoraStatus: 'BLOCKED',
-          gradjevinskiMaterijalStatus: 'BLOCKED',
-          deterministicFallbackRequired: true,
-          fallbackInputs: DEVELOPER_CREATE_AI_IQ_LABORATORIJA_FALLBACK_INPUTS,
-          driver:
-            'developerAndCreateRepoWideReflection.readiness + programskiJezikProucavanja + programskiEkanalog + developerAndCreateRepoWideReflection.technicalReadinessProfile.consolidatedRhythmStatus',
-        },
-        blockerReason:
-          'ai-iq-laboratorija-track-awaits-bounded-token-lock-and-existing-developer-create-readiness-alignment',
-        watchReasons: [],
-        reviewPosture: 'REVIEW_REQUIRED',
-        tokenSequenceLock: {
-          additiveOnlyAlias: true,
-          noNewRoutes: true,
-          noNewSourceOfTruth: true,
-        },
-        acceptanceEvidence: [
-          'developerAndCreateRepoWideReflection.aiIqLaboratorijaTrack',
-          'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.aiIqLaboratorijaTrack',
-          'spajaKod.publicSignals.aiIqLaboratorijaStatus',
-          'spajaKod.developerAndCreateImplementationPackage.aiIqLaboratorijaSummary',
-        ],
-        nalazSummary: '',
           gradjevinskiFakultetStatus: 'BLOCKED',
           gradjevinskiAktStatus: 'BLOCKED',
           tokenCoveragePercent: 0,
@@ -7104,6 +7140,13 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
         blockerReason: 'konstrukcije-i-projektovanje-track-awaits-gradjevinski-readiness-token-lock-and-governance-alignment',
         watchReasons: [],
         reviewPosture: 'REVIEW_REQUIRED',
+        acceptanceEvidence: [
+          'developerAndCreateRepoWideReflection.konstrukcijeIProjektovanjeTrack',
+          'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.konstrukcijeIProjektovanjeTrack',
+          'spajaKod.publicSignals.konstrukcijeIProjektovanjeStatus',
+          'spajaKod.developerAndCreateImplementationPackage.konstrukcijeIProjektovanjeSummary',
+        ],
+        nalazSummary: '',
         constructionDesignSummary: '',
         domainBinding: {
           boundedFacultyDomain: 'GRAĐEVINSKI FAKULTET',
@@ -7167,6 +7210,56 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
         mediaSummary: '',
         downstreamReference: 'docs/MULTI-REPO-LINKS.md -> spaja86/IO-OPENUI-AO (summary-only)',
       },
+      radioTrack: {
+        canonicalAlias: DEVELOPER_CREATE_RADIO_CANONICAL_ALIAS,
+        scopeStatement: DEVELOPER_CREATE_RADIO_SCOPE_STATEMENT,
+        roleClassification: DEVELOPER_CREATE_RADIO_ROLE_CLASSIFICATION,
+        boundedTokenVocabulary: DEVELOPER_CREATE_RADIO_TOKEN_VOCABULARY,
+        normalizationRules: DEVELOPER_CREATE_RADIO_NORMALIZATION_RULES,
+        fallbackInputs: DEVELOPER_CREATE_RADIO_FALLBACK_INPUTS,
+        summarySafePublicFields: [...DEVELOPER_CREATE_RADIO_SUMMARY_SAFE_FIELDS],
+        downstreamPolicy: DEVELOPER_CREATE_RADIO_DOWNSTREAM_POLICY,
+        boundedVocabularyPhrase: 'EXTRIMLI EXTRONDOL EXTREM DOK DUK DAK DIK FOR',
+        additiveOnly: true,
+        noNewRuntimeEngine: true,
+        noNewRuntimeRoutes: true,
+        noParallelSourceOfTruth: true,
+        sourceOfTruthRoutes: ['/api/extrimli/extrem', '/api/extrimli/extrondol', '/api/extrimli/spaja-kod'],
+        ownershipLock: {
+          dokDikFor: 'EXTREM',
+          dakDuk: 'EXTRONDOL',
+          spajaKod: 'audit-safe-summary-only',
+        },
+        readinessSignal: {
+          status: 'BLOCKED',
+          readinessScore: 0,
+          distributionAudioStatus: 'BLOCKED',
+          scheduleContinuityStatus: 'BLOCKED',
+          governanceFallbackStatus: 'BLOCKED',
+          vocabularyCoveragePercent: 0,
+          normalizedInputCount: 0,
+          deterministicFallbackRequired: true,
+          driver:
+            'developerAndCreateRepoWideReflection.readiness + developerAndCreateRepoWideReflection.technicalReadinessProfile.consolidatedRhythmStatus + developerAndCreateRepoWideReflection.globalPageExplanationContract',
+        },
+        blockerReason: 'radio-track-awaits-existing-developer-create-readiness-and-audit-safe-radio-summary-alignment',
+        watchReasons: [],
+        reviewPosture: 'REVIEW_REQUIRED',
+        semanticPreservation: {
+          truMeaning: DEVELOPER_CREATE_RADIO_TOKEN_VOCABULARY.semanticPreservation.TRU,
+          dokerMeaning: DEVELOPER_CREATE_RADIO_TOKEN_VOCABULARY.semanticPreservation.DOKER,
+          skuMeaning: DEVELOPER_CREATE_RADIO_TOKEN_VOCABULARY.semanticPreservation.SKU,
+          noSemanticConflict: true,
+        },
+        acceptanceEvidence: [
+          'developerAndCreateRepoWideReflection.radioTrack',
+          'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.radioTrack',
+          'spajaKod.publicSignals.radioStatus',
+          'spajaKod.developerAndCreateImplementationPackage.radioSummary',
+        ],
+        radioSummary: '',
+        downstreamReference: 'docs/MULTI-REPO-LINKS.md -> spaja86/IO-OPENUI-AO (summary-only)',
+      },
       mappedTracks: {
         vrhProgramskogEkviladenta: 'VRH PROGRAMSKOG EKVILADENTA',
         radniTaktMozgaMislilac: 'RADNI TAKT MOZGA (MISLILAC)',
@@ -7183,6 +7276,7 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
         kompanijaSpajaDigitalnaIndustrija: 'Kompanija SPAJA / Digitalna Industrija',
         sarkazamPrivrednaGranaDigitalizma: 'SARKAZAM / PRIVREDNA GRANA DIGITALIZMA / PROJEKTI ENTUZIJAZMA PO ČINU OBLASTIMA',
         aiIqKonferencijaZaStampu: 'AI IQ KONFERENCIJA ZA ŠTAMPU (NOVINE, DIGITALNE NOVINE)',
+        radio: 'RADIO',
         radniProstor: 'RADNI PROSTOR',
         konstrukcijeIProjektovanje: 'KONSTRUKCIJE I PROJEKTOVANJE',
         notes1450: 'NOTES 1450',
@@ -11065,6 +11159,25 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
       extrondolPublishes: 'wawe-freeze-promotion-review-rollback-audit-summary-only',
       spajaKodPublishes: 'status-blocker-review-downstream-and-nalaz-summary-only',
       technicalBinding: 'developerAndCreateRepoWideReflection.aiIqLaboratorijaTrack',
+      noNewRuntimeEngine: true,
+      noNewRuntimeRoutes: true,
+      noParallelSourceOfTruth: true,
+      rawInternalsExposed: false,
+    },
+    radioBoundary: {
+      trackRole: 'bounded-radio-media-distribution-audio-alias-track',
+      parentTrack: 'VRH PROGRAMSKOG EKVILADENTA',
+      canonicalAlias: DEVELOPER_CREATE_RADIO_CANONICAL_ALIAS,
+      roleClassification: DEVELOPER_CREATE_RADIO_ROLE_CLASSIFICATION,
+      extremPublishes: 'status-audio-distribution-summary-semantic-preservation-and-deterministic-fallback-signal-only',
+      extrondolPublishes: 'wawe-freeze-promotion-review-rollback-audit-summary-only',
+      spajaKodPublishes: 'status-blocker-review-downstream-and-radio-summary-only',
+      technicalBinding: 'developerAndCreateRepoWideReflection.radioTrack',
+      noNewRuntimeEngine: true,
+      noNewRuntimeRoutes: true,
+      noParallelSourceOfTruth: true,
+      rawInternalsExposed: false,
+    },
     konstrukcijeIProjektovanjeBoundary: {
       trackRole: 'bounded-construction-design-alias-track',
       parentTrack: 'VRH PROGRAMSKOG EKVILADENTA',
@@ -11434,7 +11547,7 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
       aiIqLaboratorijaTokenSegments.programskiEkanalog,
     ),
   ];
-  const normalizeAiIqLaboratorijaToken = (token: string): string => {
+  function normalizeAiIqLaboratorijaToken(token: string): string {
     let normalizedToken = token;
     if (aiIqLaboratorijaTrack.normalizationRules.trimWhitespace) {
       normalizedToken = normalizedToken.trim();
@@ -11443,6 +11556,10 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
       normalizedToken = normalizedToken.replace(/\s+/g, ' ');
     }
     if (aiIqLaboratorijaTrack.normalizationRules.uppercaseTokens) {
+      normalizedToken = normalizedToken.toUpperCase();
+    }
+    return normalizedToken;
+  }
   const konstrukcijeIProjektovanjeTrack =
     dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.konstrukcijeIProjektovanjeTrack;
   const konstrukcijeIProjektovanjeRuntimeTokenInput =
@@ -11688,6 +11805,8 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
         : 'REVIEW_REQUIRED';
   konstrukcijeIProjektovanjeTrack.constructionDesignSummary =
     'KONSTRUKCIJE I PROJEKTOVANJE ostaje additive-only bounded građevinsko-projektantska traka: EXTREM drži DOK/DIK/FOR readiness i signal vezu sa GRAĐEVINSKI FAKULTET, EXTRONDOL drži DAK/DUK governance mirror preko GRAĐEVINSKI AKT, a SPAJA KOD objavljuje samo audit-safe summary bez internih formula.';
+  konstrukcijeIProjektovanjeTrack.nalazSummary =
+    konstrukcijeIProjektovanjeTrack.constructionDesignSummary;
   const aiIqKonferencijaZaStampuTrack =
     dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.aiIqKonferencijaZaStampuTrack;
   const aiIqKonferencijaZaStampuMediaSummary =
@@ -11778,6 +11897,114 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
         ? 'WATCH'
         : 'REVIEW_REQUIRED';
   aiIqKonferencijaZaStampuTrack.mediaSummary = aiIqKonferencijaZaStampuMediaSummary;
+
+  const radioTrack =
+    dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.radioTrack;
+  const radioSummary =
+    'RADIO ostaje additive-only bounded media/distribution/audio paket: EXTREM nosi readiness, semantic-preservation signal i bounded radio summary, EXTRONDOL governance mirror, a SPAJA KOD samo audit-safe radio rezime.';
+  const expectedRadioCanonicalSequence = DEVELOPER_CREATE_RADIO_TOKEN_VOCABULARY.canonicalSequence;
+  const expectedRadioTokenSet = new Set(expectedRadioCanonicalSequence);
+  const actualRadioCanonicalSequence = radioTrack.boundedTokenVocabulary.canonicalSequence;
+  const actualRadioUniqueCategorizedTokens = new Set([
+    ...radioTrack.boundedTokenVocabulary.distributionAudioTokens,
+    ...radioTrack.boundedTokenVocabulary.scheduleContinuityTokens,
+    ...radioTrack.boundedTokenVocabulary.governanceFallbackTokens,
+  ]);
+  const radioMissingContractTokens = expectedRadioCanonicalSequence.filter((token) =>
+    !actualRadioCanonicalSequence.includes(token) || !actualRadioUniqueCategorizedTokens.has(token),
+  );
+  const radioUnexpectedContractTokens = [
+    ...new Set([...actualRadioCanonicalSequence, ...actualRadioUniqueCategorizedTokens]),
+  ].filter((token) => !expectedRadioTokenSet.has(token));
+  const radioCanonicalCoverageCount = expectedRadioCanonicalSequence.filter((token) =>
+    actualRadioCanonicalSequence.includes(token) && actualRadioUniqueCategorizedTokens.has(token),
+  ).length;
+  const radioVocabularyContractAligned =
+    radioMissingContractTokens.length === 0
+    && radioUnexpectedContractTokens.length === 0
+    && actualRadioCanonicalSequence.join(',') === expectedRadioCanonicalSequence.join(',');
+  const radioVocabularyCoveragePercent = round(
+    clamp(
+      ((expectedRadioCanonicalSequence.length
+        - (radioMissingContractTokens.length + radioUnexpectedContractTokens.length))
+        / expectedRadioCanonicalSequence.length)
+        * 100,
+      0,
+      100,
+    ),
+    2,
+  );
+  const radioNormalizationReady =
+    radioTrack.normalizationRules.trimWhitespace
+    && radioTrack.normalizationRules.uppercaseTokens
+    && radioTrack.normalizationRules.collapseMultipleSpaces
+    && radioTrack.normalizationRules.keepCanonicalOrder
+    && radioTrack.normalizationRules.preserveOverlappingMeanings.join(',') === 'TRU,DOKER,SKU';
+  const radioHasSummarySurface =
+    radioTrack.summarySafePublicFields.includes('radioSummary')
+    && radioTrack.summarySafePublicFields.includes('semanticPreservation')
+    && radioTrack.summarySafePublicFields.includes('blockerReason');
+  const radioPublicPackageStatus =
+    radioNormalizationReady
+    && radioHasSummarySurface
+    && radioSummary.length > 0
+    && radioTrack.semanticPreservation.noSemanticConflict
+    && radioVocabularyContractAligned
+      ? 'READY'
+      : radioHasSummarySurface
+        && radioSummary.length > 0
+        && radioTrack.semanticPreservation.noSemanticConflict
+        && radioCanonicalCoverageCount > 0
+          ? 'WATCH'
+          : 'BLOCKED';
+  const radioSignalStatuses = [
+    dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.status,
+    dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.technicalReadinessProfile.consolidatedRhythmStatus,
+    dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.globalPageExplanationContract.additiveOnly
+      ? 'READY'
+      : 'BLOCKED',
+    radioPublicPackageStatus,
+  ] as const;
+  const radioStatus = aggregateReadinessStatus([...radioSignalStatuses]);
+  const radioReadinessScore = round(
+    radioSignalStatuses.reduce((sum, status) => sum + readinessStatusScore(status), 0)
+      / radioSignalStatuses.length,
+    2,
+  );
+  const radioDeterministicFallbackRequired =
+    radioStatus !== 'READY'
+    || dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.deterministicFallbackRequired;
+  radioTrack.readinessSignal.status = radioStatus;
+  radioTrack.readinessSignal.readinessScore = radioReadinessScore;
+  radioTrack.readinessSignal.distributionAudioStatus =
+    dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.status;
+  radioTrack.readinessSignal.scheduleContinuityStatus =
+    dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.technicalReadinessProfile.consolidatedRhythmStatus;
+  radioTrack.readinessSignal.governanceFallbackStatus =
+    radioDeterministicFallbackRequired ? (radioStatus === 'BLOCKED' ? 'BLOCKED' : 'WATCH') : 'READY';
+  radioTrack.readinessSignal.vocabularyCoveragePercent = radioVocabularyCoveragePercent;
+  radioTrack.readinessSignal.normalizedInputCount = radioTrack.boundedTokenVocabulary.canonicalSequence.length;
+  radioTrack.readinessSignal.deterministicFallbackRequired = radioDeterministicFallbackRequired;
+  radioTrack.blockerReason =
+    radioStatus === 'BLOCKED'
+      ? 'RADIO ostaje BLOCKED dok bounded media/distribution/audio paket ne zadrži postojeći EXTREM/EXTRONDOL/SPAJA KOD ownership lock, semantic-preservation guard za TRU/DOKER i audit-safe summary disciplinu bez novog radio engine-a.'
+      : radioStatus === 'WATCH'
+        ? 'RADIO ostaje u WATCH režimu dok bounded media/distribution/audio paket još zahteva dodatni review za semantic-preservation lock, javni radio summary i deterministic fallback disciplinu.'
+        : null;
+  radioTrack.watchReasons =
+    radioStatus === 'WATCH'
+      ? [
+        'RADIO ostaje u WATCH režimu dok bounded audio/distribution paket još zahteva dodatni review za TRU/DOKER semantic-preservation snapshot, governance fallback i javni radio summary.',
+      ]
+      : [];
+  radioTrack.reviewPosture =
+    radioStatus === 'READY'
+      ? 'ALIGNED'
+      : radioStatus === 'WATCH'
+        ? 'WATCH'
+        : 'REVIEW_REQUIRED';
+  radioTrack.radioSummary = radioSummary;
+
   dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.fourTrackProgramPackage.technicalTrack.readinessStatus =
     dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.status;
   dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.fourTrackProgramPackage.governanceTrack.readinessStatus =
@@ -11806,6 +12033,7 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
     'Supplied ČOVEČANSTVO / OSEĆAJ OSEBENOSTI image remains companion-only audit evidence for samospoznaja, razumevanje mozga, osećaj, čovečnost, shared-world alignment i epilog guidance bez novog source-of-truth sloja.',
     'SMART PROGRAMSKI JEZIK ostaje additive-only paket pod zaključanim scope-om `DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA`: AI IQ PROGRAMSKI JEZIK ostaje DSL/orchestration/explainability okvir, a SPAJINO PROPORCIONALNO PROGRAMIRANJE UNIVERZITET ostaje tehnički dokaz sprega funkcionalnog i objektnog programiranja u istom EXTREM profilu.',
     'EKSPERIMENT PROGRAMSKI JEZIK (PRODUKCIJA FILMSKOG I AUDIO REPERTOARA) ostaje additive-only alias unutar istog Developer/Create vršnog sloja: EXTREM drži DOK/DIK/FOR tehnički signal, EXTRONDOL drži DAK/DUK governance mirror, a SPAJA KOD objavljuje samo audit-safe summary.',
+    'RADIO ostaje additive-only bounded media/distribution/audio alias unutar istog Developer/Create vršnog sloja: EXTREM drži readiness + semantic-preservation + bounded radio summary, EXTRONDOL drži DAK/DUK governance mirror, a SPAJA KOD objavljuje samo audit-safe summary.',
     'Supplied Mjuzikl kraljevskog čina image remains supplemental audit/reference evidence only and extends the same bounded reflection package through muzički čin, epilog, čovečanstvo i zajednički ritam themes without introducing any new runtime source of truth.',
     'Implementation package zaključava postojeće source-of-truth surface-ove, ownership split, ČOVEČANSTVU summary-only boundary, V2–V7 roadmap mapu i READY/WATCH/BLOCKED validation lock bez novih runtime ruta i bez paralelnog source-of-truth sistema.',
     'SELEKCIONIRANJE U SELEKCIJAMA PREMA AKTIVNOM NADMAŠAJU / NAPOLEON DISKAVERI ostaje bounded Developer/Create / VRH / MAPE UMA alias: EXTREM objavljuje samo readiness/discovery/selection signal, EXTRONDOL samo governance ogledalo, a SPAJA KOD samo summary-safe status, blocker/watch razloge i downstream reference.',

@@ -8,8 +8,8 @@
 
 Kanonski scope lock ostaje i u kraćem obliku: `DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA`.
 
-Ovaj dokument ostaje **interpretativni extension document**, dok `docs/EXTRIMLI-DEVELOPER-CREATE-PROGRAM.md` ostaje glavni manifest. Sve duže varijante (`RADNI TAKT MOZGA (MISLILAC)`, `MAPE UMA`, `MAPA UMA`, `ŽIVOPIS U DIGITALIZMU`, `DIJALIZA POGONSKOG OMOTAČA`, `RADNI PROSTOR`, `AI IQ KONFERENCIJA ZA ŠTAMPU (NOVINE, DIGITALNE NOVINE)`, `AI IQ LABORATORIJA == LABORATORIJSKI NALAZI FAUNE I FLORE I GRAĐEVINSKOG MATERIJALA`, `TELEVIZIJA` i slične trake) moraju ostati alias-i ili proširenja iste centralne rečenice, nikad novi centri priče.
-Ovaj dokument ostaje **interpretativni extension document**, dok `docs/EXTRIMLI-DEVELOPER-CREATE-PROGRAM.md` ostaje glavni manifest. Sve duže varijante (`RADNI TAKT MOZGA (MISLILAC)`, `MAPE UMA`, `MAPA UMA`, `ŽIVOPIS U DIGITALIZMU`, `DIJALIZA POGONSKOG OMOTAČA`, `RADNI PROSTOR`, `KONSTRUKCIJE I PROJEKTOVANJE`, `AI IQ KONFERENCIJA ZA ŠTAMPU (NOVINE, DIGITALNE NOVINE)`, `TELEVIZIJA`, `POSLOVNA PONUDA` i slične trake) moraju ostati alias-i ili proširenja iste centralne rečenice, nikad novi centri priče.
+Ovaj dokument ostaje **interpretativni extension document**, dok `docs/EXTRIMLI-DEVELOPER-CREATE-PROGRAM.md` ostaje glavni manifest. Sve duže varijante (`RADNI TAKT MOZGA (MISLILAC)`, `MAPE UMA`, `MAPA UMA`, `ŽIVOPIS U DIGITALIZMU`, `DIJALIZA POGONSKOG OMOTAČA`, `RADNI PROSTOR`, `AI IQ KONFERENCIJA ZA ŠTAMPU (NOVINE, DIGITALNE NOVINE)`, `AI IQ LABORATORIJA == LABORATORIJSKI NALAZI FAUNE I FLORE I GRAĐEVINSKOG MATERIJALA`, `RADIO`, `TELEVIZIJA` i slične trake) moraju ostati alias-i ili proširenja iste centralne rečenice, nikad novi centri priče.
+Ovaj dokument ostaje **interpretativni extension document**, dok `docs/EXTRIMLI-DEVELOPER-CREATE-PROGRAM.md` ostaje glavni manifest. Sve duže varijante (`RADNI TAKT MOZGA (MISLILAC)`, `MAPE UMA`, `MAPA UMA`, `ŽIVOPIS U DIGITALIZMU`, `DIJALIZA POGONSKOG OMOTAČA`, `RADNI PROSTOR`, `KONSTRUKCIJE I PROJEKTOVANJE`, `AI IQ KONFERENCIJA ZA ŠTAMPU (NOVINE, DIGITALNE NOVINE)`, `RADIO`, `TELEVIZIJA`, `POSLOVNA PONUDA` i slične trake) moraju ostati alias-i ili proširenja iste centralne rečenice, nikad novi centri priče.
 
 ## MALI/VEĆI PROJEKAT — VRH lock sa ortogonalnom projekcijom
 
@@ -39,9 +39,10 @@ Bounded vokabular ostaje zaključan na `EXTRIMLI EXTRONDOL EXTREM DOK DUK DAK DI
 - `AI IQ LABORATORIJA == LABORATORIJSKI NALAZI FAUNE I FLORE I GRAĐEVINSKOG MATERIJALA` → bounded laboratorijsko-interpretativni paket istog lock-a sa zaključanom token sekvencom `ZUM, DUM, SAK, IK, MUN, DIKOT, DUN, ZAT, DJKUON, SIM, IKAR, DUKAR, IBAP, IRO, DUNOR, IBAN, UKOR, UTVAR, ZIPOT`; EXTREM objavljuje readiness + token coverage + bounded domain status (`AI IQ LABORATORIJA`, `FAUNA I FLORA`, `GRAĐEVINSKI MATERIJAL`), EXTRONDOL governance ogledalo, a SPAJA KOD samo audit-safe nalaz summary bez sirovog token modela
 - `KONSTRUKCIJE I PROJEKTOVANJE` → additive-only bounded građevinsko-projektantski alias istog lock-a sa zaključanim rečnikom `DUR, DJON, TUR, ZIM, UBAR, DOKOR, SINGAR, UKOR, IOP, TUR, UBAR, SINGOF, SIGRAD, OKDEN, UMAR`, pod postojećim domenom `GRAĐEVINSKI FAKULTET / GRAĐEVINSKI AKT`, bez novih ruta i bez paralelnog source-of-truth sistema
 - `AI IQ KONFERENCIJA ZA ŠTAMPU (NOVINE, DIGITALNE NOVINE)` → bounded media/documentation/explanation paket istog lock-a; EXTREM objavljuje readiness + token coverage + bounded evidence, EXTRONDOL governance ogledalo, a SPAJA KOD samo audit-safe press summary bez sirovog token modela
+- `RADIO` → bounded media/distribution/audio paket istog lock-a sa zaključanim nizom `DOR, TRU, SKU, GIVE, TRAJ, TUR, DIR, KON, ZION, KURA, DOKER`; EXTREM objavljuje readiness + bounded audio/distribution summary + semantic-preservation snapshot, EXTRONDOL governance ogledalo za human review/WAWE/rollout/rollback, a SPAJA KOD samo audit-safe radio summary bez sirovog token modela
 - `POSLOVNA PONUDA` → additive-only bounded business-governance alias istog lock-a; kanonski Vercel pozdrav + alternativna saradnja + GitHub subscription bridge ostaju audit-only governance artefakt, bez novih ruta i bez paralelnog source-of-truth sistema
 - `TELEVIZIJA` → bounded media/distribution paket istog lock-a; EXTREM objavljuje distribucioni readiness + provider/channel/region-language fallback posture, EXTRONDOL governance ogledalo za provider review/compliance/payment/rollout/rollback, a SPAJA KOD samo audit-safe distribution summary bez sirovih provider formula i bez enforcement logike
-- Ownership split za `RADNI PROSTOR`, `KONSTRUKCIJE I PROJEKTOVANJE`, `TELEVIZIJA` i `POSLOVNA PONUDA` ostaje zaključan: `DOK/DIK/FOR -> EXTREM`, `DAK/DUK -> EXTRONDOL`, `SPAJA KOD -> summary-only`.
+- Ownership split za `RADNI PROSTOR`, `KONSTRUKCIJE I PROJEKTOVANJE`, `RADIO`, `TELEVIZIJA` i `POSLOVNA PONUDA` ostaje zaključan: `DOK/DIK/FOR -> EXTREM`, `DAK/DUK -> EXTRONDOL`, `SPAJA KOD -> summary-only`.
 
 - nema novih runtime ruta
 - nema paralelnog source-of-truth sistema
@@ -74,6 +75,17 @@ Repo-wide reflection sada obavezno uključuje i dnevni operativni cadence: `morn
 - `regtonske proporcije`, `vuferske/kontrabasovne promene` i `tonski aspekt u revolucionom smislu kontrabasa` ostaju bounded signalni rečnik za audio dramaturgiju i dinamički balans.
 - Zaključani audio-scene termini ostaju `GUN, DEN, DIN, KON, SUR, DIR, DUR, DOG, DUK, DOP, KIDO, DUKAT, DJUKAS, DIKTON, GRAFON, SIRON, DJOKUZ, OTKUZ, DIPAS, CVIKROT, ZIPAN`.
 - Ako postoje storyboard ili vizuelni asset-i, EXTREM ih vodi kao audit/reference evidence, EXTRONDOL ih zrcali kroz governance summary, a `spaja86/IO-OPENUI-AO` dobija samo summary-safe downstream reference.
+
+## RADIO bounded media/distribution/audio paket
+
+`DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == RADIO` ostaje additive-only bounded media/distribution/audio alias u okviru istog vršnog lock-a.
+
+- Kanonski bounded RADIO rečnik ostaje zaključan: `DOR, TRU, SKU, GIVE, TRAJ, TUR, DIR, KON, ZION, KURA, DOKER`.
+- `TRU`, `DOKER` i `SKU` zadržavaju postojeća značenja i ne postaju novi RADIO source-of-truth.
+- `EXTREM` vodi readiness/status, blocker/watch razloge, bounded audio/distribution summary, deterministic fallback i acceptance evidence bez nove rute i bez izlaganja sirovog internog token modela.
+- `EXTRONDOL` vodi human-review, WAWE/promotion-freeze, rollout/rollback, release-audit summary i downstream reference za isti bounded paket.
+- `SPAJA KOD` objavljuje samo audit-safe javni status, blocker/watch razlog, review posture, downstream reference i kratak bounded radio summary.
+- Downstream prema `spaja86/IO-OPENUI-AO` ostaje summary-only.
 
 ## TELEVIZIJA bounded media/distribution paket
 

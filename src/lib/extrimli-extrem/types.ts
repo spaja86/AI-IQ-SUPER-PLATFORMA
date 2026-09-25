@@ -40,6 +40,14 @@ import type {
   DEVELOPER_CREATE_NOTES_1450_CANONICAL_ALIAS,
   DEVELOPER_CREATE_NOTES_1450_ROLE_CLASSIFICATION,
   DEVELOPER_CREATE_NOTES_1450_SCOPE_STATEMENT,
+  DEVELOPER_CREATE_RADIO_CANONICAL_ALIAS,
+  DEVELOPER_CREATE_RADIO_DOWNSTREAM_POLICY,
+  DEVELOPER_CREATE_RADIO_FALLBACK_INPUTS,
+  DEVELOPER_CREATE_RADIO_NORMALIZATION_RULES,
+  DEVELOPER_CREATE_RADIO_ROLE_CLASSIFICATION,
+  DEVELOPER_CREATE_RADIO_SCOPE_STATEMENT,
+  DEVELOPER_CREATE_RADIO_SUMMARY_SAFE_FIELDS,
+  DEVELOPER_CREATE_RADIO_TOKEN_VOCABULARY,
   DEVELOPER_CREATE_NAPOLEON_DISKAVERI_BOUNDED_SIGNALS,
   DEVELOPER_CREATE_NAPOLEON_DISKAVERI_CANONICAL_ALIAS,
   DEVELOPER_CREATE_NAPOLEON_DISKAVERI_SCOPE_STATEMENT,
@@ -2417,6 +2425,72 @@ export interface ExtrimliDeveloperCreateRepoWideReflectionDailyTask {
   derivedFrom: 'existing-modules-validators-and-workflows';
 }
 
+export type ExtrimliDeveloperCreateBoundedTrackSourceOfTruthRoutes = readonly [
+  '/api/extrimli/extrem',
+  '/api/extrimli/extrondol',
+  '/api/extrimli/spaja-kod',
+];
+
+export interface ExtrimliDeveloperCreateBoundedTrackOwnershipLock {
+  dokDikFor: 'EXTREM';
+  dakDuk: 'EXTRONDOL';
+  spajaKod: 'audit-safe-summary-only';
+}
+
+export interface ExtrimliDeveloperCreateAiIqLaboratorijaTrack {
+  canonicalAlias: typeof DEVELOPER_CREATE_AI_IQ_LABORATORIJA_CANONICAL_ALIAS;
+  scopeStatement: typeof DEVELOPER_CREATE_AI_IQ_LABORATORIJA_SCOPE_STATEMENT;
+  roleClassification: typeof DEVELOPER_CREATE_AI_IQ_LABORATORIJA_ROLE_CLASSIFICATION;
+  domainTracks: typeof DEVELOPER_CREATE_AI_IQ_LABORATORIJA_DOMAIN_TRACKS;
+  boundedTokenSequence: typeof DEVELOPER_CREATE_AI_IQ_LABORATORIJA_BOUNDED_TOKEN_SEQUENCE;
+  normalizationRules: typeof DEVELOPER_CREATE_AI_IQ_LABORATORIJA_NORMALIZATION_RULES;
+  boundedVocabularyPhrase: 'EXTRIMLI EXTRONDOL EXTREM DOK DUK DAK DIK FOR';
+  additiveOnly: true;
+  noNewRuntimeEngine: true;
+  noNewRuntimeRoutes: true;
+  noParallelSourceOfTruth: true;
+  sourceOfTruthRoutes: ExtrimliDeveloperCreateBoundedTrackSourceOfTruthRoutes;
+  ownershipLock: ExtrimliDeveloperCreateBoundedTrackOwnershipLock;
+  summarySafePublicFields: readonly [
+    'canonicalAlias',
+    'status',
+    'blockerReason',
+    'watchReasons',
+    'reviewPosture',
+    'downstreamReference',
+    'nalazSummary',
+  ];
+  readinessSignal: {
+    status: 'READY' | 'WATCH' | 'BLOCKED';
+    readinessScore: number;
+    tokenCoveragePercent: number;
+    normalizedInputCount: number;
+    laboratoryProfileStatus: 'READY' | 'WATCH' | 'BLOCKED';
+    findingsStatus: 'READY' | 'WATCH' | 'BLOCKED';
+    faunaIFLoraStatus: 'READY' | 'WATCH' | 'BLOCKED';
+    gradjevinskiMaterijalStatus: 'READY' | 'WATCH' | 'BLOCKED';
+    deterministicFallbackRequired: boolean;
+    fallbackInputs: typeof DEVELOPER_CREATE_AI_IQ_LABORATORIJA_FALLBACK_INPUTS;
+    driver: 'developerAndCreateRepoWideReflection.readiness + programskiJezikProucavanja + programskiEkanalog + developerAndCreateRepoWideReflection.technicalReadinessProfile.consolidatedRhythmStatus';
+  };
+  blockerReason: string | null;
+  watchReasons: string[];
+  reviewPosture: 'ALIGNED' | 'WATCH' | 'REVIEW_REQUIRED';
+  tokenSequenceLock: {
+    additiveOnlyAlias: true;
+    noNewRoutes: true;
+    noNewSourceOfTruth: true;
+  };
+  acceptanceEvidence: readonly [
+    'developerAndCreateRepoWideReflection.aiIqLaboratorijaTrack',
+    'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.aiIqLaboratorijaTrack',
+    'spajaKod.publicSignals.aiIqLaboratorijaStatus',
+    'spajaKod.developerAndCreateImplementationPackage.aiIqLaboratorijaSummary',
+  ];
+  nalazSummary: string;
+  downstreamReference: 'docs/MULTI-REPO-LINKS.md -> spaja86/IO-OPENUI-AO (summary-only)';
+}
+
 export interface ExtrimliDokDikDakDukConsistencyHealth {
   sourceOfTruth: string;
   scopeLock: readonly ['DOK', 'DIK', 'DAK', 'DUK', 'FOR'];
@@ -2798,13 +2872,7 @@ export interface ExtrimliDokDikDakDukConsistencyHealth {
       };
       downstreamReference: 'docs/MULTI-REPO-LINKS.md -> spaja86/IO-OPENUI-AO (summary-only)';
     };
-    aiIqLaboratorijaTrack: {
-      canonicalAlias: typeof DEVELOPER_CREATE_AI_IQ_LABORATORIJA_CANONICAL_ALIAS;
-      scopeStatement: typeof DEVELOPER_CREATE_AI_IQ_LABORATORIJA_SCOPE_STATEMENT;
-      roleClassification: typeof DEVELOPER_CREATE_AI_IQ_LABORATORIJA_ROLE_CLASSIFICATION;
-      domainTracks: typeof DEVELOPER_CREATE_AI_IQ_LABORATORIJA_DOMAIN_TRACKS;
-      boundedTokenSequence: typeof DEVELOPER_CREATE_AI_IQ_LABORATORIJA_BOUNDED_TOKEN_SEQUENCE;
-      normalizationRules: typeof DEVELOPER_CREATE_AI_IQ_LABORATORIJA_NORMALIZATION_RULES;
+    aiIqLaboratorijaTrack: ExtrimliDeveloperCreateAiIqLaboratorijaTrack;
     konstrukcijeIProjektovanjeTrack: {
       canonicalAlias: typeof DEVELOPER_CREATE_KONSTRUKCIJE_I_PROJEKTOVANJE_CANONICAL_ALIAS;
       scopeStatement: typeof DEVELOPER_CREATE_KONSTRUKCIJE_I_PROJEKTOVANJE_SCOPE_STATEMENT;
@@ -2830,7 +2898,7 @@ export interface ExtrimliDokDikDakDukConsistencyHealth {
         'watchReasons',
         'reviewPosture',
         'downstreamReference',
-        'nalazSummary'
+        'nalazSummary',
         'constructionDesignSummary',
         'gradjevinskiFakultetStatus',
         'gradjevinskiAktStatus'
@@ -2838,15 +2906,6 @@ export interface ExtrimliDokDikDakDukConsistencyHealth {
       readinessSignal: {
         status: 'READY' | 'WATCH' | 'BLOCKED';
         readinessScore: number;
-        tokenCoveragePercent: number;
-        normalizedInputCount: number;
-        laboratoryProfileStatus: 'READY' | 'WATCH' | 'BLOCKED';
-        findingsStatus: 'READY' | 'WATCH' | 'BLOCKED';
-        faunaIFLoraStatus: 'READY' | 'WATCH' | 'BLOCKED';
-        gradjevinskiMaterijalStatus: 'READY' | 'WATCH' | 'BLOCKED';
-        deterministicFallbackRequired: boolean;
-        fallbackInputs: typeof DEVELOPER_CREATE_AI_IQ_LABORATORIJA_FALLBACK_INPUTS;
-        driver: 'developerAndCreateRepoWideReflection.readiness + programskiJezikProucavanja + programskiEkanalog + developerAndCreateRepoWideReflection.technicalReadinessProfile.consolidatedRhythmStatus';
         gradjevinskiFakultetStatus: 'READY' | 'WATCH' | 'BLOCKED';
         gradjevinskiAktStatus: 'READY' | 'WATCH' | 'BLOCKED';
         tokenCoveragePercent: number;
@@ -2858,16 +2917,11 @@ export interface ExtrimliDokDikDakDukConsistencyHealth {
       blockerReason: string | null;
       watchReasons: string[];
       reviewPosture: 'ALIGNED' | 'WATCH' | 'REVIEW_REQUIRED';
-      tokenSequenceLock: {
-        additiveOnlyAlias: true;
-        noNewRoutes: true;
-        noNewSourceOfTruth: true;
-      };
       acceptanceEvidence: readonly [
-        'developerAndCreateRepoWideReflection.aiIqLaboratorijaTrack',
-        'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.aiIqLaboratorijaTrack',
-        'spajaKod.publicSignals.aiIqLaboratorijaStatus',
-        'spajaKod.developerAndCreateImplementationPackage.aiIqLaboratorijaSummary'
+        'developerAndCreateRepoWideReflection.konstrukcijeIProjektovanjeTrack',
+        'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.konstrukcijeIProjektovanjeTrack',
+        'spajaKod.publicSignals.konstrukcijeIProjektovanjeStatus',
+        'spajaKod.developerAndCreateImplementationPackage.konstrukcijeIProjektovanjeSummary'
       ];
       nalazSummary: string;
       constructionDesignSummary: string;
@@ -2932,6 +2986,55 @@ export interface ExtrimliDokDikDakDukConsistencyHealth {
       mediaSummary: string;
       downstreamReference: 'docs/MULTI-REPO-LINKS.md -> spaja86/IO-OPENUI-AO (summary-only)';
     };
+    radioTrack: {
+      canonicalAlias: typeof DEVELOPER_CREATE_RADIO_CANONICAL_ALIAS;
+      scopeStatement: typeof DEVELOPER_CREATE_RADIO_SCOPE_STATEMENT;
+      roleClassification: typeof DEVELOPER_CREATE_RADIO_ROLE_CLASSIFICATION;
+      boundedTokenVocabulary: typeof DEVELOPER_CREATE_RADIO_TOKEN_VOCABULARY;
+      normalizationRules: typeof DEVELOPER_CREATE_RADIO_NORMALIZATION_RULES;
+      fallbackInputs: typeof DEVELOPER_CREATE_RADIO_FALLBACK_INPUTS;
+      summarySafePublicFields: typeof DEVELOPER_CREATE_RADIO_SUMMARY_SAFE_FIELDS;
+      downstreamPolicy: typeof DEVELOPER_CREATE_RADIO_DOWNSTREAM_POLICY;
+      boundedVocabularyPhrase: 'EXTRIMLI EXTRONDOL EXTREM DOK DUK DAK DIK FOR';
+      additiveOnly: true;
+      noNewRuntimeEngine: true;
+      noNewRuntimeRoutes: true;
+      noParallelSourceOfTruth: true;
+      sourceOfTruthRoutes: readonly ['/api/extrimli/extrem', '/api/extrimli/extrondol', '/api/extrimli/spaja-kod'];
+      ownershipLock: {
+        dokDikFor: 'EXTREM';
+        dakDuk: 'EXTRONDOL';
+        spajaKod: 'audit-safe-summary-only';
+      };
+      readinessSignal: {
+        status: 'READY' | 'WATCH' | 'BLOCKED';
+        readinessScore: number;
+        distributionAudioStatus: 'READY' | 'WATCH' | 'BLOCKED';
+        scheduleContinuityStatus: 'READY' | 'WATCH' | 'BLOCKED';
+        governanceFallbackStatus: 'READY' | 'WATCH' | 'BLOCKED';
+        vocabularyCoveragePercent: number;
+        normalizedInputCount: number;
+        deterministicFallbackRequired: boolean;
+        driver: 'developerAndCreateRepoWideReflection.readiness + developerAndCreateRepoWideReflection.technicalReadinessProfile.consolidatedRhythmStatus + developerAndCreateRepoWideReflection.globalPageExplanationContract';
+      };
+      blockerReason: string | null;
+      watchReasons: string[];
+      reviewPosture: 'ALIGNED' | 'WATCH' | 'REVIEW_REQUIRED';
+      semanticPreservation: {
+        truMeaning: typeof DEVELOPER_CREATE_RADIO_TOKEN_VOCABULARY['semanticPreservation']['TRU'];
+        dokerMeaning: typeof DEVELOPER_CREATE_RADIO_TOKEN_VOCABULARY['semanticPreservation']['DOKER'];
+        skuMeaning: typeof DEVELOPER_CREATE_RADIO_TOKEN_VOCABULARY['semanticPreservation']['SKU'];
+        noSemanticConflict: true;
+      };
+      acceptanceEvidence: readonly [
+        'developerAndCreateRepoWideReflection.radioTrack',
+        'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.radioTrack',
+        'spajaKod.publicSignals.radioStatus',
+        'spajaKod.developerAndCreateImplementationPackage.radioSummary'
+      ];
+      radioSummary: string;
+      downstreamReference: 'docs/MULTI-REPO-LINKS.md -> spaja86/IO-OPENUI-AO (summary-only)';
+    };
     mappedTracks: {
       vrhProgramskogEkviladenta: 'VRH PROGRAMSKOG EKVILADENTA';
       radniTaktMozgaMislilac: 'RADNI TAKT MOZGA (MISLILAC)';
@@ -2949,6 +3052,7 @@ export interface ExtrimliDokDikDakDukConsistencyHealth {
       sarkazamPrivrednaGranaDigitalizma: 'SARKAZAM / PRIVREDNA GRANA DIGITALIZMA / PROJEKTI ENTUZIJAZMA PO ČINU OBLASTIMA';
       radniProstor: 'RADNI PROSTOR';
       konstrukcijeIProjektovanje: 'KONSTRUKCIJE I PROJEKTOVANJE';
+      radio: 'RADIO';
       notes1450: 'NOTES 1450';
     };
     canonicalGovernanceVocabulary: {
@@ -4491,6 +4595,25 @@ export interface ExtrimliDokDikDakDukConsistencyHealth {
         extrondolPublishes: 'wawe-freeze-promotion-review-rollback-audit-summary-only';
         spajaKodPublishes: 'status-blocker-review-downstream-and-nalaz-summary-only';
         technicalBinding: 'developerAndCreateRepoWideReflection.aiIqLaboratorijaTrack';
+        noNewRuntimeEngine: true;
+        noNewRuntimeRoutes: true;
+        noParallelSourceOfTruth: true;
+        rawInternalsExposed: false;
+      };
+      radioBoundary: {
+        trackRole: 'bounded-radio-media-distribution-audio-alias-track';
+        parentTrack: 'VRH PROGRAMSKOG EKVILADENTA';
+        canonicalAlias: typeof DEVELOPER_CREATE_RADIO_CANONICAL_ALIAS;
+        roleClassification: typeof DEVELOPER_CREATE_RADIO_ROLE_CLASSIFICATION;
+        extremPublishes: 'status-audio-distribution-summary-semantic-preservation-and-deterministic-fallback-signal-only';
+        extrondolPublishes: 'wawe-freeze-promotion-review-rollback-audit-summary-only';
+        spajaKodPublishes: 'status-blocker-review-downstream-and-radio-summary-only';
+        technicalBinding: 'developerAndCreateRepoWideReflection.radioTrack';
+        noNewRuntimeEngine: true;
+        noNewRuntimeRoutes: true;
+        noParallelSourceOfTruth: true;
+        rawInternalsExposed: false;
+      };
       konstrukcijeIProjektovanjeBoundary: {
         trackRole: 'bounded-construction-design-alias-track';
         parentTrack: 'VRH PROGRAMSKOG EKVILADENTA';

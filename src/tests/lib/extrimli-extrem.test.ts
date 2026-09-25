@@ -179,6 +179,8 @@ async function runTests(): Promise<void> {
       report.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.konstrukcijeIProjektovanjeTrack;
     const aiIqKonferencijaZaStampuTrack =
       report.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.aiIqKonferencijaZaStampuTrack;
+    const radioTrack =
+      report.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.radioTrack;
     assert(implementationPackage.sourceOfTruthRoutes.join(',') === '/api/extrimli/extrem,/api/extrimli/extrondol,/api/extrimli/spaja-kod', 'developer/create implementation package source routes mismatch');
     assert(implementationPackage.noNewRuntimeRoutes, 'developer/create implementation package must forbid new runtime routes');
     assert(implementationPackage.noParallelSourceOfTruth, 'developer/create implementation package must forbid parallel source-of-truth surfaces');
@@ -233,6 +235,16 @@ async function runTests(): Promise<void> {
     assert(aiIqKonferencijaZaStampuTrack.ownershipLock.spajaKod === 'audit-safe-summary-only', 'developer/create AI IQ press SPAJA KOD ownership mismatch');
     assert(aiIqKonferencijaZaStampuTrack.acceptanceEvidence.join(',') === 'developerAndCreateRepoWideReflection.aiIqKonferencijaZaStampuTrack,releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.aiIqKonferencijaZaStampuTrack,spajaKod.publicSignals.aiIqKonferencijaZaStampuStatus,spajaKod.developerAndCreateImplementationPackage.aiIqKonferencijaZaStampuSummary', 'developer/create AI IQ press acceptance evidence mismatch');
     assert(aiIqKonferencijaZaStampuTrack.summarySafePublicFields.join(',') === 'canonicalAlias,status,blockerReason,watchReasons,reviewPosture,downstreamReference,mediaSummary', 'developer/create AI IQ press summary-safe fields mismatch');
+    assert(radioTrack.canonicalAlias === 'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == RADIO', 'developer/create RADIO canonical alias mismatch');
+    assert(radioTrack.roleClassification === 'additive-only-bounded-media-distribution-audio-alias-track', 'developer/create RADIO role classification mismatch');
+    assert(radioTrack.boundedTokenVocabulary.canonicalSequence.join(',') === 'DOR,TRU,SKU,GIVE,TRAJ,TUR,DIR,KON,ZION,KURA,DOKER', 'developer/create RADIO token sequence mismatch');
+    assert(radioTrack.semanticPreservation.truMeaning === 'preserve-existing-TRU-module-trust-readiness-meaning', 'developer/create RADIO TRU semantic preservation mismatch');
+    assert(radioTrack.semanticPreservation.dokerMeaning === 'preserve-existing-DOKER-downstream-governance-meaning', 'developer/create RADIO DOKER semantic preservation mismatch');
+    assert(radioTrack.semanticPreservation.skuMeaning === 'preserve-existing-SKU-catalog-identity-meaning', 'developer/create RADIO SKU semantic preservation mismatch');
+    assert(radioTrack.acceptanceEvidence.join(',') === 'developerAndCreateRepoWideReflection.radioTrack,releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.radioTrack,spajaKod.publicSignals.radioStatus,spajaKod.developerAndCreateImplementationPackage.radioSummary', 'developer/create RADIO acceptance evidence mismatch');
+    assert(radioTrack.summarySafePublicFields.join(',') === 'canonicalAlias,status,blockerReason,watchReasons,reviewPosture,downstreamReference,radioSummary,semanticPreservation', 'developer/create RADIO summary-safe fields mismatch');
+    assert(implementationPackage.radioBoundary.trackRole === 'bounded-radio-media-distribution-audio-alias-track', 'developer/create implementation package RADIO boundary role mismatch');
+    assert(implementationPackage.radioBoundary.spajaKodPublishes === 'status-blocker-review-downstream-and-radio-summary-only', 'developer/create implementation package RADIO SPAJA KOD publish contract mismatch');
     assert(implementationPackage.napoleonDiskaveriSelectionBoundary.parentTrack === 'MAPE UMA', 'developer/create implementation package Napoleon Diskaveri parent track mismatch');
     assert(implementationPackage.napoleonDiskaveriSelectionBoundary.noNewRuntimeEngine, 'developer/create implementation package Napoleon Diskaveri boundary must forbid new runtime engines');
     assert(implementationPackage.roadmapStages.v7 === 'enterprise-organizational-operating-model', 'developer/create implementation package V7 roadmap mismatch');
@@ -277,7 +289,7 @@ async function runTests(): Promise<void> {
     assert(konstrukcijeIProjektovanjeTrack.boundedTokenSequence.join(',') === 'DUR,DJON,TUR,ZIM,UBAR,DOKOR,SINGAR,UKOR,IOP,TUR,UBAR,SINGOF,SIGRAD,OKDEN,UMAR', 'developer/create KONSTRUKCIJE I PROJEKTOVANJE token sequence mismatch');
     assert(konstrukcijeIProjektovanjeTrack.parentDomain === 'GRAĐEVINSKI FAKULTET / GRAĐEVINSKI AKT', 'developer/create KONSTRUKCIJE I PROJEKTOVANJE parent domain mismatch');
     assert(['READY', 'WATCH', 'BLOCKED'].includes(konstrukcijeIProjektovanjeTrack.readinessSignal.status), 'developer/create KONSTRUKCIJE I PROJEKTOVANJE status mismatch');
-    assert(konstrukcijeIProjektovanjeTrack.summarySafePublicFields.join(',') === 'canonicalAlias,status,blockerReason,watchReasons,reviewPosture,downstreamReference,constructionDesignSummary,gradjevinskiFakultetStatus,gradjevinskiAktStatus', 'developer/create KONSTRUKCIJE I PROJEKTOVANJE summary-safe fields mismatch');
+    assert(konstrukcijeIProjektovanjeTrack.summarySafePublicFields.join(',') === 'canonicalAlias,status,blockerReason,watchReasons,reviewPosture,downstreamReference,nalazSummary,constructionDesignSummary,gradjevinskiFakultetStatus,gradjevinskiAktStatus', 'developer/create KONSTRUKCIJE I PROJEKTOVANJE summary-safe fields mismatch');
     assert(['READY', 'WATCH', 'BLOCKED'].includes(konstrukcijeIProjektovanjeTrack.readinessSignal.gradjevinskiFakultetStatus), 'developer/create KONSTRUKCIJE I PROJEKTOVANJE gradjevinski fakultet status mismatch');
     assert(['READY', 'WATCH', 'BLOCKED'].includes(konstrukcijeIProjektovanjeTrack.readinessSignal.gradjevinskiAktStatus), 'developer/create KONSTRUKCIJE I PROJEKTOVANJE gradjevinski akt status mismatch');
     assert(report.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.technicalReadinessProfile.immersiveVisualization3dTrack.dimensionalProgression.join(',') === '360D,720D,1440D,2880D,5760D', 'developer/create immersive dimensional progression mismatch');

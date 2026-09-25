@@ -34,6 +34,7 @@ import {
 } from '../extrimli-doker-kurat-izek-dokar-track';
 import {
   DEVELOPER_CREATE_AI_IQ_KONFERENCIJA_ZA_STAMPU_CANONICAL_ALIAS,
+  DEVELOPER_CREATE_RADIO_CANONICAL_ALIAS,
   DEVELOPER_CREATE_NAPOLEON_DISKAVERI_CANONICAL_ALIAS,
   DEVELOPER_CREATE_VRH_CANONICAL_NARRATIVE_SENTENCE,
   DEVELOPER_CREATE_VRH_CANONICAL_TOKEN_VOCABULARY,
@@ -228,6 +229,7 @@ const DEVELOPER_CREATE_ROADMAP_ACCEPTANCE_EVIDENCE_BASE = [
   'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.aiIqLaboratorijaTrack',
   'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.konstrukcijeIProjektovanjeTrack',
   'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.aiIqKonferencijaZaStampuTrack',
+  'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.radioTrack',
   'spajaKod.publicSignals.developerAndCreateStatus',
   'spajaKod.publicSignals.developerAndCreateAudioVisualStatus',
   'spajaKod.publicSignals.developerAndCreateImplementationStatus',
@@ -239,6 +241,7 @@ const DEVELOPER_CREATE_ROADMAP_ACCEPTANCE_EVIDENCE_BASE = [
   'spajaKod.publicSignals.aiIqLaboratorijaStatus',
   'spajaKod.publicSignals.konstrukcijeIProjektovanjeStatus',
   'spajaKod.publicSignals.aiIqKonferencijaZaStampuStatus',
+  'spajaKod.publicSignals.radioStatus',
   'spajaKod.publicSignals.aiPlateStatus',
 ] as const;
 
@@ -265,6 +268,7 @@ const DEVELOPER_CREATE_GOVERNANCE_ACCEPTANCE_EVIDENCE: ExtrimliExtrondolReport['
   'developerAndCreateRepoWideReflection.aiIqLaboratorijaTrack',
   'developerAndCreateRepoWideReflection.konstrukcijeIProjektovanjeTrack',
   'developerAndCreateRepoWideReflection.aiIqKonferencijaZaStampuTrack',
+  'developerAndCreateRepoWideReflection.radioTrack',
   'spajaKod.publicSignals.developerAndCreateStatus',
   'spajaKod.publicSignals.developerAndCreateAudioVisualStatus',
   'spajaKod.publicSignals.developerAndCreateImplementationStatus',
@@ -276,6 +280,7 @@ const DEVELOPER_CREATE_GOVERNANCE_ACCEPTANCE_EVIDENCE: ExtrimliExtrondolReport['
   'spajaKod.publicSignals.aiIqLaboratorijaStatus',
   'spajaKod.publicSignals.konstrukcijeIProjektovanjeStatus',
   'spajaKod.publicSignals.aiIqKonferencijaZaStampuStatus',
+  'spajaKod.publicSignals.radioStatus',
   'spajaKod.publicSignals.aiPlateStatus',
 ];
 const AUDIO_VISUAL_KONTRABAS_ACCEPTANCE_EVIDENCE = [
@@ -3151,6 +3156,7 @@ function buildSpajaKodFacade(params: {
   aiIqLaboratorijaStatus: ExtrimliExtrondolReport['extremProfiler']['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['aiIqLaboratorijaTrack']['readinessSignal']['status'];
   konstrukcijeIProjektovanjeStatus: ExtrimliExtrondolReport['extremProfiler']['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['konstrukcijeIProjektovanjeTrack']['readinessSignal']['status'];
   aiIqKonferencijaZaStampuStatus: ExtrimliExtrondolReport['extremProfiler']['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['aiIqKonferencijaZaStampuTrack']['readinessSignal']['status'];
+  radioStatus: ExtrimliExtrondolReport['extremProfiler']['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['radioTrack']['readinessSignal']['status'];
   aiPlateStatus: ExtrimliExtrondolReport['extremProfiler']['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['aiPlateOffer']['boundedReadinessProfile']['consolidatedStatus'];
   aiPlateEnterprisePackageStatus: ExtrimliExtrondolReport['releaseAuditSummary']['aiPlateEnterprisePackageGovernance']['status'];
 }): ExtrimliSpajaKodPublicFacade {
@@ -3276,6 +3282,7 @@ function buildSpajaKodFacade(params: {
       aiIqLaboratorijaStatus: params.aiIqLaboratorijaStatus,
       konstrukcijeIProjektovanjeStatus: params.konstrukcijeIProjektovanjeStatus,
       aiIqKonferencijaZaStampuStatus: params.aiIqKonferencijaZaStampuStatus,
+      radioStatus: params.radioStatus,
       developerAndCreateStatus: params.developerAndCreateStatus,
       developerAndCreateImplementationStatus,
       developerAndCreateAudioVisualStatus,
@@ -3374,6 +3381,7 @@ function buildSpajaKodFacade(params: {
         'publicSignals.aiIqLaboratorijaStatus',
         'publicSignals.konstrukcijeIProjektovanjeStatus',
         'publicSignals.aiIqKonferencijaZaStampuStatus',
+        'publicSignals.radioStatus',
         'publicSignals.napoleonDiskaveriStatus',
         'publicSignals.kraljevskiPravniUniverzitetStatus',
         'publicSignals.kraljevskiPravniAktStatus',
@@ -3398,6 +3406,7 @@ function buildSpajaKodFacade(params: {
         'developerAndCreateImplementationPackage.aiIqLaboratorijaSummary',
         'developerAndCreateImplementationPackage.konstrukcijeIProjektovanjeSummary',
         'developerAndCreateImplementationPackage.aiIqKonferencijaZaStampuSummary',
+        'developerAndCreateImplementationPackage.radioSummary',
         'developerAndCreateImplementationPackage.napoleonDiskaveriSummary',
         'epilogijaCovecnosti.packageOutputs',
       ],
@@ -3555,6 +3564,7 @@ function buildSpajaKodFacade(params: {
         publicBoundary: 'audit-safe-summary-only',
         nalazSummary:
           params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.aiIqLaboratorijaTrack.nalazSummary,
+      },
       konstrukcijeIProjektovanjeSummary: {
         canonicalAlias:
           params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.konstrukcijeIProjektovanjeTrack.canonicalAlias,
@@ -3597,6 +3607,28 @@ function buildSpajaKodFacade(params: {
         publicBoundary: 'audit-safe-summary-only',
         mediaSummary:
           params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.aiIqKonferencijaZaStampuTrack.mediaSummary,
+      },
+      radioSummary: {
+        canonicalAlias: DEVELOPER_CREATE_RADIO_CANONICAL_ALIAS,
+        roleClassification:
+          params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.radioTrack.roleClassification,
+        status:
+          params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.radioTrack.readinessSignal.status,
+        blockerReason:
+          params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.radioTrack.blockerReason,
+        watchReasons: [
+          ...params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.radioTrack.watchReasons,
+        ],
+        reviewPosture:
+          params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.radioTrack.reviewPosture,
+        downstreamReference:
+          params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.radioTrack.downstreamReference,
+        publicBoundary: 'audit-safe-summary-only',
+        semanticPreservation: {
+          ...params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.radioTrack.semanticPreservation,
+        },
+        radioSummary:
+          params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.radioTrack.radioSummary,
       },
       napoleonDiskaveriSummary: {
         canonicalAlias: DEVELOPER_CREATE_NAPOLEON_DISKAVERI_CANONICAL_ALIAS,
@@ -5995,6 +6027,8 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
       extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.konstrukcijeIProjektovanjeTrack.readinessSignal.status,
     aiIqKonferencijaZaStampuStatus:
       extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.aiIqKonferencijaZaStampuTrack.readinessSignal.status,
+    radioStatus:
+      extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.radioTrack.readinessSignal.status,
     aiPlateStatus: extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.aiPlateOffer.boundedReadinessProfile.consolidatedStatus,
     aiPlateEnterprisePackageStatus,
   });
@@ -7904,6 +7938,9 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
           'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.aiIqLaboratorijaTrack',
           'spajaKod.publicSignals.aiIqLaboratorijaStatus',
           'spajaKod.developerAndCreateImplementationPackage.aiIqLaboratorijaSummary',
+        ],
+        downstreamReference: 'docs/MULTI-REPO-LINKS.md -> spaja86/IO-OPENUI-AO (summary-only)',
+      },
       konstrukcijeIProjektovanjeTrack: {
         ...extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.konstrukcijeIProjektovanjeTrack,
         sourceOfTruth: '/api/extrimli/extrem',
@@ -7957,6 +7994,34 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
           'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.aiIqKonferencijaZaStampuTrack',
           'spajaKod.publicSignals.aiIqKonferencijaZaStampuStatus',
           'spajaKod.developerAndCreateImplementationPackage.aiIqKonferencijaZaStampuSummary',
+        ],
+        downstreamReference: 'docs/MULTI-REPO-LINKS.md -> spaja86/IO-OPENUI-AO (summary-only)',
+      },
+      radioTrack: {
+        ...extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.radioTrack,
+        sourceOfTruth: '/api/extrimli/extrem',
+        governanceSource: '/api/extrimli/extrondol',
+        publicBoundary: '/api/extrimli/spaja-kod',
+        currentWave: currentWawe,
+        eligibleNextWave: eligibleNextWave,
+        promotionFreeze:
+          promotionFreeze
+          || extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.radioTrack.readinessSignal.status !== 'READY',
+        reviewRequiredBeforeWideRollout:
+          extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.radioTrack.readinessSignal.status !== 'READY'
+          || extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.radioTrack.reviewPosture === 'REVIEW_REQUIRED',
+        reviewPosture:
+          extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.radioTrack.reviewPosture,
+        rolloutPlan:
+          'Advance RADIO only as an additive-only bounded media/distribution/audio package through the existing EXTREM technical signal, EXTRONDOL governance mirror, and SPAJA KOD audit-safe summary boundary.',
+        rollbackPlan:
+          'Freeze promotion and fall back to the previously verified Developer/Create radio-summary posture if the bounded RADIO package drifts away from the existing ownership lock, semantic-preservation guard, or deterministic fallback discipline.',
+        humanReviewStatus: 'required-before-promotion',
+        acceptanceEvidence: [
+          'developerAndCreateRepoWideReflection.radioTrack',
+          'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.radioTrack',
+          'spajaKod.publicSignals.radioStatus',
+          'spajaKod.developerAndCreateImplementationPackage.radioSummary',
         ],
         downstreamReference: 'docs/MULTI-REPO-LINKS.md -> spaja86/IO-OPENUI-AO (summary-only)',
       },
