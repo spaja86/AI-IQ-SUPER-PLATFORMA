@@ -8,13 +8,14 @@
 
 Kanonski scope lock ostaje i u kraćem obliku: `DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA`.
 
-Ovaj dokument ostaje **interpretativni extension document**, dok `docs/EXTRIMLI-DEVELOPER-CREATE-PROGRAM.md` ostaje glavni manifest. Sve duže varijante (`RADNI TAKT MOZGA (MISLILAC)`, `MAPE UMA` i slične trake) moraju ostati alias-i ili proširenja iste centralne rečenice, nikad novi centri priče.
+Ovaj dokument ostaje **interpretativni extension document**, dok `docs/EXTRIMLI-DEVELOPER-CREATE-PROGRAM.md` ostaje glavni manifest. Sve duže varijante (`RADNI TAKT MOZGA (MISLILAC)`, `MAPE UMA`, `DIJALIZA POGONSKOG OMOTAČA` i slične trake) moraju ostati alias-i ili proširenja iste centralne rečenice, nikad novi centri priče.
 
 Bounded vokabular ostaje zaključan na `EXTRIMLI EXTRONDOL EXTREM DOK DUK DAK DIK FOR`, sa nepromenjenim ownership split-om:
 
 - `DOK + DIK + FOR` → EXTREM tehnički signal
 - `DAK + DUK` → EXTRONDOL governance / WAWE / audit / rollback
 - `SPAJA KOD` → samo audit-safe javni rezime
+- `DIJALIZA POGONSKOG OMOTAČA` → isključivo dokumentacioni/interpretativni alias unutar istog lock-a (bez novih runtime ruta i bez promene governance strukture)
 
 - nema novih runtime ruta
 - nema paralelnog source-of-truth sistema

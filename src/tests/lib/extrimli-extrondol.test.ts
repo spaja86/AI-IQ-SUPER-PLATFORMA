@@ -1150,6 +1150,7 @@ async function runTests(): Promise<void> {
     assert(report.dokDikDakDukConsistencyHealth.programskiJezikProucavanja.programskiEkanalog.auditConclusion.length > 0, 'programski ekanalog audit conclusion must be present');
     assert(report.developerAndCreateRepoWideReflection.term === 'DEVELOPER AND CREATE', 'developer/create governance term mismatch');
     assert(report.developerAndCreateRepoWideReflection.equalityLock === 'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == RADNI TAKT MOZGA (MISLILAC)', 'developer/create governance equality lock mismatch');
+    assert(report.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.interpretationAliases.includes('DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == DIJALIZA POGONSKOG OMOTAČA'), 'developer/create governance DIJALIZA POGONSKOG OMOTAČA alias mismatch');
     assert(report.developerAndCreateRepoWideReflection.publicBoundary === '/api/extrimli/spaja-kod', 'developer/create public boundary mismatch');
     assert(report.developerAndCreateRepoWideReflection.technicalReadinessProfile.radniTaktMozgaMislilac.status === report.extremProfiler.radniTaktMozgaMislilac.readiness.status, 'developer/create governance radni takt profile mismatch');
     assert(report.developerAndCreateRepoWideReflection.aiPlateGovernance.canonicalName === 'AI PLATE', 'AI PLATE governance canonical name mismatch');

@@ -77,6 +77,7 @@ jobs:
           const externalDoc = fs.readFileSync('docs/EXTRIMLI-EXTERNAL-GITHUB.md', 'utf8');
           const links = fs.readFileSync('docs/MULTI-REPO-LINKS.md', 'utf8');
           const versionRoadmap = fs.readFileSync('src/lib/extrimli-version-roadmap.ts', 'utf8');
+          const developerCreateContract = fs.readFileSync('src/lib/extrimli/developer-create-vrh-ekviladenta-contract.ts', 'utf8');
           const validatorWorkflow = fs.readFileSync('.github/workflows/extrimli-validator.yml', 'utf8');
           const externalWorkflow = fs.readFileSync('.github/workflows/extrimli-external-github.yml', 'utf8');
 
@@ -136,6 +137,7 @@ jobs:
           assert(developerCreateProgramDoc.includes('PROGRAM_LOCK_CHATGPT_REFERENCE') && developerCreateProgramDoc.includes('6ab2f88d-23b0-83eb-b708-b880bdb7fc11'), 'Developer/Create program doc must lock the documentation-only ChatGPT share reference');
           assert(developerCreateProgramDoc.includes('PROGRAM_LOCK_LANGUAGE_LAYER') && developerCreateProgramDoc.includes('srpski je primarni kanonski logički izraz'), 'Developer/Create program doc must lock Serbian-first language layer');
           assert(developerCreateProgramDoc.includes('DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == RADNI TAKT MOZGA (MISLILAC)'), 'Developer/Create program doc must lock repo-wide equality mapping');
+          assert(developerCreateProgramDoc.includes('DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == DIJALIZA POGONSKOG OMOTAČA'), 'Developer/Create program doc must lock DIJALIZA POGONSKOG OMOTAČA as additive-only alias');
           assert(developerCreateProgramDoc.includes('DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA'), 'Developer/Create program doc must lock canonical scope');
           assert(developerCreateProgramDoc.includes('Kompanija SPAJA / Digitalna Industrija') && developerCreateProgramDoc.includes('Tehnička traka') && developerCreateProgramDoc.includes('Governance traka') && developerCreateProgramDoc.includes('Javni boundary') && developerCreateProgramDoc.includes('Poslovna traka'), 'Developer/Create program doc must lock four-track package and Kompanija SPAJA / Digitalna Industrija mapping');
           assert(developerCreateProgramDoc.includes('rolloutPlan') && developerCreateProgramDoc.includes('rollbackPlan') && developerCreateProgramDoc.includes('humanReviewStatus') && developerCreateProgramDoc.includes('downstreamReference'), 'Developer/Create program doc must lock phase audit fields');
@@ -155,7 +157,9 @@ jobs:
           assert(developerCreateProgramDoc.includes('KRALJEVSKI BAŠTA UNEVERZITE') && developerCreateProgramDoc.includes('kraljevski-basta-uneverzite-prirodne-maticne-celije-covecanstvu'), 'Developer/Create program doc must lock KRALJEVSKI BAŠTA UNEVERZITE bounded narrative alias');
           assert(developerCreateProgramDoc.includes('roadmapStageId=Verzija 7') && developerCreateProgramDoc.includes('premium-rollout-regime'), 'Developer/Create program doc must lock AI PLATE V7 execution and pricing governance');
           assert(vrhDoc.includes('DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == RADNI TAKT MOZGA (MISLILAC)'), 'VRH doc must lock repo-wide equality mapping');
+          assert(vrhDoc.includes('DIJALIZA POGONSKOG OMOTAČA') && vrhDoc.includes('DOK + DIK + FOR') && vrhDoc.includes('DAK + DUK'), 'VRH doc must keep DIJALIZA POGONSKOG OMOTAČA alias bounded by unchanged ownership split');
           assert(vrhDoc.includes('DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA') && vrhDoc.includes('Kompanija SPAJA / Digitalna Industrija'), 'VRH doc must lock canonical scope and enterprise mapping');
+          assert(developerCreateContract.includes('DEVELOPER_CREATE_VRH_DIJALIZA_POGONSKOG_OMOTACA_ALIAS') && developerCreateContract.includes('documentation-and-interpretative-alias-only'), 'Developer/Create contract must formalize DIJALIZA POGONSKOG OMOTAČA as documentation-only alias');
           assert(vrhDoc.includes('KRALJEVSKI BAŠTA UNEVERZITE') && vrhDoc.includes('documentation/evidence-only'), 'VRH doc must lock KRALJEVSKI BAŠTA UNEVERZITE as evidence-only alias');
           assert(vrhDoc.includes('6ab2f88d-23b0-83eb-b708-b880bdb7fc11') && vrhDoc.includes('documentation-only'), 'VRH doc must lock documentation-only ChatGPT share reference');
           assert(vrhDoc.includes('srpski je primarni kanonski izraz domena'), 'VRH doc must lock Serbian-primary language rule');
