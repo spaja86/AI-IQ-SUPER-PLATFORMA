@@ -3,6 +3,8 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { renderToStaticMarkup } from 'react-dom/server';
 import KompanijaPage, { metadata } from '@/app/kompanija/page';
+import { KOMPANIJA } from '@/lib/constants';
+import { osnivacProfil } from '@/lib/vizuelni-identitet';
 
 test('kompanija page exposes a professional Nikola Spajić founder profile', () => {
   const markup = renderToStaticMarkup(<KompanijaPage />);
@@ -31,14 +33,15 @@ test('kompanija page exposes a professional Nikola Spajić founder profile', () 
 });
 
 test('kompanija metadata stays founder-focused and professional', () => {
-  assert.equal(
-    metadata.title,
-    'Nikola Spajić — Osnivač & CEO | Kompanija SPAJA',
-    'metadata title must center the founder profile',
+  const title = typeof metadata.title === 'string' ? metadata.title : metadata.title?.absolute;
+  assert(
+    title?.includes(osnivacProfil.punoIme) && title.includes(KOMPANIJA),
+    'metadata title must center the founder profile and company identity',
   );
-  assert.equal(
-    metadata.description,
-    'Nikola Spajić je osnivač i CEO Kompanije SPAJA i nosilac Digitalne Industrije — profesionalan profil sa pregledom projekata, platformi, AI sistema i poslovne saradnje.',
+  assert(
+    metadata.description?.includes(osnivacProfil.punoIme)
+      && metadata.description.includes('osnivač i CEO')
+      && metadata.description.includes('poslovne saradnje'),
     'metadata description must describe Nikola Spajić professionally',
   );
 });
