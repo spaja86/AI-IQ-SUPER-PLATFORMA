@@ -10823,14 +10823,18 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
     sarkazamPrivrednaGranaDigitalizmaReadinessScore;
   dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.sarkazamPrivrednaGranaDigitalizmaTrack.reflectionSignal.deterministicFallbackRequired =
     sarkazamPrivrednaGranaDigitalizmaDeterministicFallbackRequired;
+  const sarkazamPrivrednaGranaDigitalizmaFallbackReason =
+    sarkazamPrivrednaGranaDigitalizmaDeterministicFallbackRequired
+      ? ` Deterministic fallback ostaje aktivan za ${dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.sarkazamPrivrednaGranaDigitalizmaTrack.reflectionSignal.fallbackInputs.join(', ')} ulaze.`
+      : '';
   dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.sarkazamPrivrednaGranaDigitalizmaTrack.blockerReason =
     sarkazamPrivrednaGranaDigitalizmaStatus === 'BLOCKED'
-      ? 'SARKAZAM ostaje BLOCKED dok bounded Digitalna Industrija, PRIVREDNI AKT i testovi-po-oblastima signali nisu usklađeni unutar postojećeg Developer/Create reflection paketa bez novih formula i bez nove semantike odlučivanja.'
+      ? `SARKAZAM ostaje BLOCKED dok bounded Digitalna Industrija, PRIVREDNI AKT i testovi-po-oblastima signali nisu usklađeni unutar postojećeg Developer/Create reflection paketa bez novih formula i bez nove semantike odlučivanja.${sarkazamPrivrednaGranaDigitalizmaFallbackReason}`
       : null;
   dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.sarkazamPrivrednaGranaDigitalizmaTrack.watchReasons =
     sarkazamPrivrednaGranaDigitalizmaStatus === 'WATCH'
       ? [
-        'SARKAZAM ostaje u WATCH režimu dok privredna grana digitalizma i projekti entuzijazma po činu oblastima zahtevaju dodatni review unutar postojećeg enterprise/policy/pedagoškog bounded sloja.',
+        `SARKAZAM ostaje u WATCH režimu dok privredna grana digitalizma i projekti entuzijazma po činu oblastima zahtevaju dodatni review unutar postojećeg enterprise/policy/pedagoškog bounded sloja.${sarkazamPrivrednaGranaDigitalizmaFallbackReason}`,
       ]
       : [];
   dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.sarkazamPrivrednaGranaDigitalizmaTrack.reviewPosture =

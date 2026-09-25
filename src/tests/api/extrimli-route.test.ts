@@ -1044,7 +1044,7 @@ async function runTests(): Promise<void> {
           smartProgramskiJezikSummary: { canonicalName: string; readinessStatus: string; blockerReasons: string[]; watchReasons: string[]; reviewPosture: string; downstreamReference: string; publicBoundary: string };
           napoleonDiskaveriSummary: { canonicalAlias: string; status: string; blockerReasons: string[]; watchReasons: string[]; humanReviewPosture: string; downstreamReference: string };
           eksperimentProgramskiJezikSummary: { canonicalAlias: string; status: string; blockerReasons: string[]; watchReasons: string[]; humanReviewPosture: string; downstreamReference: string; publicBoundary: string };
-          sarkazamPrivrednaGranaDigitalizmaSummary: { canonicalAlias: string; scopeClassification: string; status: string; blockerReason: string | null; reviewPosture: string; downstreamReference: string; publicBoundary: string; oblastCinSummary: { oblastSummary: string; cinSummary: string } };
+          sarkazamPrivrednaGranaDigitalizmaSummary: { canonicalAlias: string; scopeClassification: string; status: string; blockerReason: string | null; reviewPosture: string; downstreamReference: string; publicBoundary: string; oblastCinSummary: { oblastStatus: string; cinStatus: string; publicSummary: string } };
         };
         dokerKuratIzekDokarTrack: { boundarySurface: string; publicStatus: string; tokenSummaries: Array<{ token: string; status: string }> };
         blockers: string[];
