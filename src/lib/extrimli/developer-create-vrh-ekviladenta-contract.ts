@@ -23,6 +23,7 @@ export const DEVELOPER_CREATE_VRH_INTERPRETATION_ALIASES = [
   'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == SARKAZAM / PRIVREDNA GRANA DIGITALIZMA / PROJEKTI ENTUZIJAZMA PO ČINU OBLASTIMA',
   'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == AI IQ KONFERENCIJA ZA ŠTAMPU (NOVINE, DIGITALNE NOVINE)',
   'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == AI IQ LABORATORIJA == LABORATORIJSKI NALAZI FAUNE I FLORE I GRAĐEVINSKOG MATERIJALA',
+  'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == POSLOVNA PONUDA',
 ] as const;
 
 export const DEVELOPER_CREATE_VRH_DIJALIZA_POGONSKOG_OMOTACA_ALIAS_BOUNDARY = {
@@ -171,6 +172,61 @@ export const DEVELOPER_CREATE_RADNI_PROSTOR_NORMALIZATION_RULES = {
   uppercaseTokens: true,
   collapseMultipleSpaces: true,
   keepCanonicalOrder: true,
+  unknownTokenHandling: 'map-to-watch-and-require-review',
+  conflictHandling: 'map-to-blocked-and-require-review',
+} as const;
+
+export const DEVELOPER_CREATE_KONSTRUKCIJE_I_PROJEKTOVANJE_CANONICAL_ALIAS =
+  'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == KONSTRUKCIJE I PROJEKTOVANJE' as const;
+
+export const DEVELOPER_CREATE_KONSTRUKCIJE_I_PROJEKTOVANJE_SCOPE_STATEMENT =
+  'EXTRIMLI EXTRONDOL EXTREM DOK DUK DAK DIK FOR == VRH PROGRAMSKOG EKVILADENTA == KONSTRUKCIJE I PROJEKTOVANJE == additive-only bounded alias pod GRAĐEVINSKI FAKULTET / GRAĐEVINSKI AKT bez novih ruta i bez novog source-of-truth sistema' as const;
+
+export const DEVELOPER_CREATE_KONSTRUKCIJE_I_PROJEKTOVANJE_ROLE_CLASSIFICATION =
+  'additive-only-bounded-construction-design-alias-track' as const;
+
+export const DEVELOPER_CREATE_KONSTRUKCIJE_I_PROJEKTOVANJE_BOUNDED_TOKEN_SEQUENCE = [
+  'DUR',
+  'DJON',
+  'TUR',
+  'ZIM',
+  'UBAR',
+  'DOKOR',
+  'SINGAR',
+  'UKOR',
+  'IOP',
+  'TUR',
+  'UBAR',
+  'SINGOF',
+  'SIGRAD',
+  'OKDEN',
+  'UMAR',
+] as const;
+
+export const DEVELOPER_CREATE_KONSTRUKCIJE_I_PROJEKTOVANJE_FALLBACK_INPUTS = [
+  'NaN',
+  'Infinity',
+  'empty',
+  'conflict',
+  'unknown-token',
+] as const;
+
+export const DEVELOPER_CREATE_KONSTRUKCIJE_I_PROJEKTOVANJE_BLOCKED_FALLBACK_INPUTS =
+  DEVELOPER_CREATE_KONSTRUKCIJE_I_PROJEKTOVANJE_FALLBACK_INPUTS.filter((token) => token === 'conflict');
+
+export const DEVELOPER_CREATE_KONSTRUKCIJE_I_PROJEKTOVANJE_WATCH_FALLBACK_INPUTS =
+  DEVELOPER_CREATE_KONSTRUKCIJE_I_PROJEKTOVANJE_FALLBACK_INPUTS.filter((token) => token !== 'conflict');
+
+export const DEVELOPER_CREATE_KONSTRUKCIJE_I_PROJEKTOVANJE_NORMALIZATION_RULES = {
+  trimWhitespace: true,
+  uppercaseTokens: true,
+  collapseMultipleSpaces: true,
+  keepCanonicalOrder: true,
+  requireExactDuplicateCounts: true,
+  duplicateTokenCounts: {
+    TUR: 2,
+    UBAR: 2,
+  },
   unknownTokenHandling: 'map-to-watch-and-require-review',
   conflictHandling: 'map-to-blocked-and-require-review',
 } as const;
@@ -456,6 +512,9 @@ export const DEVELOPER_CREATE_AUDIO_VISUAL_SCENE_VOCABULARY = [
 export const DEVELOPER_CREATE_SARADNJA_READY_SCOPE_LOCK =
   'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA' as const;
 
+export const DEVELOPER_CREATE_SARADNJA_READY_POSLOVNA_PONUDA_SCOPE_LOCK =
+  'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == POSLOVNA PONUDA' as const;
+
 export const DEVELOPER_CREATE_SARADNJA_READY_BOUNDED_VOCABULARY = [
   'EXTRIMLI',
   'EXTRONDOL',
@@ -490,6 +549,67 @@ export const DEVELOPER_CREATE_SARADNJA_READY_GITHUB_VERCEL_OPERATING_MODEL = {
   secretsBoundary: 'secrets-management-only-no-secrets-in-repository',
 } as const;
 
+export const DEVELOPER_CREATE_SARADNJA_READY_VERCEL_CANONICAL_BUSINESS_MESSAGE = {
+  greeting: 'Pozdravljam kompaniju Vercel.',
+  collaborationProposal:
+    'Šaljem alternativnu poslovnu saradnju da međusobnu pretplatu vršimo preko GitHub-a dok ne uspemo da se međusobno susretnemo.',
+  closing: 'Srdačan pozdrav, Nikola Spajić',
+} as const;
+
+export const DEVELOPER_CREATE_SARADNJA_READY_GITHUB_SUBSCRIPTION_BRIDGE = {
+  mode: 'github-subscription-bridge-until-in-person-meeting',
+  additiveOnly: true,
+  noNewRuntimeRoutes: true,
+  noParallelSourceOfTruth: true,
+  activationCriteria: [
+    'contract-approval',
+    'compliance-review',
+    'human-review',
+    'payment-verification',
+    'downstream-reference',
+  ],
+  deactivationCriteria: ['in-person-meeting-confirmed', 'freeze-or-rollback-active'],
+  communicationStatusLanguage: ['READY', 'WATCH', 'BLOCKED'],
+} as const;
+
+export const DEVELOPER_CREATE_SARADNJA_READY_WAWE_ALIGNMENT_LOCK = {
+  mandatoryOrder: [
+    'wawe-1-pre-release-validation',
+    'wawe-2-build-and-staging',
+    'wawe-3-downstream-sync',
+    'wawe-4-progressive-rollout',
+    'wawe-5-resilience-and-final-audit',
+  ],
+  skipForbidden: true,
+} as const;
+
+export const DEVELOPER_CREATE_SARADNJA_READY_AUDIT_FIELDS_LOCK = [
+  'roadmapStageId',
+  'measurableOutput',
+  'acceptanceEvidence',
+  'rolloutPlan',
+  'rollbackPlan',
+  'humanReviewStatus',
+  'downstreamReference',
+] as const;
+
+export const DEVELOPER_CREATE_SARADNJA_READY_COMMUNICATION_FORMAT_LOCK = {
+  statusLanguage: ['READY', 'WATCH', 'BLOCKED'],
+  requiredSignals: ['blocker-reason', 'review-posture'],
+} as const;
+
+export const DEVELOPER_CREATE_SARADNJA_READY_CROSS_REPO_BOUNDARY_LOCK = {
+  linkedRepo: 'spaja86/IO-OPENUI-AO',
+  syncMode: 'summary-only',
+  rawExtremExtrondolFormulasStayRepoLocal: true,
+  internalCommercialScoringStaysRepoLocal: true,
+} as const;
+
+export const DEVELOPER_CREATE_SARADNJA_READY_FINAL_PACKAGE_LOCK = {
+  outputType: 'single-audit-ready-business-package-for-vercel',
+  governanceModel: 'existing-extrimli-extrondol-extrem',
+} as const;
+
 export const DEVELOPER_CREATE_SARADNJA_READY_QUALITY_GATES = {
   mandatoryHumanReviewBeforePromotion: true,
   statusLanguage: ['READY', 'WATCH', 'BLOCKED'],
@@ -502,6 +622,7 @@ export const DEVELOPER_CREATE_SARADNJA_READY_PACKAGE = {
   packageLock: 'single-manifest-roadmap-phases-acceptance-criteria',
   standardizedAuditSummaryForEachChange: true,
   signature: 'Srdačan pozdrav, Nikola Spajić',
+  mandatoryAuditFields: DEVELOPER_CREATE_SARADNJA_READY_AUDIT_FIELDS_LOCK,
 } as const;
 
 export const DEVELOPER_CREATE_PROJECT_GRADATION_SCOPE_LOCK =

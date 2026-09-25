@@ -226,6 +226,7 @@ const DEVELOPER_CREATE_ROADMAP_ACCEPTANCE_EVIDENCE_BASE = [
   'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.notes1450Track',
   'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.radniProstorTrack',
   'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.aiIqLaboratorijaTrack',
+  'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.konstrukcijeIProjektovanjeTrack',
   'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.aiIqKonferencijaZaStampuTrack',
   'spajaKod.publicSignals.developerAndCreateStatus',
   'spajaKod.publicSignals.developerAndCreateAudioVisualStatus',
@@ -236,6 +237,7 @@ const DEVELOPER_CREATE_ROADMAP_ACCEPTANCE_EVIDENCE_BASE = [
   'spajaKod.publicSignals.notes1450Status',
   'spajaKod.publicSignals.radniProstorStatus',
   'spajaKod.publicSignals.aiIqLaboratorijaStatus',
+  'spajaKod.publicSignals.konstrukcijeIProjektovanjeStatus',
   'spajaKod.publicSignals.aiIqKonferencijaZaStampuStatus',
   'spajaKod.publicSignals.aiPlateStatus',
 ] as const;
@@ -261,6 +263,7 @@ const DEVELOPER_CREATE_GOVERNANCE_ACCEPTANCE_EVIDENCE: ExtrimliExtrondolReport['
   'developerAndCreateRepoWideReflection.notes1450Track',
   'developerAndCreateRepoWideReflection.radniProstorTrack',
   'developerAndCreateRepoWideReflection.aiIqLaboratorijaTrack',
+  'developerAndCreateRepoWideReflection.konstrukcijeIProjektovanjeTrack',
   'developerAndCreateRepoWideReflection.aiIqKonferencijaZaStampuTrack',
   'spajaKod.publicSignals.developerAndCreateStatus',
   'spajaKod.publicSignals.developerAndCreateAudioVisualStatus',
@@ -271,6 +274,7 @@ const DEVELOPER_CREATE_GOVERNANCE_ACCEPTANCE_EVIDENCE: ExtrimliExtrondolReport['
   'spajaKod.publicSignals.notes1450Status',
   'spajaKod.publicSignals.radniProstorStatus',
   'spajaKod.publicSignals.aiIqLaboratorijaStatus',
+  'spajaKod.publicSignals.konstrukcijeIProjektovanjeStatus',
   'spajaKod.publicSignals.aiIqKonferencijaZaStampuStatus',
   'spajaKod.publicSignals.aiPlateStatus',
 ];
@@ -3145,6 +3149,7 @@ function buildSpajaKodFacade(params: {
   notes1450Status: ExtrimliExtrondolReport['extremProfiler']['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['notes1450Track']['readinessSignal']['status'];
   radniProstorStatus: ExtrimliExtrondolReport['extremProfiler']['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['radniProstorTrack']['readinessSignal']['status'];
   aiIqLaboratorijaStatus: ExtrimliExtrondolReport['extremProfiler']['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['aiIqLaboratorijaTrack']['readinessSignal']['status'];
+  konstrukcijeIProjektovanjeStatus: ExtrimliExtrondolReport['extremProfiler']['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['konstrukcijeIProjektovanjeTrack']['readinessSignal']['status'];
   aiIqKonferencijaZaStampuStatus: ExtrimliExtrondolReport['extremProfiler']['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['aiIqKonferencijaZaStampuTrack']['readinessSignal']['status'];
   aiPlateStatus: ExtrimliExtrondolReport['extremProfiler']['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['aiPlateOffer']['boundedReadinessProfile']['consolidatedStatus'];
   aiPlateEnterprisePackageStatus: ExtrimliExtrondolReport['releaseAuditSummary']['aiPlateEnterprisePackageGovernance']['status'];
@@ -3269,6 +3274,7 @@ function buildSpajaKodFacade(params: {
       notes1450Status: params.notes1450Status,
       radniProstorStatus: params.radniProstorStatus,
       aiIqLaboratorijaStatus: params.aiIqLaboratorijaStatus,
+      konstrukcijeIProjektovanjeStatus: params.konstrukcijeIProjektovanjeStatus,
       aiIqKonferencijaZaStampuStatus: params.aiIqKonferencijaZaStampuStatus,
       developerAndCreateStatus: params.developerAndCreateStatus,
       developerAndCreateImplementationStatus,
@@ -3366,6 +3372,7 @@ function buildSpajaKodFacade(params: {
         'publicSignals.notes1450Status',
         'publicSignals.radniProstorStatus',
         'publicSignals.aiIqLaboratorijaStatus',
+        'publicSignals.konstrukcijeIProjektovanjeStatus',
         'publicSignals.aiIqKonferencijaZaStampuStatus',
         'publicSignals.napoleonDiskaveriStatus',
         'publicSignals.kraljevskiPravniUniverzitetStatus',
@@ -3389,6 +3396,7 @@ function buildSpajaKodFacade(params: {
         'developerAndCreateImplementationPackage.notes1450Summary',
         'developerAndCreateImplementationPackage.radniProstorSummary',
         'developerAndCreateImplementationPackage.aiIqLaboratorijaSummary',
+        'developerAndCreateImplementationPackage.konstrukcijeIProjektovanjeSummary',
         'developerAndCreateImplementationPackage.aiIqKonferencijaZaStampuSummary',
         'developerAndCreateImplementationPackage.napoleonDiskaveriSummary',
         'epilogijaCovecnosti.packageOutputs',
@@ -3547,6 +3555,29 @@ function buildSpajaKodFacade(params: {
         publicBoundary: 'audit-safe-summary-only',
         nalazSummary:
           params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.aiIqLaboratorijaTrack.nalazSummary,
+      konstrukcijeIProjektovanjeSummary: {
+        canonicalAlias:
+          params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.konstrukcijeIProjektovanjeTrack.canonicalAlias,
+        roleClassification:
+          params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.konstrukcijeIProjektovanjeTrack.roleClassification,
+        status:
+          params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.konstrukcijeIProjektovanjeTrack.readinessSignal.status,
+        blockerReason:
+          params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.konstrukcijeIProjektovanjeTrack.blockerReason,
+        watchReasons: [
+          ...params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.konstrukcijeIProjektovanjeTrack.watchReasons,
+        ],
+        reviewPosture:
+          params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.konstrukcijeIProjektovanjeTrack.reviewPosture,
+        downstreamReference:
+          params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.konstrukcijeIProjektovanjeTrack.downstreamReference,
+        publicBoundary: 'audit-safe-summary-only',
+        constructionDesignSummary:
+          params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.konstrukcijeIProjektovanjeTrack.constructionDesignSummary,
+        gradjevinskiFakultetStatus:
+          params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.konstrukcijeIProjektovanjeTrack.readinessSignal.gradjevinskiFakultetStatus,
+        gradjevinskiAktStatus:
+          params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.konstrukcijeIProjektovanjeTrack.readinessSignal.gradjevinskiAktStatus,
       },
       aiIqKonferencijaZaStampuSummary: {
         canonicalAlias: DEVELOPER_CREATE_AI_IQ_KONFERENCIJA_ZA_STAMPU_CANONICAL_ALIAS,
@@ -5960,6 +5991,8 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
       extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.radniProstorTrack.readinessSignal.status,
     aiIqLaboratorijaStatus:
       extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.aiIqLaboratorijaTrack.readinessSignal.status,
+    konstrukcijeIProjektovanjeStatus:
+      extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.konstrukcijeIProjektovanjeTrack.readinessSignal.status,
     aiIqKonferencijaZaStampuStatus:
       extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.aiIqKonferencijaZaStampuTrack.readinessSignal.status,
     aiPlateStatus: extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.aiPlateOffer.boundedReadinessProfile.consolidatedStatus,
@@ -7871,6 +7904,31 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
           'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.aiIqLaboratorijaTrack',
           'spajaKod.publicSignals.aiIqLaboratorijaStatus',
           'spajaKod.developerAndCreateImplementationPackage.aiIqLaboratorijaSummary',
+      konstrukcijeIProjektovanjeTrack: {
+        ...extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.konstrukcijeIProjektovanjeTrack,
+        sourceOfTruth: '/api/extrimli/extrem',
+        governanceSource: '/api/extrimli/extrondol',
+        publicBoundary: '/api/extrimli/spaja-kod',
+        currentWave: currentWawe,
+        eligibleNextWave: eligibleNextWave,
+        promotionFreeze:
+          promotionFreeze
+          || extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.konstrukcijeIProjektovanjeTrack.readinessSignal.status !== 'READY',
+        reviewRequiredBeforeWideRollout:
+          extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.konstrukcijeIProjektovanjeTrack.readinessSignal.status !== 'READY'
+          || extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.konstrukcijeIProjektovanjeTrack.reviewPosture === 'REVIEW_REQUIRED',
+        reviewPosture:
+          extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.konstrukcijeIProjektovanjeTrack.reviewPosture,
+        rolloutPlan:
+          'Advance KONSTRUKCIJE I PROJEKTOVANJE only as an additive-only bounded construction/design alias through existing GRAĐEVINSKI FAKULTET readiness, GRAĐEVINSKI AKT governance, EXTREM technical ownership, EXTRONDOL WAWE governance, and SPAJA KOD summary-safe outputs.',
+        rollbackPlan:
+          'Freeze promotion and fall back to the previously verified Developer/Create package if the bounded construction/design vocabulary, gradjevinski domain readiness, or summary-only downstream contract drifts.',
+        humanReviewStatus: 'required-before-promotion',
+        acceptanceEvidence: [
+          'developerAndCreateRepoWideReflection.konstrukcijeIProjektovanjeTrack',
+          'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.konstrukcijeIProjektovanjeTrack',
+          'spajaKod.publicSignals.konstrukcijeIProjektovanjeStatus',
+          'spajaKod.developerAndCreateImplementationPackage.konstrukcijeIProjektovanjeSummary',
         ],
         downstreamReference: 'docs/MULTI-REPO-LINKS.md -> spaja86/IO-OPENUI-AO (summary-only)',
       },

@@ -175,6 +175,8 @@ async function runTests(): Promise<void> {
       report.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.radniProstorTrack;
     const aiIqLaboratorijaTrack =
       report.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.aiIqLaboratorijaTrack;
+    const konstrukcijeIProjektovanjeTrack =
+      report.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.konstrukcijeIProjektovanjeTrack;
     const aiIqKonferencijaZaStampuTrack =
       report.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.aiIqKonferencijaZaStampuTrack;
     assert(implementationPackage.sourceOfTruthRoutes.join(',') === '/api/extrimli/extrem,/api/extrimli/extrondol,/api/extrimli/spaja-kod', 'developer/create implementation package source routes mismatch');
@@ -270,6 +272,14 @@ async function runTests(): Promise<void> {
     assert(aiIqLaboratorijaTrack.summarySafePublicFields.join(',') === 'canonicalAlias,status,blockerReason,watchReasons,reviewPosture,downstreamReference,nalazSummary', 'developer/create AI IQ LABORATORIJA summary-safe fields mismatch');
     assert(implementationPackage.aiIqLaboratorijaBoundary.trackRole === 'bounded-ai-iq-laboratorija-evidence-track', 'developer/create implementation package AI IQ LABORATORIJA boundary role mismatch');
     assert(implementationPackage.aiIqLaboratorijaBoundary.noNewRuntimeRoutes, 'developer/create implementation package AI IQ LABORATORIJA boundary must forbid new runtime routes');
+    assert(konstrukcijeIProjektovanjeTrack.canonicalAlias === 'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == KONSTRUKCIJE I PROJEKTOVANJE', 'developer/create KONSTRUKCIJE I PROJEKTOVANJE canonical alias mismatch');
+    assert(konstrukcijeIProjektovanjeTrack.roleClassification === 'additive-only-bounded-construction-design-alias-track', 'developer/create KONSTRUKCIJE I PROJEKTOVANJE role classification mismatch');
+    assert(konstrukcijeIProjektovanjeTrack.boundedTokenSequence.join(',') === 'DUR,DJON,TUR,ZIM,UBAR,DOKOR,SINGAR,UKOR,IOP,TUR,UBAR,SINGOF,SIGRAD,OKDEN,UMAR', 'developer/create KONSTRUKCIJE I PROJEKTOVANJE token sequence mismatch');
+    assert(konstrukcijeIProjektovanjeTrack.parentDomain === 'GRAĐEVINSKI FAKULTET / GRAĐEVINSKI AKT', 'developer/create KONSTRUKCIJE I PROJEKTOVANJE parent domain mismatch');
+    assert(['READY', 'WATCH', 'BLOCKED'].includes(konstrukcijeIProjektovanjeTrack.readinessSignal.status), 'developer/create KONSTRUKCIJE I PROJEKTOVANJE status mismatch');
+    assert(konstrukcijeIProjektovanjeTrack.summarySafePublicFields.join(',') === 'canonicalAlias,status,blockerReason,watchReasons,reviewPosture,downstreamReference,constructionDesignSummary,gradjevinskiFakultetStatus,gradjevinskiAktStatus', 'developer/create KONSTRUKCIJE I PROJEKTOVANJE summary-safe fields mismatch');
+    assert(['READY', 'WATCH', 'BLOCKED'].includes(konstrukcijeIProjektovanjeTrack.readinessSignal.gradjevinskiFakultetStatus), 'developer/create KONSTRUKCIJE I PROJEKTOVANJE gradjevinski fakultet status mismatch');
+    assert(['READY', 'WATCH', 'BLOCKED'].includes(konstrukcijeIProjektovanjeTrack.readinessSignal.gradjevinskiAktStatus), 'developer/create KONSTRUKCIJE I PROJEKTOVANJE gradjevinski akt status mismatch');
     assert(report.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.technicalReadinessProfile.immersiveVisualization3dTrack.dimensionalProgression.join(',') === '360D,720D,1440D,2880D,5760D', 'developer/create immersive dimensional progression mismatch');
     assert(report.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.technicalReadinessProfile.immersiveVisualization3dTrack.fallbackPolicy.degradedMode === 'partial-payload-no-500', 'developer/create immersive degraded policy mismatch');
     assert(report.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.technicalReadinessProfile.immersiveVisualization3dTrack.dimensionalSignals.length === 5, 'developer/create immersive dimensional signals mismatch');
@@ -310,6 +320,25 @@ async function runTests(): Promise<void> {
     assert(reflection.reviewPosture === 'ALIGNED', 'Sarkazam helper READY review posture mismatch');
     assert(reflection.oblastCinSummary.oblastStatus === 'READY', 'Sarkazam helper READY oblast status mismatch');
     assert(reflection.oblastCinSummary.cinStatus === 'READY', 'Sarkazam helper READY čin status mismatch');
+  });
+
+  await test('KONSTRUKCIJE I PROJEKTOVANJE duplicate mismatches degrade to WATCH', async () => {
+    await withEnv(
+      {
+        NODE_ENV: 'test',
+        EXTRIMLI_KONSTRUKCIJE_I_PROJEKTOVANJE_TOKEN_INPUT:
+          'DUR,DJON,TUR,ZIM,UBAR,DOKOR,SINGAR,UKOR,IOP,TUR,ZIM,SINGOF,SIGRAD,OKDEN,UMAR',
+      },
+      () => {
+        const report = getExtrimliExtremProfilerReport();
+        const track =
+          report.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.konstrukcijeIProjektovanjeTrack;
+
+        assert(track.readinessSignal.status !== 'READY', 'duplicate mismatch should prevent READY status for KONSTRUKCIJE I PROJEKTOVANJE');
+        assert(track.readinessSignal.tokenCoveragePercent < 100, 'duplicate mismatch should reduce KONSTRUKCIJE I PROJEKTOVANJE token coverage');
+        assert(track.readinessSignal.deterministicFallbackRequired, 'duplicate mismatch should require deterministic fallback');
+      },
+    );
   });
 
   await test('Sarkazam helper resolves WATCH with fallback-aware review messaging when bounded sources degrade softly', () => {

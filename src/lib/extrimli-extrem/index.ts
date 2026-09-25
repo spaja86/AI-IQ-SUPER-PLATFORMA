@@ -26,6 +26,14 @@ import {
   DEVELOPER_CREATE_AI_IQ_LABORATORIJA_NORMALIZATION_RULES,
   DEVELOPER_CREATE_AI_IQ_LABORATORIJA_ROLE_CLASSIFICATION,
   DEVELOPER_CREATE_AI_IQ_LABORATORIJA_SCOPE_STATEMENT,
+  DEVELOPER_CREATE_KONSTRUKCIJE_I_PROJEKTOVANJE_BOUNDED_TOKEN_SEQUENCE,
+  DEVELOPER_CREATE_KONSTRUKCIJE_I_PROJEKTOVANJE_BLOCKED_FALLBACK_INPUTS,
+  DEVELOPER_CREATE_KONSTRUKCIJE_I_PROJEKTOVANJE_CANONICAL_ALIAS,
+  DEVELOPER_CREATE_KONSTRUKCIJE_I_PROJEKTOVANJE_FALLBACK_INPUTS,
+  DEVELOPER_CREATE_KONSTRUKCIJE_I_PROJEKTOVANJE_NORMALIZATION_RULES,
+  DEVELOPER_CREATE_KONSTRUKCIJE_I_PROJEKTOVANJE_ROLE_CLASSIFICATION,
+  DEVELOPER_CREATE_KONSTRUKCIJE_I_PROJEKTOVANJE_SCOPE_STATEMENT,
+  DEVELOPER_CREATE_KONSTRUKCIJE_I_PROJEKTOVANJE_WATCH_FALLBACK_INPUTS,
   DEVELOPER_CREATE_NOTES_1450_BOUNDED_SIGNALS,
   DEVELOPER_CREATE_NOTES_1450_CANONICAL_ALIAS,
   DEVELOPER_CREATE_NOTES_1450_ROLE_CLASSIFICATION,
@@ -7024,6 +7032,12 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
         domainTracks: DEVELOPER_CREATE_AI_IQ_LABORATORIJA_DOMAIN_TRACKS,
         boundedTokenSequence: DEVELOPER_CREATE_AI_IQ_LABORATORIJA_BOUNDED_TOKEN_SEQUENCE,
         normalizationRules: DEVELOPER_CREATE_AI_IQ_LABORATORIJA_NORMALIZATION_RULES,
+      konstrukcijeIProjektovanjeTrack: {
+        canonicalAlias: DEVELOPER_CREATE_KONSTRUKCIJE_I_PROJEKTOVANJE_CANONICAL_ALIAS,
+        scopeStatement: DEVELOPER_CREATE_KONSTRUKCIJE_I_PROJEKTOVANJE_SCOPE_STATEMENT,
+        roleClassification: DEVELOPER_CREATE_KONSTRUKCIJE_I_PROJEKTOVANJE_ROLE_CLASSIFICATION,
+        boundedTokenSequence: DEVELOPER_CREATE_KONSTRUKCIJE_I_PROJEKTOVANJE_BOUNDED_TOKEN_SEQUENCE,
+        normalizationRules: DEVELOPER_CREATE_KONSTRUKCIJE_I_PROJEKTOVANJE_NORMALIZATION_RULES,
         boundedVocabularyPhrase: 'EXTRIMLI EXTRONDOL EXTREM DOK DUK DAK DIK FOR',
         additiveOnly: true,
         noNewRuntimeEngine: true,
@@ -7035,6 +7049,7 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
           dakDuk: 'EXTRONDOL',
           spajaKod: 'audit-safe-summary-only',
         },
+        parentDomain: 'GRAĐEVINSKI FAKULTET / GRAĐEVINSKI AKT',
         summarySafePublicFields: [
           'canonicalAlias',
           'status',
@@ -7043,6 +7058,9 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
           'reviewPosture',
           'downstreamReference',
           'nalazSummary',
+          'constructionDesignSummary',
+          'gradjevinskiFakultetStatus',
+          'gradjevinskiAktStatus',
         ],
         readinessSignal: {
           status: 'BLOCKED',
@@ -7074,6 +7092,24 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
           'spajaKod.developerAndCreateImplementationPackage.aiIqLaboratorijaSummary',
         ],
         nalazSummary: '',
+          gradjevinskiFakultetStatus: 'BLOCKED',
+          gradjevinskiAktStatus: 'BLOCKED',
+          tokenCoveragePercent: 0,
+          normalizedInputCount: 0,
+          deterministicFallbackRequired: true,
+          fallbackInputs: DEVELOPER_CREATE_KONSTRUKCIJE_I_PROJEKTOVANJE_FALLBACK_INPUTS,
+          driver:
+            'developerAndCreateRepoWideReflection.kraljevskiProgramskiUneverzitet.boundedFacultyDomains.gradjevinskiFakultet + developerAndCreateRepoWideReflection.kraljevskiDrustveniPoredak.gradjevinskiAkt + developerAndCreateRepoWideReflection.readiness',
+        },
+        blockerReason: 'konstrukcije-i-projektovanje-track-awaits-gradjevinski-readiness-token-lock-and-governance-alignment',
+        watchReasons: [],
+        reviewPosture: 'REVIEW_REQUIRED',
+        constructionDesignSummary: '',
+        domainBinding: {
+          boundedFacultyDomain: 'GRAĐEVINSKI FAKULTET',
+          boundedGovernanceDomain: 'GRAĐEVINSKI AKT',
+          noNewRuntimeFormulas: true,
+        },
         downstreamReference: 'docs/MULTI-REPO-LINKS.md -> spaja86/IO-OPENUI-AO (summary-only)',
       },
       aiIqKonferencijaZaStampuTrack: {
@@ -7148,6 +7184,7 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
         sarkazamPrivrednaGranaDigitalizma: 'SARKAZAM / PRIVREDNA GRANA DIGITALIZMA / PROJEKTI ENTUZIJAZMA PO ČINU OBLASTIMA',
         aiIqKonferencijaZaStampu: 'AI IQ KONFERENCIJA ZA ŠTAMPU (NOVINE, DIGITALNE NOVINE)',
         radniProstor: 'RADNI PROSTOR',
+        konstrukcijeIProjektovanje: 'KONSTRUKCIJE I PROJEKTOVANJE',
         notes1450: 'NOTES 1450',
       },
       canonicalGovernanceVocabulary: {
@@ -7183,6 +7220,7 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
         digitalnaIndustrija: 'DIGITALNA INDUSTRIJA',
         sarkazam: 'SARKAZAM',
         radniProstor: 'RADNI PROSTOR',
+        konstrukcijeIProjektovanje: 'KONSTRUKCIJE I PROJEKTOVANJE',
         privrednaGranaDigitalizma: 'PRIVREDNA GRANA DIGITALIZMA',
         projektiEntuzijazmaPoCinuOblastima: 'PROJEKTI ENTUZIJAZMA PO ČINU OBLASTIMA',
         aiIqKonferencijaZaStampu: 'AI IQ KONFERENCIJA ZA ŠTAMPU',
@@ -11027,6 +11065,16 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
       extrondolPublishes: 'wawe-freeze-promotion-review-rollback-audit-summary-only',
       spajaKodPublishes: 'status-blocker-review-downstream-and-nalaz-summary-only',
       technicalBinding: 'developerAndCreateRepoWideReflection.aiIqLaboratorijaTrack',
+    konstrukcijeIProjektovanjeBoundary: {
+      trackRole: 'bounded-construction-design-alias-track',
+      parentTrack: 'VRH PROGRAMSKOG EKVILADENTA',
+      canonicalAlias: DEVELOPER_CREATE_KONSTRUKCIJE_I_PROJEKTOVANJE_CANONICAL_ALIAS,
+      roleClassification: DEVELOPER_CREATE_KONSTRUKCIJE_I_PROJEKTOVANJE_ROLE_CLASSIFICATION,
+      parentDomain: 'GRAĐEVINSKI FAKULTET / GRAĐEVINSKI AKT',
+      extremPublishes: 'status-token-coverage-gradjevinski-readiness-and-deterministic-fallback-signal-only',
+      extrondolPublishes: 'wawe-freeze-promotion-review-rollback-audit-summary-only',
+      spajaKodPublishes: 'status-blocker-review-downstream-and-construction-design-summary-only',
+      technicalBinding: 'developerAndCreateRepoWideReflection.konstrukcijeIProjektovanjeTrack',
       noNewRuntimeEngine: true,
       noNewRuntimeRoutes: true,
       noParallelSourceOfTruth: true,
@@ -11395,6 +11443,29 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
       normalizedToken = normalizedToken.replace(/\s+/g, ' ');
     }
     if (aiIqLaboratorijaTrack.normalizationRules.uppercaseTokens) {
+  const konstrukcijeIProjektovanjeTrack =
+    dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.konstrukcijeIProjektovanjeTrack;
+  const konstrukcijeIProjektovanjeRuntimeTokenInput =
+    process.env.NODE_ENV === 'test'
+      ? process.env.EXTRIMLI_KONSTRUKCIJE_I_PROJEKTOVANJE_TOKEN_INPUT
+      : undefined;
+  const konstrukcijeIProjektovanjeObservedTokens =
+    konstrukcijeIProjektovanjeRuntimeTokenInput
+    && konstrukcijeIProjektovanjeRuntimeTokenInput.trim().length > 0
+      ? konstrukcijeIProjektovanjeRuntimeTokenInput
+          .split(',')
+          .map((token) => token.trim())
+          .filter((token) => token.length > 0)
+      : [...konstrukcijeIProjektovanjeTrack.boundedTokenSequence];
+  const normalizeKonstrukcijeIProjektovanjeToken = (token: string): string => {
+    let normalizedToken = token;
+    if (konstrukcijeIProjektovanjeTrack.normalizationRules.trimWhitespace) {
+      normalizedToken = normalizedToken.trim();
+    }
+    if (konstrukcijeIProjektovanjeTrack.normalizationRules.collapseMultipleSpaces) {
+      normalizedToken = normalizedToken.replace(/\s+/g, ' ');
+    }
+    if (konstrukcijeIProjektovanjeTrack.normalizationRules.uppercaseTokens) {
       normalizedToken = normalizedToken.toUpperCase();
     }
     return normalizedToken;
@@ -11475,6 +11546,148 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
         : 'REVIEW_REQUIRED';
   aiIqLaboratorijaTrack.nalazSummary =
     'AI IQ LABORATORIJA ostaje additive-only bounded laboratorijski sloj: AI IQ LABORATORIJA je krovni audit/evidence kontekst, FAUNA I FLORA i GRAĐEVINSKI MATERIJAL ostaju bounded evidencioni domeni, a SPAJA KOD vidi samo summary-safe readiness, blocker/watch razlog i downstream referencu.';
+  const normalizedKonstrukcijeIProjektovanjeTokens =
+    konstrukcijeIProjektovanjeObservedTokens.map(normalizeKonstrukcijeIProjektovanjeToken);
+  const normalizedExpectedKonstrukcijeIProjektovanjeTokens =
+    DEVELOPER_CREATE_KONSTRUKCIJE_I_PROJEKTOVANJE_BOUNDED_TOKEN_SEQUENCE.map(
+      normalizeKonstrukcijeIProjektovanjeToken,
+    );
+  const konstrukcijeIProjektovanjeHasExactTokenLength =
+    normalizedKonstrukcijeIProjektovanjeTokens.length === normalizedExpectedKonstrukcijeIProjektovanjeTokens.length;
+  const konstrukcijeIProjektovanjeMatchedTokenCount = konstrukcijeIProjektovanjeHasExactTokenLength
+    ? normalizedExpectedKonstrukcijeIProjektovanjeTokens.reduce(
+        (count, expectedToken, index) =>
+          count + (normalizedKonstrukcijeIProjektovanjeTokens[index] === expectedToken ? 1 : 0),
+        0,
+      )
+    : 0;
+  const konstrukcijeIProjektovanjeDuplicateTokenEntries = Object.entries(
+    konstrukcijeIProjektovanjeTrack.normalizationRules.duplicateTokenCounts ?? {},
+  );
+  const konstrukcijeIProjektovanjeObservedTokenCounts = normalizedKonstrukcijeIProjektovanjeTokens.reduce<
+    Record<string, number>
+  >((counts, token) => {
+    counts[token] = (counts[token] ?? 0) + 1;
+    return counts;
+  }, {});
+  const konstrukcijeIProjektovanjeDuplicateMatchCount = konstrukcijeIProjektovanjeDuplicateTokenEntries.reduce(
+    (count, [token, expectedCount]) =>
+      count
+      + Number(
+        (konstrukcijeIProjektovanjeObservedTokenCounts[normalizeKonstrukcijeIProjektovanjeToken(token)] ?? 0)
+          === expectedCount,
+      ),
+    0,
+  );
+  const konstrukcijeIProjektovanjeDuplicateCountsSatisfied =
+    !konstrukcijeIProjektovanjeTrack.normalizationRules.requireExactDuplicateCounts
+    || konstrukcijeIProjektovanjeDuplicateTokenEntries.length === 0
+    || konstrukcijeIProjektovanjeDuplicateMatchCount === konstrukcijeIProjektovanjeDuplicateTokenEntries.length;
+  const konstrukcijeIProjektovanjeDuplicateMismatchCount =
+    konstrukcijeIProjektovanjeTrack.normalizationRules.requireExactDuplicateCounts
+    && konstrukcijeIProjektovanjeDuplicateTokenEntries.length > 0
+      ? konstrukcijeIProjektovanjeDuplicateTokenEntries.reduce(
+          (count, [token, expectedCount]) =>
+            count
+            + Math.abs(
+              (konstrukcijeIProjektovanjeObservedTokenCounts[normalizeKonstrukcijeIProjektovanjeToken(token)] ?? 0)
+              - expectedCount,
+            ),
+          0,
+        )
+      : 0;
+  const konstrukcijeIProjektovanjeEffectiveMatchedTokenCount = Math.max(
+    0,
+    konstrukcijeIProjektovanjeMatchedTokenCount - konstrukcijeIProjektovanjeDuplicateMismatchCount,
+  );
+  const konstrukcijeIProjektovanjeTokenDenominator =
+    normalizedExpectedKonstrukcijeIProjektovanjeTokens.length || 1;
+  let konstrukcijeIProjektovanjeTokenCoveragePercent = round(
+    (konstrukcijeIProjektovanjeEffectiveMatchedTokenCount / konstrukcijeIProjektovanjeTokenDenominator) * 100,
+    2,
+  );
+  if (!konstrukcijeIProjektovanjeDuplicateCountsSatisfied && konstrukcijeIProjektovanjeTokenCoveragePercent >= 100) {
+    konstrukcijeIProjektovanjeTokenCoveragePercent = 99;
+  }
+  const konstrukcijeIProjektovanjeNormalizedConflictTokenInputs =
+    DEVELOPER_CREATE_KONSTRUKCIJE_I_PROJEKTOVANJE_BLOCKED_FALLBACK_INPUTS.map(
+      normalizeKonstrukcijeIProjektovanjeToken,
+    );
+  const konstrukcijeIProjektovanjeNormalizedWatchFallbackInputs =
+    DEVELOPER_CREATE_KONSTRUKCIJE_I_PROJEKTOVANJE_WATCH_FALLBACK_INPUTS.map(
+      normalizeKonstrukcijeIProjektovanjeToken,
+    );
+  const konstrukcijeIProjektovanjeContainsWatchFallbackToken = normalizedKonstrukcijeIProjektovanjeTokens.some((token) =>
+    konstrukcijeIProjektovanjeNormalizedWatchFallbackInputs.includes(token),
+  );
+  const konstrukcijeIProjektovanjeContainsConflictToken = normalizedKonstrukcijeIProjektovanjeTokens.some((token) =>
+    konstrukcijeIProjektovanjeNormalizedConflictTokenInputs.includes(token),
+  );
+  const konstrukcijeIProjektovanjeTokenInputStatus =
+    konstrukcijeIProjektovanjeContainsConflictToken
+      ? 'BLOCKED'
+      : konstrukcijeIProjektovanjeContainsWatchFallbackToken
+        ? 'WATCH'
+          : konstrukcijeIProjektovanjeTokenCoveragePercent === 100 && konstrukcijeIProjektovanjeDuplicateCountsSatisfied
+          ? 'READY'
+          : konstrukcijeIProjektovanjeTokenCoveragePercent >= 70
+            ? 'WATCH'
+            : 'BLOCKED';
+  const gradjevinskiFakultetStatus =
+    dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.kraljevskiProgramskiUneverzitet
+      .boundedFacultyDomains.gradjevinskiFakultet.readiness.status;
+  const gradjevinskiAktStatus =
+    dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.kraljevskiDrustveniPoredak.gradjevinskiAkt
+      .readiness.status;
+  const konstrukcijeIProjektovanjeSignalStatuses = [
+    dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.status,
+    dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.technicalReadinessProfile
+      .consolidatedRhythmStatus,
+    gradjevinskiFakultetStatus,
+    gradjevinskiAktStatus,
+    konstrukcijeIProjektovanjeTokenInputStatus,
+  ] as const;
+  const konstrukcijeIProjektovanjeStatus = aggregateReadinessStatus([
+    ...konstrukcijeIProjektovanjeSignalStatuses,
+  ]);
+  const konstrukcijeIProjektovanjeReadinessScore = round(
+    konstrukcijeIProjektovanjeSignalStatuses.reduce((sum, status) => sum + readinessStatusScore(status), 0)
+      / konstrukcijeIProjektovanjeSignalStatuses.length,
+    2,
+  );
+  const konstrukcijeIProjektovanjeDeterministicFallbackRequired =
+    konstrukcijeIProjektovanjeStatus !== 'READY'
+    || konstrukcijeIProjektovanjeContainsConflictToken
+    || konstrukcijeIProjektovanjeContainsWatchFallbackToken
+    || dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.deterministicFallbackRequired;
+  konstrukcijeIProjektovanjeTrack.readinessSignal.status = konstrukcijeIProjektovanjeStatus;
+  konstrukcijeIProjektovanjeTrack.readinessSignal.readinessScore = konstrukcijeIProjektovanjeReadinessScore;
+  konstrukcijeIProjektovanjeTrack.readinessSignal.gradjevinskiFakultetStatus = gradjevinskiFakultetStatus;
+  konstrukcijeIProjektovanjeTrack.readinessSignal.gradjevinskiAktStatus = gradjevinskiAktStatus;
+  konstrukcijeIProjektovanjeTrack.readinessSignal.tokenCoveragePercent =
+    konstrukcijeIProjektovanjeTokenCoveragePercent;
+  konstrukcijeIProjektovanjeTrack.readinessSignal.normalizedInputCount =
+    normalizedKonstrukcijeIProjektovanjeTokens.length;
+  konstrukcijeIProjektovanjeTrack.readinessSignal.deterministicFallbackRequired =
+    konstrukcijeIProjektovanjeDeterministicFallbackRequired;
+  konstrukcijeIProjektovanjeTrack.blockerReason =
+    konstrukcijeIProjektovanjeStatus === 'BLOCKED'
+      ? 'KONSTRUKCIJE I PROJEKTOVANJE ostaje BLOCKED dok bounded konstrukcijsko-projektantski token lock, GRAĐEVINSKI FAKULTET signal i GRAĐEVINSKI AKT governance spremnost ne ostanu potpuno poravnati bez unknown/conflict fallback-a.'
+      : null;
+  konstrukcijeIProjektovanjeTrack.watchReasons =
+    konstrukcijeIProjektovanjeStatus === 'WATCH'
+      ? [
+          'KONSTRUKCIJE I PROJEKTOVANJE ostaje u WATCH režimu dok bounded konstrukcijsko-projektantski rečnik, GRAĐEVINSKI FAKULTET / GRAĐEVINSKI AKT signal i summary-only boundary još traže dodatni review.',
+        ]
+      : [];
+  konstrukcijeIProjektovanjeTrack.reviewPosture =
+    konstrukcijeIProjektovanjeStatus === 'READY'
+      ? 'ALIGNED'
+      : konstrukcijeIProjektovanjeStatus === 'WATCH'
+        ? 'WATCH'
+        : 'REVIEW_REQUIRED';
+  konstrukcijeIProjektovanjeTrack.constructionDesignSummary =
+    'KONSTRUKCIJE I PROJEKTOVANJE ostaje additive-only bounded građevinsko-projektantska traka: EXTREM drži DOK/DIK/FOR readiness i signal vezu sa GRAĐEVINSKI FAKULTET, EXTRONDOL drži DAK/DUK governance mirror preko GRAĐEVINSKI AKT, a SPAJA KOD objavljuje samo audit-safe summary bez internih formula.';
   const aiIqKonferencijaZaStampuTrack =
     dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.aiIqKonferencijaZaStampuTrack;
   const aiIqKonferencijaZaStampuMediaSummary =

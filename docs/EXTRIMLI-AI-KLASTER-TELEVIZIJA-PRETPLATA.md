@@ -1,8 +1,9 @@
-# EXTRIMLI — AI KLASTER / TELEVIZIJA pretplata governance
+# EXTRIMLI — AI KLASTER / TELEVIZIJA pretplata governance (Legacy / Deprecated)
 
-**Status:** `documentation-only-bounded-plan`  
+**Status:** `documentation-only-bounded-plan` + `deprecated-standalone-surface`  
 **Owner:** Kompanija SPAJA / Digitalna Industrija  
-**Parent lock:** `DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA`
+**Parent lock:** `DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA`  
+**Replacement surfaces:** `docs/EXTRIMLI-DEVELOPER-CREATE-PROGRAM.md`, `docs/EXTRIMLI-EXTERNAL-GITHUB.md`
 
 ---
 
@@ -154,7 +155,14 @@ Nije dozvoljeno sinhronizovati:
 
 ---
 
-## 9. Povezani dokumenti
+## 9. WAWE + B2B gate obaveze
+
+- Aktivacija je dozvoljena samo uz: `contract-approval`, `compliance-review`, `human-review`, `payment-verification`, `downstream-reference`.
+- WAWE 1–5 redosled je obavezan (`wawe-1-pre-release-validation`, `wawe-2-build-and-staging`, `wawe-3-downstream-sync`, `wawe-4-progressive-rollout`, `wawe-5-resilience-and-final-audit`).
+
+---
+
+## 10. Povezani dokumenti
 
 - `/home/runner/work/AI-IQ-SUPER-PLATFORMA/AI-IQ-SUPER-PLATFORMA/docs/EXTRIMLI-DEVELOPER-CREATE-PROGRAM.md`
 - `/home/runner/work/AI-IQ-SUPER-PLATFORMA/AI-IQ-SUPER-PLATFORMA/docs/EXTRIMLI-VRH-PROGRAMSKOG-EKVILADENTA.md`
