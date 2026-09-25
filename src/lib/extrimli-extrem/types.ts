@@ -7,6 +7,7 @@ import type { ExtrimliVersionRoadmap, ExtrimliVersionRoadmapVersionId } from '..
 import type { ExtrimliDokerKuratIzekDokarExtremTrack } from '../extrimli-doker-kurat-izek-dokar-track';
 import type { ExtrimliSpajaproExtremTrack } from '../extrimli-spajapro-track';
 import type { AiIdentityFinanceGovernancePackage } from '../ai-identity-finance-governance';
+import type { ExtrimliInnovationRegistryModel } from '../extrimli-innovation-registry';
 import type { EkvivalentDomain, EkvivalentRelationType } from '../ekvivalent-network/types';
 import type { PetljaInput, PetljaReason, PetljaStatus } from '../petlje';
 import { EXTRIMLI_OBJEKTNO_ORIJENTISANA_PRONGILACIJA_CONTRACT_VERSION } from '../extrimli-objektna-prongilacija-contract';
@@ -2643,6 +2644,7 @@ export interface ExtrimliDokDikDakDukConsistencyHealth {
     visualEvidencePolicy: typeof DEVELOPER_CREATE_VRH_VISUAL_EVIDENCE_POLICY;
     downstreamSummaryPolicy: typeof DEVELOPER_CREATE_VRH_DOWNSTREAM_SUMMARY_POLICY;
     successfulNarrativeCriteria: typeof DEVELOPER_CREATE_VRH_SUCCESSFUL_NARRATIVE_CRITERIA;
+    innovationRegistry13k: ExtrimliInnovationRegistryModel;
     globalPageExplanationContract: {
       title: 'DEVELOPER AND CREATE + VRH PROGRAMSKOG EKVILADENTA + MAPE UMA';
       readinessModel: readonly ['READY', 'WATCH', 'BLOCKED'];

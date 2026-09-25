@@ -53,6 +53,22 @@ Program je zaključan na postojeći roadmap:
 
 ## 2.1) Locked implementation nucleus
 
+## 2.0.2) 13000 INOVACIJA locked model
+
+- `DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == 13000 INOVACIJA` ostaje additive-only i radi isključivo kroz postojeće rute:
+  - `/api/extrimli/extrem` (tehnički signal: DOK/DIK/FOR)
+  - `/api/extrimli/extrondol` (governance signal: DAK/DUK)
+  - `/api/extrimli/spaja-kod` (audit-safe summary)
+- Jedinstvena taksonomija ostaje zaključana na `130 klastera x 100 inovacija = 13.000`.
+- Svaka inovacija ima obavezna polja: naziv, klaster, očekivani efekat, `readiness` (`READY/WATCH/BLOCKED`), `governance` (`promote/freeze/rollback`) i downstream oznaku (`summary-only`).
+- Faze su zaključane na `V1–V7 + V700` bez novih paralelnih source-of-truth sistema.
+- KPI zaključavanje:
+  - coverage: popunjenost 13.000 inovacija
+  - quality: READY inovacije bez kritičnih blokera
+  - governance: promotion/freeze/rollback odnos i review prolaznost
+  - ecosystem: stabilnost između EXTRIMLI/EXTREM/EXTRONDOL slojeva
+- Operativni ritam ostaje: dnevni cadence (planiranje/validacija/odluka/summary), nedeljni WAWE prioriteti i mesečni audit benchmark.
+
 Sledeći artefakti ostaju zaključano jezgro Developer/Create programa:
 
 - `docs/EXTRIMLI.md`

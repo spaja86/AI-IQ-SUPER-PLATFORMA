@@ -87,6 +87,7 @@ import {
   DEVELOPER_CREATE_VRH_MAPE_UMA_SCOPE_LOCK,
   DEVELOPER_CREATE_VRH_MAPE_UMA_THEMATIC_SIGNALS,
 } from '../developer-create-vrh-mape-uma-contract';
+import { buildExtrimliInnovationRegistry } from '../extrimli-innovation-registry';
 import {
   runDikPetlja,
   runDirektPetlja,
@@ -6092,6 +6093,7 @@ function buildZelezaraPretplataIdentityTrack(): ExtrimliExtremZelezaraPretplataI
 }
 
 export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport {
+  const innovationRegistry13k = buildExtrimliInnovationRegistry();
   const versionRoadmap = getExtrimliVersionRoadmap();
   const activeRoadmapStages = versionRoadmap.versions.filter(
     (stage) => stage.status === 'ACTIVE-BASELINE' || stage.status === 'ACTIVE-EXPANSION',
@@ -6871,6 +6873,7 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
       visualEvidencePolicy: DEVELOPER_CREATE_VRH_VISUAL_EVIDENCE_POLICY,
       downstreamSummaryPolicy: DEVELOPER_CREATE_VRH_DOWNSTREAM_SUMMARY_POLICY,
       successfulNarrativeCriteria: DEVELOPER_CREATE_VRH_SUCCESSFUL_NARRATIVE_CRITERIA,
+      innovationRegistry13k,
       globalPageExplanationContract: {
         title: DEVELOPER_CREATE_VRH_MAPE_UMA_EXPLANATION_TITLE,
         readinessModel: DEVELOPER_CREATE_VRH_MAPE_UMA_READINESS_MODEL,
