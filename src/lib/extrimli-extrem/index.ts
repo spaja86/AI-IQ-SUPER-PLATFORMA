@@ -12090,8 +12090,8 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
   const mikrofonProjectionCoveragePercent = round(
     clamp(
       ((expectedMikrofonProjectionSequence.length
-        - (mikrofonProjectionMissingContractTokens.length
-          + mikrofonProjectionUnexpectedContractTokens.length))
+        - mikrofonProjectionMissingContractTokens.length
+        - mikrofonProjectionUnexpectedContractTokens.length)
         / expectedMikrofonProjectionSequence.length)
         * 100,
       0,
@@ -12137,8 +12137,10 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
     mikrofonProjectionStatus !== 'READY' || radioDeterministicFallbackRequired;
   mikrofonProjectionAlias.readinessSignal.status = mikrofonProjectionStatus;
   mikrofonProjectionAlias.readinessSignal.readinessScore = mikrofonProjectionReadinessScore;
-  mikrofonProjectionAlias.readinessSignal.captureStatus = radioTrack.readinessSignal.distributionAudioStatus;
-  mikrofonProjectionAlias.readinessSignal.distributionStatus = radioTrack.readinessSignal.governanceFallbackStatus;
+  mikrofonProjectionAlias.readinessSignal.captureStatus =
+    dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.status;
+  mikrofonProjectionAlias.readinessSignal.distributionStatus =
+    radioTrack.readinessSignal.distributionAudioStatus;
   mikrofonProjectionAlias.readinessSignal.tonalProjectionStatus =
     dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.audioVisualKontrabasPackage.readinessStatus;
   mikrofonProjectionAlias.readinessSignal.projectionCoveragePercent =
