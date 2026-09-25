@@ -23,6 +23,13 @@ import type {
   DEVELOPER_CREATE_AI_IQ_KONFERENCIJA_ZA_STAMPU_ROLE_CLASSIFICATION,
   DEVELOPER_CREATE_AI_IQ_KONFERENCIJA_ZA_STAMPU_SCOPE_STATEMENT,
   DEVELOPER_CREATE_AI_IQ_KONFERENCIJA_ZA_STAMPU_TOKEN_VOCABULARY,
+  DEVELOPER_CREATE_AI_IQ_LABORATORIJA_BOUNDED_TOKEN_SEQUENCE,
+  DEVELOPER_CREATE_AI_IQ_LABORATORIJA_CANONICAL_ALIAS,
+  DEVELOPER_CREATE_AI_IQ_LABORATORIJA_DOMAIN_TRACKS,
+  DEVELOPER_CREATE_AI_IQ_LABORATORIJA_FALLBACK_INPUTS,
+  DEVELOPER_CREATE_AI_IQ_LABORATORIJA_NORMALIZATION_RULES,
+  DEVELOPER_CREATE_AI_IQ_LABORATORIJA_ROLE_CLASSIFICATION,
+  DEVELOPER_CREATE_AI_IQ_LABORATORIJA_SCOPE_STATEMENT,
   DEVELOPER_CREATE_NOTES_1450_BOUNDED_SIGNALS,
   DEVELOPER_CREATE_NOTES_1450_CANONICAL_ALIAS,
   DEVELOPER_CREATE_NOTES_1450_ROLE_CLASSIFICATION,
@@ -2785,6 +2792,63 @@ export interface ExtrimliDokDikDakDukConsistencyHealth {
       };
       downstreamReference: 'docs/MULTI-REPO-LINKS.md -> spaja86/IO-OPENUI-AO (summary-only)';
     };
+    aiIqLaboratorijaTrack: {
+      canonicalAlias: typeof DEVELOPER_CREATE_AI_IQ_LABORATORIJA_CANONICAL_ALIAS;
+      scopeStatement: typeof DEVELOPER_CREATE_AI_IQ_LABORATORIJA_SCOPE_STATEMENT;
+      roleClassification: typeof DEVELOPER_CREATE_AI_IQ_LABORATORIJA_ROLE_CLASSIFICATION;
+      domainTracks: typeof DEVELOPER_CREATE_AI_IQ_LABORATORIJA_DOMAIN_TRACKS;
+      boundedTokenSequence: typeof DEVELOPER_CREATE_AI_IQ_LABORATORIJA_BOUNDED_TOKEN_SEQUENCE;
+      normalizationRules: typeof DEVELOPER_CREATE_AI_IQ_LABORATORIJA_NORMALIZATION_RULES;
+      boundedVocabularyPhrase: 'EXTRIMLI EXTRONDOL EXTREM DOK DUK DAK DIK FOR';
+      additiveOnly: true;
+      noNewRuntimeEngine: true;
+      noNewRuntimeRoutes: true;
+      noParallelSourceOfTruth: true;
+      sourceOfTruthRoutes: readonly ['/api/extrimli/extrem', '/api/extrimli/extrondol', '/api/extrimli/spaja-kod'];
+      ownershipLock: {
+        dokDikFor: 'EXTREM';
+        dakDuk: 'EXTRONDOL';
+        spajaKod: 'audit-safe-summary-only';
+      };
+      summarySafePublicFields: readonly [
+        'canonicalAlias',
+        'status',
+        'blockerReason',
+        'watchReasons',
+        'reviewPosture',
+        'downstreamReference',
+        'nalazSummary'
+      ];
+      readinessSignal: {
+        status: 'READY' | 'WATCH' | 'BLOCKED';
+        readinessScore: number;
+        tokenCoveragePercent: number;
+        normalizedInputCount: number;
+        laboratoryProfileStatus: 'READY' | 'WATCH' | 'BLOCKED';
+        findingsStatus: 'READY' | 'WATCH' | 'BLOCKED';
+        faunaIFLoraStatus: 'READY' | 'WATCH' | 'BLOCKED';
+        gradjevinskiMaterijalStatus: 'READY' | 'WATCH' | 'BLOCKED';
+        deterministicFallbackRequired: boolean;
+        fallbackInputs: typeof DEVELOPER_CREATE_AI_IQ_LABORATORIJA_FALLBACK_INPUTS;
+        driver: 'developerAndCreateRepoWideReflection.readiness + programskiJezikProucavanja + programskiEkanalog + developerAndCreateRepoWideReflection.technicalReadinessProfile.consolidatedRhythmStatus';
+      };
+      blockerReason: string | null;
+      watchReasons: string[];
+      reviewPosture: 'ALIGNED' | 'WATCH' | 'REVIEW_REQUIRED';
+      tokenSequenceLock: {
+        additiveOnlyAlias: true;
+        noNewRoutes: true;
+        noNewSourceOfTruth: true;
+      };
+      acceptanceEvidence: readonly [
+        'developerAndCreateRepoWideReflection.aiIqLaboratorijaTrack',
+        'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.aiIqLaboratorijaTrack',
+        'spajaKod.publicSignals.aiIqLaboratorijaStatus',
+        'spajaKod.developerAndCreateImplementationPackage.aiIqLaboratorijaSummary'
+      ];
+      nalazSummary: string;
+      downstreamReference: 'docs/MULTI-REPO-LINKS.md -> spaja86/IO-OPENUI-AO (summary-only)';
+    };
     aiIqKonferencijaZaStampuTrack: {
       canonicalAlias: typeof DEVELOPER_CREATE_AI_IQ_KONFERENCIJA_ZA_STAMPU_CANONICAL_ALIAS;
       scopeStatement: typeof DEVELOPER_CREATE_AI_IQ_KONFERENCIJA_ZA_STAMPU_SCOPE_STATEMENT;
@@ -4382,6 +4446,20 @@ export interface ExtrimliDokDikDakDukConsistencyHealth {
         extrondolPublishes: 'wawe-freeze-promotion-review-rollback-audit-summary-only';
         spajaKodPublishes: 'status-blocker-review-downstream-and-token-sequence-lock-summary-only';
         technicalBinding: 'developerAndCreateRepoWideReflection.radniProstorTrack';
+        noNewRuntimeEngine: true;
+        noNewRuntimeRoutes: true;
+        noParallelSourceOfTruth: true;
+        rawInternalsExposed: false;
+      };
+      aiIqLaboratorijaBoundary: {
+        trackRole: 'bounded-ai-iq-laboratorija-evidence-track';
+        parentTrack: 'VRH PROGRAMSKOG EKVILADENTA';
+        canonicalAlias: typeof DEVELOPER_CREATE_AI_IQ_LABORATORIJA_CANONICAL_ALIAS;
+        roleClassification: typeof DEVELOPER_CREATE_AI_IQ_LABORATORIJA_ROLE_CLASSIFICATION;
+        extremPublishes: 'status-token-coverage-domain-readiness-and-deterministic-fallback-signal-only';
+        extrondolPublishes: 'wawe-freeze-promotion-review-rollback-audit-summary-only';
+        spajaKodPublishes: 'status-blocker-review-downstream-and-nalaz-summary-only';
+        technicalBinding: 'developerAndCreateRepoWideReflection.aiIqLaboratorijaTrack';
         noNewRuntimeEngine: true;
         noNewRuntimeRoutes: true;
         noParallelSourceOfTruth: true;

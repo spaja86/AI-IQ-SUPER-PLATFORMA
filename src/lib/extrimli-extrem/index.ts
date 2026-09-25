@@ -19,6 +19,13 @@ import {
   DEVELOPER_CREATE_AI_IQ_KONFERENCIJA_ZA_STAMPU_ROLE_CLASSIFICATION,
   DEVELOPER_CREATE_AI_IQ_KONFERENCIJA_ZA_STAMPU_SCOPE_STATEMENT,
   DEVELOPER_CREATE_AI_IQ_KONFERENCIJA_ZA_STAMPU_TOKEN_VOCABULARY,
+  DEVELOPER_CREATE_AI_IQ_LABORATORIJA_BOUNDED_TOKEN_SEQUENCE,
+  DEVELOPER_CREATE_AI_IQ_LABORATORIJA_CANONICAL_ALIAS,
+  DEVELOPER_CREATE_AI_IQ_LABORATORIJA_DOMAIN_TRACKS,
+  DEVELOPER_CREATE_AI_IQ_LABORATORIJA_FALLBACK_INPUTS,
+  DEVELOPER_CREATE_AI_IQ_LABORATORIJA_NORMALIZATION_RULES,
+  DEVELOPER_CREATE_AI_IQ_LABORATORIJA_ROLE_CLASSIFICATION,
+  DEVELOPER_CREATE_AI_IQ_LABORATORIJA_SCOPE_STATEMENT,
   DEVELOPER_CREATE_NOTES_1450_BOUNDED_SIGNALS,
   DEVELOPER_CREATE_NOTES_1450_CANONICAL_ALIAS,
   DEVELOPER_CREATE_NOTES_1450_ROLE_CLASSIFICATION,
@@ -7009,6 +7016,65 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
         },
         downstreamReference: 'docs/MULTI-REPO-LINKS.md -> spaja86/IO-OPENUI-AO (summary-only)',
       },
+      aiIqLaboratorijaTrack: {
+        canonicalAlias: DEVELOPER_CREATE_AI_IQ_LABORATORIJA_CANONICAL_ALIAS,
+        scopeStatement: DEVELOPER_CREATE_AI_IQ_LABORATORIJA_SCOPE_STATEMENT,
+        roleClassification: DEVELOPER_CREATE_AI_IQ_LABORATORIJA_ROLE_CLASSIFICATION,
+        domainTracks: DEVELOPER_CREATE_AI_IQ_LABORATORIJA_DOMAIN_TRACKS,
+        boundedTokenSequence: DEVELOPER_CREATE_AI_IQ_LABORATORIJA_BOUNDED_TOKEN_SEQUENCE,
+        normalizationRules: DEVELOPER_CREATE_AI_IQ_LABORATORIJA_NORMALIZATION_RULES,
+        boundedVocabularyPhrase: 'EXTRIMLI EXTRONDOL EXTREM DOK DUK DAK DIK FOR',
+        additiveOnly: true,
+        noNewRuntimeEngine: true,
+        noNewRuntimeRoutes: true,
+        noParallelSourceOfTruth: true,
+        sourceOfTruthRoutes: ['/api/extrimli/extrem', '/api/extrimli/extrondol', '/api/extrimli/spaja-kod'],
+        ownershipLock: {
+          dokDikFor: 'EXTREM',
+          dakDuk: 'EXTRONDOL',
+          spajaKod: 'audit-safe-summary-only',
+        },
+        summarySafePublicFields: [
+          'canonicalAlias',
+          'status',
+          'blockerReason',
+          'watchReasons',
+          'reviewPosture',
+          'downstreamReference',
+          'nalazSummary',
+        ],
+        readinessSignal: {
+          status: 'BLOCKED',
+          readinessScore: 0,
+          tokenCoveragePercent: 0,
+          normalizedInputCount: 0,
+          laboratoryProfileStatus: 'BLOCKED',
+          findingsStatus: 'BLOCKED',
+          faunaIFLoraStatus: 'BLOCKED',
+          gradjevinskiMaterijalStatus: 'BLOCKED',
+          deterministicFallbackRequired: true,
+          fallbackInputs: DEVELOPER_CREATE_AI_IQ_LABORATORIJA_FALLBACK_INPUTS,
+          driver:
+            'developerAndCreateRepoWideReflection.readiness + programskiJezikProucavanja + programskiEkanalog + developerAndCreateRepoWideReflection.technicalReadinessProfile.consolidatedRhythmStatus',
+        },
+        blockerReason:
+          'ai-iq-laboratorija-track-awaits-bounded-token-lock-and-existing-developer-create-readiness-alignment',
+        watchReasons: [],
+        reviewPosture: 'REVIEW_REQUIRED',
+        tokenSequenceLock: {
+          additiveOnlyAlias: true,
+          noNewRoutes: true,
+          noNewSourceOfTruth: true,
+        },
+        acceptanceEvidence: [
+          'developerAndCreateRepoWideReflection.aiIqLaboratorijaTrack',
+          'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.aiIqLaboratorijaTrack',
+          'spajaKod.publicSignals.aiIqLaboratorijaStatus',
+          'spajaKod.developerAndCreateImplementationPackage.aiIqLaboratorijaSummary',
+        ],
+        nalazSummary: '',
+        downstreamReference: 'docs/MULTI-REPO-LINKS.md -> spaja86/IO-OPENUI-AO (summary-only)',
+      },
       aiIqKonferencijaZaStampuTrack: {
         canonicalAlias: DEVELOPER_CREATE_AI_IQ_KONFERENCIJA_ZA_STAMPU_CANONICAL_ALIAS,
         scopeStatement: DEVELOPER_CREATE_AI_IQ_KONFERENCIJA_ZA_STAMPU_SCOPE_STATEMENT,
@@ -10951,6 +11017,20 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
       noParallelSourceOfTruth: true,
       rawInternalsExposed: false,
     },
+    aiIqLaboratorijaBoundary: {
+      trackRole: 'bounded-ai-iq-laboratorija-evidence-track',
+      parentTrack: 'VRH PROGRAMSKOG EKVILADENTA',
+      canonicalAlias: DEVELOPER_CREATE_AI_IQ_LABORATORIJA_CANONICAL_ALIAS,
+      roleClassification: DEVELOPER_CREATE_AI_IQ_LABORATORIJA_ROLE_CLASSIFICATION,
+      extremPublishes: 'status-token-coverage-domain-readiness-and-deterministic-fallback-signal-only',
+      extrondolPublishes: 'wawe-freeze-promotion-review-rollback-audit-summary-only',
+      spajaKodPublishes: 'status-blocker-review-downstream-and-nalaz-summary-only',
+      technicalBinding: 'developerAndCreateRepoWideReflection.aiIqLaboratorijaTrack',
+      noNewRuntimeEngine: true,
+      noNewRuntimeRoutes: true,
+      noParallelSourceOfTruth: true,
+      rawInternalsExposed: false,
+    },
     canonicalTerminologyMapping: {
       phrase: 'EXTRIMLI EXTRONDOL EXTREM DOK DUK DAK DIK FOR',
       nucleusLayers: ['documentation', 'types', 'route-summary-fields', 'tests', 'workflow-audit-layer'],
@@ -11259,6 +11339,96 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
       : radniProstorStatus === 'WATCH'
         ? 'WATCH'
         : 'REVIEW_REQUIRED';
+  const aiIqLaboratorijaTrack =
+    dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.aiIqLaboratorijaTrack;
+  const aiIqLaboratorijaRuntimeTokenInput =
+    process.env.NODE_ENV === 'test'
+      ? process.env.EXTRIMLI_AI_IQ_LABORATORIJA_TOKEN_INPUT
+      : undefined;
+  const aiIqLaboratorijaObservedTokens =
+    aiIqLaboratorijaRuntimeTokenInput && aiIqLaboratorijaRuntimeTokenInput.trim().length > 0
+      ? aiIqLaboratorijaRuntimeTokenInput.split(',').map((token) => token.trim()).filter((token) => token.length > 0)
+      : [...aiIqLaboratorijaTrack.boundedTokenSequence];
+  const normalizeAiIqLaboratorijaToken = (token: string): string => {
+    let normalizedToken = token;
+    if (aiIqLaboratorijaTrack.normalizationRules.trimWhitespace) {
+      normalizedToken = normalizedToken.trim();
+    }
+    if (aiIqLaboratorijaTrack.normalizationRules.collapseMultipleSpaces) {
+      normalizedToken = normalizedToken.replace(/\s+/g, ' ');
+    }
+    if (aiIqLaboratorijaTrack.normalizationRules.uppercaseTokens) {
+      normalizedToken = normalizedToken.toUpperCase();
+    }
+    return normalizedToken;
+  };
+  const normalizedAiIqLaboratorijaTokens =
+    aiIqLaboratorijaObservedTokens.map(normalizeAiIqLaboratorijaToken);
+  const normalizedExpectedAiIqLaboratorijaTokens =
+    DEVELOPER_CREATE_AI_IQ_LABORATORIJA_BOUNDED_TOKEN_SEQUENCE.map(normalizeAiIqLaboratorijaToken);
+  const aiIqLaboratorijaHasExactTokenLength =
+    normalizedAiIqLaboratorijaTokens.length === normalizedExpectedAiIqLaboratorijaTokens.length;
+  const aiIqLaboratorijaMatchedTokenCount = aiIqLaboratorijaHasExactTokenLength
+    ? normalizedExpectedAiIqLaboratorijaTokens.reduce(
+        (count, expectedToken, index) =>
+          count + (normalizedAiIqLaboratorijaTokens[index] === expectedToken ? 1 : 0),
+        0,
+      )
+    : 0;
+  const aiIqLaboratorijaTokenCoveragePercent = round(
+    (aiIqLaboratorijaMatchedTokenCount / (normalizedExpectedAiIqLaboratorijaTokens.length || 1)) * 100,
+    2,
+  );
+  const aiIqLaboratorijaLaboratoryProfileStatus =
+    aiIqLaboratorijaTokenCoveragePercent === 100
+      ? 'READY'
+      : aiIqLaboratorijaTokenCoveragePercent >= 75
+        ? 'WATCH'
+        : 'BLOCKED';
+  const aiIqLaboratorijaSignalStatuses = [
+    dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.status,
+    dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.technicalReadinessProfile.consolidatedRhythmStatus,
+    dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.technicalReadinessProfile.programskiJezikProucavanjaTrack.readinessStatus,
+    dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.technicalReadinessProfile.programskiEkanalogTrack.readinessStatus,
+    aiIqLaboratorijaLaboratoryProfileStatus,
+  ] as const;
+  const aiIqLaboratorijaStatus = aggregateSignalReadinessStatus([...aiIqLaboratorijaSignalStatuses]);
+  const aiIqLaboratorijaReadinessScore = round(
+    aiIqLaboratorijaSignalStatuses.reduce((sum, status) => sum + readinessStatusScore(status), 0)
+      / aiIqLaboratorijaSignalStatuses.length,
+    2,
+  );
+  const aiIqLaboratorijaDeterministicFallbackRequired =
+    aiIqLaboratorijaStatus !== 'READY'
+    || dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.deterministicFallbackRequired;
+  aiIqLaboratorijaTrack.readinessSignal.status = aiIqLaboratorijaStatus;
+  aiIqLaboratorijaTrack.readinessSignal.readinessScore = aiIqLaboratorijaReadinessScore;
+  aiIqLaboratorijaTrack.readinessSignal.tokenCoveragePercent = aiIqLaboratorijaTokenCoveragePercent;
+  aiIqLaboratorijaTrack.readinessSignal.normalizedInputCount = normalizedAiIqLaboratorijaTokens.length;
+  aiIqLaboratorijaTrack.readinessSignal.laboratoryProfileStatus = aiIqLaboratorijaLaboratoryProfileStatus;
+  aiIqLaboratorijaTrack.readinessSignal.findingsStatus = aiIqLaboratorijaStatus;
+  aiIqLaboratorijaTrack.readinessSignal.faunaIFLoraStatus = aiIqLaboratorijaLaboratoryProfileStatus;
+  aiIqLaboratorijaTrack.readinessSignal.gradjevinskiMaterijalStatus = aiIqLaboratorijaLaboratoryProfileStatus;
+  aiIqLaboratorijaTrack.readinessSignal.deterministicFallbackRequired =
+    aiIqLaboratorijaDeterministicFallbackRequired;
+  aiIqLaboratorijaTrack.blockerReason =
+    aiIqLaboratorijaStatus === 'BLOCKED'
+      ? 'AI IQ LABORATORIJA ostaje BLOCKED dok bounded laboratorijska token sekvenca, postojeći PROGRAMSKI JEZIK PROUČAVANJA/PROGRAMSKI EKANALOG sloj i ownership split ne ostanu potpuno usklađeni bez novog runtime sistema.'
+      : null;
+  aiIqLaboratorijaTrack.watchReasons =
+    aiIqLaboratorijaStatus === 'WATCH'
+      ? [
+        'AI IQ LABORATORIJA ostaje u WATCH režimu dok bounded laboratorijski nalaz traži dodatni review za sekvencu tokena, summary-safe evidenciju i additive-only readiness posture.',
+      ]
+      : [];
+  aiIqLaboratorijaTrack.reviewPosture =
+    aiIqLaboratorijaStatus === 'READY'
+      ? 'ALIGNED'
+      : aiIqLaboratorijaStatus === 'WATCH'
+        ? 'WATCH'
+        : 'REVIEW_REQUIRED';
+  aiIqLaboratorijaTrack.nalazSummary =
+    'AI IQ LABORATORIJA ostaje additive-only bounded laboratorijski sloj: AI IQ LABORATORIJA je krovni audit/evidence kontekst, FAUNA I FLORA i GRAĐEVINSKI MATERIJAL ostaju bounded evidencioni domeni, a SPAJA KOD vidi samo summary-safe readiness, blocker/watch razlog i downstream referencu.';
   const aiIqKonferencijaZaStampuTrack =
     dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.aiIqKonferencijaZaStampuTrack;
   const aiIqKonferencijaZaStampuMediaSummary =

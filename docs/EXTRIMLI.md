@@ -313,6 +313,7 @@ Promotion freeze je obavezan kada KPI/audit/sync nije potpun, uz rollback na pre
 - `DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == NOTES 1450` is additive-only and stays inside the same chain as a bounded work-continuation package; EXTREM measures continuity/saturation signals, EXTRONDOL decides review/freeze/rollback posture, and SPAJA KOD exposes only audit-safe continuation status and business-value summary.
 - `DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == RADNI PROSTOR` is additive-only and bounded by the locked token sequence `OKUR, DJUKUR, DAR, ZOR, IKON, ZULUM, DABRE, IZOS, JAKOR, DAPR, ZUKUR, ENTER, DIKAR, ZUMBUL, SIRGED, ZIKOR, DJENDER, ĆUR, NIKON, DERKO, ZUKAL, IKON, ZAJDI`; no new routes and no parallel source-of-truth are allowed.
 - Ownership split for `RADNI PROSTOR` remains unchanged: `DOK/DIK/FOR -> EXTREM`, `DAK/DUK -> EXTRONDOL`, `SPAJA KOD -> summary-only`.
+- `DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == AI IQ LABORATORIJA == LABORATORIJSKI NALAZI FAUNE I FLORE I GRAĐEVINSKOG MATERIJALA` is additive-only and bounded by the locked token sequence `ZUM, DUM, SAK, IK, MUN, DIKOT, DUN, ZAT, DJKUON, SIM, IKAR, DUKAR, IBAP, IRO, DUNOR, IBAN, UKOR, UTVAR, ZIPOT`; EXTREM publishes only readiness/token/domain signals, EXTRONDOL mirrors review/freeze/rollback governance, and SPAJA KOD exposes only audit-safe summary status plus `nalazSummary`.
 
   ## SPAJA KOD encapsulated public facade
 
@@ -969,6 +970,7 @@ Signal split lock remains mandatory:
 - `DAK + DUK` stay in EXTRONDOL governance layer
 - `PROGRAMSKI JEZIK PROUČAVANJA` ostaje additive-only iznad istog ownership split-a i ne uvodi nove source-of-truth rute.
 - `PROGRAMSKI EKANALOG` ostaje audit-safe interpretacioni sloj (razumevanje logike) bez izlaganja internih formula van postojećih surface-ova.
+- `AI IQ LABORATORIJA` ostaje bounded laboratorijsko-interpretativni sloj nad `PROGRAMSKI JEZIK PROUČAVANJA` i `PROGRAMSKI EKANALOG`; ne uvodi stvarni naučni/medicinski subsistem nego samo deterministički readiness/evidence signal.
 
 Acceptance criteria:
 

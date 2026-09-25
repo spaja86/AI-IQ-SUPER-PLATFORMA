@@ -144,6 +144,11 @@ jobs:
               && developerCreateProgramDoc.includes('OKUR, DJUKUR, DAR, ZOR, IKON, ZULUM, DABRE, IZOS, JAKOR, DAPR, ZUKUR, ENTER, DIKAR, ZUMBUL, SIRGED, ZIKOR, DJENDER, ĆUR, NIKON, DERKO, ZUKAL, IKON, ZAJDI'),
             'Developer/Create program doc must lock RADNI PROSTOR bounded alias and token sequence'
           );
+          assert(
+            developerCreateProgramDoc.includes('DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == AI IQ LABORATORIJA == LABORATORIJSKI NALAZI FAUNE I FLORE I GRAĐEVINSKOG MATERIJALA')
+              && developerCreateProgramDoc.includes('ZUM, DUM, SAK, IK, MUN, DIKOT, DUN, ZAT, DJKUON, SIM, IKAR, DUKAR, IBAP, IRO, DUNOR, IBAN, UKOR, UTVAR, ZIPOT'),
+            'Developer/Create program doc must lock AI IQ LABORATORIJA bounded alias and token sequence'
+          );
           assert(developerCreateProgramDoc.includes('DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == NOTES 1450') && developerCreateProgramDoc.includes('bounded radni-handoff paket'), 'Developer/Create program doc must lock NOTES 1450 as additive-only bounded work continuation package');
           assert(developerCreateProgramDoc.includes('DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA'), 'Developer/Create program doc must lock canonical scope');
           assert(developerCreateProgramDoc.includes('Kompanija SPAJA / Digitalna Industrija') && developerCreateProgramDoc.includes('Tehnička traka') && developerCreateProgramDoc.includes('Governance traka') && developerCreateProgramDoc.includes('Javni boundary') && developerCreateProgramDoc.includes('Poslovna traka'), 'Developer/Create program doc must lock four-track package and Kompanija SPAJA / Digitalna Industrija mapping');
@@ -173,6 +178,12 @@ jobs:
               && vrhDoc.includes('DAK/DUK -> EXTRONDOL'),
             'VRH doc must keep RADNI PROSTOR bounded alias and unchanged ownership split'
           );
+          assert(
+            vrhDoc.includes('AI IQ LABORATORIJA == LABORATORIJSKI NALAZI FAUNE I FLORE I GRAĐEVINSKOG MATERIJALA')
+              && vrhDoc.includes('ZUM, DUM, SAK, IK, MUN, DIKOT, DUN, ZAT, DJKUON, SIM, IKAR, DUKAR, IBAP, IRO, DUNOR, IBAN, UKOR, UTVAR, ZIPOT')
+              && vrhDoc.includes('SPAJA KOD samo audit-safe nalaz summary'),
+            'VRH doc must keep AI IQ LABORATORIJA bounded alias and summary-only public boundary'
+          );
           assert(vrhDoc.includes('NOTES 1450') && vrhDoc.includes('bounded work-continuation paket'), 'VRH doc must keep NOTES 1450 bounded inside the unchanged ownership split');
           assert(vrhDoc.includes('DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA') && vrhDoc.includes('Kompanija SPAJA / Digitalna Industrija'), 'VRH doc must lock canonical scope and enterprise mapping');
           assert(developerCreateContract.includes('DEVELOPER_CREATE_VRH_DIJALIZA_POGONSKOG_OMOTACA_ALIAS') && developerCreateContract.includes('documentation-and-interpretative-alias-only'), 'Developer/Create contract must formalize DIJALIZA POGONSKOG OMOTAČA as documentation-only alias');
@@ -181,6 +192,12 @@ jobs:
               && developerCreateContract.includes('DEVELOPER_CREATE_RADNI_PROSTOR_BOUNDED_TOKEN_SEQUENCE')
               && developerCreateContract.includes('DEVELOPER_CREATE_RADNI_PROSTOR_NORMALIZATION_RULES'),
             'Developer/Create contract must formalize RADNI PROSTOR bounded token alias contract'
+          );
+          assert(
+            developerCreateContract.includes('DEVELOPER_CREATE_AI_IQ_LABORATORIJA_CANONICAL_ALIAS')
+              && developerCreateContract.includes('DEVELOPER_CREATE_AI_IQ_LABORATORIJA_BOUNDED_TOKEN_SEQUENCE')
+              && developerCreateContract.includes('DEVELOPER_CREATE_AI_IQ_LABORATORIJA_NORMALIZATION_RULES'),
+            'Developer/Create contract must formalize AI IQ LABORATORIJA bounded token alias contract'
           );
           assert(developerCreateContract.includes('DEVELOPER_CREATE_NOTES_1450_CANONICAL_ALIAS') && developerCreateContract.includes('DEVELOPER_CREATE_NOTES_1450_BOUNDED_SIGNALS'), 'Developer/Create contract must formalize NOTES 1450 as a bounded work-continuation package');
           assert(vrhDoc.includes('KRALJEVSKI BAŠTA UNEVERZITE') && vrhDoc.includes('documentation/evidence-only'), 'VRH doc must lock KRALJEVSKI BAŠTA UNEVERZITE as evidence-only alias');
