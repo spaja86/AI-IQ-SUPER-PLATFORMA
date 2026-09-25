@@ -103,6 +103,23 @@ export const DEVELOPER_CREATE_NAPOLEON_DISKAVERI_BOUNDED_SIGNALS = [
   'napoleon-diskaveri',
 ] as const;
 
+export const DEVELOPER_CREATE_NOTES_1450_CANONICAL_ALIAS =
+  'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == NOTES 1450' as const;
+
+export const DEVELOPER_CREATE_NOTES_1450_SCOPE_STATEMENT =
+  'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == NOTES 1450 == bounded radni-handoff paket za nastavak rada' as const;
+
+export const DEVELOPER_CREATE_NOTES_1450_ROLE_CLASSIFICATION =
+  'additive-only-bounded-work-continuation-package' as const;
+
+export const DEVELOPER_CREATE_NOTES_1450_BOUNDED_SIGNALS = [
+  'goal-clarity',
+  'context-integrity',
+  'task-continuity',
+  'ai-material-saturation-risk',
+  'deterministic-next-step',
+] as const;
+
 export const DEVELOPER_CREATE_SARKAZAM_PRIVREDNA_GRANA_DIGITALIZMA_CANONICAL_ALIAS =
   'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == SARKAZAM / PRIVREDNA GRANA DIGITALIZMA / PROJEKTI ENTUZIJAZMA PO ČINU OBLASTIMA' as const;
 

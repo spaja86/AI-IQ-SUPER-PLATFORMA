@@ -310,6 +310,7 @@ Promotion freeze je obavezan kada KPI/audit/sync nije potpun, uz rollback na pre
 - `EXTREM` owns the technical reflection signal (`READY | WATCH | BLOCKED`, blocker/watch reasons, deterministic fallback, `oblast/čin` summary).
 - `EXTRONDOL` mirrors the same track through `releaseAuditSummary` for review/freeze/promotion/rollout/rollback governance.
 - `SPAJA KOD` exposes only summary-safe status, blocker reason, review posture, and downstream reference.
+- `DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == NOTES 1450` is additive-only and stays inside the same chain as a bounded work-continuation package; EXTREM measures continuity/saturation signals, EXTRONDOL decides review/freeze/rollback posture, and SPAJA KOD exposes only audit-safe continuation status and business-value summary.
 
   ## SPAJA KOD encapsulated public facade
 
@@ -902,6 +903,7 @@ Boundary and validation lock:
 - Fallback za `NaN`, `Infinity`, prazne ili konfliktne ulaze ostaje obavezan.
 - Buduća realizacija sme ostati samo additive proširenje u EXTREM, EXTRONDOL, SPAJA KOD summary i pratećim docs/test slojevima.
 - `SELEKCIONIRANJE U SELEKCIJAMA PREMA AKTIVNOM NADMAŠAJU / NAPOLEON DISKAVERI` je dozvoljen samo kao bounded Developer/Create / VRH / MAPE UMA alias: EXTREM tehnički signal, EXTRONDOL governance mirror, SPAJA KOD summary-safe status bez novih ruta i bez paralelnog source-of-truth sistema.
+- `NOTES 1450` je dozvoljen samo kao bounded Developer/Create radni-handoff paket: nema novih ruta, nema paralelnog source-of-truth sistema i mora da zadrži audit-ready dokaz o boljem kontinuitetu rada i boljoj iskorišćenosti AI materijala od običnog notes režima.
 - Dnevni task model ostaje governance artefakt izveden iz postojećih modula, validatora i workflow-a, bez novog paralelnog runtime domena.
 
 ## Objektno orijentisana reprodukcija
