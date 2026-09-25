@@ -11902,16 +11902,36 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
     dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.radioTrack;
   const radioSummary =
     'RADIO ostaje additive-only bounded media/distribution/audio paket: EXTREM nosi readiness, semantic-preservation signal i bounded radio summary, EXTRONDOL governance mirror, a SPAJA KOD samo audit-safe radio rezime.';
-  const radioUniqueCategorizedTokens = new Set([
+  const expectedRadioCanonicalSequence = DEVELOPER_CREATE_RADIO_TOKEN_VOCABULARY.canonicalSequence;
+  const expectedRadioTokenSet = new Set(expectedRadioCanonicalSequence);
+  const actualRadioCanonicalSequence = radioTrack.boundedTokenVocabulary.canonicalSequence;
+  const actualRadioUniqueCategorizedTokens = new Set([
     ...radioTrack.boundedTokenVocabulary.distributionAudioTokens,
     ...radioTrack.boundedTokenVocabulary.scheduleContinuityTokens,
     ...radioTrack.boundedTokenVocabulary.governanceFallbackTokens,
   ]);
-  const radioCanonicalCoverageCount = radioTrack.boundedTokenVocabulary.canonicalSequence.filter((token) =>
-    radioUniqueCategorizedTokens.has(token),
+  const radioMissingContractTokens = expectedRadioCanonicalSequence.filter((token) =>
+    !actualRadioCanonicalSequence.includes(token) || !actualRadioUniqueCategorizedTokens.has(token),
+  );
+  const radioUnexpectedContractTokens = [
+    ...new Set([...actualRadioCanonicalSequence, ...actualRadioUniqueCategorizedTokens]),
+  ].filter((token) => !expectedRadioTokenSet.has(token));
+  const radioCanonicalCoverageCount = expectedRadioCanonicalSequence.filter((token) =>
+    actualRadioCanonicalSequence.includes(token) && actualRadioUniqueCategorizedTokens.has(token),
   ).length;
+  const radioVocabularyContractAligned =
+    radioMissingContractTokens.length === 0
+    && radioUnexpectedContractTokens.length === 0
+    && actualRadioCanonicalSequence.join(',') === expectedRadioCanonicalSequence.join(',');
   const radioVocabularyCoveragePercent = round(
-    (radioCanonicalCoverageCount / radioTrack.boundedTokenVocabulary.canonicalSequence.length) * 100,
+    clamp(
+      ((expectedRadioCanonicalSequence.length
+        - (radioMissingContractTokens.length + radioUnexpectedContractTokens.length))
+        / expectedRadioCanonicalSequence.length)
+        * 100,
+      0,
+      100,
+    ),
     2,
   );
   const radioNormalizationReady =
@@ -11929,10 +11949,12 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
     && radioHasSummarySurface
     && radioSummary.length > 0
     && radioTrack.semanticPreservation.noSemanticConflict
+    && radioVocabularyContractAligned
       ? 'READY'
       : radioHasSummarySurface
         && radioSummary.length > 0
         && radioTrack.semanticPreservation.noSemanticConflict
+        && radioCanonicalCoverageCount > 0
           ? 'WATCH'
           : 'BLOCKED';
   const radioSignalStatuses = [
