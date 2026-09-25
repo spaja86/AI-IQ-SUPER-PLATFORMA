@@ -23,6 +23,7 @@ export const DEVELOPER_CREATE_VRH_INTERPRETATION_ALIASES = [
   'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == SARKAZAM / PRIVREDNA GRANA DIGITALIZMA / PROJEKTI ENTUZIJAZMA PO ČINU OBLASTIMA',
   'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == AI IQ KONFERENCIJA ZA ŠTAMPU (NOVINE, DIGITALNE NOVINE)',
   'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == RADIO',
+  'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == MUZIČKA KUTIJA',
   'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == AI IQ LABORATORIJA == LABORATORIJSKI NALAZI FAUNE I FLORE I GRAĐEVINSKOG MATERIJALA',
   'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == POSLOVNA PONUDA',
 ] as const;
@@ -445,6 +446,44 @@ export const DEVELOPER_CREATE_RADIO_DOWNSTREAM_POLICY = {
   syncMode: 'summary-only',
   rawTokenModelExposure: false,
   repoLocalNarrativeRemainsRich: true,
+} as const;
+
+export const DEVELOPER_CREATE_MUZICKA_KUTIJA_CANONICAL_ALIAS =
+  'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == MUZIČKA KUTIJA' as const;
+
+export const DEVELOPER_CREATE_MUZICKA_KUTIJA_SCOPE_STATEMENT =
+  'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == MUZIČKA KUTIJA == additive-only bounded audio/instrument reflection alias bez novih ruta, bez novog muzičkog engine-a i bez paralelnog source-of-truth sistema' as const;
+
+export const DEVELOPER_CREATE_MUZICKA_KUTIJA_ROLE_CLASSIFICATION =
+  'additive-only-bounded-music-box-alias-track' as const;
+
+export const DEVELOPER_CREATE_MUZICKA_KUTIJA_BOUNDED_DESCRIPTION =
+  'UBACUJEM SVE INSTRUMENTE MUZIČKE' as const;
+
+export const DEVELOPER_CREATE_MUZICKA_KUTIJA_BOUNDED_THEMATIC_SIGNALS = [
+  'ubacujem-sve-instrumente-muzicke',
+  'instrument-tabla',
+  'ritam-i-duracije',
+  'narativ-i-vokal',
+  'audio-vizuelna-refleksija',
+] as const;
+
+export const DEVELOPER_CREATE_MUZICKA_KUTIJA_SUMMARY_SAFE_FIELDS = [
+  'canonicalAlias',
+  'status',
+  'blockerReason',
+  'watchReasons',
+  'reviewPosture',
+  'downstreamReference',
+  'musicBoxSummary',
+  'mappedLayerSummary',
+] as const;
+
+export const DEVELOPER_CREATE_MUZICKA_KUTIJA_DOWNSTREAM_POLICY = {
+  linkedRepo: 'spaja86/IO-OPENUI-AO',
+  syncMode: 'summary-only',
+  rawInstrumentInternalsStayRepoLocal: true,
+  rawAudioInternalsStayRepoLocal: true,
 } as const;
 
 export const DEVELOPER_CREATE_RADIO_MIKROFON_PROJECTION_CANONICAL_EQUALITY =
