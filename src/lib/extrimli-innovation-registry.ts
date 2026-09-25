@@ -145,7 +145,7 @@ function resolveFallbackQuality(
 let cachedInnovationRegistry: ExtrimliInnovationRegistryModel | null = null;
 
 export function buildExtrimliInnovationRegistry(): ExtrimliInnovationRegistryModel {
-  if (cachedInnovationRegistry) return cachedInnovationRegistry;
+  if (cachedInnovationRegistry) return structuredClone(cachedInnovationRegistry);
 
   const innovations: ExtrimliInnovationRegistryEntry[] = [];
   const clusters: ExtrimliInnovationRegistryCluster[] = [];
@@ -315,5 +315,5 @@ export function buildExtrimliInnovationRegistry(): ExtrimliInnovationRegistryMod
     },
   };
 
-  return cachedInnovationRegistry;
+  return structuredClone(cachedInnovationRegistry);
 }
