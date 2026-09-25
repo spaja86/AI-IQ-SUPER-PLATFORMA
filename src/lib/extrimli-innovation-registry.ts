@@ -200,11 +200,12 @@ export function buildExtrimliInnovationRegistry(): ExtrimliInnovationRegistryMod
     };
 
     for (let innovationIndex = 1; innovationIndex <= INNOVATIONS_PER_CLUSTER; innovationIndex += 1) {
-      const readinessStatus = resolveReadiness(globalIndex);
+      const sequenceIndex = globalIndex + 1;
+      const readinessStatus = resolveReadiness(sequenceIndex);
       const governanceStatus: ExtrimliInnovationGovernanceStatus =
         readinessStatus === 'READY' ? 'promote' : readinessStatus === 'WATCH' ? 'freeze' : 'rollback';
-      const wavePriority = resolveWavePriority(readinessStatus, globalIndex);
-      const track = TRACKS[globalIndex % TRACKS.length];
+      const wavePriority = resolveWavePriority(readinessStatus, sequenceIndex);
+      const track = TRACKS[(sequenceIndex - 1) % TRACKS.length];
 
       if (readinessStatus === 'BLOCKED' && wavePriority === 'critical') blockedCriticalCount += 1;
 
