@@ -891,5 +891,10 @@ Neproverene oblasti (u ovom ciklusu):
 - Traka je additive-only i ostaje unutar postojećih `/api/extrimli/extrem`, `/api/extrimli/extrondol` i `/api/extrimli/spaja-kod` granica (bez novih ruta i bez paralelnog source-of-truth sistema).
 - Scope je audit-governed turnirski model `svako sa svakim` sa kriterijumima: umetnički dizajn, igrački pohod, lepota glasa, intonacija umetničkog pevanja, stilski aranžman, pevački stil, originalni stav/autentičnost.
 - Originalnost pravila su obavezna: samo sopstvene/originalne pesme, bez imitacije idola, bez AI asistencije u izvođenju.
+- Operativni input za autentičnost je `EXTRIMLI_KRALJEVSKO_TAKMICENJE_AUTHENTICITY_INPUT` (comma-separated tokeni). Podržani tokeni su:
+  - `original-songs` ili `samo-originalne-pesme`
+  - `no-imitation` ili `bez-imitacije-idola`
+  - `no-ai-performance` ili `bez-ai-asistencije-u-izvodjenju`
+- Default/fallback je `original-songs,no-imitation,no-ai-performance`; bilo koji parcijalni ili nekompletni unos ostaje `BLOCKED` za autentičnost dok sva tri uslova nisu prisutna.
 - Ownership split ostaje nepromenjen: `DOK/DIK/FOR -> EXTREM`, `DAK/DUK -> EXTRONDOL`, `SPAJA KOD -> audit-safe summary-only`.
 - Nagradna politika za prvih 100 takmičarki ostaje governance-only (`top-100-audit-governed`) sa obaveznim human review i freeze/promotion/rollback evidencijom.
