@@ -19,7 +19,7 @@ Ovaj program standardizuje **developer/create** rad nad EXTRIMLI + EXTRONDOL + E
 
 - Ovaj dokument je **glavni manifest** za `DEVELOPER AND CREATE`.
 - Jedina centralna narativna rečenica ostaje `DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA`.
-- `DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == RADNI TAKT MOZGA (MISLILAC)` i `DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == MAPE UMA` ostaju samo interpretativni alias-i postojećeg vrha priče.
+- `DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == RADNI TAKT MOZGA (MISLILAC)`, `DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == MAPE UMA` i `DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == DIJALIZA POGONSKOG OMOTAČA` ostaju samo interpretativni alias-i postojećeg vrha priče.
 - Četiri stalna sloja ostaju zaključana: `Developer/Create / VRH` = orkestracioni vršni smisao, `EXTREM` = tehnički signal, `EXTRONDOL` = governance/WAWE/audit/freeze-promotion, `SPAJA KOD` = javni audit-safe rezime.
 - Mali kanonski blok rečnika ostaje zaključan: `DOK = technical readiness proof`, `DIK = technical consistency proof`, `DAK = governance promotion decision`, `DUK = human-review and rollback governance`, `FOR = technical execution loop`.
 - Aktivna faza za ovu stabilizaciju ostaje `roadmapStageId=v5-extrondol-release-audit-and-orchestration`; ista promena mora ostati vezana za jedan merljiv izlaz i postojeće acceptance evidence.
@@ -630,6 +630,7 @@ Bez kompletnog audit paketa release ostaje u freeze režimu.
 
 - `SARADNJA_READY_SCOPE_LOCK`: centralna jednačina ostaje zaključana kao `DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA`, a bounded vokabular ostaje `EXTRIMLI EXTRONDOL EXTREM DOK DUK DAK DIK FOR`.
 - `SARADNJA_READY_LAYER_RESPONSIBILITY_LOCK`: ownership split ostaje nepromenjen — `EXTREM` drži tehničku spremnost i izvršni signal (`DOK/DIK/FOR`), `EXTRONDOL` drži governance/review/freeze/promotion/rollback (`DAK/DUK`), `SPAJA KOD` objavljuje samo audit-safe summary bez internih formula, a `VRH` ostaje interpretativni orkestracioni vrh bez novog runtime source-of-truth sloja.
+- `SARADNJA_READY_DIJALIZA_ALIAS_LOCK`: `DIJALIZA POGONSKOG OMOTAČA` ostaje documentation/interpretation-only alias unutar istog VRH scope-a; ne uvodi nove rute, ne menja WAWE/review/freeze/promotion/rollback strukturu i ne menja ownership split (`DOK/DIK/FOR=EXTREM`, `DAK/DUK=EXTRONDOL`, `SPAJA KOD=summary-only`).
 - `SARADNJA_READY_SPAJA_BAZA_LOCK`: `SPAJA BAZA` ostaje beskonačno proširiv knowledge sloj kroz postojeće API surface-e (`ingest`, `crawl`, `index`, `search`, `citations`, `health`, `metrics`) uz obavezan kvalitet izvora, audit trail, incident proceduru i rollout/rollback metrike (`latency`, `citation-rate`, `failed-jobs`).
 - `SARADNJA_READY_GITHUB_VERCEL_OPERATING_MODEL`: kanonska izjava `poklanjam-na-rad-github-i-vercel` se formalizuje kao operativni model gde je GitHub source-of-truth za kod/workflow/audit evidenciju, Vercel kontrolisani deploy layer sa jasnim gate-ovima, a granica tajni ostaje striktno van repozitorijuma (Secrets Management only).
 - `SARADNJA_READY_QUALITY_GATES`: obavezni gate-ovi za sve buduće saradnje ostaju `human review` pre promocije, status jezik `READY | WATCH | BLOCKED`, `downstream reference` prema linked-repo toku, dokumentovan `rollback plan` i KPI impact summary.
