@@ -11773,18 +11773,36 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
     dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.technicalReadinessProfile.consolidatedRhythmStatus;
   const kraljevskoTakmicenjeVisualStatus =
     dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.covecnostAuditVisualReference.imageToSignalProfile.signalOutputs.readinessStatus;
-  const kraljevskoTakmicenjeGlobalStatus =
-    kraljevskoTakmicenjeCoreStatus;
-  const kraljevskoTakmicenjeAuthStatus = aggregateSignalReadinessStatus([
-    kraljevskoTakmicenjeCoreStatus,
-    kraljevskoTakmicenjeRhythmStatus,
-    kraljevskoTakmicenjeVisualStatus,
-  ]);
+  const kraljevskoTakmicenjeAuthenticityInput =
+    process.env.EXTRIMLI_KRALJEVSKO_TAKMICENJE_AUTHENTICITY_INPUT
+    ?? 'original-songs,no-imitation,no-ai-performance';
+  const kraljevskoTakmicenjeAuthenticityTokens = kraljevskoTakmicenjeAuthenticityInput
+    .split(',')
+    .map((token) => token.trim().toLowerCase())
+    .filter((token) => token.length > 0);
+  const kraljevskoTakmicenjeHasOriginalSongs =
+    kraljevskoTakmicenjeAuthenticityTokens.includes('original-songs')
+    || kraljevskoTakmicenjeAuthenticityTokens.includes('samo-originalne-pesme');
+  const kraljevskoTakmicenjeNoIdolImitation =
+    kraljevskoTakmicenjeAuthenticityTokens.includes('no-imitation')
+    || kraljevskoTakmicenjeAuthenticityTokens.includes('bez-imitacije-idola');
+  const kraljevskoTakmicenjeNoAiPerformanceAssist =
+    kraljevskoTakmicenjeAuthenticityTokens.includes('no-ai-performance')
+    || kraljevskoTakmicenjeAuthenticityTokens.includes('bez-ai-asistencije-u-izvodjenju');
+  const kraljevskoTakmicenjeAuthStatus: ExtrimliExtremReadinessStatus =
+    kraljevskoTakmicenjeHasOriginalSongs
+    && kraljevskoTakmicenjeNoIdolImitation
+    && kraljevskoTakmicenjeNoAiPerformanceAssist
+      ? 'READY'
+      : kraljevskoTakmicenjeHasOriginalSongs
+        || kraljevskoTakmicenjeNoIdolImitation
+        || kraljevskoTakmicenjeNoAiPerformanceAssist
+        ? 'WATCH'
+        : 'BLOCKED';
   const kraljevskoTakmicenjeStatuses = [
     kraljevskoTakmicenjeCoreStatus,
     kraljevskoTakmicenjeRhythmStatus,
     kraljevskoTakmicenjeVisualStatus,
-    kraljevskoTakmicenjeGlobalStatus,
     kraljevskoTakmicenjeAuthStatus,
   ] as const;
   const kraljevskoTakmicenjeStatus = aggregateSignalReadinessStatus([...kraljevskoTakmicenjeStatuses]);
@@ -11800,7 +11818,7 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
   kraljevskoTakmicenjeTrack.readinessSignal.lepotaGlasaStatus = kraljevskoTakmicenjeRhythmStatus;
   kraljevskoTakmicenjeTrack.readinessSignal.intonacijaStatus = kraljevskoTakmicenjeRhythmStatus;
   kraljevskoTakmicenjeTrack.readinessSignal.stilskiAranzmanStatus = kraljevskoTakmicenjeVisualStatus;
-  kraljevskoTakmicenjeTrack.readinessSignal.pevackiStilStatus = kraljevskoTakmicenjeGlobalStatus;
+  kraljevskoTakmicenjeTrack.readinessSignal.pevackiStilStatus = kraljevskoTakmicenjeRhythmStatus;
   kraljevskoTakmicenjeTrack.readinessSignal.originalniStavStatus = kraljevskoTakmicenjeAuthStatus;
   kraljevskoTakmicenjeTrack.readinessSignal.authenticityStatus = kraljevskoTakmicenjeAuthStatus;
   kraljevskoTakmicenjeTrack.readinessSignal.deterministicFallbackRequired =

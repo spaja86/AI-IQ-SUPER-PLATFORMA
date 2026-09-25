@@ -2137,6 +2137,20 @@ async function runTests(): Promise<void> {
       assert(privredniAkt.zadrugaOperations.readiness.deterministicFallbackRequired, 'privredni akt fallback should cascade into zadruga readiness signal');
       assert(privredniAkt.zadrugaOperations.readiness.status === 'BLOCKED', 'privredni akt fallback should block zadruga readiness');
     });
+
+    await test('KRALJEVSKO TAKMIČENJE authenticity input degrades safely without payload break', async () => {
+      await withEnv(
+        {
+          EXTRIMLI_KRALJEVSKO_TAKMICENJE_AUTHENTICITY_INPUT: 'invalid-token',
+        },
+        async () => {
+          const report = getExtrimliExtremProfilerReport();
+          const track = report.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.kraljevskoTakmicenjeTrack;
+          assert(['READY', 'WATCH', 'BLOCKED'].includes(track.readinessSignal.authenticityStatus), 'kraljevsko takmicenje authenticity status must stay bounded');
+          assert(['READY', 'WATCH', 'BLOCKED'].includes(track.readinessSignal.status), 'kraljevsko takmicenje degraded status must stay bounded');
+        },
+      );
+    });
   });
 
   console.log(`\n📊 Results: ${passed} passed, ${failed} failed\n`);
