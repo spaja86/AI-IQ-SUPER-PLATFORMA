@@ -11186,10 +11186,22 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
     'NOTES 1450 ostaje additive-only bounded radni naslednik koji smanjuje gubitak konteksta, ponavljanje i neefikasno trošenje AI materijala kroz audit-ready nastavak rada.';
   const radniProstorTrack =
     dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.radniProstorTrack;
-  const normalizedRadniProstorTokens = radniProstorTrack.boundedTokenSequence.map((token) =>
-    token.trim().replace(/\s+/g, ' ').toUpperCase());
+  const configuredRadniProstorInputSequence = process.env.EXTRIMLI_RADNI_PROSTOR_INPUT_SEQUENCE?.trim();
+  const radniProstorInputTokens = configuredRadniProstorInputSequence && configuredRadniProstorInputSequence.length > 0
+    ? configuredRadniProstorInputSequence.split(',').map((token) => token.trim()).filter((token) => token.length > 0)
+    : [...radniProstorTrack.boundedTokenSequence];
+  const normalizeRadniProstorToken = (token: string): string =>
+    radniProstorTrack.normalizationRules.uppercaseTokens
+      ? token.trim().replace(/\s+/g, ' ').toUpperCase()
+      : token.trim().replace(/\s+/g, ' ');
+  const normalizedRadniProstorTokens = radniProstorInputTokens.map(normalizeRadniProstorToken);
   const expectedRadniProstorTokens = DEVELOPER_CREATE_RADNI_PROSTOR_BOUNDED_TOKEN_SEQUENCE.map((token) =>
-    token.trim().replace(/\s+/g, ' ').toUpperCase());
+    normalizeRadniProstorToken(token));
+  const normalizedFallbackInputs = DEVELOPER_CREATE_RADNI_PROSTOR_FALLBACK_INPUTS.map((fallbackInput) =>
+    normalizeRadniProstorToken(fallbackInput));
+  const unknownTokenDetected = normalizedRadniProstorTokens.some((token) => !expectedRadniProstorTokens.includes(token));
+  const conflictTokenDetected = normalizedRadniProstorTokens.some((token) =>
+    token === normalizedFallbackInputs[3]);
   const radniProstorNormalizationOk =
     normalizedRadniProstorTokens.length === expectedRadniProstorTokens.length
     && normalizedRadniProstorTokens.every((token, index) => token === expectedRadniProstorTokens[index]);
@@ -11202,11 +11214,21 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
     (radniProstorMatchedTokenCount / expectedRadniProstorTokens.length) * 100,
     2,
   );
+  const radniProstorUnknownSignalStatus =
+    unknownTokenDetected && radniProstorTrack.normalizationRules.unknownTokenHandling === 'map-to-watch-and-require-review'
+      ? 'WATCH'
+      : 'READY';
+  const radniProstorConflictSignalStatus =
+    conflictTokenDetected && radniProstorTrack.normalizationRules.conflictHandling === 'map-to-blocked-and-require-review'
+      ? 'BLOCKED'
+      : 'READY';
   const radniProstorSignalStatuses = [
     dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.status,
     dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.technicalReadinessProfile.consolidatedRhythmStatus,
     radniProstorNormalizationOk ? 'READY' : 'WATCH',
     radniProstorTokenCoveragePercent === 100 ? 'READY' : 'WATCH',
+    radniProstorUnknownSignalStatus,
+    radniProstorConflictSignalStatus,
   ] as const;
   const radniProstorStatus = aggregateSignalReadinessStatus([...radniProstorSignalStatuses]);
   const radniProstorReadinessScore = round(
@@ -11216,6 +11238,8 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
   );
   const radniProstorDeterministicFallbackRequired =
     radniProstorStatus !== 'READY'
+    || unknownTokenDetected
+    || conflictTokenDetected
     || dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.deterministicFallbackRequired;
   radniProstorTrack.readinessSignal.status = radniProstorStatus;
   radniProstorTrack.readinessSignal.readinessScore = radniProstorReadinessScore;
@@ -11224,12 +11248,16 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
   radniProstorTrack.readinessSignal.deterministicFallbackRequired = radniProstorDeterministicFallbackRequired;
   radniProstorTrack.blockerReason =
     radniProstorStatus === 'BLOCKED'
-      ? 'RADNI PROSTOR ostaje BLOCKED dok bounded token sekvenca i postojeći ownership split ne ostanu potpuno usklađeni u additive-only modu.'
+      ? conflictTokenDetected
+        ? 'RADNI PROSTOR ostaje BLOCKED jer fallback ulaz `conflict` aktivira zaključano pravilo map-to-blocked-and-require-review dok bounded token sekvenca i ownership split ne budu ponovo usklađeni.'
+        : 'RADNI PROSTOR ostaje BLOCKED dok bounded token sekvenca i postojeći ownership split ne ostanu potpuno usklađeni u additive-only modu.'
       : null;
   radniProstorTrack.watchReasons =
     radniProstorStatus === 'WATCH'
       ? [
-        'RADNI PROSTOR ostaje u WATCH režimu dok bounded token sekvenca i normalizacija traže dodatni review unutar postojećeg EXTREM/EXTRONDOL/SPAJA KOD kontrakta.',
+        unknownTokenDetected
+          ? 'RADNI PROSTOR detektuje unknown-token ulaz i mapira ga u WATCH + required review prema zaključanom normalization pravilu.'
+          : 'RADNI PROSTOR ostaje u WATCH režimu dok bounded token sekvenca i normalizacija traže dodatni review unutar postojećeg EXTREM/EXTRONDOL/SPAJA KOD kontrakta.',
       ]
       : [];
   radniProstorTrack.reviewPosture =
