@@ -1980,6 +1980,15 @@ Koristiti format `AI-IQ-SUPER-PLATFORMA#VPOREKLO-2026-09 -> IO-OPENUI-AO#123` gd
 - Linked repo: `spaja86/IO-OPENUI-AO` — Follow-up only / audit-safe summary sync
 - Sync only audit-safe outputs (`developerAndCreateRepoWideReflection.aiIqKonferencijaZaStampuTrack`, `releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.aiIqKonferencijaZaStampuTrack`, `spajaKod.publicSignals.aiIqKonferencijaZaStampuStatus`, `spajaKod.developerAndCreateImplementationPackage.aiIqKonferencijaZaStampuSummary`) covering status, blocker/watch posture, review posture, downstream reference and media summary; raw token groupings, raw EXTREM/EXTRONDOL formulas and internal evidence remain repo-local
 
+## Developer/Create RADNI PROSTOR downstream reference
+
+- Scope lock: `DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == RADNI PROSTOR`.
+- Locked bounded token sequence (additive-only alias): `OKUR, DJUKUR, DAR, ZOR, IKON, ZULUM, DABRE, IZOS, JAKOR, DAPR, ZUKUR, ENTER, DIKAR, ZUMBUL, SIRGED, ZIKOR, DJENDER, ĆUR, NIKON, DERKO, ZUKAL, IKON, ZAJDI`.
+- Linked repo: `spaja86/IO-OPENUI-AO` — Follow-up only / audit-safe summary sync.
+- Sync only audit-safe outputs (`developerAndCreateRepoWideReflection.radniProstorTrack`, `releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.radniProstorTrack`, `spajaKod.publicSignals.radniProstorStatus`, `spajaKod.developerAndCreateImplementationPackage.radniProstorSummary`) covering status, blocker/watch posture, review posture, downstream reference and token-lock coverage summary.
+- Raw bounded-token interpretation internals and raw EXTREM/EXTRONDOL formulas remain repo-local.
+- Ownership lock remains unchanged: `DOK/DIK/FOR -> EXTREM`, `DAK/DUK -> EXTRONDOL`, `SPAJA KOD -> summary-only`.
+
 ## Developer/Create VRH Mape Uma global explanation sync
 
 - Scope lock: `DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == MAPE UMA`.

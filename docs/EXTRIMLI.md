@@ -311,6 +311,8 @@ Promotion freeze je obavezan kada KPI/audit/sync nije potpun, uz rollback na pre
 - `EXTRONDOL` mirrors the same track through `releaseAuditSummary` for review/freeze/promotion/rollout/rollback governance.
 - `SPAJA KOD` exposes only summary-safe status, blocker reason, review posture, and downstream reference.
 - `DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == NOTES 1450` is additive-only and stays inside the same chain as a bounded work-continuation package; EXTREM measures continuity/saturation signals, EXTRONDOL decides review/freeze/rollback posture, and SPAJA KOD exposes only audit-safe continuation status and business-value summary.
+- `DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == RADNI PROSTOR` is additive-only and bounded by the locked token sequence `OKUR, DJUKUR, DAR, ZOR, IKON, ZULUM, DABRE, IZOS, JAKOR, DAPR, ZUKUR, ENTER, DIKAR, ZUMBUL, SIRGED, ZIKOR, DJENDER, ĆUR, NIKON, DERKO, ZUKAL, IKON, ZAJDI`; no new routes and no parallel source-of-truth are allowed.
+- Ownership split for `RADNI PROSTOR` remains unchanged: `DOK/DIK/FOR -> EXTREM`, `DAK/DUK -> EXTRONDOL`, `SPAJA KOD -> summary-only`.
 
   ## SPAJA KOD encapsulated public facade
 

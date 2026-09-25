@@ -30,6 +30,12 @@ import type {
   DEVELOPER_CREATE_NAPOLEON_DISKAVERI_BOUNDED_SIGNALS,
   DEVELOPER_CREATE_NAPOLEON_DISKAVERI_CANONICAL_ALIAS,
   DEVELOPER_CREATE_NAPOLEON_DISKAVERI_SCOPE_STATEMENT,
+  DEVELOPER_CREATE_RADNI_PROSTOR_BOUNDED_TOKEN_SEQUENCE,
+  DEVELOPER_CREATE_RADNI_PROSTOR_CANONICAL_ALIAS,
+  DEVELOPER_CREATE_RADNI_PROSTOR_FALLBACK_INPUTS,
+  DEVELOPER_CREATE_RADNI_PROSTOR_NORMALIZATION_RULES,
+  DEVELOPER_CREATE_RADNI_PROSTOR_ROLE_CLASSIFICATION,
+  DEVELOPER_CREATE_RADNI_PROSTOR_SCOPE_STATEMENT,
   DEVELOPER_CREATE_VRH_CANONICAL_TOKEN_VOCABULARY,
   DEVELOPER_CREATE_VRH_DOWNSTREAM_SUMMARY_POLICY,
   DEVELOPER_CREATE_VRH_FOUR_PERMANENT_LAYERS,
@@ -2734,6 +2740,51 @@ export interface ExtrimliDokDikDakDukConsistencyHealth {
       businessValueSummary: string;
       downstreamReference: 'docs/MULTI-REPO-LINKS.md -> spaja86/IO-OPENUI-AO (summary-only)';
     };
+    radniProstorTrack: {
+      canonicalAlias: typeof DEVELOPER_CREATE_RADNI_PROSTOR_CANONICAL_ALIAS;
+      scopeStatement: typeof DEVELOPER_CREATE_RADNI_PROSTOR_SCOPE_STATEMENT;
+      roleClassification: typeof DEVELOPER_CREATE_RADNI_PROSTOR_ROLE_CLASSIFICATION;
+      boundedTokenSequence: typeof DEVELOPER_CREATE_RADNI_PROSTOR_BOUNDED_TOKEN_SEQUENCE;
+      normalizationRules: typeof DEVELOPER_CREATE_RADNI_PROSTOR_NORMALIZATION_RULES;
+      boundedVocabularyPhrase: 'EXTRIMLI EXTRONDOL EXTREM DOK DUK DAK DIK FOR';
+      additiveOnly: true;
+      noNewRuntimeEngine: true;
+      noNewRuntimeRoutes: true;
+      noParallelSourceOfTruth: true;
+      sourceOfTruthRoutes: readonly ['/api/extrimli/extrem', '/api/extrimli/extrondol', '/api/extrimli/spaja-kod'];
+      ownershipLock: {
+        dokDikFor: 'EXTREM';
+        dakDuk: 'EXTRONDOL';
+        spajaKod: 'audit-safe-summary-only';
+      };
+      summarySafePublicFields: readonly [
+        'canonicalAlias',
+        'status',
+        'blockerReason',
+        'watchReasons',
+        'reviewPosture',
+        'downstreamReference',
+        'tokenSequenceLock'
+      ];
+      readinessSignal: {
+        status: 'READY' | 'WATCH' | 'BLOCKED';
+        readinessScore: number;
+        tokenCoveragePercent: number;
+        normalizedInputCount: number;
+        deterministicFallbackRequired: boolean;
+        fallbackInputs: typeof DEVELOPER_CREATE_RADNI_PROSTOR_FALLBACK_INPUTS;
+        driver: 'developerAndCreateRepoWideReflection.readiness + developerAndCreateRepoWideReflection.technicalReadinessProfile.consolidatedRhythmStatus';
+      };
+      blockerReason: string | null;
+      watchReasons: string[];
+      reviewPosture: 'ALIGNED' | 'WATCH' | 'REVIEW_REQUIRED';
+      tokenSequenceLock: {
+        additiveOnlyAlias: true;
+        noNewRoutes: true;
+        noNewSourceOfTruth: true;
+      };
+      downstreamReference: 'docs/MULTI-REPO-LINKS.md -> spaja86/IO-OPENUI-AO (summary-only)';
+    };
     aiIqKonferencijaZaStampuTrack: {
       canonicalAlias: typeof DEVELOPER_CREATE_AI_IQ_KONFERENCIJA_ZA_STAMPU_CANONICAL_ALIAS;
       scopeStatement: typeof DEVELOPER_CREATE_AI_IQ_KONFERENCIJA_ZA_STAMPU_SCOPE_STATEMENT;
@@ -2803,6 +2854,7 @@ export interface ExtrimliDokDikDakDukConsistencyHealth {
       kraljevskiBastaUneverzite: 'KRALJEVSKI BAŠTA UNEVERZITE';
       kompanijaSpajaDigitalnaIndustrija: 'Kompanija SPAJA / Digitalna Industrija';
       sarkazamPrivrednaGranaDigitalizma: 'SARKAZAM / PRIVREDNA GRANA DIGITALIZMA / PROJEKTI ENTUZIJAZMA PO ČINU OBLASTIMA';
+      radniProstor: 'RADNI PROSTOR';
       notes1450: 'NOTES 1450';
     };
     canonicalGovernanceVocabulary: {
@@ -2834,6 +2886,7 @@ export interface ExtrimliDokDikDakDukConsistencyHealth {
       kompanijaSpaja: 'KOMPANIJA SPAJA';
       digitalnaIndustrija: 'DIGITALNA INDUSTRIJA';
       sarkazam: 'SARKAZAM';
+      radniProstor: 'RADNI PROSTOR';
       privrednaGranaDigitalizma: 'PRIVREDNA GRANA DIGITALIZMA';
       projektiEntuzijazmaPoCinuOblastima: 'PROJEKTI ENTUZIJAZMA PO ČINU OBLASTIMA';
       aiIqKonferencijaZaStampu: 'AI IQ KONFERENCIJA ZA ŠTAMPU';
@@ -3941,7 +3994,7 @@ export interface ExtrimliDokDikDakDukConsistencyHealth {
     aiIdentityFinanceGovernance: AiIdentityFinanceGovernancePackage;
     currentImplementationStage: {
       roadmapStageId: 'v5-extrondol-release-audit-and-orchestration';
-      measurableOutput: 'audit-safe repo-wide reflection status plus AI identity-finance governance, primary ČOVEČNOST, supplemental ČOVEČANSTVO, KRALJEVSKI BAŠTA UNEVERZITE bounded narrative metadata, additive audio-vizuelni kontrabas package metadata, companion ČOVEČANSTVO / OSEĆAJ OSEBENOSTI visual metadata, and OSNOVE / RISPEKT protocol evidence are published only through existing EXTRIMLI/EXTREM/EXTRONDOL/SPAJA KOD surfaces';
+      measurableOutput: 'audit-safe repo-wide reflection status plus AI identity-finance governance, RADNI PROSTOR bounded token-lock metadata, primary ČOVEČNOST, supplemental ČOVEČANSTVO, KRALJEVSKI BAŠTA UNEVERZITE bounded narrative metadata, additive audio-vizuelni kontrabas package metadata, companion ČOVEČANSTVO / OSEĆAJ OSEBENOSTI visual metadata, and OSNOVE / RISPEKT protocol evidence are published only through existing EXTRIMLI/EXTREM/EXTRONDOL/SPAJA KOD surfaces';
       acceptanceEvidence: readonly [
         'dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.implementationPackage',
         'dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection',
@@ -3953,6 +4006,7 @@ export interface ExtrimliDokDikDakDukConsistencyHealth {
         'dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.osnoveRispektProtocol',
         'dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.aiIdentityFinanceGovernance',
         'dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.aiPlateOffer',
+        'dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.radniProstorTrack',
         'spajaKod.publicSignals.developerAndCreateStatus',
         'radniTaktMozgaMislilac.readiness',
         'metrikoProgramiranje.readiness',
@@ -4314,6 +4368,20 @@ export interface ExtrimliDokDikDakDukConsistencyHealth {
         extrondolPublishes: 'wawe-freeze-promotion-review-rollback-audit-summary-only';
         spajaKodPublishes: 'status-blocker-review-downstream-and-business-value-summary-only';
         technicalBinding: 'developerAndCreateRepoWideReflection.notes1450Track';
+        noNewRuntimeEngine: true;
+        noNewRuntimeRoutes: true;
+        noParallelSourceOfTruth: true;
+        rawInternalsExposed: false;
+      };
+      radniProstorBoundary: {
+        trackRole: 'bounded-radni-prostor-alias-track';
+        parentTrack: 'VRH PROGRAMSKOG EKVILADENTA';
+        canonicalAlias: typeof DEVELOPER_CREATE_RADNI_PROSTOR_CANONICAL_ALIAS;
+        roleClassification: typeof DEVELOPER_CREATE_RADNI_PROSTOR_ROLE_CLASSIFICATION;
+        extremPublishes: 'status-token-coverage-normalization-and-deterministic-fallback-signal-only';
+        extrondolPublishes: 'wawe-freeze-promotion-review-rollback-audit-summary-only';
+        spajaKodPublishes: 'status-blocker-review-downstream-and-token-sequence-lock-summary-only';
+        technicalBinding: 'developerAndCreateRepoWideReflection.radniProstorTrack';
         noNewRuntimeEngine: true;
         noNewRuntimeRoutes: true;
         noParallelSourceOfTruth: true;
