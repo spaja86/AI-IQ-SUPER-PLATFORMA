@@ -11382,9 +11382,30 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
   );
   const konstrukcijeIProjektovanjeNormalizedFallbackInputs =
     konstrukcijeIProjektovanjeTrack.readinessSignal.fallbackInputs.map(normalizeKonstrukcijeIProjektovanjeToken);
-  const konstrukcijeIProjektovanjeContainsConflictToken = normalizedKonstrukcijeIProjektovanjeTokens.some((token) =>
-    konstrukcijeIProjektovanjeNormalizedFallbackInputs.includes(token),
+  const konstrukcijeIProjektovanjeNormalizedUnknownTokenInputs =
+    konstrukcijeIProjektovanjeTrack.readinessSignal.fallbackInputs
+      .filter((token) => normalizeKonstrukcijeIProjektovanjeToken(token) === 'UNKNOWN-TOKEN')
+      .map(normalizeKonstrukcijeIProjektovanjeToken);
+  const konstrukcijeIProjektovanjeNormalizedBlockedFallbackInputs =
+    konstrukcijeIProjektovanjeNormalizedFallbackInputs.filter(
+      (token) => !konstrukcijeIProjektovanjeNormalizedUnknownTokenInputs.includes(token),
+    );
+  const konstrukcijeIProjektovanjeContainsUnknownToken = normalizedKonstrukcijeIProjektovanjeTokens.some((token) =>
+    konstrukcijeIProjektovanjeNormalizedUnknownTokenInputs.includes(token),
   );
+  const konstrukcijeIProjektovanjeContainsConflictToken = normalizedKonstrukcijeIProjektovanjeTokens.some((token) =>
+    konstrukcijeIProjektovanjeNormalizedBlockedFallbackInputs.includes(token),
+  );
+  const konstrukcijeIProjektovanjeTokenInputStatus =
+    konstrukcijeIProjektovanjeContainsConflictToken
+      ? 'BLOCKED'
+      : konstrukcijeIProjektovanjeContainsUnknownToken
+        ? 'WATCH'
+        : konstrukcijeIProjektovanjeTokenCoveragePercent === 100
+          ? 'READY'
+          : konstrukcijeIProjektovanjeTokenCoveragePercent >= 70
+            ? 'WATCH'
+            : 'BLOCKED';
   const gradjevinskiFakultetStatus =
     dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.kraljevskiProgramskiUneverzitet
       .boundedFacultyDomains.gradjevinskiFakultet.readiness.status;
@@ -11397,11 +11418,7 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
       .consolidatedRhythmStatus,
     gradjevinskiFakultetStatus,
     gradjevinskiAktStatus,
-    konstrukcijeIProjektovanjeTokenCoveragePercent === 100 && !konstrukcijeIProjektovanjeContainsConflictToken
-      ? 'READY'
-      : konstrukcijeIProjektovanjeTokenCoveragePercent >= 70 && !konstrukcijeIProjektovanjeContainsConflictToken
-        ? 'WATCH'
-        : 'BLOCKED',
+    konstrukcijeIProjektovanjeTokenInputStatus,
   ] as const;
   const konstrukcijeIProjektovanjeStatus = aggregateSignalReadinessStatus([
     ...konstrukcijeIProjektovanjeSignalStatuses,
@@ -11414,6 +11431,7 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
   const konstrukcijeIProjektovanjeDeterministicFallbackRequired =
     konstrukcijeIProjektovanjeStatus !== 'READY'
     || konstrukcijeIProjektovanjeContainsConflictToken
+    || konstrukcijeIProjektovanjeContainsUnknownToken
     || dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.deterministicFallbackRequired;
   konstrukcijeIProjektovanjeTrack.readinessSignal.status = konstrukcijeIProjektovanjeStatus;
   konstrukcijeIProjektovanjeTrack.readinessSignal.readinessScore = konstrukcijeIProjektovanjeReadinessScore;
