@@ -2888,6 +2888,7 @@ export interface ExtrimliDokDikDakDukConsistencyHealth {
         'watchReasons',
         'reviewPosture',
         'downstreamReference',
+        'nalazSummary',
         'constructionDesignSummary',
         'gradjevinskiFakultetStatus',
         'gradjevinskiAktStatus'
@@ -2912,6 +2913,7 @@ export interface ExtrimliDokDikDakDukConsistencyHealth {
         'spajaKod.publicSignals.konstrukcijeIProjektovanjeStatus',
         'spajaKod.developerAndCreateImplementationPackage.konstrukcijeIProjektovanjeSummary'
       ];
+      nalazSummary: string;
       constructionDesignSummary: string;
       domainBinding: {
         boundedFacultyDomain: 'GRAĐEVINSKI FAKULTET';

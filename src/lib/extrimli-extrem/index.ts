@@ -7117,6 +7117,7 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
           'watchReasons',
           'reviewPosture',
           'downstreamReference',
+          'nalazSummary',
           'constructionDesignSummary',
           'gradjevinskiFakultetStatus',
           'gradjevinskiAktStatus',
@@ -7142,6 +7143,7 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
           'spajaKod.publicSignals.konstrukcijeIProjektovanjeStatus',
           'spajaKod.developerAndCreateImplementationPackage.konstrukcijeIProjektovanjeSummary',
         ],
+        nalazSummary: '',
         constructionDesignSummary: '',
         domainBinding: {
           boundedFacultyDomain: 'GRAĐEVINSKI FAKULTET',
@@ -11542,7 +11544,7 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
       aiIqLaboratorijaTokenSegments.programskiEkanalog,
     ),
   ];
-  const normalizeAiIqLaboratorijaToken = (token: string): string => {
+  function normalizeAiIqLaboratorijaToken(token: string): string {
     let normalizedToken = token;
     if (aiIqLaboratorijaTrack.normalizationRules.trimWhitespace) {
       normalizedToken = normalizedToken.trim();
@@ -11554,7 +11556,7 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
       normalizedToken = normalizedToken.toUpperCase();
     }
     return normalizedToken;
-  };
+  }
   const konstrukcijeIProjektovanjeTrack =
     dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.konstrukcijeIProjektovanjeTrack;
   const konstrukcijeIProjektovanjeRuntimeTokenInput =
@@ -11800,6 +11802,8 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
         : 'REVIEW_REQUIRED';
   konstrukcijeIProjektovanjeTrack.constructionDesignSummary =
     'KONSTRUKCIJE I PROJEKTOVANJE ostaje additive-only bounded građevinsko-projektantska traka: EXTREM drži DOK/DIK/FOR readiness i signal vezu sa GRAĐEVINSKI FAKULTET, EXTRONDOL drži DAK/DUK governance mirror preko GRAĐEVINSKI AKT, a SPAJA KOD objavljuje samo audit-safe summary bez internih formula.';
+  konstrukcijeIProjektovanjeTrack.nalazSummary =
+    konstrukcijeIProjektovanjeTrack.constructionDesignSummary;
   const aiIqKonferencijaZaStampuTrack =
     dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.aiIqKonferencijaZaStampuTrack;
   const aiIqKonferencijaZaStampuMediaSummary =
