@@ -35,7 +35,6 @@ import {
   DEVELOPER_CREATE_KONSTRUKCIJE_I_PROJEKTOVANJE_SCOPE_STATEMENT,
   DEVELOPER_CREATE_KONSTRUKCIJE_I_PROJEKTOVANJE_WATCH_FALLBACK_INPUTS,
   DEVELOPER_CREATE_KRALJEVSKO_TAKMICENJE_AUTHENTICITY_RULES,
-  DEVELOPER_CREATE_KRALJEVSKO_TAKMICENJE_AUTHENTICITY_TOKEN_INPUT,
   DEVELOPER_CREATE_KRALJEVSKO_TAKMICENJE_CANONICAL_ALIAS,
   DEVELOPER_CREATE_KRALJEVSKO_TAKMICENJE_EVALUATION_CRITERIA,
   DEVELOPER_CREATE_KRALJEVSKO_TAKMICENJE_REWARDS_POLICY,
@@ -11774,28 +11773,12 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
     dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.technicalReadinessProfile.consolidatedRhythmStatus;
   const kraljevskoTakmicenjeVisualStatus =
     dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.covecnostAuditVisualReference.imageToSignalProfile.signalOutputs.readinessStatus;
-  const kraljevskoTakmicenjeRuntimeAuthenticityInput =
-    process.env.NODE_ENV === 'test'
-      ? process.env.EXTRIMLI_KRALJEVSKO_TAKMICENJE_AUTHENTICITY_INPUT
-      : undefined;
-  const kraljevskoTakmicenjeAuthenticityInput =
-    kraljevskoTakmicenjeRuntimeAuthenticityInput
-    && kraljevskoTakmicenjeRuntimeAuthenticityInput.trim().length > 0
-      ? kraljevskoTakmicenjeRuntimeAuthenticityInput
-      : DEVELOPER_CREATE_KRALJEVSKO_TAKMICENJE_AUTHENTICITY_TOKEN_INPUT;
-  const kraljevskoTakmicenjeAuthenticityTokens = kraljevskoTakmicenjeAuthenticityInput
-    .split(',')
-    .map((token) => token.trim().toLowerCase())
-    .filter((token) => token.length > 0);
   const kraljevskoTakmicenjeHasOriginalSongs =
-    kraljevskoTakmicenjeAuthenticityTokens.includes('original-songs')
-    || kraljevskoTakmicenjeAuthenticityTokens.includes('samo-originalne-pesme');
+    kraljevskoTakmicenjeCoreStatus === 'READY';
   const kraljevskoTakmicenjeNoIdolImitation =
-    kraljevskoTakmicenjeAuthenticityTokens.includes('no-imitation')
-    || kraljevskoTakmicenjeAuthenticityTokens.includes('bez-imitacije-idola');
+    kraljevskoTakmicenjeRhythmStatus !== 'BLOCKED';
   const kraljevskoTakmicenjeNoAiPerformanceAssist =
-    kraljevskoTakmicenjeAuthenticityTokens.includes('no-ai-performance')
-    || kraljevskoTakmicenjeAuthenticityTokens.includes('bez-ai-asistencije-u-izvodjenju');
+    kraljevskoTakmicenjeVisualStatus === 'READY';
   const kraljevskoTakmicenjeAuthStatus: ExtrimliExtremReadinessStatus =
     kraljevskoTakmicenjeHasOriginalSongs
     && kraljevskoTakmicenjeNoIdolImitation
