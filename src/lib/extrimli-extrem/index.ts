@@ -18,6 +18,9 @@ import {
   DEVELOPER_CREATE_NAPOLEON_DISKAVERI_BOUNDED_SIGNALS,
   DEVELOPER_CREATE_NAPOLEON_DISKAVERI_CANONICAL_ALIAS,
   DEVELOPER_CREATE_NAPOLEON_DISKAVERI_SCOPE_STATEMENT,
+  DEVELOPER_CREATE_SARKAZAM_PRIVREDNA_GRANA_DIGITALIZMA_BOUNDED_SIGNALS,
+  DEVELOPER_CREATE_SARKAZAM_PRIVREDNA_GRANA_DIGITALIZMA_CANONICAL_ALIAS,
+  DEVELOPER_CREATE_SARKAZAM_PRIVREDNA_GRANA_DIGITALIZMA_SCOPE_CLASSIFICATION,
   DEVELOPER_CREATE_VRH_CANONICAL_NARRATIVE_SENTENCE,
   DEVELOPER_CREATE_VRH_CANONICAL_TOKEN_VOCABULARY,
   DEVELOPER_CREATE_VRH_DOWNSTREAM_SUMMARY_POLICY,
@@ -6763,6 +6766,58 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
         humanReviewPosture: 'REVIEW_REQUIRED',
         downstreamReference: 'docs/MULTI-REPO-LINKS.md -> spaja86/IO-OPENUI-AO (summary-only)',
       },
+      sarkazamPrivrednaGranaDigitalizmaTrack: {
+        canonicalAlias: DEVELOPER_CREATE_SARKAZAM_PRIVREDNA_GRANA_DIGITALIZMA_CANONICAL_ALIAS,
+        scopeClassification: DEVELOPER_CREATE_SARKAZAM_PRIVREDNA_GRANA_DIGITALIZMA_SCOPE_CLASSIFICATION,
+        boundedSignals: DEVELOPER_CREATE_SARKAZAM_PRIVREDNA_GRANA_DIGITALIZMA_BOUNDED_SIGNALS,
+        boundedVocabularyPhrase: 'EXTRIMLI EXTRONDOL EXTREM DOK DUK DAK DIK FOR',
+        additiveOnly: true,
+        noNewRuntimeEngine: true,
+        noNewRuntimeRoutes: true,
+        noParallelSourceOfTruth: true,
+        sourceOfTruthRoutes: ['/api/extrimli/extrem', '/api/extrimli/extrondol', '/api/extrimli/spaja-kod'],
+        ownershipLock: {
+          dokDikFor: 'EXTREM',
+          dakDuk: 'EXTRONDOL',
+          spajaKod: 'audit-safe-summary-only',
+        },
+        summarySafePublicFields: [
+          'canonicalAlias',
+          'status',
+          'blockerReason',
+          'reviewPosture',
+          'downstreamReference',
+          'scopeClassification',
+        ],
+        reflectionSignal: {
+          status: 'BLOCKED',
+          readinessScore: 0,
+          deterministicFallbackRequired: true,
+          fallbackInputs: ['NaN', 'Infinity', 'empty', 'conflict'],
+          driver:
+            'developerAndCreateRepoWideReflection.readiness + developerAndCreateRepoWideReflection.kraljevskiEkonomskiUneverzitet + developerAndCreateRepoWideReflection.kraljevskiProgramskiUneverzitet',
+        },
+        blockerReason: 'sarkazam-track-awaits-existing-developer-create-enterprise-and-programmatic-alignment',
+        watchReasons: [],
+        reviewPosture: 'REVIEW_REQUIRED',
+        downstreamReference: 'docs/MULTI-REPO-LINKS.md -> spaja86/IO-OPENUI-AO (summary-only)',
+        normalizedScope: {
+          narrativeMarker: 'SARKAZAM',
+          enterpriseTrack: 'Kompanija SPAJA / Digitalna Industrija',
+          policyTrack: 'PRIVREDNI AKT',
+          pedagogicalCatalog: 'testovi-po-oblastima',
+          boundedInterpretation: 'enterprise-governance-and-pedagogical-interpretation-only',
+          auditOnlyNarrativeLayer: true,
+          noNewBusinessFormulaAuthority: true,
+          noNewDecisionSemantics: true,
+        },
+        oblastCinSummary: {
+          oblastStatus: 'BLOCKED',
+          cinStatus: 'BLOCKED',
+          publicSummary:
+            'SARKAZAM ostaje bounded audit-only marker dok oblast/čin summary ne ostane usklađen sa postojećim Digitalna Industrija, PRIVREDNI AKT i testovi-po-oblastima signalima.',
+        },
+      },
       mappedTracks: {
         vrhProgramskogEkviladenta: 'VRH PROGRAMSKOG EKVILADENTA',
         radniTaktMozgaMislilac: 'RADNI TAKT MOZGA (MISLILAC)',
@@ -6777,6 +6832,7 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
         puteviIstinskePravde: 'PUTEVI ISTINSKE PRAVDE',
         kraljevskiBastaUneverzite: 'KRALJEVSKI BAŠTA UNEVERZITE',
         kompanijaSpajaDigitalnaIndustrija: 'Kompanija SPAJA / Digitalna Industrija',
+        sarkazamPrivrednaGranaDigitalizma: 'SARKAZAM / PRIVREDNA GRANA DIGITALIZMA / PROJEKTI ENTUZIJAZMA PO ČINU OBLASTIMA',
       },
       canonicalGovernanceVocabulary: {
         extremExtrimliExtrondol: 'EXTRIMLI EXTRONDOL EXTREM',
@@ -6809,6 +6865,9 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
         nezaposleni: 'NEZAPOSLENI',
         kompanijaSpaja: 'KOMPANIJA SPAJA',
         digitalnaIndustrija: 'DIGITALNA INDUSTRIJA',
+        sarkazam: 'SARKAZAM',
+        privrednaGranaDigitalizma: 'PRIVREDNA GRANA DIGITALIZMA',
+        projektiEntuzijazmaPoCinuOblastima: 'PROJEKTI ENTUZIJAZMA PO ČINU OBLASTIMA',
       },
       osnoveRispektProtocol: {
         title: 'OSNOVE / RISPEKT',
@@ -10593,6 +10652,23 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
       noParallelSourceOfTruth: true,
       rawInternalsExposed: false,
     },
+    sarkazamPrivrednaGranaDigitalizmaBoundary: {
+      trackRole: 'bounded-sarkazam-digitalizam-alias-track',
+      parentTrack: 'VRH PROGRAMSKOG EKVILADENTA',
+      canonicalAlias: DEVELOPER_CREATE_SARKAZAM_PRIVREDNA_GRANA_DIGITALIZMA_CANONICAL_ALIAS,
+      scopeClassification: DEVELOPER_CREATE_SARKAZAM_PRIVREDNA_GRANA_DIGITALIZMA_SCOPE_CLASSIFICATION,
+      extremPublishes: 'status-blocker-watch-oblast-cin-summary-and-deterministic-fallback-signal-only',
+      extrondolPublishes: 'wawe-freeze-promotion-review-rollback-audit-summary-only',
+      spajaKodPublishes: 'status-blocker-review-and-downstream-reference-only',
+      technicalBinding: 'developerAndCreateRepoWideReflection.sarkazamPrivrednaGranaDigitalizmaTrack',
+      enterpriseTrack: 'Kompanija SPAJA / Digitalna Industrija',
+      policyTrack: 'PRIVREDNI AKT',
+      pedagogicalCatalog: 'testovi-po-oblastima',
+      noNewRuntimeEngine: true,
+      noNewRuntimeRoutes: true,
+      noParallelSourceOfTruth: true,
+      rawInternalsExposed: false,
+    },
     canonicalTerminologyMapping: {
       phrase: 'EXTRIMLI EXTRONDOL EXTREM DOK DUK DAK DIK FOR',
       nucleusLayers: ['documentation', 'types', 'route-summary-fields', 'tests', 'workflow-audit-layer'],
@@ -10721,6 +10797,57 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
       : eksperimentProgramskiJezikStatus === 'WATCH'
         ? 'WATCH'
         : 'REVIEW_REQUIRED';
+  const sarkazamPrivrednaGranaDigitalizmaSignalStatuses = [
+    dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.status,
+    dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.kraljevskiEkonomskiUneverzitet.readiness.status,
+    dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.kraljevskiProgramskiUneverzitet.readiness.status,
+  ];
+  const sarkazamPrivrednaGranaDigitalizmaStatus = aggregateReadinessStatus(
+    sarkazamPrivrednaGranaDigitalizmaSignalStatuses,
+  );
+  const sarkazamPrivrednaGranaDigitalizmaReadinessScore = round(
+    (
+      dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.score
+      + dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.kraljevskiEkonomskiUneverzitet.readiness.score
+      + dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.kraljevskiProgramskiUneverzitet.readiness.score
+    ) / 3,
+    2,
+  );
+  const sarkazamPrivrednaGranaDigitalizmaDeterministicFallbackRequired =
+    dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.deterministicFallbackRequired
+    || dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.kraljevskiEkonomskiUneverzitet.readiness.deterministicFallbackRequired
+    || dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.kraljevskiProgramskiUneverzitet.readiness.deterministicFallbackRequired;
+  dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.sarkazamPrivrednaGranaDigitalizmaTrack.reflectionSignal.status =
+    sarkazamPrivrednaGranaDigitalizmaStatus;
+  dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.sarkazamPrivrednaGranaDigitalizmaTrack.reflectionSignal.readinessScore =
+    sarkazamPrivrednaGranaDigitalizmaReadinessScore;
+  dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.sarkazamPrivrednaGranaDigitalizmaTrack.reflectionSignal.deterministicFallbackRequired =
+    sarkazamPrivrednaGranaDigitalizmaDeterministicFallbackRequired;
+  dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.sarkazamPrivrednaGranaDigitalizmaTrack.blockerReason =
+    sarkazamPrivrednaGranaDigitalizmaStatus === 'BLOCKED'
+      ? 'SARKAZAM ostaje BLOCKED dok bounded Digitalna Industrija, PRIVREDNI AKT i testovi-po-oblastima signali nisu usklađeni unutar postojećeg Developer/Create reflection paketa bez novih formula i bez nove semantike odlučivanja.'
+      : null;
+  dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.sarkazamPrivrednaGranaDigitalizmaTrack.watchReasons =
+    sarkazamPrivrednaGranaDigitalizmaStatus === 'WATCH'
+      ? [
+        'SARKAZAM ostaje u WATCH režimu dok privredna grana digitalizma i projekti entuzijazma po činu oblastima zahtevaju dodatni review unutar postojećeg enterprise/policy/pedagoškog bounded sloja.',
+      ]
+      : [];
+  dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.sarkazamPrivrednaGranaDigitalizmaTrack.reviewPosture =
+    sarkazamPrivrednaGranaDigitalizmaStatus === 'READY'
+      ? 'ALIGNED'
+      : sarkazamPrivrednaGranaDigitalizmaStatus === 'WATCH'
+        ? 'WATCH'
+        : 'REVIEW_REQUIRED';
+  dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.sarkazamPrivrednaGranaDigitalizmaTrack.oblastCinSummary =
+    {
+      oblastStatus:
+        dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.kraljevskiProgramskiUneverzitet.readiness.status,
+      cinStatus:
+        dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.kraljevskiEkonomskiUneverzitet.readiness.status,
+      publicSummary:
+        'Oblast summary ostaje vezan za KRALJEVSKI PROGRAMSKI UNEVERZITET i testovi-po-oblastima, dok čin summary ostaje bounded na Kompanija SPAJA / Digitalna Industrija i PRIVREDNI AKT bez novih poslovnih formula.',
+    };
   dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.fourTrackProgramPackage.technicalTrack.readinessStatus =
     dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.status;
   dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.fourTrackProgramPackage.governanceTrack.readinessStatus =
