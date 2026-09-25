@@ -12642,11 +12642,28 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
 
   const muzickaKutijaTrack =
     dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.muzickaKutijaTrack;
+  const muzickaKutijaOwningSurfaceStatuses = [
+    radniTaktMozgaMislilac.readiness.status,
+    metrikoProgramiranje.readiness.status,
+    sinemetrickoProgramiranje.readiness.status,
+    paradijogonalnoProgrimiranje.readiness.status,
+    vrhProgramskogEkviladenta.readiness.status,
+  ];
+  const muzickaKutijaOwningSurfaceStatus =
+    muzickaKutijaOwningSurfaceStatuses.includes('BLOCKED')
+    || activeRoadmapStageCount !== 1
+    || dokDikDakDukConsistencyHealth.status === 'BLOCKED'
+      ? 'BLOCKED'
+      : muzickaKutijaOwningSurfaceStatuses.includes('WATCH')
+        || dokDikDakDukConsistencyHealth.status === 'WATCH'
+        ? 'WATCH'
+        : 'READY';
   const muzickaKutijaSignalStatuses = [
     paradijogonalnoProgrimiranje.readiness.status,
     metrikoProgramiranje.readiness.status,
     sinemetrickoProgramiranje.readiness.status,
     dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.audioVisualKontrabasPackage.readinessStatus,
+    muzickaKutijaOwningSurfaceStatus,
   ] as const;
   const muzickaKutijaStatus = aggregateReadinessStatus([...muzickaKutijaSignalStatuses]);
   const muzickaKutijaReadinessScore = round(
@@ -12671,6 +12688,7 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
       'audio-vizuelni reflection',
       dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.audioVisualKontrabasPackage.readinessStatus,
     ],
+    ['owning Developer/Create surface', muzickaKutijaOwningSurfaceStatus],
   ].filter(([, status]) => status !== 'READY');
   const muzickaKutijaLayerReasonSummary =
     muzickaKutijaNonReadyLayers.map(([layer, status]) => `${layer}:${status}`).join(', ');
