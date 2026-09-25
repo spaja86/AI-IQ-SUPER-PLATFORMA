@@ -4358,7 +4358,6 @@ export function resolveSarkazamPrivrednaGranaDigitalizmaReflection(params: {
   repoWideReadiness: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['readiness'];
   kraljevskiEkonomskiUneverzitetReadiness: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['kraljevskiEkonomskiUneverzitet']['readiness'];
   kraljevskiProgramskiUneverzitetReadiness: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['kraljevskiProgramskiUneverzitet']['readiness'];
-  fallbackInputs: string[];
 }): Pick<
   ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['sarkazamPrivrednaGranaDigitalizmaTrack'],
   'blockerReason' | 'watchReasons' | 'reviewPosture' | 'oblastCinSummary'
@@ -10886,8 +10885,6 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
         dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.kraljevskiEkonomskiUneverzitet.readiness,
       kraljevskiProgramskiUneverzitetReadiness:
         dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.kraljevskiProgramskiUneverzitet.readiness,
-      fallbackInputs:
-        dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.sarkazamPrivrednaGranaDigitalizmaTrack.reflectionSignal.fallbackInputs,
     });
   dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.sarkazamPrivrednaGranaDigitalizmaTrack.reflectionSignal.status =
     sarkazamPrivrednaGranaDigitalizmaReflection.reflectionSignal.status;
