@@ -76,6 +76,16 @@ Repo-wide reflection sada obavezno uključuje i dnevni operativni cadence: `morn
 - Zaključani audio-scene termini ostaju `GUN, DEN, DIN, KON, SUR, DIR, DUR, DOG, DUK, DOP, KIDO, DUKAT, DJUKAS, DIKTON, GRAFON, SIRON, DJOKUZ, OTKUZ, DIPAS, CVIKROT, ZIPAN`.
 - Ako postoje storyboard ili vizuelni asset-i, EXTREM ih vodi kao audit/reference evidence, EXTRONDOL ih zrcali kroz governance summary, a `spaja86/IO-OPENUI-AO` dobija samo summary-safe downstream reference.
 
+## PROMOCIJE / TIKETI / BONUSI / PROPUSNICE / ADMINISTRATIVNI BONUSI bounded enterprise/governance paket
+
+`DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == PROMOCIJE / TIKETI / BONUSI / PROPUSNICE / ADMINISTRATIVNI BONUSI` ostaje additive-only bounded enterprise/governance paket unutar istog vršnog lock-a.
+
+- Paket je vezan za postojeći sloj `Kompanija SPAJA / Digitalna Industrija`; ne postaje novi komercijalni modul i ne uvodi paralelni source-of-truth sistem.
+- `promocije`, `tiketi`, `bonusi`, `propusnice` i `administrativni bonusi` ostaju bounded poslovno-governance signali, a ne novi izvršni finansijski engine.
+- EXTREM publikuje samo readiness/eligibility/evidence/conflict/fallback signal sa statusima `READY | WATCH | BLOCKED`.
+- EXTRONDOL publikuje samo review/freeze/promotion/rollback/audit ogledalo; `administrativni bonusi` ostaju human-review gated override.
+- SPAJA KOD publikuje samo status, blocker/watch razlog, review posture, downstream reference i bounded enterprise summary bez sirovih scoring formula, ticket detalja i admin tajni.
+
 ## RADIO bounded media/distribution/audio paket
 
 `DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == RADIO` ostaje additive-only bounded media/distribution/audio alias u okviru istog vršnog lock-a.

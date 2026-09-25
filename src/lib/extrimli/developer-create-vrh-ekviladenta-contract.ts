@@ -134,6 +134,53 @@ export const DEVELOPER_CREATE_NOTES_1450_BOUNDED_SIGNALS = [
   'deterministic-next-step',
 ] as const;
 
+export const DEVELOPER_CREATE_PROMOCIJE_TIKETI_BONUSI_PROPUSNICE_ADMINISTRATIVNI_BONUSI_CANONICAL_ALIAS =
+  'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == PROMOCIJE / TIKETI / BONUSI / PROPUSNICE / ADMINISTRATIVNI BONUSI' as const;
+
+export const DEVELOPER_CREATE_PROMOCIJE_TIKETI_BONUSI_PROPUSNICE_ADMINISTRATIVNI_BONUSI_SCOPE_STATEMENT =
+  'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == PROMOCIJE / TIKETI / BONUSI / PROPUSNICE / ADMINISTRATIVNI BONUSI == additive-only bounded enterprise/governance paket pod Kompanija SPAJA / Digitalna Industrija bez novih runtime ruta i bez paralelnog source-of-truth sistema' as const;
+
+export const DEVELOPER_CREATE_PROMOCIJE_TIKETI_BONUSI_PROPUSNICE_ADMINISTRATIVNI_BONUSI_ROLE_CLASSIFICATION =
+  'additive-only-bounded-enterprise-promotions-tickets-bonuses-passes-admin-overrides-track' as const;
+
+export const DEVELOPER_CREATE_PROMOCIJE_TIKETI_BONUSI_PROPUSNICE_ADMINISTRATIVNI_BONUSI_BOUNDED_SIGNALS = [
+  'promocije-readiness',
+  'tiketi-evidence',
+  'bonusi-approval',
+  'propusnice-eligibility',
+  'administrativni-bonusi-human-review-override',
+  'conflict-signal',
+  'fallback-signal',
+] as const;
+
+export const DEVELOPER_CREATE_PROMOCIJE_TIKETI_BONUSI_PROPUSNICE_ADMINISTRATIVNI_BONUSI_SUBTRACKS = {
+  promotions: 'promocije',
+  ticketEvidence: 'tiketi',
+  bonusApproval: 'bonusi',
+  passEligibility: 'propusnice',
+  administrativeBonusOverride: 'administrativni bonusi',
+} as const;
+
+export const DEVELOPER_CREATE_PROMOCIJE_TIKETI_BONUSI_PROPUSNICE_ADMINISTRATIVNI_BONUSI_SUMMARY_SAFE_FIELDS = [
+  'canonicalAlias',
+  'status',
+  'blockerReason',
+  'watchReasons',
+  'reviewPosture',
+  'downstreamReference',
+  'enterpriseSummary',
+  'subtrackStatuses',
+  'humanReviewOverrideStatus',
+] as const;
+
+export const DEVELOPER_CREATE_PROMOCIJE_TIKETI_BONUSI_PROPUSNICE_ADMINISTRATIVNI_BONUSI_DOWNSTREAM_POLICY = {
+  linkedRepo: 'spaja86/IO-OPENUI-AO',
+  syncMode: 'summary-only',
+  rawCommercialFormulasStayRepoLocal: true,
+  rawTicketEvidenceStaysRepoLocal: true,
+  rawAdministrativeInternalsStayRepoLocal: true,
+} as const;
+
 export const DEVELOPER_CREATE_RADNI_PROSTOR_CANONICAL_ALIAS =
   'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == RADNI PROSTOR' as const;
 
