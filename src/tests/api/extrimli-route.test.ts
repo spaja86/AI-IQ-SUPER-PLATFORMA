@@ -998,6 +998,7 @@ async function runTests(): Promise<void> {
           napoleonDiskaveriStatus: string;
           sarkazamPrivrednaGranaDigitalizmaStatus: string;
           notes1450Status: string;
+          aiIqKonferencijaZaStampuStatus: string;
           funkcinalnoProgramiranjeEnergetskogMisaonogTokaStatus: string;
           funkcionalnoProgramiranjeUzvisenogMisanogTokaStatus: string;
           funkcionalnoProgramiranjePravednogMisaonogTokaStatus: string;
@@ -1049,6 +1050,7 @@ async function runTests(): Promise<void> {
           eksperimentProgramskiJezikSummary: { canonicalAlias: string; status: string; blockerReasons: string[]; watchReasons: string[]; humanReviewPosture: string; downstreamReference: string; publicBoundary: string };
           sarkazamPrivrednaGranaDigitalizmaSummary: { canonicalAlias: string; scopeClassification: string; status: string; blockerReason: string | null; reviewPosture: string; downstreamReference: string; publicBoundary: string; oblastCinSummary: { oblastStatus: string; cinStatus: string; publicSummary: string } };
           notes1450Summary: { canonicalAlias: string; roleClassification: string; status: string; blockerReason: string | null; watchReasons: string[]; reviewPosture: string; downstreamReference: string; publicBoundary: string; businessValueSummary: string };
+          aiIqKonferencijaZaStampuSummary: { canonicalAlias: string; roleClassification: string; status: string; blockerReason: string | null; watchReasons: string[]; reviewPosture: string; downstreamReference: string; publicBoundary: string; mediaSummary: string };
         };
         dokerKuratIzekDokarTrack: { boundarySurface: string; publicStatus: string; tokenSummaries: Array<{ token: string; status: string }> };
         blockers: string[];
@@ -1080,6 +1082,7 @@ async function runTests(): Promise<void> {
     assert(['READY', 'WATCH', 'BLOCKED'].includes(body.data.publicSignals.eksperimentProgramskiJezikStatus), 'unexpected SPAJA KOD Eksperiment Programski Jezik summary status');
     assert(['READY', 'WATCH', 'BLOCKED'].includes(body.data.publicSignals.sarkazamPrivrednaGranaDigitalizmaStatus), 'unexpected SPAJA KOD Sarkazam summary status');
     assert(['READY', 'WATCH', 'BLOCKED'].includes(body.data.publicSignals.notes1450Status), 'unexpected SPAJA KOD NOTES 1450 summary status');
+    assert(['READY', 'WATCH', 'BLOCKED'].includes(body.data.publicSignals.aiIqKonferencijaZaStampuStatus), 'unexpected SPAJA KOD AI IQ press summary status');
     assert(['READY', 'WATCH', 'BLOCKED'].includes(body.data.publicSignals.kraljevskiPravniAktStatus), 'unexpected SPAJA KOD KRALJEVSKI PRAVNI AKT summary status');
     assert(typeof body.data.publicSignals.developerAndCreateUniversitySummary.passedAreasCount === 'number', 'unexpected SPAJA KOD university passed areas count');
     assert(['passed', 'certified', 'certified-with-reward', 'blocked-for-review'].includes(body.data.publicSignals.developerAndCreateUniversitySummary.certificationStatus), 'unexpected SPAJA KOD university certification status');
@@ -1096,6 +1099,8 @@ async function runTests(): Promise<void> {
     assert(body.data.publicSignals.aiPlateStatus === body.data.publicSignals.developerAndCreateStatus, 'unexpected SPAJA KOD AI PLATE/developer-create mismatch');
     assert(['READY', 'WATCH', 'BLOCKED'].includes(body.data.publicSignals.developerAndCreateImplementationStatus), 'unexpected SPAJA KOD implementation status');
     assert(body.data.developerAndCreateImplementationPackage.validationStatus === body.data.publicSignals.developerAndCreateImplementationStatus, 'unexpected SPAJA KOD implementation package validation mismatch');
+    assert(body.data.developerAndCreateImplementationPackage.aiIqKonferencijaZaStampuSummary.canonicalAlias === 'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == AI IQ KONFERENCIJA ZA ŠTAMPU (NOVINE, DIGITALNE NOVINE)', 'unexpected SPAJA KOD AI IQ press canonical alias');
+    assert(body.data.developerAndCreateImplementationPackage.aiIqKonferencijaZaStampuSummary.publicBoundary === 'audit-safe-summary-only', 'unexpected SPAJA KOD AI IQ press boundary');
     assert(body.data.epilogijaCovecnosti.title === 'EPILOGIJA ČOVEČANSTVA', 'unexpected SPAJA KOD epilog title');
     assert(body.data.epilogijaCovecnosti.canonicalNarrativeId === 'priroda-zdrav-zivot-covecanstvo', 'unexpected SPAJA KOD canonical epilog narrative id');
     assert(body.data.epilogijaCovecnosti.citation.includes('Priroda izum samoživost'), 'SPAJA KOD epilog citation should preserve canonical narrative');

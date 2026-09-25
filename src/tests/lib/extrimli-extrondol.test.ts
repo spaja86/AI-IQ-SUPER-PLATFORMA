@@ -196,6 +196,7 @@ async function runTests(): Promise<void> {
     const eksperimentProgramskiJezikTrack = report.developerAndCreateRepoWideReflection.eksperimentProgramskiJezikTrack;
     const sarkazamPrivrednaGranaDigitalizmaTrack = report.developerAndCreateRepoWideReflection.sarkazamPrivrednaGranaDigitalizmaTrack;
     const napoleonDiskaveriSelectionTrack = report.developerAndCreateRepoWideReflection.napoleonDiskaveriSelectionTrack;
+    const aiIqKonferencijaZaStampuTrack = report.developerAndCreateRepoWideReflection.aiIqKonferencijaZaStampuTrack;
     assert(implementationPackage.sourceOfTruthRoutes.join(',') === '/api/extrimli/extrem,/api/extrimli/extrondol,/api/extrimli/spaja-kod', 'developer/create governance implementation package source routes mismatch');
     assert(implementationPackage.currentWawe === report.rollout.currentWawe, 'developer/create governance implementation package current WAWE mismatch');
     assert(implementationPackage.eligibleNextWawe === report.rollout.eligibleNextWawe, 'developer/create governance implementation package next WAWE mismatch');
@@ -216,6 +217,10 @@ async function runTests(): Promise<void> {
     assert(implementationPackage.validationLock.driftZeroLayers.join(',') === 'docs,types,routes,tests,workflows', 'developer/create governance implementation package drift-zero mismatch');
     assert(implementationPackage.napoleonDiskaveriSelectionBoundary.trackRole === 'bounded-discovery-selection-alias-track', 'developer/create governance implementation package Napoleon Diskaveri boundary role mismatch');
     assert(report.developerAndCreateRepoWideReflection.kraljevskiDrustveniPoredak.canonicalName === 'KRALJEVSKI DRUŠTVENI POREDAK', 'developer/create governance social-order canonical name mismatch');
+    assert(aiIqKonferencijaZaStampuTrack.canonicalAlias === 'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == AI IQ KONFERENCIJA ZA ŠTAMPU (NOVINE, DIGITALNE NOVINE)', 'developer/create governance AI IQ press alias mismatch');
+    assert(aiIqKonferencijaZaStampuTrack.sourceOfTruth === '/api/extrimli/extrem', 'developer/create governance AI IQ press source mismatch');
+    assert(aiIqKonferencijaZaStampuTrack.governanceSource === '/api/extrimli/extrondol', 'developer/create governance AI IQ press governance source mismatch');
+    assert(aiIqKonferencijaZaStampuTrack.acceptanceEvidence.join(',') === 'developerAndCreateRepoWideReflection.aiIqKonferencijaZaStampuTrack,releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.aiIqKonferencijaZaStampuTrack,spajaKod.publicSignals.aiIqKonferencijaZaStampuStatus,spajaKod.developerAndCreateImplementationPackage.aiIqKonferencijaZaStampuSummary', 'developer/create governance AI IQ press acceptance evidence mismatch');
     assert(
       report.developerAndCreateRepoWideReflection.canonicalMapeUmaScopeLock
         === 'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == MAPE UMA',

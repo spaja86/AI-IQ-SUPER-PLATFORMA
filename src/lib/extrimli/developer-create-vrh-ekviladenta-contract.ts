@@ -20,6 +20,7 @@ export const DEVELOPER_CREATE_VRH_INTERPRETATION_ALIASES = [
   DEVELOPER_CREATE_VRH_ZIVOPIS_U_DIGITALIZMU_ALIAS,
   DEVELOPER_CREATE_VRH_DIJALIZA_POGONSKOG_OMOTACA_ALIAS,
   'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == SARKAZAM / PRIVREDNA GRANA DIGITALIZMA / PROJEKTI ENTUZIJAZMA PO ČINU OBLASTIMA',
+  'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == AI IQ KONFERENCIJA ZA ŠTAMPU (NOVINE, DIGITALNE NOVINE)',
 ] as const;
 
 export const DEVELOPER_CREATE_VRH_DIJALIZA_POGONSKOG_OMOTACA_ALIAS_BOUNDARY = {
@@ -119,6 +120,58 @@ export const DEVELOPER_CREATE_NOTES_1450_BOUNDED_SIGNALS = [
   'ai-material-saturation-risk',
   'deterministic-next-step',
 ] as const;
+
+export const DEVELOPER_CREATE_AI_IQ_KONFERENCIJA_ZA_STAMPU_CANONICAL_ALIAS =
+  'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == AI IQ KONFERENCIJA ZA ŠTAMPU (NOVINE, DIGITALNE NOVINE)' as const;
+
+export const DEVELOPER_CREATE_AI_IQ_KONFERENCIJA_ZA_STAMPU_SCOPE_STATEMENT =
+  'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == AI IQ KONFERENCIJA ZA ŠTAMPU (NOVINE, DIGITALNE NOVINE) == bounded media-documentation explanation package' as const;
+
+export const DEVELOPER_CREATE_AI_IQ_KONFERENCIJA_ZA_STAMPU_ROLE_CLASSIFICATION =
+  'additive-only-bounded-media-documentation-explanation-track' as const;
+
+export const DEVELOPER_CREATE_AI_IQ_KONFERENCIJA_ZA_STAMPU_TOKEN_VOCABULARY = {
+  canonicalSequence: [
+    'KIDOR',
+    'ZUKUR',
+    'SONG',
+    'DEPOR',
+    'DJAKUR',
+    'ZIMBA',
+    'OKUR',
+    'DIKTAFON',
+    'ZOND',
+    'AKURA',
+    'ZOMBUA',
+    'IKON',
+    'DESK',
+    'DJIKURI',
+    'ZMBABVE',
+    'ORON',
+    'DARS',
+    'DJONGE',
+    'DANAR',
+    'ZULAI',
+    'SERON',
+    'DISPOR',
+    'DUMBIR',
+    'KALU',
+    'ZUKAR',
+    'DINAR',
+    'DJOMPE',
+    'NURUS',
+  ],
+  narrativeMediaTokens: ['KIDOR', 'ZUKUR', 'SONG', 'DEPOR', 'DJAKUR', 'ZIMBA', 'OKUR'],
+  auditGovernanceTokens: ['DIKTAFON', 'ZOND', 'AKURA', 'ZOMBUA', 'IKON', 'DESK', 'DJIKURI'],
+  visualEditorialTokens: ['ZMBABVE', 'ORON', 'DARS', 'DJONGE', 'DANAR', 'ZULAI', 'SERON'],
+  fallbackSummaryTokens: ['DISPOR', 'DUMBIR', 'KALU', 'ZUKAR', 'DINAR', 'DJOMPE', 'NURUS'],
+  fallbackSummaryRules: [
+    'summary-only-public-output',
+    'no-raw-extrem-or-extrondol-formulas',
+    'deterministic-fallback-required-on-conflict',
+    'no-new-runtime-media-engine',
+  ],
+} as const;
 
 export const DEVELOPER_CREATE_SARKAZAM_PRIVREDNA_GRANA_DIGITALIZMA_CANONICAL_ALIAS =
   'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == SARKAZAM / PRIVREDNA GRANA DIGITALIZMA / PROJEKTI ENTUZIJAZMA PO ČINU OBLASTIMA' as const;

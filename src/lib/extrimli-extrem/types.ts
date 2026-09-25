@@ -19,6 +19,10 @@ import type {
   DEVELOPER_CREATE_AUDIO_VISUAL_KONTRABAS_CANONICAL_NAME,
   DEVELOPER_CREATE_AUDIO_VISUAL_KONTRABAS_SCOPE_STATEMENT,
   DEVELOPER_CREATE_AUDIO_VISUAL_SCENE_VOCABULARY,
+  DEVELOPER_CREATE_AI_IQ_KONFERENCIJA_ZA_STAMPU_CANONICAL_ALIAS,
+  DEVELOPER_CREATE_AI_IQ_KONFERENCIJA_ZA_STAMPU_ROLE_CLASSIFICATION,
+  DEVELOPER_CREATE_AI_IQ_KONFERENCIJA_ZA_STAMPU_SCOPE_STATEMENT,
+  DEVELOPER_CREATE_AI_IQ_KONFERENCIJA_ZA_STAMPU_TOKEN_VOCABULARY,
   DEVELOPER_CREATE_NOTES_1450_BOUNDED_SIGNALS,
   DEVELOPER_CREATE_NOTES_1450_CANONICAL_ALIAS,
   DEVELOPER_CREATE_NOTES_1450_ROLE_CLASSIFICATION,
@@ -2730,6 +2734,60 @@ export interface ExtrimliDokDikDakDukConsistencyHealth {
       businessValueSummary: string;
       downstreamReference: 'docs/MULTI-REPO-LINKS.md -> spaja86/IO-OPENUI-AO (summary-only)';
     };
+    aiIqKonferencijaZaStampuTrack: {
+      canonicalAlias: typeof DEVELOPER_CREATE_AI_IQ_KONFERENCIJA_ZA_STAMPU_CANONICAL_ALIAS;
+      scopeStatement: typeof DEVELOPER_CREATE_AI_IQ_KONFERENCIJA_ZA_STAMPU_SCOPE_STATEMENT;
+      roleClassification: typeof DEVELOPER_CREATE_AI_IQ_KONFERENCIJA_ZA_STAMPU_ROLE_CLASSIFICATION;
+      boundedTokenVocabulary: typeof DEVELOPER_CREATE_AI_IQ_KONFERENCIJA_ZA_STAMPU_TOKEN_VOCABULARY;
+      boundedVocabularyPhrase: 'EXTRIMLI EXTRONDOL EXTREM DOK DUK DAK DIK FOR';
+      additiveOnly: true;
+      noNewRuntimeEngine: true;
+      noNewRuntimeRoutes: true;
+      noParallelSourceOfTruth: true;
+      sourceOfTruthRoutes: readonly ['/api/extrimli/extrem', '/api/extrimli/extrondol', '/api/extrimli/spaja-kod'];
+      ownershipLock: {
+        dokDikFor: 'EXTREM';
+        dakDuk: 'EXTRONDOL';
+        spajaKod: 'audit-safe-summary-only';
+      };
+      summarySafePublicFields: readonly [
+        'canonicalAlias',
+        'status',
+        'blockerReason',
+        'watchReasons',
+        'reviewPosture',
+        'downstreamReference',
+        'mediaSummary'
+      ];
+      readinessSignal: {
+        status: 'READY' | 'WATCH' | 'BLOCKED';
+        readinessScore: number;
+        narrativeMediaStatus: 'READY' | 'WATCH' | 'BLOCKED';
+        auditGovernanceStatus: 'READY' | 'WATCH' | 'BLOCKED';
+        visualEditorialStatus: 'READY' | 'WATCH' | 'BLOCKED';
+        fallbackSummaryStatus: 'READY' | 'WATCH' | 'BLOCKED';
+        tokenCoveragePercent: number;
+        deterministicFallbackRequired: boolean;
+        driver: 'developerAndCreateRepoWideReflection.readiness + developerAndCreateRepoWideReflection.covecnostAuditVisualReference + developerAndCreateRepoWideReflection.globalPageExplanationContract';
+      };
+      blockerReason: string | null;
+      watchReasons: string[];
+      reviewPosture: 'ALIGNED' | 'WATCH' | 'REVIEW_REQUIRED';
+      boundedEvidence: {
+        narrativePackage: 'developerAndCreateRepoWideReflection.covecnostAuditVisualReference';
+        visualPackage: 'developerAndCreateRepoWideReflection.covecnostAuditVisualReference.supplementalVisualReferences';
+        summaryPolicy: 'audit-safe-summary-only';
+        noRawTokenLeakage: true;
+      };
+      acceptanceEvidence: readonly [
+        'developerAndCreateRepoWideReflection.aiIqKonferencijaZaStampuTrack',
+        'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.aiIqKonferencijaZaStampuTrack',
+        'spajaKod.publicSignals.aiIqKonferencijaZaStampuStatus',
+        'spajaKod.developerAndCreateImplementationPackage.aiIqKonferencijaZaStampuSummary'
+      ];
+      mediaSummary: string;
+      downstreamReference: 'docs/MULTI-REPO-LINKS.md -> spaja86/IO-OPENUI-AO (summary-only)';
+    };
     mappedTracks: {
       vrhProgramskogEkviladenta: 'VRH PROGRAMSKOG EKVILADENTA';
       radniTaktMozgaMislilac: 'RADNI TAKT MOZGA (MISLILAC)';
@@ -2778,6 +2836,9 @@ export interface ExtrimliDokDikDakDukConsistencyHealth {
       sarkazam: 'SARKAZAM';
       privrednaGranaDigitalizma: 'PRIVREDNA GRANA DIGITALIZMA';
       projektiEntuzijazmaPoCinuOblastima: 'PROJEKTI ENTUZIJAZMA PO ČINU OBLASTIMA';
+      aiIqKonferencijaZaStampu: 'AI IQ KONFERENCIJA ZA ŠTAMPU';
+      novine: 'NOVINE';
+      digitalneNovine: 'DIGITALNE NOVINE';
     };
     osnoveRispektProtocol: {
       title: 'OSNOVE / RISPEKT';

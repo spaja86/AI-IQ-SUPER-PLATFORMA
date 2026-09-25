@@ -15,6 +15,10 @@ import {
   DEVELOPER_CREATE_AUDIO_VISUAL_KONTRABAS_CANONICAL_NAME,
   DEVELOPER_CREATE_AUDIO_VISUAL_KONTRABAS_SCOPE_STATEMENT,
   DEVELOPER_CREATE_AUDIO_VISUAL_SCENE_VOCABULARY,
+  DEVELOPER_CREATE_AI_IQ_KONFERENCIJA_ZA_STAMPU_CANONICAL_ALIAS,
+  DEVELOPER_CREATE_AI_IQ_KONFERENCIJA_ZA_STAMPU_ROLE_CLASSIFICATION,
+  DEVELOPER_CREATE_AI_IQ_KONFERENCIJA_ZA_STAMPU_SCOPE_STATEMENT,
+  DEVELOPER_CREATE_AI_IQ_KONFERENCIJA_ZA_STAMPU_TOKEN_VOCABULARY,
   DEVELOPER_CREATE_NOTES_1450_BOUNDED_SIGNALS,
   DEVELOPER_CREATE_NOTES_1450_CANONICAL_ALIAS,
   DEVELOPER_CREATE_NOTES_1450_ROLE_CLASSIFICATION,
@@ -6953,6 +6957,61 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
         businessValueSummary: '',
         downstreamReference: 'docs/MULTI-REPO-LINKS.md -> spaja86/IO-OPENUI-AO (summary-only)',
       },
+      aiIqKonferencijaZaStampuTrack: {
+        canonicalAlias: DEVELOPER_CREATE_AI_IQ_KONFERENCIJA_ZA_STAMPU_CANONICAL_ALIAS,
+        scopeStatement: DEVELOPER_CREATE_AI_IQ_KONFERENCIJA_ZA_STAMPU_SCOPE_STATEMENT,
+        roleClassification: DEVELOPER_CREATE_AI_IQ_KONFERENCIJA_ZA_STAMPU_ROLE_CLASSIFICATION,
+        boundedTokenVocabulary: DEVELOPER_CREATE_AI_IQ_KONFERENCIJA_ZA_STAMPU_TOKEN_VOCABULARY,
+        boundedVocabularyPhrase: 'EXTRIMLI EXTRONDOL EXTREM DOK DUK DAK DIK FOR',
+        additiveOnly: true,
+        noNewRuntimeEngine: true,
+        noNewRuntimeRoutes: true,
+        noParallelSourceOfTruth: true,
+        sourceOfTruthRoutes: ['/api/extrimli/extrem', '/api/extrimli/extrondol', '/api/extrimli/spaja-kod'],
+        ownershipLock: {
+          dokDikFor: 'EXTREM',
+          dakDuk: 'EXTRONDOL',
+          spajaKod: 'audit-safe-summary-only',
+        },
+        summarySafePublicFields: [
+          'canonicalAlias',
+          'status',
+          'blockerReason',
+          'watchReasons',
+          'reviewPosture',
+          'downstreamReference',
+          'mediaSummary',
+        ],
+        readinessSignal: {
+          status: 'BLOCKED',
+          readinessScore: 0,
+          narrativeMediaStatus: 'BLOCKED',
+          auditGovernanceStatus: 'BLOCKED',
+          visualEditorialStatus: 'BLOCKED',
+          fallbackSummaryStatus: 'BLOCKED',
+          tokenCoveragePercent: 100,
+          deterministicFallbackRequired: true,
+          driver:
+            'developerAndCreateRepoWideReflection.readiness + developerAndCreateRepoWideReflection.covecnostAuditVisualReference + developerAndCreateRepoWideReflection.globalPageExplanationContract',
+        },
+        blockerReason: 'ai-iq-konferencija-za-stampu-track-awaits-existing-developer-create-readiness-and-audit-safe-media-summary-alignment',
+        watchReasons: [],
+        reviewPosture: 'REVIEW_REQUIRED',
+        boundedEvidence: {
+          narrativePackage: 'developerAndCreateRepoWideReflection.covecnostAuditVisualReference',
+          visualPackage: 'developerAndCreateRepoWideReflection.covecnostAuditVisualReference.supplementalVisualReferences',
+          summaryPolicy: 'audit-safe-summary-only',
+          noRawTokenLeakage: true,
+        },
+        acceptanceEvidence: [
+          'developerAndCreateRepoWideReflection.aiIqKonferencijaZaStampuTrack',
+          'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.aiIqKonferencijaZaStampuTrack',
+          'spajaKod.publicSignals.aiIqKonferencijaZaStampuStatus',
+          'spajaKod.developerAndCreateImplementationPackage.aiIqKonferencijaZaStampuSummary',
+        ],
+        mediaSummary: '',
+        downstreamReference: 'docs/MULTI-REPO-LINKS.md -> spaja86/IO-OPENUI-AO (summary-only)',
+      },
       mappedTracks: {
         vrhProgramskogEkviladenta: 'VRH PROGRAMSKOG EKVILADENTA',
         radniTaktMozgaMislilac: 'RADNI TAKT MOZGA (MISLILAC)',
@@ -6968,6 +7027,7 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
         kraljevskiBastaUneverzite: 'KRALJEVSKI BAŠTA UNEVERZITE',
         kompanijaSpajaDigitalnaIndustrija: 'Kompanija SPAJA / Digitalna Industrija',
         sarkazamPrivrednaGranaDigitalizma: 'SARKAZAM / PRIVREDNA GRANA DIGITALIZMA / PROJEKTI ENTUZIJAZMA PO ČINU OBLASTIMA',
+        aiIqKonferencijaZaStampu: 'AI IQ KONFERENCIJA ZA ŠTAMPU (NOVINE, DIGITALNE NOVINE)',
         notes1450: 'NOTES 1450',
       },
       canonicalGovernanceVocabulary: {
@@ -7004,6 +7064,9 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
         sarkazam: 'SARKAZAM',
         privrednaGranaDigitalizma: 'PRIVREDNA GRANA DIGITALIZMA',
         projektiEntuzijazmaPoCinuOblastima: 'PROJEKTI ENTUZIJAZMA PO ČINU OBLASTIMA',
+        aiIqKonferencijaZaStampu: 'AI IQ KONFERENCIJA ZA ŠTAMPU',
+        novine: 'NOVINE',
+        digitalneNovine: 'DIGITALNE NOVINE',
       },
       osnoveRispektProtocol: {
         title: 'OSNOVE / RISPEKT',
@@ -11053,6 +11116,56 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
   };
   notes1450Track.businessValueSummary =
     'NOTES 1450 ostaje additive-only bounded radni naslednik koji smanjuje gubitak konteksta, ponavljanje i neefikasno trošenje AI materijala kroz audit-ready nastavak rada.';
+  const aiIqKonferencijaZaStampuTrack =
+    dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.aiIqKonferencijaZaStampuTrack;
+  const aiIqKonferencijaZaStampuSignalStatuses = [
+    dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.status,
+    dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.technicalReadinessProfile.consolidatedRhythmStatus,
+    dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.globalPageExplanationContract.additiveOnly
+      ? 'READY'
+      : 'BLOCKED',
+    dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.covecnostAuditVisualReference.imageToSignalProfile.signalOutputs.readinessStatus,
+  ] as const;
+  const aiIqKonferencijaZaStampuStatus = aggregateSignalReadinessStatus([...aiIqKonferencijaZaStampuSignalStatuses]);
+  const aiIqKonferencijaZaStampuReadinessScore = round(
+    aiIqKonferencijaZaStampuSignalStatuses.reduce((sum, status) => sum + readinessStatusScore(status), 0)
+      / aiIqKonferencijaZaStampuSignalStatuses.length,
+    2,
+  );
+  const aiIqKonferencijaZaStampuDeterministicFallbackRequired =
+    aiIqKonferencijaZaStampuStatus !== 'READY'
+    || dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.deterministicFallbackRequired;
+  aiIqKonferencijaZaStampuTrack.readinessSignal.status = aiIqKonferencijaZaStampuStatus;
+  aiIqKonferencijaZaStampuTrack.readinessSignal.readinessScore = aiIqKonferencijaZaStampuReadinessScore;
+  aiIqKonferencijaZaStampuTrack.readinessSignal.narrativeMediaStatus =
+    dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.status;
+  aiIqKonferencijaZaStampuTrack.readinessSignal.auditGovernanceStatus =
+    dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.technicalReadinessProfile.consolidatedRhythmStatus;
+  aiIqKonferencijaZaStampuTrack.readinessSignal.visualEditorialStatus =
+    dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.covecnostAuditVisualReference.imageToSignalProfile.signalOutputs.readinessStatus;
+  aiIqKonferencijaZaStampuTrack.readinessSignal.fallbackSummaryStatus =
+    aiIqKonferencijaZaStampuDeterministicFallbackRequired ? 'WATCH' : 'READY';
+  aiIqKonferencijaZaStampuTrack.readinessSignal.tokenCoveragePercent = 100;
+  aiIqKonferencijaZaStampuTrack.readinessSignal.deterministicFallbackRequired =
+    aiIqKonferencijaZaStampuDeterministicFallbackRequired;
+  aiIqKonferencijaZaStampuTrack.blockerReason =
+    aiIqKonferencijaZaStampuStatus === 'BLOCKED'
+      ? 'AI IQ KONFERENCIJA ZA ŠTAMPU ostaje BLOCKED dok bounded novine/digitalne novine paket ne zadrži postojeći EXTREM/EXTRONDOL/SPAJA KOD ownership lock i audit-safe summary disciplinu bez novog media engine-a.'
+      : null;
+  aiIqKonferencijaZaStampuTrack.watchReasons =
+    aiIqKonferencijaZaStampuStatus === 'WATCH'
+      ? [
+        'AI IQ KONFERENCIJA ZA ŠTAMPU ostaje u WATCH režimu dok medijski/dokumentacioni paket još zahteva dodatni review za bounded tokene, audit summary i vizuelno-redakcijski rezime.',
+      ]
+      : [];
+  aiIqKonferencijaZaStampuTrack.reviewPosture =
+    aiIqKonferencijaZaStampuStatus === 'READY'
+      ? 'ALIGNED'
+      : aiIqKonferencijaZaStampuStatus === 'WATCH'
+        ? 'WATCH'
+        : 'REVIEW_REQUIRED';
+  aiIqKonferencijaZaStampuTrack.mediaSummary =
+    'AI IQ KONFERENCIJA ZA ŠTAMPU ostaje additive-only bounded medijski paket: EXTREM nosi readiness i token coverage, EXTRONDOL governance mirror, a SPAJA KOD samo audit-safe novine/digitalne novine rezime.';
   dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.fourTrackProgramPackage.technicalTrack.readinessStatus =
     dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.status;
   dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.fourTrackProgramPackage.governanceTrack.readinessStatus =
