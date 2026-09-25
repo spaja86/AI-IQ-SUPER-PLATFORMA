@@ -4,7 +4,7 @@ import {
   clamp,
   round,
 } from '../extrimli';
-import { aggregateReadinessStatus } from '../extrimli-readiness';
+import { aggregateReadinessStatus, aggregateSignalReadinessStatus } from '../extrimli-readiness';
 import { buildDokerKuratIzekDokarExtremTrack } from '../extrimli-doker-kurat-izek-dokar-track';
 import {
   DEVELOPER_CREATE_AUDIO_VISUAL_BOUNDED_SIGNAL_VOCABULARY,
@@ -8728,13 +8728,7 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
       signal.audioVisualSyncStatus = immersiveAudioVisualSyncStatus;
     }
   });
-  const resolveSignalAggregateStatus = (signal: {
-    status: ReadinessStatus;
-    audioVisualSyncStatus: ReadinessStatus;
-    spatialEffectStatus: ReadinessStatus;
-  }): ReadinessStatus =>
-    aggregateReadinessStatus([signal.status, signal.audioVisualSyncStatus, signal.spatialEffectStatus]);
-  const immersiveVisualization3dStatuses = immersiveVisualization3dDimensionalSignals.map(resolveSignalAggregateStatus);
+  const immersiveVisualization3dStatuses = immersiveVisualization3dDimensionalSignals.map(aggregateSignalReadinessStatus);
   const immersiveVisualization3dScore = round(
     immersiveVisualization3dStatuses.reduce((sum, aggregateStatus) => {
       if (aggregateStatus === 'READY') return sum + 100;
