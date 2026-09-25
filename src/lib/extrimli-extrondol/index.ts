@@ -3134,6 +3134,7 @@ function buildSpajaKodFacade(params: {
   eksperimentProgramskiJezikStatus: ExtrimliExtrondolReport['extremProfiler']['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['eksperimentProgramskiJezikTrack']['readinessSignal']['status'];
   sarkazamPrivrednaGranaDigitalizmaStatus: ExtrimliExtrondolReport['extremProfiler']['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['sarkazamPrivrednaGranaDigitalizmaTrack']['reflectionSignal']['status'];
   notes1450Status: ExtrimliExtrondolReport['extremProfiler']['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['notes1450Track']['readinessSignal']['status'];
+  aiIqKonferencijaZaStampuStatus: ExtrimliExtrondolReport['extremProfiler']['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['aiIqKonferencijaZaStampuTrack']['readinessSignal']['status'];
   aiPlateStatus: ExtrimliExtrondolReport['extremProfiler']['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['aiPlateOffer']['boundedReadinessProfile']['consolidatedStatus'];
   aiPlateEnterprisePackageStatus: ExtrimliExtrondolReport['releaseAuditSummary']['aiPlateEnterprisePackageGovernance']['status'];
 }): ExtrimliSpajaKodPublicFacade {
@@ -5897,6 +5898,8 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
       extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.sarkazamPrivrednaGranaDigitalizmaTrack.reflectionSignal.status,
     notes1450Status:
       extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.notes1450Track.readinessSignal.status,
+    aiIqKonferencijaZaStampuStatus:
+      extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.aiIqKonferencijaZaStampuTrack.readinessSignal.status,
     aiPlateStatus: extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.aiPlateOffer.boundedReadinessProfile.consolidatedStatus,
     aiPlateEnterprisePackageStatus,
   });
