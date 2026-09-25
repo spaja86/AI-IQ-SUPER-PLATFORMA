@@ -194,6 +194,8 @@ async function runTests(): Promise<void> {
       report.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.aiIqKonferencijaZaStampuTrack;
     const radioTrack =
       report.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.radioTrack;
+    const muzickaKutijaTrack =
+      report.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.muzickaKutijaTrack;
     assert(implementationPackage.sourceOfTruthRoutes.join(',') === '/api/extrimli/extrem,/api/extrimli/extrondol,/api/extrimli/spaja-kod', 'developer/create implementation package source routes mismatch');
     assert(implementationPackage.noNewRuntimeRoutes, 'developer/create implementation package must forbid new runtime routes');
     assert(implementationPackage.noParallelSourceOfTruth, 'developer/create implementation package must forbid parallel source-of-truth surfaces');
@@ -264,6 +266,22 @@ async function runTests(): Promise<void> {
     assert(implementationPackage.radioBoundary.trackRole === 'bounded-radio-media-distribution-audio-alias-track', 'developer/create implementation package RADIO boundary role mismatch');
     assert(implementationPackage.radioBoundary.spajaKodPublishes === 'status-blocker-review-downstream-and-radio-summary-only', 'developer/create implementation package RADIO SPAJA KOD publish contract mismatch');
     assert(implementationPackage.radioBoundary.mikrofonProjectionBinding === 'developerAndCreateRepoWideReflection.radioTrack.mikrofonProjectionAlias', 'developer/create implementation package RADIO mikrofon projection binding mismatch');
+    assert(muzickaKutijaTrack.canonicalAlias === 'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == MUZIČKA KUTIJA', 'developer/create MUZIČKA KUTIJA canonical alias mismatch');
+    assert(muzickaKutijaTrack.roleClassification === 'additive-only-bounded-audio-instrument-reflection-track', 'developer/create MUZIČKA KUTIJA role classification mismatch');
+    assert(muzickaKutijaTrack.boundedDescription === 'UBACUJEM SVE INSTRUMENTE MUZIČKE ostaje bounded opis/signal iste additive trake bez novog runtime muzičkog engine-a, bez novih ruta i bez paralelnog source-of-truth sistema.', 'developer/create MUZIČKA KUTIJA bounded description mismatch');
+    assert(muzickaKutijaTrack.boundedThematicSignals.join(',') === 'instrument-tabla,metricko-programiranje,sinemetricko-programiranje,audio-vizuelni-kontrabas-paket,summary-only-downstream-sync', 'developer/create MUZIČKA KUTIJA thematic signals mismatch');
+    assert(muzickaKutijaTrack.mappedAudioInstrumentLayers.instrumentTabla === 'PARADIJOGONALNO PROGRAMIRANJE', 'developer/create MUZIČKA KUTIJA instrument tabla mapping mismatch');
+    assert(muzickaKutijaTrack.mappedAudioInstrumentLayers.ritamDuracije === 'METRIČKO PROGRAMIRANJE', 'developer/create MUZIČKA KUTIJA ritam mapping mismatch');
+    assert(muzickaKutijaTrack.mappedAudioInstrumentLayers.narativVokal === 'SINEMETRIČKO PROGRAMIRANJE', 'developer/create MUZIČKA KUTIJA narativ mapping mismatch');
+    assert(muzickaKutijaTrack.mappedAudioInstrumentLayers.audioVizuelniPaket === 'AUDIO-VIZUELNI KONTRABAS PAKET', 'developer/create MUZIČKA KUTIJA audio-visual mapping mismatch');
+    assert(muzickaKutijaTrack.acceptanceEvidence.join(',') === 'developerAndCreateRepoWideReflection.muzickaKutijaTrack,releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.muzickaKutijaTrack,spajaKod.publicSignals.muzickaKutijaStatus,spajaKod.developerAndCreateImplementationPackage.muzickaKutijaSummary', 'developer/create MUZIČKA KUTIJA acceptance evidence mismatch');
+    assert(muzickaKutijaTrack.summarySafePublicFields.join(',') === 'canonicalAlias,status,blockerReason,watchReasons,reviewPosture,downstreamReference,musicBoxSummary,mappedLayerSummary', 'developer/create MUZIČKA KUTIJA summary-safe fields mismatch');
+    assert(implementationPackage.muzickaKutijaBoundary.trackRole === 'bounded-music-box-audio-instrument-alias-track', 'developer/create implementation package MUZIČKA KUTIJA boundary role mismatch');
+    assert(implementationPackage.muzickaKutijaBoundary.spajaKodPublishes === 'status-blocker-review-downstream-and-music-box-summary-only', 'developer/create implementation package MUZIČKA KUTIJA SPAJA KOD publish contract mismatch');
+    assert(implementationPackage.muzickaKutijaBoundary.technicalBinding === 'developerAndCreateRepoWideReflection.muzickaKutijaTrack', 'developer/create implementation package MUZIČKA KUTIJA technical binding mismatch');
+    assert(implementationPackage.muzickaKutijaBoundary.noNewRuntimeRoutes, 'developer/create implementation package MUZIČKA KUTIJA must forbid new runtime routes');
+    assert(implementationPackage.muzickaKutijaBoundary.noNewRuntimeEngine, 'developer/create implementation package MUZIČKA KUTIJA must forbid new runtime engines');
+    assert(implementationPackage.muzickaKutijaBoundary.noParallelSourceOfTruth, 'developer/create implementation package MUZIČKA KUTIJA must forbid parallel source-of-truth systems');
     assert(implementationPackage.napoleonDiskaveriSelectionBoundary.parentTrack === 'MAPE UMA', 'developer/create implementation package Napoleon Diskaveri parent track mismatch');
     assert(implementationPackage.napoleonDiskaveriSelectionBoundary.noNewRuntimeEngine, 'developer/create implementation package Napoleon Diskaveri boundary must forbid new runtime engines');
     assert(implementationPackage.roadmapStages.v7 === 'enterprise-organizational-operating-model', 'developer/create implementation package V7 roadmap mismatch');
