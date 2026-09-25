@@ -108,6 +108,15 @@ export const DEVELOPER_CREATE_NAPOLEON_DISKAVERI_BOUNDED_SIGNALS = [
   'napoleon-diskaveri',
 ] as const;
 
+export const DEVELOPER_CREATE_V700_ROADMAP_STAGE_ID =
+  'v700-apdejt-na-verziju-700' as const;
+
+export const DEVELOPER_CREATE_V700_SCOPE_STATEMENT =
+  'APDEJT NA VERZIJU 700 remains an additive governance/program extension above v1-v7, without new runtime routes and without parallel source-of-truth systems.' as const;
+
+export const DEVELOPER_CREATE_RANDOM_SELECTION_SCOPE_STATEMENT =
+  'RANDOM selekcija svega is mapped only through Napoleon Diskaveri bounded selection outputs (status, blocker/watch reasons, review posture, downstream reference).' as const;
+
 export const DEVELOPER_CREATE_NOTES_1450_CANONICAL_ALIAS =
   'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == NOTES 1450' as const;
 

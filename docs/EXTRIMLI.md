@@ -104,6 +104,8 @@ This repository now exposes five aligned surfaces:
 - Dodatni asset `https://github.com/user-attachments/assets/81ebf11b-d1a5-451b-880a-8670fe240041` ostaje supplemental audit/reference vizuel za `ČOVEČANSTVO — ZDRAVIJI UM / SNAŽNIJI LJUDI / BOLJI SVET` i objavljuje se isključivo kroz `dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.covecnostAuditVisualReference.supplementalVisualReferences` sa `scenarioId=covecanstvo-zdraviji-um-razumevanje-misli-empatija-humanost-developer-create`; zaključane teme `mental-reflection`, `understanding-thoughts`, `empathetic-humanity`, `shared-healing-metaphor`, `stronger-people-better-world` i `documentation-only-mind-epilog` ostaju public-safe metadata i bounded interpretacija postojećeg `technicalReadinessProfile`, dok poruke o “bolestima glave”, “isceljenju” i ChatGPT-u ostaju samo documentation/evidence citat bez novih ruta, novih formula, dijagnostike, terapije, medicinskog runtime subsistema ili promene ownership split-a.
 - Isporučeni asset `https://github.com/user-attachments/assets/9273c07f-5c03-4db4-a469-d22d456596f9` ostaje companion additive-only audit/documentation vizuel za `ČOVEČANSTVO / OSEĆAJ OSEBENOSTI` i objavljuje se isključivo kroz `dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.covecnostAuditVisualReference.companionAuditVisualReferences`, sa bounded temama `self-knowledge`, `brain-and-mind-understanding`, `feeling`, `humanity`, `shared-world` i `epilog-guidance`.
 - Trenutni execution lock za ovaj odraz ostaje `roadmapStageId=v5-extrondol-release-audit-and-orchestration`: merljivi izlaz je audit-safe repo-wide reflection status preko postojećih surface-ova, a acceptance evidence ostaje `developerAndCreateRepoWideReflection`, `releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance` i `spajaKod.publicSignals.developerAndCreateStatus`.
+- `APDEJT NA VERZIJU 700` ostaje additive-only governance/programska ekstenzija iznad postojećeg `Verzije 1–7` modela: bez novih runtime ruta, bez paralelnog source-of-truth sistema, sa obaveznim rollout/rollback i human-review gate-om.
+- `RANDOM selekcija svega` ostaje mapirana isključivo na postojeći Napoleon Diskaveri bounded selection kanal i public-safe izlaze (`status`, `blocker/watch reasons`, `review posture`, `downstream reference`).
 - Downstream granica ostaje follow-up only dok `spaja86/IO-OPENUI-AO` ne usvoji isti audit-safe summary; nema novih runtime ruta niti paralelnog source-of-truth sloja.
 
 ## Module paths
@@ -1096,6 +1098,10 @@ Ownership split:
 5. `Verzija 5` — EXTRONDOL release orchestration (`src/lib/extrimli-extrondol/**`, `src/app/api/extrimli/extrondol/**`) including object-oriented reproduction, epic elikvadenti review/freeze propagation, FUNKCINALNO PROGRAMIRANJE ENERGETSKOG MISAONOG TOKA WAWE governance, FUNKCIONALNO PROGRAMIRANJE EKSPLICITNOG MISAONOG TOKA explicit-thought governance, FUNKIONALNO PROGRAMIRANJE PRAVNOG MISAONOG TOKA legal-functional governance, PROPORCIONALNO PROGRAMIRANJE audit/freeze propagation, and METRIČKO PROGRAMIRANJE governance/audit propagation
 6. `Verzija 6` — multi-repo and persona sync (`docs/MULTI-REPO-LINKS.md`, `.agent-config.json`, `src/lib/persona-bank/**`)
 7. `Verzija 7` — enterprise operating model (`docs/EXTRIMLI-EXTERNAL-GITHUB.md`, `.github/workflows/extrimli-external-github.yml`)
+
+Additive extension:
+
+- `V700 / APDEJT NA VERZIJU 700` — governance/program extension layer over existing v1–v7 phases; keeps active execution lock on `v5-extrondol-release-audit-and-orchestration` and enforces rollout/rollback/human-review/downstream-summary-only discipline.
 
 ### Shared roadmap principles
 

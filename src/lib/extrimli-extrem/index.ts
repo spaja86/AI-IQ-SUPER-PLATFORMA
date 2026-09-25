@@ -57,6 +57,7 @@ import {
   DEVELOPER_CREATE_NAPOLEON_DISKAVERI_BOUNDED_SIGNALS,
   DEVELOPER_CREATE_NAPOLEON_DISKAVERI_CANONICAL_ALIAS,
   DEVELOPER_CREATE_NAPOLEON_DISKAVERI_SCOPE_STATEMENT,
+  DEVELOPER_CREATE_RANDOM_SELECTION_SCOPE_STATEMENT,
   DEVELOPER_CREATE_RADNI_PROSTOR_BOUNDED_TOKEN_SEQUENCE,
   DEVELOPER_CREATE_RADNI_PROSTOR_CANONICAL_ALIAS,
   DEVELOPER_CREATE_RADNI_PROSTOR_FALLBACK_INPUTS,
@@ -74,6 +75,8 @@ import {
   DEVELOPER_CREATE_VRH_INTERPRETATION_ALIASES,
   DEVELOPER_CREATE_VRH_MAIN_MANIFEST_DOCUMENT,
   DEVELOPER_CREATE_VRH_NARRATIVE_CONTRACT_BOUNDARY,
+  DEVELOPER_CREATE_V700_ROADMAP_STAGE_ID,
+  DEVELOPER_CREATE_V700_SCOPE_STATEMENT,
   DEVELOPER_CREATE_VRH_SUCCESSFUL_NARRATIVE_CRITERIA,
   DEVELOPER_CREATE_VRH_VISUAL_EVIDENCE_POLICY,
 } from '../extrimli/developer-create-vrh-ekviladenta-contract';
@@ -6917,6 +6920,17 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
         watchReasons: [],
         humanReviewPosture: 'REVIEW_REQUIRED',
         downstreamReference: 'docs/MULTI-REPO-LINKS.md -> spaja86/IO-OPENUI-AO (summary-only)',
+        randomSelectionScopeStatement: DEVELOPER_CREATE_RANDOM_SELECTION_SCOPE_STATEMENT,
+        randomSelectionPosture: {
+          requestAlias: 'RANDOM selekcija svega',
+          selectionChannel: 'napoleon-diskaveri-bounded-selection',
+          status: 'BLOCKED',
+          blockerReason:
+            'RANDOM selekcija svega remains blocked until existing bounded Napoleon selection falls back deterministically for empty/conflict/nondeterministic inputs.',
+          watchReasons: [],
+          reviewPosture: 'REVIEW_REQUIRED',
+          downstreamReference: 'docs/MULTI-REPO-LINKS.md -> spaja86/IO-OPENUI-AO (summary-only)',
+        },
       },
       eksperimentProgramskiJezikTrack: {
         canonicalAlias:
@@ -10860,6 +10874,25 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
     rollbackPlan: 'Revert Developer/Create additive reflection fields to the prior EXTRIMLI-only summary contract, preserve existing source-of-truth routes, and freeze WAWE promotion until docs/types/routes/tests/workflows are re-aligned.',
     humanReviewStatus: 'required-before-promotion',
     downstreamReference: 'docs/MULTI-REPO-LINKS.md -> spaja86/IO-OPENUI-AO (summary-only)',
+    v700Extension: {
+      roadmapStageId: DEVELOPER_CREATE_V700_ROADMAP_STAGE_ID,
+      scopeStatement: DEVELOPER_CREATE_V700_SCOPE_STATEMENT,
+      additiveOnly: true,
+      noNewRuntimeRoutes: true,
+      noParallelSourceOfTruth: true,
+      acceptanceCriteria: [
+        'v700-extension-is-governance-only',
+        'rollout-and-rollback-are-defined',
+        'human-review-required-before-promotion',
+        'downstream-summary-sync-only',
+      ],
+      rolloutPlan:
+        'Layer V700 governance extension additively after active v5 execution lock and validate docs/types/routes/tests/workflows before promotion.',
+      rollbackPlan:
+        'Freeze V700 governance extension, retain existing v1-v7 execution outputs, and restore prior additive metadata until drift is resolved.',
+      humanReviewStatus: 'required-before-promotion',
+      downstreamReference: 'docs/MULTI-REPO-LINKS.md -> spaja86/IO-OPENUI-AO (summary-only)',
+    },
   };
   const smartProgramskiJezikSignalStatuses = [
     programskiJezikInformacionihTokova.readiness.status,
@@ -11290,6 +11323,7 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
       v5: 'extrondol-release-audit-and-orchestration',
       v6: 'downstream-and-multi-repo-alignment',
       v7: 'enterprise-organizational-operating-model',
+      v700: 'apdejt-na-verziju-700-governance-program-extension',
     },
     validationLock: {
       readyWatchBlockedOnly: true,
@@ -11329,6 +11363,20 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
       : napoleonDiskaveriSelectionStatus === 'WATCH'
         ? 'WATCH'
         : 'REVIEW_REQUIRED';
+  dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.napoleonDiskaveriSelectionTrack.randomSelectionPosture.status =
+    napoleonDiskaveriSelectionStatus;
+  dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.napoleonDiskaveriSelectionTrack.randomSelectionPosture.blockerReason =
+    napoleonDiskaveriSelectionStatus === 'BLOCKED'
+      ? 'RANDOM selekcija svega is blocked until bounded Napoleon selection remains deterministic on empty/conflict/nondeterministic inputs.'
+      : null;
+  dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.napoleonDiskaveriSelectionTrack.randomSelectionPosture.watchReasons =
+    napoleonDiskaveriSelectionStatus === 'WATCH'
+      ? [
+        'RANDOM selekcija svega remains in WATCH while bounded Napoleon selection still requires review posture confirmation.',
+      ]
+      : [];
+  dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.napoleonDiskaveriSelectionTrack.randomSelectionPosture.reviewPosture =
+    dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.napoleonDiskaveriSelectionTrack.humanReviewPosture;
   const eksperimentProgramskiJezikSignalStatuses = [
     dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.audioVisualKontrabasPackage.readinessStatus,
     dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.implementationPackage.smartProgramskiJezikPackage.technicalProfile.status,

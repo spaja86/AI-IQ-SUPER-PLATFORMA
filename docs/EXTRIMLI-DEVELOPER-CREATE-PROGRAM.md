@@ -43,6 +43,14 @@ Program je zaključan na postojeći roadmap:
 6. **V6** — multi-repo + persona sync  
 7. **V7** — enterprise operating model  
 
+### 2.0.1) APDEJT NA VERZIJU 700 (V700 governance extension)
+
+- `APDEJT NA VERZIJU 700` ostaje additive-only governance/programska etapa iznad postojećeg `V1–V7` modela.
+- V700 **ne uvodi** novi runtime, novu rutu ni paralelni source-of-truth sistem.
+- Aktivna izvršna faza ostaje `roadmapStageId=v5-extrondol-release-audit-and-orchestration`; V700 je governance ekstenzija nad postojećim lock-om.
+- V700 acceptance lock ostaje: rollout plan, rollback plan, human-review gate (`required-before-promotion`) i downstream summary-only reference.
+- Ownership split ostaje nepromenjen: `DOK + DIK + FOR -> EXTREM`, `DAK + DUK -> EXTRONDOL`, `SPAJA KOD -> audit-safe-summary-only`.
+
 ## 2.1) Locked implementation nucleus
 
 Sledeći artefakti ostaju zaključano jezgro Developer/Create programa:
@@ -142,6 +150,7 @@ Svaka faza mora imati: `roadmapStageId`, `measurableOutput`, `acceptanceEvidence
 - `DOK + DIK + FOR` ostaju EXTREM tehnički signal za readiness/discovery/selection posture, uz deterministički `READY | WATCH | BLOCKED` izlaz i fallback za `empty`, `conflict` i `nondeterministic` ulaze.
 - `DAK + DUK` ostaju EXTRONDOL governance ogledalo za review posture, promotion freeze, rollout/rollback disciplinu, acceptance evidence i downstream reference.
 - `SPAJA KOD` objavljuje samo summary-safe izlaz: naziv bounded trake, status, blocker/watch razloge, human-review posture i downstream reference.
+- Zahtev `RANDOM selekcija svega` ostaje zaključan isključivo kroz isti Napoleon Diskaveri bounded selection kanal i isti summary-safe izlaz (status, blocker/watch razlozi, review posture, downstream reference), bez novih ruta i bez novih payload familija.
 
 Prioritet realizacije ostaje zaključan:
 
