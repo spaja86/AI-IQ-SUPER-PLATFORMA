@@ -2147,9 +2147,7 @@ async function runTests(): Promise<void> {
       const expectedAuthenticityStatus =
         hasOriginalSongs && noIdolImitation && noAiPerformanceAssist
           ? 'READY'
-          : hasOriginalSongs || noIdolImitation || noAiPerformanceAssist
-            ? 'WATCH'
-            : 'BLOCKED';
+          : 'BLOCKED';
 
       assert(track.readinessSignal.authenticityStatus === expectedAuthenticityStatus, 'kraljevsko takmicenje authenticity mapping mismatch');
       assert(['READY', 'WATCH', 'BLOCKED'].includes(track.readinessSignal.status), 'kraljevsko takmicenje status must stay bounded');

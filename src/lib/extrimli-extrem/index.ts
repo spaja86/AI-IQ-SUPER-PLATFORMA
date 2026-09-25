@@ -11776,7 +11776,7 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
   const kraljevskoTakmicenjeHasOriginalSongs =
     kraljevskoTakmicenjeCoreStatus === 'READY';
   const kraljevskoTakmicenjeNoIdolImitation =
-    kraljevskoTakmicenjeRhythmStatus !== 'BLOCKED';
+    kraljevskoTakmicenjeRhythmStatus === 'READY';
   const kraljevskoTakmicenjeNoAiPerformanceAssist =
     kraljevskoTakmicenjeVisualStatus === 'READY';
   const kraljevskoTakmicenjeAuthStatus: ExtrimliExtremReadinessStatus =
@@ -11784,11 +11784,7 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
     && kraljevskoTakmicenjeNoIdolImitation
     && kraljevskoTakmicenjeNoAiPerformanceAssist
       ? 'READY'
-      : kraljevskoTakmicenjeHasOriginalSongs
-        || kraljevskoTakmicenjeNoIdolImitation
-        || kraljevskoTakmicenjeNoAiPerformanceAssist
-        ? 'WATCH'
-        : 'BLOCKED';
+      : 'BLOCKED';
   const kraljevskoTakmicenjeStatuses = [
     kraljevskoTakmicenjeCoreStatus,
     kraljevskoTakmicenjeRhythmStatus,
