@@ -88,6 +88,16 @@ Repo-wide reflection sada obavezno uključuje i dnevni operativni cadence: `morn
 - EXTRONDOL publikuje samo review/freeze/promotion/rollback/audit ogledalo; `administrativni bonusi` ostaju human-review gated override.
 - SPAJA KOD publikuje samo status, blocker/watch razlog, review posture, downstream reference i bounded enterprise summary bez sirovih scoring formula, ticket detalja i admin tajni.
 
+## KRALJEVSKI POKLONI ZA SVAČIJI ROĐENDAN bounded paket
+
+`DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == KRALJEVSKI POKLONI ZA SVAČIJI ROĐENDAN` ostaje additive-only bounded alias u okviru istog vršnog lock-a.
+
+- Nema novih runtime ruta i nema novog source-of-truth sloja; koristi se postojeći EXTRIMLI/EXTREM/EXTRONDOL/SPAJA KOD surface.
+- Ownership split ostaje zaključan: `DOK + DIK + FOR` = EXTREM, `DAK + DUK` = EXTRONDOL, `SPAJA KOD` = audit-safe summary-only.
+- Status jezik ostaje bounded `READY | WATCH | BLOCKED` sa obaveznim blocker/watch razlozima i deterministic fallback mapiranjem (`NaN`, `Infinity`, `empty`, `conflict`).
+- EXTREM objavljuje readiness/fallback signal i `birthdayGiftSummary`, EXTRONDOL objavljuje review/freeze/promotion/rollback governance posture, a SPAJA KOD objavljuje samo summary-safe status + fallbackInputStatus + downstream reference.
+- Downstream prema `spaja86/IO-OPENUI-AO` ostaje summary-only, bez sirovih formula ili internih interpretacija.
+
 ## RADIO bounded media/distribution/audio paket
 
 `DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == RADIO` ostaje additive-only bounded media/distribution/audio alias u okviru istog vršnog lock-a.

@@ -184,6 +184,8 @@ async function runTests(): Promise<void> {
       report.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.promocijeTiketiBonusiPropusniceAdministrativniBonusiTrack;
     const napoleonDiskaveriSelectionTrack =
       report.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.napoleonDiskaveriSelectionTrack;
+    const kraljevskiPokloniZaSvacijiRodjendanTrack =
+      report.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.kraljevskiPokloniZaSvacijiRodjendanTrack;
     const radniProstorTrack =
       report.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.radniProstorTrack;
     const aiIqLaboratorijaTrack =
@@ -326,6 +328,11 @@ async function runTests(): Promise<void> {
       kraljevskoTakmicenjeTrack.readinessSignal.authenticityStatus === kraljevskoTakmicenjeTrack.readinessSignal.originalniStavStatus,
       'developer/create kraljevsko takmicenje authenticity/originality status mismatch',
     );
+    assert(kraljevskiPokloniZaSvacijiRodjendanTrack.canonicalAlias === 'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == KRALJEVSKI POKLONI ZA SVAČIJI ROĐENDAN', 'developer/create kraljevski pokloni canonical alias mismatch');
+    assert(kraljevskiPokloniZaSvacijiRodjendanTrack.roleClassification === 'additive-only-bounded-kraljevski-pokloni-za-svaciji-rodjendan-track', 'developer/create kraljevski pokloni role classification mismatch');
+    assert(kraljevskiPokloniZaSvacijiRodjendanTrack.summarySafePublicFields.join(',') === 'canonicalAlias,status,blockerReason,watchReasons,reviewPosture,downstreamReference,birthdayGiftSummary,fallbackInputStatus', 'developer/create kraljevski pokloni summary-safe fields mismatch');
+    assert(['READY', 'WATCH', 'BLOCKED'].includes(kraljevskiPokloniZaSvacijiRodjendanTrack.readinessSignal.status), 'developer/create kraljevski pokloni status mismatch');
+    assert(kraljevskiPokloniZaSvacijiRodjendanTrack.readinessSignal.fallbackInputs.join(',') === 'NaN,Infinity,empty,conflict', 'developer/create kraljevski pokloni fallback inputs mismatch');
     assert(radniProstorTrack.canonicalAlias === 'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == RADNI PROSTOR', 'developer/create RADNI PROSTOR canonical alias mismatch');
     assert(radniProstorTrack.roleClassification === 'additive-only-bounded-radni-prostor-alias-track', 'developer/create RADNI PROSTOR role classification mismatch');
     assert(radniProstorTrack.boundedTokenSequence.join(',') === 'OKUR,DJUKUR,DAR,ZOR,IKON,ZULUM,DABRE,IZOS,JAKOR,DAPR,ZUKUR,ENTER,DIKAR,ZUMBUL,SIRGED,ZIKOR,DJENDER,ĆUR,NIKON,DERKO,ZUKAL,IKON,ZAJDI', 'developer/create RADNI PROSTOR token sequence mismatch');
@@ -2169,6 +2176,34 @@ async function runTests(): Promise<void> {
 
       assert(track.readinessSignal.authenticityStatus === expectedAuthenticityStatus, 'kraljevsko takmicenje authenticity mapping mismatch');
       assert(['READY', 'WATCH', 'BLOCKED'].includes(track.readinessSignal.status), 'kraljevsko takmicenje status must stay bounded');
+    });
+
+    await test('KRALJEVSKI POKLONI fallback remains deterministic for NaN/Infinity/empty/conflict inputs', async () => {
+      await withEnv({
+        EXTRIMLI_KRALJEVSKI_POKLONI_INPUT: 'NaN',
+      }, () => {
+        const track =
+          getExtrimliExtremProfilerReport()
+            .dokDikDakDukConsistencyHealth
+            .developerAndCreateRepoWideReflection
+            .kraljevskiPokloniZaSvacijiRodjendanTrack;
+
+        assert(track.readinessSignal.fallbackInputStatus === 'WATCH', 'kraljevski pokloni NaN input should map to WATCH');
+        assert(track.readinessSignal.deterministicFallbackRequired, 'kraljevski pokloni NaN input should require deterministic fallback');
+      });
+
+      await withEnv({
+        EXTRIMLI_KRALJEVSKI_POKLONI_INPUT: 'conflict',
+      }, () => {
+        const track =
+          getExtrimliExtremProfilerReport()
+            .dokDikDakDukConsistencyHealth
+            .developerAndCreateRepoWideReflection
+            .kraljevskiPokloniZaSvacijiRodjendanTrack;
+
+        assert(track.readinessSignal.fallbackInputStatus === 'BLOCKED', 'kraljevski pokloni conflict input should map to BLOCKED');
+        assert(track.readinessSignal.status === 'BLOCKED', 'kraljevski pokloni conflict input should block readiness');
+      });
     });
   });
 

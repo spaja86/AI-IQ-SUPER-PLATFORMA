@@ -910,3 +910,12 @@ Neproverene oblasti (u ovom ciklusu):
 - Fallback ostaje deterministic `READY | WATCH | BLOCKED`; autentičnost pravilo ostaje `READY` samo kada su sva tri uslova `READY`, u suprotnom je `BLOCKED`, dok `WATCH` ostaje rezervisan za druge bounded readiness signale i review/freeze posture.
 - Ownership split ostaje nepromenjen: `DOK/DIK/FOR -> EXTREM`, `DAK/DUK -> EXTRONDOL`, `SPAJA KOD -> audit-safe summary-only`.
 - Nagradna politika za prvih 100 takmičarki ostaje governance-only (`top-100-audit-governed`) sa obaveznim human review i freeze/promotion/rollback evidencijom.
+
+### 2.2.13) KRALJEVSKI POKLONI ZA SVAČIJI ROĐENDAN bounded paket
+
+- Alias ostaje zaključan na `DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == KRALJEVSKI POKLONI ZA SVAČIJI ROĐENDAN`.
+- Paket je additive-only i ostaje unutar postojećih `/api/extrimli/extrem`, `/api/extrimli/extrondol` i `/api/extrimli/spaja-kod` granica (bez novih ruta i bez novog source-of-truth sloja).
+- Ownership split ostaje nepromenjen: `DOK + DIK + FOR` -> EXTREM (tehnička spremnost/signali), `DAK + DUK` -> EXTRONDOL (governance, review, freeze/promotion/rollback), `SPAJA KOD` -> samo audit-safe summary.
+- Bounded signal model ostaje zaključan na `READY | WATCH | BLOCKED` sa obaveznim blocker/watch razlozima i deterministic fallback pravilom za `NaN`, `Infinity`, `empty` i `conflict` ulaze.
+- EXTREM objavljuje samo readiness/fallback signal i bounded `birthdayGiftSummary`, EXTRONDOL objavljuje release-audit/governance posture, a SPAJA KOD objavljuje samo summary-safe izlaz (`status`, razlozi, review posture, downstream reference, fallbackInputStatus).
+- Downstream sync prema `spaja86/IO-OPENUI-AO` ostaje summary-only i ne sme izvoziti sirove token/formula/gift internale.
