@@ -7715,6 +7715,8 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
       },
       globalPageExplanationContract:
         extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.globalPageExplanationContract,
+      innovationRegistry13k:
+        extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.innovationRegistry13k,
       mappedTracks: extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.mappedTracks,
       technicalReadinessProfile: extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.technicalReadinessProfile,
       priorityExecutionOrder:

@@ -191,8 +191,12 @@ async function runTests(): Promise<void> {
     assert(report.b2bReadiness.downstreamSync.syncedFields.includes('versionRoadmap.developerCreateLock.definitionOfDone'), 'developer/create DoD must be synced downstream');
     assert(report.b2bReadiness.downstreamSync.syncedFields.includes('extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.aiIdentityFinanceGovernance'), 'AI identity-finance EXTREM package must sync downstream');
     assert(report.roadmapAlignment.primaryVersion === 'Verzija 5', 'EXTRONDOL should align to Verzija 5');
-    assert(report.developerAndCreateRepoWideReflection.innovationRegistry13k.totals.totalInnovations === 13000, 'developer/create innovation registry total mismatch');
-    assert(report.releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.innovationRegistry13k.totals.totalInnovations === 13000, 'release audit innovation registry total mismatch');
+    const developerCreateInnovationRegistry = report.developerAndCreateRepoWideReflection.innovationRegistry13k;
+    const releaseAuditInnovationRegistry = report.releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.innovationRegistry13k;
+    assert(!!developerCreateInnovationRegistry, 'developer/create innovation registry missing');
+    assert(!!releaseAuditInnovationRegistry, 'release audit innovation registry missing');
+    assert((developerCreateInnovationRegistry?.totals.totalInnovations ?? 0) === 13000, 'developer/create innovation registry total mismatch');
+    assert((releaseAuditInnovationRegistry?.totals.totalInnovations ?? 0) === 13000, 'release audit innovation registry total mismatch');
     assert(report.spajaKod.publicSignals.innovationRegistryTotal === 13000, 'SPAJA KOD innovation total mismatch');
     assert(report.spajaKod.publicSignals.innovationRegistryClusters === 130, 'SPAJA KOD innovation cluster count mismatch');
     assert(report.spajaKod.publicSignals.innovationRegistryCoveragePercent === 100, 'SPAJA KOD innovation coverage mismatch');
