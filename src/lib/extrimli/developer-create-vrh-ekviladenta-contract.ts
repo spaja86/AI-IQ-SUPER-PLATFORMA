@@ -181,6 +181,46 @@ export const DEVELOPER_CREATE_PROMOCIJE_TIKETI_BONUSI_PROPUSNICE_ADMINISTRATIVNI
   rawAdministrativeInternalsStayRepoLocal: true,
 } as const;
 
+export const DEVELOPER_CREATE_KRALJEVSKO_TAKMICENJE_CANONICAL_ALIAS =
+  'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == KRALJEVSKO TAKMIČENJE' as const;
+
+export const DEVELOPER_CREATE_KRALJEVSKO_TAKMICENJE_SCOPE_STATEMENT =
+  'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == KRALJEVSKO TAKMIČENJE == additive-only bounded umetničko/takmičarski paket sa round-robin modelom, bez AI asistencije u izvođenju i bez novih runtime ruta ili paralelnog source-of-truth sistema' as const;
+
+export const DEVELOPER_CREATE_KRALJEVSKO_TAKMICENJE_ROLE_CLASSIFICATION =
+  'additive-only-bounded-kraljevsko-takmicenje-audit-governed-track' as const;
+
+export const DEVELOPER_CREATE_KRALJEVSKO_TAKMICENJE_EVALUATION_CRITERIA = [
+  'umetnicki-dizajn',
+  'igracki-pohod',
+  'lepota-glasa',
+  'intonacija-umetnickog-pevanja',
+  'stilski-aranzman',
+  'pevacki-stil',
+  'originalni-stav-autenticnost',
+] as const;
+
+export const DEVELOPER_CREATE_KRALJEVSKO_TAKMICENJE_AUTHENTICITY_RULES = [
+  'samo-originalne-pesme',
+  'bez-imitacije-idola',
+  'bez-ai-asistencije-u-izvodjenju',
+  'deterministic-ready-watch-blocked-validation',
+] as const;
+
+export const DEVELOPER_CREATE_KRALJEVSKO_TAKMICENJE_TOURNAMENT_MODEL = {
+  format: 'round-robin-svako-sa-svakim',
+  reviewGates: ['human-review', 'governance-review', 'promotion-freeze-check', 'rollback-readiness'],
+  releaseAuditRequired: true,
+} as const;
+
+export const DEVELOPER_CREATE_KRALJEVSKO_TAKMICENJE_REWARDS_POLICY = {
+  targetGroup: 'prvih-100-takmicarki',
+  policyMode: 'audit-safe-governance-only',
+  requiresVerification: true,
+  requiresHumanReview: true,
+  priorityModel: 'score-then-governance-clearance',
+} as const;
+
 export const DEVELOPER_CREATE_RADNI_PROSTOR_CANONICAL_ALIAS =
   'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == RADNI PROSTOR' as const;
 

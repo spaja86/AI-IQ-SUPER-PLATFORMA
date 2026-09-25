@@ -34,6 +34,13 @@ import {
   DEVELOPER_CREATE_KONSTRUKCIJE_I_PROJEKTOVANJE_ROLE_CLASSIFICATION,
   DEVELOPER_CREATE_KONSTRUKCIJE_I_PROJEKTOVANJE_SCOPE_STATEMENT,
   DEVELOPER_CREATE_KONSTRUKCIJE_I_PROJEKTOVANJE_WATCH_FALLBACK_INPUTS,
+  DEVELOPER_CREATE_KRALJEVSKO_TAKMICENJE_AUTHENTICITY_RULES,
+  DEVELOPER_CREATE_KRALJEVSKO_TAKMICENJE_CANONICAL_ALIAS,
+  DEVELOPER_CREATE_KRALJEVSKO_TAKMICENJE_EVALUATION_CRITERIA,
+  DEVELOPER_CREATE_KRALJEVSKO_TAKMICENJE_REWARDS_POLICY,
+  DEVELOPER_CREATE_KRALJEVSKO_TAKMICENJE_ROLE_CLASSIFICATION,
+  DEVELOPER_CREATE_KRALJEVSKO_TAKMICENJE_SCOPE_STATEMENT,
+  DEVELOPER_CREATE_KRALJEVSKO_TAKMICENJE_TOURNAMENT_MODEL,
   DEVELOPER_CREATE_NOTES_1450_BOUNDED_SIGNALS,
   DEVELOPER_CREATE_NOTES_1450_CANONICAL_ALIAS,
   DEVELOPER_CREATE_NOTES_1450_ROLE_CLASSIFICATION,
@@ -7143,6 +7150,64 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
         ],
         downstreamReference: 'docs/MULTI-REPO-LINKS.md -> spaja86/IO-OPENUI-AO (summary-only)',
       },
+      kraljevskoTakmicenjeTrack: {
+        canonicalAlias: DEVELOPER_CREATE_KRALJEVSKO_TAKMICENJE_CANONICAL_ALIAS,
+        scopeStatement: DEVELOPER_CREATE_KRALJEVSKO_TAKMICENJE_SCOPE_STATEMENT,
+        roleClassification: DEVELOPER_CREATE_KRALJEVSKO_TAKMICENJE_ROLE_CLASSIFICATION,
+        evaluationCriteria: DEVELOPER_CREATE_KRALJEVSKO_TAKMICENJE_EVALUATION_CRITERIA,
+        authenticityRules: DEVELOPER_CREATE_KRALJEVSKO_TAKMICENJE_AUTHENTICITY_RULES,
+        tournamentModel: DEVELOPER_CREATE_KRALJEVSKO_TAKMICENJE_TOURNAMENT_MODEL,
+        rewardsPolicy: DEVELOPER_CREATE_KRALJEVSKO_TAKMICENJE_REWARDS_POLICY,
+        boundedVocabularyPhrase: 'EXTRIMLI EXTRONDOL EXTREM DOK DUK DAK DIK FOR',
+        additiveOnly: true,
+        noNewRuntimeEngine: true,
+        noNewRuntimeRoutes: true,
+        noParallelSourceOfTruth: true,
+        sourceOfTruthRoutes: ['/api/extrimli/extrem', '/api/extrimli/extrondol', '/api/extrimli/spaja-kod'],
+        ownershipLock: {
+          dokDikFor: 'EXTREM',
+          dakDuk: 'EXTRONDOL',
+          spajaKod: 'audit-safe-summary-only',
+        },
+        summarySafePublicFields: [
+          'canonicalAlias',
+          'status',
+          'blockerReason',
+          'watchReasons',
+          'reviewPosture',
+          'downstreamReference',
+          'tournamentScopeSummary',
+          'rewardsGovernanceSummary',
+        ],
+        readinessSignal: {
+          status: 'BLOCKED',
+          readinessScore: 0,
+          umetnickiDizajnStatus: 'BLOCKED',
+          igrackiPohodStatus: 'BLOCKED',
+          lepotaGlasaStatus: 'BLOCKED',
+          intonacijaStatus: 'BLOCKED',
+          stilskiAranzmanStatus: 'BLOCKED',
+          pevackiStilStatus: 'BLOCKED',
+          originalniStavStatus: 'BLOCKED',
+          authenticityStatus: 'BLOCKED',
+          deterministicFallbackRequired: true,
+          driver:
+            'developerAndCreateRepoWideReflection.readiness + developerAndCreateRepoWideReflection.technicalReadinessProfile.consolidatedRhythmStatus + developerAndCreateRepoWideReflection.covecnostAuditVisualReference + developerAndCreateRepoWideReflection.globalPageExplanationContract',
+        },
+        blockerReason:
+          'kraljevsko-takmicenje-track-awaits-bounded-original-performance-readiness-and-governance-alignment',
+        watchReasons: [],
+        reviewPosture: 'REVIEW_REQUIRED',
+        tournamentScopeSummary: '',
+        rewardsGovernanceSummary: '',
+        acceptanceEvidence: [
+          'developerAndCreateRepoWideReflection.kraljevskoTakmicenjeTrack',
+          'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.kraljevskoTakmicenjeTrack',
+          'spajaKod.publicSignals.kraljevskoTakmicenjeStatus',
+          'spajaKod.developerAndCreateImplementationPackage.kraljevskoTakmicenjeSummary',
+        ],
+        downstreamReference: 'docs/MULTI-REPO-LINKS.md -> spaja86/IO-OPENUI-AO (summary-only)',
+      },
       radniProstorTrack: {
         canonicalAlias: DEVELOPER_CREATE_RADNI_PROSTOR_CANONICAL_ALIAS,
         scopeStatement: DEVELOPER_CREATE_RADNI_PROSTOR_SCOPE_STATEMENT,
@@ -7411,6 +7476,7 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
         kraljevskiBastaUneverzite: 'KRALJEVSKI BAŠTA UNEVERZITE',
         kompanijaSpajaDigitalnaIndustrija: 'Kompanija SPAJA / Digitalna Industrija',
         sarkazamPrivrednaGranaDigitalizma: 'SARKAZAM / PRIVREDNA GRANA DIGITALIZMA / PROJEKTI ENTUZIJAZMA PO ČINU OBLASTIMA',
+        kraljevskoTakmicenje: 'KRALJEVSKO TAKMIČENJE',
         aiIqKonferencijaZaStampu: 'AI IQ KONFERENCIJA ZA ŠTAMPU (NOVINE, DIGITALNE NOVINE)',
         radio: 'RADIO',
         radniProstor: 'RADNI PROSTOR',
@@ -11699,6 +11765,67 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
         : 'REVIEW_REQUIRED';
   promocijeTiketiBonusiPropusniceAdministrativniBonusiTrack.enterpriseSummary =
     'PROMOCIJE / TIKETI / BONUSI / PROPUSNICE / ADMINISTRATIVNI BONUSI ostaje additive-only bounded enterprise/governance paket pod Kompanija SPAJA / Digitalna Industrija: EXTREM meri samo readiness/eligibility/evidence/conflict/fallback signal, EXTRONDOL zaključava review/freeze/promotion/rollback/audit ogledalo, a SPAJA KOD objavljuje samo summary-safe status bez internog ticketing ili finansijskog engine-a.';
+  const kraljevskoTakmicenjeTrack =
+    dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.kraljevskoTakmicenjeTrack;
+  const kraljevskoTakmicenjeCoreStatus =
+    dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.status;
+  const kraljevskoTakmicenjeRhythmStatus =
+    dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.technicalReadinessProfile.consolidatedRhythmStatus;
+  const kraljevskoTakmicenjeVisualStatus =
+    dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.covecnostAuditVisualReference.imageToSignalProfile.signalOutputs.readinessStatus;
+  const kraljevskoTakmicenjeGlobalStatus =
+    kraljevskoTakmicenjeCoreStatus;
+  const kraljevskoTakmicenjeAuthStatus = aggregateSignalReadinessStatus([
+    kraljevskoTakmicenjeCoreStatus,
+    kraljevskoTakmicenjeRhythmStatus,
+    kraljevskoTakmicenjeVisualStatus,
+  ]);
+  const kraljevskoTakmicenjeStatuses = [
+    kraljevskoTakmicenjeCoreStatus,
+    kraljevskoTakmicenjeRhythmStatus,
+    kraljevskoTakmicenjeVisualStatus,
+    kraljevskoTakmicenjeGlobalStatus,
+    kraljevskoTakmicenjeAuthStatus,
+  ] as const;
+  const kraljevskoTakmicenjeStatus = aggregateSignalReadinessStatus([...kraljevskoTakmicenjeStatuses]);
+  const kraljevskoTakmicenjeReadinessScore = round(
+    kraljevskoTakmicenjeStatuses.reduce((sum, status) => sum + readinessStatusScore(status), 0)
+      / kraljevskoTakmicenjeStatuses.length,
+    2,
+  );
+  kraljevskoTakmicenjeTrack.readinessSignal.status = kraljevskoTakmicenjeStatus;
+  kraljevskoTakmicenjeTrack.readinessSignal.readinessScore = kraljevskoTakmicenjeReadinessScore;
+  kraljevskoTakmicenjeTrack.readinessSignal.umetnickiDizajnStatus = kraljevskoTakmicenjeVisualStatus;
+  kraljevskoTakmicenjeTrack.readinessSignal.igrackiPohodStatus = kraljevskoTakmicenjeCoreStatus;
+  kraljevskoTakmicenjeTrack.readinessSignal.lepotaGlasaStatus = kraljevskoTakmicenjeRhythmStatus;
+  kraljevskoTakmicenjeTrack.readinessSignal.intonacijaStatus = kraljevskoTakmicenjeRhythmStatus;
+  kraljevskoTakmicenjeTrack.readinessSignal.stilskiAranzmanStatus = kraljevskoTakmicenjeVisualStatus;
+  kraljevskoTakmicenjeTrack.readinessSignal.pevackiStilStatus = kraljevskoTakmicenjeGlobalStatus;
+  kraljevskoTakmicenjeTrack.readinessSignal.originalniStavStatus = kraljevskoTakmicenjeAuthStatus;
+  kraljevskoTakmicenjeTrack.readinessSignal.authenticityStatus = kraljevskoTakmicenjeAuthStatus;
+  kraljevskoTakmicenjeTrack.readinessSignal.deterministicFallbackRequired =
+    kraljevskoTakmicenjeStatus !== 'READY'
+    || dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.deterministicFallbackRequired;
+  kraljevskoTakmicenjeTrack.blockerReason =
+    kraljevskoTakmicenjeStatus === 'BLOCKED'
+      ? 'KRALJEVSKO TAKMIČENJE ostaje BLOCKED dok originalnost, sopstvene pesme, bez-imitacije i bez-AI-izvođenja ne ostanu deterministički READY unutar postojećeg EXTREM/EXTRONDOL/SPAJA KOD kontrakta.'
+      : null;
+  kraljevskoTakmicenjeTrack.watchReasons =
+    kraljevskoTakmicenjeStatus === 'WATCH'
+      ? [
+          'KRALJEVSKO TAKMIČENJE ostaje u WATCH režimu dok bounded originalnost i round-robin evidencija zahtevaju dodatni human/governance review pre promocije.',
+        ]
+      : [];
+  kraljevskoTakmicenjeTrack.reviewPosture =
+    kraljevskoTakmicenjeStatus === 'READY'
+      ? 'ALIGNED'
+      : kraljevskoTakmicenjeStatus === 'WATCH'
+        ? 'WATCH'
+        : 'REVIEW_REQUIRED';
+  kraljevskoTakmicenjeTrack.tournamentScopeSummary =
+    'KRALJEVSKO TAKMIČENJE je additive-only bounded turnirski (svako-sa-svakim) paket za originalne pesme, igru i umetnički nastup bez AI asistencije u izvođenju; EXTREM daje samo readiness signal bez novih ruta ili formula.';
+  kraljevskoTakmicenjeTrack.rewardsGovernanceSummary =
+    'Top-100 kraljevske nagrade ostaju governance-only paket: prioritet po summary-safe score/status + obavezan human review + freeze/promotion/rollback evidencija kroz EXTRONDOL, bez objave osetljivih internih detalja u SPAJA KOD sloju.';
   const radniProstorTrack =
     dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.radniProstorTrack;
   const radniProstorRuntimeTokenInput =

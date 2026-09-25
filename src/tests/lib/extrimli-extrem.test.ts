@@ -297,6 +297,17 @@ async function runTests(): Promise<void> {
     assert(['READY', 'WATCH', 'BLOCKED'].includes(promocijeTiketiBonusiPropusniceAdministrativniBonusiTrack.readinessSignal.status), 'developer/create promotions package status mismatch');
     assert(promocijeTiketiBonusiPropusniceAdministrativniBonusiTrack.readinessSignal.promotionsStatus === promocijeTiketiBonusiPropusniceAdministrativniBonusiTrack.subtrackStatuses.promotions, 'developer/create promotions package promotions status mismatch');
     assert(promocijeTiketiBonusiPropusniceAdministrativniBonusiTrack.humanReviewOverrideStatus === 'ALIGNED', 'developer/create promotions package human-review override mismatch');
+    const kraljevskoTakmicenjeTrack =
+      report.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.kraljevskoTakmicenjeTrack;
+    assert(kraljevskoTakmicenjeTrack.canonicalAlias === 'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == KRALJEVSKO TAKMIČENJE', 'developer/create kraljevsko takmicenje canonical alias mismatch');
+    assert(kraljevskoTakmicenjeTrack.roleClassification === 'additive-only-bounded-kraljevsko-takmicenje-audit-governed-track', 'developer/create kraljevsko takmicenje role classification mismatch');
+    assert(kraljevskoTakmicenjeTrack.tournamentModel.format === 'round-robin-svako-sa-svakim', 'developer/create kraljevsko takmicenje round-robin format mismatch');
+    assert(kraljevskoTakmicenjeTrack.rewardsPolicy.targetGroup === 'prvih-100-takmicarki', 'developer/create kraljevsko takmicenje rewards target mismatch');
+    assert(['READY', 'WATCH', 'BLOCKED'].includes(kraljevskoTakmicenjeTrack.readinessSignal.status), 'developer/create kraljevsko takmicenje status mismatch');
+    assert(
+      kraljevskoTakmicenjeTrack.readinessSignal.authenticityStatus === kraljevskoTakmicenjeTrack.readinessSignal.originalniStavStatus,
+      'developer/create kraljevsko takmicenje authenticity/originality status mismatch',
+    );
     assert(radniProstorTrack.canonicalAlias === 'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == RADNI PROSTOR', 'developer/create RADNI PROSTOR canonical alias mismatch');
     assert(radniProstorTrack.roleClassification === 'additive-only-bounded-radni-prostor-alias-track', 'developer/create RADNI PROSTOR role classification mismatch');
     assert(radniProstorTrack.boundedTokenSequence.join(',') === 'OKUR,DJUKUR,DAR,ZOR,IKON,ZULUM,DABRE,IZOS,JAKOR,DAPR,ZUKUR,ENTER,DIKAR,ZUMBUL,SIRGED,ZIKOR,DJENDER,ĆUR,NIKON,DERKO,ZUKAL,IKON,ZAJDI', 'developer/create RADNI PROSTOR token sequence mismatch');
