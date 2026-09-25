@@ -3002,7 +3002,7 @@ export interface ExtrimliDokDikDakDukConsistencyHealth {
         distributionAudioStatus: 'READY' | 'WATCH' | 'BLOCKED';
         scheduleContinuityStatus: 'READY' | 'WATCH' | 'BLOCKED';
         governanceFallbackStatus: 'READY' | 'WATCH' | 'BLOCKED';
-        tokenCoveragePercent: number;
+        vocabularyCoveragePercent: number;
         normalizedInputCount: number;
         deterministicFallbackRequired: boolean;
         driver: 'developerAndCreateRepoWideReflection.readiness + developerAndCreateRepoWideReflection.technicalReadinessProfile.consolidatedRhythmStatus + developerAndCreateRepoWideReflection.globalPageExplanationContract';
