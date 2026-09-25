@@ -43,6 +43,14 @@ import type {
   DEVELOPER_CREATE_RADIO_CANONICAL_ALIAS,
   DEVELOPER_CREATE_RADIO_DOWNSTREAM_POLICY,
   DEVELOPER_CREATE_RADIO_FALLBACK_INPUTS,
+  DEVELOPER_CREATE_RADIO_MIKROFON_PROJECTION_CANONICAL_EQUALITY,
+  DEVELOPER_CREATE_RADIO_MIKROFON_PROJECTION_DOWNSTREAM_POLICY,
+  DEVELOPER_CREATE_RADIO_MIKROFON_PROJECTION_FALLBACK_INPUTS,
+  DEVELOPER_CREATE_RADIO_MIKROFON_PROJECTION_NORMALIZATION_RULES,
+  DEVELOPER_CREATE_RADIO_MIKROFON_PROJECTION_ROLE_CLASSIFICATION,
+  DEVELOPER_CREATE_RADIO_MIKROFON_PROJECTION_SCOPE_STATEMENT,
+  DEVELOPER_CREATE_RADIO_MIKROFON_PROJECTION_SUMMARY_SAFE_FIELDS,
+  DEVELOPER_CREATE_RADIO_MIKROFON_PROJECTION_TOKEN_VOCABULARY,
   DEVELOPER_CREATE_RADIO_NORMALIZATION_RULES,
   DEVELOPER_CREATE_RADIO_ROLE_CLASSIFICATION,
   DEVELOPER_CREATE_RADIO_SCOPE_STATEMENT,
@@ -3026,6 +3034,42 @@ export interface ExtrimliDokDikDakDukConsistencyHealth {
         skuMeaning: typeof DEVELOPER_CREATE_RADIO_TOKEN_VOCABULARY['semanticPreservation']['SKU'];
         noSemanticConflict: true;
       };
+      mikrofonProjectionAlias: {
+        canonicalEquality: typeof DEVELOPER_CREATE_RADIO_MIKROFON_PROJECTION_CANONICAL_EQUALITY;
+        scopeStatement: typeof DEVELOPER_CREATE_RADIO_MIKROFON_PROJECTION_SCOPE_STATEMENT;
+        roleClassification: typeof DEVELOPER_CREATE_RADIO_MIKROFON_PROJECTION_ROLE_CLASSIFICATION;
+        boundedTokenVocabulary: typeof DEVELOPER_CREATE_RADIO_MIKROFON_PROJECTION_TOKEN_VOCABULARY;
+        normalizationRules: typeof DEVELOPER_CREATE_RADIO_MIKROFON_PROJECTION_NORMALIZATION_RULES;
+        fallbackInputs: typeof DEVELOPER_CREATE_RADIO_MIKROFON_PROJECTION_FALLBACK_INPUTS;
+        summarySafePublicFields: typeof DEVELOPER_CREATE_RADIO_MIKROFON_PROJECTION_SUMMARY_SAFE_FIELDS;
+        downstreamPolicy: typeof DEVELOPER_CREATE_RADIO_MIKROFON_PROJECTION_DOWNSTREAM_POLICY;
+        additiveOnly: true;
+        noNewRuntimeEngine: true;
+        noNewRuntimeRoutes: true;
+        noParallelSourceOfTruth: true;
+        readinessSignal: {
+          status: 'READY' | 'WATCH' | 'BLOCKED';
+          readinessScore: number;
+          captureStatus: 'READY' | 'WATCH' | 'BLOCKED';
+          distributionStatus: 'READY' | 'WATCH' | 'BLOCKED';
+          tonalProjectionStatus: 'READY' | 'WATCH' | 'BLOCKED';
+          projectionCoveragePercent: number;
+          normalizedInputCount: number;
+          deterministicFallbackRequired: boolean;
+          driver: 'developerAndCreateRepoWideReflection.radioTrack.readinessSignal + developerAndCreateRepoWideReflection.audioVisualKontrabasPackage + developerAndCreateRepoWideReflection.globalPageExplanationContract';
+        };
+        blockerReason: string | null;
+        watchReasons: string[];
+        reviewPosture: 'ALIGNED' | 'WATCH' | 'REVIEW_REQUIRED';
+        semanticPreservation: {
+          mikrofonMeaning: typeof DEVELOPER_CREATE_RADIO_MIKROFON_PROJECTION_TOKEN_VOCABULARY['semanticPreservation']['MIKROFON'];
+          megafonMeaning: typeof DEVELOPER_CREATE_RADIO_MIKROFON_PROJECTION_TOKEN_VOCABULARY['semanticPreservation']['MEGAFON'];
+          distributerMeaning: typeof DEVELOPER_CREATE_RADIO_MIKROFON_PROJECTION_TOKEN_VOCABULARY['semanticPreservation']['DISTRIBUTER'];
+          saksofonMeaning: typeof DEVELOPER_CREATE_RADIO_MIKROFON_PROJECTION_TOKEN_VOCABULARY['semanticPreservation']['SAKSOFON'];
+          noSemanticConflict: true;
+        };
+        mikrofonSummary: string;
+      };
       acceptanceEvidence: readonly [
         'developerAndCreateRepoWideReflection.radioTrack',
         'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.radioTrack',
@@ -4609,6 +4653,7 @@ export interface ExtrimliDokDikDakDukConsistencyHealth {
         extrondolPublishes: 'wawe-freeze-promotion-review-rollback-audit-summary-only';
         spajaKodPublishes: 'status-blocker-review-downstream-and-radio-summary-only';
         technicalBinding: 'developerAndCreateRepoWideReflection.radioTrack';
+        mikrofonProjectionBinding: 'developerAndCreateRepoWideReflection.radioTrack.mikrofonProjectionAlias';
         noNewRuntimeEngine: true;
         noNewRuntimeRoutes: true;
         noParallelSourceOfTruth: true;

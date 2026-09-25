@@ -35,6 +35,7 @@ import {
 import {
   DEVELOPER_CREATE_AI_IQ_KONFERENCIJA_ZA_STAMPU_CANONICAL_ALIAS,
   DEVELOPER_CREATE_RADIO_CANONICAL_ALIAS,
+  DEVELOPER_CREATE_RADIO_MIKROFON_PROJECTION_CANONICAL_EQUALITY,
   DEVELOPER_CREATE_NAPOLEON_DISKAVERI_CANONICAL_ALIAS,
   DEVELOPER_CREATE_VRH_CANONICAL_NARRATIVE_SENTENCE,
   DEVELOPER_CREATE_VRH_CANONICAL_TOKEN_VOCABULARY,
@@ -3626,6 +3627,26 @@ function buildSpajaKodFacade(params: {
         publicBoundary: 'audit-safe-summary-only',
         semanticPreservation: {
           ...params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.radioTrack.semanticPreservation,
+        },
+        mikrofonProjectionAlias: {
+          canonicalEquality: DEVELOPER_CREATE_RADIO_MIKROFON_PROJECTION_CANONICAL_EQUALITY,
+          status:
+            params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.radioTrack.mikrofonProjectionAlias.readinessSignal.status,
+          blockerReason:
+            params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.radioTrack.mikrofonProjectionAlias.blockerReason,
+          watchReasons: [
+            ...params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.radioTrack.mikrofonProjectionAlias.watchReasons,
+          ],
+          reviewPosture:
+            params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.radioTrack.mikrofonProjectionAlias.reviewPosture,
+          downstreamReference:
+            params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.radioTrack.downstreamReference,
+          publicBoundary: 'audit-safe-summary-only',
+          semanticPreservation: {
+            ...params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.radioTrack.mikrofonProjectionAlias.semanticPreservation,
+          },
+          mikrofonSummary:
+            params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.radioTrack.mikrofonProjectionAlias.mikrofonSummary,
         },
         radioSummary:
           params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.radioTrack.radioSummary,
@@ -8013,9 +8034,9 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
         reviewPosture:
           extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.radioTrack.reviewPosture,
         rolloutPlan:
-          'Advance RADIO only as an additive-only bounded media/distribution/audio package through the existing EXTREM technical signal, EXTRONDOL governance mirror, and SPAJA KOD audit-safe summary boundary.',
+          'Advance RADIO only as an additive-only bounded media/distribution/audio package, including the bounded `MIKROFON == MEGAFON, DISTRIBUTER, SAKSOFON` projection alias, through the existing EXTREM technical signal, EXTRONDOL governance mirror, and SPAJA KOD audit-safe summary boundary.',
         rollbackPlan:
-          'Freeze promotion and fall back to the previously verified Developer/Create radio-summary posture if the bounded RADIO package drifts away from the existing ownership lock, semantic-preservation guard, or deterministic fallback discipline.',
+          'Freeze promotion and fall back to the previously verified Developer/Create radio-summary posture if the bounded RADIO package or its `MIKROFON == MEGAFON, DISTRIBUTER, SAKSOFON` projection drifts away from the existing ownership lock, semantic-preservation guard, or deterministic fallback discipline.',
         humanReviewStatus: 'required-before-promotion',
         acceptanceEvidence: [
           'developerAndCreateRepoWideReflection.radioTrack',
