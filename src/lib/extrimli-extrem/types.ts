@@ -2731,6 +2731,26 @@ export interface ExtrimliDokDikDakDukConsistencyHealth {
         status: ExtrimliExtremVrhProgramskogEkviladentaSignal['readiness']['status'];
         readinessScore: number;
       };
+      immersiveVisualization3dTrack: {
+        status: 'READY' | 'WATCH' | 'BLOCKED';
+        readinessScore: number;
+        dimensionalProgression: readonly ['360D', '720D', '1440D', '2880D', '5760D'];
+        dimensionalSignals: Array<{
+          dimension: '360D' | '720D' | '1440D' | '2880D' | '5760D';
+          status: 'READY' | 'WATCH' | 'BLOCKED';
+          layerCount: number;
+          lawCount: number;
+          tridniEnabled: boolean;
+          particleSistemEnabled: boolean;
+          audioVisualSyncStatus: 'READY' | 'WATCH' | 'BLOCKED';
+          spatialEffectStatus: 'READY' | 'WATCH' | 'BLOCKED';
+        }>;
+        fallbackPolicy: {
+          weakConditions: 'degrade-without-new-routes';
+          degradedMode: 'partial-payload-no-500';
+          deterministicFallbackInputs: readonly ['NaN', 'Infinity', 'empty', 'conflict'];
+        };
+      };
       consolidatedRhythmStatus: 'READY' | 'WATCH' | 'BLOCKED';
     };
     audioVisualKontrabasPackage: {
@@ -3942,6 +3962,9 @@ export interface ExtrimliDokDikDakDukConsistencyHealth {
           functionalFlowPercent: number;
           objectStructurePercent: number;
           proportionalBalancePercent: number;
+          immersiveVisualizationStatus: 'READY' | 'WATCH' | 'BLOCKED';
+          spatialAudioVisualSyncPercent: number;
+          dimensionalProgression: readonly ['360D', '720D', '1440D', '2880D', '5760D'];
           deterministicFallbackRequired: boolean;
           conflictPressurePercent: number;
           degraded: boolean;
@@ -4089,6 +4112,7 @@ export interface ExtrimliDokDikDakDukConsistencyHealth {
         extrondolPublishes: 'wawe-freeze-promotion-review-rollback-audit-summary-only';
         spajaKodPublishes: 'status-blocker-watch-review-and-downstream-reference-only';
         technicalBinding: 'developerAndCreateRepoWideReflection.eksperimentProgramskiJezikTrack';
+        immersiveScenesGovernedBy: 'developerAndCreateRepoWideReflection.technicalReadinessProfile.immersiveVisualization3dTrack';
         noNewRuntimeEngine: true;
         noNewRuntimeRoutes: true;
         noParallelSourceOfTruth: true;

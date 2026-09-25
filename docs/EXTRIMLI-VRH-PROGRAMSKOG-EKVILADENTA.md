@@ -43,6 +43,7 @@ Repo-wide reflection sada obavezno uključuje i dnevni operativni cadence: `morn
 - Nema novih runtime ruta, nema paralelnog source-of-truth sistema i nema novog DSP/muzičkog engine-a.
 - Ownership split ostaje isti: `DOK + DIK + FOR` ostaju EXTREM tehnički signal, `DAK + DUK` ostaju EXTRONDOL governance/WAWE odluke, a SPAJA KOD objavljuje samo audit-safe summary status.
 - Zaključano mapiranje traka ostaje: vokal/narativ -> `SINEMETRIČKO PROGRAMIRANJE`, reprodukcioni sloj -> `OBJEKTNO ORIJENTISANA REPRODUKCIJA`, tonalne proporcije -> `PROPORCIONALNO PROGRAMIRANJE`, ritam/duracije/ciklus -> `METRIČKO PROGRAMIRANJE`, montažno-orkestracioni tok -> `PARADIJOGONALNO PROGRAMIRANJE`.
+- Zaključana immersivna dimenziona progresija ostaje `360D, 720D, 1440D, 2880D, 5760D`: EXTREM vodi readiness/fallback signale za 3D + prostorni zvuk, EXTRONDOL vodi freeze/review/rollback governance, a SPAJA KOD objavljuje samo summary-safe status i razloge.
 - `regtonske proporcije`, `vuferske/kontrabasovne promene` i `tonski aspekt u revolucionom smislu kontrabasa` ostaju bounded signalni rečnik za audio dramaturgiju i dinamički balans.
 - Zaključani audio-scene termini ostaju `GUN, DEN, DIN, KON, SUR, DIR, DUR, DOG, DUK, DOP, KIDO, DUKAT, DJUKAS, DIKTON, GRAFON, SIRON, DJOKUZ, OTKUZ, DIPAS, CVIKROT, ZIPAN`.
 - Ako postoje storyboard ili vizuelni asset-i, EXTREM ih vodi kao audit/reference evidence, EXTRONDOL ih zrcali kroz governance summary, a `spaja86/IO-OPENUI-AO` dobija samo summary-safe downstream reference.

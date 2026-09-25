@@ -3236,6 +3236,8 @@ function buildSpajaKodFacade(params: {
       vrhProgramskogEkviladentaStatus: params.vrhProgramskogEkviladentaStatus,
       smartProgramskiJezikStatus:
         developerAndCreateImplementationPackage.smartProgramskiJezikPackage.technicalProfile.status,
+      immersiveVisualization3dStatus:
+        params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.technicalReadinessProfile.immersiveVisualization3dTrack.status,
       eksperimentProgramskiJezikStatus: params.eksperimentProgramskiJezikStatus,
       developerAndCreateStatus: params.developerAndCreateStatus,
       developerAndCreateImplementationStatus,
@@ -3327,6 +3329,7 @@ function buildSpajaKodFacade(params: {
         'publicSignals.developerAndCreateImplementationStatus',
         'publicSignals.developerAndCreateAudioVisualStatus',
         'publicSignals.smartProgramskiJezikStatus',
+        'publicSignals.immersiveVisualization3dStatus',
         'publicSignals.eksperimentProgramskiJezikStatus',
         'publicSignals.napoleonDiskaveriStatus',
         'publicSignals.kraljevskiPravniUniverzitetStatus',
@@ -3394,6 +3397,8 @@ function buildSpajaKodFacade(params: {
       smartProgramskiJezikSummary: {
         canonicalName: developerAndCreateImplementationPackage.smartProgramskiJezikPackage.canonicalName,
         readinessStatus: developerAndCreateImplementationPackage.smartProgramskiJezikPackage.technicalProfile.status,
+        immersiveVisualizationStatus:
+          params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.technicalReadinessProfile.immersiveVisualization3dTrack.status,
         blockerReasons: [
           ...developerAndCreateImplementationPackage.smartProgramskiJezikPackage.blockerReasons,
         ],
@@ -3409,6 +3414,8 @@ function buildSpajaKodFacade(params: {
           params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.eksperimentProgramskiJezikTrack.canonicalAlias,
         status:
           params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.eksperimentProgramskiJezikTrack.readinessSignal.status,
+        immersiveVisualizationStatus:
+          params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.technicalReadinessProfile.immersiveVisualization3dTrack.status,
         blockerReasons: [
           ...params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.eksperimentProgramskiJezikTrack.blockerReasons,
         ],

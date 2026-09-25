@@ -2536,6 +2536,7 @@ export interface ExtrimliSpajaKodPublicFacade {
     spajinoProporcionalnoProgramiranjeUniverzitetStatus: ExtrimliExtremProfilerReport['spajinoProporcionalnoProgramiranjeUniverzitet']['readiness']['status'];
     vrhProgramskogEkviladentaStatus: ExtrimliExtremProfilerReport['vrhProgramskogEkviladenta']['readiness']['status'];
     smartProgramskiJezikStatus: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['implementationPackage']['smartProgramskiJezikPackage']['technicalProfile']['status'];
+    immersiveVisualization3dStatus: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['technicalReadinessProfile']['immersiveVisualization3dTrack']['status'];
     eksperimentProgramskiJezikStatus: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['eksperimentProgramskiJezikTrack']['readinessSignal']['status'];
     developerAndCreateStatus: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['readiness']['status'];
     developerAndCreateImplementationStatus: ExtrimliSpajaKodPublicStatus;
@@ -2641,6 +2642,7 @@ export interface ExtrimliSpajaKodPublicFacade {
       'publicSignals.developerAndCreateImplementationStatus',
       'publicSignals.developerAndCreateAudioVisualStatus',
       'publicSignals.smartProgramskiJezikStatus',
+      'publicSignals.immersiveVisualization3dStatus',
       'publicSignals.eksperimentProgramskiJezikStatus',
       'publicSignals.napoleonDiskaveriStatus',
       'publicSignals.kraljevskiPravniUniverzitetStatus',
@@ -2706,6 +2708,7 @@ export interface ExtrimliSpajaKodPublicFacade {
     smartProgramskiJezikSummary: {
       canonicalName: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['implementationPackage']['smartProgramskiJezikPackage']['canonicalName'];
       readinessStatus: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['implementationPackage']['smartProgramskiJezikPackage']['technicalProfile']['status'];
+      immersiveVisualizationStatus: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['technicalReadinessProfile']['immersiveVisualization3dTrack']['status'];
       blockerReasons: string[];
       watchReasons: string[];
       reviewPosture: 'ALIGNED' | 'WATCH' | 'REVIEW_REQUIRED';
@@ -2715,6 +2718,7 @@ export interface ExtrimliSpajaKodPublicFacade {
     eksperimentProgramskiJezikSummary: {
       canonicalAlias: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['eksperimentProgramskiJezikTrack']['canonicalAlias'];
       status: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['eksperimentProgramskiJezikTrack']['readinessSignal']['status'];
+      immersiveVisualizationStatus: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['technicalReadinessProfile']['immersiveVisualization3dTrack']['status'];
       blockerReasons: string[];
       watchReasons: string[];
       humanReviewPosture: 'ALIGNED' | 'WATCH' | 'REVIEW_REQUIRED';

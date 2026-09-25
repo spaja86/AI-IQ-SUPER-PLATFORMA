@@ -110,6 +110,8 @@ Svaka faza mora imati: `roadmapStageId`, `measurableOutput`, `acceptanceEvidence
   3. **vizuelna traka** — primarne i supplemental visual reference ostaju audit/reference evidence-only sloj;
   4. **downstream traka** — `spaja86/IO-OPENUI-AO` troši samo summary-safe status, review posture, blocker reason i downstream reference.
 - Ownership split ostaje nepromenjen: `DOK + DIK + FOR` ostaju EXTREM tehnički sloj, `DAK + DUK` ostaju EXTRONDOL governance sloj, a `SPAJA KOD` ne izlaže sirove formule, interne scoring detalje, interne oktavne interpretacije niti izvršna pravila.
+- Kanonski immersivni 3D profil ostaje bounded i additive-only kroz zaključanu dimenzionu progresiju `360D -> 720D -> 1440D -> 2880D -> 5760D`, uz audio-vizuelnu sinhronizaciju, prostorne efekte i deterministički fallback (`partial-payload-no-500`) za slabije uslove.
+- Scenski primeri (`objekti izlaze iz ekrana`, `prostorni zvuk oko korisnika`) ostaju samo quality/readiness signal u EXTREM-u i governance evidence u EXTRONDOL-u; nikad ne uvode nove runtime rute, nove izvršne engine-e ili paralelni source-of-truth sistem.
 - Kanonski scenario za primarni audit/reference vizuel ostaje zaključan kao `scenarioId=developer-create-vizuelizacija-ekstremnog-kvaliteta-oktavni-sistem`, dok supplemental vizueli mogu postojati samo kao summary-safe evidence u okviru istog bounded paketa.
 - Acceptance paket ostaje zaključan na `roadmapStageId`, `measurableOutput`, `acceptanceEvidence`, `rolloutPlan`, `rollbackPlan`, `humanReviewStatus` i `downstreamReference`, uz isti `READY | WATCH | BLOCKED` model i isti drift-zero zahtev kroz `docs + types + routes + tests + workflows`.
 

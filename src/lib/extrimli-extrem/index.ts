@@ -8650,6 +8650,101 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
     || privredniAktQuarterlyMarketInput.deterministicFallbackRequired
     || activeRoadmapStageCount !== 1
     || !dokDikDakDukConsistencyHealth.consistent;
+  const immersiveVisualization3dDimensionalSignals: ExtrimliDokDikDakDukConsistencyHealth['developerAndCreateRepoWideReflection']['technicalReadinessProfile']['immersiveVisualization3dTrack']['dimensionalSignals'] = [
+    {
+      dimension: '360D',
+      status:
+        dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.status === 'BLOCKED'
+          ? 'BLOCKED'
+          : 'WATCH',
+      layerCount: 2,
+      lawCount: 2,
+      tridniEnabled: false,
+      particleSistemEnabled: false,
+      audioVisualSyncStatus: sinemetrickoProgramiranje.readiness.status,
+      spatialEffectStatus:
+        dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.status === 'BLOCKED'
+          ? 'BLOCKED'
+          : 'WATCH',
+    },
+    {
+      dimension: '720D',
+      status:
+        dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.status === 'BLOCKED'
+          ? 'BLOCKED'
+          : 'WATCH',
+      layerCount: 3,
+      lawCount: 3,
+      tridniEnabled: false,
+      particleSistemEnabled: false,
+      audioVisualSyncStatus: objektnoOrijentisanaReprodukcija.readiness.status,
+      spatialEffectStatus:
+        dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.status === 'BLOCKED'
+          ? 'BLOCKED'
+          : 'WATCH',
+    },
+    {
+      dimension: '1440D',
+      status: vrhProgramskogEkviladenta.readiness.status,
+      layerCount: 4,
+      lawCount: 4,
+      tridniEnabled: true,
+      particleSistemEnabled: false,
+      audioVisualSyncStatus: 'WATCH',
+      spatialEffectStatus: vrhProgramskogEkviladenta.readiness.status,
+    },
+    {
+      dimension: '2880D',
+      status: vrhProgramskogEkviladenta.readiness.status,
+      layerCount: 4,
+      lawCount: 5,
+      tridniEnabled: true,
+      particleSistemEnabled: true,
+      audioVisualSyncStatus: 'WATCH',
+      spatialEffectStatus: paradijogonalnoProgrimiranje.readiness.status,
+    },
+    {
+      dimension: '5760D',
+      status: vrhProgramskogEkviladenta.readiness.status,
+      layerCount: 4,
+      lawCount: 6,
+      tridniEnabled: true,
+      particleSistemEnabled: true,
+      audioVisualSyncStatus: 'WATCH',
+      spatialEffectStatus: metrikoProgramiranje.readiness.status,
+    },
+  ];
+  const immersiveAudioVisualSyncStatuses = [
+    sinemetrickoProgramiranje.readiness.status,
+    objektnoOrijentisanaReprodukcija.readiness.status,
+    proporcionalnoProgramiranje.readiness.status,
+    metrikoProgramiranje.readiness.status,
+    paradijogonalnoProgrimiranje.readiness.status,
+  ];
+  const immersiveAudioVisualSyncStatus = immersiveAudioVisualSyncStatuses.includes('BLOCKED')
+    ? 'BLOCKED'
+    : immersiveAudioVisualSyncStatuses.includes('WATCH')
+      ? 'WATCH'
+      : 'READY';
+  immersiveVisualization3dDimensionalSignals.forEach((signal) => {
+    if (signal.dimension === '1440D' || signal.dimension === '2880D' || signal.dimension === '5760D') {
+      signal.audioVisualSyncStatus = immersiveAudioVisualSyncStatus;
+    }
+  });
+  const immersiveVisualization3dStatuses = immersiveVisualization3dDimensionalSignals.map((signal) => signal.status);
+  const immersiveVisualization3dScore = round(
+    immersiveVisualization3dDimensionalSignals.reduce((sum, signal) => {
+      if (signal.status === 'READY') return sum + 100;
+      if (signal.status === 'WATCH') return sum + 70;
+      return sum + 40;
+    }, 0) / immersiveVisualization3dDimensionalSignals.length,
+    2,
+  );
+  const immersiveVisualization3dStatus = immersiveVisualization3dStatuses.includes('BLOCKED')
+    ? 'BLOCKED'
+    : immersiveVisualization3dStatuses.includes('WATCH')
+      ? 'WATCH'
+      : 'READY';
   dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.dailyOperationalCadence.dailyTasks =
     dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.dailyOperationalCadence.dailyTasks.map((task) => ({
       ...task,
@@ -8680,6 +8775,17 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
     vrhProgramskogEkviladenta: {
       status: vrhProgramskogEkviladenta.readiness.status,
       readinessScore: vrhProgramskogEkviladenta.readiness.score,
+    },
+    immersiveVisualization3dTrack: {
+      status: immersiveVisualization3dStatus,
+      readinessScore: immersiveVisualization3dScore,
+      dimensionalProgression: ['360D', '720D', '1440D', '2880D', '5760D'],
+      dimensionalSignals: immersiveVisualization3dDimensionalSignals,
+      fallbackPolicy: {
+        weakConditions: 'degrade-without-new-routes',
+        degradedMode: 'partial-payload-no-500',
+        deterministicFallbackInputs: ['NaN', 'Infinity', 'empty', 'conflict'],
+      },
     },
     consolidatedRhythmStatus: dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.status,
   };
@@ -10332,6 +10438,9 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
         functionalFlowPercent: smartProgramskiJezikFunctionalFlowPercent,
         objectStructurePercent: smartProgramskiJezikObjectStructurePercent,
         proportionalBalancePercent: smartProgramskiJezikProportionalBalancePercent,
+        immersiveVisualizationStatus: immersiveVisualization3dStatus,
+        spatialAudioVisualSyncPercent: immersiveVisualization3dScore,
+        dimensionalProgression: ['360D', '720D', '1440D', '2880D', '5760D'],
         deterministicFallbackRequired: smartProgramskiJezikDeterministicFallbackRequired,
         conflictPressurePercent: smartProgramskiJezikConflictPressurePercent,
         degraded: smartProgramskiJezikDegraded,
@@ -10484,6 +10593,7 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
       extrondolPublishes: 'wawe-freeze-promotion-review-rollback-audit-summary-only',
       spajaKodPublishes: 'status-blocker-watch-review-and-downstream-reference-only',
       technicalBinding: 'developerAndCreateRepoWideReflection.eksperimentProgramskiJezikTrack',
+      immersiveScenesGovernedBy: 'developerAndCreateRepoWideReflection.technicalReadinessProfile.immersiveVisualization3dTrack',
       noNewRuntimeEngine: true,
       noNewRuntimeRoutes: true,
       noParallelSourceOfTruth: true,
