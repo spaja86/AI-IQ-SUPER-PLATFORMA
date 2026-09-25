@@ -643,6 +643,7 @@ async function runTests(): Promise<void> {
     assert(body.data.releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.covecnostAuditVisualGovernance.rollbackPlanRequired === true, 'unexpected release-audit developer/create ČOVEČNOST rollback requirement');
     assert(body.data.releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.covecnostAuditVisualGovernance.downstreamSync === 'follow-up-only-until-io-openui-ao-adopts-audit-safe-summary', 'unexpected release-audit developer/create ČOVEČNOST downstream sync policy');
     assert(body.data.releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.roadmapExecution.roadmapStageId === 'v5-extrondol-release-audit-and-orchestration', 'unexpected release-audit developer/create roadmap stage');
+    assert(body.data.releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.roadmapExecution.v700Extension.roadmapStageId === 'v700-apdejt-na-verziju-700', 'unexpected release-audit developer/create V700 roadmap extension stage');
     assert(body.data.objektnoOrijentisanaProngilacija.term === 'Objektno orijentisana prongilacija', 'unexpected object-oriented prongilacija term');
     assert(body.data.objektnoOrijentisanaProngilacija.technicalSignalSource === '/api/extrimli/extrem', 'unexpected object-oriented prongilacija source');
     assert(['READY', 'WATCH', 'BLOCKED'].includes(body.data.objektnoOrijentisanaProngilacija.status), 'unexpected object-oriented prongilacija status');
@@ -1091,7 +1092,7 @@ async function runTests(): Promise<void> {
           };
           downstreamAuditFields: string[];
           smartProgramskiJezikSummary: { canonicalName: string; readinessStatus: string; blockerReasons: string[]; watchReasons: string[]; reviewPosture: string; downstreamReference: string; publicBoundary: string };
-          napoleonDiskaveriSummary: { canonicalAlias: string; status: string; blockerReasons: string[]; watchReasons: string[]; humanReviewPosture: string; downstreamReference: string };
+          napoleonDiskaveriSummary: { canonicalAlias: string; status: string; blockerReasons: string[]; watchReasons: string[]; humanReviewPosture: string; downstreamReference: string; randomSelectionScopeStatement: string; randomSelectionPosture: { requestAlias: string; selectionChannel: string; status: string; blockerReason: string | null; watchReasons: string[]; reviewPosture: string; downstreamReference: string } };
           eksperimentProgramskiJezikSummary: { canonicalAlias: string; status: string; blockerReasons: string[]; watchReasons: string[]; humanReviewPosture: string; downstreamReference: string; publicBoundary: string };
           sarkazamPrivrednaGranaDigitalizmaSummary: { canonicalAlias: string; scopeClassification: string; status: string; blockerReason: string | null; reviewPosture: string; downstreamReference: string; publicBoundary: string; oblastCinSummary: { oblastStatus: string; cinStatus: string; publicSummary: string } };
           notes1450Summary: { canonicalAlias: string; roleClassification: string; status: string; blockerReason: string | null; watchReasons: string[]; reviewPosture: string; downstreamReference: string; publicBoundary: string; businessValueSummary: string };
@@ -1180,6 +1181,9 @@ async function runTests(): Promise<void> {
     assert(body.data.publicSignals.developerAndCreateGlobalPageExplanationStatus === body.data.publicSignals.developerAndCreateStatus, 'unexpected SPAJA KOD global explanation status');
     assert(body.data.publicSignals.developerAndCreateGlobalPageExplanationSignals.join(',') === 'mape-uma,slike-plus-znacenje,ucenje,znanje,kreativnost,saradnja,odrzivost,mir', 'unexpected SPAJA KOD global explanation signals');
     assert(body.data.developerAndCreateImplementationPackage.napoleonDiskaveriSummary.canonicalAlias === 'SELEKCIONIRANJE U SELEKCIJAMA PREMA AKTIVNOM NADMAŠAJU / NAPOLEON DISKAVERI', 'unexpected SPAJA KOD Napoleon Diskaveri summary alias');
+    assert(body.data.developerAndCreateImplementationPackage.napoleonDiskaveriSummary.randomSelectionPosture.requestAlias === 'RANDOM selekcija svega', 'unexpected SPAJA KOD Napoleon random-selection alias');
+    assert(body.data.developerAndCreateImplementationPackage.napoleonDiskaveriSummary.randomSelectionPosture.selectionChannel === 'napoleon-diskaveri-bounded-selection', 'unexpected SPAJA KOD Napoleon random-selection channel');
+    assert(body.data.developerAndCreateImplementationPackage.napoleonDiskaveriSummary.randomSelectionPosture.reviewPosture === body.data.developerAndCreateImplementationPackage.napoleonDiskaveriSummary.humanReviewPosture, 'unexpected SPAJA KOD Napoleon random-selection review posture');
     assert(body.data.dokDikDakDukConsistencyHealth === undefined, 'SPAJA KOD must not expose internal developer/create reflection payloads');
     assert(body.data.developerAndCreateImplementationPackage.smartProgramskiJezikSummary.readinessStatus === body.data.publicSignals.smartProgramskiJezikStatus, 'unexpected SPAJA KOD smart language summary/status mismatch');
     assert(body.data.developerAndCreateImplementationPackage.smartProgramskiJezikSummary.immersiveVisualizationStatus === body.data.publicSignals.immersiveVisualization3dStatus, 'unexpected SPAJA KOD smart language immersive summary/status mismatch');

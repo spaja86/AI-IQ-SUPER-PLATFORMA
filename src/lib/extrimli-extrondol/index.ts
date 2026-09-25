@@ -37,6 +37,9 @@ import {
   DEVELOPER_CREATE_RADIO_CANONICAL_ALIAS,
   DEVELOPER_CREATE_RADIO_MIKROFON_PROJECTION_CANONICAL_EQUALITY,
   DEVELOPER_CREATE_NAPOLEON_DISKAVERI_CANONICAL_ALIAS,
+  DEVELOPER_CREATE_RANDOM_SELECTION_SCOPE_STATEMENT,
+  DEVELOPER_CREATE_V700_ROADMAP_STAGE_ID,
+  DEVELOPER_CREATE_V700_SCOPE_STATEMENT,
   DEVELOPER_CREATE_VRH_CANONICAL_NARRATIVE_SENTENCE,
   DEVELOPER_CREATE_VRH_CANONICAL_TOKEN_VOCABULARY,
   DEVELOPER_CREATE_VRH_DOWNSTREAM_SUMMARY_POLICY,
@@ -3666,6 +3669,10 @@ function buildSpajaKodFacade(params: {
         downstreamReference:
           params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.napoleonDiskaveriSelectionTrack.downstreamReference,
         publicBoundary: 'audit-safe-summary-only',
+        randomSelectionScopeStatement: DEVELOPER_CREATE_RANDOM_SELECTION_SCOPE_STATEMENT,
+        randomSelectionPosture: {
+          ...params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.napoleonDiskaveriSelectionTrack.randomSelectionPosture,
+        },
       },
       aiIqWorldBankPrepiskaSummary: {
         canonicalName:
@@ -5162,6 +5169,25 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
           humanReviewStatus: 'required-before-promotion',
           downstreamReference: 'docs/MULTI-REPO-LINKS.md -> spaja86/IO-OPENUI-AO (summary-only)',
           downstreamSync: 'follow-up-only-until-io-openui-ao-adopts-audit-safe-summary',
+          v700Extension: {
+            roadmapStageId: DEVELOPER_CREATE_V700_ROADMAP_STAGE_ID,
+            scopeStatement: DEVELOPER_CREATE_V700_SCOPE_STATEMENT,
+            additiveOnly: true,
+            noNewRuntimeRoutes: true,
+            noParallelSourceOfTruth: true,
+            acceptanceCriteria: [
+              'v700-extension-is-governance-only',
+              'rollout-and-rollback-are-defined',
+              'human-review-required-before-promotion',
+              'downstream-summary-sync-only',
+            ],
+            rolloutPlan:
+              'Introduce V700 as additive governance metadata over the active v5 execution lock, validate release-audit evidence, then promote only after human review.',
+            rollbackPlan:
+              'Freeze V700 governance extension and revert to prior v5-only governance metadata until docs/types/routes/tests/workflows are re-aligned.',
+            humanReviewStatus: 'required-before-promotion',
+            downstreamReference: 'docs/MULTI-REPO-LINKS.md -> spaja86/IO-OPENUI-AO (summary-only)',
+          },
         },
         covecnostAuditVisualGovernance: {
           auditVisibility: 'audit-safe-readiness-only',
@@ -6929,6 +6955,25 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
               'EXTRONDOL consumes the repo-wide technical profile plus KRALJEVSKI DRUŠTVENI POREDAK governance, KRALJEVSKI AKT BEZBEDNOSTI bounded civil-readiness, AI identity-finance governance, KRALJEVSKI BAŠTA UNEVERZITE bounded narrative metadata, additive audio-vizuelni kontrabas package metadata, and primary/supplemental/companion audit visual metadata, then publishes only audit-safe WAWE/review/rollback governance',
             acceptanceEvidence: DEVELOPER_CREATE_GOVERNANCE_ACCEPTANCE_EVIDENCE,
             downstreamSync: 'follow-up-only-until-io-openui-ao-adopts-audit-safe-summary',
+            v700Extension: {
+              roadmapStageId: DEVELOPER_CREATE_V700_ROADMAP_STAGE_ID,
+              scopeStatement: DEVELOPER_CREATE_V700_SCOPE_STATEMENT,
+              additiveOnly: true,
+              noNewRuntimeRoutes: true,
+              noParallelSourceOfTruth: true,
+              acceptanceCriteria: [
+                'v700-extension-is-governance-only',
+                'rollout-and-rollback-are-defined',
+                'human-review-required-before-promotion',
+                'downstream-summary-sync-only',
+              ],
+              rolloutPlan:
+                'Introduce V700 as additive governance metadata over the active v5 execution lock, validate release-audit evidence, then promote only after human review.',
+              rollbackPlan:
+                'Freeze V700 governance extension and revert to prior v5-only governance metadata until docs/types/routes/tests/workflows are re-aligned.',
+              humanReviewStatus: 'required-before-promotion',
+              downstreamReference: 'docs/MULTI-REPO-LINKS.md -> spaja86/IO-OPENUI-AO (summary-only)',
+            },
           },
           waweImpact: {
             currentWawe,
@@ -8071,6 +8116,25 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
         humanReviewStatus: 'required-before-promotion',
         downstreamReference: 'docs/MULTI-REPO-LINKS.md -> spaja86/IO-OPENUI-AO (summary-only)',
         downstreamSync: 'follow-up-only-until-io-openui-ao-adopts-audit-safe-summary',
+        v700Extension: {
+          roadmapStageId: DEVELOPER_CREATE_V700_ROADMAP_STAGE_ID,
+          scopeStatement: DEVELOPER_CREATE_V700_SCOPE_STATEMENT,
+          additiveOnly: true,
+          noNewRuntimeRoutes: true,
+          acceptanceCriteria: [
+            'v700-extension-is-governance-only',
+            'rollout-and-rollback-are-defined',
+            'human-review-required-before-promotion',
+            'downstream-summary-sync-only',
+          ],
+          noParallelSourceOfTruth: true,
+          rolloutPlan:
+            'Promote V700 governance posture only after WAWE audit signals remain stable across two consecutive review windows.',
+          rollbackPlan:
+            'On governance drift, freeze promotion and revert V700 extension posture to prior verified WAWE-aligned governance snapshot.',
+          humanReviewStatus: 'required-before-promotion',
+          downstreamReference: 'docs/MULTI-REPO-LINKS.md -> spaja86/IO-OPENUI-AO (summary-only)',
+        },
       },
       waweImpact: {
         currentWawe,

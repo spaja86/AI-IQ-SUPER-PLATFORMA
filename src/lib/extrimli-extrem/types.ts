@@ -40,6 +40,7 @@ import type {
   DEVELOPER_CREATE_NOTES_1450_CANONICAL_ALIAS,
   DEVELOPER_CREATE_NOTES_1450_ROLE_CLASSIFICATION,
   DEVELOPER_CREATE_NOTES_1450_SCOPE_STATEMENT,
+  DEVELOPER_CREATE_RANDOM_SELECTION_SCOPE_STATEMENT,
   DEVELOPER_CREATE_RADIO_CANONICAL_ALIAS,
   DEVELOPER_CREATE_RADIO_DOWNSTREAM_POLICY,
   DEVELOPER_CREATE_RADIO_FALLBACK_INPUTS,
@@ -59,6 +60,8 @@ import type {
   DEVELOPER_CREATE_NAPOLEON_DISKAVERI_BOUNDED_SIGNALS,
   DEVELOPER_CREATE_NAPOLEON_DISKAVERI_CANONICAL_ALIAS,
   DEVELOPER_CREATE_NAPOLEON_DISKAVERI_SCOPE_STATEMENT,
+  DEVELOPER_CREATE_V700_ROADMAP_STAGE_ID,
+  DEVELOPER_CREATE_V700_SCOPE_STATEMENT,
   DEVELOPER_CREATE_RADNI_PROSTOR_BOUNDED_TOKEN_SEQUENCE,
   DEVELOPER_CREATE_RADNI_PROSTOR_CANONICAL_ALIAS,
   DEVELOPER_CREATE_RADNI_PROSTOR_FALLBACK_INPUTS,
@@ -2701,6 +2704,16 @@ export interface ExtrimliDokDikDakDukConsistencyHealth {
       watchReasons: string[];
       humanReviewPosture: 'ALIGNED' | 'WATCH' | 'REVIEW_REQUIRED';
       downstreamReference: 'docs/MULTI-REPO-LINKS.md -> spaja86/IO-OPENUI-AO (summary-only)';
+      randomSelectionScopeStatement: typeof DEVELOPER_CREATE_RANDOM_SELECTION_SCOPE_STATEMENT;
+      randomSelectionPosture: {
+        requestAlias: 'RANDOM selekcija svega';
+        selectionChannel: 'napoleon-diskaveri-bounded-selection';
+        status: 'READY' | 'WATCH' | 'BLOCKED';
+        blockerReason: string | null;
+        watchReasons: string[];
+        reviewPosture: 'ALIGNED' | 'WATCH' | 'REVIEW_REQUIRED';
+        downstreamReference: 'docs/MULTI-REPO-LINKS.md -> spaja86/IO-OPENUI-AO (summary-only)';
+      };
     };
     eksperimentProgramskiJezikTrack: {
       canonicalAlias: 'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == EKSPERIMENT PROGRAMSKI JEZIK (PRODUKCIJA FILMSKOG I AUDIO REPERTOARA)';
@@ -4261,6 +4274,23 @@ export interface ExtrimliDokDikDakDukConsistencyHealth {
       rollbackPlan: string;
       humanReviewStatus: 'required-before-promotion';
       downstreamReference: 'docs/MULTI-REPO-LINKS.md -> spaja86/IO-OPENUI-AO (summary-only)';
+      v700Extension: {
+        roadmapStageId: typeof DEVELOPER_CREATE_V700_ROADMAP_STAGE_ID;
+        scopeStatement: typeof DEVELOPER_CREATE_V700_SCOPE_STATEMENT;
+        additiveOnly: true;
+        noNewRuntimeRoutes: true;
+        noParallelSourceOfTruth: true;
+        acceptanceCriteria: readonly [
+          'v700-extension-is-governance-only',
+          'rollout-and-rollback-are-defined',
+          'human-review-required-before-promotion',
+          'downstream-summary-sync-only'
+        ];
+        rolloutPlan: string;
+        rollbackPlan: string;
+        humanReviewStatus: 'required-before-promotion';
+        downstreamReference: 'docs/MULTI-REPO-LINKS.md -> spaja86/IO-OPENUI-AO (summary-only)';
+      };
     };
     covecnostAuditVisualReference: {
       title: 'ČOVEČNOST';
@@ -4719,6 +4749,7 @@ export interface ExtrimliDokDikDakDukConsistencyHealth {
         v5: 'extrondol-release-audit-and-orchestration';
         v6: 'downstream-and-multi-repo-alignment';
         v7: 'enterprise-organizational-operating-model';
+        v700: 'apdejt-na-verziju-700-governance-program-extension';
       };
       validationLock: {
         readyWatchBlockedOnly: true;

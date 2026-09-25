@@ -168,6 +168,8 @@ jobs:
           );
           assert(developerCreateProgramDoc.includes('KRALJEVSKI BAŠTA UNEVERZITE') && developerCreateProgramDoc.includes('kraljevski-basta-uneverzite-prirodne-maticne-celije-covecanstvu'), 'Developer/Create program doc must lock KRALJEVSKI BAŠTA UNEVERZITE bounded narrative alias');
           assert(developerCreateProgramDoc.includes('roadmapStageId=Verzija 7') && developerCreateProgramDoc.includes('premium-rollout-regime'), 'Developer/Create program doc must lock AI PLATE V7 execution and pricing governance');
+          assert(developerCreateProgramDoc.includes('APDEJT NA VERZIJU 700') && developerCreateProgramDoc.includes('V700 governance extension'), 'Developer/Create program doc must lock additive V700 governance extension narrative');
+          assert(developerCreateProgramDoc.includes('RANDOM selekcija svega') && developerCreateProgramDoc.includes('Napoleon Diskaveri'), 'Developer/Create program doc must lock random selection through Napoleon Diskaveri bounded channel');
           assert(vrhDoc.includes('DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == RADNI TAKT MOZGA (MISLILAC)'), 'VRH doc must lock repo-wide equality mapping');
           assert(vrhDoc.includes('DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == MAPA UMA') && vrhDoc.includes('DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == ŽIVOPIS U DIGITALIZMU'), 'VRH doc must lock MAPA UMA and ŽIVOPIS U DIGITALIZMU additive aliases');
           assert(vrhDoc.includes('DIJALIZA POGONSKOG OMOTAČA') && vrhDoc.includes('DOK + DIK + FOR') && vrhDoc.includes('DAK + DUK'), 'VRH doc must keep DIJALIZA POGONSKOG OMOTAČA alias bounded by unchanged ownership split');
@@ -205,6 +207,7 @@ jobs:
           assert(vrhDoc.includes('srpski je primarni kanonski izraz domena'), 'VRH doc must lock Serbian-primary language rule');
           assert(vrhDoc.includes('AI PLATE') && vrhDoc.includes('12.000 EUR nedeljno'), 'VRH doc must lock AI PLATE enterprise package');
           assert(vrhDoc.includes('v5-extrondol-release-audit-and-orchestration'), 'VRH doc must lock the active Developer/Create execution stage');
+          assert(vrhDoc.includes('V700 governance extension') && vrhDoc.includes('APDEJT NA VERZIJU 700'), 'VRH doc must lock V700 governance extension narrative');
           assert(vrhDoc.includes('zadrugaOperationalStatus') && vrhDoc.includes('instrumentTablaStatus') && vrhDoc.includes('payoutGovernancePosture'), 'VRH doc must lock ZADRUGA summary-only public boundary fields');
           assert(vrhDoc.includes('AI IQ WORLD BANK PREPISKA') && vrhDoc.includes('documentation-only governance evidence'), 'VRH doc must lock AI IQ WORLD BANK prepiska evidence boundary');
           assert(worldBankDoc.includes('AI IQ WORLD BANK PREPISKA') && worldBankDoc.includes('documentation-only governance evidence'), 'AI IQ WORLD BANK doc must lock prepiska as documentation-only governance evidence');
@@ -239,6 +242,7 @@ jobs:
           assert(extrimliDoc.includes('KRALJEVSKI BAŠTA UNEVERZITE') && extrimliDoc.includes('DOK + DIK + FOR') && extrimliDoc.includes('DAK + DUK'), 'EXTRIMLI doc must include KRALJEVSKI BAŠTA UNEVERZITE ownership lock');
           assert(extrimliDoc.includes('6ab2f88d-23b0-83eb-b708-b880bdb7fc11') && extrimliDoc.includes('srpski je primarni kanonski izraz domena'), 'EXTRIMLI doc must lock documentation-only ChatGPT share reference and Serbian-primary language layer');
           assert(extrimliDoc.includes('technicalReadinessProfile') && extrimliDoc.includes('v5-extrondol-release-audit-and-orchestration'), 'EXTRIMLI doc must include the technical readiness profile and active execution stage');
+          assert(extrimliDoc.includes('V700 / APDEJT NA VERZIJU 700') && extrimliDoc.includes('RANDOM selekcija svega'), 'EXTRIMLI doc must lock V700 extension and random-selection bounded mapping');
           assert(extrimliDoc.includes('AI IQ WORLD BANK PREPISKA') && extrimliDoc.includes('documentation-only governance evidence'), 'EXTRIMLI doc must lock AI IQ WORLD BANK prepiska boundary');
           assert(extrimliDoc.includes('releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance'), 'EXTRIMLI doc must lock EXTRONDOL releaseAuditSummary governance channel for Developer/Create');
           assert(types.includes('matematickiFakultetStatus') && extrondolIndex.includes('matematickiFakultetStatus'), 'types and EXTRONDOL index must include MATEMATIČKI FAKULTET additive status field');

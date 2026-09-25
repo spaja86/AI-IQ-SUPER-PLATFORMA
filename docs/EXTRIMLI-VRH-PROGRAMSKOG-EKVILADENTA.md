@@ -107,6 +107,13 @@ Repo-wide reflection sada obavezno uključuje i dnevni operativni cadence: `morn
 - `EXTRONDOL` ostaje governance ogledalo za review posture, freeze/promotion odluke, rollout/rollback disciplinu i audit evidence.
 - `SPAJA KOD` ostaje summary-safe boundary i izlaže samo naziv bounded trake, status, blocker/watch razloge, human-review posture i downstream reference.
 - Prazni, konfliktni i nedeterministički ulazi ostaju vezani za postojeći fallback lock (`partial-payload-no-500`, bez novog engine-a i bez nove rute).
+- `RANDOM selekcija svega` ostaje zaključana kao isti bounded Napoleon Diskaveri zahtev: EXTREM tehnički signal, EXTRONDOL governance odluka, SPAJA KOD summary-only izlaz bez sirovih internih detalja.
+
+## V700 governance extension (APDEJT NA VERZIJU 700)
+
+- `APDEJT NA VERZIJU 700` ostaje additive-only governance/program ekstenzija iznad zaključanog `V1–V7` modela.
+- V700 ne menja aktivnu izvršnu fazu `v5-extrondol-release-audit-and-orchestration`; dodaje samo governance metadata sloj sa rollout/rollback i human-review obavezom.
+- Ownership split ostaje zaključan: `DOK + DIK + FOR` u EXTREM, `DAK + DUK` u EXTRONDOL, `SPAJA KOD` samo audit-safe summary boundary.
 
 ## Sarkazam / Privredna grana digitalizma bounded alias
 

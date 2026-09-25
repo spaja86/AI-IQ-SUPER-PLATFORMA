@@ -22,6 +22,9 @@ import type {
   DEVELOPER_CREATE_RADIO_CANONICAL_ALIAS,
   DEVELOPER_CREATE_RADIO_MIKROFON_PROJECTION_CANONICAL_EQUALITY,
   DEVELOPER_CREATE_NAPOLEON_DISKAVERI_CANONICAL_ALIAS,
+  DEVELOPER_CREATE_RANDOM_SELECTION_SCOPE_STATEMENT,
+  DEVELOPER_CREATE_V700_ROADMAP_STAGE_ID,
+  DEVELOPER_CREATE_V700_SCOPE_STATEMENT,
   DEVELOPER_CREATE_VRH_CANONICAL_TOKEN_VOCABULARY,
   DEVELOPER_CREATE_VRH_DOWNSTREAM_SUMMARY_POLICY,
   DEVELOPER_CREATE_VRH_FOUR_PERMANENT_LAYERS,
@@ -1110,6 +1113,23 @@ export interface ExtrimliExtrondolDeveloperAndCreateRepoWideReflectionGovernance
     humanReviewStatus: 'required-before-promotion';
     downstreamReference: 'docs/MULTI-REPO-LINKS.md -> spaja86/IO-OPENUI-AO (summary-only)';
     downstreamSync: 'follow-up-only-until-io-openui-ao-adopts-audit-safe-summary';
+    v700Extension: {
+      roadmapStageId: typeof DEVELOPER_CREATE_V700_ROADMAP_STAGE_ID;
+      scopeStatement: typeof DEVELOPER_CREATE_V700_SCOPE_STATEMENT;
+      additiveOnly: true;
+      noNewRuntimeRoutes: true;
+      noParallelSourceOfTruth: true;
+      acceptanceCriteria: readonly [
+        'v700-extension-is-governance-only',
+        'rollout-and-rollback-are-defined',
+        'human-review-required-before-promotion',
+        'downstream-summary-sync-only'
+      ];
+      rolloutPlan: string;
+      rollbackPlan: string;
+      humanReviewStatus: 'required-before-promotion';
+      downstreamReference: 'docs/MULTI-REPO-LINKS.md -> spaja86/IO-OPENUI-AO (summary-only)';
+    };
   };
   covecnostAuditVisualGovernance: {
     auditVisibility: 'audit-safe-readiness-only';
@@ -2293,6 +2313,23 @@ export interface ExtrimliExtrondolDeveloperAndCreateRepoWideReflection
     humanReviewStatus: 'required-before-promotion';
     downstreamReference: 'docs/MULTI-REPO-LINKS.md -> spaja86/IO-OPENUI-AO (summary-only)';
     downstreamSync: 'follow-up-only-until-io-openui-ao-adopts-audit-safe-summary';
+    v700Extension: {
+      roadmapStageId: typeof DEVELOPER_CREATE_V700_ROADMAP_STAGE_ID;
+      scopeStatement: typeof DEVELOPER_CREATE_V700_SCOPE_STATEMENT;
+      additiveOnly: true;
+      noNewRuntimeRoutes: true;
+      noParallelSourceOfTruth: true;
+      acceptanceCriteria: readonly [
+        'v700-extension-is-governance-only',
+        'rollout-and-rollback-are-defined',
+        'human-review-required-before-promotion',
+        'downstream-summary-sync-only'
+      ];
+      rolloutPlan: string;
+      rollbackPlan: string;
+      humanReviewStatus: 'required-before-promotion';
+      downstreamReference: 'docs/MULTI-REPO-LINKS.md -> spaja86/IO-OPENUI-AO (summary-only)';
+    };
   };
 }
 
@@ -3018,6 +3055,16 @@ export interface ExtrimliSpajaKodPublicFacade {
       humanReviewPosture: 'ALIGNED' | 'WATCH' | 'REVIEW_REQUIRED';
       downstreamReference: 'docs/MULTI-REPO-LINKS.md -> spaja86/IO-OPENUI-AO (summary-only)';
       publicBoundary: 'audit-safe-summary-only';
+      randomSelectionScopeStatement: typeof DEVELOPER_CREATE_RANDOM_SELECTION_SCOPE_STATEMENT;
+      randomSelectionPosture: {
+        requestAlias: 'RANDOM selekcija svega';
+        selectionChannel: 'napoleon-diskaveri-bounded-selection';
+        status: 'READY' | 'WATCH' | 'BLOCKED';
+        blockerReason: string | null;
+        watchReasons: string[];
+        reviewPosture: 'ALIGNED' | 'WATCH' | 'REVIEW_REQUIRED';
+        downstreamReference: 'docs/MULTI-REPO-LINKS.md -> spaja86/IO-OPENUI-AO (summary-only)';
+      };
     };
     aiIqWorldBankPrepiskaSummary: {
       canonicalName: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['aiIdentityFinanceGovernance']['aiIqWorldBankPrepiska']['canonicalName'];
