@@ -4,6 +4,7 @@ import {
   clamp,
   round,
 } from '../extrimli';
+import { aggregateReadinessStatus } from '../extrimli-readiness';
 import { evaluateDuet } from '../duet';
 import { getExtrimliExtrondendReport } from '../extrimli-extrondend';
 import { getExtrimliExtendolReport } from '../extrimli-extendol';
@@ -3145,11 +3146,10 @@ function buildSpajaKodFacade(params: {
     developerAndCreateImplementationPackage.noParallelSourceOfTruth &&
     developerAndCreateImplementationPackage.validationLock.readyWatchBlockedOnly &&
     developerAndCreateImplementationPackage.validationLock.degradedPolicy === 'partial-payload-no-500';
-  const packageSummaryStatus = [params.developerAndCreateStatus, params.aiPlateStatus].includes('BLOCKED')
-    ? 'BLOCKED'
-    : [params.developerAndCreateStatus, params.aiPlateStatus].includes('WATCH')
-      ? 'WATCH'
-      : 'READY';
+  const packageSummaryStatus = aggregateReadinessStatus([
+    params.developerAndCreateStatus,
+    params.aiPlateStatus,
+  ]);
   const developerAndCreateImplementationStatus = implementationPackagePolicyLocked
     ? packageSummaryStatus
     : 'BLOCKED';
