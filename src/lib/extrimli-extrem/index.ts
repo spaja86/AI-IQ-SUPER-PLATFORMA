@@ -11789,12 +11789,14 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
     kraljevskoTakmicenjeCoreStatus,
     kraljevskoTakmicenjeRhythmStatus,
     kraljevskoTakmicenjeVisualStatus,
-    kraljevskoTakmicenjeAuthStatus,
   ] as const;
   const kraljevskoTakmicenjeStatus = aggregateSignalReadinessStatus([...kraljevskoTakmicenjeStatuses]);
   const kraljevskoTakmicenjeReadinessScore = round(
-    kraljevskoTakmicenjeStatuses.reduce((sum, status) => sum + readinessStatusScore(status), 0)
-      / kraljevskoTakmicenjeStatuses.length,
+    (
+      kraljevskoTakmicenjeStatuses.reduce((sum, status) => sum + readinessStatusScore(status), 0)
+      + readinessStatusScore(kraljevskoTakmicenjeAuthStatus)
+    )
+      / (kraljevskoTakmicenjeStatuses.length + 1),
     2,
   );
   kraljevskoTakmicenjeTrack.readinessSignal.status = kraljevskoTakmicenjeStatus;
