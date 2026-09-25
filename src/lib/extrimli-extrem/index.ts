@@ -11040,7 +11040,6 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
     taskContinuityStatus:
       dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.dailyOperationalCadence.status,
   };
-  const notes1450Statuses = Object.values(notes1450Signals);
   const notes1450Track =
     dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.notes1450Track;
   const notes1450AiMaterialSaturationRiskScore = [
