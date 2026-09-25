@@ -142,7 +142,11 @@ function resolveFallbackQuality(
   return 'strong';
 }
 
+let cachedInnovationRegistry: ExtrimliInnovationRegistryModel | null = null;
+
 export function buildExtrimliInnovationRegistry(): ExtrimliInnovationRegistryModel {
+  if (cachedInnovationRegistry) return cachedInnovationRegistry;
+
   const innovations: ExtrimliInnovationRegistryEntry[] = [];
   const clusters: ExtrimliInnovationRegistryCluster[] = [];
 
@@ -243,7 +247,7 @@ export function buildExtrimliInnovationRegistry(): ExtrimliInnovationRegistryMod
   const summaryStatus: ExtrimliInnovationReadinessStatus =
     byReadiness.BLOCKED > 0 ? 'BLOCKED' : byReadiness.WATCH > 0 ? 'WATCH' : 'READY';
 
-  return {
+  cachedInnovationRegistry = {
     canonicalAlias: 'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == 13000 INOVACIJA',
     additiveOnly: true,
     sourceOfTruthRoutes: ['/api/extrimli/extrem', '/api/extrimli/extrondol', '/api/extrimli/spaja-kod'],
@@ -310,4 +314,6 @@ export function buildExtrimliInnovationRegistry(): ExtrimliInnovationRegistryMod
       downstreamReference: 'docs/MULTI-REPO-LINKS.md -> spaja86/IO-OPENUI-AO (summary-only)',
     },
   };
+
+  return cachedInnovationRegistry;
 }
