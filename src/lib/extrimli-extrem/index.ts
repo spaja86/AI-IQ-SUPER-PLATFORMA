@@ -11623,7 +11623,7 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
   const bonusApprovalStatus =
     dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.kraljevskiEkonomskiUneverzitet.readiness.status;
   const passEligibilityStatus =
-    dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.privredniAkt.readiness.status;
+    dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.kraljevskiEkonomskiUneverzitet.privredniAkt.readiness.status;
   const administrativeBonusOverrideStatus =
     dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.kraljevskiDrustveniPoredak.readiness.status;
   const promotionsConflictStatus = aggregateSignalReadinessStatus([
