@@ -11435,6 +11435,15 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
       / aiIqLaboratorijaSignalStatuses.length,
     2,
   );
+  const aiIqLaboratorijaFindingsStatus = aiIqLaboratorijaLaboratoryProfileStatus;
+  const aiIqLaboratorijaFaunaIFLoraStatus = aggregateSignalReadinessStatus([
+    dokDikDakDukConsistencyHealth.programskiJezikProucavanja.laboratoryCaseProfile.consolidatedStatus,
+    aiIqLaboratorijaProgramskiEkanalogStatus,
+  ]);
+  const aiIqLaboratorijaGradjevinskiMaterijalStatus = aggregateSignalReadinessStatus([
+    dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.status,
+    dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.technicalReadinessProfile.consolidatedRhythmStatus,
+  ]);
   const aiIqLaboratorijaDeterministicFallbackRequired =
     aiIqLaboratorijaStatus !== 'READY'
     || dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.deterministicFallbackRequired;
@@ -11443,9 +11452,9 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
   aiIqLaboratorijaTrack.readinessSignal.tokenCoveragePercent = aiIqLaboratorijaTokenCoveragePercent;
   aiIqLaboratorijaTrack.readinessSignal.normalizedInputCount = normalizedAiIqLaboratorijaTokens.length;
   aiIqLaboratorijaTrack.readinessSignal.laboratoryProfileStatus = aiIqLaboratorijaLaboratoryProfileStatus;
-  aiIqLaboratorijaTrack.readinessSignal.findingsStatus = aiIqLaboratorijaStatus;
-  aiIqLaboratorijaTrack.readinessSignal.faunaIFLoraStatus = aiIqLaboratorijaLaboratoryProfileStatus;
-  aiIqLaboratorijaTrack.readinessSignal.gradjevinskiMaterijalStatus = aiIqLaboratorijaLaboratoryProfileStatus;
+  aiIqLaboratorijaTrack.readinessSignal.findingsStatus = aiIqLaboratorijaFindingsStatus;
+  aiIqLaboratorijaTrack.readinessSignal.faunaIFLoraStatus = aiIqLaboratorijaFaunaIFLoraStatus;
+  aiIqLaboratorijaTrack.readinessSignal.gradjevinskiMaterijalStatus = aiIqLaboratorijaGradjevinskiMaterijalStatus;
   aiIqLaboratorijaTrack.readinessSignal.deterministicFallbackRequired =
     aiIqLaboratorijaDeterministicFallbackRequired;
   aiIqLaboratorijaTrack.blockerReason =
