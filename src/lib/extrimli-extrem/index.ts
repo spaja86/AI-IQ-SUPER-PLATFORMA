@@ -8714,6 +8714,11 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
       spatialEffectStatus: metrikoProgramiranje.readiness.status,
     },
   ];
+  const aggregateReadinessStatuses = (statuses: ReadinessStatus[]): ReadinessStatus => {
+    if (statuses.includes('BLOCKED')) return 'BLOCKED';
+    if (statuses.includes('WATCH')) return 'WATCH';
+    return 'READY';
+  };
   const immersiveAudioVisualSyncStatuses = [
     sinemetrickoProgramiranje.readiness.status,
     objektnoOrijentisanaReprodukcija.readiness.status,
@@ -8721,11 +8726,7 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
     metrikoProgramiranje.readiness.status,
     paradijogonalnoProgrimiranje.readiness.status,
   ];
-  const immersiveAudioVisualSyncStatus = immersiveAudioVisualSyncStatuses.includes('BLOCKED')
-    ? 'BLOCKED'
-    : immersiveAudioVisualSyncStatuses.includes('WATCH')
-      ? 'WATCH'
-      : 'READY';
+  const immersiveAudioVisualSyncStatus = aggregateReadinessStatuses(immersiveAudioVisualSyncStatuses);
   immersiveVisualization3dDimensionalSignals.forEach((signal) => {
     if (signal.dimension === '1440D' || signal.dimension === '2880D' || signal.dimension === '5760D') {
       signal.audioVisualSyncStatus = immersiveAudioVisualSyncStatus;
@@ -8735,15 +8736,8 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
     status: ReadinessStatus;
     audioVisualSyncStatus: ReadinessStatus;
     spatialEffectStatus: ReadinessStatus;
-  }): ReadinessStatus => {
-    if ([signal.status, signal.audioVisualSyncStatus, signal.spatialEffectStatus].includes('BLOCKED')) {
-      return 'BLOCKED';
-    }
-    if ([signal.status, signal.audioVisualSyncStatus, signal.spatialEffectStatus].includes('WATCH')) {
-      return 'WATCH';
-    }
-    return 'READY';
-  };
+  }): ReadinessStatus =>
+    aggregateReadinessStatuses([signal.status, signal.audioVisualSyncStatus, signal.spatialEffectStatus]);
   const immersiveVisualization3dStatuses = immersiveVisualization3dDimensionalSignals.map(resolveSignalAggregateStatus);
   const immersiveVisualization3dScore = round(
     immersiveVisualization3dDimensionalSignals.reduce((sum, signal) => {
@@ -8754,11 +8748,7 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
     }, 0) / immersiveVisualization3dDimensionalSignals.length,
     2,
   );
-  const immersiveVisualization3dStatus = immersiveVisualization3dStatuses.includes('BLOCKED')
-    ? 'BLOCKED'
-    : immersiveVisualization3dStatuses.includes('WATCH')
-      ? 'WATCH'
-      : 'READY';
+  const immersiveVisualization3dStatus = aggregateReadinessStatuses(immersiveVisualization3dStatuses);
   dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.dailyOperationalCadence.dailyTasks =
     dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.dailyOperationalCadence.dailyTasks.map((task) => ({
       ...task,
