@@ -72,6 +72,13 @@ import type {
   DEVELOPER_CREATE_RADIO_SCOPE_STATEMENT,
   DEVELOPER_CREATE_RADIO_SUMMARY_SAFE_FIELDS,
   DEVELOPER_CREATE_RADIO_TOKEN_VOCABULARY,
+  DEVELOPER_CREATE_MUZICKA_KUTIJA_BOUNDED_DESCRIPTION,
+  DEVELOPER_CREATE_MUZICKA_KUTIJA_BOUNDED_THEMATIC_SIGNALS,
+  DEVELOPER_CREATE_MUZICKA_KUTIJA_CANONICAL_ALIAS,
+  DEVELOPER_CREATE_MUZICKA_KUTIJA_DOWNSTREAM_POLICY,
+  DEVELOPER_CREATE_MUZICKA_KUTIJA_ROLE_CLASSIFICATION,
+  DEVELOPER_CREATE_MUZICKA_KUTIJA_SCOPE_STATEMENT,
+  DEVELOPER_CREATE_MUZICKA_KUTIJA_SUMMARY_SAFE_FIELDS,
   DEVELOPER_CREATE_NAPOLEON_DISKAVERI_BOUNDED_SIGNALS,
   DEVELOPER_CREATE_NAPOLEON_DISKAVERI_CANONICAL_ALIAS,
   DEVELOPER_CREATE_NAPOLEON_DISKAVERI_SCOPE_STATEMENT,
@@ -3217,6 +3224,54 @@ export interface ExtrimliDokDikDakDukConsistencyHealth {
       radioSummary: string;
       downstreamReference: 'docs/MULTI-REPO-LINKS.md -> spaja86/IO-OPENUI-AO (summary-only)';
     };
+    muzickaKutijaTrack: {
+      canonicalAlias: typeof DEVELOPER_CREATE_MUZICKA_KUTIJA_CANONICAL_ALIAS;
+      scopeStatement: typeof DEVELOPER_CREATE_MUZICKA_KUTIJA_SCOPE_STATEMENT;
+      roleClassification: typeof DEVELOPER_CREATE_MUZICKA_KUTIJA_ROLE_CLASSIFICATION;
+      boundedDescription: typeof DEVELOPER_CREATE_MUZICKA_KUTIJA_BOUNDED_DESCRIPTION;
+      boundedThematicSignals: typeof DEVELOPER_CREATE_MUZICKA_KUTIJA_BOUNDED_THEMATIC_SIGNALS;
+      summarySafePublicFields: typeof DEVELOPER_CREATE_MUZICKA_KUTIJA_SUMMARY_SAFE_FIELDS;
+      downstreamPolicy: typeof DEVELOPER_CREATE_MUZICKA_KUTIJA_DOWNSTREAM_POLICY;
+      boundedVocabularyPhrase: 'EXTRIMLI EXTRONDOL EXTREM DOK DUK DAK DIK FOR';
+      additiveOnly: true;
+      noNewRuntimeEngine: true;
+      noNewRuntimeRoutes: true;
+      noParallelSourceOfTruth: true;
+      sourceOfTruthRoutes: readonly ['/api/extrimli/extrem', '/api/extrimli/extrondol', '/api/extrimli/spaja-kod'];
+      ownershipLock: {
+        dokDikFor: 'EXTREM';
+        dakDuk: 'EXTRONDOL';
+        spajaKod: 'audit-safe-summary-only';
+      };
+      mappedAudioInstrumentLayers: {
+        instrumentTabla: 'PARADIJOGONALNO PROGRAMIRANJE';
+        ritamDuracije: 'METRIČKO PROGRAMIRANJE';
+        narativVokal: 'SINEMETRIČKO PROGRAMIRANJE';
+        audioVizuelniPaket: 'AUDIO-VIZUELNI KONTRABAS PAKET';
+      };
+      readinessSignal: {
+        status: 'READY' | 'WATCH' | 'BLOCKED';
+        readinessScore: number;
+        instrumentTablaStatus: 'READY' | 'WATCH' | 'BLOCKED';
+        ritamDuracijeStatus: 'READY' | 'WATCH' | 'BLOCKED';
+        narativVokalStatus: 'READY' | 'WATCH' | 'BLOCKED';
+        audioVizuelniPaketStatus: 'READY' | 'WATCH' | 'BLOCKED';
+        deterministicFallbackRequired: boolean;
+        driver: 'developerAndCreateRepoWideReflection.readiness + paradijogonalnoProgrimiranje + metrikoProgramiranje + sinemetrickoProgramiranje + developerAndCreateRepoWideReflection.audioVisualKontrabasPackage';
+      };
+      blockerReason: string | null;
+      watchReasons: string[];
+      reviewPosture: 'ALIGNED' | 'WATCH' | 'REVIEW_REQUIRED';
+      acceptanceEvidence: readonly [
+        'developerAndCreateRepoWideReflection.muzickaKutijaTrack',
+        'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.muzickaKutijaTrack',
+        'spajaKod.publicSignals.muzickaKutijaStatus',
+        'spajaKod.developerAndCreateImplementationPackage.muzickaKutijaSummary'
+      ];
+      musicBoxSummary: string;
+      mappedLayerSummary: string;
+      downstreamReference: 'docs/MULTI-REPO-LINKS.md -> spaja86/IO-OPENUI-AO (summary-only)';
+    };
     mappedTracks: {
       vrhProgramskogEkviladenta: 'VRH PROGRAMSKOG EKVILADENTA';
       radniTaktMozgaMislilac: 'RADNI TAKT MOZGA (MISLILAC)';
@@ -3236,6 +3291,7 @@ export interface ExtrimliDokDikDakDukConsistencyHealth {
       radniProstor: 'RADNI PROSTOR';
       konstrukcijeIProjektovanje: 'KONSTRUKCIJE I PROJEKTOVANJE';
       radio: 'RADIO';
+      muzickaKutija: 'MUZIČKA KUTIJA';
       notes1450: 'NOTES 1450';
     };
     canonicalGovernanceVocabulary: {
@@ -4825,6 +4881,20 @@ export interface ExtrimliDokDikDakDukConsistencyHealth {
         spajaKodPublishes: 'status-blocker-review-downstream-and-radio-summary-only';
         technicalBinding: 'developerAndCreateRepoWideReflection.radioTrack';
         mikrofonProjectionBinding: 'developerAndCreateRepoWideReflection.radioTrack.mikrofonProjectionAlias';
+        noNewRuntimeEngine: true;
+        noNewRuntimeRoutes: true;
+        noParallelSourceOfTruth: true;
+        rawInternalsExposed: false;
+      };
+      muzickaKutijaBoundary: {
+        trackRole: 'bounded-music-box-audio-instrument-alias-track';
+        parentTrack: 'VRH PROGRAMSKOG EKVILADENTA';
+        canonicalAlias: typeof DEVELOPER_CREATE_MUZICKA_KUTIJA_CANONICAL_ALIAS;
+        roleClassification: typeof DEVELOPER_CREATE_MUZICKA_KUTIJA_ROLE_CLASSIFICATION;
+        extremPublishes: 'status-instrument-summary-layer-mapping-and-deterministic-fallback-signal-only';
+        extrondolPublishes: 'wawe-freeze-promotion-review-rollback-audit-summary-only';
+        spajaKodPublishes: 'status-blocker-review-downstream-and-music-box-summary-only';
+        technicalBinding: 'developerAndCreateRepoWideReflection.muzickaKutijaTrack';
         noNewRuntimeEngine: true;
         noNewRuntimeRoutes: true;
         noParallelSourceOfTruth: true;
