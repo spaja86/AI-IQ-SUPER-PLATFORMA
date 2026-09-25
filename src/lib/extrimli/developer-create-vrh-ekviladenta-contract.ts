@@ -19,6 +19,7 @@ export const DEVELOPER_CREATE_VRH_INTERPRETATION_ALIASES = [
   DEVELOPER_CREATE_VRH_MAPA_UMA_ALIAS,
   DEVELOPER_CREATE_VRH_ZIVOPIS_U_DIGITALIZMU_ALIAS,
   DEVELOPER_CREATE_VRH_DIJALIZA_POGONSKOG_OMOTACA_ALIAS,
+  'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == RADNI PROSTOR',
   'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == SARKAZAM / PRIVREDNA GRANA DIGITALIZMA / PROJEKTI ENTUZIJAZMA PO ČINU OBLASTIMA',
   'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == AI IQ KONFERENCIJA ZA ŠTAMPU (NOVINE, DIGITALNE NOVINE)',
 ] as const;
@@ -120,6 +121,58 @@ export const DEVELOPER_CREATE_NOTES_1450_BOUNDED_SIGNALS = [
   'ai-material-saturation-risk',
   'deterministic-next-step',
 ] as const;
+
+export const DEVELOPER_CREATE_RADNI_PROSTOR_CANONICAL_ALIAS =
+  'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == RADNI PROSTOR' as const;
+
+export const DEVELOPER_CREATE_RADNI_PROSTOR_SCOPE_STATEMENT =
+  'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == RADNI PROSTOR == additive-only bounded alias bez novih ruta i bez novog source-of-truth sistema' as const;
+
+export const DEVELOPER_CREATE_RADNI_PROSTOR_ROLE_CLASSIFICATION =
+  'additive-only-bounded-radni-prostor-alias-track' as const;
+
+export const DEVELOPER_CREATE_RADNI_PROSTOR_BOUNDED_TOKEN_SEQUENCE = [
+  'OKUR',
+  'DJUKUR',
+  'DAR',
+  'ZOR',
+  'IKON',
+  'ZULUM',
+  'DABRE',
+  'IZOS',
+  'JAKOR',
+  'DAPR',
+  'ZUKUR',
+  'ENTER',
+  'DIKAR',
+  'ZUMBUL',
+  'SIRGED',
+  'ZIKOR',
+  'DJENDER',
+  'ĆUR',
+  'NIKON',
+  'DERKO',
+  'ZUKAL',
+  'IKON',
+  'ZAJDI',
+] as const;
+
+export const DEVELOPER_CREATE_RADNI_PROSTOR_FALLBACK_INPUTS = [
+  'NaN',
+  'Infinity',
+  'empty',
+  'conflict',
+  'unknown-token',
+] as const;
+
+export const DEVELOPER_CREATE_RADNI_PROSTOR_NORMALIZATION_RULES = {
+  trimWhitespace: true,
+  uppercaseTokens: true,
+  collapseMultipleSpaces: true,
+  keepCanonicalOrder: true,
+  unknownTokenHandling: 'map-to-watch-and-require-review',
+  conflictHandling: 'map-to-blocked-and-require-review',
+} as const;
 
 export const DEVELOPER_CREATE_AI_IQ_KONFERENCIJA_ZA_STAMPU_CANONICAL_ALIAS =
   'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == AI IQ KONFERENCIJA ZA ŠTAMPU (NOVINE, DIGITALNE NOVINE)' as const;

@@ -26,6 +26,12 @@ import {
   DEVELOPER_CREATE_NAPOLEON_DISKAVERI_BOUNDED_SIGNALS,
   DEVELOPER_CREATE_NAPOLEON_DISKAVERI_CANONICAL_ALIAS,
   DEVELOPER_CREATE_NAPOLEON_DISKAVERI_SCOPE_STATEMENT,
+  DEVELOPER_CREATE_RADNI_PROSTOR_BOUNDED_TOKEN_SEQUENCE,
+  DEVELOPER_CREATE_RADNI_PROSTOR_CANONICAL_ALIAS,
+  DEVELOPER_CREATE_RADNI_PROSTOR_FALLBACK_INPUTS,
+  DEVELOPER_CREATE_RADNI_PROSTOR_NORMALIZATION_RULES,
+  DEVELOPER_CREATE_RADNI_PROSTOR_ROLE_CLASSIFICATION,
+  DEVELOPER_CREATE_RADNI_PROSTOR_SCOPE_STATEMENT,
   DEVELOPER_CREATE_SARKAZAM_PRIVREDNA_GRANA_DIGITALIZMA_BOUNDED_SIGNALS,
   DEVELOPER_CREATE_SARKAZAM_PRIVREDNA_GRANA_DIGITALIZMA_CANONICAL_ALIAS,
   DEVELOPER_CREATE_SARKAZAM_PRIVREDNA_GRANA_DIGITALIZMA_FALLBACK_INPUTS,
@@ -6957,6 +6963,52 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
         businessValueSummary: '',
         downstreamReference: 'docs/MULTI-REPO-LINKS.md -> spaja86/IO-OPENUI-AO (summary-only)',
       },
+      radniProstorTrack: {
+        canonicalAlias: DEVELOPER_CREATE_RADNI_PROSTOR_CANONICAL_ALIAS,
+        scopeStatement: DEVELOPER_CREATE_RADNI_PROSTOR_SCOPE_STATEMENT,
+        roleClassification: DEVELOPER_CREATE_RADNI_PROSTOR_ROLE_CLASSIFICATION,
+        boundedTokenSequence: DEVELOPER_CREATE_RADNI_PROSTOR_BOUNDED_TOKEN_SEQUENCE,
+        normalizationRules: DEVELOPER_CREATE_RADNI_PROSTOR_NORMALIZATION_RULES,
+        boundedVocabularyPhrase: 'EXTRIMLI EXTRONDOL EXTREM DOK DUK DAK DIK FOR',
+        additiveOnly: true,
+        noNewRuntimeEngine: true,
+        noNewRuntimeRoutes: true,
+        noParallelSourceOfTruth: true,
+        sourceOfTruthRoutes: ['/api/extrimli/extrem', '/api/extrimli/extrondol', '/api/extrimli/spaja-kod'],
+        ownershipLock: {
+          dokDikFor: 'EXTREM',
+          dakDuk: 'EXTRONDOL',
+          spajaKod: 'audit-safe-summary-only',
+        },
+        summarySafePublicFields: [
+          'canonicalAlias',
+          'status',
+          'blockerReason',
+          'watchReasons',
+          'reviewPosture',
+          'downstreamReference',
+          'tokenSequenceLock',
+        ],
+        readinessSignal: {
+          status: 'BLOCKED',
+          readinessScore: 0,
+          tokenCoveragePercent: 0,
+          normalizedInputCount: 0,
+          deterministicFallbackRequired: true,
+          fallbackInputs: DEVELOPER_CREATE_RADNI_PROSTOR_FALLBACK_INPUTS,
+          driver:
+            'developerAndCreateRepoWideReflection.readiness + developerAndCreateRepoWideReflection.technicalReadinessProfile.consolidatedRhythmStatus',
+        },
+        blockerReason: 'radni-prostor-track-awaits-bounded-token-lock-and-governance-alignment',
+        watchReasons: [],
+        reviewPosture: 'REVIEW_REQUIRED',
+        tokenSequenceLock: {
+          additiveOnlyAlias: true,
+          noNewRoutes: true,
+          noNewSourceOfTruth: true,
+        },
+        downstreamReference: 'docs/MULTI-REPO-LINKS.md -> spaja86/IO-OPENUI-AO (summary-only)',
+      },
       aiIqKonferencijaZaStampuTrack: {
         canonicalAlias: DEVELOPER_CREATE_AI_IQ_KONFERENCIJA_ZA_STAMPU_CANONICAL_ALIAS,
         scopeStatement: DEVELOPER_CREATE_AI_IQ_KONFERENCIJA_ZA_STAMPU_SCOPE_STATEMENT,
@@ -7028,6 +7080,7 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
         kompanijaSpajaDigitalnaIndustrija: 'Kompanija SPAJA / Digitalna Industrija',
         sarkazamPrivrednaGranaDigitalizma: 'SARKAZAM / PRIVREDNA GRANA DIGITALIZMA / PROJEKTI ENTUZIJAZMA PO ČINU OBLASTIMA',
         aiIqKonferencijaZaStampu: 'AI IQ KONFERENCIJA ZA ŠTAMPU (NOVINE, DIGITALNE NOVINE)',
+        radniProstor: 'RADNI PROSTOR',
         notes1450: 'NOTES 1450',
       },
       canonicalGovernanceVocabulary: {
@@ -7062,6 +7115,7 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
         kompanijaSpaja: 'KOMPANIJA SPAJA',
         digitalnaIndustrija: 'DIGITALNA INDUSTRIJA',
         sarkazam: 'SARKAZAM',
+        radniProstor: 'RADNI PROSTOR',
         privrednaGranaDigitalizma: 'PRIVREDNA GRANA DIGITALIZMA',
         projektiEntuzijazmaPoCinuOblastima: 'PROJEKTI ENTUZIJAZMA PO ČINU OBLASTIMA',
         aiIqKonferencijaZaStampu: 'AI IQ KONFERENCIJA ZA ŠTAMPU',
@@ -10533,7 +10587,7 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
   };
   dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.currentImplementationStage = {
     roadmapStageId: 'v5-extrondol-release-audit-and-orchestration',
-    measurableOutput: 'audit-safe repo-wide reflection status plus AI identity-finance governance, INSPEKTORI justice-path summary, primary ČOVEČNOST, supplemental ČOVEČANSTVO, KRALJEVSKI BAŠTA UNEVERZITE bounded narrative metadata, additive audio-vizuelni kontrabas package metadata, companion ČOVEČANSTVO / OSEĆAJ OSEBENOSTI visual metadata, and OSNOVE / RISPEKT protocol evidence are published only through existing EXTRIMLI/EXTREM/EXTRONDOL/SPAJA KOD surfaces',
+    measurableOutput: 'audit-safe repo-wide reflection status plus AI identity-finance governance, INSPEKTORI justice-path summary, RADNI PROSTOR bounded token-lock metadata, primary ČOVEČNOST, supplemental ČOVEČANSTVO, KRALJEVSKI BAŠTA UNEVERZITE bounded narrative metadata, additive audio-vizuelni kontrabas package metadata, companion ČOVEČANSTVO / OSEĆAJ OSEBENOSTI visual metadata, and OSNOVE / RISPEKT protocol evidence are published only through existing EXTRIMLI/EXTREM/EXTRONDOL/SPAJA KOD surfaces',
     acceptanceEvidence: [
       'dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.implementationPackage',
       'dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection',
@@ -10546,6 +10600,7 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
       'dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.covecnostAuditVisualReference.companionAuditVisualReferences',
       'dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.osnoveRispektProtocol',
       'dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.aiPlateOffer',
+      'dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.radniProstorTrack',
       'spajaKod.publicSignals.developerAndCreateStatus',
       'radniTaktMozgaMislilac.readiness',
       'metrikoProgramiranje.readiness',
@@ -10882,6 +10937,20 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
       noParallelSourceOfTruth: true,
       rawInternalsExposed: false,
     },
+    radniProstorBoundary: {
+      trackRole: 'bounded-radni-prostor-alias-track',
+      parentTrack: 'VRH PROGRAMSKOG EKVILADENTA',
+      canonicalAlias: DEVELOPER_CREATE_RADNI_PROSTOR_CANONICAL_ALIAS,
+      roleClassification: DEVELOPER_CREATE_RADNI_PROSTOR_ROLE_CLASSIFICATION,
+      extremPublishes: 'status-token-coverage-normalization-and-deterministic-fallback-signal-only',
+      extrondolPublishes: 'wawe-freeze-promotion-review-rollback-audit-summary-only',
+      spajaKodPublishes: 'status-blocker-review-downstream-and-token-sequence-lock-summary-only',
+      technicalBinding: 'developerAndCreateRepoWideReflection.radniProstorTrack',
+      noNewRuntimeEngine: true,
+      noNewRuntimeRoutes: true,
+      noParallelSourceOfTruth: true,
+      rawInternalsExposed: false,
+    },
     canonicalTerminologyMapping: {
       phrase: 'EXTRIMLI EXTRONDOL EXTREM DOK DUK DAK DIK FOR',
       nucleusLayers: ['documentation', 'types', 'route-summary-fields', 'tests', 'workflow-audit-layer'],
@@ -11115,6 +11184,81 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
   };
   notes1450Track.businessValueSummary =
     'NOTES 1450 ostaje additive-only bounded radni naslednik koji smanjuje gubitak konteksta, ponavljanje i neefikasno trošenje AI materijala kroz audit-ready nastavak rada.';
+  const radniProstorTrack =
+    dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.radniProstorTrack;
+  const radniProstorRuntimeTokenInput =
+    process.env.NODE_ENV === 'test'
+      ? process.env.EXTRIMLI_RADNI_PROSTOR_TOKEN_INPUT
+      : undefined;
+  const radniProstorObservedTokens =
+    radniProstorRuntimeTokenInput && radniProstorRuntimeTokenInput.trim().length > 0
+      ? radniProstorRuntimeTokenInput.split(',').map((token) => token.trim()).filter((token) => token.length > 0)
+      : [...radniProstorTrack.boundedTokenSequence];
+  const normalizeRadniProstorToken = (token: string): string => {
+    let normalizedToken = token;
+    if (radniProstorTrack.normalizationRules.trimWhitespace) {
+      normalizedToken = normalizedToken.trim();
+    }
+    if (radniProstorTrack.normalizationRules.collapseMultipleSpaces) {
+      normalizedToken = normalizedToken.replace(/\s+/g, ' ');
+    }
+    if (radniProstorTrack.normalizationRules.uppercaseTokens) {
+      normalizedToken = normalizedToken.toUpperCase();
+    }
+    return normalizedToken;
+  };
+  const normalizedRadniProstorTokens =
+    radniProstorObservedTokens.map(normalizeRadniProstorToken);
+  const normalizedExpectedRadniProstorTokens =
+    DEVELOPER_CREATE_RADNI_PROSTOR_BOUNDED_TOKEN_SEQUENCE.map(normalizeRadniProstorToken);
+  const radniProstorHasExactTokenLength =
+    normalizedRadniProstorTokens.length === normalizedExpectedRadniProstorTokens.length;
+  const radniProstorMatchedTokenCount = radniProstorHasExactTokenLength
+    ? normalizedExpectedRadniProstorTokens.reduce(
+        (count, expectedToken, index) =>
+          count + (normalizedRadniProstorTokens[index] === expectedToken ? 1 : 0),
+        0,
+      )
+    : 0;
+  const radniProstorTokenDenominator = normalizedExpectedRadniProstorTokens.length || 1;
+  const radniProstorSignalStatuses = [
+    dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.status,
+    dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.technicalReadinessProfile.consolidatedRhythmStatus,
+  ] as const;
+  const radniProstorTokenCoveragePercent = round(
+    (radniProstorMatchedTokenCount / radniProstorTokenDenominator) * 100,
+    2,
+  );
+  const radniProstorStatus = aggregateSignalReadinessStatus([...radniProstorSignalStatuses]);
+  const radniProstorReadinessScore = round(
+    radniProstorSignalStatuses.reduce((sum, status) => sum + readinessStatusScore(status), 0)
+      / radniProstorSignalStatuses.length,
+    2,
+  );
+  const radniProstorDeterministicFallbackRequired =
+    radniProstorStatus !== 'READY'
+    || dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.deterministicFallbackRequired;
+  radniProstorTrack.readinessSignal.status = radniProstorStatus;
+  radniProstorTrack.readinessSignal.readinessScore = radniProstorReadinessScore;
+  radniProstorTrack.readinessSignal.tokenCoveragePercent = radniProstorTokenCoveragePercent;
+  radniProstorTrack.readinessSignal.normalizedInputCount = normalizedRadniProstorTokens.length;
+  radniProstorTrack.readinessSignal.deterministicFallbackRequired = radniProstorDeterministicFallbackRequired;
+  radniProstorTrack.blockerReason =
+    radniProstorStatus === 'BLOCKED'
+      ? 'RADNI PROSTOR ostaje BLOCKED dok bounded token sekvenca i postojeći ownership split ne ostanu potpuno usklađeni u additive-only modu.'
+      : null;
+  radniProstorTrack.watchReasons =
+    radniProstorStatus === 'WATCH'
+      ? [
+        'RADNI PROSTOR ostaje u WATCH režimu dok bounded token sekvenca i normalizacija traže dodatni review unutar postojećeg EXTREM/EXTRONDOL/SPAJA KOD kontrakta.',
+      ]
+      : [];
+  radniProstorTrack.reviewPosture =
+    radniProstorStatus === 'READY'
+      ? 'ALIGNED'
+      : radniProstorStatus === 'WATCH'
+        ? 'WATCH'
+        : 'REVIEW_REQUIRED';
   const aiIqKonferencijaZaStampuTrack =
     dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.aiIqKonferencijaZaStampuTrack;
   const aiIqKonferencijaZaStampuMediaSummary =
