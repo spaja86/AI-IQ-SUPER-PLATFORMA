@@ -1085,6 +1085,7 @@ async function runTests(): Promise<void> {
     assert(['READY', 'WATCH', 'BLOCKED'].includes(body.data.publicSignals.eksperimentProgramskiJezikStatus), 'unexpected SPAJA KOD Eksperiment Programski Jezik summary status');
     assert(['READY', 'WATCH', 'BLOCKED'].includes(body.data.publicSignals.sarkazamPrivrednaGranaDigitalizmaStatus), 'unexpected SPAJA KOD Sarkazam summary status');
     assert(['READY', 'WATCH', 'BLOCKED'].includes(body.data.publicSignals.notes1450Status), 'unexpected SPAJA KOD NOTES 1450 summary status');
+    assert(['READY', 'WATCH', 'BLOCKED'].includes(body.data.publicSignals.radniProstorStatus), 'unexpected SPAJA KOD RADNI PROSTOR summary status');
     assert(['READY', 'WATCH', 'BLOCKED'].includes(body.data.publicSignals.aiIqLaboratorijaStatus), 'unexpected SPAJA KOD AI IQ laboratorija summary status');
     assert(['READY', 'WATCH', 'BLOCKED'].includes(body.data.publicSignals.aiIqKonferencijaZaStampuStatus), 'unexpected SPAJA KOD AI IQ press summary status');
     assert(['READY', 'WATCH', 'BLOCKED'].includes(body.data.publicSignals.kraljevskiPravniAktStatus), 'unexpected SPAJA KOD KRALJEVSKI PRAVNI AKT summary status');
