@@ -12663,6 +12663,17 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
       : muzickaKutijaStatus === 'WATCH'
         ? 'MUZIČKA KUTIJA ostaje additive-only bounded audio/instrument traka u WATCH režimu dok postojeći instrument, ritam, narativ ili audio-vizuelni sloj još traže dodatni review, ali bez novog runtime modula.'
         : 'MUZIČKA KUTIJA ostaje BLOCKED dok postojeći instrument, ritam, narativ i audio-vizuelni slojevi ne vrate bounded readiness bez novog muzičkog engine-a i bez novih ruta.';
+  const muzickaKutijaNonReadyLayers = [
+    ['instrument tabla', paradijogonalnoProgrimiranje.readiness.status],
+    ['ritam/duracije', metrikoProgramiranje.readiness.status],
+    ['narativ/vokal', sinemetrickoProgramiranje.readiness.status],
+    [
+      'audio-vizuelni reflection',
+      dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.audioVisualKontrabasPackage.readinessStatus,
+    ],
+  ].filter(([, status]) => status !== 'READY');
+  const muzickaKutijaLayerReasonSummary =
+    muzickaKutijaNonReadyLayers.map(([layer, status]) => `${layer}:${status}`).join(', ');
   muzickaKutijaTrack.readinessSignal.status = muzickaKutijaStatus;
   muzickaKutijaTrack.readinessSignal.readinessScore = muzickaKutijaReadinessScore;
   muzickaKutijaTrack.readinessSignal.instrumentTablaStatus = paradijogonalnoProgrimiranje.readiness.status;
@@ -12674,12 +12685,12 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
     muzickaKutijaDeterministicFallbackRequired;
   muzickaKutijaTrack.blockerReason =
     muzickaKutijaStatus === 'BLOCKED'
-      ? 'MUZIČKA KUTIJA ostaje BLOCKED dok bounded instrument/ritam/narativ/audio-vizuelni slojevi ne ostanu audit-safe i additive-only bez novog muzičkog engine-a.'
+      ? `MUZIČKA KUTIJA ostaje BLOCKED dok bounded slojevi ne ostanu audit-safe i additive-only bez novog muzičkog engine-a (${muzickaKutijaLayerReasonSummary}).`
       : null;
   muzickaKutijaTrack.watchReasons =
     muzickaKutijaStatus === 'WATCH'
       ? [
-        'MUZIČKA KUTIJA ostaje u WATCH režimu dok bounded instrument tabla, ritam/duracije, narativ/vokal ili audio-vizuelni reflection još traže dodatni review.',
+        `MUZIČKA KUTIJA ostaje u WATCH režimu dok bounded slojevi još traže dodatni review (${muzickaKutijaLayerReasonSummary}).`,
       ]
       : [];
   muzickaKutijaTrack.reviewPosture =
