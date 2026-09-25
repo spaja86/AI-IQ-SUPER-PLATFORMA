@@ -221,11 +221,13 @@ const DEVELOPER_CREATE_ROADMAP_ACCEPTANCE_EVIDENCE_BASE = [
   'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.aiPlateGovernance',
   'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.napoleonDiskaveriSelectionTrack',
   'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.eksperimentProgramskiJezikTrack',
+  'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.sarkazamPrivrednaGranaDigitalizmaTrack',
   'spajaKod.publicSignals.developerAndCreateStatus',
   'spajaKod.publicSignals.developerAndCreateAudioVisualStatus',
   'spajaKod.publicSignals.developerAndCreateImplementationStatus',
   'spajaKod.publicSignals.napoleonDiskaveriStatus',
   'spajaKod.publicSignals.eksperimentProgramskiJezikStatus',
+  'spajaKod.publicSignals.sarkazamPrivrednaGranaDigitalizmaStatus',
   'spajaKod.publicSignals.aiPlateStatus',
 ] as const;
 
@@ -246,11 +248,13 @@ const DEVELOPER_CREATE_GOVERNANCE_ACCEPTANCE_EVIDENCE: ExtrimliExtrondolReport['
   'developerAndCreateRepoWideReflection.aiPlateGovernance',
   'developerAndCreateRepoWideReflection.napoleonDiskaveriSelectionTrack',
   'developerAndCreateRepoWideReflection.eksperimentProgramskiJezikTrack',
+  'developerAndCreateRepoWideReflection.sarkazamPrivrednaGranaDigitalizmaTrack',
   'spajaKod.publicSignals.developerAndCreateStatus',
   'spajaKod.publicSignals.developerAndCreateAudioVisualStatus',
   'spajaKod.publicSignals.developerAndCreateImplementationStatus',
   'spajaKod.publicSignals.napoleonDiskaveriStatus',
   'spajaKod.publicSignals.eksperimentProgramskiJezikStatus',
+  'spajaKod.publicSignals.sarkazamPrivrednaGranaDigitalizmaStatus',
   'spajaKod.publicSignals.aiPlateStatus',
 ];
 const AUDIO_VISUAL_KONTRABAS_ACCEPTANCE_EVIDENCE = [
@@ -3120,6 +3124,7 @@ function buildSpajaKodFacade(params: {
   vrhProgramskogEkviladentaStatus: ExtrimliExtrondolReport['extremProfiler']['vrhProgramskogEkviladenta']['readiness']['status'];
   developerAndCreateStatus: ExtrimliExtrondolReport['extremProfiler']['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['readiness']['status'];
   eksperimentProgramskiJezikStatus: ExtrimliExtrondolReport['extremProfiler']['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['eksperimentProgramskiJezikTrack']['readinessSignal']['status'];
+  sarkazamPrivrednaGranaDigitalizmaStatus: ExtrimliExtrondolReport['extremProfiler']['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['sarkazamPrivrednaGranaDigitalizmaTrack']['reflectionSignal']['status'];
   aiPlateStatus: ExtrimliExtrondolReport['extremProfiler']['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['aiPlateOffer']['boundedReadinessProfile']['consolidatedStatus'];
   aiPlateEnterprisePackageStatus: ExtrimliExtrondolReport['releaseAuditSummary']['aiPlateEnterprisePackageGovernance']['status'];
 }): ExtrimliSpajaKodPublicFacade {
@@ -3239,6 +3244,7 @@ function buildSpajaKodFacade(params: {
       immersiveVisualization3dStatus:
         params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.technicalReadinessProfile.immersiveVisualization3dTrack.status,
       eksperimentProgramskiJezikStatus: params.eksperimentProgramskiJezikStatus,
+      sarkazamPrivrednaGranaDigitalizmaStatus: params.sarkazamPrivrednaGranaDigitalizmaStatus,
       developerAndCreateStatus: params.developerAndCreateStatus,
       developerAndCreateImplementationStatus,
       developerAndCreateAudioVisualStatus,
@@ -3331,6 +3337,7 @@ function buildSpajaKodFacade(params: {
         'publicSignals.smartProgramskiJezikStatus',
         'publicSignals.immersiveVisualization3dStatus',
         'publicSignals.eksperimentProgramskiJezikStatus',
+        'publicSignals.sarkazamPrivrednaGranaDigitalizmaStatus',
         'publicSignals.napoleonDiskaveriStatus',
         'publicSignals.kraljevskiPravniUniverzitetStatus',
         'publicSignals.kraljevskiPravniAktStatus',
@@ -3349,6 +3356,7 @@ function buildSpajaKodFacade(params: {
         'developerAndCreateImplementationPackage.kraljevskiAktBezbednostiSummary',
         'developerAndCreateImplementationPackage.smartProgramskiJezikSummary',
         'developerAndCreateImplementationPackage.eksperimentProgramskiJezikSummary',
+        'developerAndCreateImplementationPackage.sarkazamPrivrednaGranaDigitalizmaSummary',
         'developerAndCreateImplementationPackage.napoleonDiskaveriSummary',
         'epilogijaCovecnosti.packageOutputs',
       ],
@@ -3427,6 +3435,24 @@ function buildSpajaKodFacade(params: {
         downstreamReference:
           params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.eksperimentProgramskiJezikTrack.downstreamReference,
         publicBoundary: 'audit-safe-summary-only',
+      },
+      sarkazamPrivrednaGranaDigitalizmaSummary: {
+        canonicalAlias:
+          params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.sarkazamPrivrednaGranaDigitalizmaTrack.canonicalAlias,
+        scopeClassification:
+          params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.sarkazamPrivrednaGranaDigitalizmaTrack.scopeClassification,
+        status:
+          params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.sarkazamPrivrednaGranaDigitalizmaTrack.reflectionSignal.status,
+        blockerReason:
+          params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.sarkazamPrivrednaGranaDigitalizmaTrack.blockerReason,
+        reviewPosture:
+          params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.sarkazamPrivrednaGranaDigitalizmaTrack.reviewPosture,
+        downstreamReference:
+          params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.sarkazamPrivrednaGranaDigitalizmaTrack.downstreamReference,
+        publicBoundary: 'audit-safe-summary-only',
+        oblastCinSummary: {
+          ...params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.sarkazamPrivrednaGranaDigitalizmaTrack.oblastCinSummary,
+        },
       },
       napoleonDiskaveriSummary: {
         canonicalAlias: DEVELOPER_CREATE_NAPOLEON_DISKAVERI_CANONICAL_ALIAS,
@@ -5813,6 +5839,8 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
     developerAndCreateStatus: extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.status,
     eksperimentProgramskiJezikStatus:
       extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.eksperimentProgramskiJezikTrack.readinessSignal.status,
+    sarkazamPrivrednaGranaDigitalizmaStatus:
+      extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.sarkazamPrivrednaGranaDigitalizmaTrack.reflectionSignal.status,
     aiPlateStatus: extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.aiPlateOffer.boundedReadinessProfile.consolidatedStatus,
     aiPlateEnterprisePackageStatus,
   });
@@ -7613,6 +7641,31 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
           'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.eksperimentProgramskiJezikTrack',
           'spajaKod.publicSignals.eksperimentProgramskiJezikStatus',
           'spajaKod.developerAndCreateImplementationPackage.eksperimentProgramskiJezikSummary',
+        ],
+        downstreamReference: 'docs/MULTI-REPO-LINKS.md -> spaja86/IO-OPENUI-AO (summary-only)',
+      },
+      sarkazamPrivrednaGranaDigitalizmaTrack: {
+        ...extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.sarkazamPrivrednaGranaDigitalizmaTrack,
+        sourceOfTruth: '/api/extrimli/extrem',
+        governanceSource: '/api/extrimli/extrondol',
+        publicBoundary: '/api/extrimli/spaja-kod',
+        currentWawe,
+        eligibleNextWawe: eligibleNextWave,
+        promotionFreeze,
+        reviewRequiredBeforeWideRollout:
+          extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.sarkazamPrivrednaGranaDigitalizmaTrack.reflectionSignal.status !== 'READY',
+        reviewPosture:
+          extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.sarkazamPrivrednaGranaDigitalizmaTrack.reviewPosture,
+        rolloutPlan:
+          'Advance the bounded SARKAZAM / PRIVREDNA GRANA DIGITALIZMA alias only through the existing EXTREM technical signal, EXTRONDOL governance mirror, and SPAJA KOD summary-safe boundary.',
+        rollbackPlan:
+          'Freeze promotion and fall back to the previously verified Developer/Create summary package if the Sarkazam/Digitalizam alias drifts away from the existing Digitalna Industrija, PRIVREDNI AKT, or testovi-po-oblastima signals.',
+        humanReviewStatus: 'required-before-promotion',
+        acceptanceEvidence: [
+          'developerAndCreateRepoWideReflection.sarkazamPrivrednaGranaDigitalizmaTrack',
+          'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.sarkazamPrivrednaGranaDigitalizmaTrack',
+          'spajaKod.publicSignals.sarkazamPrivrednaGranaDigitalizmaStatus',
+          'spajaKod.developerAndCreateImplementationPackage.sarkazamPrivrednaGranaDigitalizmaSummary',
         ],
         downstreamReference: 'docs/MULTI-REPO-LINKS.md -> spaja86/IO-OPENUI-AO (summary-only)',
       },

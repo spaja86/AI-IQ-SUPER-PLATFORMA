@@ -2626,6 +2626,56 @@ export interface ExtrimliDokDikDakDukConsistencyHealth {
       humanReviewPosture: 'ALIGNED' | 'WATCH' | 'REVIEW_REQUIRED';
       downstreamReference: 'docs/MULTI-REPO-LINKS.md -> spaja86/IO-OPENUI-AO (summary-only)';
     };
+    sarkazamPrivrednaGranaDigitalizmaTrack: {
+      canonicalAlias: typeof import('../extrimli/developer-create-vrh-ekviladenta-contract').DEVELOPER_CREATE_SARKAZAM_PRIVREDNA_GRANA_DIGITALIZMA_CANONICAL_ALIAS;
+      scopeClassification: typeof import('../extrimli/developer-create-vrh-ekviladenta-contract').DEVELOPER_CREATE_SARKAZAM_PRIVREDNA_GRANA_DIGITALIZMA_SCOPE_CLASSIFICATION;
+      boundedSignals: typeof import('../extrimli/developer-create-vrh-ekviladenta-contract').DEVELOPER_CREATE_SARKAZAM_PRIVREDNA_GRANA_DIGITALIZMA_BOUNDED_SIGNALS;
+      boundedVocabularyPhrase: 'EXTRIMLI EXTRONDOL EXTREM DOK DUK DAK DIK FOR';
+      additiveOnly: true;
+      noNewRuntimeEngine: true;
+      noNewRuntimeRoutes: true;
+      noParallelSourceOfTruth: true;
+      sourceOfTruthRoutes: readonly ['/api/extrimli/extrem', '/api/extrimli/extrondol', '/api/extrimli/spaja-kod'];
+      ownershipLock: {
+        dokDikFor: 'EXTREM';
+        dakDuk: 'EXTRONDOL';
+        spajaKod: 'audit-safe-summary-only';
+      };
+      summarySafePublicFields: readonly [
+        'canonicalAlias',
+        'status',
+        'blockerReason',
+        'reviewPosture',
+        'downstreamReference',
+        'scopeClassification'
+      ];
+      reflectionSignal: {
+        status: 'READY' | 'WATCH' | 'BLOCKED';
+        readinessScore: number;
+        deterministicFallbackRequired: boolean;
+        fallbackInputs: readonly ['NaN', 'Infinity', 'empty', 'conflict'];
+        driver: 'developerAndCreateRepoWideReflection.readiness + developerAndCreateRepoWideReflection.kraljevskiEkonomskiUneverzitet + developerAndCreateRepoWideReflection.kraljevskiProgramskiUneverzitet';
+      };
+      blockerReason: string | null;
+      watchReasons: string[];
+      reviewPosture: 'ALIGNED' | 'WATCH' | 'REVIEW_REQUIRED';
+      downstreamReference: 'docs/MULTI-REPO-LINKS.md -> spaja86/IO-OPENUI-AO (summary-only)';
+      normalizedScope: {
+        narrativeMarker: 'SARKAZAM';
+        enterpriseTrack: 'Kompanija SPAJA / Digitalna Industrija';
+        policyTrack: 'PRIVREDNI AKT';
+        pedagogicalCatalog: 'testovi-po-oblastima';
+        boundedInterpretation: 'enterprise-governance-and-pedagogical-interpretation-only';
+        auditOnlyNarrativeLayer: true;
+        noNewBusinessFormulaAuthority: true;
+        noNewDecisionSemantics: true;
+      };
+      oblastCinSummary: {
+        oblastStatus: 'READY' | 'WATCH' | 'BLOCKED';
+        cinStatus: 'READY' | 'WATCH' | 'BLOCKED';
+        publicSummary: string;
+      };
+    };
     mappedTracks: {
       vrhProgramskogEkviladenta: 'VRH PROGRAMSKOG EKVILADENTA';
       radniTaktMozgaMislilac: 'RADNI TAKT MOZGA (MISLILAC)';
@@ -2640,6 +2690,7 @@ export interface ExtrimliDokDikDakDukConsistencyHealth {
       puteviIstinskePravde: 'PUTEVI ISTINSKE PRAVDE';
       kraljevskiBastaUneverzite: 'KRALJEVSKI BAŠTA UNEVERZITE';
       kompanijaSpajaDigitalnaIndustrija: 'Kompanija SPAJA / Digitalna Industrija';
+      sarkazamPrivrednaGranaDigitalizma: 'SARKAZAM / PRIVREDNA GRANA DIGITALIZMA / PROJEKTI ENTUZIJAZMA PO ČINU OBLASTIMA';
     };
     canonicalGovernanceVocabulary: {
       extremExtrimliExtrondol: 'EXTRIMLI EXTRONDOL EXTREM';
@@ -2669,6 +2720,9 @@ export interface ExtrimliDokDikDakDukConsistencyHealth {
       nezaposleni: 'NEZAPOSLENI';
       kompanijaSpaja: 'KOMPANIJA SPAJA';
       digitalnaIndustrija: 'DIGITALNA INDUSTRIJA';
+      sarkazam: 'SARKAZAM';
+      privrednaGranaDigitalizma: 'PRIVREDNA GRANA DIGITALIZMA';
+      projektiEntuzijazmaPoCinuOblastima: 'PROJEKTI ENTUZIJAZMA PO ČINU OBLASTIMA';
     };
     osnoveRispektProtocol: {
       title: 'OSNOVE / RISPEKT';
@@ -4113,6 +4167,23 @@ export interface ExtrimliDokDikDakDukConsistencyHealth {
         spajaKodPublishes: 'status-blocker-watch-review-and-downstream-reference-only';
         technicalBinding: 'developerAndCreateRepoWideReflection.eksperimentProgramskiJezikTrack';
         immersiveScenesGovernedBy: 'developerAndCreateRepoWideReflection.technicalReadinessProfile.immersiveVisualization3dTrack';
+        noNewRuntimeEngine: true;
+        noNewRuntimeRoutes: true;
+        noParallelSourceOfTruth: true;
+        rawInternalsExposed: false;
+      };
+      sarkazamPrivrednaGranaDigitalizmaBoundary: {
+        trackRole: 'bounded-sarkazam-digitalizam-alias-track';
+        parentTrack: 'VRH PROGRAMSKOG EKVILADENTA';
+        canonicalAlias: typeof import('../extrimli/developer-create-vrh-ekviladenta-contract').DEVELOPER_CREATE_SARKAZAM_PRIVREDNA_GRANA_DIGITALIZMA_CANONICAL_ALIAS;
+        scopeClassification: typeof import('../extrimli/developer-create-vrh-ekviladenta-contract').DEVELOPER_CREATE_SARKAZAM_PRIVREDNA_GRANA_DIGITALIZMA_SCOPE_CLASSIFICATION;
+        extremPublishes: 'status-blocker-watch-oblast-cin-summary-and-deterministic-fallback-signal-only';
+        extrondolPublishes: 'wawe-freeze-promotion-review-rollback-audit-summary-only';
+        spajaKodPublishes: 'status-blocker-review-and-downstream-reference-only';
+        technicalBinding: 'developerAndCreateRepoWideReflection.sarkazamPrivrednaGranaDigitalizmaTrack';
+        enterpriseTrack: 'Kompanija SPAJA / Digitalna Industrija';
+        policyTrack: 'PRIVREDNI AKT';
+        pedagogicalCatalog: 'testovi-po-oblastima';
         noNewRuntimeEngine: true;
         noNewRuntimeRoutes: true;
         noParallelSourceOfTruth: true;
