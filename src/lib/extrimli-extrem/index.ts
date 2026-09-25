@@ -11186,6 +11186,14 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
     'NOTES 1450 ostaje additive-only bounded radni naslednik koji smanjuje gubitak konteksta, ponavljanje i neefikasno trošenje AI materijala kroz audit-ready nastavak rada.';
   const radniProstorTrack =
     dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.radniProstorTrack;
+  const radniProstorRuntimeTokenInput =
+    process.env.NODE_ENV === 'test'
+      ? process.env.EXTRIMLI_RADNI_PROSTOR_TOKEN_INPUT
+      : undefined;
+  const radniProstorObservedTokens =
+    radniProstorRuntimeTokenInput && radniProstorRuntimeTokenInput.trim().length > 0
+      ? radniProstorRuntimeTokenInput.split(',').map((token) => token.trim()).filter((token) => token.length > 0)
+      : [...radniProstorTrack.boundedTokenSequence];
   const normalizeRadniProstorToken = (token: string): string => {
     let normalizedToken = token;
     if (radniProstorTrack.normalizationRules.trimWhitespace) {
@@ -11200,7 +11208,7 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
     return normalizedToken;
   };
   const normalizedRadniProstorTokens =
-    radniProstorTrack.boundedTokenSequence.map(normalizeRadniProstorToken);
+    radniProstorObservedTokens.map(normalizeRadniProstorToken);
   const normalizedExpectedRadniProstorTokens =
     DEVELOPER_CREATE_RADNI_PROSTOR_BOUNDED_TOKEN_SEQUENCE.map(normalizeRadniProstorToken);
   const radniProstorMatchedTokenCount = normalizedExpectedRadniProstorTokens.reduce(
