@@ -3560,6 +3560,7 @@ function buildSpajaKodFacade(params: {
         publicBoundary: 'audit-safe-summary-only',
         nalazSummary:
           params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.aiIqLaboratorijaTrack.nalazSummary,
+      },
       konstrukcijeIProjektovanjeSummary: {
         canonicalAlias:
           params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.konstrukcijeIProjektovanjeTrack.canonicalAlias,

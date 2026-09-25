@@ -2813,6 +2813,56 @@ export interface ExtrimliDokDikDakDukConsistencyHealth {
       domainTracks: typeof DEVELOPER_CREATE_AI_IQ_LABORATORIJA_DOMAIN_TRACKS;
       boundedTokenSequence: typeof DEVELOPER_CREATE_AI_IQ_LABORATORIJA_BOUNDED_TOKEN_SEQUENCE;
       normalizationRules: typeof DEVELOPER_CREATE_AI_IQ_LABORATORIJA_NORMALIZATION_RULES;
+      boundedVocabularyPhrase: 'EXTRIMLI EXTRONDOL EXTREM DOK DUK DAK DIK FOR';
+      additiveOnly: true;
+      noNewRuntimeEngine: true;
+      noNewRuntimeRoutes: true;
+      noParallelSourceOfTruth: true;
+      sourceOfTruthRoutes: readonly ['/api/extrimli/extrem', '/api/extrimli/extrondol', '/api/extrimli/spaja-kod'];
+      ownershipLock: {
+        dokDikFor: 'EXTREM';
+        dakDuk: 'EXTRONDOL';
+        spajaKod: 'audit-safe-summary-only';
+      };
+      summarySafePublicFields: readonly [
+        'canonicalAlias',
+        'status',
+        'blockerReason',
+        'watchReasons',
+        'reviewPosture',
+        'downstreamReference',
+        'nalazSummary'
+      ];
+      readinessSignal: {
+        status: 'READY' | 'WATCH' | 'BLOCKED';
+        readinessScore: number;
+        tokenCoveragePercent: number;
+        normalizedInputCount: number;
+        laboratoryProfileStatus: 'READY' | 'WATCH' | 'BLOCKED';
+        findingsStatus: 'READY' | 'WATCH' | 'BLOCKED';
+        faunaIFLoraStatus: 'READY' | 'WATCH' | 'BLOCKED';
+        gradjevinskiMaterijalStatus: 'READY' | 'WATCH' | 'BLOCKED';
+        deterministicFallbackRequired: boolean;
+        fallbackInputs: typeof DEVELOPER_CREATE_AI_IQ_LABORATORIJA_FALLBACK_INPUTS;
+        driver: 'developerAndCreateRepoWideReflection.readiness + programskiJezikProucavanja + programskiEkanalog + developerAndCreateRepoWideReflection.technicalReadinessProfile.consolidatedRhythmStatus';
+      };
+      blockerReason: string | null;
+      watchReasons: string[];
+      reviewPosture: 'ALIGNED' | 'WATCH' | 'REVIEW_REQUIRED';
+      tokenSequenceLock: {
+        additiveOnlyAlias: true;
+        noNewRoutes: true;
+        noNewSourceOfTruth: true;
+      };
+      acceptanceEvidence: readonly [
+        'developerAndCreateRepoWideReflection.aiIqLaboratorijaTrack',
+        'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.aiIqLaboratorijaTrack',
+        'spajaKod.publicSignals.aiIqLaboratorijaStatus',
+        'spajaKod.developerAndCreateImplementationPackage.aiIqLaboratorijaSummary'
+      ];
+      nalazSummary: string;
+      downstreamReference: 'docs/MULTI-REPO-LINKS.md -> spaja86/IO-OPENUI-AO (summary-only)';
+    };
     konstrukcijeIProjektovanjeTrack: {
       canonicalAlias: typeof DEVELOPER_CREATE_KONSTRUKCIJE_I_PROJEKTOVANJE_CANONICAL_ALIAS;
       scopeStatement: typeof DEVELOPER_CREATE_KONSTRUKCIJE_I_PROJEKTOVANJE_SCOPE_STATEMENT;
@@ -2838,7 +2888,6 @@ export interface ExtrimliDokDikDakDukConsistencyHealth {
         'watchReasons',
         'reviewPosture',
         'downstreamReference',
-        'nalazSummary'
         'constructionDesignSummary',
         'gradjevinskiFakultetStatus',
         'gradjevinskiAktStatus'
@@ -2846,15 +2895,6 @@ export interface ExtrimliDokDikDakDukConsistencyHealth {
       readinessSignal: {
         status: 'READY' | 'WATCH' | 'BLOCKED';
         readinessScore: number;
-        tokenCoveragePercent: number;
-        normalizedInputCount: number;
-        laboratoryProfileStatus: 'READY' | 'WATCH' | 'BLOCKED';
-        findingsStatus: 'READY' | 'WATCH' | 'BLOCKED';
-        faunaIFLoraStatus: 'READY' | 'WATCH' | 'BLOCKED';
-        gradjevinskiMaterijalStatus: 'READY' | 'WATCH' | 'BLOCKED';
-        deterministicFallbackRequired: boolean;
-        fallbackInputs: typeof DEVELOPER_CREATE_AI_IQ_LABORATORIJA_FALLBACK_INPUTS;
-        driver: 'developerAndCreateRepoWideReflection.readiness + programskiJezikProucavanja + programskiEkanalog + developerAndCreateRepoWideReflection.technicalReadinessProfile.consolidatedRhythmStatus';
         gradjevinskiFakultetStatus: 'READY' | 'WATCH' | 'BLOCKED';
         gradjevinskiAktStatus: 'READY' | 'WATCH' | 'BLOCKED';
         tokenCoveragePercent: number;
@@ -2866,18 +2906,12 @@ export interface ExtrimliDokDikDakDukConsistencyHealth {
       blockerReason: string | null;
       watchReasons: string[];
       reviewPosture: 'ALIGNED' | 'WATCH' | 'REVIEW_REQUIRED';
-      tokenSequenceLock: {
-        additiveOnlyAlias: true;
-        noNewRoutes: true;
-        noNewSourceOfTruth: true;
-      };
       acceptanceEvidence: readonly [
-        'developerAndCreateRepoWideReflection.aiIqLaboratorijaTrack',
-        'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.aiIqLaboratorijaTrack',
-        'spajaKod.publicSignals.aiIqLaboratorijaStatus',
-        'spajaKod.developerAndCreateImplementationPackage.aiIqLaboratorijaSummary'
+        'developerAndCreateRepoWideReflection.konstrukcijeIProjektovanjeTrack',
+        'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.konstrukcijeIProjektovanjeTrack',
+        'spajaKod.publicSignals.konstrukcijeIProjektovanjeStatus',
+        'spajaKod.developerAndCreateImplementationPackage.konstrukcijeIProjektovanjeSummary'
       ];
-      nalazSummary: string;
       constructionDesignSummary: string;
       domainBinding: {
         boundedFacultyDomain: 'GRAĐEVINSKI FAKULTET';

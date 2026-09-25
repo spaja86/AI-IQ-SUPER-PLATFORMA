@@ -7040,12 +7040,6 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
         domainTracks: DEVELOPER_CREATE_AI_IQ_LABORATORIJA_DOMAIN_TRACKS,
         boundedTokenSequence: DEVELOPER_CREATE_AI_IQ_LABORATORIJA_BOUNDED_TOKEN_SEQUENCE,
         normalizationRules: DEVELOPER_CREATE_AI_IQ_LABORATORIJA_NORMALIZATION_RULES,
-      konstrukcijeIProjektovanjeTrack: {
-        canonicalAlias: DEVELOPER_CREATE_KONSTRUKCIJE_I_PROJEKTOVANJE_CANONICAL_ALIAS,
-        scopeStatement: DEVELOPER_CREATE_KONSTRUKCIJE_I_PROJEKTOVANJE_SCOPE_STATEMENT,
-        roleClassification: DEVELOPER_CREATE_KONSTRUKCIJE_I_PROJEKTOVANJE_ROLE_CLASSIFICATION,
-        boundedTokenSequence: DEVELOPER_CREATE_KONSTRUKCIJE_I_PROJEKTOVANJE_BOUNDED_TOKEN_SEQUENCE,
-        normalizationRules: DEVELOPER_CREATE_KONSTRUKCIJE_I_PROJEKTOVANJE_NORMALIZATION_RULES,
         boundedVocabularyPhrase: 'EXTRIMLI EXTRONDOL EXTREM DOK DUK DAK DIK FOR',
         additiveOnly: true,
         noNewRuntimeEngine: true,
@@ -7057,7 +7051,6 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
           dakDuk: 'EXTRONDOL',
           spajaKod: 'audit-safe-summary-only',
         },
-        parentDomain: 'GRAĐEVINSKI FAKULTET / GRAĐEVINSKI AKT',
         summarySafePublicFields: [
           'canonicalAlias',
           'status',
@@ -7066,9 +7059,6 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
           'reviewPosture',
           'downstreamReference',
           'nalazSummary',
-          'constructionDesignSummary',
-          'gradjevinskiFakultetStatus',
-          'gradjevinskiAktStatus',
         ],
         readinessSignal: {
           status: 'BLOCKED',
@@ -7100,6 +7090,40 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
           'spajaKod.developerAndCreateImplementationPackage.aiIqLaboratorijaSummary',
         ],
         nalazSummary: '',
+        downstreamReference: 'docs/MULTI-REPO-LINKS.md -> spaja86/IO-OPENUI-AO (summary-only)',
+      },
+      konstrukcijeIProjektovanjeTrack: {
+        canonicalAlias: DEVELOPER_CREATE_KONSTRUKCIJE_I_PROJEKTOVANJE_CANONICAL_ALIAS,
+        scopeStatement: DEVELOPER_CREATE_KONSTRUKCIJE_I_PROJEKTOVANJE_SCOPE_STATEMENT,
+        roleClassification: DEVELOPER_CREATE_KONSTRUKCIJE_I_PROJEKTOVANJE_ROLE_CLASSIFICATION,
+        boundedTokenSequence: DEVELOPER_CREATE_KONSTRUKCIJE_I_PROJEKTOVANJE_BOUNDED_TOKEN_SEQUENCE,
+        normalizationRules: DEVELOPER_CREATE_KONSTRUKCIJE_I_PROJEKTOVANJE_NORMALIZATION_RULES,
+        boundedVocabularyPhrase: 'EXTRIMLI EXTRONDOL EXTREM DOK DUK DAK DIK FOR',
+        additiveOnly: true,
+        noNewRuntimeEngine: true,
+        noNewRuntimeRoutes: true,
+        noParallelSourceOfTruth: true,
+        sourceOfTruthRoutes: ['/api/extrimli/extrem', '/api/extrimli/extrondol', '/api/extrimli/spaja-kod'],
+        ownershipLock: {
+          dokDikFor: 'EXTREM',
+          dakDuk: 'EXTRONDOL',
+          spajaKod: 'audit-safe-summary-only',
+        },
+        parentDomain: 'GRAĐEVINSKI FAKULTET / GRAĐEVINSKI AKT',
+        summarySafePublicFields: [
+          'canonicalAlias',
+          'status',
+          'blockerReason',
+          'watchReasons',
+          'reviewPosture',
+          'downstreamReference',
+          'constructionDesignSummary',
+          'gradjevinskiFakultetStatus',
+          'gradjevinskiAktStatus',
+        ],
+        readinessSignal: {
+          status: 'BLOCKED',
+          readinessScore: 0,
           gradjevinskiFakultetStatus: 'BLOCKED',
           gradjevinskiAktStatus: 'BLOCKED',
           tokenCoveragePercent: 0,
@@ -7112,6 +7136,12 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
         blockerReason: 'konstrukcije-i-projektovanje-track-awaits-gradjevinski-readiness-token-lock-and-governance-alignment',
         watchReasons: [],
         reviewPosture: 'REVIEW_REQUIRED',
+        acceptanceEvidence: [
+          'developerAndCreateRepoWideReflection.konstrukcijeIProjektovanjeTrack',
+          'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.konstrukcijeIProjektovanjeTrack',
+          'spajaKod.publicSignals.konstrukcijeIProjektovanjeStatus',
+          'spajaKod.developerAndCreateImplementationPackage.konstrukcijeIProjektovanjeSummary',
+        ],
         constructionDesignSummary: '',
         domainBinding: {
           boundedFacultyDomain: 'GRAĐEVINSKI FAKULTET',
@@ -11521,6 +11551,10 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
       normalizedToken = normalizedToken.replace(/\s+/g, ' ');
     }
     if (aiIqLaboratorijaTrack.normalizationRules.uppercaseTokens) {
+      normalizedToken = normalizedToken.toUpperCase();
+    }
+    return normalizedToken;
+  };
   const konstrukcijeIProjektovanjeTrack =
     dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.konstrukcijeIProjektovanjeTrack;
   const konstrukcijeIProjektovanjeRuntimeTokenInput =
