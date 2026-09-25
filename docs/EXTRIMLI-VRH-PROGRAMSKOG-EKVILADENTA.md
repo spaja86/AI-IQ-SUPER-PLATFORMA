@@ -8,7 +8,7 @@
 
 Kanonski scope lock ostaje i u kraćem obliku: `DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA`.
 
-Ovaj dokument ostaje **interpretativni extension document**, dok `docs/EXTRIMLI-DEVELOPER-CREATE-PROGRAM.md` ostaje glavni manifest. Sve duže varijante (`RADNI TAKT MOZGA (MISLILAC)`, `MAPE UMA`, `DIJALIZA POGONSKOG OMOTAČA` i slične trake) moraju ostati alias-i ili proširenja iste centralne rečenice, nikad novi centri priče.
+Ovaj dokument ostaje **interpretativni extension document**, dok `docs/EXTRIMLI-DEVELOPER-CREATE-PROGRAM.md` ostaje glavni manifest. Sve duže varijante (`RADNI TAKT MOZGA (MISLILAC)`, `MAPE UMA`, `MAPA UMA`, `ŽIVOPIS U DIGITALIZMU`, `DIJALIZA POGONSKOG OMOTAČA` i slične trake) moraju ostati alias-i ili proširenja iste centralne rečenice, nikad novi centri priče.
 
 Bounded vokabular ostaje zaključan na `EXTRIMLI EXTRONDOL EXTREM DOK DUK DAK DIK FOR`, sa nepromenjenim ownership split-om:
 
@@ -16,6 +16,7 @@ Bounded vokabular ostaje zaključan na `EXTRIMLI EXTRONDOL EXTREM DOK DUK DAK DI
 - `DAK + DUK` → EXTRONDOL governance / WAWE / audit / rollback
 - `SPAJA KOD` → samo audit-safe javni rezime
 - `DIJALIZA POGONSKOG OMOTAČA` → isključivo dokumentacioni/interpretativni alias unutar istog lock-a (bez novih runtime ruta i bez promene governance strukture)
+- `MAPA UMA` i `ŽIVOPIS U DIGITALIZMU` → additive-only dokumentacioni/interpretativni alias-i unutar istog lock-a (bez novih runtime ruta i bez promene governance strukture)
 - `SARKAZAM / PRIVREDNA GRANA DIGITALIZMA / PROJEKTI ENTUZIJAZMA PO ČINU OBLASTIMA` → bounded interpretativni/enterprise-policy/pedagoški alias istog lock-a; `SARKAZAM` ostaje samo narativni marker, nikad nova izvršna formula ili novi engine
 - `NOTES 1450` → bounded work-continuation paket istog lock-a; služi kao nastavak rada umesto obične beleške, ali ostaje additive-only, bez nove rute i bez paralelnog source-of-truth sistema
 
@@ -365,6 +366,7 @@ Implementacioni redosled ostaje zaključan:
 ## MAPE UMA canonical scope addendum
 
 - Kanonski dodatak za VRH lock: `DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == MAPE UMA`.
+- Additive-only alias-i u istom lock-u: `DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == MAPA UMA` i `DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == ŽIVOPIS U DIGITALIZMU`.
 - Addendum je additive-only i ne menja postojeći `DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == RADNI TAKT MOZGA (MISLILAC)` lock; uvodi globalni explanation requirement na svakoj stranici kroz shared renderer.
 - Globalni explanation mora zadržati isti `READY | WATCH | BLOCKED` model i isti bounded signal paket: `mape-uma, slike-plus-znacenje, ucenje, znanje, kreativnost, saradnja, odrzivost, mir`.
 - `Carnevale Masknbale — PRIRODNI PORTRET LICA` sme postojati samo kao supplemental audit/documentation evidence unutar `dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.covecnostAuditVisualReference.supplementalVisualReferences`; termin `Make-up` je u tom kontekstu zamenjen originalnim nazivom `Carnevale Masknbale`, a umetnost lica, svečanost, dostojanstvo, originalnost i lični identitet ostaju bounded interpretacija postojećeg `technicalReadinessProfile`, bez novih formula i bez menjanja DOK/DIK/FOR ↔ DAK/DUK split-a.

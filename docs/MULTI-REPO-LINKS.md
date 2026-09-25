@@ -1976,6 +1976,7 @@ Koristiti format `AI-IQ-SUPER-PLATFORMA#VPOREKLO-2026-09 -> IO-OPENUI-AO#123` gd
 ## Developer/Create VRH Mape Uma global explanation sync
 
 - Scope lock: `DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == MAPE UMA`.
+- Additive-only alias lock: `DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == MAPA UMA` i `DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == ŽIVOPIS U DIGITALIZMU`.
 - Downstream boundary for `spaja86/IO-OPENUI-AO` ostaje summary-only (bez sirovih EXTREM/EXTRONDOL formula).
 - Obavezni public-safe signal paket za summary sync: `mape-uma, slike-plus-znacenje, ucenje, znanje, kreativnost, saradnja, odrzivost, mir`.
 - Ownership ostaje nepromenjen: `DOK/DIK/FOR -> EXTREM`, `DAK/DUK -> EXTRONDOL`, `SPAJA KOD -> audit-safe-summary-only`.

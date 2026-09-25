@@ -1,8 +1,19 @@
+import {
+  DEVELOPER_CREATE_VRH_MAPA_UMA_ALIAS,
+  DEVELOPER_CREATE_VRH_ZIVOPIS_U_DIGITALIZMU_ALIAS,
+} from './extrimli/developer-create-vrh-ekviladenta-contract';
+
 export const DEVELOPER_CREATE_VRH_MAPE_UMA_SCOPE_LOCK =
   'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == MAPE UMA' as const;
 
 export const DEVELOPER_CREATE_VRH_MAPE_UMA_EXPLANATION_TITLE =
   'DEVELOPER AND CREATE + VRH PROGRAMSKOG EKVILADENTA + MAPE UMA' as const;
+
+export const DEVELOPER_CREATE_VRH_MAPE_UMA_INTERPRETATIVE_ALIASES = [
+  DEVELOPER_CREATE_VRH_MAPE_UMA_SCOPE_LOCK,
+  DEVELOPER_CREATE_VRH_MAPA_UMA_ALIAS,
+  DEVELOPER_CREATE_VRH_ZIVOPIS_U_DIGITALIZMU_ALIAS,
+] as const;
 
 export const DEVELOPER_CREATE_VRH_MAPE_UMA_READINESS_MODEL = [
   'READY',
@@ -28,4 +39,4 @@ export const DEVELOPER_CREATE_VRH_MAPE_UMA_OWNERSHIP_LOCK = {
 } as const;
 
 export const DEVELOPER_CREATE_VRH_MAPE_UMA_GLOBAL_CONTEXT =
-  `${DEVELOPER_CREATE_VRH_MAPE_UMA_SCOPE_LOCK}. Objašnjenje mora biti dostupno na svakoj stranici kroz isti READY/WATCH/BLOCKED model i bounded signal paket.` as const;
+  `${DEVELOPER_CREATE_VRH_MAPE_UMA_SCOPE_LOCK}. Additive-only aliasi MAPA UMA i ŽIVOPIS U DIGITALIZMU ostaju u istom lock-u. Objašnjenje mora biti dostupno na svakoj stranici kroz isti READY/WATCH/BLOCKED model i bounded signal paket.` as const;
