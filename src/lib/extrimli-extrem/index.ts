@@ -35,6 +35,7 @@ import {
   DEVELOPER_CREATE_KONSTRUKCIJE_I_PROJEKTOVANJE_SCOPE_STATEMENT,
   DEVELOPER_CREATE_KONSTRUKCIJE_I_PROJEKTOVANJE_WATCH_FALLBACK_INPUTS,
   DEVELOPER_CREATE_KRALJEVSKO_TAKMICENJE_AUTHENTICITY_RULES,
+  DEVELOPER_CREATE_KRALJEVSKO_TAKMICENJE_AUTHENTICITY_TOKEN_INPUT,
   DEVELOPER_CREATE_KRALJEVSKO_TAKMICENJE_CANONICAL_ALIAS,
   DEVELOPER_CREATE_KRALJEVSKO_TAKMICENJE_EVALUATION_CRITERIA,
   DEVELOPER_CREATE_KRALJEVSKO_TAKMICENJE_REWARDS_POLICY,
@@ -11774,8 +11775,7 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
   const kraljevskoTakmicenjeVisualStatus =
     dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.covecnostAuditVisualReference.imageToSignalProfile.signalOutputs.readinessStatus;
   const kraljevskoTakmicenjeAuthenticityInput =
-    process.env.EXTRIMLI_KRALJEVSKO_TAKMICENJE_AUTHENTICITY_INPUT
-    ?? 'original-songs,no-imitation,no-ai-performance';
+    DEVELOPER_CREATE_KRALJEVSKO_TAKMICENJE_AUTHENTICITY_TOKEN_INPUT;
   const kraljevskoTakmicenjeAuthenticityTokens = kraljevskoTakmicenjeAuthenticityInput
     .split(',')
     .map((token) => token.trim().toLowerCase())

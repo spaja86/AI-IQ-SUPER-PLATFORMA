@@ -207,6 +207,9 @@ export const DEVELOPER_CREATE_KRALJEVSKO_TAKMICENJE_AUTHENTICITY_RULES = [
   'deterministic-ready-watch-blocked-validation',
 ] as const;
 
+export const DEVELOPER_CREATE_KRALJEVSKO_TAKMICENJE_AUTHENTICITY_TOKEN_INPUT =
+  'original-songs,no-imitation,no-ai-performance' as const;
+
 export const DEVELOPER_CREATE_KRALJEVSKO_TAKMICENJE_TOURNAMENT_MODEL = {
   format: 'round-robin-svako-sa-svakim',
   reviewGates: ['human-review', 'governance-review', 'promotion-freeze-check', 'rollback-readiness'],
