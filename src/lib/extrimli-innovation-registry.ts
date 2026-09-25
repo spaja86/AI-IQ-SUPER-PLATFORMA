@@ -1,0 +1,361 @@
+export type ExtrimliInnovationReadinessStatus = 'READY' | 'WATCH' | 'BLOCKED';
+export type ExtrimliInnovationGovernanceStatus = 'promote' | 'freeze' | 'rollback';
+export type ExtrimliInnovationWavePriority = 'critical' | 'high' | 'medium' | 'experimental';
+export type ExtrimliInnovationTrack =
+  | 'funkcionalno'
+  | 'objektno'
+  | 'proporcionalno'
+  | 'metriko'
+  | 'paradijogonalno'
+  | 'audio-vizuelno';
+
+export interface ExtrimliInnovationRegistryEntry {
+  id: string;
+  name: string;
+  clusterId: string;
+  clusterIndex: number;
+  innovationIndex: number;
+  expectedEffect: string;
+  readinessStatus: ExtrimliInnovationReadinessStatus;
+  governanceStatus: ExtrimliInnovationGovernanceStatus;
+  wavePriority: ExtrimliInnovationWavePriority;
+  track: ExtrimliInnovationTrack;
+  deterministicFallbackQuality: 'strong' | 'bounded' | 'degraded';
+  downstreamTag: 'summary-only-io-openui-ao';
+}
+
+export interface ExtrimliInnovationRegistryCluster {
+  clusterId: string;
+  clusterName: string;
+  innovationCount: 100;
+  readinessSummary: Record<ExtrimliInnovationReadinessStatus, number>;
+  governanceSummary: Record<ExtrimliInnovationGovernanceStatus, number>;
+}
+
+export interface ExtrimliInnovationRegistryModel {
+  canonicalAlias: 'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == 13000 INOVACIJA';
+  additiveOnly: true;
+  sourceOfTruthRoutes: readonly ['/api/extrimli/extrem', '/api/extrimli/extrondol', '/api/extrimli/spaja-kod'];
+  ownershipLock: {
+    dokDikFor: 'EXTREM';
+    dakDuk: 'EXTRONDOL';
+    spajaKod: 'audit-safe-summary-only';
+  };
+  matrix: {
+    clusterCount: 130;
+    innovationsPerCluster: 100;
+    targetInnovationCount: 13000;
+  };
+  phaseMapping: readonly [
+    { id: 'V1'; focus: string },
+    { id: 'V2'; focus: string },
+    { id: 'V3'; focus: string },
+    { id: 'V4'; focus: string },
+    { id: 'V5'; focus: string },
+    { id: 'V6'; focus: string },
+    { id: 'V7'; focus: string },
+    { id: 'V700'; focus: string }
+  ];
+  cadence: {
+    daily: readonly ['cluster-planning', 'technical-validation', 'governance-decision', 'summary-publish'];
+    weekly: readonly ['wave-prioritization', 'blocker-closure'];
+    monthly: readonly ['audit', 'ecosystem-benchmark'];
+  };
+  governancePolicy: {
+    humanReviewGateRequired: true;
+    rolloutRollbackRequired: true;
+    auditSummaryRequired: true;
+    freezeReasonRequiredWhenBlocked: true;
+  };
+  kpi: {
+    coveragePercent: number;
+    readyRatioPercent: number;
+    governancePromotionRatioPercent: number;
+    governanceRollbackRatioPercent: number;
+    ecosystemStabilityPercent: number;
+  };
+  totals: {
+    totalInnovations: number;
+    byReadiness: Record<ExtrimliInnovationReadinessStatus, number>;
+    byGovernance: Record<ExtrimliInnovationGovernanceStatus, number>;
+    byWavePriority: Record<ExtrimliInnovationWavePriority, number>;
+    byTrack: Record<ExtrimliInnovationTrack, number>;
+    blockedCriticalCount: number;
+  };
+  innovationsMaterialized: boolean;
+  clusters: ExtrimliInnovationRegistryCluster[];
+  innovations: ExtrimliInnovationRegistryEntry[];
+  summarySafeDashboard: {
+    status: ExtrimliInnovationReadinessStatus;
+    totalInnovations: number;
+    clusterCount: number;
+    coveragePercent: number;
+    readiness: Record<ExtrimliInnovationReadinessStatus, number>;
+    governance: Record<ExtrimliInnovationGovernanceStatus, number>;
+    blockerReasons: readonly [
+      'governance-review-required',
+      'deterministic-fallback-quality-degraded',
+      'wave-freeze-priority-critical'
+    ];
+    downstreamReference: 'docs/MULTI-REPO-LINKS.md -> spaja86/IO-OPENUI-AO (summary-only)';
+  };
+}
+
+const CLUSTER_COUNT = 130 as const;
+const INNOVATIONS_PER_CLUSTER = 100 as const;
+const TRACKS: readonly ExtrimliInnovationTrack[] = [
+  'funkcionalno',
+  'objektno',
+  'proporcionalno',
+  'metriko',
+  'paradijogonalno',
+  'audio-vizuelno',
+] as const;
+
+function toClusterId(index: number): string {
+  return `CLUSTER-${String(index).padStart(3, '0')}`;
+}
+
+function toInnovationId(clusterIndex: number, innovationIndex: number): string {
+  return `INOV-${String(clusterIndex).padStart(3, '0')}-${String(innovationIndex).padStart(3, '0')}`;
+}
+
+function resolveReadiness(globalIndex: number): ExtrimliInnovationReadinessStatus {
+  if (globalIndex % 10 === 0) return 'BLOCKED';
+  if (globalIndex % 3 === 0) return 'WATCH';
+  return 'READY';
+}
+
+function resolveWavePriority(
+  readinessStatus: ExtrimliInnovationReadinessStatus,
+  globalIndex: number,
+): ExtrimliInnovationWavePriority {
+  if (readinessStatus === 'BLOCKED') return globalIndex % 2 === 0 ? 'critical' : 'high';
+  if (readinessStatus === 'WATCH') return globalIndex % 2 === 0 ? 'high' : 'medium';
+  return globalIndex % 5 === 0 ? 'medium' : 'experimental';
+}
+
+function resolveFallbackQuality(
+  readinessStatus: ExtrimliInnovationReadinessStatus,
+): ExtrimliInnovationRegistryEntry['deterministicFallbackQuality'] {
+  if (readinessStatus === 'BLOCKED') return 'degraded';
+  if (readinessStatus === 'WATCH') return 'bounded';
+  return 'strong';
+}
+
+let cachedInnovationRegistrySummary: ExtrimliInnovationRegistryModel | null = null;
+let cachedInnovationRegistryFull: ExtrimliInnovationRegistryModel | null = null;
+interface BuildInnovationRegistryOptions {
+  materializeInnovations?: boolean;
+}
+
+function deepFreeze<T>(value: T): T {
+  if (value && typeof value === 'object' && !Object.isFrozen(value)) {
+    Object.freeze(value);
+    for (const key of Object.keys(value as Record<string, unknown>)) {
+      deepFreeze((value as Record<string, unknown>)[key]);
+    }
+  }
+  return value;
+}
+
+export function buildExtrimliInnovationRegistry(
+  options: BuildInnovationRegistryOptions = {},
+): ExtrimliInnovationRegistryModel {
+  const shouldMaterializeInnovations = options.materializeInnovations !== false;
+  if (shouldMaterializeInnovations && cachedInnovationRegistryFull) return cachedInnovationRegistryFull;
+  if (!shouldMaterializeInnovations && cachedInnovationRegistrySummary) return cachedInnovationRegistrySummary;
+
+  const innovations: ExtrimliInnovationRegistryEntry[] = [];
+  const clusters: ExtrimliInnovationRegistryCluster[] = [];
+
+  const byReadiness: Record<ExtrimliInnovationReadinessStatus, number> = {
+    READY: 0,
+    WATCH: 0,
+    BLOCKED: 0,
+  };
+  const byGovernance: Record<ExtrimliInnovationGovernanceStatus, number> = {
+    promote: 0,
+    freeze: 0,
+    rollback: 0,
+  };
+  const byWavePriority: Record<ExtrimliInnovationWavePriority, number> = {
+    critical: 0,
+    high: 0,
+    medium: 0,
+    experimental: 0,
+  };
+  const byTrack: Record<ExtrimliInnovationTrack, number> = {
+    funkcionalno: 0,
+    objektno: 0,
+    proporcionalno: 0,
+    metriko: 0,
+    paradijogonalno: 0,
+    'audio-vizuelno': 0,
+  };
+  let blockedCriticalCount = 0;
+  let globalIndex = 0;
+
+  for (let clusterIndex = 1; clusterIndex <= CLUSTER_COUNT; clusterIndex += 1) {
+    const clusterReadiness: Record<ExtrimliInnovationReadinessStatus, number> = {
+      READY: 0,
+      WATCH: 0,
+      BLOCKED: 0,
+    };
+    const clusterGovernance: Record<ExtrimliInnovationGovernanceStatus, number> = {
+      promote: 0,
+      freeze: 0,
+      rollback: 0,
+    };
+
+    for (let innovationIndex = 1; innovationIndex <= INNOVATIONS_PER_CLUSTER; innovationIndex += 1) {
+      const sequenceIndex = globalIndex + 1;
+      const readinessStatus = resolveReadiness(sequenceIndex);
+      const governanceStatus: ExtrimliInnovationGovernanceStatus =
+        readinessStatus === 'READY' ? 'promote' : readinessStatus === 'WATCH' ? 'freeze' : 'rollback';
+      const wavePriority = resolveWavePriority(readinessStatus, sequenceIndex);
+      const track = TRACKS[(sequenceIndex - 1) % TRACKS.length];
+
+      if (readinessStatus === 'BLOCKED' && wavePriority === 'critical') blockedCriticalCount += 1;
+
+      if (shouldMaterializeInnovations) {
+        innovations.push({
+          id: toInnovationId(clusterIndex, innovationIndex),
+          name: `INOVACIJA ${clusterIndex}.${innovationIndex} / ${track.toUpperCase()}`,
+          clusterId: toClusterId(clusterIndex),
+          clusterIndex,
+          innovationIndex,
+          expectedEffect: `Poboljsanje ekosistema kroz ${track} traku u klasteru ${clusterIndex}.`,
+          readinessStatus,
+          governanceStatus,
+          wavePriority,
+          track,
+          deterministicFallbackQuality: resolveFallbackQuality(readinessStatus),
+          downstreamTag: 'summary-only-io-openui-ao',
+        });
+      }
+      byReadiness[readinessStatus] += 1;
+      byGovernance[governanceStatus] += 1;
+      byWavePriority[wavePriority] += 1;
+      byTrack[track] += 1;
+      clusterReadiness[readinessStatus] += 1;
+      clusterGovernance[governanceStatus] += 1;
+      globalIndex += 1;
+    }
+
+    clusters.push({
+      clusterId: toClusterId(clusterIndex),
+      clusterName: `INOVACIONI KLASTER ${String(clusterIndex).padStart(3, '0')}`,
+      innovationCount: INNOVATIONS_PER_CLUSTER,
+      readinessSummary: clusterReadiness,
+      governanceSummary: clusterGovernance,
+    });
+  }
+
+  const totalInnovations = CLUSTER_COUNT * INNOVATIONS_PER_CLUSTER;
+  const coveragePercent = Math.round((totalInnovations / (CLUSTER_COUNT * INNOVATIONS_PER_CLUSTER)) * 10000) / 100;
+  const safeInnovationDenominator = totalInnovations > 0 ? totalInnovations : 1;
+  const readyRatioPercent = Math.round((byReadiness.READY / safeInnovationDenominator) * 10000) / 100;
+  const governancePromotionRatioPercent =
+    Math.round((byGovernance.promote / safeInnovationDenominator) * 10000) / 100;
+  const governanceRollbackRatioPercent =
+    Math.round((byGovernance.rollback / safeInnovationDenominator) * 10000) / 100;
+  const ecosystemStabilityPercent =
+    Math.round(((byReadiness.READY + byReadiness.WATCH) / safeInnovationDenominator) * 10000) / 100;
+  const blockedRatio = byReadiness.BLOCKED / safeInnovationDenominator;
+  const blockedCriticalRatio = blockedCriticalCount / safeInnovationDenominator;
+  const summaryStatus: ExtrimliInnovationReadinessStatus =
+    blockedRatio > 0.2 || blockedCriticalRatio > 0.1
+      ? 'BLOCKED'
+      : governancePromotionRatioPercent >= 55 && blockedCriticalRatio <= 0.1
+      ? 'READY'
+      : 'WATCH';
+
+  const builtRegistry = deepFreeze({
+    canonicalAlias: 'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == 13000 INOVACIJA',
+    additiveOnly: true,
+    sourceOfTruthRoutes: ['/api/extrimli/extrem', '/api/extrimli/extrondol', '/api/extrimli/spaja-kod'],
+    ownershipLock: {
+      dokDikFor: 'EXTREM',
+      dakDuk: 'EXTRONDOL',
+      spajaKod: 'audit-safe-summary-only',
+    },
+    matrix: {
+      clusterCount: CLUSTER_COUNT,
+      innovationsPerCluster: INNOVATIONS_PER_CLUSTER,
+      targetInnovationCount: CLUSTER_COUNT * INNOVATIONS_PER_CLUSTER,
+    },
+    phaseMapping: [
+      { id: 'V1', focus: 'taxonomy-standardization' },
+      { id: 'V2', focus: 'registry-standardization' },
+      { id: 'V3', focus: 'extrem-innovation-scoring' },
+      { id: 'V4', focus: 'extrem-deterministic-fallback-discipline' },
+      { id: 'V5', focus: 'extrondol-release-orchestration' },
+      { id: 'V6', focus: 'multi-repo-summary-sync-io-openui-ao' },
+      { id: 'V7', focus: 'enterprise-governance-and-audit-scaling' },
+      { id: 'V700', focus: 'full-13000-ecosystem-governance-extension' },
+    ],
+    cadence: {
+      daily: ['cluster-planning', 'technical-validation', 'governance-decision', 'summary-publish'],
+      weekly: ['wave-prioritization', 'blocker-closure'],
+      monthly: ['audit', 'ecosystem-benchmark'],
+    },
+    governancePolicy: {
+      humanReviewGateRequired: true,
+      rolloutRollbackRequired: true,
+      auditSummaryRequired: true,
+      freezeReasonRequiredWhenBlocked: true,
+    },
+    kpi: {
+      coveragePercent,
+      readyRatioPercent,
+      governancePromotionRatioPercent,
+      governanceRollbackRatioPercent,
+      ecosystemStabilityPercent,
+    },
+    totals: {
+      totalInnovations,
+      byReadiness,
+      byGovernance,
+      byWavePriority,
+      byTrack,
+      blockedCriticalCount,
+    },
+    innovationsMaterialized: shouldMaterializeInnovations,
+    clusters,
+    innovations,
+    summarySafeDashboard: {
+      status: summaryStatus,
+      totalInnovations,
+      clusterCount: CLUSTER_COUNT,
+      coveragePercent,
+      readiness: { ...byReadiness },
+      governance: { ...byGovernance },
+      blockerReasons: [
+        'governance-review-required',
+        'deterministic-fallback-quality-degraded',
+        'wave-freeze-priority-critical',
+      ],
+      downstreamReference: 'docs/MULTI-REPO-LINKS.md -> spaja86/IO-OPENUI-AO (summary-only)',
+    },
+  });
+
+  if (shouldMaterializeInnovations) {
+    cachedInnovationRegistryFull = builtRegistry;
+    if (!cachedInnovationRegistrySummary) {
+      cachedInnovationRegistrySummary = deepFreeze({
+        ...builtRegistry,
+        innovationsMaterialized: false,
+        innovations: [],
+      });
+    }
+    return cachedInnovationRegistryFull;
+  }
+
+  cachedInnovationRegistrySummary = deepFreeze({
+    ...builtRegistry,
+    innovationsMaterialized: false,
+    innovations: [],
+  });
+  return cachedInnovationRegistrySummary;
+}

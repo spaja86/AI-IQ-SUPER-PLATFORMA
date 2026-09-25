@@ -11,6 +11,7 @@ import { getExtrimliExtendolReport } from '../extrimli-extendol';
 import { getExtrimliKoronHealthReport } from '../extrimli-koron';
 import { getExtrimliExtremProfilerReport } from '../extrimli-extrem';
 import type { ExtrimliDokDikDakDukConsistencyHealth } from '../extrimli-extrem/types';
+import type { ExtrimliInnovationRegistryModel } from '../extrimli-innovation-registry';
 import {
   getExtrimliVersionRoadmap,
   isExtrimliDeveloperCreateLockAligned,
@@ -3181,6 +3182,8 @@ function buildSpajaKodFacade(params: {
   });
   const aiIdentityFinanceGovernance =
     params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.aiIdentityFinanceGovernance;
+  const innovationRegistry13k =
+    params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.innovationRegistry13k;
   const audioVisualKontrabasPackage =
     params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.audioVisualKontrabasPackage;
   const inspektoriTrack =
@@ -3300,6 +3303,17 @@ function buildSpajaKodFacade(params: {
         params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.napoleonDiskaveriSelectionTrack.discoverySelectionSignal.selectionStatus,
       developerAndCreateGlobalPageExplanationStatus: params.developerAndCreateStatus,
       developerAndCreateGlobalPageExplanationSignals: DEVELOPER_CREATE_VRH_MAPE_UMA_THEMATIC_SIGNALS,
+      innovationRegistryStatus: innovationRegistry13k.summarySafeDashboard.status,
+      innovationRegistryTotal: innovationRegistry13k.summarySafeDashboard.totalInnovations,
+      innovationRegistryClusters: innovationRegistry13k.summarySafeDashboard.clusterCount,
+      innovationRegistryCoveragePercent: innovationRegistry13k.summarySafeDashboard.coveragePercent,
+      innovationRegistryReadinessSummary: {
+        ...innovationRegistry13k.summarySafeDashboard.readiness,
+      },
+      innovationRegistryGovernanceSummary: {
+        ...innovationRegistry13k.summarySafeDashboard.governance,
+      },
+      innovationRegistryBlockerReasons: [...innovationRegistry13k.summarySafeDashboard.blockerReasons],
       developerAndCreateUniversitySummary: {
         passedAreasCount:
           params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.kraljevskiProgramskiUneverzitet.domainTestReadiness.passedAreasCount,
@@ -3948,6 +3962,15 @@ function buildPaymentVerification(): ExtrimliExtrondolPaymentVerification {
       releaseAuditStatus: status === 'VERIFIED' ? 'READY' : 'BLOCKED',
     },
   };
+}
+
+function summarizeInnovationRegistryForExtrondol(
+  registry: ExtrimliInnovationRegistryModel,
+): ExtrimliInnovationRegistryModel {
+  if (!registry.innovationsMaterialized && registry.innovations.length === 0) {
+    return registry;
+  }
+  return { ...registry, innovationsMaterialized: false, innovations: [] };
 }
 
 /**
@@ -5008,6 +5031,10 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
           : [],
         globalPageExplanationContract:
           extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.globalPageExplanationContract,
+        innovationRegistry13k:
+          summarizeInnovationRegistryForExtrondol(
+            extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.innovationRegistry13k
+          ),
         canonicalGovernanceVocabulary:
           extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.canonicalGovernanceVocabulary,
         osnoveRispektProtocol:
@@ -6305,6 +6332,10 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
       visualEvidencePolicy: DEVELOPER_CREATE_VRH_VISUAL_EVIDENCE_POLICY,
       downstreamSummaryPolicy: DEVELOPER_CREATE_VRH_DOWNSTREAM_SUMMARY_POLICY,
       successfulNarrativeCriteria: DEVELOPER_CREATE_VRH_SUCCESSFUL_NARRATIVE_CRITERIA,
+      innovationRegistry13k:
+        summarizeInnovationRegistryForExtrondol(
+          extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.innovationRegistry13k
+        ),
       globalPageExplanationContract:
         extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.globalPageExplanationContract,
       mappedTracks: extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.mappedTracks,
@@ -6838,6 +6869,10 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
           },
           globalPageExplanationContract:
             extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.globalPageExplanationContract,
+          innovationRegistry13k:
+            summarizeInnovationRegistryForExtrondol(
+              extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.innovationRegistry13k
+            ),
           mappedTracks: extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.mappedTracks,
           technicalReadinessProfile: extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.technicalReadinessProfile,
           universityLifecycle: {
@@ -7731,6 +7766,10 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
       },
       globalPageExplanationContract:
         extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.globalPageExplanationContract,
+      innovationRegistry13k:
+        summarizeInnovationRegistryForExtrondol(
+          extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.innovationRegistry13k
+        ),
       mappedTracks: extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.mappedTracks,
       technicalReadinessProfile: extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.technicalReadinessProfile,
       priorityExecutionOrder:

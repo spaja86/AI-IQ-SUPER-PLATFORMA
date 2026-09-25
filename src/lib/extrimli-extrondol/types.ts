@@ -349,6 +349,7 @@ export interface ExtrimliExtrondolB2bReadiness {
     blockerReasons: string[];
     watchReasons: string[];
     globalPageExplanationContract: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['globalPageExplanationContract'];
+    innovationRegistry13k: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['innovationRegistry13k'];
     technicalReadinessProfile: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['technicalReadinessProfile'];
     kraljevskiDrustveniPoredak: ExtrimliExtrondolDeveloperAndCreateRepoWideReflectionGovernance['kraljevskiDrustveniPoredak'];
     aiIdentityFinanceGovernance: ExtrimliExtrondolDeveloperAndCreateRepoWideReflectionGovernance['aiIdentityFinanceGovernance'];
@@ -726,6 +727,7 @@ export interface ExtrimliExtrondolDeveloperAndCreateRepoWideReflectionGovernance
   canonicalGovernanceVocabulary: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['canonicalGovernanceVocabulary'];
   osnoveRispektProtocol: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['osnoveRispektProtocol'];
   mappedTracks: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['mappedTracks'];
+  innovationRegistry13k: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['innovationRegistry13k'];
   technicalReadinessProfile: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['technicalReadinessProfile'];
   priorityExecutionOrder: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['priorityExecutionOrder'];
   fourTrackProgramPackage: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['fourTrackProgramPackage'];
@@ -2001,6 +2003,7 @@ export interface ExtrimliExtrondolReleaseAuditSummary {
     blockerReasons: string[];
     watchReasons: string[];
     mappedTracks: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['mappedTracks'];
+    innovationRegistry13k: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['innovationRegistry13k'];
     dailyOperationalCadence: {
       activeRoadmapStagePolicy: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['dailyOperationalCadence']['activeRoadmapStagePolicy'];
       cadenceBlocks: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['dailyOperationalCadence']['cadenceBlocks'];
@@ -2771,6 +2774,13 @@ export interface ExtrimliSpajaKodPublicFacade {
     napoleonDiskaveriStatus: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['napoleonDiskaveriSelectionTrack']['discoverySelectionSignal']['selectionStatus'];
     developerAndCreateGlobalPageExplanationStatus: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['readiness']['status'];
     developerAndCreateGlobalPageExplanationSignals: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['globalPageExplanationContract']['boundedThematicSignals'];
+    innovationRegistryStatus: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['innovationRegistry13k']['summarySafeDashboard']['status'];
+    innovationRegistryTotal: number;
+    innovationRegistryClusters: number;
+    innovationRegistryCoveragePercent: number;
+    innovationRegistryReadinessSummary: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['innovationRegistry13k']['summarySafeDashboard']['readiness'];
+    innovationRegistryGovernanceSummary: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['innovationRegistry13k']['summarySafeDashboard']['governance'];
+    innovationRegistryBlockerReasons: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['innovationRegistry13k']['summarySafeDashboard']['blockerReasons'];
     kraljevskiProgramskiUneverzitetStatus: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['kraljevskiProgramskiUneverzitet']['readiness']['status'];
     inspektoriStatus: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['inspektori']['readiness']['status'];
     developerAndCreateUniversitySummary: {

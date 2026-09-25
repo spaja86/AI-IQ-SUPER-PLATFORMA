@@ -160,6 +160,17 @@ async function runTests(): Promise<void> {
         === 'mape-uma,slike-plus-znacenje,ucenje,znanje,kreativnost,saradnja,odrzivost,mir',
       'developer/create global explanation thematic signals mismatch',
     );
+    const innovationRegistry =
+      report.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.innovationRegistry13k;
+    assert(innovationRegistry.matrix.clusterCount === 130, 'innovation registry cluster count mismatch');
+    assert(innovationRegistry.matrix.innovationsPerCluster === 100, 'innovation registry innovations-per-cluster mismatch');
+    assert(innovationRegistry.totals.totalInnovations === 13000, 'innovation registry total innovations mismatch');
+    assert(innovationRegistry.summarySafeDashboard.coveragePercent === 100, 'innovation registry coverage should be 100%');
+    assert(innovationRegistry.sourceOfTruthRoutes.join(',') === '/api/extrimli/extrem,/api/extrimli/extrondol,/api/extrimli/spaja-kod', 'innovation registry source routes mismatch');
+    assert(innovationRegistry.ownershipLock.dokDikFor === 'EXTREM', 'innovation registry DOK/DIK/FOR ownership mismatch');
+    assert(innovationRegistry.ownershipLock.dakDuk === 'EXTRONDOL', 'innovation registry DAK/DUK ownership mismatch');
+    assert(innovationRegistry.ownershipLock.spajaKod === 'audit-safe-summary-only', 'innovation registry SPAJA KOD ownership mismatch');
+    assert(innovationRegistry.innovations.length === 13000, 'innovation registry materialized list mismatch');
     const implementationPackage = report.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.implementationPackage;
     const audioVisualKontrabasPackage =
       report.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.audioVisualKontrabasPackage;
