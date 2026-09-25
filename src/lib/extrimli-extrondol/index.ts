@@ -8002,8 +8002,8 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
         sourceOfTruth: '/api/extrimli/extrem',
         governanceSource: '/api/extrimli/extrondol',
         publicBoundary: '/api/extrimli/spaja-kod',
-        currentWawe,
-        eligibleNextWawe: eligibleNextWave,
+        currentWave: currentWawe,
+        eligibleNextWave: eligibleNextWave,
         promotionFreeze:
           promotionFreeze
           || extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.radioTrack.readinessSignal.status !== 'READY',

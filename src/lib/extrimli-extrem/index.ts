@@ -11897,17 +11897,46 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
 
   const radioTrack =
     dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.radioTrack;
+  const radioRuntimeTokenInput =
+    process.env.NODE_ENV === 'test'
+      ? process.env.EXTRIMLI_RADIO_TOKEN_INPUT
+      : undefined;
+  const radioObservedTokens =
+    radioRuntimeTokenInput && radioRuntimeTokenInput.trim().length > 0
+      ? radioRuntimeTokenInput
+          .split(',')
+          .map((token) => token.trim())
+          .filter((token) => token.length > 0)
+      : [...radioTrack.boundedTokenVocabulary.canonicalSequence];
+  const normalizeRadioToken = (token: string): string => {
+    let normalizedToken = token;
+    if (radioTrack.normalizationRules.trimWhitespace) {
+      normalizedToken = normalizedToken.trim();
+    }
+    if (radioTrack.normalizationRules.collapseMultipleSpaces) {
+      normalizedToken = normalizedToken.replace(/\s+/g, ' ');
+    }
+    if (radioTrack.normalizationRules.uppercaseTokens) {
+      normalizedToken = normalizedToken.toUpperCase();
+    }
+    return normalizedToken;
+  };
+  const normalizedRadioTokens = radioObservedTokens.map(normalizeRadioToken);
+  const normalizedExpectedRadioTokens =
+    radioTrack.boundedTokenVocabulary.canonicalSequence.map(normalizeRadioToken);
   const radioSummary =
     'RADIO ostaje additive-only bounded media/distribution/audio paket: EXTREM nosi readiness, semantic-preservation signal i bounded radio summary, EXTRONDOL governance mirror, a SPAJA KOD samo audit-safe radio rezime.';
-  const radioTokenCoveragePercent = round(
-    (
-      (
-        radioTrack.boundedTokenVocabulary.distributionAudioTokens.length
-        + radioTrack.boundedTokenVocabulary.scheduleContinuityTokens.length
-        + radioTrack.boundedTokenVocabulary.governanceFallbackTokens.length
+  const radioHasExactTokenLength =
+    normalizedRadioTokens.length === normalizedExpectedRadioTokens.length;
+  const radioMatchedTokenCount = radioHasExactTokenLength
+    ? normalizedExpectedRadioTokens.reduce(
+        (count, expectedToken, index) =>
+          count + (normalizedRadioTokens[index] === expectedToken ? 1 : 0),
+        0,
       )
-      / radioTrack.boundedTokenVocabulary.canonicalSequence.length
-    ) * 100,
+    : 0;
+  const radioTokenCoveragePercent = round(
+    (radioMatchedTokenCount / (normalizedExpectedRadioTokens.length || 1)) * 100,
     2,
   );
   const radioNormalizationReady =
@@ -11958,7 +11987,7 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
   radioTrack.readinessSignal.governanceFallbackStatus =
     radioDeterministicFallbackRequired ? (radioStatus === 'BLOCKED' ? 'BLOCKED' : 'WATCH') : 'READY';
   radioTrack.readinessSignal.tokenCoveragePercent = radioTokenCoveragePercent;
-  radioTrack.readinessSignal.normalizedInputCount = radioTrack.boundedTokenVocabulary.canonicalSequence.length;
+  radioTrack.readinessSignal.normalizedInputCount = normalizedRadioTokens.length;
   radioTrack.readinessSignal.deterministicFallbackRequired = radioDeterministicFallbackRequired;
   radioTrack.blockerReason =
     radioStatus === 'BLOCKED'
