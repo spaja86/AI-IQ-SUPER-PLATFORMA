@@ -267,9 +267,9 @@ async function runTests(): Promise<void> {
     assert(implementationPackage.radioBoundary.spajaKodPublishes === 'status-blocker-review-downstream-and-radio-summary-only', 'developer/create implementation package RADIO SPAJA KOD publish contract mismatch');
     assert(implementationPackage.radioBoundary.mikrofonProjectionBinding === 'developerAndCreateRepoWideReflection.radioTrack.mikrofonProjectionAlias', 'developer/create implementation package RADIO mikrofon projection binding mismatch');
     assert(muzickaKutijaTrack.canonicalAlias === 'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == MUZIČKA KUTIJA', 'developer/create MUZIČKA KUTIJA canonical alias mismatch');
-    assert(muzickaKutijaTrack.roleClassification === 'additive-only-bounded-audio-instrument-reflection-track', 'developer/create MUZIČKA KUTIJA role classification mismatch');
-    assert(muzickaKutijaTrack.boundedDescription === 'UBACUJEM SVE INSTRUMENTE MUZIČKE ostaje bounded opis/signal iste additive trake bez novog runtime muzičkog engine-a, bez novih ruta i bez paralelnog source-of-truth sistema.', 'developer/create MUZIČKA KUTIJA bounded description mismatch');
-    assert(muzickaKutijaTrack.boundedThematicSignals.join(',') === 'instrument-tabla,metricko-programiranje,sinemetricko-programiranje,audio-vizuelni-kontrabas-paket,summary-only-downstream-sync', 'developer/create MUZIČKA KUTIJA thematic signals mismatch');
+    assert(muzickaKutijaTrack.roleClassification === 'additive-only-bounded-music-box-alias-track', 'developer/create MUZIČKA KUTIJA role classification mismatch');
+    assert(muzickaKutijaTrack.boundedDescription === 'UBACUJEM SVE INSTRUMENTE MUZIČKE', 'developer/create MUZIČKA KUTIJA bounded description mismatch');
+    assert(muzickaKutijaTrack.boundedThematicSignals.join(',') === 'ubacujem-sve-instrumente-muzicke,instrument-tabla,ritam-i-duracije,narativ-i-vokal,audio-vizuelna-refleksija', 'developer/create MUZIČKA KUTIJA thematic signals mismatch');
     assert(muzickaKutijaTrack.mappedAudioInstrumentLayers.instrumentTabla === 'PARADIJOGONALNO PROGRAMIRANJE', 'developer/create MUZIČKA KUTIJA instrument tabla mapping mismatch');
     assert(muzickaKutijaTrack.mappedAudioInstrumentLayers.ritamDuracije === 'METRIČKO PROGRAMIRANJE', 'developer/create MUZIČKA KUTIJA ritam mapping mismatch');
     assert(muzickaKutijaTrack.mappedAudioInstrumentLayers.narativVokal === 'SINEMETRIČKO PROGRAMIRANJE', 'developer/create MUZIČKA KUTIJA narativ mapping mismatch');
