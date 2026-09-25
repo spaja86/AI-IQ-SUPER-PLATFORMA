@@ -2816,7 +2816,9 @@ export interface ExtrimliDokDikDakDukConsistencyHealth {
         'watchReasons',
         'reviewPosture',
         'downstreamReference',
-        'constructionDesignSummary'
+        'constructionDesignSummary',
+        'gradjevinskiFakultetStatus',
+        'gradjevinskiAktStatus'
       ];
       readinessSignal: {
         status: 'READY' | 'WATCH' | 'BLOCKED';

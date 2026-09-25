@@ -7043,6 +7043,8 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
           'reviewPosture',
           'downstreamReference',
           'constructionDesignSummary',
+          'gradjevinskiFakultetStatus',
+          'gradjevinskiAktStatus',
         ],
         readinessSignal: {
           status: 'BLOCKED',
