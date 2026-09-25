@@ -11187,10 +11187,19 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
   const radniProstorTrack =
     dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.radniProstorTrack;
   const radniProstorInputTokens = [...radniProstorTrack.boundedTokenSequence];
-  const normalizeRadniProstorToken = (token: string): string =>
-    radniProstorTrack.normalizationRules.uppercaseTokens
-      ? token.trim().replace(/\s+/g, ' ').toUpperCase()
-      : token.trim().replace(/\s+/g, ' ');
+  const normalizeRadniProstorToken = (token: string): string => {
+    let normalizedToken = token;
+    if (radniProstorTrack.normalizationRules.trimWhitespace) {
+      normalizedToken = normalizedToken.trim();
+    }
+    if (radniProstorTrack.normalizationRules.collapseMultipleSpaces) {
+      normalizedToken = normalizedToken.replace(/\s+/g, ' ');
+    }
+    if (radniProstorTrack.normalizationRules.uppercaseTokens) {
+      normalizedToken = normalizedToken.toUpperCase();
+    }
+    return normalizedToken;
+  };
   const normalizedRadniProstorTokens = radniProstorInputTokens.map(normalizeRadniProstorToken);
   const expectedRadniProstorTokens = DEVELOPER_CREATE_RADNI_PROSTOR_BOUNDED_TOKEN_SEQUENCE.map((token) =>
     normalizeRadniProstorToken(token));
