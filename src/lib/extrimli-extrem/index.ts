@@ -11794,11 +11794,7 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
     && kraljevskoTakmicenjeNoIdolImitation
     && kraljevskoTakmicenjeNoAiPerformanceAssist
       ? 'READY'
-      : kraljevskoTakmicenjeHasOriginalSongs
-        || kraljevskoTakmicenjeNoIdolImitation
-        || kraljevskoTakmicenjeNoAiPerformanceAssist
-        ? 'WATCH'
-        : 'BLOCKED';
+      : 'BLOCKED';
   const kraljevskoTakmicenjeStatuses = [
     kraljevskoTakmicenjeCoreStatus,
     kraljevskoTakmicenjeRhythmStatus,
