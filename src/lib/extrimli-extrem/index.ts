@@ -8663,7 +8663,7 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
     paradijogonalnoProgrimiranje.readiness.status,
   ];
   const immersiveAudioVisualSyncStatus = aggregateReadinessStatus(immersiveAudioVisualSyncStatuses);
-  const immersiveVisualization3dDimensionalSignals: ExtrimliDokDikDakDukConsistencyHealth['developerAndCreateRepoWideReflection']['technicalReadinessProfile']['immersiveVisualization3dTrack']['dimensionalSignals'] = [
+  const immersiveVisualization3dBaseSignals: ExtrimliDokDikDakDukConsistencyHealth['developerAndCreateRepoWideReflection']['technicalReadinessProfile']['immersiveVisualization3dTrack']['dimensionalSignals'] = [
     {
       dimension: '360D',
       status:
@@ -8727,17 +8727,15 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
       spatialEffectStatus: metrikoProgramiranje.readiness.status,
     },
   ];
-  const immersiveVisualization3dEvaluatedSignals = immersiveVisualization3dDimensionalSignals.map((signal) => ({
-    signal,
-    aggregateStatus: aggregateSignalReadinessStatus(signal),
+  const immersiveVisualization3dDimensionalSignals = immersiveVisualization3dBaseSignals.map((signal) => ({
+    ...signal,
+    status: aggregateSignalReadinessStatus(signal),
   }));
-  const immersiveVisualization3dStatuses = immersiveVisualization3dEvaluatedSignals.map(
-    (evaluatedSignal) => evaluatedSignal.aggregateStatus,
-  );
+  const immersiveVisualization3dStatuses = immersiveVisualization3dDimensionalSignals.map((signal) => signal.status);
   const immersiveVisualization3dScore = round(
-    immersiveVisualization3dEvaluatedSignals.reduce((sum, evaluatedSignal) => {
-      return sum + readinessStatusScore(evaluatedSignal.aggregateStatus);
-    }, 0) / immersiveVisualization3dEvaluatedSignals.length,
+    immersiveVisualization3dDimensionalSignals.reduce((sum, signal) => {
+      return sum + readinessStatusScore(signal.status);
+    }, 0) / immersiveVisualization3dDimensionalSignals.length,
     2,
   );
   const immersiveVisualization3dStatus = aggregateReadinessStatus(immersiveVisualization3dStatuses);
