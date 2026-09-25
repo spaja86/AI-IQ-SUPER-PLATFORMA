@@ -20,6 +20,7 @@ import {
   DEVELOPER_CREATE_NAPOLEON_DISKAVERI_SCOPE_STATEMENT,
   DEVELOPER_CREATE_SARKAZAM_PRIVREDNA_GRANA_DIGITALIZMA_BOUNDED_SIGNALS,
   DEVELOPER_CREATE_SARKAZAM_PRIVREDNA_GRANA_DIGITALIZMA_CANONICAL_ALIAS,
+  DEVELOPER_CREATE_SARKAZAM_PRIVREDNA_GRANA_DIGITALIZMA_FALLBACK_INPUTS,
   DEVELOPER_CREATE_SARKAZAM_PRIVREDNA_GRANA_DIGITALIZMA_SCOPE_CLASSIFICATION,
   DEVELOPER_CREATE_VRH_CANONICAL_NARRATIVE_SENTENCE,
   DEVELOPER_CREATE_VRH_CANONICAL_TOKEN_VOCABULARY,
@@ -4367,7 +4368,6 @@ export function resolveSarkazamPrivrednaGranaDigitalizmaReflection(params: {
     'status' | 'readinessScore' | 'deterministicFallbackRequired'
   >;
 } {
-  const canonicalFallbackInputs = ['NaN', 'Infinity', 'empty', 'conflict'] as const;
   const signalStatuses = [
     params.repoWideReadiness.status,
     params.kraljevskiEkonomskiUneverzitetReadiness.status,
@@ -4390,7 +4390,7 @@ export function resolveSarkazamPrivrednaGranaDigitalizmaReflection(params: {
   const deterministicFallbackRequired = fallbackSignals.some(Boolean);
   const fallbackSentence =
     deterministicFallbackRequired
-      ? `Deterministic fallback ostaje aktivan za ${canonicalFallbackInputs.join(', ')} ulaze.`
+      ? `Deterministic fallback ostaje aktivan za ${DEVELOPER_CREATE_SARKAZAM_PRIVREDNA_GRANA_DIGITALIZMA_FALLBACK_INPUTS.join(', ')} ulaze.`
       : null;
   const blockerReason =
     'SARKAZAM ostaje BLOCKED dok bounded Digitalna Industrija, PRIVREDNI AKT i testovi-po-oblastima signali nisu usklađeni unutar postojećeg Developer/Create reflection paketa bez novih formula i bez nove semantike odlučivanja.';
@@ -6874,7 +6874,7 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
           status: 'BLOCKED',
           readinessScore: 0,
           deterministicFallbackRequired: true,
-          fallbackInputs: ['NaN', 'Infinity', 'empty', 'conflict'],
+          fallbackInputs: DEVELOPER_CREATE_SARKAZAM_PRIVREDNA_GRANA_DIGITALIZMA_FALLBACK_INPUTS,
           driver:
             'developerAndCreateRepoWideReflection.readiness + developerAndCreateRepoWideReflection.kraljevskiEkonomskiUneverzitet + developerAndCreateRepoWideReflection.kraljevskiProgramskiUneverzitet',
         },
@@ -10799,7 +10799,7 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
     },
     validationLock: {
       readyWatchBlockedOnly: true,
-      deterministicFallbackInputs: ['NaN', 'Infinity', 'empty', 'conflict'],
+      deterministicFallbackInputs: DEVELOPER_CREATE_SARKAZAM_PRIVREDNA_GRANA_DIGITALIZMA_FALLBACK_INPUTS,
       degradedPolicy: 'partial-payload-no-500',
       additiveOnlyBackwardCompatibility: true,
       driftZeroLayers: ['docs', 'types', 'routes', 'tests', 'workflows'],
