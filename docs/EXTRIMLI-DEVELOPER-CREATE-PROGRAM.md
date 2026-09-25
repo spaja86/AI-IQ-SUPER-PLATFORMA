@@ -19,7 +19,7 @@ Ovaj program standardizuje **developer/create** rad nad EXTRIMLI + EXTRONDOL + E
 
 - Ovaj dokument je **glavni manifest** za `DEVELOPER AND CREATE`.
 - Jedina centralna narativna rečenica ostaje `DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA`.
-- `DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == RADNI TAKT MOZGA (MISLILAC)`, `DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == MAPE UMA`, `DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == MAPA UMA`, `DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == ŽIVOPIS U DIGITALIZMU` i `DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == DIJALIZA POGONSKOG OMOTAČA` ostaju samo interpretativni alias-i postojećeg vrha priče.
+- `DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == RADNI TAKT MOZGA (MISLILAC)`, `DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == MAPE UMA`, `DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == MAPA UMA`, `DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == ŽIVOPIS U DIGITALIZMU`, `DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == DIJALIZA POGONSKOG OMOTAČA` i `DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == AI IQ KONFERENCIJA ZA ŠTAMPU (NOVINE, DIGITALNE NOVINE)` ostaju samo interpretativni alias-i postojećeg vrha priče.
 - `DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == SARKAZAM / PRIVREDNA GRANA DIGITALIZMA / PROJEKTI ENTUZIJAZMA PO ČINU OBLASTIMA` ulazi samo kao additive-only bounded alias istog vrha priče: `SARKAZAM` je audit-only interpretativni/narativni marker, dok `PRIVREDNA GRANA DIGITALIZMA` i `PROJEKTI ENTUZIJAZMA PO ČINU OBLASTIMA` ostaju bounded enterprise/policy/pedagoška interpretacija bez nove izvršne logike i bez novih finansijskih formula.
 - `DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == NOTES 1450` ulazi samo kao additive-only bounded radni-handoff paket za nastavak rada: nije novi runtime modul, nije običan slobodni notes format i ne sme postati paralelni source-of-truth.
 - Četiri stalna sloja ostaju zaključana: `Developer/Create / VRH` = orkestracioni vršni smisao, `EXTREM` = tehnički signal, `EXTRONDOL` = governance/WAWE/audit/freeze-promotion, `SPAJA KOD` = javni audit-safe rezime.
@@ -68,6 +68,7 @@ Additive implementation package lock:
 - `SELEKCIONIRANJE U SELEKCIJAMA PREMA AKTIVNOM NADMAŠAJU / NAPOLEON DISKAVERI` ulazi samo kao bounded interpretativni alias unutar postojećeg Developer/Create / VRH / MAPE UMA paketa: EXTREM objavljuje readiness/discovery/selection signal, EXTRONDOL review/freeze/promotion/rollback ogledalo, a SPAJA KOD samo audit-safe status + blocker/watch razloge + downstream reference.
 - `SARKAZAM / PRIVREDNA GRANA DIGITALIZMA / PROJEKTI ENTUZIJAZMA PO ČINU OBLASTIMA` ulazi samo kao bounded reflection traka unutar istog paketa: EXTREM objavljuje status, blocker/watch razloge, readiness posture, `oblast/čin` summary i deterministički fallback; EXTRONDOL objavljuje human-review, freeze/promotion, rollout/rollback i release-audit ogledalo; SPAJA KOD objavljuje samo summary-safe status, blocker reason, review posture i downstream reference.
 - `NOTES 1450` ulazi samo kao bounded Developer/Create radni naslednik unutar istog paketa: EXTREM meri jasnoću cilja, integritet konteksta, kontinuitet zadataka, saturaciju AI materijala i deterministički sledeći korak kroz `READY | WATCH | BLOCKED`; EXTRONDOL objavljuje freeze/review/rollback odluku samo kada postoji audit-ready dokaz da je nastavak rada bolji od običnog notes režima; SPAJA KOD objavljuje samo summary-safe status, blocker/watch razlog, review posture, downstream reference i poslovni rezime.
+- `AI IQ KONFERENCIJA ZA ŠTAMPU (NOVINE, DIGITALNE NOVINE)` ulazi samo kao bounded medijsko/dokumentaciono-objašnjavački paket unutar istog reflection sistema: EXTREM meri readiness, token coverage, bounded visual/narrative evidence i deterministic fallback; EXTRONDOL objavljuje WAWE/review/freeze/rollback/release-audit ogledalo; SPAJA KOD objavljuje samo status, blocker/watch razlog, review posture, downstream reference i kratki media-summary bez sirovih formula i bez internog token modela.
 
 Ownership hard lock:
 
@@ -136,8 +137,9 @@ Prioritet realizacije ostaje zaključan:
 2. EXTREM tehnički profil
 3. EXTRONDOL release-audit i governance mirror
 4. SPAJA KOD public-safe summary
-5. Kompanija SPAJA / Digitalna Industrija enterprise mapiranje
-6. drift-zero validacija kroz docs + types + routes + tests + workflows
+5. AI IQ konferencija za štampu bounded media paket
+6. Kompanija SPAJA / Digitalna Industrija enterprise mapiranje
+7. drift-zero validacija kroz docs + types + routes + tests + workflows
 
 ## 2.3) `KRALJEVSTVO` ecosystem federation lock
 
@@ -763,3 +765,14 @@ Neproverene oblasti (u ovom ciklusu):
 - **1 senior developer:** ~13 radnih dana (2.5 nedelje)
 - **2 developera paralelno (EXTREM + EXTRONDOL split):** ~8–9 radnih dana
 - **Ako se pojavi veći contract drift docs/types/routes/workflows:** +2 do +4 dana
+
+
+### 2.2.4) AI IQ konferencija za štampu bounded media paket
+
+- Alias ostaje zaključan na naziv `DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == AI IQ KONFERENCIJA ZA ŠTAMPU (NOVINE, DIGITALNE NOVINE)`.
+- Paket je additive-only: ne uvodi novi runtime media engine, novu rutu ni paralelni source-of-truth sistem.
+- `DOK + DIK + FOR` ostaju EXTREM tehnički signal za readiness, token coverage, bounded visual/narrative evidence i deterministic fallback.
+- `DAK + DUK` ostaju EXTRONDOL governance ogledalo za WAWE uticaj, human review, promotion freeze, rollback i release-audit summary.
+- `SPAJA KOD` objavljuje samo audit-safe summary: `status`, `blocker/watch reason`, `review posture`, `downstream reference` i `mediaSummary`.
+- Zaključani bounded rečnik ostaje podeljen na četiri grupe od po sedam tokena: narativni/medijski (`KIDOR, ZUKUR, SONG, DEPOR, DJAKUR, ZIMBA, OKUR`), audit/governance (`DIKTAFON, ZOND, AKURA, ZOMBUA, IKON, DESK, DJIKURI`), vizuelno-redakcijski (`ZMBABVE, ORON, DARS, DJONGE, DANAR, ZULAI, SERON`) i fallback/summary-only (`DISPOR, DUMBIR, KALU, ZUKAR, DINAR, DJOMPE, NURUS`).
+- Downstream sync prema `spaja86/IO-OPENUI-AO` ostaje summary-only i ne sme izvoziti sirovi interni token model.

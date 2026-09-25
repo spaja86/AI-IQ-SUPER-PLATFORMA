@@ -171,6 +171,8 @@ async function runTests(): Promise<void> {
       report.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.notes1450Track;
     const napoleonDiskaveriSelectionTrack =
       report.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.napoleonDiskaveriSelectionTrack;
+    const aiIqKonferencijaZaStampuTrack =
+      report.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.aiIqKonferencijaZaStampuTrack;
     assert(implementationPackage.sourceOfTruthRoutes.join(',') === '/api/extrimli/extrem,/api/extrimli/extrondol,/api/extrimli/spaja-kod', 'developer/create implementation package source routes mismatch');
     assert(implementationPackage.noNewRuntimeRoutes, 'developer/create implementation package must forbid new runtime routes');
     assert(implementationPackage.noParallelSourceOfTruth, 'developer/create implementation package must forbid parallel source-of-truth surfaces');
@@ -219,6 +221,12 @@ async function runTests(): Promise<void> {
     assert(implementationPackage.notes1450Boundary.noNewRuntimeRoutes, 'developer/create implementation package NOTES 1450 boundary must forbid new runtime routes');
     assert(implementationPackage.notes1450Boundary.noParallelSourceOfTruth, 'developer/create implementation package NOTES 1450 boundary must forbid parallel source-of-truth systems');
     assert(implementationPackage.napoleonDiskaveriSelectionBoundary.trackRole === 'bounded-discovery-selection-alias-track', 'developer/create implementation package Napoleon Diskaveri boundary role mismatch');
+    assert(aiIqKonferencijaZaStampuTrack.canonicalAlias === 'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == AI IQ KONFERENCIJA ZA ŠTAMPU (NOVINE, DIGITALNE NOVINE)', 'developer/create AI IQ press canonical alias mismatch');
+    assert(aiIqKonferencijaZaStampuTrack.roleClassification === 'additive-only-bounded-media-documentation-explanation-track', 'developer/create AI IQ press role classification mismatch');
+    assert(aiIqKonferencijaZaStampuTrack.boundedTokenVocabulary.canonicalSequence.join(',') === 'KIDOR,ZUKUR,SONG,DEPOR,DJAKUR,ZIMBA,OKUR,DIKTAFON,ZOND,AKURA,ZOMBUA,IKON,DESK,DJIKURI,ZMBABVE,ORON,DARS,DJONGE,DANAR,ZULAI,SERON,DISPOR,DUMBIR,KALU,ZUKAR,DINAR,DJOMPE,NURUS', 'developer/create AI IQ press token sequence mismatch');
+    assert(aiIqKonferencijaZaStampuTrack.ownershipLock.spajaKod === 'audit-safe-summary-only', 'developer/create AI IQ press SPAJA KOD ownership mismatch');
+    assert(aiIqKonferencijaZaStampuTrack.acceptanceEvidence.join(',') === 'developerAndCreateRepoWideReflection.aiIqKonferencijaZaStampuTrack,releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.aiIqKonferencijaZaStampuTrack,spajaKod.publicSignals.aiIqKonferencijaZaStampuStatus,spajaKod.developerAndCreateImplementationPackage.aiIqKonferencijaZaStampuSummary', 'developer/create AI IQ press acceptance evidence mismatch');
+    assert(aiIqKonferencijaZaStampuTrack.summarySafePublicFields.join(',') === 'canonicalAlias,status,blockerReason,watchReasons,reviewPosture,downstreamReference,mediaSummary', 'developer/create AI IQ press summary-safe fields mismatch');
     assert(implementationPackage.napoleonDiskaveriSelectionBoundary.parentTrack === 'MAPE UMA', 'developer/create implementation package Napoleon Diskaveri parent track mismatch');
     assert(implementationPackage.napoleonDiskaveriSelectionBoundary.noNewRuntimeEngine, 'developer/create implementation package Napoleon Diskaveri boundary must forbid new runtime engines');
     assert(implementationPackage.roadmapStages.v7 === 'enterprise-organizational-operating-model', 'developer/create implementation package V7 roadmap mismatch');

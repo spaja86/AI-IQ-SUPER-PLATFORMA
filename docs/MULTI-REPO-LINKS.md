@@ -1973,6 +1973,13 @@ Koristiti format `AI-IQ-SUPER-PLATFORMA#VPOREKLO-2026-09 -> IO-OPENUI-AO#123` gd
 - This repo: `AI-IQ-SUPER-PLATFORMA` — PROGRAMSKI JEZIK PARADIGMA I OBLIKOVANJE TELA additive track over EXTRIMLI/EXTREM/EXTRONDOL
 - Linked repo: `spaja86/IO-OPENUI-AO` — Follow-up only / audit-safe summary sync
 - Sync only audit-safe readiness/governance outputs (`extremProfiler.programskiJezikParadigmaOblikovanjeTela.readiness`, `programskiJezikParadigmaOblikovanjeTela.waweImpact`, `releaseAuditSummary.programskiJezikParadigmaOblikovanjeTelaGovernance`, `spajaKod.publicSignals.programskiJezikParadigmaOblikovanjeTelaStatus`); raw object-state, function-adaptation, delegation, and FOR internals remain repo-local
+
+## Developer/Create AI IQ konferencija za štampu downstream reference
+
+- This repo: `AI-IQ-SUPER-PLATFORMA` — `AI IQ KONFERENCIJA ZA ŠTAMPU (NOVINE, DIGITALNE NOVINE)` additive bounded media/documentation track over EXTRIMLI/EXTREM/EXTRONDOL
+- Linked repo: `spaja86/IO-OPENUI-AO` — Follow-up only / audit-safe summary sync
+- Sync only audit-safe outputs (`developerAndCreateRepoWideReflection.aiIqKonferencijaZaStampuTrack`, `releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.aiIqKonferencijaZaStampuTrack`, `spajaKod.publicSignals.aiIqKonferencijaZaStampuStatus`, `spajaKod.developerAndCreateImplementationPackage.aiIqKonferencijaZaStampuSummary`) covering status, blocker/watch posture, review posture, downstream reference and media summary; raw token groupings, raw EXTREM/EXTRONDOL formulas and internal evidence remain repo-local
+
 ## Developer/Create VRH Mape Uma global explanation sync
 
 - Scope lock: `DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == MAPE UMA`.
