@@ -4406,9 +4406,7 @@ export function resolveSarkazamPrivrednaGranaDigitalizmaReflection(params: {
       : normalizedFallbackInputs;
   const fallbackSentence =
     deterministicFallbackRequired
-      ? alignedFallbackInputs.length > 0
-        ? `Deterministic fallback ostaje aktivan za ${alignedFallbackInputs.join(', ')} ulaze.`
-        : 'Deterministic fallback ostaje aktivan za bounded ulaze.'
+      ? `Deterministic fallback ostaje aktivan za ${alignedFallbackInputs.join(', ')} ulaze.`
       : null;
   const blockerReason =
     'SARKAZAM ostaje BLOCKED dok bounded Digitalna Industrija, PRIVREDNI AKT i testovi-po-oblastima signali nisu usklađeni unutar postojećeg Developer/Create reflection paketa bez novih formula i bez nove semantike odlučivanja.';
