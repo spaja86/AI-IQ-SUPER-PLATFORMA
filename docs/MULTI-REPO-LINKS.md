@@ -1990,6 +1990,15 @@ Koristiti format `AI-IQ-SUPER-PLATFORMA#VPOREKLO-2026-09 -> IO-OPENUI-AO#123` gd
 - Raw bounded-token interpretation internals and raw EXTREM/EXTRONDOL formulas remain repo-local.
 - Ownership lock remains unchanged: `DOK/DIK/FOR -> EXTREM`, `DAK/DUK -> EXTRONDOL`, `SPAJA KOD -> summary-only`.
 
+## Developer/Create KONSTRUKCIJE I PROJEKTOVANJE downstream reference
+
+- Scope lock: `DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == KONSTRUKCIJE I PROJEKTOVANJE`.
+- Parent domain lock: `GRAĐEVINSKI FAKULTET / GRAĐEVINSKI AKT`.
+- Linked repo: `spaja86/IO-OPENUI-AO` — Follow-up only / audit-safe summary sync.
+- Sync only audit-safe outputs (`developerAndCreateRepoWideReflection.konstrukcijeIProjektovanjeTrack`, `releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.konstrukcijeIProjektovanjeTrack`, `spajaKod.publicSignals.konstrukcijeIProjektovanjeStatus`, `spajaKod.developerAndCreateImplementationPackage.konstrukcijeIProjektovanjeSummary`) covering status, blocker/watch posture, review posture, downstream reference, publicBoundary, construction/design summary, and gradjevinski readiness summary.
+- Raw bounded-token vocabulary, raw EXTREM/EXTRONDOL formulas, and internal governance evidence remain repo-local.
+- Ownership lock remains unchanged: `DOK/DIK/FOR -> EXTREM`, `DAK/DUK -> EXTRONDOL`, `SPAJA KOD -> summary-only`.
+
 ## Developer/Create VRH Mape Uma global explanation sync
 
 - Scope lock: `DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == MAPE UMA`.

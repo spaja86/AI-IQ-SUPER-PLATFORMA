@@ -19,6 +19,7 @@ Ovaj program standardizuje **developer/create** rad nad EXTRIMLI + EXTRONDOL + E
 
 - Ovaj dokument je **glavni manifest** za `DEVELOPER AND CREATE`.
 - Jedina centralna narativna rečenica ostaje `DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA`.
+- `DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == RADNI TAKT MOZGA (MISLILAC)`, `DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == MAPE UMA`, `DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == MAPA UMA`, `DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == ŽIVOPIS U DIGITALIZMU`, `DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == DIJALIZA POGONSKOG OMOTAČA`, `DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == RADNI PROSTOR`, `DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == KONSTRUKCIJE I PROJEKTOVANJE` i `DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == AI IQ KONFERENCIJA ZA ŠTAMPU (NOVINE, DIGITALNE NOVINE)` ostaju samo interpretativni alias-i postojećeg vrha priče.
 - `DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == RADNI TAKT MOZGA (MISLILAC)`, `DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == MAPE UMA`, `DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == MAPA UMA`, `DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == ŽIVOPIS U DIGITALIZMU`, `DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == DIJALIZA POGONSKOG OMOTAČA`, `DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == RADNI PROSTOR`, `DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == AI IQ KONFERENCIJA ZA ŠTAMPU (NOVINE, DIGITALNE NOVINE)` i `DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == TELEVIZIJA` ostaju samo interpretativni alias-i postojećeg vrha priče.
 - `DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == SARKAZAM / PRIVREDNA GRANA DIGITALIZMA / PROJEKTI ENTUZIJAZMA PO ČINU OBLASTIMA` ulazi samo kao additive-only bounded alias istog vrha priče: `SARKAZAM` je audit-only interpretativni/narativni marker, dok `PRIVREDNA GRANA DIGITALIZMA` i `PROJEKTI ENTUZIJAZMA PO ČINU OBLASTIMA` ostaju bounded enterprise/policy/pedagoška interpretacija bez nove izvršne logike i bez novih finansijskih formula.
 - `DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == NOTES 1450` ulazi samo kao additive-only bounded radni-handoff paket za nastavak rada: nije novi runtime modul, nije običan slobodni notes format i ne sme postati paralelni source-of-truth.
@@ -150,6 +151,16 @@ Prioritet realizacije ostaje zaključan:
 - Zaključana token sekvenca ostaje: `OKUR, DJUKUR, DAR, ZOR, IKON, ZULUM, DABRE, IZOS, JAKOR, DAPR, ZUKUR, ENTER, DIKAR, ZUMBUL, SIRGED, ZIKOR, DJENDER, ĆUR, NIKON, DERKO, ZUKAL, IKON, ZAJDI`.
 - Ownership split ostaje nepromenjen: `DOK/DIK/FOR -> EXTREM`, `DAK/DUK -> EXTRONDOL`, `SPAJA KOD -> summary-only`.
 - Nepoznati ili konfliktni ulazi ostaju bounded kroz postojeći fallback model (`READY | WATCH | BLOCKED`) i obavezni human review.
+
+### 2.2.5) KONSTRUKCIJE I PROJEKTOVANJE bounded alias
+
+- Kanonski alias ostaje zaključan: `DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == KONSTRUKCIJE I PROJEKTOVANJE`.
+- Scope zaključavanje ostaje additive-only unutar `EXTRIMLI EXTRONDOL EXTREM DOK DUK DAK DIK FOR == VRH PROGRAMSKOG EKVILADENTA == KONSTRUKCIJE I PROJEKTOVANJE`.
+- Traka ostaje pod postojećim domenom `GRAĐEVINSKI FAKULTET / GRAĐEVINSKI AKT`: nema novih ruta, nema novog runtime modula i nema novog source-of-truth sistema.
+- Zaključani bounded rečnik ostaje: `DUR, DJON, TUR, ZIM, UBAR, DOKOR, SINGAR, UKOR, IOP, TUR, UBAR, SINGOF, SIGRAD, OKDEN, UMAR`.
+- Normalizacija ostaje deterministička: trim whitespace, collapse multiple spaces, uppercase tokeni, očuvanje kanonskog redosleda i bounded fallback za `unknown/conflict/empty`.
+- Ownership split ostaje nepromenjen: `DOK/DIK/FOR -> EXTREM`, `DAK/DUK -> EXTRONDOL`, `SPAJA KOD -> summary-only`.
+- `EXTREM` objavljuje samo readiness (`READY | WATCH | BLOCKED`), projektantsko/infrastrukturni signal, blocker/watch razloge, deterministic fallback i vezu sa `GRAĐEVINSKI FAKULTET` + `GRAĐEVINSKI AKT`; `EXTRONDOL` objavljuje samo WAWE/review/rollout/rollback/release-audit mirror; `SPAJA KOD` samo audit-safe summary bez internih formula.
 
 ## 2.3) `KRALJEVSTVO` ecosystem federation lock
 
