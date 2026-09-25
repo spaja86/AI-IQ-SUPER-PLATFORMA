@@ -2138,18 +2138,21 @@ async function runTests(): Promise<void> {
       assert(privredniAkt.zadrugaOperations.readiness.status === 'BLOCKED', 'privredni akt fallback should block zadruga readiness');
     });
 
-    await test('KRALJEVSKO TAKMIČENJE authenticity input degrades safely without payload break', async () => {
-      await withEnv(
-        {
-          EXTRIMLI_KRALJEVSKO_TAKMICENJE_AUTHENTICITY_INPUT: 'invalid-token',
-        },
-        async () => {
-          const report = getExtrimliExtremProfilerReport();
-          const track = report.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.kraljevskoTakmicenjeTrack;
-          assert(['READY', 'WATCH', 'BLOCKED'].includes(track.readinessSignal.authenticityStatus), 'kraljevsko takmicenje authenticity status must stay bounded');
-          assert(['READY', 'WATCH', 'BLOCKED'].includes(track.readinessSignal.status), 'kraljevsko takmicenje degraded status must stay bounded');
-        },
-      );
+    await test('KRALJEVSKO TAKMIČENJE authenticity status stays bounded from EXTREM source signals', async () => {
+      const report = getExtrimliExtremProfilerReport();
+      const track = report.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.kraljevskoTakmicenjeTrack;
+      const hasOriginalSongs = track.readinessSignal.igrackiPohodStatus === 'READY';
+      const noIdolImitation = track.readinessSignal.lepotaGlasaStatus !== 'BLOCKED';
+      const noAiPerformanceAssist = track.readinessSignal.umetnickiDizajnStatus === 'READY';
+      const expectedAuthenticityStatus =
+        hasOriginalSongs && noIdolImitation && noAiPerformanceAssist
+          ? 'READY'
+          : hasOriginalSongs || noIdolImitation || noAiPerformanceAssist
+            ? 'WATCH'
+            : 'BLOCKED';
+
+      assert(track.readinessSignal.authenticityStatus === expectedAuthenticityStatus, 'kraljevsko takmicenje authenticity mapping mismatch');
+      assert(['READY', 'WATCH', 'BLOCKED'].includes(track.readinessSignal.status), 'kraljevsko takmicenje status must stay bounded');
     });
   });
 
