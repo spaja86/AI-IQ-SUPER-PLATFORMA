@@ -4354,6 +4354,84 @@ export function resolveVrhProgramskogEkviladentaForSignal(params: {
   return resolveVrhProgramskogEkviladentaForSignalResolution(params).signal;
 }
 
+export function resolveSarkazamPrivrednaGranaDigitalizmaReflection(params: {
+  repoWideReadiness: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['readiness'];
+  kraljevskiEkonomskiUneverzitetReadiness: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['kraljevskiEkonomskiUneverzitet']['readiness'];
+  kraljevskiProgramskiUneverzitetReadiness: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['kraljevskiProgramskiUneverzitet']['readiness'];
+  fallbackInputs: string[];
+}): Pick<
+  ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['sarkazamPrivrednaGranaDigitalizmaTrack'],
+  'blockerReason' | 'watchReasons' | 'reviewPosture' | 'oblastCinSummary'
+> & {
+  reflectionSignal: Pick<
+    ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['sarkazamPrivrednaGranaDigitalizmaTrack']['reflectionSignal'],
+    'status' | 'readinessScore' | 'deterministicFallbackRequired'
+  >;
+} {
+  const signalStatuses = [
+    params.repoWideReadiness.status,
+    params.kraljevskiEkonomskiUneverzitetReadiness.status,
+    params.kraljevskiProgramskiUneverzitetReadiness.status,
+  ];
+  const fallbackSignals = [
+    params.repoWideReadiness.deterministicFallbackRequired,
+    params.kraljevskiEkonomskiUneverzitetReadiness.deterministicFallbackRequired,
+    params.kraljevskiProgramskiUneverzitetReadiness.deterministicFallbackRequired,
+  ];
+  const status = aggregateReadinessStatus(signalStatuses);
+  const readinessScore = round(
+    (
+      params.repoWideReadiness.score
+      + params.kraljevskiEkonomskiUneverzitetReadiness.score
+      + params.kraljevskiProgramskiUneverzitetReadiness.score
+    ) / 3,
+    2,
+  );
+  const deterministicFallbackRequired = fallbackSignals.some(Boolean);
+  const fallbackReason =
+    deterministicFallbackRequired
+      ? ` Deterministic fallback ostaje aktivan za ${params.fallbackInputs.join(', ')} ulaze.`
+      : '';
+  const oblastStatus = aggregateReadinessStatus([
+    params.repoWideReadiness.status,
+    params.kraljevskiProgramskiUneverzitetReadiness.status,
+  ]);
+  const cinStatus = aggregateReadinessStatus([
+    params.repoWideReadiness.status,
+    params.kraljevskiEkonomskiUneverzitetReadiness.status,
+  ]);
+
+  return {
+    reflectionSignal: {
+      status,
+      readinessScore,
+      deterministicFallbackRequired,
+    },
+    blockerReason:
+      status === 'BLOCKED'
+        ? `SARKAZAM ostaje BLOCKED dok bounded Digitalna Industrija, PRIVREDNI AKT i testovi-po-oblastima signali nisu usklađeni unutar postojećeg Developer/Create reflection paketa bez novih formula i bez nove semantike odlučivanja.${fallbackReason}`
+        : null,
+    watchReasons:
+      status === 'WATCH'
+        ? [
+          `SARKAZAM ostaje u WATCH režimu dok privredna grana digitalizma i projekti entuzijazma po činu oblastima zahtevaju dodatni review unutar postojećeg enterprise/policy/pedagoškog bounded sloja.${fallbackReason}`,
+        ]
+        : [],
+    reviewPosture:
+      status === 'READY'
+        ? 'ALIGNED'
+        : status === 'WATCH'
+          ? 'WATCH'
+          : 'REVIEW_REQUIRED',
+    oblastCinSummary: {
+      oblastStatus,
+      cinStatus,
+      publicSummary:
+        'Oblast summary ostaje vezan za KRALJEVSKI PROGRAMSKI UNEVERZITET i testovi-po-oblastima, dok čin summary ostaje bounded na Kompanija SPAJA / Digitalna Industrija i PRIVREDNI AKT bez novih poslovnih formula.',
+    },
+  };
+}
+
 function resolveVrhProgramskogEkviladentaForSignalResolution(params: {
   forSignal?: ExtrimliDokDikDakDukConsistencyHealth['signals']['for'];
   informationalForEvidence?: ExtrimliExtremProgramskiJezikInformacionihTokovaSignal['forLoopBinding']['forEvidence'];
@@ -10797,72 +10875,30 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
       : eksperimentProgramskiJezikStatus === 'WATCH'
         ? 'WATCH'
         : 'REVIEW_REQUIRED';
-  const sarkazamPrivrednaGranaDigitalizmaSourceReadiness =
-    dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection;
-  const sarkazamPrivrednaGranaDigitalizmaSignalStatuses = [
-    sarkazamPrivrednaGranaDigitalizmaSourceReadiness.readiness.status,
-    sarkazamPrivrednaGranaDigitalizmaSourceReadiness.kraljevskiEkonomskiUneverzitet.readiness.status,
-    sarkazamPrivrednaGranaDigitalizmaSourceReadiness.kraljevskiProgramskiUneverzitet.readiness.status,
-  ];
-  const sarkazamPrivrednaGranaDigitalizmaFallbackSignals = [
-    sarkazamPrivrednaGranaDigitalizmaSourceReadiness.readiness.deterministicFallbackRequired,
-    sarkazamPrivrednaGranaDigitalizmaSourceReadiness.kraljevskiEkonomskiUneverzitet.readiness.deterministicFallbackRequired,
-    sarkazamPrivrednaGranaDigitalizmaSourceReadiness.kraljevskiProgramskiUneverzitet.readiness.deterministicFallbackRequired,
-  ];
-  const sarkazamPrivrednaGranaDigitalizmaStatus = aggregateReadinessStatus(
-    sarkazamPrivrednaGranaDigitalizmaSignalStatuses,
-  );
-  const sarkazamPrivrednaGranaDigitalizmaReadinessScore = round(
-    (
-      sarkazamPrivrednaGranaDigitalizmaSourceReadiness.readiness.score
-      + sarkazamPrivrednaGranaDigitalizmaSourceReadiness.kraljevskiEkonomskiUneverzitet.readiness.score
-      + sarkazamPrivrednaGranaDigitalizmaSourceReadiness.kraljevskiProgramskiUneverzitet.readiness.score
-    ) / 3,
-    2,
-  );
-  const sarkazamPrivrednaGranaDigitalizmaDeterministicFallbackRequired =
-    sarkazamPrivrednaGranaDigitalizmaFallbackSignals.some(Boolean);
-  const sarkazamPrivrednaGranaDigitalizmaOblastStatus = aggregateReadinessStatus([
-    sarkazamPrivrednaGranaDigitalizmaSourceReadiness.readiness.status,
-    sarkazamPrivrednaGranaDigitalizmaSourceReadiness.kraljevskiProgramskiUneverzitet.readiness.status,
-  ]);
-  const sarkazamPrivrednaGranaDigitalizmaCinStatus = aggregateReadinessStatus([
-    sarkazamPrivrednaGranaDigitalizmaSourceReadiness.readiness.status,
-    sarkazamPrivrednaGranaDigitalizmaSourceReadiness.kraljevskiEkonomskiUneverzitet.readiness.status,
-  ]);
+  const sarkazamPrivrednaGranaDigitalizmaReflection =
+    resolveSarkazamPrivrednaGranaDigitalizmaReflection({
+      repoWideReadiness: dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness,
+      kraljevskiEkonomskiUneverzitetReadiness:
+        dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.kraljevskiEkonomskiUneverzitet.readiness,
+      kraljevskiProgramskiUneverzitetReadiness:
+        dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.kraljevskiProgramskiUneverzitet.readiness,
+      fallbackInputs:
+        dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.sarkazamPrivrednaGranaDigitalizmaTrack.reflectionSignal.fallbackInputs,
+    });
   dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.sarkazamPrivrednaGranaDigitalizmaTrack.reflectionSignal.status =
-    sarkazamPrivrednaGranaDigitalizmaStatus;
+    sarkazamPrivrednaGranaDigitalizmaReflection.reflectionSignal.status;
   dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.sarkazamPrivrednaGranaDigitalizmaTrack.reflectionSignal.readinessScore =
-    sarkazamPrivrednaGranaDigitalizmaReadinessScore;
+    sarkazamPrivrednaGranaDigitalizmaReflection.reflectionSignal.readinessScore;
   dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.sarkazamPrivrednaGranaDigitalizmaTrack.reflectionSignal.deterministicFallbackRequired =
-    sarkazamPrivrednaGranaDigitalizmaDeterministicFallbackRequired;
-  const sarkazamPrivrednaGranaDigitalizmaFallbackReason =
-    sarkazamPrivrednaGranaDigitalizmaDeterministicFallbackRequired
-      ? ` Deterministic fallback ostaje aktivan za ${dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.sarkazamPrivrednaGranaDigitalizmaTrack.reflectionSignal.fallbackInputs.join(', ')} ulaze.`
-      : '';
+    sarkazamPrivrednaGranaDigitalizmaReflection.reflectionSignal.deterministicFallbackRequired;
   dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.sarkazamPrivrednaGranaDigitalizmaTrack.blockerReason =
-    sarkazamPrivrednaGranaDigitalizmaStatus === 'BLOCKED'
-      ? `SARKAZAM ostaje BLOCKED dok bounded Digitalna Industrija, PRIVREDNI AKT i testovi-po-oblastima signali nisu usklađeni unutar postojećeg Developer/Create reflection paketa bez novih formula i bez nove semantike odlučivanja.${sarkazamPrivrednaGranaDigitalizmaFallbackReason}`
-      : null;
+    sarkazamPrivrednaGranaDigitalizmaReflection.blockerReason;
   dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.sarkazamPrivrednaGranaDigitalizmaTrack.watchReasons =
-    sarkazamPrivrednaGranaDigitalizmaStatus === 'WATCH'
-      ? [
-        `SARKAZAM ostaje u WATCH režimu dok privredna grana digitalizma i projekti entuzijazma po činu oblastima zahtevaju dodatni review unutar postojećeg enterprise/policy/pedagoškog bounded sloja.${sarkazamPrivrednaGranaDigitalizmaFallbackReason}`,
-      ]
-      : [];
+    sarkazamPrivrednaGranaDigitalizmaReflection.watchReasons;
   dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.sarkazamPrivrednaGranaDigitalizmaTrack.reviewPosture =
-    sarkazamPrivrednaGranaDigitalizmaStatus === 'READY'
-      ? 'ALIGNED'
-      : sarkazamPrivrednaGranaDigitalizmaStatus === 'WATCH'
-        ? 'WATCH'
-        : 'REVIEW_REQUIRED';
+    sarkazamPrivrednaGranaDigitalizmaReflection.reviewPosture;
   dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.sarkazamPrivrednaGranaDigitalizmaTrack.oblastCinSummary =
-    {
-      oblastStatus: sarkazamPrivrednaGranaDigitalizmaOblastStatus,
-      cinStatus: sarkazamPrivrednaGranaDigitalizmaCinStatus,
-      publicSummary:
-        'Oblast summary ostaje vezan za KRALJEVSKI PROGRAMSKI UNEVERZITET i testovi-po-oblastima, dok čin summary ostaje bounded na Kompanija SPAJA / Digitalna Industrija i PRIVREDNI AKT bez novih poslovnih formula.',
-    };
+    sarkazamPrivrednaGranaDigitalizmaReflection.oblastCinSummary;
   dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.fourTrackProgramPackage.technicalTrack.readinessStatus =
     dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.status;
   dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.fourTrackProgramPackage.governanceTrack.readinessStatus =
