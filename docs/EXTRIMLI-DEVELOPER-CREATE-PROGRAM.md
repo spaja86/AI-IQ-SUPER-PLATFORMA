@@ -19,7 +19,7 @@ Ovaj program standardizuje **developer/create** rad nad EXTRIMLI + EXTRONDOL + E
 
 - Ovaj dokument je **glavni manifest** za `DEVELOPER AND CREATE`.
 - Jedina centralna narativna rečenica ostaje `DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA`.
-- `DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == RADNI TAKT MOZGA (MISLILAC)`, `DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == MAPE UMA`, `DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == MAPA UMA`, `DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == ŽIVOPIS U DIGITALIZMU`, `DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == DIJALIZA POGONSKOG OMOTAČA`, `DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == RADNI PROSTOR` i `DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == AI IQ KONFERENCIJA ZA ŠTAMPU (NOVINE, DIGITALNE NOVINE)` ostaju samo interpretativni alias-i postojećeg vrha priče.
+- `DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == RADNI TAKT MOZGA (MISLILAC)`, `DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == MAPE UMA`, `DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == MAPA UMA`, `DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == ŽIVOPIS U DIGITALIZMU`, `DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == DIJALIZA POGONSKOG OMOTAČA`, `DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == RADNI PROSTOR`, `DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == AI IQ KONFERENCIJA ZA ŠTAMPU (NOVINE, DIGITALNE NOVINE)` i `DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == TELEVIZIJA` ostaju samo interpretativni alias-i postojećeg vrha priče.
 - `DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == SARKAZAM / PRIVREDNA GRANA DIGITALIZMA / PROJEKTI ENTUZIJAZMA PO ČINU OBLASTIMA` ulazi samo kao additive-only bounded alias istog vrha priče: `SARKAZAM` je audit-only interpretativni/narativni marker, dok `PRIVREDNA GRANA DIGITALIZMA` i `PROJEKTI ENTUZIJAZMA PO ČINU OBLASTIMA` ostaju bounded enterprise/policy/pedagoška interpretacija bez nove izvršne logike i bez novih finansijskih formula.
 - `DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == NOTES 1450` ulazi samo kao additive-only bounded radni-handoff paket za nastavak rada: nije novi runtime modul, nije običan slobodni notes format i ne sme postati paralelni source-of-truth.
 - Četiri stalna sloja ostaju zaključana: `Developer/Create / VRH` = orkestracioni vršni smisao, `EXTREM` = tehnički signal, `EXTRONDOL` = governance/WAWE/audit/freeze-promotion, `SPAJA KOD` = javni audit-safe rezime.
@@ -50,6 +50,7 @@ Sledeći artefakti ostaju zaključano jezgro Developer/Create programa:
 - `docs/EXTRIMLI-DEVELOPER-CREATE-PROGRAM.md`
 - `docs/EXTRIMLI-SINEMETRICKO-PROGRAMIRANJE.md`
 - `docs/EXTRIMLI-VRH-PROGRAMSKOG-EKVILADENTA.md`
+- `docs/EXTRIMLI-AI-KLASTER-TELEVIZIJA-PRETPLATA.md`
 - `src/lib/extrimli-extrem/**`
 - `src/lib/extrimli-extrondol/**`
 - `src/app/api/extrimli/extrem/route.ts`
@@ -69,6 +70,7 @@ Additive implementation package lock:
 - `SARKAZAM / PRIVREDNA GRANA DIGITALIZMA / PROJEKTI ENTUZIJAZMA PO ČINU OBLASTIMA` ulazi samo kao bounded reflection traka unutar istog paketa: EXTREM objavljuje status, blocker/watch razloge, readiness posture, `oblast/čin` summary i deterministički fallback; EXTRONDOL objavljuje human-review, freeze/promotion, rollout/rollback i release-audit ogledalo; SPAJA KOD objavljuje samo summary-safe status, blocker reason, review posture i downstream reference.
 - `NOTES 1450` ulazi samo kao bounded Developer/Create radni naslednik unutar istog paketa: EXTREM meri jasnoću cilja, integritet konteksta, kontinuitet zadataka, saturaciju AI materijala i deterministički sledeći korak kroz `READY | WATCH | BLOCKED`; EXTRONDOL objavljuje freeze/review/rollback odluku samo kada postoji audit-ready dokaz da je nastavak rada bolji od običnog notes režima; SPAJA KOD objavljuje samo summary-safe status, blocker/watch razlog, review posture, downstream reference i poslovni rezime.
 - `AI IQ KONFERENCIJA ZA ŠTAMPU (NOVINE, DIGITALNE NOVINE)` ulazi samo kao bounded medijsko/dokumentaciono-objašnjavački paket unutar istog reflection sistema: EXTREM meri readiness, token coverage, bounded visual/narrative evidence i deterministic fallback; EXTRONDOL objavljuje WAWE/review/freeze/rollback/release-audit ogledalo; SPAJA KOD objavljuje samo status, blocker/watch razlog, review posture, downstream reference i kratki media-summary bez sirovih formula i bez internog token modela.
+- `TELEVIZIJA` ulazi samo kao bounded media/distribution alias unutar istog reflection sistema: EXTREM meri tehničku spremnost distribucije, kanal pakete, region/jezik matrix i fallback posture; EXTRONDOL drži provider governance, pravni osnov, licensing, review/compliance, rollout/rollback, payment i pretplata ogledalo; SPAJA KOD objavljuje samo audit-safe distribucioni status, blocker/watch razlog, review posture i downstream reference bez sirovih provider formula i bez bilo kakve enforcement logike.
 
 Ownership hard lock:
 
@@ -784,3 +786,16 @@ Neproverene oblasti (u ovom ciklusu):
 - `SPAJA KOD` objavljuje samo audit-safe summary: `status`, `blocker/watch reason`, `review posture`, `downstream reference` i `mediaSummary`.
 - Zaključani bounded rečnik ostaje podeljen na četiri grupe od po sedam tokena: narativni/medijski (`KIDOR, ZUKUR, SONG, DEPOR, DJAKUR, ZIMBA, OKUR`), audit/governance (`DIKTAFON, ZOND, AKURA, ZOMBUA, IKON, DESK, DJIKURI`), vizuelno-redakcijski (`ZMBABVE, ORON, DARS, DJONGE, DANAR, ZULAI, SERON`) i fallback/summary-only (`DISPOR, DUMBIR, KALU, ZUKAR, DINAR, DJOMPE, NURUS`).
 - Downstream sync prema `spaja86/IO-OPENUI-AO` ostaje summary-only i ne sme izvoziti sirovi interni token model.
+
+### 2.2.5) TELEVIZIJA bounded media/distribution paket
+
+- Alias ostaje zaključan na naziv `DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == TELEVIZIJA`.
+- Paket je additive-only: ne uvodi novi runtime media/distribution engine, novu rutu ni paralelni source-of-truth sistem.
+- `DOK + DIK + FOR` ostaju EXTREM tehnički signal za distribucioni readiness, provider-channel intake, region/jezik matrix, fallback posture i deterministic `READY | WATCH | BLOCKED` izlaz.
+- `DAK + DUK` ostaju EXTRONDOL governance ogledalo za provider ugovore, licensing/content-rights proveru, review/compliance gate, `releaseAuditSummary`, rollout/rollback, payment verification i `AI KLASTER` enterprise pretplata posture.
+- `SPAJA KOD` objavljuje samo audit-safe summary: `distributionStatus`, `blocker/watch reason`, `review posture`, `downstream reference` i bounded `providerPlanSummary`.
+- Kanonski provider plan ostaje `requested-prominence-only`: `kanal 1` se modeluje isključivo kao komercijalno-pregovarački cilj sa fallback-ovima `premium-news/featured/category placement` i `branded landing/promotional slot`, nikad kao obavezno emitovanje, bypass ili provider-lockout logika.
+- Ako linearni TV uslov ne prođe, obavezni fallback ostaje `OTT/web/app mirror` uz rezervni cadence za `radio/social/web` surfaces; isti fallback ostaje auditabilan kroz EXTREM readiness i EXTRONDOL governance mirror.
+- `AI KLASTER` pretplata ostaje enterprise governance paket: seats/prava pristupa, build/deploy/analytics/SLA nivo, mesečni budžeti, warning pragovi, ownership backup i payment verification; aktivacija ostaje zabranjena dok ugovor i plaćanje nisu potvrđeni.
+- Obavezni acceptance lock ostaje: nema novih ruta, nema garantovanog ili prisilnog EPG plasmana, nema obaveznog emitovanja, nema internih pregovora u javnom sloju i svi izlazi ostaju `READY | WATCH | BLOCKED`.
+- Detaljni documentation-only plan za ovu traku ostaje u `docs/EXTRIMLI-AI-KLASTER-TELEVIZIJA-PRETPLATA.md`, dok downstream sync prema `spaja86/IO-OPENUI-AO` ostaje summary-only.
