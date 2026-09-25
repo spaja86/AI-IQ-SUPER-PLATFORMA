@@ -3994,7 +3994,7 @@ export interface ExtrimliDokDikDakDukConsistencyHealth {
     aiIdentityFinanceGovernance: AiIdentityFinanceGovernancePackage;
     currentImplementationStage: {
       roadmapStageId: 'v5-extrondol-release-audit-and-orchestration';
-      measurableOutput: 'audit-safe repo-wide reflection status plus AI identity-finance governance, RADNI PROSTOR bounded token-lock metadata, primary ČOVEČNOST, supplemental ČOVEČANSTVO, KRALJEVSKI BAŠTA UNEVERZITE bounded narrative metadata, additive audio-vizuelni kontrabas package metadata, companion ČOVEČANSTVO / OSEĆAJ OSEBENOSTI visual metadata, and OSNOVE / RISPEKT protocol evidence are published only through existing EXTRIMLI/EXTREM/EXTRONDOL/SPAJA KOD surfaces';
+      measurableOutput: 'audit-safe repo-wide reflection status plus AI identity-finance governance, INSPEKTORI justice-path summary, RADNI PROSTOR bounded token-lock metadata, primary ČOVEČNOST, supplemental ČOVEČANSTVO, KRALJEVSKI BAŠTA UNEVERZITE bounded narrative metadata, additive audio-vizuelni kontrabas package metadata, companion ČOVEČANSTVO / OSEĆAJ OSEBENOSTI visual metadata, and OSNOVE / RISPEKT protocol evidence are published only through existing EXTRIMLI/EXTREM/EXTRONDOL/SPAJA KOD surfaces';
       acceptanceEvidence: readonly [
         'dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.implementationPackage',
         'dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection',
