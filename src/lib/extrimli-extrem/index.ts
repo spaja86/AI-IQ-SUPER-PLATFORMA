@@ -11805,11 +11805,7 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
     kraljevskoTakmicenjeVisualStatus,
     kraljevskoTakmicenjeAuthStatus,
   ] as const;
-  const kraljevskoTakmicenjeAggregatedStatus = aggregateSignalReadinessStatus([...kraljevskoTakmicenjeStatuses]);
-  const kraljevskoTakmicenjeStatus: ExtrimliExtremReadinessStatus =
-    kraljevskoTakmicenjeAuthStatus === 'READY'
-      ? kraljevskoTakmicenjeAggregatedStatus
-      : 'BLOCKED';
+  const kraljevskoTakmicenjeStatus = aggregateSignalReadinessStatus([...kraljevskoTakmicenjeStatuses]);
   const kraljevskoTakmicenjeReadinessScore = round(
     kraljevskoTakmicenjeStatuses.reduce((sum, status) => sum + readinessStatusScore(status), 0)
       / kraljevskoTakmicenjeStatuses.length,

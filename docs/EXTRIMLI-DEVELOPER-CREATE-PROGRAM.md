@@ -895,6 +895,6 @@ Neproverene oblasti (u ovom ciklusu):
   - `original-songs` ili `samo-originalne-pesme`
   - `no-imitation` ili `bez-imitacije-idola`
   - `no-ai-performance` ili `bez-ai-asistencije-u-izvodjenju`
-- Default/fallback je `original-songs,no-imitation,no-ai-performance`; parcijalni unos daje `WATCH` za autentičnost signal, ali ukupni track ostaje `BLOCKED` za promociju dok sva tri uslova nisu prisutna.
+- Default/fallback je `original-songs,no-imitation,no-ai-performance`; parcijalni unos daje `WATCH` za autentičnost signal i ostavlja track u review/freeze posture dok sva tri uslova nisu prisutna.
 - Ownership split ostaje nepromenjen: `DOK/DIK/FOR -> EXTREM`, `DAK/DUK -> EXTRONDOL`, `SPAJA KOD -> audit-safe summary-only`.
 - Nagradna politika za prvih 100 takmičarki ostaje governance-only (`top-100-audit-governed`) sa obaveznim human review i freeze/promotion/rollback evidencijom.
