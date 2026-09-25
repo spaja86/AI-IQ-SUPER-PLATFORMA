@@ -4379,6 +4379,13 @@ export function resolveSarkazamPrivrednaGranaDigitalizmaReflection(params: {
     params.kraljevskiProgramskiUneverzitetReadiness.deterministicFallbackRequired,
   ];
   const status = aggregateReadinessStatus(signalStatuses);
+  const normalizedFallbackInputs = Array.from(
+    new Set(
+      params.fallbackInputs
+        .map((input) => input.trim())
+        .filter((input) => input.length > 0),
+    ),
+  );
   const readinessScore = round(
     (
       params.repoWideReadiness.score
@@ -4390,8 +4397,8 @@ export function resolveSarkazamPrivrednaGranaDigitalizmaReflection(params: {
   const deterministicFallbackRequired = fallbackSignals.some(Boolean);
   const fallbackSentence =
     deterministicFallbackRequired
-      ? params.fallbackInputs.length > 0
-        ? `Deterministic fallback ostaje aktivan za ${params.fallbackInputs.join(', ')} ulaze.`
+      ? normalizedFallbackInputs.length > 0
+        ? `Deterministic fallback ostaje aktivan za ${normalizedFallbackInputs.join(', ')} ulaze.`
         : 'Deterministic fallback ostaje aktivan za bounded ulaze.'
       : null;
   const blockerReason =
