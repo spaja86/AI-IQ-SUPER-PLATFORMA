@@ -591,6 +591,14 @@ const EXTRIMLI_EXTREM_DEVELOPER_CREATE_KRALJEVSKI_PODUHVAT_VUKOVI_SCENARIO_ID =
   'kraljevski-poduhvat-vukovi-projekat-srbija-beli-vuk-crni-vuk-developer-create' as const;
 const EXTRIMLI_EXTREM_DEVELOPER_CREATE_KRALJEVSKI_PODUHVAT_VUKOVI_CITATION =
   'PROJEKAT SRBIJA — BELI VUK CRNI VUK ostaje additive-only supplemental audit/reference vizuel u zaključanom okviru DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == KRALJEVSKI PODUHVAT == VUKOVI: simbolika zajedništva, snage i odgovornosti mapira se isključivo kao bounded documentation/evidence sloj bez novih ruta, novih formula i bez promene ownership split-a.' as const;
+const EXTRIMLI_EXTREM_DEVELOPER_CREATE_RADNI_TAKT_REPO_WIDE_VUK_VISUAL_REFERENCE =
+  'https://github.com/user-attachments/assets/de6800ae-5406-4378-9033-3e4d075697d3' as const;
+const EXTRIMLI_EXTREM_DEVELOPER_CREATE_RADNI_TAKT_REPO_WIDE_VUK_CANONICAL_NARRATIVE_ID =
+  'developer-create-vrh-radni-takt-svemu-u-repozitorijumu-vuk-developer-create' as const;
+const EXTRIMLI_EXTREM_DEVELOPER_CREATE_RADNI_TAKT_REPO_WIDE_VUK_SCENARIO_ID =
+  'developer-create-vrh-radni-takt-da-se-odrazi-na-svemu-u-repozitorijumu-vuk-developer-create' as const;
+const EXTRIMLI_EXTREM_DEVELOPER_CREATE_RADNI_TAKT_REPO_WIDE_VUK_CITATION =
+  'EXTRIMLI EXTRONDOL EXTREM DOK DUK DAK DIK FOR — DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == RADNI TAKT DA SE ODRAZI NA SVEMU U REPOZITORIJUMU ostaje additive-only supplemental audit/reference vizuel: signal “VUK” i radni takt na svim repo slojevima mapiraju se isključivo kao bounded documentation/evidence metapodaci unutar postojećeg Developer/Create ⇄ VRH ⇄ Radni Takt modela, bez novih runtime ruta, bez novih formula i bez promene ownership split-a.' as const;
 const EXTRIMLI_EXTREM_DEVELOPER_CREATE_CARNEVALE_MASKNBALE_VISUAL_REFERENCE =
   'documentation-only://carnevale-masknbale-prirodni-portret-lica' as const;
 const EXTRIMLI_EXTREM_DEVELOPER_CREATE_CARNEVALE_MASKNBALE_CANONICAL_NARRATIVE_ID =
@@ -8892,6 +8900,44 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
               'beli-vuk',
               'crni-vuk',
               'bounded-governance-symbolics',
+            ],
+            auditRole: 'additive-audit-reference-only',
+          },
+          {
+            title:
+              'DEVELOPER AND CREATE — VRH PROGRAMSKOG EKVILADENTA — RADNI TAKT NA SVEMU U REPOZITORIJUMU (VUK)',
+            canonicalNarrativeId:
+              EXTRIMLI_EXTREM_DEVELOPER_CREATE_RADNI_TAKT_REPO_WIDE_VUK_CANONICAL_NARRATIVE_ID,
+            citation: EXTRIMLI_EXTREM_DEVELOPER_CREATE_RADNI_TAKT_REPO_WIDE_VUK_CITATION,
+            visualReference:
+              EXTRIMLI_EXTREM_DEVELOPER_CREATE_RADNI_TAKT_REPO_WIDE_VUK_VISUAL_REFERENCE,
+            interpretation:
+              'Supplied VUK cosmic vehicle image remains additive-only supplemental audit/reference evidence and stays bounded to the existing Developer/Create reflection package as repo-wide rhythm projection, without introducing any new source-of-truth runtime route.',
+            sourceStatement: 'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == RADNI TAKT MOZGA (MISLILAC)',
+            imageToSignalProfile: {
+              scenarioId:
+                EXTRIMLI_EXTREM_DEVELOPER_CREATE_RADNI_TAKT_REPO_WIDE_VUK_SCENARIO_ID,
+              theme:
+                'DEVELOPER AND CREATE — VRH PROGRAMSKOG EKVILADENTA — RADNI TAKT NA SVEMU U REPOZITORIJUMU',
+              narrativeInput: EXTRIMLI_EXTREM_DEVELOPER_CREATE_RADNI_TAKT_REPO_WIDE_VUK_CITATION,
+              ownershipLock: {
+                dokDikFor: 'EXTREM',
+                dakDuk: 'EXTRONDOL',
+                spajaKod: 'audit-safe-summary-only',
+              },
+              signalOutputs: {
+                readinessScore: 0,
+                readinessStatus: 'BLOCKED',
+                conflictPressurePercent: 100,
+                deterministicFallbackRequired: true,
+              },
+            },
+            thematicSignals: [
+              'developer-and-create-vrh',
+              'radni-takt-repo-wide-reflection',
+              'vuk',
+              'bounded-vocabulary-extrimli-extrondol-extrem-dok-duk-dak-dik-for',
+              'audit-safe-summary-only',
             ],
             auditRole: 'additive-audit-reference-only',
           },
