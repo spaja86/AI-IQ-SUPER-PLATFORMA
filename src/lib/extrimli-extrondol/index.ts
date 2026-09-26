@@ -241,6 +241,7 @@ const DEVELOPER_CREATE_ROADMAP_ACCEPTANCE_EVIDENCE_BASE = [
   'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.promocijeTiketiBonusiPropusniceAdministrativniBonusiTrack',
   'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.radniProstorTrack',
   'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.kraljevskiRadTrack',
+  'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.vinogradiGrckaRestoranTrack',
   'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.aiIqLaboratorijaTrack',
   'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.konstrukcijeIProjektovanjeTrack',
   'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.aiIqKonferencijaZaStampuTrack',
@@ -258,6 +259,7 @@ const DEVELOPER_CREATE_ROADMAP_ACCEPTANCE_EVIDENCE_BASE = [
   'spajaKod.publicSignals.promocijeTiketiBonusiPropusniceAdministrativniBonusiStatus',
   'spajaKod.publicSignals.radniProstorStatus',
   'spajaKod.publicSignals.kraljevskiRadStatus',
+  'spajaKod.publicSignals.vinogradiGrckaRestoranStatus',
   'spajaKod.publicSignals.aiIqLaboratorijaStatus',
   'spajaKod.publicSignals.konstrukcijeIProjektovanjeStatus',
   'spajaKod.publicSignals.aiIqKonferencijaZaStampuStatus',
@@ -290,6 +292,7 @@ const DEVELOPER_CREATE_GOVERNANCE_ACCEPTANCE_EVIDENCE: ExtrimliExtrondolReport['
   'developerAndCreateRepoWideReflection.promocijeTiketiBonusiPropusniceAdministrativniBonusiTrack',
   'developerAndCreateRepoWideReflection.radniProstorTrack',
   'developerAndCreateRepoWideReflection.kraljevskiRadTrack',
+  'developerAndCreateRepoWideReflection.vinogradiGrckaRestoranTrack',
   'developerAndCreateRepoWideReflection.aiIqLaboratorijaTrack',
   'developerAndCreateRepoWideReflection.konstrukcijeIProjektovanjeTrack',
   'developerAndCreateRepoWideReflection.aiIqKonferencijaZaStampuTrack',
@@ -306,6 +309,7 @@ const DEVELOPER_CREATE_GOVERNANCE_ACCEPTANCE_EVIDENCE: ExtrimliExtrondolReport['
   'spajaKod.publicSignals.leksikonStatus',
   'spajaKod.publicSignals.radniProstorStatus',
   'spajaKod.publicSignals.kraljevskiRadStatus',
+  'spajaKod.publicSignals.vinogradiGrckaRestoranStatus',
   'spajaKod.publicSignals.aiIqLaboratorijaStatus',
   'spajaKod.publicSignals.konstrukcijeIProjektovanjeStatus',
   'spajaKod.publicSignals.aiIqKonferencijaZaStampuStatus',
@@ -3384,6 +3388,7 @@ function buildSpajaKodFacade(params: {
   kraljevskoTakmicenjeStatus: ExtrimliExtrondolReport['extremProfiler']['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['kraljevskoTakmicenjeTrack']['readinessSignal']['status'];
   kraljevskiPokloniZaSvacijiRodjendanStatus: ExtrimliExtrondolReport['extremProfiler']['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['kraljevskiPokloniZaSvacijiRodjendanTrack']['readinessSignal']['status'];
   kraljevskiRadStatus: ExtrimliExtrondolReport['extremProfiler']['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['kraljevskiRadTrack']['readinessSignal']['status'];
+  vinogradiGrckaRestoranStatus: ExtrimliExtrondolReport['extremProfiler']['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['vinogradiGrckaRestoranTrack']['readinessSignal']['status'];
   radniProstorStatus: ExtrimliExtrondolReport['extremProfiler']['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['radniProstorTrack']['readinessSignal']['status'];
   aiIqLaboratorijaStatus: ExtrimliExtrondolReport['extremProfiler']['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['aiIqLaboratorijaTrack']['readinessSignal']['status'];
   konstrukcijeIProjektovanjeStatus: ExtrimliExtrondolReport['extremProfiler']['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['konstrukcijeIProjektovanjeTrack']['readinessSignal']['status'];
@@ -3527,6 +3532,7 @@ function buildSpajaKodFacade(params: {
       kraljevskoTakmicenjeStatus: params.kraljevskoTakmicenjeStatus,
       kraljevskiPokloniZaSvacijiRodjendanStatus: params.kraljevskiPokloniZaSvacijiRodjendanStatus,
       kraljevskiRadStatus: params.kraljevskiRadStatus,
+      vinogradiGrckaRestoranStatus: params.vinogradiGrckaRestoranStatus,
       radniProstorStatus: params.radniProstorStatus,
       aiIqLaboratorijaStatus: params.aiIqLaboratorijaStatus,
       konstrukcijeIProjektovanjeStatus: params.konstrukcijeIProjektovanjeStatus,
@@ -3643,6 +3649,7 @@ function buildSpajaKodFacade(params: {
         'publicSignals.kraljevskoTakmicenjeStatus',
         'publicSignals.kraljevskiPokloniZaSvacijiRodjendanStatus',
         'publicSignals.kraljevskiRadStatus',
+        'publicSignals.vinogradiGrckaRestoranStatus',
         'publicSignals.radniProstorStatus',
         'publicSignals.aiIqLaboratorijaStatus',
         'publicSignals.konstrukcijeIProjektovanjeStatus',
@@ -3675,6 +3682,7 @@ function buildSpajaKodFacade(params: {
         'developerAndCreateImplementationPackage.kraljevskoTakmicenjeSummary',
         'developerAndCreateImplementationPackage.kraljevskiPokloniZaSvacijiRodjendanSummary',
         'developerAndCreateImplementationPackage.kraljevskiRadSummary',
+        'developerAndCreateImplementationPackage.vinogradiGrckaRestoranSummary',
         'developerAndCreateImplementationPackage.radniProstorSummary',
         'developerAndCreateImplementationPackage.aiIqLaboratorijaSummary',
         'developerAndCreateImplementationPackage.konstrukcijeIProjektovanjeSummary',
@@ -3950,6 +3958,35 @@ function buildSpajaKodFacade(params: {
         governancePosture: {
           sequenceOrderRule: 'strict-order-required',
           duplicateRule: 'dur-and-dar-must-appear-exactly-twice',
+          fallbackPolicy: 'deterministic-ready-watch-blocked',
+        },
+      },
+      vinogradiGrckaRestoranSummary: {
+        canonicalAlias:
+          params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.vinogradiGrckaRestoranTrack.canonicalAlias,
+        roleClassification:
+          params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.vinogradiGrckaRestoranTrack.roleClassification,
+        status:
+          params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.vinogradiGrckaRestoranTrack.readinessSignal.status,
+        blockerReason:
+          params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.vinogradiGrckaRestoranTrack.blockerReason,
+        watchReasons: [
+          ...params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.vinogradiGrckaRestoranTrack.watchReasons,
+        ],
+        reviewPosture:
+          params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.vinogradiGrckaRestoranTrack.reviewPosture,
+        downstreamReference:
+          params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.vinogradiGrckaRestoranTrack.downstreamReference,
+        publicBoundary: 'audit-safe-summary-only',
+        executiveTransitionSummary:
+          params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.vinogradiGrckaRestoranTrack.executiveTransitionSummary,
+        fallbackInputStatus:
+          params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.vinogradiGrckaRestoranTrack.readinessSignal.fallbackInputStatus,
+        governancePosture: {
+          executiveTransitionMode: 'governance-scenario-only',
+          outgoingRole: 'izvrsni-direktor-smenjen',
+          incomingDirectors: ['Jonačić Slaviša', 'Jonačić Marko'],
+          ownershipSplit: 'DOK-DIK-FOR=EXTREM|DAK-DUK=EXTRONDOL|SPAJA-KOD=SUMMARY',
           fallbackPolicy: 'deterministic-ready-watch-blocked',
         },
       },
@@ -6844,6 +6881,8 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
       extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.kraljevskiPokloniZaSvacijiRodjendanTrack.readinessSignal.status,
     kraljevskiRadStatus:
       extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.kraljevskiRadTrack.readinessSignal.status,
+    vinogradiGrckaRestoranStatus:
+      extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.vinogradiGrckaRestoranTrack.readinessSignal.status,
     radniProstorStatus:
       extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.radniProstorTrack.readinessSignal.status,
     aiIqLaboratorijaStatus:
@@ -9003,6 +9042,41 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
           'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.kraljevskiRadTrack',
           'spajaKod.publicSignals.kraljevskiRadStatus',
           'spajaKod.developerAndCreateImplementationPackage.kraljevskiRadSummary',
+        ],
+        downstreamReference: 'docs/MULTI-REPO-LINKS.md -> spaja86/IO-OPENUI-AO (summary-only)',
+      },
+      vinogradiGrckaRestoranTrack: {
+        ...extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.vinogradiGrckaRestoranTrack,
+        sourceOfTruth: '/api/extrimli/extrem',
+        governanceSource: '/api/extrimli/extrondol',
+        publicBoundary: '/api/extrimli/spaja-kod',
+        currentWave: currentWawe,
+        eligibleNextWave: eligibleNextWave,
+        promotionFreeze:
+          promotionFreeze
+          || extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.vinogradiGrckaRestoranTrack.readinessSignal.status !== 'READY',
+        reviewRequiredBeforeWideRollout:
+          extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.vinogradiGrckaRestoranTrack.readinessSignal.status !== 'READY'
+          || extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.vinogradiGrckaRestoranTrack.reviewPosture === 'REVIEW_REQUIRED',
+        reviewPosture:
+          extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.vinogradiGrckaRestoranTrack.reviewPosture,
+        rolloutPlan:
+          'Advance VINOGRADI GRČKA, RESTORAN only as an additive-only governance scenario (executive-transition lane) through existing EXTREM readiness ownership, EXTRONDOL WAWE review/freeze/promotion/rollback governance, and SPAJA KOD summary-safe outputs.',
+        rollbackPlan:
+          'Freeze promotion and revert to the last verified Developer/Create package if executive-transition governance evidence, bounded fallback status language (READY|WATCH|BLOCKED), or ownership split boundaries drift.',
+        humanReviewStatus: 'required-before-promotion',
+        governancePosture: {
+          transitionType: 'executive-director-replacement-governance-scenario',
+          outgoingRole: 'izvrsni-direktor-smenjen',
+          incomingDirectors: ['Jonačić Slaviša', 'Jonačić Marko'],
+          ownershipSplit: 'DOK-DIK-FOR=EXTREM|DAK-DUK=EXTRONDOL|SPAJA-KOD=SUMMARY',
+          fallbackPolicy: 'deterministic-ready-watch-blocked',
+        },
+        acceptanceEvidence: [
+          'developerAndCreateRepoWideReflection.vinogradiGrckaRestoranTrack',
+          'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.vinogradiGrckaRestoranTrack',
+          'spajaKod.publicSignals.vinogradiGrckaRestoranStatus',
+          'spajaKod.developerAndCreateImplementationPackage.vinogradiGrckaRestoranSummary',
         ],
         downstreamReference: 'docs/MULTI-REPO-LINKS.md -> spaja86/IO-OPENUI-AO (summary-only)',
       },

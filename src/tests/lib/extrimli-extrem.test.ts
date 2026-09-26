@@ -193,6 +193,8 @@ async function runTests(): Promise<void> {
       report.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.kraljevskiPokloniZaSvacijiRodjendanTrack;
     const kraljevskiRadTrack =
       report.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.kraljevskiRadTrack;
+    const vinogradiGrckaRestoranTrack =
+      report.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.vinogradiGrckaRestoranTrack;
     const radniProstorTrack =
       report.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.radniProstorTrack;
     const aiIqLaboratorijaTrack =
@@ -346,6 +348,15 @@ async function runTests(): Promise<void> {
     assert(kraljevskiRadTrack.summarySafePublicFields.join(',') === 'canonicalAlias,status,blockerReason,watchReasons,reviewPosture,downstreamReference,sequenceValidationSummary,tokenOrderStatus,duplicateRuleStatus,fallbackInputStatus', 'developer/create kraljevski rad summary-safe fields mismatch');
     assert(['READY', 'WATCH', 'BLOCKED'].includes(kraljevskiRadTrack.readinessSignal.status), 'developer/create kraljevski rad status mismatch');
     assert(kraljevskiRadTrack.readinessSignal.fallbackInputs.join(',') === 'NaN,Infinity,empty,conflict', 'developer/create kraljevski rad fallback inputs mismatch');
+    assert(vinogradiGrckaRestoranTrack.canonicalAlias === 'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == VINOGRADI GRČKA, RESTORAN', 'developer/create VINOGRADI canonical alias mismatch');
+    assert(vinogradiGrckaRestoranTrack.roleClassification === 'additive-only-bounded-vinogradi-grcka-restoran-governance-track', 'developer/create VINOGRADI role classification mismatch');
+    assert(vinogradiGrckaRestoranTrack.ownershipLock.dokDikFor === 'EXTREM', 'developer/create VINOGRADI EXTREM ownership lock mismatch');
+    assert(vinogradiGrckaRestoranTrack.ownershipLock.dakDuk === 'EXTRONDOL', 'developer/create VINOGRADI EXTRONDOL ownership lock mismatch');
+    assert(vinogradiGrckaRestoranTrack.executiveTransition.outgoingRole === 'izvrsni-direktor-smenjen', 'developer/create VINOGRADI outgoing-role mismatch');
+    assert(vinogradiGrckaRestoranTrack.executiveTransition.incomingDirectors.join(',') === 'Jonačić Slaviša,Jonačić Marko', 'developer/create VINOGRADI incoming-directors mismatch');
+    assert(vinogradiGrckaRestoranTrack.summarySafePublicFields.join(',') === 'canonicalAlias,status,blockerReason,watchReasons,reviewPosture,downstreamReference,executiveTransitionSummary,fallbackInputStatus', 'developer/create VINOGRADI summary-safe fields mismatch');
+    assert(vinogradiGrckaRestoranTrack.acceptanceEvidence.join(',') === 'developerAndCreateRepoWideReflection.vinogradiGrckaRestoranTrack,releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.vinogradiGrckaRestoranTrack,spajaKod.publicSignals.vinogradiGrckaRestoranStatus,spajaKod.developerAndCreateImplementationPackage.vinogradiGrckaRestoranSummary', 'developer/create VINOGRADI acceptance evidence mismatch');
+    assert(['READY', 'WATCH', 'BLOCKED'].includes(vinogradiGrckaRestoranTrack.readinessSignal.status), 'developer/create VINOGRADI status mismatch');
     assert(radniProstorTrack.canonicalAlias === 'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == RADNI PROSTOR', 'developer/create RADNI PROSTOR canonical alias mismatch');
     assert(radniProstorTrack.roleClassification === 'additive-only-bounded-radni-prostor-alias-track', 'developer/create RADNI PROSTOR role classification mismatch');
     assert(radniProstorTrack.boundedTokenSequence.join(',') === 'OKUR,DJUKUR,DAR,ZOR,IKON,ZULUM,DABRE,IZOS,JAKOR,DAPR,ZUKUR,ENTER,DIKAR,ZUMBUL,SIRGED,ZIKOR,DJENDER,ĆUR,NIKON,DERKO,ZUKAL,IKON,ZAJDI', 'developer/create RADNI PROSTOR token sequence mismatch');

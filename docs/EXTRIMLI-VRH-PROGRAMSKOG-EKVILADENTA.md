@@ -8,7 +8,7 @@
 
 Kanonski scope lock ostaje i u kraćem obliku: `DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA`.
 
-Ovaj dokument ostaje **interpretativni extension document**, dok `docs/EXTRIMLI-DEVELOPER-CREATE-PROGRAM.md` ostaje glavni manifest. Sve duže varijante (`RADNI TAKT MOZGA (MISLILAC)`, `MAPE UMA`, `MAPA UMA`, `ŽIVOPIS U DIGITALIZMU`, `DIJALIZA POGONSKOG OMOTAČA`, `LEKSIKON`, `RADNI PROSTOR`, `KRALJEVSKI RAD`, `NAVIGACIONI SISTEM SA TREKEROM`, `KONSTRUKCIJE I PROJEKTOVANJE`, `AI IQ KONFERENCIJA ZA ŠTAMPU (NOVINE, DIGITALNE NOVINE)`, `AI IQ LABORATORIJA == LABORATORIJSKI NALAZI FAUNE I FLORE I GRAĐEVINSKOG MATERIJALA`, `RADIO`, `MUZIČKA KUTIJA`, `TELEVIZIJA`, `POSLOVNA PONUDA` i slične trake) moraju ostati alias-i ili proširenja iste centralne rečenice, nikad novi centri priče.
+Ovaj dokument ostaje **interpretativni extension document**, dok `docs/EXTRIMLI-DEVELOPER-CREATE-PROGRAM.md` ostaje glavni manifest. Sve duže varijante (`RADNI TAKT MOZGA (MISLILAC)`, `MAPE UMA`, `MAPA UMA`, `ŽIVOPIS U DIGITALIZMU`, `DIJALIZA POGONSKOG OMOTAČA`, `LEKSIKON`, `RADNI PROSTOR`, `KRALJEVSKI RAD`, `VINOGRADI GRČKA, RESTORAN`, `NAVIGACIONI SISTEM SA TREKEROM`, `KONSTRUKCIJE I PROJEKTOVANJE`, `AI IQ KONFERENCIJA ZA ŠTAMPU (NOVINE, DIGITALNE NOVINE)`, `AI IQ LABORATORIJA == LABORATORIJSKI NALAZI FAUNE I FLORE I GRAĐEVINSKOG MATERIJALA`, `RADIO`, `MUZIČKA KUTIJA`, `TELEVIZIJA`, `POSLOVNA PONUDA` i slične trake) moraju ostati alias-i ili proširenja iste centralne rečenice, nikad novi centri priče.
 
 ## MALI/VEĆI PROJEKAT — VRH lock sa ortogonalnom projekcijom
 
@@ -36,6 +36,7 @@ Bounded vokabular ostaje zaključan na `EXTRIMLI EXTRONDOL EXTREM DOK DUK DAK DI
 - `SARKAZAM / PRIVREDNA GRANA DIGITALIZMA / PROJEKTI ENTUZIJAZMA PO ČINU OBLASTIMA` → bounded interpretativni/enterprise-policy/pedagoški alias istog lock-a; `SARKAZAM` ostaje samo narativni marker, nikad nova izvršna formula ili novi engine
 - `NOTES 1450` → bounded work-continuation paket istog lock-a; služi kao nastavak rada umesto obične beleške, ali ostaje additive-only, bez nove rute i bez paralelnog source-of-truth sistema
 - `RADNI PROSTOR` → additive-only bounded alias istog lock-a sa zaključanom token sekvencom `OKUR, DJUKUR, DAR, ZOR, IKON, ZULUM, DABRE, IZOS, JAKOR, DAPR, ZUKUR, ENTER, DIKAR, ZUMBUL, SIRGED, ZIKOR, DJENDER, ĆUR, NIKON, DERKO, ZUKAL, IKON, ZAJDI`, bez novih ruta i bez paralelnog source-of-truth sistema
+- `VINOGRADI GRČKA, RESTORAN` → additive-only bounded governance alias istog lock-a; smena izvršnog direktora i postavljanje dva nova direktora (`Jonačić Slaviša`, `Jonačić Marko`) ostaje governance scenario (ne runtime modul), sa zaključanim status jezikom `READY | WATCH | BLOCKED` i deterministic fallback pravilima
 - `NAVIGACIONI SISTEM SA TREKEROM` → additive-only bounded navigacioni/tracking alias istog lock-a: `DOK + DIK + FOR` ostaju EXTREM tehnički signal (`READY | WATCH | BLOCKED`), `DAK + DUK` ostaju EXTRONDOL governance (`rollout-stage/freeze/promotion/release-audit/rollback/human-review`), a `SPAJA KOD` ostaje summary-only boundary bez internog token mapiranja
 - `AI IQ LABORATORIJA == LABORATORIJSKI NALAZI FAUNE I FLORE I GRAĐEVINSKOG MATERIJALA` → bounded laboratorijsko-interpretativni paket istog lock-a sa zaključanom token sekvencom `ZUM, DUM, SAK, IK, MUN, DIKOT, DUN, ZAT, DJKUON, SIM, IKAR, DUKAR, IBAP, IRO, DUNOR, IBAN, UKOR, UTVAR, ZIPOT`; EXTREM objavljuje readiness + token coverage + bounded domain status (`AI IQ LABORATORIJA`, `FAUNA I FLORA`, `GRAĐEVINSKI MATERIJAL`), EXTRONDOL governance ogledalo, a SPAJA KOD samo audit-safe nalaz summary bez sirovog token modela
 - `KONSTRUKCIJE I PROJEKTOVANJE` → additive-only bounded građevinsko-projektantski alias istog lock-a sa zaključanim rečnikom `DUR, DJON, TUR, ZIM, UBAR, DOKOR, SINGAR, UKOR, IOP, TUR, UBAR, SINGOF, SIGRAD, OKDEN, UMAR`, pod postojećim domenom `GRAĐEVINSKI FAKULTET / GRAĐEVINSKI AKT`, bez novih ruta i bez paralelnog source-of-truth sistema
@@ -109,6 +110,17 @@ Repo-wide reflection sada obavezno uključuje i dnevni operativni cadence: `morn
 - Ownership split ostaje zaključan: `DOK + DIK + FOR` = EXTREM, `DAK + DUK` = EXTRONDOL, `SPAJA KOD` = audit-safe summary-only.
 - EXTREM objavljuje samo readiness/token-order/duplicate signal i bounded `kraljevskiRadSummary`, EXTRONDOL objavljuje governance/release-audit ogledalo, a SPAJA KOD objavljuje samo summary-safe status + fallbackInputStatus + downstream reference.
 - Downstream prema `spaja86/IO-OPENUI-AO` ostaje summary-only, bez sirovih token/formula internala.
+
+## VINOGRADI GRČKA, RESTORAN bounded governance scenario
+
+`DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == VINOGRADI GRČKA, RESTORAN` ostaje additive-only bounded alias u okviru istog vršnog lock-a.
+
+- Nema novih runtime ruta i nema novog source-of-truth sloja; koristi se postojeći EXTRIMLI/EXTREM/EXTRONDOL/SPAJA KOD surface.
+- Događaj `izvršni direktor se smenjuje` + postavljanje `Jonačić Slaviša` i `Jonačić Marko` ostaje governance scenario i release-audit tranzicija rukovodstva, ne novi runtime modul.
+- Ownership split ostaje zaključan: `DOK + DIK + FOR` = EXTREM, `DAK + DUK` = EXTRONDOL, `SPAJA KOD` = audit-safe summary-only.
+- Status jezik ostaje bounded `READY | WATCH | BLOCKED`, sa obaveznim blocker/watch razlozima i deterministic fallback mapiranjem (`NaN`, `Infinity`, `empty`, `conflict`).
+- EXTREM objavljuje readiness/fallback signal i bounded executive-transition summary, EXTRONDOL objavljuje review/freeze/promotion/rollback/release-audit ogledalo, a SPAJA KOD objavljuje samo summary-safe status + fallbackInputStatus + downstream reference.
+- Downstream prema `spaja86/IO-OPENUI-AO` ostaje summary-only, bez sirovih internih governance detalja ili formula.
 
 ## RADIO bounded media/distribution/audio paket
 

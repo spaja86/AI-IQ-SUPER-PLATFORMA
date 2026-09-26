@@ -22,6 +22,9 @@ export const DEVELOPER_CREATE_VRH_KRALJEVSKI_SAT_ALIAS =
 export const DEVELOPER_CREATE_VRH_KRALJEVSKI_RAD_ALIAS =
   'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == KRALJEVSKI RAD' as const;
 
+export const DEVELOPER_CREATE_VRH_VINOGRADI_GRCKA_RESTORAN_ALIAS =
+  'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == VINOGRADI GRČKA, RESTORAN' as const;
+
 export const DEVELOPER_CREATE_VRH_INTERPRETATION_ALIASES = [
   'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == RADNI TAKT MOZGA (MISLILAC)',
   'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == MAPE UMA',
@@ -40,6 +43,7 @@ export const DEVELOPER_CREATE_VRH_INTERPRETATION_ALIASES = [
   'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == KRALJEVSKI POKLONI ZA SVAČIJI ROĐENDAN',
   DEVELOPER_CREATE_VRH_KRALJEVSKI_SAT_ALIAS,
   DEVELOPER_CREATE_VRH_KRALJEVSKI_RAD_ALIAS,
+  DEVELOPER_CREATE_VRH_VINOGRADI_GRCKA_RESTORAN_ALIAS,
 ] as const;
 
 export const DEVELOPER_CREATE_VRH_DIJALIZA_POGONSKOG_OMOTACA_ALIAS_BOUNDARY = {
@@ -481,6 +485,48 @@ export const DEVELOPER_CREATE_KRALJEVSKI_RAD_DOWNSTREAM_POLICY = {
   rawExtremFormulasStayRepoLocal: true,
   rawExtrondolGovernanceFormulasStayRepoLocal: true,
 } as const;
+
+export const DEVELOPER_CREATE_VINOGRADI_GRCKA_RESTORAN_CANONICAL_ALIAS =
+  DEVELOPER_CREATE_VRH_VINOGRADI_GRCKA_RESTORAN_ALIAS;
+
+export const DEVELOPER_CREATE_VINOGRADI_GRCKA_RESTORAN_SCOPE_STATEMENT =
+  'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == VINOGRADI GRČKA, RESTORAN == additive-only bounded governance traka bez novih runtime ruta i bez paralelnog source-of-truth modela; događaj smene izvršnog direktora i postavke dva nova direktora ostaje governance scenario sa zaključanim ownership split-om: EXTREM (DOK/DIK/FOR readiness signal), EXTRONDOL (DAK/DUK review/freeze/promotion/rollback/release-audit), SPAJA KOD (audit-safe summary-only).' as const;
+
+export const DEVELOPER_CREATE_VINOGRADI_GRCKA_RESTORAN_ROLE_CLASSIFICATION =
+  'additive-only-bounded-vinogradi-grcka-restoran-governance-track' as const;
+
+export const DEVELOPER_CREATE_VINOGRADI_GRCKA_RESTORAN_GOVERNANCE_SIGNALS = [
+  'executive-transition-readiness',
+  'human-review-required',
+  'freeze-promotion-rollback-governance',
+  'summary-only-public-boundary',
+  'deterministic-fallback-signal',
+] as const;
+
+export const DEVELOPER_CREATE_VINOGRADI_GRCKA_RESTORAN_EXECUTIVE_TRANSITION = {
+  outgoingRole: 'izvrsni-direktor-smenjen',
+  incomingDirectors: ['Jonačić Slaviša', 'Jonačić Marko'],
+  mode: 'governance-scenario-only',
+  noNewRuntimeModule: true,
+} as const;
+
+export const DEVELOPER_CREATE_VINOGRADI_GRCKA_RESTORAN_FALLBACK_INPUTS = [
+  'NaN',
+  'Infinity',
+  'empty',
+  'conflict',
+] as const;
+
+export const DEVELOPER_CREATE_VINOGRADI_GRCKA_RESTORAN_SUMMARY_SAFE_FIELDS = [
+  'canonicalAlias',
+  'status',
+  'blockerReason',
+  'watchReasons',
+  'reviewPosture',
+  'downstreamReference',
+  'executiveTransitionSummary',
+  'fallbackInputStatus',
+] as const;
 
 export const DEVELOPER_CREATE_RADNI_PROSTOR_CANONICAL_ALIAS =
   'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == RADNI PROSTOR' as const;

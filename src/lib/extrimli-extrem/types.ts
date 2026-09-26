@@ -56,6 +56,13 @@ import type {
   DEVELOPER_CREATE_KRALJEVSKI_RAD_ROLE_CLASSIFICATION,
   DEVELOPER_CREATE_KRALJEVSKI_RAD_SCOPE_STATEMENT,
   DEVELOPER_CREATE_KRALJEVSKI_RAD_SUMMARY_SAFE_FIELDS,
+  DEVELOPER_CREATE_VINOGRADI_GRCKA_RESTORAN_CANONICAL_ALIAS,
+  DEVELOPER_CREATE_VINOGRADI_GRCKA_RESTORAN_EXECUTIVE_TRANSITION,
+  DEVELOPER_CREATE_VINOGRADI_GRCKA_RESTORAN_FALLBACK_INPUTS,
+  DEVELOPER_CREATE_VINOGRADI_GRCKA_RESTORAN_GOVERNANCE_SIGNALS,
+  DEVELOPER_CREATE_VINOGRADI_GRCKA_RESTORAN_ROLE_CLASSIFICATION,
+  DEVELOPER_CREATE_VINOGRADI_GRCKA_RESTORAN_SCOPE_STATEMENT,
+  DEVELOPER_CREATE_VINOGRADI_GRCKA_RESTORAN_SUMMARY_SAFE_FIELDS,
   DEVELOPER_CREATE_LEKSIKON_BOUNDED_SIGNALS,
   DEVELOPER_CREATE_LEKSIKON_CANONICAL_ALIAS,
   DEVELOPER_CREATE_LEKSIKON_DOWNSTREAM_POLICY,
@@ -3183,6 +3190,46 @@ export interface ExtrimliDokDikDakDukConsistencyHealth {
         'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.kraljevskiRadTrack',
         'spajaKod.publicSignals.kraljevskiRadStatus',
         'spajaKod.developerAndCreateImplementationPackage.kraljevskiRadSummary'
+      ];
+      downstreamReference: 'docs/MULTI-REPO-LINKS.md -> spaja86/IO-OPENUI-AO (summary-only)';
+    };
+    vinogradiGrckaRestoranTrack: {
+      canonicalAlias: typeof DEVELOPER_CREATE_VINOGRADI_GRCKA_RESTORAN_CANONICAL_ALIAS;
+      scopeStatement: typeof DEVELOPER_CREATE_VINOGRADI_GRCKA_RESTORAN_SCOPE_STATEMENT;
+      roleClassification: typeof DEVELOPER_CREATE_VINOGRADI_GRCKA_RESTORAN_ROLE_CLASSIFICATION;
+      governanceSignals: typeof DEVELOPER_CREATE_VINOGRADI_GRCKA_RESTORAN_GOVERNANCE_SIGNALS;
+      executiveTransition: typeof DEVELOPER_CREATE_VINOGRADI_GRCKA_RESTORAN_EXECUTIVE_TRANSITION;
+      boundedVocabularyPhrase: 'EXTRIMLI EXTRONDOL EXTREM DOK DUK DAK DIK FOR';
+      additiveOnly: true;
+      noNewRuntimeEngine: true;
+      noNewRuntimeRoutes: true;
+      noParallelSourceOfTruth: true;
+      sourceOfTruthRoutes: readonly ['/api/extrimli/extrem', '/api/extrimli/extrondol', '/api/extrimli/spaja-kod'];
+      ownershipLock: {
+        dokDikFor: 'EXTREM';
+        dakDuk: 'EXTRONDOL';
+        spajaKod: 'audit-safe-summary-only';
+      };
+      summarySafePublicFields: typeof DEVELOPER_CREATE_VINOGRADI_GRCKA_RESTORAN_SUMMARY_SAFE_FIELDS;
+      readinessSignal: {
+        status: 'READY' | 'WATCH' | 'BLOCKED';
+        readinessScore: number;
+        executiveTransitionStatus: 'READY' | 'WATCH' | 'BLOCKED';
+        governanceMirrorStatus: 'READY' | 'WATCH' | 'BLOCKED';
+        fallbackInputStatus: 'READY' | 'WATCH' | 'BLOCKED';
+        deterministicFallbackRequired: boolean;
+        fallbackInputs: typeof DEVELOPER_CREATE_VINOGRADI_GRCKA_RESTORAN_FALLBACK_INPUTS;
+        driver: 'developerAndCreateRepoWideReflection.readiness + developerAndCreateRepoWideReflection.technicalReadinessProfile.consolidatedRhythmStatus + governanceExecutiveTransitionInput';
+      };
+      blockerReason: string | null;
+      watchReasons: string[];
+      reviewPosture: 'ALIGNED' | 'WATCH' | 'REVIEW_REQUIRED';
+      executiveTransitionSummary: string;
+      acceptanceEvidence: readonly [
+        'developerAndCreateRepoWideReflection.vinogradiGrckaRestoranTrack',
+        'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.vinogradiGrckaRestoranTrack',
+        'spajaKod.publicSignals.vinogradiGrckaRestoranStatus',
+        'spajaKod.developerAndCreateImplementationPackage.vinogradiGrckaRestoranSummary'
       ];
       downstreamReference: 'docs/MULTI-REPO-LINKS.md -> spaja86/IO-OPENUI-AO (summary-only)';
     };
