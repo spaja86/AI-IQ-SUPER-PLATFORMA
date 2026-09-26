@@ -133,7 +133,7 @@ export async function resolveVercelBillingGovernanceEnv(
       SPAJA_VERCEL_QUARTERLY_VENDOR_REVIEW_ENABLED: mergeBoolEnv(env, 'SPAJA_VERCEL_QUARTERLY_VENDOR_REVIEW_ENABLED', kvQuarterlyVendorReviewEnabled),
     };
   } catch (error) {
-    console.warn('[vercel-status] KV governance merge failed; falling back to env-only status.', error);
+    console.warn('[vercel-governance-env] KV governance merge failed; falling back to env-only status.', error);
     return env;
   }
 }
