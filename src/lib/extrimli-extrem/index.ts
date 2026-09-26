@@ -12474,16 +12474,16 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
       : normalizedKraljevskiRadTokens.length === 0
         ? 'WATCH'
         : 'BLOCKED';
-  const kraljevskiRadExpectedDUPCount = expectedKraljevskiRadTokens
+  const kraljevskiRadExpectedDURCount = expectedKraljevskiRadTokens
     .filter((token) => token === 'DUR').length;
-  const kraljevskiRadObservedDUPCount = normalizedKraljevskiRadTokens
+  const kraljevskiRadObservedDURCount = normalizedKraljevskiRadTokens
     .filter((token) => token === 'DUR').length;
   const kraljevskiRadExpectedDARCount = expectedKraljevskiRadTokens
     .filter((token) => token === 'DAR').length;
   const kraljevskiRadObservedDARCount = normalizedKraljevskiRadTokens
     .filter((token) => token === 'DAR').length;
   const kraljevskiRadDuplicateRuleStatus: ExtrimliExtremReadinessStatus =
-    kraljevskiRadObservedDUPCount === kraljevskiRadExpectedDUPCount
+    kraljevskiRadObservedDURCount === kraljevskiRadExpectedDURCount
     && kraljevskiRadObservedDARCount === kraljevskiRadExpectedDARCount
       ? 'READY'
       : 'BLOCKED';
