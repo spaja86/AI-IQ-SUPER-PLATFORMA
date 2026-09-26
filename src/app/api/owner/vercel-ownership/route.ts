@@ -28,6 +28,15 @@ import {
   isVercelInvoiceResolved,
   normalizePaymentReferenceClassification,
 } from '@/lib/vercel-billing-governance';
+import {
+  VERCEL_OWNERSHIP_ROUTE_PATH,
+  buildVercelOwnershipBlockers,
+  buildVercelDeployGovernanceSummary,
+} from '@/lib/vercel-deploy-governance';
+import {
+  getVercelDeployInfrastructureState,
+  resolveVercelBillingGovernanceEnv,
+} from '@/lib/vercel-governance-env';
 
 // KV ključevi za enterprise request status (persists over restarts)
 const KV_ENTERPRISE_READY_KEY = 'owner:vercel:enterprise-request-ready';
@@ -189,7 +198,10 @@ async function clearDerivedPaymentArtifacts(resetApprovalHistory = false): Promi
 }
 
 export async function GET() {
-  const telefonBroj = process.env[OWNER_PHONE_NUMBER_ENV_KEY] ?? OWNER_PHONE_DEFAULT;
+  const rawRuntimeEnv = process.env as Record<string, string | undefined>;
+  const runtimeEnv = await resolveVercelBillingGovernanceEnv(rawRuntimeEnv);
+  const infrastructure = getVercelDeployInfrastructureState(runtimeEnv, rawRuntimeEnv);
+  const telefonBroj = runtimeEnv[OWNER_PHONE_NUMBER_ENV_KEY]?.trim() || OWNER_PHONE_DEFAULT;
   const phoneStatus = getOwnerPhoneVerifikacijaStatus(telefonBroj);
   const poslednja_verifikacija = getOwnerPoslednja_verifikacija(telefonBroj);
 
@@ -208,10 +220,31 @@ export async function GET() {
     ? 'u-procesu'
     : identity.vercel.status;
 
-  const blokator = !checklist.phoneVerified
-    ? 'Telefonska verifikacija je obavezna pre slanja Vercel enterprise zahteva.'
-    : null;
   const publicAnnouncement = buildVercelPublicAnnouncementState(billing);
+  const invoiceResolved = isVercelInvoiceResolved(billing);
+  const blockers = buildVercelOwnershipBlockers({
+    phoneVerified: checklist.phoneVerified,
+    billingOwnerLocked: billing.billingOwnerLocked,
+    billingOwner: billing.billingOwner,
+    legalIntakeComplete: billing.legalIntakeComplete,
+    enterpriseGovernedModel: billing.enterpriseGovernedModel,
+    currentInvoiceNumber: billing.currentInvoiceNumber,
+    currentInvoiceAmount: billing.currentInvoiceAmount,
+    invoiceResolved,
+    currentInvoiceEvidenceCaptured: billing.currentInvoiceEvidenceCaptured,
+    bankStatementCaptured: billing.bankStatementCaptured,
+    paymentReferenceCaptured: billing.paymentReferenceCaptured,
+    publicAnnouncementRedacted: billing.publicAnnouncementRedacted,
+  });
+  const blokator = blockers[0] ?? null;
+  const deployGovernance = buildVercelDeployGovernanceSummary({
+    sourceOfTruthPath: VERCEL_OWNERSHIP_ROUTE_PATH,
+    blockers,
+    tokenConfigured: infrastructure.tokenConfigured,
+    projectIdConfigured: infrastructure.projectIdConfigured,
+    teamOrOrgConfigured: infrastructure.teamOrOrgConfigured,
+    deployHookConfigured: infrastructure.deployHookConfigured,
+  });
 
   return NextResponse.json({
     sistem: 'Vercel Ownership — Kompanija SPAJA',
@@ -222,6 +255,7 @@ export async function GET() {
       billingKontakt: identity.vercel.billingKontakt,
       status: vercelStatus,
       checklist,
+      deployGovernance,
       billingGovernance: {
         expectedBillingOwner: EXPECTED_BILLING_OWNER,
         billingOwner: billing.billingOwner,

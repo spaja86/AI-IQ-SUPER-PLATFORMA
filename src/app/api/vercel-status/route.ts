@@ -15,7 +15,15 @@ import { APP_VERSION, OWNER_PHONE_DEFAULT, OWNER_PHONE_NUMBER_ENV_KEY } from '@/
 import { getVercelHealthCheck, probeVercelDeployment } from '@/lib/deploy-diagnostics';
 import { FUNNEL_EVENTS } from '@/lib/analytics-events';
 import { getOwnerPhoneVerifikacijaStatus } from '@/lib/owner-phone-auth';
-import { kvGet } from '@/lib/kv-client';
+import {
+  VERCEL_STATUS_ROUTE_PATH,
+  buildVercelDeployGovernanceSummary,
+  buildVercelOwnershipBlockers,
+} from '@/lib/vercel-deploy-governance';
+import {
+  getVercelDeployInfrastructureState,
+  resolveVercelBillingGovernanceEnv,
+} from '@/lib/vercel-governance-env';
 import {
   EXPECTED_VERCEL_BILLING_OWNER,
   EXPECTED_VERCEL_INVOICE_AMOUNT,
@@ -24,148 +32,36 @@ import {
   isVercelInvoiceResolved,
   normalizePaymentReferenceClassification,
 } from '@/lib/vercel-billing-governance';
+export {
+  KV_VERCEL_AUTOPAY_CORPORATE_ONLY_KEY,
+  KV_VERCEL_BANK_STATEMENT_CAPTURED_KEY,
+  KV_VERCEL_BILLING_OWNER_KEY,
+  KV_VERCEL_BILLING_OWNER_LOCKED_KEY,
+  KV_VERCEL_CORRECTED_INVOICE_RESOLVED_KEY,
+  KV_VERCEL_CURRENT_INVOICE_AMOUNT_KEY,
+  KV_VERCEL_CURRENT_INVOICE_EVIDENCE_KEY,
+  KV_VERCEL_CURRENT_INVOICE_NUMBER_KEY,
+  KV_VERCEL_CURRENT_INVOICE_PAID_KEY,
+  KV_VERCEL_ENTERPRISE_GOVERNED_MODEL_KEY,
+  KV_VERCEL_FINANCE_CHANNEL_CONFIGURED_KEY,
+  KV_VERCEL_FINOPS_THRESHOLDS_ENABLED_KEY,
+  KV_VERCEL_INVOICE_CORRECTION_REQUESTED_KEY,
+  KV_VERCEL_INVOICE_REQUESTED_KEY,
+  KV_VERCEL_LEGAL_INTAKE_COMPLETE_KEY,
+  KV_VERCEL_MONTHLY_RECONCILIATION_ENABLED_KEY,
+  KV_VERCEL_PAYMENT_REFERENCE_CAPTURED_KEY,
+  KV_VERCEL_PAYMENT_REFERENCE_CLASSIFICATION_KEY,
+  KV_VERCEL_PAYMENT_REFERENCE_PUBLIC_SAFE_APPROVED_KEY,
+  KV_VERCEL_PUBLIC_ANNOUNCEMENT_PUBLISHED_KEY,
+  KV_VERCEL_PUBLIC_ANNOUNCEMENT_REDACTED_KEY,
+  KV_VERCEL_QUARTERLY_VENDOR_REVIEW_ENABLED_KEY,
+} from '@/lib/vercel-governance-keys';
 
 export const dynamic = 'force-dynamic';
-
-export const KV_VERCEL_BILLING_OWNER_KEY = 'owner:vercel:billing-owner';
-export const KV_VERCEL_BILLING_OWNER_LOCKED_KEY = 'owner:vercel:billing-owner-locked';
-export const KV_VERCEL_LEGAL_INTAKE_COMPLETE_KEY = 'owner:vercel:legal-intake-complete';
-export const KV_VERCEL_ENTERPRISE_GOVERNED_MODEL_KEY = 'owner:vercel:enterprise-governed-model';
-export const KV_VERCEL_CURRENT_INVOICE_NUMBER_KEY = 'owner:vercel:current-invoice-number';
-export const KV_VERCEL_CURRENT_INVOICE_AMOUNT_KEY = 'owner:vercel:current-invoice-amount';
-export const KV_VERCEL_CURRENT_INVOICE_PAID_KEY = 'owner:vercel:current-invoice-paid';
-export const KV_VERCEL_CURRENT_INVOICE_EVIDENCE_KEY = 'owner:vercel:current-invoice-evidence-captured';
-export const KV_VERCEL_INVOICE_CORRECTION_REQUESTED_KEY = 'owner:vercel:invoice-correction-requested';
-export const KV_VERCEL_CORRECTED_INVOICE_RESOLVED_KEY = 'owner:vercel:corrected-invoice-resolved';
-export const KV_VERCEL_INVOICE_REQUESTED_KEY = 'owner:vercel:invoice-requested';
-export const KV_VERCEL_BANK_STATEMENT_CAPTURED_KEY = 'owner:vercel:bank-statement-captured';
-export const KV_VERCEL_PAYMENT_REFERENCE_CAPTURED_KEY = 'owner:vercel:payment-reference-captured';
-export const KV_VERCEL_PAYMENT_REFERENCE_CLASSIFICATION_KEY = 'owner:vercel:payment-reference-classification';
-export const KV_VERCEL_PAYMENT_REFERENCE_PUBLIC_SAFE_APPROVED_KEY = 'owner:vercel:payment-reference-public-safe-approved';
-export const KV_VERCEL_PUBLIC_ANNOUNCEMENT_REDACTED_KEY = 'owner:vercel:public-announcement-redacted';
-export const KV_VERCEL_PUBLIC_ANNOUNCEMENT_PUBLISHED_KEY = 'owner:vercel:public-announcement-published';
-export const KV_VERCEL_AUTOPAY_CORPORATE_ONLY_KEY = 'owner:vercel:autopay-corporate-only';
-export const KV_VERCEL_FINANCE_CHANNEL_CONFIGURED_KEY = 'owner:vercel:finance-channel-configured';
-export const KV_VERCEL_FINOPS_THRESHOLDS_ENABLED_KEY = 'owner:vercel:finops-thresholds-enabled';
-export const KV_VERCEL_MONTHLY_RECONCILIATION_ENABLED_KEY = 'owner:vercel:monthly-reconciliation-enabled';
-export const KV_VERCEL_QUARTERLY_VENDOR_REVIEW_ENABLED_KEY = 'owner:vercel:quarterly-vendor-review-enabled';
 
 export function resolveOwnerPhone(env: Record<string, string | undefined>): string {
   const configuredPhone = env[OWNER_PHONE_NUMBER_ENV_KEY]?.trim();
   return configuredPhone && configuredPhone.length > 0 ? configuredPhone : OWNER_PHONE_DEFAULT;
-}
-
-function mergeBoolEnv(
-  env: Record<string, string | undefined>,
-  envKey: string,
-  kvValue: boolean | null,
-): string | undefined {
-  const rawEnv = env[envKey];
-  if (/^(1|true|yes)$/i.test(rawEnv ?? '')) return 'true';
-  if (/^(0|false|no)$/i.test(rawEnv ?? '')) return 'false';
-  if (kvValue === true) return 'true';
-  if (kvValue === false) return 'false';
-  return rawEnv;
-}
-
-export async function resolveVercelBillingGovernanceEnv(
-  env: Record<string, string | undefined>,
-): Promise<Record<string, string | undefined>> {
-  try {
-    const normalizedEnvPaymentReferenceClassification = normalizePaymentReferenceClassification(
-      env.SPAJA_VERCEL_PAYMENT_REFERENCE_CLASSIFICATION,
-    );
-    const [
-      kvBillingOwner,
-      kvBillingOwnerLocked,
-      kvLegalIntakeComplete,
-      kvEnterpriseGovernedModel,
-      kvCurrentInvoiceNumber,
-      kvCurrentInvoiceAmount,
-      kvCurrentInvoicePaid,
-      kvCurrentInvoiceEvidenceCaptured,
-      kvInvoiceCorrectionRequested,
-      kvCorrectedInvoiceResolved,
-      kvInvoiceRequested,
-      kvBankStatementCaptured,
-      kvPaymentReferenceCaptured,
-      kvPaymentReferenceClassification,
-      kvPaymentReferencePublicSafeApproved,
-      kvPublicAnnouncementRedacted,
-      kvPublicAnnouncementPublished,
-      kvAutopayCorporateOnly,
-      kvFinanceChannelConfigured,
-      kvFinopsThresholdsEnabled,
-      kvMonthlyReconciliationEnabled,
-      kvQuarterlyVendorReviewEnabled,
-    ] = await Promise.all([
-      kvGet<string>(KV_VERCEL_BILLING_OWNER_KEY),
-      kvGet<boolean>(KV_VERCEL_BILLING_OWNER_LOCKED_KEY),
-      kvGet<boolean>(KV_VERCEL_LEGAL_INTAKE_COMPLETE_KEY),
-      kvGet<boolean>(KV_VERCEL_ENTERPRISE_GOVERNED_MODEL_KEY),
-      kvGet<string>(KV_VERCEL_CURRENT_INVOICE_NUMBER_KEY),
-      kvGet<string>(KV_VERCEL_CURRENT_INVOICE_AMOUNT_KEY),
-      kvGet<boolean>(KV_VERCEL_CURRENT_INVOICE_PAID_KEY),
-      kvGet<boolean>(KV_VERCEL_CURRENT_INVOICE_EVIDENCE_KEY),
-      kvGet<boolean>(KV_VERCEL_INVOICE_CORRECTION_REQUESTED_KEY),
-      kvGet<boolean>(KV_VERCEL_CORRECTED_INVOICE_RESOLVED_KEY),
-      kvGet<boolean>(KV_VERCEL_INVOICE_REQUESTED_KEY),
-      kvGet<boolean>(KV_VERCEL_BANK_STATEMENT_CAPTURED_KEY),
-      kvGet<boolean>(KV_VERCEL_PAYMENT_REFERENCE_CAPTURED_KEY),
-      kvGet<string>(KV_VERCEL_PAYMENT_REFERENCE_CLASSIFICATION_KEY),
-      kvGet<boolean>(KV_VERCEL_PAYMENT_REFERENCE_PUBLIC_SAFE_APPROVED_KEY),
-      kvGet<boolean>(KV_VERCEL_PUBLIC_ANNOUNCEMENT_REDACTED_KEY),
-      kvGet<boolean>(KV_VERCEL_PUBLIC_ANNOUNCEMENT_PUBLISHED_KEY),
-      kvGet<boolean>(KV_VERCEL_AUTOPAY_CORPORATE_ONLY_KEY),
-      kvGet<boolean>(KV_VERCEL_FINANCE_CHANNEL_CONFIGURED_KEY),
-      kvGet<boolean>(KV_VERCEL_FINOPS_THRESHOLDS_ENABLED_KEY),
-      kvGet<boolean>(KV_VERCEL_MONTHLY_RECONCILIATION_ENABLED_KEY),
-      kvGet<boolean>(KV_VERCEL_QUARTERLY_VENDOR_REVIEW_ENABLED_KEY),
-    ]);
-
-    const hasEnvPaymentReferenceClassification =
-      Object.prototype.hasOwnProperty.call(env, 'SPAJA_VERCEL_PAYMENT_REFERENCE_CLASSIFICATION');
-
-    return {
-      ...env,
-      SPAJA_VERCEL_BILLING_OWNER: env.SPAJA_VERCEL_BILLING_OWNER ?? kvBillingOwner ?? undefined,
-      SPAJA_VERCEL_BILLING_OWNER_LOCKED: mergeBoolEnv(env, 'SPAJA_VERCEL_BILLING_OWNER_LOCKED', kvBillingOwnerLocked),
-      SPAJA_VERCEL_LEGAL_INTAKE_COMPLETE: mergeBoolEnv(env, 'SPAJA_VERCEL_LEGAL_INTAKE_COMPLETE', kvLegalIntakeComplete),
-      SPAJA_VERCEL_ENTERPRISE_GOVERNED_MODEL: mergeBoolEnv(env, 'SPAJA_VERCEL_ENTERPRISE_GOVERNED_MODEL', kvEnterpriseGovernedModel),
-      SPAJA_VERCEL_CURRENT_INVOICE_NUMBER: env.SPAJA_VERCEL_CURRENT_INVOICE_NUMBER ?? kvCurrentInvoiceNumber ?? undefined,
-      SPAJA_VERCEL_CURRENT_INVOICE_AMOUNT: env.SPAJA_VERCEL_CURRENT_INVOICE_AMOUNT ?? kvCurrentInvoiceAmount ?? undefined,
-      SPAJA_VERCEL_CURRENT_INVOICE_PAID: mergeBoolEnv(env, 'SPAJA_VERCEL_CURRENT_INVOICE_PAID', kvCurrentInvoicePaid),
-      SPAJA_VERCEL_CURRENT_INVOICE_EVIDENCE_CAPTURED: mergeBoolEnv(env, 'SPAJA_VERCEL_CURRENT_INVOICE_EVIDENCE_CAPTURED', kvCurrentInvoiceEvidenceCaptured),
-      SPAJA_VERCEL_INVOICE_CORRECTION_REQUESTED: mergeBoolEnv(env, 'SPAJA_VERCEL_INVOICE_CORRECTION_REQUESTED', kvInvoiceCorrectionRequested),
-      SPAJA_VERCEL_CORRECTED_INVOICE_RESOLVED: mergeBoolEnv(env, 'SPAJA_VERCEL_CORRECTED_INVOICE_RESOLVED', kvCorrectedInvoiceResolved),
-      SPAJA_VERCEL_INVOICE_REQUESTED: mergeBoolEnv(env, 'SPAJA_VERCEL_INVOICE_REQUESTED', kvInvoiceRequested),
-      SPAJA_VERCEL_BANK_STATEMENT_CAPTURED: mergeBoolEnv(env, 'SPAJA_VERCEL_BANK_STATEMENT_CAPTURED', kvBankStatementCaptured),
-      SPAJA_VERCEL_PAYMENT_REFERENCE_CAPTURED: mergeBoolEnv(env, 'SPAJA_VERCEL_PAYMENT_REFERENCE_CAPTURED', kvPaymentReferenceCaptured),
-      SPAJA_VERCEL_PAYMENT_REFERENCE_CLASSIFICATION:
-        hasEnvPaymentReferenceClassification
-          ? env.SPAJA_VERCEL_PAYMENT_REFERENCE_CLASSIFICATION === ''
-            ? undefined
-            : normalizedEnvPaymentReferenceClassification
-              || normalizePaymentReferenceClassification(kvPaymentReferenceClassification ?? undefined)
-              || undefined
-          : normalizePaymentReferenceClassification(kvPaymentReferenceClassification ?? undefined) || undefined,
-      SPAJA_VERCEL_PAYMENT_REFERENCE_PUBLIC_SAFE_APPROVED: mergeBoolEnv(
-        env,
-        'SPAJA_VERCEL_PAYMENT_REFERENCE_PUBLIC_SAFE_APPROVED',
-        kvPaymentReferencePublicSafeApproved,
-      ),
-      SPAJA_VERCEL_PUBLIC_ANNOUNCEMENT_REDACTED: mergeBoolEnv(env, 'SPAJA_VERCEL_PUBLIC_ANNOUNCEMENT_REDACTED', kvPublicAnnouncementRedacted),
-      SPAJA_VERCEL_PUBLIC_ANNOUNCEMENT_PUBLISHED: mergeBoolEnv(env, 'SPAJA_VERCEL_PUBLIC_ANNOUNCEMENT_PUBLISHED', kvPublicAnnouncementPublished),
-      SPAJA_VERCEL_AUTOPAY_CORPORATE_ONLY: mergeBoolEnv(env, 'SPAJA_VERCEL_AUTOPAY_CORPORATE_ONLY', kvAutopayCorporateOnly),
-      SPAJA_VERCEL_FINANCE_CHANNEL_CONFIGURED: mergeBoolEnv(env, 'SPAJA_VERCEL_FINANCE_CHANNEL_CONFIGURED', kvFinanceChannelConfigured),
-      SPAJA_VERCEL_FINOPS_THRESHOLDS_ENABLED: mergeBoolEnv(env, 'SPAJA_VERCEL_FINOPS_THRESHOLDS_ENABLED', kvFinopsThresholdsEnabled),
-      SPAJA_VERCEL_MONTHLY_RECONCILIATION_ENABLED: mergeBoolEnv(env, 'SPAJA_VERCEL_MONTHLY_RECONCILIATION_ENABLED', kvMonthlyReconciliationEnabled),
-      SPAJA_VERCEL_QUARTERLY_VENDOR_REVIEW_ENABLED: mergeBoolEnv(env, 'SPAJA_VERCEL_QUARTERLY_VENDOR_REVIEW_ENABLED', kvQuarterlyVendorReviewEnabled),
-    };
-  } catch (error) {
-    console.warn('[vercel-status] KV governance merge failed; falling back to env-only status.', error);
-    return env;
-  }
 }
 
 export function buildVercelPretplataStatus(
@@ -339,8 +235,10 @@ export function buildVercelPretplataStatus(
 }
 
 export async function GET() {
+  const rawRuntimeEnv = process.env as Record<string, string | undefined>;
   const health = await getVercelHealthCheck();
-  const env = await resolveVercelBillingGovernanceEnv(process.env as Record<string, string | undefined>);
+  const env = await resolveVercelBillingGovernanceEnv(rawRuntimeEnv);
+  const infrastructure = getVercelDeployInfrastructureState(env, rawRuntimeEnv);
   const phone = resolveOwnerPhone(env);
   const phoneVerified = getOwnerPhoneVerifikacijaStatus(phone) === 'verifikovan';
   const pretplataVercel = buildVercelPretplataStatus(env, {
@@ -371,20 +269,44 @@ export async function GET() {
       opis: 'Vercel KV store (KV_REST_API_URL + KV_REST_API_TOKEN)',
       uputstvo: 'Vercel → Storage → Create KV Store → Connect to Project',
     },
-    kvOdgovara: {
-      status: health.kvOdgovara,
-      opis: 'KV store je dostupan i odgovara na ping',
-      uputstvo: health.kvKonfigurisan ? 'Proverite KV store u Vercel dashboard-u' : 'Prvo konfigurisati KV store',
-    },
-    deployHookKonfigurisan: {
-      status: Boolean(process.env.VERCEL_DEPLOY_HOOK_AI_IQ),
-      opis: 'VERCEL_DEPLOY_HOOK_AI_IQ (za ručni deploy trigger)',
-      uputstvo: 'Vercel → Project → Settings → Git → Deploy Hooks → Create Hook',
-    },
+   kvOdgovara: {
+     status: health.kvOdgovara,
+     opis: 'KV store je dostupan i odgovara na ping',
+     uputstvo: health.kvKonfigurisan ? 'Proverite KV store u Vercel dashboard-u' : 'Prvo konfigurisati KV store',
+   },
+   deployHookKonfigurisan: {
+     status: infrastructure.deployHookConfigured,
+     opis: 'VERCEL_DEPLOY_HOOK_AI_IQ (za ručni deploy trigger)',
+     uputstvo: 'Vercel → Project → Settings → Git → Deploy Hooks → Create Hook',
+   },
   };
 
   const ukupnoKonfigurisan = Object.values(checklist).filter((c) => c.status).length;
   const ukupnoProvera = Object.keys(checklist).length;
+  const canonicalDeployBlockers = buildVercelOwnershipBlockers({
+   phoneVerified,
+   billingOwnerLocked: pretplataVercel.billingGovernance.billingOwnerLocked,
+   billingOwner: pretplataVercel.billingGovernance.billingOwner,
+   legalIntakeComplete: pretplataVercel.billingGovernance.legalIntakeComplete,
+   enterpriseGovernedModel: pretplataVercel.billingGovernance.enterpriseGovernedModel,
+   currentInvoiceNumber: pretplataVercel.billingGovernance.currentInvoice.number,
+   currentInvoiceAmount: pretplataVercel.billingGovernance.currentInvoice.amountUsd,
+   invoiceResolved:
+     pretplataVercel.billingGovernance.currentInvoice.paid
+     || pretplataVercel.billingGovernance.currentInvoice.correctedInvoiceResolved,
+   currentInvoiceEvidenceCaptured: pretplataVercel.billingGovernance.currentInvoice.evidenceCaptured,
+   bankStatementCaptured: pretplataVercel.billingGovernance.currentInvoice.bankStatementCaptured,
+   paymentReferenceCaptured: pretplataVercel.billingGovernance.currentInvoice.paymentReferenceCaptured,
+   publicAnnouncementRedacted: pretplataVercel.billingGovernance.publicAnnouncement.redacted,
+  });
+  const deployGovernance = buildVercelDeployGovernanceSummary({
+   sourceOfTruthPath: VERCEL_STATUS_ROUTE_PATH,
+   blockers: canonicalDeployBlockers,
+   tokenConfigured: infrastructure.tokenConfigured,
+   projectIdConfigured: infrastructure.projectIdConfigured,
+   teamOrOrgConfigured: infrastructure.teamOrOrgConfigured,
+   deployHookConfigured: infrastructure.deployHookConfigured,
+  });
 
   // Analytics event (pasivno — ne blokira odgovor)
   const eventTip = health.vercelPriključeno
@@ -411,6 +333,7 @@ export async function GET() {
         }
       : null,
     pretplataVercel,
+    deployGovernance,
     uputstvo: {
       korak1: 'Kreirati Personal Access Token na Vercel → Account Settings → Tokens',
       korak2: 'Dodati VERCEL_TOKEN u Vercel → Project → Settings → Environment Variables',
