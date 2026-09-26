@@ -33,7 +33,7 @@ import {
   buildVercelOwnershipBlockers,
   buildVercelDeployGovernanceSummary,
 } from '@/lib/vercel-deploy-governance';
-import { resolveVercelBillingGovernanceEnv } from '@/app/api/vercel-status/route';
+import { resolveVercelBillingGovernanceEnv } from '@/lib/vercel-governance-env';
 
 // KV ključevi za enterprise request status (persists over restarts)
 const KV_ENTERPRISE_READY_KEY = 'owner:vercel:enterprise-request-ready';
@@ -196,7 +196,7 @@ async function clearDerivedPaymentArtifacts(resetApprovalHistory = false): Promi
 
 export async function GET() {
   const runtimeEnv = await resolveVercelBillingGovernanceEnv(process.env as Record<string, string | undefined>);
-  const telefonBroj = process.env[OWNER_PHONE_NUMBER_ENV_KEY] ?? OWNER_PHONE_DEFAULT;
+  const telefonBroj = runtimeEnv[OWNER_PHONE_NUMBER_ENV_KEY] ?? OWNER_PHONE_DEFAULT;
   const phoneStatus = getOwnerPhoneVerifikacijaStatus(telefonBroj);
   const poslednja_verifikacija = getOwnerPoslednja_verifikacija(telefonBroj);
 
