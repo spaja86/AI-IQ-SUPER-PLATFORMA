@@ -826,12 +826,14 @@ Pravila računanja procenata:
   - `READY = 100%`
   - `WATCH = 50%`
   - `BLOCKED = 0%`
+- Branch completion procenat se objavljuje sa fiksnom preciznošću od dve decimale.
 - **Platform completion %** se računa preko zaključanih traka:
   - tehnička traka
   - governance traka
   - javni boundary
   - poslovna traka
 - Postojeći bounded paketi iz implementation package-a ostaju obavezni deo izveštaja kao supporting readiness/governance signal, ali ne menjaju zaključani four-track platform procenat.
+- Platform completion procenat se objavljuje sa fiksnom preciznošću od dve decimale.
 
 Tri zaključana nivoa izveštavanja ostaju:
 

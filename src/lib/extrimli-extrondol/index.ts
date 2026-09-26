@@ -340,7 +340,10 @@ function calculateAverageCompletionPercent(
   items: ReadonlyArray<{ completionPercent: number }>,
 ): number {
   if (items.length === 0) return 0;
-  return items.reduce((sum, item) => sum + item.completionPercent, 0) / items.length;
+  return round(
+    items.reduce((sum, item) => sum + item.completionPercent, 0) / items.length,
+    2,
+  );
 }
 
 function buildDeveloperCreateBranchReport(params: {
