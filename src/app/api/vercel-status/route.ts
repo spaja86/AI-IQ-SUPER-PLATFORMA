@@ -19,7 +19,10 @@ import {
   VERCEL_STATUS_ROUTE_PATH,
   buildVercelDeployGovernanceSummary,
 } from '@/lib/vercel-deploy-governance';
-import { resolveVercelBillingGovernanceEnv } from '@/lib/vercel-governance-env';
+import {
+  getVercelDeployInfrastructureState,
+  resolveVercelBillingGovernanceEnv,
+} from '@/lib/vercel-governance-env';
 import {
   EXPECTED_VERCEL_BILLING_OWNER,
   EXPECTED_VERCEL_INVOICE_AMOUNT,
@@ -233,6 +236,7 @@ export function buildVercelPretplataStatus(
 export async function GET() {
   const health = await getVercelHealthCheck();
   const env = await resolveVercelBillingGovernanceEnv(process.env as Record<string, string | undefined>);
+  const infrastructure = getVercelDeployInfrastructureState(env);
   const phone = resolveOwnerPhone(env);
   const phoneVerified = getOwnerPhoneVerifikacijaStatus(phone) === 'verifikovan';
   const pretplataVercel = buildVercelPretplataStatus(env, {
@@ -263,30 +267,27 @@ export async function GET() {
       opis: 'Vercel KV store (KV_REST_API_URL + KV_REST_API_TOKEN)',
       uputstvo: 'Vercel → Storage → Create KV Store → Connect to Project',
     },
-    kvOdgovara: {
-      status: health.kvOdgovara,
-      opis: 'KV store je dostupan i odgovara na ping',
-      uputstvo: health.kvKonfigurisan ? 'Proverite KV store u Vercel dashboard-u' : 'Prvo konfigurisati KV store',
-    },
-    deployHookKonfigurisan: {
-      status: Boolean(process.env.VERCEL_DEPLOY_HOOK_AI_IQ),
-      opis: 'VERCEL_DEPLOY_HOOK_AI_IQ (za ručni deploy trigger)',
-      uputstvo: 'Vercel → Project → Settings → Git → Deploy Hooks → Create Hook',
-    },
+   kvOdgovara: {
+     status: health.kvOdgovara,
+     opis: 'KV store je dostupan i odgovara na ping',
+     uputstvo: health.kvKonfigurisan ? 'Proverite KV store u Vercel dashboard-u' : 'Prvo konfigurisati KV store',
+   },
+   deployHookKonfigurisan: {
+     status: infrastructure.deployHookConfigured,
+     opis: 'VERCEL_DEPLOY_HOOK_AI_IQ (za ručni deploy trigger)',
+     uputstvo: 'Vercel → Project → Settings → Git → Deploy Hooks → Create Hook',
+   },
   };
 
   const ukupnoKonfigurisan = Object.values(checklist).filter((c) => c.status).length;
   const ukupnoProvera = Object.keys(checklist).length;
-  const teamOrOrgConfigured =
-    Boolean(env.VERCEL_TEAM_ID?.trim())
-    || Boolean(env.VERCEL_ORG_ID?.trim());
   const deployGovernance = buildVercelDeployGovernanceSummary({
-    sourceOfTruthPath: VERCEL_STATUS_ROUTE_PATH,
-    blockers: pretplataVercel.blokatori,
-    tokenConfigured: health.tokenKonfigurisan,
-    projectIdConfigured: health.projectIdKonfigurisan,
-    teamOrOrgConfigured,
-    deployHookConfigured: checklist.deployHookKonfigurisan.status,
+   sourceOfTruthPath: VERCEL_STATUS_ROUTE_PATH,
+   blockers: pretplataVercel.blokatori,
+   tokenConfigured: infrastructure.tokenConfigured,
+   projectIdConfigured: infrastructure.projectIdConfigured,
+   teamOrOrgConfigured: infrastructure.teamOrOrgConfigured,
+   deployHookConfigured: infrastructure.deployHookConfigured,
   });
 
   // Analytics event (pasivno — ne blokira odgovor)

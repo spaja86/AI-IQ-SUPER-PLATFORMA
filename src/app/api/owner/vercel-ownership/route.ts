@@ -33,7 +33,10 @@ import {
   buildVercelOwnershipBlockers,
   buildVercelDeployGovernanceSummary,
 } from '@/lib/vercel-deploy-governance';
-import { resolveVercelBillingGovernanceEnv } from '@/lib/vercel-governance-env';
+import {
+  getVercelDeployInfrastructureState,
+  resolveVercelBillingGovernanceEnv,
+} from '@/lib/vercel-governance-env';
 
 // KV ključevi za enterprise request status (persists over restarts)
 const KV_ENTERPRISE_READY_KEY = 'owner:vercel:enterprise-request-ready';
@@ -196,6 +199,7 @@ async function clearDerivedPaymentArtifacts(resetApprovalHistory = false): Promi
 
 export async function GET() {
   const runtimeEnv = await resolveVercelBillingGovernanceEnv(process.env as Record<string, string | undefined>);
+  const infrastructure = getVercelDeployInfrastructureState(runtimeEnv);
   const telefonBroj = runtimeEnv[OWNER_PHONE_NUMBER_ENV_KEY]?.trim() || OWNER_PHONE_DEFAULT;
   const phoneStatus = getOwnerPhoneVerifikacijaStatus(telefonBroj);
   const poslednja_verifikacija = getOwnerPoslednja_verifikacija(telefonBroj);
@@ -235,10 +239,10 @@ export async function GET() {
   const deployGovernance = buildVercelDeployGovernanceSummary({
     sourceOfTruthPath: VERCEL_OWNERSHIP_ROUTE_PATH,
     blockers,
-    tokenConfigured: Boolean(runtimeEnv.VERCEL_TOKEN?.trim()),
-    projectIdConfigured: Boolean(runtimeEnv.VERCEL_PROJECT_ID?.trim()),
-    teamOrOrgConfigured: Boolean(runtimeEnv.VERCEL_TEAM_ID?.trim()) || Boolean(runtimeEnv.VERCEL_ORG_ID?.trim()),
-    deployHookConfigured: Boolean(runtimeEnv.VERCEL_DEPLOY_HOOK_AI_IQ?.trim()),
+    tokenConfigured: infrastructure.tokenConfigured,
+    projectIdConfigured: infrastructure.projectIdConfigured,
+    teamOrOrgConfigured: infrastructure.teamOrOrgConfigured,
+    deployHookConfigured: infrastructure.deployHookConfigured,
   });
 
   return NextResponse.json({

@@ -137,3 +137,12 @@ export async function resolveVercelBillingGovernanceEnv(
     return env;
   }
 }
+
+export function getVercelDeployInfrastructureState(env: Record<string, string | undefined>) {
+  return {
+    tokenConfigured: Boolean(env.VERCEL_TOKEN?.trim()),
+    projectIdConfigured: Boolean(env.VERCEL_PROJECT_ID?.trim()),
+    teamOrOrgConfigured: Boolean(env.VERCEL_TEAM_ID?.trim()) || Boolean(env.VERCEL_ORG_ID?.trim()),
+    deployHookConfigured: Boolean(env.VERCEL_DEPLOY_HOOK_AI_IQ?.trim()),
+  };
+}
