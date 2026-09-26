@@ -12,9 +12,12 @@ import {
   DEVELOPER_CREATE_SARADNJA_READY_READINESS_SIGNALS,
   DEVELOPER_CREATE_SARADNJA_READY_RECOMMENDATION_LEVEL,
   DEVELOPER_CREATE_SARADNJA_READY_SUMMARY_SAFE_FIELDS,
+  DEVELOPER_CREATE_IZVESTAJ_REPORT_LOCK,
+  DEVELOPER_CREATE_IZVESTAJ_SCOPE_STATEMENT,
   DEVELOPER_CREATE_VRH_KRALJEVSKI_SAT_ALIAS,
   DEVELOPER_CREATE_VRH_KRALJEVSKI_RAD_ALIAS,
   DEVELOPER_CREATE_VRH_VINOGRADI_GROCKA_RESTORAN_ALIAS,
+  DEVELOPER_CREATE_VRH_IZVESTAJ_ALIAS,
   DEVELOPER_CREATE_VRH_POSLOVNA_PONUDA_ZELEZARA_DOO_ALIAS,
   DEVELOPER_CREATE_NAVIGACIONI_SISTEM_SA_TREKEROM_TRACKER_CONTRACT,
   DEVELOPER_CREATE_VINOGRADI_GROCKA_RESTORAN_LEADERSHIP_TRANSITION,
@@ -64,6 +67,52 @@ async function runTests(): Promise<void> {
         DEVELOPER_CREATE_VRH_NAVIGACIONI_SISTEM_SA_TREKEROM_ALIAS,
       ),
       'NAVIGACIONI SISTEM SA TREKEROM alias must be present in interpretation aliases',
+    );
+  });
+
+  await test('izvestaj alias stays registered with locked report metadata', () => {
+    assert(
+      DEVELOPER_CREATE_VRH_INTERPRETATION_ALIASES.includes(DEVELOPER_CREATE_VRH_IZVESTAJ_ALIAS),
+      'IZVEŠTAJ alias must be present in interpretation aliases',
+    );
+    assert(
+      DEVELOPER_CREATE_IZVESTAJ_SCOPE_STATEMENT.includes('additive-only bounded branch report / audit snapshot alias'),
+      'IZVEŠTAJ scope statement must preserve additive-only audit snapshot wording',
+    );
+    assert(
+      DEVELOPER_CREATE_IZVESTAJ_REPORT_LOCK.canonicalAlias === DEVELOPER_CREATE_VRH_IZVESTAJ_ALIAS,
+      'IZVEŠTAJ report lock canonical alias mismatch',
+    );
+    assert(
+      DEVELOPER_CREATE_IZVESTAJ_REPORT_LOCK.sourceOfTruth === '/api/extrimli/extrondol',
+      'IZVEŠTAJ report lock source of truth mismatch',
+    );
+    assert(
+      DEVELOPER_CREATE_IZVESTAJ_REPORT_LOCK.canonicalFormat === 'developer-create-branch-report-v1',
+      'IZVEŠTAJ report lock format mismatch',
+    );
+    assert(
+      DEVELOPER_CREATE_IZVESTAJ_REPORT_LOCK.roadmapStageId === 'v5-extrondol-release-audit-and-orchestration',
+      'IZVEŠTAJ report lock roadmap stage mismatch',
+    );
+    assertArrayEquals(
+      DEVELOPER_CREATE_IZVESTAJ_REPORT_LOCK.measuredBranchLayers,
+      ['docs', 'types', 'routes', 'tests', 'workflows'],
+      'unexpected IZVEŠTAJ measured branch layers',
+    );
+    assertArrayEquals(
+      DEVELOPER_CREATE_IZVESTAJ_REPORT_LOCK.platformTracks,
+      ['technical-track', 'governance-track', 'public-boundary-track', 'business-track'],
+      'unexpected IZVEŠTAJ platform tracks',
+    );
+    assertArrayEquals(
+      DEVELOPER_CREATE_IZVESTAJ_REPORT_LOCK.reportingLayers,
+      ['EXTREM', 'EXTRONDOL', 'SPAJA KOD'],
+      'unexpected IZVEŠTAJ reporting layers',
+    );
+    assert(
+      DEVELOPER_CREATE_IZVESTAJ_REPORT_LOCK.requiredAuditBlocks.includes('acceptanceEvidence'),
+      'IZVEŠTAJ report lock must require acceptanceEvidence',
     );
   });
 
