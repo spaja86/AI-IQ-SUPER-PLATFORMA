@@ -416,7 +416,6 @@ function buildDeveloperCreateBranchReport(params: {
     fourTrackSummary.governance,
     fourTrackSummary.publicBoundary,
     fourTrackSummary.business,
-    ...boundedPackageSummary,
   ]);
   const branchItems = [
     ...gapRegistrySummary.map((item) => ({
