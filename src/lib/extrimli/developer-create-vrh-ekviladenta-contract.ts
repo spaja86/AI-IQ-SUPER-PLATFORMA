@@ -469,6 +469,8 @@ export const DEVELOPER_CREATE_KRALJEVSKI_RAD_SUMMARY_SAFE_FIELDS = [
   'reviewPosture',
   'downstreamReference',
   'sequenceValidationSummary',
+  'tokenOrderStatus',
+  'duplicateRuleStatus',
   'fallbackInputStatus',
 ] as const;
 
