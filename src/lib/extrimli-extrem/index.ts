@@ -12441,11 +12441,13 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
       ? process.env.EXTRIMLI_KRALJEVSKI_RAD_TOKEN_INPUT
       : undefined;
   const kraljevskiRadObservedTokens =
-    kraljevskiRadRuntimeTokenInput && kraljevskiRadRuntimeTokenInput.trim().length > 0
-      ? kraljevskiRadRuntimeTokenInput
-          .split(/[\s,;|]+/)
-          .map((token) => token.trim())
-          .filter((token) => token.length > 0)
+    typeof kraljevskiRadRuntimeTokenInput === 'string'
+      ? kraljevskiRadRuntimeTokenInput.trim().length > 0
+        ? kraljevskiRadRuntimeTokenInput
+            .split(/[\s,;|]+/)
+            .map((token) => token.trim())
+            .filter((token) => token.length > 0)
+        : []
       : [...kraljevskiRadTrack.boundedTokenSequence];
   const normalizeKraljevskiRadToken = (token: string): string =>
     token.trim().replace(/\s+/g, ' ').toUpperCase();

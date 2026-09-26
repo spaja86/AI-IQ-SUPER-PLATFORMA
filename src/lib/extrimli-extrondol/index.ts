@@ -3741,6 +3741,10 @@ function buildSpajaKodFacade(params: {
         publicBoundary: 'audit-safe-summary-only',
         sequenceValidationSummary:
           params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.kraljevskiRadTrack.sequenceValidationSummary,
+        tokenOrderStatus:
+          params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.kraljevskiRadTrack.readinessSignal.tokenOrderStatus,
+        duplicateRuleStatus:
+          params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.kraljevskiRadTrack.readinessSignal.duplicateRuleStatus,
         fallbackInputStatus:
           params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.kraljevskiRadTrack.readinessSignal.fallbackInputStatus,
         governancePosture: {
