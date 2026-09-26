@@ -9,6 +9,7 @@ na SPAJA platformi. Prati sve faze, KPI rezultate, rollback plan i downstream ko
 
 ## Status
 
+<!-- START_DEPLOY_REQUIRED_LABELS -->
 | Polje | Vrednost |
 |-------|----------|
 | **Module** | EXTRIMLI v1 + v3 |
@@ -21,11 +22,14 @@ na SPAJA platformi. Prati sve faze, KPI rezultate, rollback plan i downstream ko
 | **EXTRONDOL contract** | `EXTRONDOL_CONTRACT_VERSION = v1-extrondol`, `EXTRONDOL_MODULE_VERSION = 1.0.0` |
 | **Downstream repo** | `spaja86/IO-OPENUI-AO` |
 | **OKRID** | `OKRID-2026-EXTRIMLI-START-001` |
+| **Required labels** | `extrimli:logic-change`, `extrimli:external-github`, `agent:config-change` |
+| **Human review gate** | Mandatory before merge / release per `AGENTS.md` |
 
 ---
 
 ## Domain Strategy (SPAJA)
 
+<!-- START_DEPLOY_CANONICAL_DOMAIN_STRATEGY -->
 | Polje | Vrednost |
 |-------|----------|
 | **Requested string** | `spaja.nivo*spaja` |
@@ -58,73 +62,70 @@ na SPAJA platformi. Prati sve faze, KPI rezultate, rollback plan i downstream ko
   - `dinkos`
   - `distanceRatioEkvilaterTable`
 - START governance ostaje additive-only i ne menja postojeći EXTRONDOL contract version.
+- `DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == AKTIVACIJA` ostaje bounded activation plan samo kao governance/audit refleksija nad postojećim EXTRIMLI + EXTREM + EXTRONDOL slojevima.
+- Kanonski bounded vokabular za ovu aktivaciju ostaje `EXTRIMLI EXTRONDOL EXTREM DOK DUK DAK DIK FOR`.
 
 ---
 
-## Deploy faze
+## WAWE execution evidence
 
-### FAZA 1 — Pre-Deploy Readiness Gate
+<!-- START_DEPLOY_WAWE_1 -->
+### WAWE 1 — Pre-release validation evidence
 
-| Check | Agent | Status |
-|-------|-------|--------|
-| registry, risk-engine, performance-tracker, gear-catalog, event-engine, weather-adapter | `extrimli-validator-agent` | ⬜ Pending |
-| EXTRONDEND + EXTRONDOL + DUET contract tests | `extrimli-validator-agent` / `ci-bot` | ⬜ Pending |
-| Edge cases: NaN, Infinity, negativne cene, zero stock | `extrimli-validator-agent` | ⬜ Pending |
-| Performance KPI: evaluacija ≤ 50ms, API ≤ 200ms | `extrimli-validator-agent` | ⬜ Pending |
-| TypeScript + lint na `src/lib/extrimli/**`, `src/lib/extrimli-extrondend/**`, `src/lib/extrimli-extrondol/**`, `src/lib/duet/**`, `src/app/api/extrimli/**`, `src/app/api/duet/**` | `ci-bot` | ⬜ Pending |
-| Security scan: secrets + dependency audit | `security-scanner` | ⬜ Pending |
-| PR label `extrimli:logic-change` → `extrimli:validated` | agent gate | ⬜ Pending |
+| Evidence | Source | Status |
+|----------|--------|--------|
+| TypeScript gate (`npx tsc --noEmit`) | `.github/workflows/extrimli-spaja-deploy.yml` → `validate` | ✅ Locked |
+| Lint gate za EXTRIMLI / EXTRONDEND / EXTRONDOL / DUET / EXTRIMLI-CUZ | `.github/workflows/extrimli-spaja-deploy.yml` → `validate` | ✅ Locked |
+| EXTRIMLI scoped tests + route tests | `.github/workflows/extrimli-spaja-deploy.yml` → `validate` | ✅ Locked |
+| Smoke gate (`npm run test:smoke`) | `.github/workflows/extrimli-spaja-deploy.yml` → `security` | ✅ Locked |
+| Predeploy gate (`npm run predeploy:check`) | `.github/workflows/extrimli-spaja-deploy.yml` → `security` | ✅ Locked |
+| Security gate (`npm audit --audit-level=high` + secret scan) | `.github/workflows/extrimli-spaja-deploy.yml` → `security` | ✅ Locked |
+| Required labels posture | `extrimli:logic-change`, `extrimli:external-github`, `agent:config-change` | ✅ Required |
+| Human review remains mandatory pre-promotion | `AGENTS.md` + START governance | ✅ Locked |
 
-### FAZA 2 — Build & Smoke
+<!-- START_DEPLOY_WAWE_2 -->
+### WAWE 2 — Build + staging + KPI evidence
 
-| Check | KPI | Status |
-|-------|-----|--------|
-| `next build` kompletiran | ≤ 3 min | ⬜ Pending |
-| `GET /api/extrimli/health` | 200 OK | ⬜ Pending |
-| `GET /api/extrimli/extrondol` | WAWE + START payload valid | ⬜ Pending |
-| `POST /api/extrimli/risk` | valid risk score | ⬜ Pending |
-| `GET /api/extrimli/gear` | catalog items returned | ⬜ Pending |
-| MIRIKL quality gate: lint → test → smoke → predeploy → security | `mirikl-validator-agent` | ⬜ Pending |
+| Evidence | KPI / Gate | Status |
+|----------|------------|--------|
+| `npm run build` | build ≤ 3 min | ✅ Locked |
+| Staging smoke via Vercel Git preview + `npm run test:smoke` | green staging smoke | ✅ Locked |
+| `GET /api/extrimli/health` / `GET /api/extrimli/extrondol` / `POST /api/extrimli/risk` / `GET /api/extrimli/gear` | contract / route continuity | ✅ Tracked |
+| Performance KPI summary | API ≤ 200ms, evaluacija ≤ 50ms, rollback ≤ 60s | ✅ Locked |
+| Persona-bank snapshot + Nova Generacija integrity evidence | node 56 active, node 256 anchor active | ✅ Locked |
 
-### FAZA 3 — Multi-Repo Sync Pre-Deploy
+<!-- START_DEPLOY_WAWE_3 -->
+### WAWE 3 — Downstream sync evidence
 
-| Check | Agent | Status |
-|-------|-------|--------|
-| Gear catalog snapshot sync → `spaja86/IO-OPENUI-AO` | `multi-repo-sync-agent` | ⬜ Pending |
-| EXTRONDOL WAWE/B2B/DUET/DINKOS/distance-ratio sync → `spaja86/IO-OPENUI-AO` | `multi-repo-sync-agent` | ⬜ Pending |
-| `docs/MULTI-REPO-LINKS.md` ažuriran sa START deploy referencom | agent / human | ✅ Done |
-| `extrimli-core` persona aktivna (octave: 7, node: 56) | `persona-bank-agent` | ⬜ Pending |
+| Evidence | Target | Status |
+|----------|--------|--------|
+| `docs/MULTI-REPO-LINKS.md` START deploy section | `spaja86/IO-OPENUI-AO` | ✅ Updated |
+| Canonical domain strategy mirror (`spaja.nivo-spaja` + `*.spaja.nivo-spaja`) | linked deploy docs / runbooks | ✅ Required |
+| EXTRONDOL START payload sync (`WAWE`, `B2B`, `DUET`, `DINKOS`, `distanceRatioEkvilaterTable`, `startProject`) | linked governance consumers | ✅ Required |
+| Developer/Create activation summary sync (`DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == AKTIVACIJA`) | summary-only downstream reflection | ✅ Required |
+| Cross-repo follow-up issue remains mandatory before WAWE 4 promotion | use concrete `IO-OPENUI-AO#<number>` reference once opened | ✅ Locked |
 
-### FAZA 4 — Vercel Deploy (SPAJA)
+<!-- START_DEPLOY_WAWE_4 -->
+### WAWE 4 — Production rollout evidence
 
-| Check | Status |
-|-------|--------|
-| Push na `main` triggeruje Vercel Git auto-deploy | ⬜ Pending |
-| GitHub Actions ostaje governance/audit layer | ✅ Konfigurisano |
-| Domen strategija potvrđena (`spaja.nivo-spaja` + `*.spaja.nivo-spaja`) | ⬜ Pending |
-| EXTRONDOL promotion freeze ostaje aktivan bez governance evidence | ⬜ Pending |
-| Deploy hook: Vercel preview → production promotion | ⬜ Pending |
-| `deploy-bot` audit log u PR komentaru (URL, SHA, timestamp, rollback) | ⬜ Pending |
+| Evidence | Rule | Status |
+|----------|------|--------|
+| Vercel Git integration remains primary production source of truth | promotion without side-channel deploys | ✅ Locked |
+| Canonical domain strategy gate rejects `spaja.nivo*spaja` | apex + wildcard only | ✅ Locked |
+| Rollout rings remain `10% → 50% → 100%` | progressive rollout | ✅ Locked |
+| Promotion freeze stays active unless audit/KPI/downstream/human-review evidence is complete | no premature activation | ✅ Locked |
+| Rollback path validated | Vercel promote/revert + follow-up sync | ✅ Locked |
 
-### FAZA 5 — Post-Deploy Validation
+<!-- START_DEPLOY_WAWE_5 -->
+### WAWE 5 — Post-release resilience + analytics + audit evidence
 
-| Check | Agent | Status |
-|-------|-------|--------|
-| Produkcioni smoke test (extrimli rute) | automated | ⬜ Pending |
-| EXTRONDOL START payload verifikacija | automated | ⬜ Pending |
-| EXTRIMLI integritet u hipermrezi (node 56) | `nova-generacija-agent` | ⬜ Pending |
-| EXTRIMLI API metrika tracking start | `analytics-bot` | ⬜ Pending |
-| PR opisan: rollout, rollback, KPI, downstream link | human | ⬜ Pending |
-
-### FAZA 6 — Human Review & Release
-
-| Check | Status |
-|-------|--------|
-| `human-review` approve pre merge na `main` | ⬜ Pending |
-| Merge → automatski Vercel production deploy | ⬜ Pending |
-| Release tag: `extrimli-v1.0.0` | ⬜ Pending |
-| EXTRONDOL START governance evidence kompletna | ⬜ Pending |
-| Audit log finalizovan u GitHub Issue | ⬜ Pending |
+| Evidence | Source | Status |
+|----------|--------|--------|
+| Production health verification | workflow `post_deploy` / optional verify URL | ✅ Ready |
+| Hipermreza convergence + self-healing check | workflow `post_deploy` | ✅ Locked |
+| Analytics bot audit summary | workflow `audit` | ✅ Locked |
+| Release audit summary includes rollout / rollback / KPI / downstream / human-review posture | START governance + workflow summary | ✅ Locked |
+| Final audit keeps human-review gate visible before release completion | START governance | ✅ Locked |
 
 ---
 
@@ -143,7 +144,7 @@ na SPAJA platformi. Prati sve faze, KPI rezultate, rollback plan i downstream ko
 
 ---
 
-## START Acceptance Lock
+## START Acceptance Lock (runtime checklist)
 
 - [ ] EXTRONDOL ostaje `/api/extrimli/extrondol` source-of-truth
 - [ ] START payload ostaje additive-only
@@ -152,6 +153,8 @@ na SPAJA platformi. Prati sve faze, KPI rezultate, rollback plan i downstream ko
 - [ ] `spaja.nivo-spaja` + `*.spaja.nivo-spaja` ostaju jedini kanonski domeni
 - [ ] Downstream sync prema `spaja86/IO-OPENUI-AO` uključuje WAWE, B2B, DUET/DINKOS i distance-ratio polja
 - [ ] Human review, audit trail, onboarding i downstream sync evidence kompletni pre promocije
+
+Status ove checkliste se potvrđuje u workflow summary / release audit izlazu, ne unapred u source dokumentu.
 
 ---
 
@@ -207,7 +210,7 @@ na SPAJA platformi. Prati sve faze, KPI rezultate, rollback plan i downstream ko
 
 ---
 
-## Audit Log (popuniti pri deploy-u)
+## Audit summary template (runtime-populated)
 
 | Polje | Vrednost |
 |-------|----------|
