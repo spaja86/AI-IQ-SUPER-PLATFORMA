@@ -448,9 +448,12 @@ jobs:
       # START_DEPLOY_DOMAIN_GATE
       - name: 🌐 Validate canonical domain strategy
         id: domain_strategy
+        env:
+          MANUAL_CANONICAL_DOMAIN: ${{ github.event.inputs.canonical_domain }}
+          MANUAL_WILDCARD_DOMAIN: ${{ github.event.inputs.wildcard_domain }}
         run: |
-          CANONICAL_DOMAIN="${{ github.event.inputs.canonical_domain }}"
-          WILDCARD_DOMAIN="${{ github.event.inputs.wildcard_domain }}"
+          CANONICAL_DOMAIN="$MANUAL_CANONICAL_DOMAIN"
+          WILDCARD_DOMAIN="$MANUAL_WILDCARD_DOMAIN"
 
           if [ -z "$CANONICAL_DOMAIN" ]; then CANONICAL_DOMAIN="spaja.nivo-spaja"; fi
           if [ -z "$WILDCARD_DOMAIN" ]; then WILDCARD_DOMAIN="*.spaja.nivo-spaja"; fi
