@@ -429,10 +429,19 @@ function buildDeveloperCreateBranchReport(params: {
   const completed = branchItems.filter((item) => item.status === 'READY').map((item) => item.label);
   const partial = branchItems.filter((item) => item.status === 'WATCH').map((item) => item.label);
   const blocked = branchItems.filter((item) => item.status === 'BLOCKED').map((item) => item.label);
+  const platformSupportStatuses = [
+    fourTrackSummary.technical.status,
+    fourTrackSummary.governance.status,
+    fourTrackSummary.publicBoundary.status,
+    fourTrackSummary.business.status,
+    ...boundedPackageSummary.map((item) => item.status),
+  ];
+  const hasBlockedPlatformSupport = platformSupportStatuses.includes('BLOCKED');
+  const hasWatchPlatformSupport = platformSupportStatuses.includes('WATCH');
   let nextStep = 'Advance the branch report through human review and summary-only downstream synchronization.';
-  if (blocked.length > 0 || params.branchStatus === 'BLOCKED' || params.platformStatus === 'BLOCKED') {
+  if (blocked.length > 0 || params.branchStatus === 'BLOCKED' || params.platformStatus === 'BLOCKED' || hasBlockedPlatformSupport) {
     nextStep = 'Resolve blocked branch layers before promotion, then rerun the governance conformance flow.';
-  } else if (partial.length > 0 || params.branchStatus === 'WATCH' || params.platformStatus === 'WATCH') {
+  } else if (partial.length > 0 || params.branchStatus === 'WATCH' || params.platformStatus === 'WATCH' || hasWatchPlatformSupport) {
     nextStep = 'Close WATCH follow-ups across the branch report and rerun governance conformance before promotion.';
   }
 
