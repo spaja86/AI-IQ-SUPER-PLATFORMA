@@ -90,7 +90,7 @@ Ownership split ostaje zaključan:
 ## 6. Status workflow
 
 | Status | Značenje |
-|---|---|
+| --- | --- |
 | `draft` | Predmet otvoren |
 | `incomplete-intake` | Nedostaju ključni podaci |
 | `identity-review` | U toku potvrda pravnog lica i potpisnika |
