@@ -931,7 +931,7 @@ Neproverene oblasti (u ovom ciklusu):
 - Zaključani kanonski token niz ostaje: `DIR, DUR, DAR, RER, DIK, DUR, DAR, DJOMPA, DOKAT, KRUNA, ZOMBAT, DUKUS, NIKSON, KITAN, DIKAT, KVATRO, KALIMERO`.
 - Validacija je bounded i deterministička: redosled je obavezan (`sequenceOrderRule=strict-order-required`), duplikat pravilo je obavezno (`duplicateRule=DUR=2|DAR=2`), a fallback ulazi (`NaN`, `Infinity`, `empty`, `conflict`) ostaju zaključani u `fallbackInputStatus`.
 - Ownership split ostaje nepromenjen: `DOK + DIK + FOR` -> EXTREM (tehnički readiness signal i token-order/duplicate evidencija), `DAK + DUK` -> EXTRONDOL (review/freeze/promotion/rollback/release-audit governance), `SPAJA KOD` -> audit-safe summary-only.
-- Summary-safe izlaz ostaje ograničen na `canonicalAlias`, `status`, `blockerReason`, `watchReasons`, `reviewPosture`, `downstreamReference`, `tokenOrderStatus`, `duplicateRuleStatus`, `fallbackInputStatus`, `kraljevskiRadSummary`; sirovi token-model internali i formule ostaju repo-local.
+- Summary-safe izlaz ostaje ograničen na `canonicalAlias`, `status`, `blockerReason`, `watchReasons`, `reviewPosture`, `downstreamReference`, `sequenceValidationSummary`, `tokenOrderStatus`, `duplicateRuleStatus`, `fallbackInputStatus`; sirovi token-model internali i formule ostaju repo-local.
 
 ### 2.2.15) KRALJEVSKI SAT bounded traka
 

@@ -12455,8 +12455,11 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
   const expectedKraljevskiRadTokens = DEVELOPER_CREATE_KRALJEVSKI_RAD_BOUNDED_TOKEN_SEQUENCE.map(
     normalizeKraljevskiRadToken,
   );
+  const expectedKraljevskiRadTokenSet = new Set(expectedKraljevskiRadTokens);
   const kraljevskiRadHasExactLength =
     normalizedKraljevskiRadTokens.length === expectedKraljevskiRadTokens.length;
+  const kraljevskiRadHasCanonicalVocabulary = normalizedKraljevskiRadTokens
+    .every((token) => expectedKraljevskiRadTokenSet.has(token));
   const kraljevskiRadMatchedTokenCount = kraljevskiRadHasExactLength
     ? expectedKraljevskiRadTokens.reduce(
         (count, expectedToken, index) =>
@@ -12483,7 +12486,9 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
   const kraljevskiRadObservedDARCount = normalizedKraljevskiRadTokens
     .filter((token) => token === 'DAR').length;
   const kraljevskiRadDuplicateRuleStatus: ExtrimliExtremReadinessStatus =
-    kraljevskiRadObservedDURCount === kraljevskiRadExpectedDURCount
+    kraljevskiRadHasExactLength
+    && kraljevskiRadHasCanonicalVocabulary
+    && kraljevskiRadObservedDURCount === kraljevskiRadExpectedDURCount
     && kraljevskiRadObservedDARCount === kraljevskiRadExpectedDARCount
       ? 'READY'
       : 'BLOCKED';

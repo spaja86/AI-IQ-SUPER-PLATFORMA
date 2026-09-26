@@ -343,7 +343,7 @@ async function runTests(): Promise<void> {
     assert(kraljevskiRadTrack.canonicalAlias === 'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == KRALJEVSKI RAD', 'developer/create kraljevski rad canonical alias mismatch');
     assert(kraljevskiRadTrack.roleClassification === 'additive-only-bounded-kraljevski-rad-track', 'developer/create kraljevski rad role classification mismatch');
     assert(kraljevskiRadTrack.boundedTokenSequence.join(',') === 'DIR,DUR,DAR,RER,DIK,DUR,DAR,DJOMPA,DOKAT,KRUNA,ZOMBAT,DUKUS,NIKSON,KITAN,DIKAT,KVATRO,KALIMERO', 'developer/create kraljevski rad token sequence mismatch');
-    assert(kraljevskiRadTrack.summarySafePublicFields.join(',') === 'canonicalAlias,status,blockerReason,watchReasons,reviewPosture,downstreamReference,sequenceValidationSummary,fallbackInputStatus', 'developer/create kraljevski rad summary-safe fields mismatch');
+    assert(kraljevskiRadTrack.summarySafePublicFields.join(',') === 'canonicalAlias,status,blockerReason,watchReasons,reviewPosture,downstreamReference,sequenceValidationSummary,tokenOrderStatus,duplicateRuleStatus,fallbackInputStatus', 'developer/create kraljevski rad summary-safe fields mismatch');
     assert(['READY', 'WATCH', 'BLOCKED'].includes(kraljevskiRadTrack.readinessSignal.status), 'developer/create kraljevski rad status mismatch');
     assert(kraljevskiRadTrack.readinessSignal.fallbackInputs.join(',') === 'NaN,Infinity,empty,conflict', 'developer/create kraljevski rad fallback inputs mismatch');
     assert(radniProstorTrack.canonicalAlias === 'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == RADNI PROSTOR', 'developer/create RADNI PROSTOR canonical alias mismatch');
