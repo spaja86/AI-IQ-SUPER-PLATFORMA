@@ -604,6 +604,14 @@ const EXTRIMLI_EXTREM_DEVELOPER_CREATE_KRALJEVSTVO_SCENARIO_ID =
   'kraljevstvo-zajedno-gradimo-kraljevstvo-za-sve-generacije-developer-create' as const;
 const EXTRIMLI_EXTREM_DEVELOPER_CREATE_KRALJEVSTVO_CITATION =
   'KRALJEVSTVO — LJUDI / ZNANJE / PRIRODA / TEHNOLOGIJA / BUDUĆNOST ostaje additive-only supplemental audit/reference vizuel: zajedništvo, budućnost, znanje, humanost, pravda i tehnologija u službi života mapiraju se isključivo na postojeći Developer/Create ⇄ VRH ⇄ Radni Takt model, uz bounded vezu ka KRALJEVSKI PRAVNI UNIVERZITET governance/epilog narativu, bez novih ruta i bez novog source-of-truth sistema.' as const;
+const EXTRIMLI_EXTREM_DEVELOPER_CREATE_KRALJEVSKI_RAD_TEMPLATE_VISUAL_REFERENCE =
+  'https://github.com/user-attachments/assets/b71eec10-4557-4458-8686-60a739c91734' as const;
+const EXTRIMLI_EXTREM_DEVELOPER_CREATE_KRALJEVSKI_RAD_TEMPLATE_CANONICAL_NARRATIVE_ID =
+  'kraljevski-rad-digitalna-industrija-kompanija-spaja-developer-create' as const;
+const EXTRIMLI_EXTREM_DEVELOPER_CREATE_KRALJEVSKI_RAD_TEMPLATE_SCENARIO_ID =
+  'kraljevski-rad-digitalna-industrija-znanje-tehnologija-ljudi-priroda-buducnost-developer-create' as const;
+const EXTRIMLI_EXTREM_DEVELOPER_CREATE_KRALJEVSKI_RAD_TEMPLATE_CITATION =
+  'KRALJEVSKI RAD — TEMPLATE / DIGITALNA INDUSTRIJA / KOMPANIJA SPAJA ostaje additive-only supplemental audit/reference vizuel: digitalna industrija, znanje, tehnologija, ljudi, priroda i budućnost mapiraju se isključivo na postojeći DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA reflection paket, uz nepromenjeni ownership split (EXTREM readiness signal + EXTRONDOL governance mirror + SPAJA KOD audit-safe summary-only), bez novih ruta i bez novog source-of-truth sistema.' as const;
 const EXTRIMLI_EXTREM_DEVELOPER_CREATE_KRALJEVSTVO_ZVANICNO_MOJE_PRAVO_LICE_VISUAL_REFERENCE =
   'https://github.com/user-attachments/assets/dd446127-c462-47de-ba22-501800f3ccbc' as const;
 const EXTRIMLI_EXTREM_DEVELOPER_CREATE_KRALJEVSTVO_ZVANICNO_MOJE_PRAVO_LICE_CANONICAL_NARRATIVE_ID =
@@ -8985,6 +8993,46 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
               'razvoj',
               'humanost',
               'zajednicko-covecanstvo',
+            ],
+            auditRole: 'additive-audit-reference-only',
+          },
+          {
+            title: 'KRALJEVSKI RAD — TEMPLATE / DIGITALNA INDUSTRIJA / KOMPANIJA SPAJA',
+            canonicalNarrativeId:
+              EXTRIMLI_EXTREM_DEVELOPER_CREATE_KRALJEVSKI_RAD_TEMPLATE_CANONICAL_NARRATIVE_ID,
+            citation: EXTRIMLI_EXTREM_DEVELOPER_CREATE_KRALJEVSKI_RAD_TEMPLATE_CITATION,
+            visualReference:
+              EXTRIMLI_EXTREM_DEVELOPER_CREATE_KRALJEVSKI_RAD_TEMPLATE_VISUAL_REFERENCE,
+            interpretation:
+              'Supplied KRALJEVSKI RAD template image remains additive-only supplemental audit/reference evidence and extends the same bounded Developer/Create reflection package through digitalna industrija, znanje, tehnologija, ljudi, priroda, and budućnost themes without introducing any new source-of-truth runtime route.',
+            sourceStatement: 'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == RADNI TAKT MOZGA (MISLILAC)',
+            imageToSignalProfile: {
+              scenarioId:
+                EXTRIMLI_EXTREM_DEVELOPER_CREATE_KRALJEVSKI_RAD_TEMPLATE_SCENARIO_ID,
+              theme: 'KRALJEVSKI RAD — TEMPLATE / DIGITALNA INDUSTRIJA / KOMPANIJA SPAJA',
+              narrativeInput:
+                EXTRIMLI_EXTREM_DEVELOPER_CREATE_KRALJEVSKI_RAD_TEMPLATE_CITATION,
+              ownershipLock: {
+                dokDikFor: 'EXTREM',
+                dakDuk: 'EXTRONDOL',
+                spajaKod: 'audit-safe-summary-only',
+              },
+              signalOutputs: {
+                readinessScore: 0,
+                readinessStatus: 'BLOCKED',
+                conflictPressurePercent: 100,
+                deterministicFallbackRequired: true,
+              },
+            },
+            thematicSignals: [
+              'kraljevski-rad',
+              'digitalna-industrija',
+              'kompanija-spaja',
+              'znanje',
+              'tehnologija',
+              'ljudi',
+              'priroda',
+              'buducnost',
             ],
             auditRole: 'additive-audit-reference-only',
           },
