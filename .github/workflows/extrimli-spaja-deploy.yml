@@ -220,6 +220,7 @@ jobs:
           npx tsx src/tests/lib/extrimli-extendol.test.ts
           npx tsx src/tests/lib/extrimli-extrondend.test.ts
           npx tsx src/tests/lib/extrimli-extrondol.test.ts
+          npx tsx src/tests/lib/extrimli-start-deploy-doc.test.ts
           npx tsx src/tests/lib/extrimli-koron.test.ts
           npx tsx src/tests/lib/extrimli-cuz.test.ts
           npx tsx src/tests/lib/duet.test.ts

@@ -1031,6 +1031,8 @@ AI-IQ-SUPER-PLATFORMA#EXTRIMLI-003 -> IO-OPENUI-AO#<follow-up issue>
 | **OKRID** | `OKRID-2026-EXTRIMLI-START-001` |
 | **Persona** | `extrimli-core` (octave: 7, hipermreza node: 56) |
 | **Canonical domain strategy** | `spaja.nivo-spaja` (apex) + `*.spaja.nivo-spaja` (wildcard) |
+| **Required labels** | `extrimli:logic-change`, `extrimli:external-github`, `agent:config-change` |
+| **Human review** | Mandatory before merge / release |
 
 | Source (AI-IQ-SUPER-PLATFORMA) | Target (IO-OPENUI-AO) | Sync |
 |------|------|------|
@@ -1045,6 +1047,12 @@ AI-IQ-SUPER-PLATFORMA#EXTRIMLI-003 -> IO-OPENUI-AO#<follow-up issue>
 - Track EXTRIMLI v1 + v3 API contract versions in linked repo consumers
 - Verify `extrimli-core` persona (node: 56) registered in persona-bank post-deploy
 - Mirror canonical DNS convention (`spaja.nivo-spaja` + `*.spaja.nivo-spaja`) u linked deploy dokumentaciji
+- Mirror summary-only activation lock `DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == AKTIVACIJA` with bounded vocabulary `EXTRIMLI EXTRONDOL EXTREM DOK DUK DAK DIK FOR`
+
+**WAWE 3 execution evidence:**
+- Downstream sync ostaje summary-only i obuhvata START deploy governance reference, canonical domain strategy, WAWE 1→5 posture i human-review freeze discipline.
+- EXTRONDOL START payload mirror obuhvata `WAWE`, `B2B`, `DUET`, `DINKOS`, `distanceRatioEkvilaterTable` i `startProject` bez otvaranja novog downstream source-of-truth sloja.
+- Ako linked-repo ostane delimično neusaglašen posle WAWE 3, follow-up issue ostaje obavezan pre WAWE 4 promocije.
 
 ```
 AI-IQ-SUPER-PLATFORMA#EXTRIMLI-START-001 -> IO-OPENUI-AO#<follow-up issue>
