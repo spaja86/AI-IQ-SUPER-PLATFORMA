@@ -34,7 +34,10 @@ import {
   getGovernanceTechnicalRiskStatusFromExtremTrack,
 } from '../extrimli-doker-kurat-izek-dokar-track';
 import {
+  createDeveloperCreateGapRegistryItem,
   DEVELOPER_CREATE_AI_IQ_KONFERENCIJA_ZA_STAMPU_CANONICAL_ALIAS,
+  DEVELOPER_CREATE_CANONICAL_SCOPE_LOCK,
+  DEVELOPER_CREATE_GAP_REGISTRY_ROADMAP_STAGE_IDS,
   DEVELOPER_CREATE_RADIO_CANONICAL_ALIAS,
   DEVELOPER_CREATE_MUZICKA_KUTIJA_CANONICAL_ALIAS,
   DEVELOPER_CREATE_RADIO_MIKROFON_PROJECTION_CANONICAL_EQUALITY,
@@ -51,6 +54,8 @@ import {
   DEVELOPER_CREATE_VRH_NARRATIVE_CONTRACT_BOUNDARY,
   DEVELOPER_CREATE_VRH_SUCCESSFUL_NARRATIVE_CRITERIA,
   DEVELOPER_CREATE_VRH_VISUAL_EVIDENCE_POLICY,
+  normalizeDeveloperCreateSurfaceStatus,
+  resolveDeveloperCreateSurfaceStatus,
 } from '../extrimli/developer-create-vrh-ekviladenta-contract';
 import {
   DEVELOPER_CREATE_VRH_MAPE_UMA_SCOPE_LOCK,
@@ -6213,24 +6218,24 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
     humanReviewComplete,
     rollbackPlanRequired: releaseAuditSummary.rollbackPlanRequired,
   });
-  const scopeLock = {
-    canonicalExpression: DEVELOPER_CREATE_VRH_CANONICAL_NARRATIVE_SENTENCE,
-    boundedVocabulary: ['EXTRIMLI', 'EXTRONDOL', 'EXTREM', 'DOK', 'DUK', 'DAK', 'DIK', 'FOR'],
-    noNewRuntimeRoutes: true,
-    noParallelSourceOfTruth: true,
-    ownershipSplit: {
-      dokDikFor: 'EXTREM',
-      dakDuk: 'EXTRONDOL',
-      spajaKod: 'audit-safe-summary-only',
-    },
-  } as const;
-  const extrondolSurfaceStatus = promotionFreeze ? 'BLOCKED' : degraded ? 'WATCH' : 'READY';
+  const scopeLock = DEVELOPER_CREATE_CANONICAL_SCOPE_LOCK;
+  const extrondolSurfaceStatus = resolveDeveloperCreateSurfaceStatus({
+    promotionFreeze,
+    degraded,
+  });
+  const spajaKodPolicyAligned =
+    extremProfiler.spajaKodEncapsulation.rawPatternVisibility === 'HIDDEN'
+    && extremProfiler.spajaKodEncapsulation.exposurePolicy.exposesRawPatternModel === false
+    && extremProfiler.spajaKodEncapsulation.exposurePolicy.exposesFormulaInternals === false;
+  const spajaKodSurfaceStatus = spajaKodPolicyAligned ? extrondolSurfaceStatus : 'BLOCKED';
   const healthSnapshot = {
     generatedFrom: '/api/extrimli/extrondol',
     surfaces: [
       {
         route: '/api/extrimli/extrem',
-        status: extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.status,
+        status: normalizeDeveloperCreateSurfaceStatus(
+          extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.status,
+        ),
         reason: 'EXTREM status comes from DOK/DIK/FOR consistency and technical readiness outputs.',
       },
       {
@@ -6244,62 +6249,60 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
       },
       {
         route: '/api/extrimli/spaja-kod',
-        status: extrondolSurfaceStatus,
-        reason: 'SPAJA KOD summary facade inherits EXTRONDOL governance posture.',
+        status: spajaKodSurfaceStatus,
+        reason: spajaKodPolicyAligned
+          ? 'SPAJA KOD summary facade inherits EXTRONDOL governance posture.'
+          : 'SPAJA KOD summary-only boundary is not aligned and remains blocked until corrected.',
       },
     ],
   } as const;
-  const spajaKodPolicyAligned =
-    extremProfiler.spajaKodEncapsulation.rawPatternVisibility === 'HIDDEN'
-    && extremProfiler.spajaKodEncapsulation.exposurePolicy.exposesRawPatternModel === false
-    && extremProfiler.spajaKodEncapsulation.exposurePolicy.exposesFormulaInternals === false;
   const gapRegistry = [
-    {
+    createDeveloperCreateGapRegistryItem({
       id: 'docs-drift-lock',
       layer: 'docs',
-      roadmapStageId: 'v5-extrondol-release-audit-and-orchestration',
+      roadmapStageId: DEVELOPER_CREATE_GAP_REGISTRY_ROADMAP_STAGE_IDS.docs,
       measurableOutput: 'Docs lock canonical scope and additive-only ownership split.',
       status: contractDriftChecks.sourceOfTruthRoutesAligned ? 'READY' : 'BLOCKED',
       blockerReason: contractDriftChecks.sourceOfTruthRoutesAligned ? null : 'Source-of-truth route documentation is not aligned.',
-    },
-    {
+    }),
+    createDeveloperCreateGapRegistryItem({
       id: 'types-ownership-lock',
       layer: 'types',
-      roadmapStageId: 'v5-extrondol-release-audit-and-orchestration',
+      roadmapStageId: DEVELOPER_CREATE_GAP_REGISTRY_ROADMAP_STAGE_IDS.types,
       measurableOutput: 'Type contracts preserve DOK/DIK/FOR and DAK/DUK ownership boundaries.',
       status: extremProfiler.dokDikDakDukConsistencyHealth.checks.ownershipBoundaryPreserved ? 'READY' : 'BLOCKED',
       blockerReason: extremProfiler.dokDikDakDukConsistencyHealth.checks.ownershipBoundaryPreserved
         ? null
         : 'Ownership boundary checks are failing in consistency health.',
-    },
-    {
+    }),
+    createDeveloperCreateGapRegistryItem({
       id: 'routes-summary-boundary-lock',
       layer: 'routes',
-      roadmapStageId: 'v5-extrondol-release-audit-and-orchestration',
+      roadmapStageId: DEVELOPER_CREATE_GAP_REGISTRY_ROADMAP_STAGE_IDS.routes,
       measurableOutput: 'SPAJA KOD remains summary-only without internal formulas.',
       status: spajaKodPolicyAligned ? 'READY' : 'BLOCKED',
       blockerReason: spajaKodPolicyAligned ? null : 'SPAJA KOD policy is not aligned with summary-only boundary.',
-    },
-    {
+    }),
+    createDeveloperCreateGapRegistryItem({
       id: 'tests-governance-lock',
       layer: 'tests',
-      roadmapStageId: DEVELOPER_CREATE_V700_ROADMAP_STAGE_ID,
+      roadmapStageId: DEVELOPER_CREATE_GAP_REGISTRY_ROADMAP_STAGE_IDS.tests,
       measurableOutput: 'Acceptance checks validate release-audit, rollback, and human-review gates.',
       status: contractDriftBlockers.length === 0 ? 'READY' : 'WATCH',
       blockerReason: contractDriftBlockers.length === 0
         ? null
         : 'Contract drift checks identified follow-up test scope before promotion.',
-    },
-    {
+    }),
+    createDeveloperCreateGapRegistryItem({
       id: 'workflows-conformance-lock',
       layer: 'workflows',
-      roadmapStageId: DEVELOPER_CREATE_V700_ROADMAP_STAGE_ID,
+      roadmapStageId: DEVELOPER_CREATE_GAP_REGISTRY_ROADMAP_STAGE_IDS.workflows,
       measurableOutput: 'Workflow governance conformance stays PASS with no contract drift blockers.',
       status: governanceConformance.status === 'PASS' ? 'READY' : 'BLOCKED',
       blockerReason: governanceConformance.status === 'PASS'
         ? null
         : `Governance conformance blockers: ${governanceConformance.blockers.join(', ')}`,
-    },
+    }),
   ] as const;
   const spajaKod = buildSpajaKodFacade({
     extremProfiler,
