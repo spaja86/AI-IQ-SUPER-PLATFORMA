@@ -51,20 +51,33 @@ async function run(): Promise<void> {
       'signer/contact validation boundary missing',
     );
     assert(
+      DEVELOPER_CREATE_SARADNJA_READY_DOKSA_PRETPLATA_CASE.acceptanceCriteria.noNewRuntimeRoutes,
+      'contract must keep no-new-runtime-routes enabled',
+    );
+    assert(
+      DEVELOPER_CREATE_SARADNJA_READY_DOKSA_PRETPLATA_CASE.acceptanceCriteria.noParallelSourceOfTruth,
+      'contract must keep no-parallel-source-of-truth enabled',
+    );
+    assert(
       doc.includes(
-        DEVELOPER_CREATE_SARADNJA_READY_DOKSA_PRETPLATA_CASE.acceptanceCriteria.noNewRuntimeRoutes
-          ? 'nema novih runtime ruta'
-          : '__unexpected__',
+        'nema novih runtime ruta',
       ),
       'no-new-routes rule missing',
     );
     assert(
+      DEVELOPER_CREATE_SARADNJA_READY_DOKSA_PRETPLATA_CASE.acceptanceCriteria
+        .noActivationWithoutConfirmedIdentityContractAndPayment,
+      'contract must keep identity/contract/payment activation gate enabled',
+    );
+    assert(
       doc.includes(
-        DEVELOPER_CREATE_SARADNJA_READY_DOKSA_PRETPLATA_CASE.acceptanceCriteria.noParallelSourceOfTruth
-          ? 'nema paralelnog source-of-truth sistema'
-          : '__unexpected__',
+        'nema paralelnog source-of-truth sistema',
       ),
       'no-parallel-source-of-truth rule missing',
+    );
+    assert(
+      doc.includes('nema aktivacije bez potvrđenog identiteta, ugovora i uplate'),
+      'identity/contract/payment activation gate missing',
     );
   });
 
@@ -72,20 +85,24 @@ async function run(): Promise<void> {
     assert(doc.includes('Direktna poruka'), 'private intake message boundary section missing');
     assert(doc.includes('private intake evidence'), 'private evidence classification missing');
     assert(
+      DEVELOPER_CREATE_SARADNJA_READY_DOKSA_PRETPLATA_CASE.directEmploymentRequestMessageHandling
+        .publicSafeSummaryAllowed === false,
+      'contract must keep public-safe summary disabled for the private message',
+    );
+    assert(
       doc.includes(
-        DEVELOPER_CREATE_SARADNJA_READY_DOKSA_PRETPLATA_CASE.directEmploymentRequestMessageHandling
-          .publicSafeSummaryAllowed === false
-          ? 'public-safe summary'
-          : '__unexpected__',
+        'public-safe summary',
       ),
       'public-safe summary boundary missing',
     );
     assert(
+      DEVELOPER_CREATE_SARADNJA_READY_DOKSA_PRETPLATA_CASE.directEmploymentRequestMessageHandling
+        .downstreamSyncAllowed === false,
+      'contract must keep downstream sync disabled for the private message',
+    );
+    assert(
       doc.includes(
-        DEVELOPER_CREATE_SARADNJA_READY_DOKSA_PRETPLATA_CASE.directEmploymentRequestMessageHandling
-          .downstreamSyncAllowed === false
-          ? 'downstream sync paketu'
-          : '__unexpected__',
+        'downstream sync paketu',
       ),
       'downstream sync boundary missing',
     );

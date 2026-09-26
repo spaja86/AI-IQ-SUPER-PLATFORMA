@@ -31,7 +31,7 @@ Ako postoji interes za zapošljavanje, partnerstvo ili širu saradnju, taj tok o
 Pre bilo kakve aktivacije mora biti potvrđeno:
 
 1. da `DOKSA d.o.o. Zrenjanin` predstavlja tačno pravno lice
-2. da je `Vladimir Anđelković` ovlašćeni potpisnik ili validni intake kontakt
+2. da je private intake kontakt ili ovlašćeni potpisnik proverljiv i validiran
 3. da postoji ugovorni i billing osnov za pretplatu
 
 ---
@@ -163,7 +163,7 @@ Aktivacija je dozvoljena samo kada su identitet, ugovor, uplata, human review i 
 
 ---
 
-## 11. Acceptance kriterijumi
+## 11. Kriterijumi prihvatanja
 
 - nema novih runtime ruta
 - nema paralelnog source-of-truth sistema
