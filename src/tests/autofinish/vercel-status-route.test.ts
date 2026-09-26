@@ -35,11 +35,28 @@ async function testRouteResponse() {
   const json = (await response.json()) as {
     status: string;
     pretplataVercel?: { status: string; blokatori: string[] };
+    deployGovernance?: {
+      blockerSourceOfTruth?: { primaryEndpoint?: string; mirroredEndpoint?: string; currentStatus?: string };
+      deployTriggerOrder?: Array<{ handler?: string }>;
+      developerCreateBoundary?: { noNewDeployMechanism?: boolean };
+      recommendedNextAction?: string;
+      wavePhases?: Array<{ id?: string; status?: string }>;
+    };
   };
   assert.ok(typeof json.status === 'string' && json.status.length > 0);
   assert.ok(json.pretplataVercel, 'pretplataVercel mora biti prisutan');
   assert.ok(['service-active', 'blocked-until-validated'].includes(json.pretplataVercel?.status ?? ''));
   assert.ok(Array.isArray(json.pretplataVercel?.blokatori), 'blokatori mora biti niz');
+  assert.strictEqual(json.deployGovernance?.blockerSourceOfTruth?.primaryEndpoint, '/api/vercel-status');
+  assert.strictEqual(json.deployGovernance?.blockerSourceOfTruth?.mirroredEndpoint, '/api/owner/vercel-ownership');
+  assert.ok(['BLOCKED', 'PENDING', 'READY'].includes(json.deployGovernance?.blockerSourceOfTruth?.currentStatus ?? ''));
+  assert.strictEqual(json.deployGovernance?.deployTriggerOrder?.[0]?.handler, 'Vercel Git integracija');
+  assert.strictEqual(json.deployGovernance?.deployTriggerOrder?.[1]?.handler, '.github/workflows/vercel-deploy.yml');
+  assert.strictEqual(json.deployGovernance?.developerCreateBoundary?.noNewDeployMechanism, true);
+  assert.ok(typeof json.deployGovernance?.recommendedNextAction === 'string' && json.deployGovernance.recommendedNextAction.length > 0);
+  assert.strictEqual(json.deployGovernance?.wavePhases?.length, 5);
+  assert.strictEqual(json.deployGovernance?.wavePhases?.[0]?.id, 'WAVE 1');
+  assert.ok((json.deployGovernance?.wavePhases ?? []).every((phase) => ['BLOCKED', 'PENDING', 'READY'].includes(phase.status ?? '')));
 }
 
 async function testRouteResponseUsesKvGovernanceFlags() {

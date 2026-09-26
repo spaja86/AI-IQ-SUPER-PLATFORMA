@@ -122,11 +122,15 @@ export interface ExtrimliDeveloperCreateBranchReportBucketItem {
 
 export interface ExtrimliDeveloperCreateBranchReport {
   canonicalFormat: 'developer-create-branch-report-v1';
+  canonicalAlias: typeof import('../extrimli/developer-create-vrh-ekviladenta-contract').DEVELOPER_CREATE_VRH_IZVESTAJ_ALIAS;
   canonicalScopeLock: 'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA';
   boundedVocabularyPhrase: 'EXTRIMLI EXTRONDOL EXTREM DOK DUK DAK DIK FOR';
   canonicalAlias: typeof DEVELOPER_CREATE_VRH_IZVESTAJ_ALIAS;
   scopeStatement: typeof DEVELOPER_CREATE_IZVESTAJ_SCOPE_STATEMENT;
   reportLock: typeof DEVELOPER_CREATE_IZVESTAJ_REPORT_LOCK;
+  additiveOnly: true;
+  noNewRuntimeModule: true;
+  noParallelSourceOfTruth: true;
   sourceOfTruth: '/api/extrimli/extrondol';
   reportTemplateSource: 'docs/EXTRIMLI-DEVELOPER-CREATE-PROGRAM.md#14-implementacija-plana-audit-snapshot-2026-09-25';
   roadmapStageId: 'v5-extrondol-release-audit-and-orchestration';
@@ -148,6 +152,7 @@ export interface ExtrimliDeveloperCreateBranchReport {
   partialBranchLayers: string[];
   blockedBranchLayers: string[];
   nextStep: string;
+  sourceOfTruthLayers: typeof import('../extrimli/developer-create-vrh-ekviladenta-contract').DEVELOPER_CREATE_IZVESTAJ_SOURCE_OF_TRUTH_LAYERS;
   gapRegistrySummary: Array<ExtrimliImplementationGapItem & {
     completionPercent: 0 | 50 | 100;
   }>;

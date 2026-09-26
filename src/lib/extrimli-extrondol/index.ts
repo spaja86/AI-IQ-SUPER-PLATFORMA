@@ -34,6 +34,7 @@ import {
   getGovernanceTechnicalRiskStatusFromExtremTrack,
 } from '../extrimli-doker-kurat-izek-dokar-track';
 import {
+  DEVELOPER_CREATE_IZVESTAJ_SOURCE_OF_TRUTH_LAYERS,
   createDeveloperCreateGapRegistryItem,
   DEVELOPER_CREATE_AI_IQ_KONFERENCIJA_ZA_STAMPU_CANONICAL_ALIAS,
   DEVELOPER_CREATE_CANONICAL_SCOPE_LOCK,
@@ -49,6 +50,7 @@ import {
   DEVELOPER_CREATE_V700_SCOPE_STATEMENT,
   DEVELOPER_CREATE_VRH_CANONICAL_NARRATIVE_SENTENCE,
   DEVELOPER_CREATE_VRH_CANONICAL_TOKEN_VOCABULARY,
+  DEVELOPER_CREATE_VRH_IZVESTAJ_ALIAS,
   DEVELOPER_CREATE_VRH_DOWNSTREAM_SUMMARY_POLICY,
   DEVELOPER_CREATE_VRH_FOUR_PERMANENT_LAYERS,
   DEVELOPER_CREATE_VRH_IZVESTAJ_ALIAS,
@@ -482,11 +484,15 @@ function buildDeveloperCreateBranchReport(params: {
 
   return {
     canonicalFormat: 'developer-create-branch-report-v1',
+    canonicalAlias: DEVELOPER_CREATE_VRH_IZVESTAJ_ALIAS,
     canonicalScopeLock: 'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA',
     boundedVocabularyPhrase: 'EXTRIMLI EXTRONDOL EXTREM DOK DUK DAK DIK FOR',
     canonicalAlias: DEVELOPER_CREATE_VRH_IZVESTAJ_ALIAS,
     scopeStatement: DEVELOPER_CREATE_IZVESTAJ_SCOPE_STATEMENT,
     reportLock: DEVELOPER_CREATE_IZVESTAJ_REPORT_LOCK,
+    additiveOnly: true,
+    noNewRuntimeModule: true,
+    noParallelSourceOfTruth: true,
     sourceOfTruth: '/api/extrimli/extrondol',
     reportTemplateSource: DEVELOPER_CREATE_BRANCH_REPORT_TEMPLATE_SOURCE,
     roadmapStageId: params.roadmapStageId,
@@ -508,6 +514,7 @@ function buildDeveloperCreateBranchReport(params: {
     partialBranchLayers,
     blockedBranchLayers,
     nextStep,
+    sourceOfTruthLayers: DEVELOPER_CREATE_IZVESTAJ_SOURCE_OF_TRUTH_LAYERS,
     gapRegistrySummary,
     fourTrackSummary,
     boundedPackageSummary,

@@ -17,8 +17,11 @@ import {
   DEVELOPER_CREATE_IZVESTAJ_PLATFORM_TRACKS,
   DEVELOPER_CREATE_IZVESTAJ_REPORTING_LAYERS,
   DEVELOPER_CREATE_IZVESTAJ_SCOPE_STATEMENT,
+  DEVELOPER_CREATE_IZVESTAJ_REQUIRED_AUDIT_FIELDS,
+  DEVELOPER_CREATE_IZVESTAJ_REQUIRED_BLOCKS,
   DEVELOPER_CREATE_VRH_KRALJEVSKI_SAT_ALIAS,
   DEVELOPER_CREATE_VRH_KRALJEVSKI_RAD_ALIAS,
+  DEVELOPER_CREATE_VRH_IZVESTAJ_ALIAS,
   DEVELOPER_CREATE_VRH_VINOGRADI_GROCKA_RESTORAN_ALIAS,
   DEVELOPER_CREATE_VRH_IZVESTAJ_ALIAS,
   DEVELOPER_CREATE_VRH_POSLOVNA_PONUDA_ZELEZARA_DOO_ALIAS,
@@ -116,6 +119,42 @@ async function runTests(): Promise<void> {
     assert(
       DEVELOPER_CREATE_IZVESTAJ_REPORT_LOCK.requiredAuditBlocks.includes('acceptanceEvidence'),
       'IZVEŠTAJ report lock must require acceptanceEvidence',
+  await test('izvestaj alias remains additive-only and keeps canonical branch report fields stable', () => {
+    assert(
+      DEVELOPER_CREATE_VRH_INTERPRETATION_ALIASES.includes(DEVELOPER_CREATE_VRH_IZVESTAJ_ALIAS),
+      'IZVEŠTAJ alias must remain part of the VRH interpretation aliases',
+    );
+    assertArrayEquals(
+      DEVELOPER_CREATE_IZVESTAJ_REQUIRED_BLOCKS,
+      [
+        'completed',
+        'partial',
+        'blocked',
+        'branchCompletionPercent',
+        'platformCompletionPercent',
+        'promotionReadinessStatus',
+        'nextStep',
+        'rolloutPlan',
+        'rollbackPlan',
+        'humanReviewStatus',
+        'downstreamReference',
+      ],
+      'unexpected izvestaj required blocks',
+    );
+    assertArrayEquals(
+      DEVELOPER_CREATE_IZVESTAJ_REQUIRED_AUDIT_FIELDS,
+      [
+        'roadmapStageId',
+        'measurableOutput',
+        'acceptanceEvidence',
+        'rolloutPlan',
+        'rollbackPlan',
+        'humanReviewStatus',
+        'downstreamReference',
+        'branchCompletionPercent',
+        'platformCompletionPercent',
+      ],
+      'unexpected izvestaj audit fields',
     );
   });
 

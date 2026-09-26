@@ -1217,6 +1217,9 @@ async function runTests(): Promise<void> {
     assert(branchReport.reportLock.ownershipSplit.dokDikFor === 'EXTREM', 'unexpected SPAJA KOD branch report DOK/DIK/FOR ownership');
     assert(branchReport.reportLock.ownershipSplit.dakDuk === 'EXTRONDOL', 'unexpected SPAJA KOD branch report DAK/DUK ownership');
     assert(branchReport.reportLock.ownershipSplit.spajaKod === 'audit-safe-summary-only', 'unexpected SPAJA KOD branch report SPAJA KOD ownership');
+    assert(branchReport.additiveOnly, 'unexpected SPAJA KOD branch report additive-only flag');
+    assert(branchReport.noNewRuntimeModule, 'unexpected SPAJA KOD branch report runtime-module boundary');
+    assert(branchReport.noParallelSourceOfTruth, 'unexpected SPAJA KOD branch report source-of-truth boundary');
     const aggregateStatus = (statuses: Array<'READY' | 'WATCH' | 'BLOCKED'>) => (statuses.includes('BLOCKED') ? 'BLOCKED' : statuses.includes('WATCH') ? 'WATCH' : 'READY');
     assert(branchReport.branchStatus === aggregateStatus(body.data.gapRegistrySummary.map((item: { status: 'READY' | 'WATCH' | 'BLOCKED' }) => item.status)), 'unexpected SPAJA KOD branch report branch status');
     assert(branchReport.promotionReadinessStatus === body.data.publicSignals.developerAndCreateImplementationStatus, 'unexpected SPAJA KOD branch report promotion readiness status');
@@ -1251,6 +1254,12 @@ async function runTests(): Promise<void> {
     );
     assert(branchReport.branchCompletionPercent === expectedBranchCompletionPercent, 'unexpected SPAJA KOD branch completion percent');
     assert(branchReport.platformCompletionPercent === expectedPlatformCompletionPercent, 'unexpected SPAJA KOD branch platform completion percent');
+    assert(branchReport.sourceOfTruthLayers.extrem.sourceOfTruth === '/api/extrimli/extrem', 'unexpected SPAJA KOD branch EXTREM source');
+    assert(branchReport.sourceOfTruthLayers.extrondol.sourceOfTruth === '/api/extrimli/extrondol', 'unexpected SPAJA KOD branch EXTRONDOL source');
+    assert(branchReport.sourceOfTruthLayers.spajaKod.sourceOfTruth === '/api/extrimli/spaja-kod', 'unexpected SPAJA KOD branch SPAJA KOD source');
+    assert(branchReport.sourceOfTruthLayers.extrem.boundedVocabulary.join(',') === 'DOK,DIK,FOR', 'unexpected SPAJA KOD branch EXTREM vocabulary');
+    assert(branchReport.sourceOfTruthLayers.extrondol.boundedVocabulary.join(',') === 'DAK,DUK', 'unexpected SPAJA KOD branch EXTRONDOL vocabulary');
+    assert(branchReport.sourceOfTruthLayers.spajaKod.publicBoundary === 'audit-safe-summary-only', 'unexpected SPAJA KOD branch public boundary');
     if (branchReport.boundedPackageSummary.some((item: { status: 'READY' | 'WATCH' | 'BLOCKED' }) => item.status === 'BLOCKED')) {
       assert(
         branchReport.nextStep === 'Resolve blocked branch layers before promotion, then rerun the governance conformance flow.',
