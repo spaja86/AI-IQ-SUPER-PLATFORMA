@@ -198,9 +198,8 @@ async function clearDerivedPaymentArtifacts(resetApprovalHistory = false): Promi
 }
 
 export async function GET() {
-  const rawRuntimeEnv = process.env as Record<string, string | undefined>;
-  const runtimeEnv = await resolveVercelBillingGovernanceEnv(rawRuntimeEnv);
-  const infrastructure = getVercelDeployInfrastructureState(rawRuntimeEnv);
+  const runtimeEnv = await resolveVercelBillingGovernanceEnv(process.env as Record<string, string | undefined>);
+  const infrastructure = getVercelDeployInfrastructureState(runtimeEnv);
   const telefonBroj = runtimeEnv[OWNER_PHONE_NUMBER_ENV_KEY]?.trim() || OWNER_PHONE_DEFAULT;
   const phoneStatus = getOwnerPhoneVerifikacijaStatus(telefonBroj);
   const poslednja_verifikacija = getOwnerPoslednja_verifikacija(telefonBroj);
