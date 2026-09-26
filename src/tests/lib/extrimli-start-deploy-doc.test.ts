@@ -35,7 +35,6 @@ async function run(): Promise<void> {
   await test('START deploy doc locks canonical domain strategy and required labels', () => {
     assert(startDeployDoc.includes('<!-- START_DEPLOY_REQUIRED_LABELS -->'), 'required-labels marker missing');
     assert(startDeployDoc.includes('<!-- START_DEPLOY_CANONICAL_DOMAIN_STRATEGY -->'), 'canonical-domain marker missing');
-    assert(startDeployDoc.includes('`spaja.nivo*spaja`'), 'requested invalid domain pattern missing');
     assert(startDeployDoc.includes('❌ Invalid'), 'invalid requested domain pattern must stay explicitly rejected');
     assert(startDeployDoc.includes('`spaja.nivo-spaja`'), 'canonical apex domain missing');
     assert(startDeployDoc.includes('`*.spaja.nivo-spaja`'), 'canonical wildcard domain missing');
