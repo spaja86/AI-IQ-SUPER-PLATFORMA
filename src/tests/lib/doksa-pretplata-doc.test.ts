@@ -46,10 +46,9 @@ async function run(): Promise<void> {
       'canonical legal entity missing',
     );
     assert(
-      doc.includes(
-        `\`${DEVELOPER_CREATE_SARADNJA_READY_DOKSA_PRETPLATA_CASE.intakeContactOrAuthorizedSignerRequiresValidation}\``,
-      ),
-      'signer/contact validation subject missing',
+      doc.includes('private intake evidencija') &&
+        doc.includes('proverljivog ovlašćenja'),
+      'signer/contact validation boundary missing',
     );
     assert(
       doc.includes(

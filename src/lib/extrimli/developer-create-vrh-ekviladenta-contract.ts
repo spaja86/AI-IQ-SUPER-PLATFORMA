@@ -1266,7 +1266,8 @@ export const DEVELOPER_CREATE_SARADNJA_READY_RECOMMENDATION_LEVEL =
 export const DEVELOPER_CREATE_SARADNJA_READY_DOKSA_PRETPLATA_CASE = {
   canonicalSubscriberLegalEntity: 'DOKSA d.o.o. Zrenjanin',
   additiveOnlyScope: DEVELOPER_CREATE_SARADNJA_READY_POSLOVNA_PONUDA_PRETPLATA_SCOPE_LOCK,
-  intakeContactOrAuthorizedSignerRequiresValidation: 'Vladimir Anđelković',
+  intakeContactOrAuthorizedSignerRole: 'private-intake-contact-or-authorized-signer',
+  intakeContactOrAuthorizedSignerRequiresValidation: true,
   ownershipSplit: {
     extrem: 'technical-readiness-and-evidence-only',
     extrondol: 'review-freeze-promotion-rollback-payment-verification',

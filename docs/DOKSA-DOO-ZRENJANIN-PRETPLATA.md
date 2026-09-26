@@ -25,7 +25,7 @@ Ako postoji interes za zapošljavanje, partnerstvo ili širu saradnju, taj tok o
 ## 2. Kanonski poslovni predmet
 
 - Kanonski pretplatnik: `DOKSA d.o.o. Zrenjanin`
-- Potencijalni intake kontakt / potpisnik za validaciju: `Vladimir Anđelković`
+- Potencijalni intake kontakt / potpisnik za validaciju: private intake evidencija, nije public-safe summary podatak
 - Kontakt ili potpisnik ne sme biti tretiran kao automatski potvrđen bez proverljivog ovlašćenja
 
 Pre bilo kakve aktivacije mora biti potvrđeno:

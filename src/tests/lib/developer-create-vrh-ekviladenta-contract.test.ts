@@ -141,9 +141,13 @@ async function runTests(): Promise<void> {
       'DOKSA legal entity must remain canonical',
     );
     assert(
-      DEVELOPER_CREATE_SARADNJA_READY_DOKSA_PRETPLATA_CASE.intakeContactOrAuthorizedSignerRequiresValidation ===
-        'Vladimir Anđelković',
-      'DOKSA signer/contact must stay validation-gated',
+      DEVELOPER_CREATE_SARADNJA_READY_DOKSA_PRETPLATA_CASE.intakeContactOrAuthorizedSignerRole ===
+        'private-intake-contact-or-authorized-signer',
+      'DOKSA signer/contact role must stay private-intake scoped',
+    );
+    assert(
+      DEVELOPER_CREATE_SARADNJA_READY_DOKSA_PRETPLATA_CASE.intakeContactOrAuthorizedSignerRequiresValidation,
+      'DOKSA signer/contact validation requirement must remain enabled',
     );
     assertArrayEquals(
       DEVELOPER_CREATE_SARADNJA_READY_DOKSA_PRETPLATA_CASE.activationHardGates,
