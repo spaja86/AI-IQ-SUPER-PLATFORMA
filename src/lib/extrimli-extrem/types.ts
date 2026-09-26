@@ -37,6 +37,12 @@ import type {
   DEVELOPER_CREATE_KONSTRUKCIJE_I_PROJEKTOVANJE_NORMALIZATION_RULES,
   DEVELOPER_CREATE_KONSTRUKCIJE_I_PROJEKTOVANJE_ROLE_CLASSIFICATION,
   DEVELOPER_CREATE_KONSTRUKCIJE_I_PROJEKTOVANJE_SCOPE_STATEMENT,
+  DEVELOPER_CREATE_VINOGRADI_GROCKA_RESTORAN_CANONICAL_ALIAS,
+  DEVELOPER_CREATE_VINOGRADI_GROCKA_RESTORAN_SCOPE_STATEMENT,
+  DEVELOPER_CREATE_VINOGRADI_GROCKA_RESTORAN_ROLE_CLASSIFICATION,
+  DEVELOPER_CREATE_VINOGRADI_GROCKA_RESTORAN_SUMMARY_SAFE_FIELDS,
+  DEVELOPER_CREATE_VINOGRADI_GROCKA_RESTORAN_FALLBACK_INPUTS,
+  DEVELOPER_CREATE_VINOGRADI_GROCKA_RESTORAN_LEADERSHIP_TRANSITION,
   DEVELOPER_CREATE_KRALJEVSKO_TAKMICENJE_AUTHENTICITY_RULES,
   DEVELOPER_CREATE_KRALJEVSKO_TAKMICENJE_CANONICAL_ALIAS,
   DEVELOPER_CREATE_KRALJEVSKO_TAKMICENJE_EVALUATION_CRITERIA,
@@ -3291,6 +3297,46 @@ export interface ExtrimliDokDikDakDukConsistencyHealth {
       };
       downstreamReference: 'docs/MULTI-REPO-LINKS.md -> spaja86/IO-OPENUI-AO (summary-only)';
     };
+    vinogradiGrockaRestoranTrack: {
+      canonicalAlias: typeof DEVELOPER_CREATE_VINOGRADI_GROCKA_RESTORAN_CANONICAL_ALIAS;
+      scopeStatement: typeof DEVELOPER_CREATE_VINOGRADI_GROCKA_RESTORAN_SCOPE_STATEMENT;
+      roleClassification: typeof DEVELOPER_CREATE_VINOGRADI_GROCKA_RESTORAN_ROLE_CLASSIFICATION;
+      boundedVocabularyPhrase: 'EXTRIMLI EXTRONDOL EXTREM DOK DUK DAK DIK FOR';
+      additiveOnly: true;
+      noNewRuntimeEngine: true;
+      noNewRuntimeRoutes: true;
+      noParallelSourceOfTruth: true;
+      sourceOfTruthRoutes: readonly ['/api/extrimli/extrem', '/api/extrimli/extrondol', '/api/extrimli/spaja-kod'];
+      ownershipLock: {
+        dokDikFor: 'EXTREM';
+        dakDuk: 'EXTRONDOL';
+        spajaKod: 'audit-safe-summary-only';
+      };
+      summarySafePublicFields: typeof DEVELOPER_CREATE_VINOGRADI_GROCKA_RESTORAN_SUMMARY_SAFE_FIELDS;
+      leadershipTransition: typeof DEVELOPER_CREATE_VINOGRADI_GROCKA_RESTORAN_LEADERSHIP_TRANSITION;
+      readinessSignal: {
+        status: 'READY' | 'WATCH' | 'BLOCKED';
+        readinessScore: number;
+        transitionStatus: 'READY' | 'WATCH' | 'BLOCKED';
+        auditTrailStatus: 'READY' | 'WATCH' | 'BLOCKED';
+        effectiveDateStatus: 'READY' | 'WATCH' | 'BLOCKED';
+        fallbackInputStatus: 'READY' | 'WATCH' | 'BLOCKED';
+        deterministicFallbackRequired: boolean;
+        fallbackInputs: typeof DEVELOPER_CREATE_VINOGRADI_GROCKA_RESTORAN_FALLBACK_INPUTS;
+        driver: 'developerAndCreateRepoWideReflection.readiness + developerAndCreateRepoWideReflection.technicalReadinessProfile.consolidatedRhythmStatus + runtimeLeadershipTransitionInput';
+      };
+      blockerReason: string | null;
+      watchReasons: string[];
+      reviewPosture: 'ALIGNED' | 'WATCH' | 'REVIEW_REQUIRED';
+      effectiveDate: string | null;
+      auditTrailReference: string;
+      leadershipTransitionSummary: string;
+      acceptanceEvidence: readonly [
+        'developerAndCreateRepoWideReflection.vinogradiGrockaRestoranTrack',
+        'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.vinogradiGrockaRestoranTrack'
+      ];
+      downstreamReference: 'docs/MULTI-REPO-LINKS.md -> spaja86/IO-OPENUI-AO (summary-only)';
+    };
     aiIqKonferencijaZaStampuTrack: {
       canonicalAlias: typeof DEVELOPER_CREATE_AI_IQ_KONFERENCIJA_ZA_STAMPU_CANONICAL_ALIAS;
       scopeStatement: typeof DEVELOPER_CREATE_AI_IQ_KONFERENCIJA_ZA_STAMPU_SCOPE_STATEMENT;
@@ -5161,6 +5207,20 @@ export interface ExtrimliDokDikDakDukConsistencyHealth {
         extrondolPublishes: 'wawe-freeze-promotion-review-rollback-audit-summary-only';
         spajaKodPublishes: 'status-blocker-review-downstream-and-construction-design-summary-only';
         technicalBinding: 'developerAndCreateRepoWideReflection.konstrukcijeIProjektovanjeTrack';
+        noNewRuntimeEngine: true;
+        noNewRuntimeRoutes: true;
+        noParallelSourceOfTruth: true;
+        rawInternalsExposed: false;
+      };
+      vinogradiGrockaRestoranBoundary: {
+        trackRole: 'bounded-vinogradi-grocka-restoran-leadership-transition-track';
+        parentTrack: 'VRH PROGRAMSKOG EKVILADENTA';
+        canonicalAlias: typeof DEVELOPER_CREATE_VINOGRADI_GROCKA_RESTORAN_CANONICAL_ALIAS;
+        roleClassification: typeof DEVELOPER_CREATE_VINOGRADI_GROCKA_RESTORAN_ROLE_CLASSIFICATION;
+        extremPublishes: 'status-transition-audit-trail-effective-date-and-deterministic-fallback-signal-only';
+        extrondolPublishes: 'wawe-freeze-promotion-review-rollback-audit-summary-only';
+        spajaKodPublishes: 'summary-only-without-internal-hr-details';
+        technicalBinding: 'developerAndCreateRepoWideReflection.vinogradiGrockaRestoranTrack';
         noNewRuntimeEngine: true;
         noNewRuntimeRoutes: true;
         noParallelSourceOfTruth: true;

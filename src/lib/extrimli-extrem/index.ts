@@ -35,6 +35,13 @@ import {
   DEVELOPER_CREATE_KONSTRUKCIJE_I_PROJEKTOVANJE_ROLE_CLASSIFICATION,
   DEVELOPER_CREATE_KONSTRUKCIJE_I_PROJEKTOVANJE_SCOPE_STATEMENT,
   DEVELOPER_CREATE_KONSTRUKCIJE_I_PROJEKTOVANJE_WATCH_FALLBACK_INPUTS,
+  DEVELOPER_CREATE_VINOGRADI_GROCKA_RESTORAN_CANONICAL_ALIAS,
+  DEVELOPER_CREATE_VINOGRADI_GROCKA_RESTORAN_SCOPE_STATEMENT,
+  DEVELOPER_CREATE_VINOGRADI_GROCKA_RESTORAN_ROLE_CLASSIFICATION,
+  DEVELOPER_CREATE_VINOGRADI_GROCKA_RESTORAN_BOUNDED_VOCABULARY_PHRASE,
+  DEVELOPER_CREATE_VINOGRADI_GROCKA_RESTORAN_FALLBACK_INPUTS,
+  DEVELOPER_CREATE_VINOGRADI_GROCKA_RESTORAN_SUMMARY_SAFE_FIELDS,
+  DEVELOPER_CREATE_VINOGRADI_GROCKA_RESTORAN_LEADERSHIP_TRANSITION,
   DEVELOPER_CREATE_KRALJEVSKO_TAKMICENJE_AUTHENTICITY_RULES,
   DEVELOPER_CREATE_KRALJEVSKO_TAKMICENJE_CANONICAL_ALIAS,
   DEVELOPER_CREATE_KRALJEVSKO_TAKMICENJE_EVALUATION_CRITERIA,
@@ -7552,6 +7559,48 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
         },
         downstreamReference: 'docs/MULTI-REPO-LINKS.md -> spaja86/IO-OPENUI-AO (summary-only)',
       },
+      vinogradiGrockaRestoranTrack: {
+        canonicalAlias: DEVELOPER_CREATE_VINOGRADI_GROCKA_RESTORAN_CANONICAL_ALIAS,
+        scopeStatement: DEVELOPER_CREATE_VINOGRADI_GROCKA_RESTORAN_SCOPE_STATEMENT,
+        roleClassification: DEVELOPER_CREATE_VINOGRADI_GROCKA_RESTORAN_ROLE_CLASSIFICATION,
+        boundedVocabularyPhrase: DEVELOPER_CREATE_VINOGRADI_GROCKA_RESTORAN_BOUNDED_VOCABULARY_PHRASE,
+        additiveOnly: true,
+        noNewRuntimeEngine: true,
+        noNewRuntimeRoutes: true,
+        noParallelSourceOfTruth: true,
+        sourceOfTruthRoutes: ['/api/extrimli/extrem', '/api/extrimli/extrondol', '/api/extrimli/spaja-kod'],
+        ownershipLock: {
+          dokDikFor: 'EXTREM',
+          dakDuk: 'EXTRONDOL',
+          spajaKod: 'audit-safe-summary-only',
+        },
+        summarySafePublicFields: DEVELOPER_CREATE_VINOGRADI_GROCKA_RESTORAN_SUMMARY_SAFE_FIELDS,
+        leadershipTransition: DEVELOPER_CREATE_VINOGRADI_GROCKA_RESTORAN_LEADERSHIP_TRANSITION,
+        readinessSignal: {
+          status: 'BLOCKED',
+          readinessScore: 0,
+          transitionStatus: 'BLOCKED',
+          auditTrailStatus: 'BLOCKED',
+          effectiveDateStatus: 'BLOCKED',
+          fallbackInputStatus: 'BLOCKED',
+          deterministicFallbackRequired: true,
+          fallbackInputs: DEVELOPER_CREATE_VINOGRADI_GROCKA_RESTORAN_FALLBACK_INPUTS,
+          driver:
+            'developerAndCreateRepoWideReflection.readiness + developerAndCreateRepoWideReflection.technicalReadinessProfile.consolidatedRhythmStatus + runtimeLeadershipTransitionInput',
+        },
+        blockerReason:
+          'vinogradi-grocka-restoran-track-awaits-leadership-transition-audit-trail-and-effective-date-alignment',
+        watchReasons: [],
+        reviewPosture: 'REVIEW_REQUIRED',
+        effectiveDate: null,
+        auditTrailReference: '',
+        leadershipTransitionSummary: '',
+        acceptanceEvidence: [
+          'developerAndCreateRepoWideReflection.vinogradiGrockaRestoranTrack',
+          'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.vinogradiGrockaRestoranTrack',
+        ],
+        downstreamReference: 'docs/MULTI-REPO-LINKS.md -> spaja86/IO-OPENUI-AO (summary-only)',
+      },
       aiIqKonferencijaZaStampuTrack: {
         canonicalAlias: DEVELOPER_CREATE_AI_IQ_KONFERENCIJA_ZA_STAMPU_CANONICAL_ALIAS,
         scopeStatement: DEVELOPER_CREATE_AI_IQ_KONFERENCIJA_ZA_STAMPU_SCOPE_STATEMENT,
@@ -11858,6 +11907,20 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
       noParallelSourceOfTruth: true,
       rawInternalsExposed: false,
     },
+    vinogradiGrockaRestoranBoundary: {
+      trackRole: 'bounded-vinogradi-grocka-restoran-leadership-transition-track',
+      parentTrack: 'VRH PROGRAMSKOG EKVILADENTA',
+      canonicalAlias: DEVELOPER_CREATE_VINOGRADI_GROCKA_RESTORAN_CANONICAL_ALIAS,
+      roleClassification: DEVELOPER_CREATE_VINOGRADI_GROCKA_RESTORAN_ROLE_CLASSIFICATION,
+      extremPublishes: 'status-transition-audit-trail-effective-date-and-deterministic-fallback-signal-only',
+      extrondolPublishes: 'wawe-freeze-promotion-review-rollback-audit-summary-only',
+      spajaKodPublishes: 'summary-only-without-internal-hr-details',
+      technicalBinding: 'developerAndCreateRepoWideReflection.vinogradiGrockaRestoranTrack',
+      noNewRuntimeEngine: true,
+      noNewRuntimeRoutes: true,
+      noParallelSourceOfTruth: true,
+      rawInternalsExposed: false,
+    },
     canonicalTerminologyMapping: {
       phrase: 'EXTRIMLI EXTRONDOL EXTREM DOK DUK DAK DIK FOR',
       nucleusLayers: ['documentation', 'types', 'route-summary-fields', 'tests', 'workflow-audit-layer'],
@@ -12991,6 +13054,77 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
     'KONSTRUKCIJE I PROJEKTOVANJE ostaje additive-only bounded građevinsko-projektantska traka: EXTREM drži DOK/DIK/FOR readiness i signal vezu sa GRAĐEVINSKI FAKULTET, EXTRONDOL drži DAK/DUK governance mirror preko GRAĐEVINSKI AKT, a SPAJA KOD objavljuje samo audit-safe summary bez internih formula.';
   konstrukcijeIProjektovanjeTrack.nalazSummary =
     konstrukcijeIProjektovanjeTrack.constructionDesignSummary;
+  const vinogradiGrockaRestoranTrack =
+    dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.vinogradiGrockaRestoranTrack;
+  const vinogradiGrockaRestoranRuntimeFallbackInput =
+    process.env.EXTRIMLI_VINOGRADI_GROCKA_RESTORAN_FALLBACK_INPUT;
+  const vinogradiGrockaRestoranNormalizedFallbackInputs =
+    DEVELOPER_CREATE_VINOGRADI_GROCKA_RESTORAN_FALLBACK_INPUTS.map((token) => token.toLowerCase());
+  const vinogradiGrockaRestoranResolvedFallbackInput =
+    vinogradiGrockaRestoranRuntimeFallbackInput?.trim().toLowerCase() ?? null;
+  const vinogradiGrockaRestoranFallbackInputStatus: ExtrimliExtremReadinessStatus =
+    vinogradiGrockaRestoranResolvedFallbackInput === 'conflict'
+      ? 'BLOCKED'
+      : vinogradiGrockaRestoranResolvedFallbackInput
+        && vinogradiGrockaRestoranNormalizedFallbackInputs.includes(vinogradiGrockaRestoranResolvedFallbackInput)
+        ? 'WATCH'
+        : 'READY';
+  const vinogradiGrockaRestoranTransitionStatus: ExtrimliExtremReadinessStatus =
+    vinogradiGrockaRestoranTrack.leadershipTransition.appointedExecutiveDirectors.length === 2
+    && vinogradiGrockaRestoranTrack.leadershipTransition.mandatoryAuditTrail
+    && vinogradiGrockaRestoranTrack.leadershipTransition.mandatoryEffectiveDate
+      ? 'READY'
+      : 'BLOCKED';
+  const vinogradiGrockaRestoranAuditTrailStatus: ExtrimliExtremReadinessStatus =
+    vinogradiGrockaRestoranTrack.leadershipTransition.mandatoryAuditTrail ? 'READY' : 'BLOCKED';
+  const vinogradiGrockaRestoranEffectiveDateStatus: ExtrimliExtremReadinessStatus =
+    vinogradiGrockaRestoranTrack.leadershipTransition.mandatoryEffectiveDate ? 'READY' : 'BLOCKED';
+  const vinogradiGrockaRestoranSignalStatuses = [
+    dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.status,
+    dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.technicalReadinessProfile
+      .consolidatedRhythmStatus,
+    vinogradiGrockaRestoranTransitionStatus,
+    vinogradiGrockaRestoranAuditTrailStatus,
+    vinogradiGrockaRestoranEffectiveDateStatus,
+    vinogradiGrockaRestoranFallbackInputStatus,
+  ] as const;
+  const vinogradiGrockaRestoranStatus = aggregateSignalReadinessStatus([
+    ...vinogradiGrockaRestoranSignalStatuses,
+  ]);
+  vinogradiGrockaRestoranTrack.readinessSignal.status = vinogradiGrockaRestoranStatus;
+  vinogradiGrockaRestoranTrack.readinessSignal.readinessScore = round(
+    vinogradiGrockaRestoranSignalStatuses.reduce((sum, status) => sum + readinessStatusScore(status), 0)
+      / vinogradiGrockaRestoranSignalStatuses.length,
+    2,
+  );
+  vinogradiGrockaRestoranTrack.readinessSignal.transitionStatus = vinogradiGrockaRestoranTransitionStatus;
+  vinogradiGrockaRestoranTrack.readinessSignal.auditTrailStatus = vinogradiGrockaRestoranAuditTrailStatus;
+  vinogradiGrockaRestoranTrack.readinessSignal.effectiveDateStatus = vinogradiGrockaRestoranEffectiveDateStatus;
+  vinogradiGrockaRestoranTrack.readinessSignal.fallbackInputStatus =
+    vinogradiGrockaRestoranFallbackInputStatus;
+  vinogradiGrockaRestoranTrack.readinessSignal.deterministicFallbackRequired =
+    vinogradiGrockaRestoranStatus !== 'READY'
+    || vinogradiGrockaRestoranFallbackInputStatus !== 'READY';
+  vinogradiGrockaRestoranTrack.effectiveDate = '2026-09-26';
+  vinogradiGrockaRestoranTrack.auditTrailReference = 'VINOGRADI-GROCKA-RESTORAN-EXEC-TRANSITION-2026-09-26';
+  vinogradiGrockaRestoranTrack.leadershipTransitionSummary =
+    'Leadership transition package is additive-only: legacy executive role is resolved, two executive director appointments are recorded in governance evidence, and SPAJA KOD remains summary-safe without internal HR formulas.';
+  vinogradiGrockaRestoranTrack.blockerReason =
+    vinogradiGrockaRestoranStatus === 'BLOCKED'
+      ? 'VINOGRADI GROCKA, RESTORAN ostaje BLOCKED dok leadership transition, audit evidencioni trag i datum efektivnosti nisu poravnati u postojećem ownership split-u bez novih ruta.'
+      : null;
+  vinogradiGrockaRestoranTrack.watchReasons =
+    vinogradiGrockaRestoranStatus === 'WATCH'
+      ? [
+          'VINOGRADI GROCKA, RESTORAN ostaje u WATCH režimu dok fallback signal i governance review traže dodatnu proveru pre promotion odluke.',
+        ]
+      : [];
+  vinogradiGrockaRestoranTrack.reviewPosture =
+    vinogradiGrockaRestoranStatus === 'READY'
+      ? 'ALIGNED'
+      : vinogradiGrockaRestoranStatus === 'WATCH'
+        ? 'WATCH'
+        : 'REVIEW_REQUIRED';
   const aiIqKonferencijaZaStampuTrack =
     dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.aiIqKonferencijaZaStampuTrack;
   const aiIqKonferencijaZaStampuMediaSummary =

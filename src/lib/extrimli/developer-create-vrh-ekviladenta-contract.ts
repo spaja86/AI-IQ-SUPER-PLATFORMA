@@ -22,6 +22,9 @@ export const DEVELOPER_CREATE_VRH_KRALJEVSKI_SAT_ALIAS =
 export const DEVELOPER_CREATE_VRH_KRALJEVSKI_RAD_ALIAS =
   'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == KRALJEVSKI RAD' as const;
 
+export const DEVELOPER_CREATE_VRH_VINOGRADI_GROCKA_RESTORAN_ALIAS =
+  'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == VINOGRADI GROCKA, RESTORAN' as const;
+
 export const DEVELOPER_CREATE_VRH_INTERPRETATION_ALIASES = [
   'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == RADNI TAKT MOZGA (MISLILAC)',
   'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == MAPE UMA',
@@ -41,6 +44,7 @@ export const DEVELOPER_CREATE_VRH_INTERPRETATION_ALIASES = [
   'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == KRALJEVSKI POKLONI ZA SVAČIJI ROĐENDAN',
   DEVELOPER_CREATE_VRH_KRALJEVSKI_SAT_ALIAS,
   DEVELOPER_CREATE_VRH_KRALJEVSKI_RAD_ALIAS,
+  DEVELOPER_CREATE_VRH_VINOGRADI_GROCKA_RESTORAN_ALIAS,
 ] as const;
 
 export const DEVELOPER_CREATE_VRH_DIJALIZA_POGONSKOG_OMOTACA_ALIAS_BOUNDARY = {
@@ -674,6 +678,45 @@ export const DEVELOPER_CREATE_KONSTRUKCIJE_I_PROJEKTOVANJE_NORMALIZATION_RULES =
   unknownTokenHandling: 'map-to-watch-and-require-review',
   conflictHandling: 'map-to-blocked-and-require-review',
 } as const;
+
+export const DEVELOPER_CREATE_VINOGRADI_GROCKA_RESTORAN_CANONICAL_ALIAS =
+  DEVELOPER_CREATE_VRH_VINOGRADI_GROCKA_RESTORAN_ALIAS;
+
+export const DEVELOPER_CREATE_VINOGRADI_GROCKA_RESTORAN_SCOPE_STATEMENT =
+  'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == VINOGRADI GROCKA, RESTORAN == additive-only bounded business-governance transition package bez novih ruta i bez paralelnog source-of-truth sistema' as const;
+
+export const DEVELOPER_CREATE_VINOGRADI_GROCKA_RESTORAN_ROLE_CLASSIFICATION =
+  'additive-only-bounded-vinogradi-grocka-restoran-leadership-transition-track' as const;
+
+export const DEVELOPER_CREATE_VINOGRADI_GROCKA_RESTORAN_BOUNDED_VOCABULARY_PHRASE =
+  'EXTRIMLI EXTRONDOL EXTREM DOK DUK DAK DIK FOR' as const;
+
+export const DEVELOPER_CREATE_VINOGRADI_GROCKA_RESTORAN_LEADERSHIP_TRANSITION = {
+  dismissedExecutiveDirectorRole: 'izvršni-direktor-legacy-role',
+  appointedExecutiveDirectors: ['JONAČIĆ SLAVIŠA', 'JONAČIĆ MARKO'],
+  mandatoryAuditTrail: true,
+  mandatoryEffectiveDate: true,
+  publicSummaryPolicy: 'summary-only-without-internal-hr-details',
+} as const;
+
+export const DEVELOPER_CREATE_VINOGRADI_GROCKA_RESTORAN_FALLBACK_INPUTS = [
+  'NaN',
+  'Infinity',
+  'empty',
+  'conflict',
+] as const;
+
+export const DEVELOPER_CREATE_VINOGRADI_GROCKA_RESTORAN_SUMMARY_SAFE_FIELDS = [
+  'canonicalAlias',
+  'status',
+  'blockerReason',
+  'watchReasons',
+  'reviewPosture',
+  'downstreamReference',
+  'effectiveDate',
+  'auditTrailReference',
+  'leadershipTransitionSummary',
+] as const;
 
 export const DEVELOPER_CREATE_AI_IQ_KONFERENCIJA_ZA_STAMPU_CANONICAL_ALIAS =
   'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == AI IQ KONFERENCIJA ZA ŠTAMPU (NOVINE, DIGITALNE NOVINE)' as const;
