@@ -240,6 +240,7 @@ const DEVELOPER_CREATE_ROADMAP_ACCEPTANCE_EVIDENCE_BASE = [
   'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.leksikonTrack',
   'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.promocijeTiketiBonusiPropusniceAdministrativniBonusiTrack',
   'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.radniProstorTrack',
+  'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.kraljevskiRadTrack',
   'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.aiIqLaboratorijaTrack',
   'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.konstrukcijeIProjektovanjeTrack',
   'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.aiIqKonferencijaZaStampuTrack',
@@ -256,6 +257,7 @@ const DEVELOPER_CREATE_ROADMAP_ACCEPTANCE_EVIDENCE_BASE = [
   'spajaKod.publicSignals.leksikonStatus',
   'spajaKod.publicSignals.promocijeTiketiBonusiPropusniceAdministrativniBonusiStatus',
   'spajaKod.publicSignals.radniProstorStatus',
+  'spajaKod.publicSignals.kraljevskiRadStatus',
   'spajaKod.publicSignals.aiIqLaboratorijaStatus',
   'spajaKod.publicSignals.konstrukcijeIProjektovanjeStatus',
   'spajaKod.publicSignals.aiIqKonferencijaZaStampuStatus',
@@ -287,6 +289,7 @@ const DEVELOPER_CREATE_GOVERNANCE_ACCEPTANCE_EVIDENCE: ExtrimliExtrondolReport['
   'developerAndCreateRepoWideReflection.leksikonTrack',
   'developerAndCreateRepoWideReflection.promocijeTiketiBonusiPropusniceAdministrativniBonusiTrack',
   'developerAndCreateRepoWideReflection.radniProstorTrack',
+  'developerAndCreateRepoWideReflection.kraljevskiRadTrack',
   'developerAndCreateRepoWideReflection.aiIqLaboratorijaTrack',
   'developerAndCreateRepoWideReflection.konstrukcijeIProjektovanjeTrack',
   'developerAndCreateRepoWideReflection.aiIqKonferencijaZaStampuTrack',
@@ -302,6 +305,7 @@ const DEVELOPER_CREATE_GOVERNANCE_ACCEPTANCE_EVIDENCE: ExtrimliExtrondolReport['
   'spajaKod.publicSignals.saradnjaReadyStatus',
   'spajaKod.publicSignals.leksikonStatus',
   'spajaKod.publicSignals.radniProstorStatus',
+  'spajaKod.publicSignals.kraljevskiRadStatus',
   'spajaKod.publicSignals.aiIqLaboratorijaStatus',
   'spajaKod.publicSignals.konstrukcijeIProjektovanjeStatus',
   'spajaKod.publicSignals.aiIqKonferencijaZaStampuStatus',
@@ -3182,6 +3186,7 @@ function buildSpajaKodFacade(params: {
   promocijeTiketiBonusiPropusniceAdministrativniBonusiStatus: ExtrimliExtrondolReport['extremProfiler']['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['promocijeTiketiBonusiPropusniceAdministrativniBonusiTrack']['readinessSignal']['status'];
   kraljevskoTakmicenjeStatus: ExtrimliExtrondolReport['extremProfiler']['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['kraljevskoTakmicenjeTrack']['readinessSignal']['status'];
   kraljevskiPokloniZaSvacijiRodjendanStatus: ExtrimliExtrondolReport['extremProfiler']['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['kraljevskiPokloniZaSvacijiRodjendanTrack']['readinessSignal']['status'];
+  kraljevskiRadStatus: ExtrimliExtrondolReport['extremProfiler']['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['kraljevskiRadTrack']['readinessSignal']['status'];
   radniProstorStatus: ExtrimliExtrondolReport['extremProfiler']['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['radniProstorTrack']['readinessSignal']['status'];
   aiIqLaboratorijaStatus: ExtrimliExtrondolReport['extremProfiler']['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['aiIqLaboratorijaTrack']['readinessSignal']['status'];
   konstrukcijeIProjektovanjeStatus: ExtrimliExtrondolReport['extremProfiler']['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['konstrukcijeIProjektovanjeTrack']['readinessSignal']['status'];
@@ -3323,6 +3328,7 @@ function buildSpajaKodFacade(params: {
         params.promocijeTiketiBonusiPropusniceAdministrativniBonusiStatus,
       kraljevskoTakmicenjeStatus: params.kraljevskoTakmicenjeStatus,
       kraljevskiPokloniZaSvacijiRodjendanStatus: params.kraljevskiPokloniZaSvacijiRodjendanStatus,
+      kraljevskiRadStatus: params.kraljevskiRadStatus,
       radniProstorStatus: params.radniProstorStatus,
       aiIqLaboratorijaStatus: params.aiIqLaboratorijaStatus,
       konstrukcijeIProjektovanjeStatus: params.konstrukcijeIProjektovanjeStatus,
@@ -3438,6 +3444,7 @@ function buildSpajaKodFacade(params: {
         'publicSignals.promocijeTiketiBonusiPropusniceAdministrativniBonusiStatus',
         'publicSignals.kraljevskoTakmicenjeStatus',
         'publicSignals.kraljevskiPokloniZaSvacijiRodjendanStatus',
+        'publicSignals.kraljevskiRadStatus',
         'publicSignals.radniProstorStatus',
         'publicSignals.aiIqLaboratorijaStatus',
         'publicSignals.konstrukcijeIProjektovanjeStatus',
@@ -3468,6 +3475,7 @@ function buildSpajaKodFacade(params: {
         'developerAndCreateImplementationPackage.promocijeTiketiBonusiPropusniceAdministrativniBonusiSummary',
         'developerAndCreateImplementationPackage.kraljevskoTakmicenjeSummary',
         'developerAndCreateImplementationPackage.kraljevskiPokloniZaSvacijiRodjendanSummary',
+        'developerAndCreateImplementationPackage.kraljevskiRadSummary',
         'developerAndCreateImplementationPackage.radniProstorSummary',
         'developerAndCreateImplementationPackage.aiIqLaboratorijaSummary',
         'developerAndCreateImplementationPackage.konstrukcijeIProjektovanjeSummary',
@@ -3711,6 +3719,33 @@ function buildSpajaKodFacade(params: {
         governancePosture: {
           packageBoundary: 'additive-only-no-new-routes-no-new-source-of-truth',
           ownershipSplit: 'DOK-DIK-FOR=EXTREM|DAK-DUK=EXTRONDOL|SPAJA-KOD=SUMMARY',
+          fallbackPolicy: 'deterministic-ready-watch-blocked',
+        },
+      },
+      kraljevskiRadSummary: {
+        canonicalAlias:
+          params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.kraljevskiRadTrack.canonicalAlias,
+        roleClassification:
+          params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.kraljevskiRadTrack.roleClassification,
+        status:
+          params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.kraljevskiRadTrack.readinessSignal.status,
+        blockerReason:
+          params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.kraljevskiRadTrack.blockerReason,
+        watchReasons: [
+          ...params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.kraljevskiRadTrack.watchReasons,
+        ],
+        reviewPosture:
+          params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.kraljevskiRadTrack.reviewPosture,
+        downstreamReference:
+          params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.kraljevskiRadTrack.downstreamReference,
+        publicBoundary: 'audit-safe-summary-only',
+        sequenceValidationSummary:
+          params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.kraljevskiRadTrack.sequenceValidationSummary,
+        fallbackInputStatus:
+          params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.kraljevskiRadTrack.readinessSignal.fallbackInputStatus,
+        governancePosture: {
+          sequenceOrderRule: 'strict-order-required',
+          duplicateRule: 'dur-and-dar-must-appear-exactly-twice',
           fallbackPolicy: 'deterministic-ready-watch-blocked',
         },
       },
@@ -6448,6 +6483,8 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
       extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.kraljevskoTakmicenjeTrack.readinessSignal.status,
     kraljevskiPokloniZaSvacijiRodjendanStatus:
       extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.kraljevskiPokloniZaSvacijiRodjendanTrack.readinessSignal.status,
+    kraljevskiRadStatus:
+      extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.kraljevskiRadTrack.readinessSignal.status,
     radniProstorStatus:
       extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.radniProstorTrack.readinessSignal.status,
     aiIqLaboratorijaStatus:
@@ -8572,6 +8609,39 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
           'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.kraljevskiPokloniZaSvacijiRodjendanTrack',
           'spajaKod.publicSignals.kraljevskiPokloniZaSvacijiRodjendanStatus',
           'spajaKod.developerAndCreateImplementationPackage.kraljevskiPokloniZaSvacijiRodjendanSummary',
+        ],
+        downstreamReference: 'docs/MULTI-REPO-LINKS.md -> spaja86/IO-OPENUI-AO (summary-only)',
+      },
+      kraljevskiRadTrack: {
+        ...extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.kraljevskiRadTrack,
+        sourceOfTruth: '/api/extrimli/extrem',
+        governanceSource: '/api/extrimli/extrondol',
+        publicBoundary: '/api/extrimli/spaja-kod',
+        currentWave: currentWawe,
+        eligibleNextWave: eligibleNextWave,
+        promotionFreeze:
+          promotionFreeze
+          || extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.kraljevskiRadTrack.readinessSignal.status !== 'READY',
+        reviewRequiredBeforeWideRollout:
+          extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.kraljevskiRadTrack.readinessSignal.status !== 'READY'
+          || extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.kraljevskiRadTrack.reviewPosture === 'REVIEW_REQUIRED',
+        reviewPosture:
+          extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.kraljevskiRadTrack.reviewPosture,
+        rolloutPlan:
+          'Advance KRALJEVSKI RAD only as an additive-only bounded sequence track through existing EXTREM token/readiness signals, EXTRONDOL WAWE governance, and SPAJA KOD summary-safe outputs.',
+        rollbackPlan:
+          'Freeze promotion and revert to the last verified Developer/Create package if KRALJEVSKI RAD sequence-order/duplicate-rule/fallback evidence drifts from bounded policy.',
+        humanReviewStatus: 'required-before-promotion',
+        governancePosture: {
+          sequenceOrderRule: 'strict-order-required',
+          duplicateRule: 'dur-and-dar-must-appear-exactly-twice',
+          fallbackPolicy: 'deterministic-ready-watch-blocked',
+        },
+        acceptanceEvidence: [
+          'developerAndCreateRepoWideReflection.kraljevskiRadTrack',
+          'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.kraljevskiRadTrack',
+          'spajaKod.publicSignals.kraljevskiRadStatus',
+          'spajaKod.developerAndCreateImplementationPackage.kraljevskiRadSummary',
         ],
         downstreamReference: 'docs/MULTI-REPO-LINKS.md -> spaja86/IO-OPENUI-AO (summary-only)',
       },
