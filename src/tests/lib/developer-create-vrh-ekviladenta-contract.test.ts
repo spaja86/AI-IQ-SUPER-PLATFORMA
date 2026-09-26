@@ -14,7 +14,10 @@ import {
   DEVELOPER_CREATE_SARADNJA_READY_SUMMARY_SAFE_FIELDS,
   DEVELOPER_CREATE_VRH_KRALJEVSKI_SAT_ALIAS,
   DEVELOPER_CREATE_VRH_KRALJEVSKI_RAD_ALIAS,
+  DEVELOPER_CREATE_VRH_VINOGRADI_GROCKA_RESTORAN_ALIAS,
   DEVELOPER_CREATE_NAVIGACIONI_SISTEM_SA_TREKEROM_TRACKER_CONTRACT,
+  DEVELOPER_CREATE_VINOGRADI_GROCKA_RESTORAN_LEADERSHIP_TRANSITION,
+  DEVELOPER_CREATE_VINOGRADI_GROCKA_RESTORAN_SUMMARY_SAFE_FIELDS,
   DEVELOPER_CREATE_VRH_INTERPRETATION_ALIASES,
   DEVELOPER_CREATE_VRH_NAVIGACIONI_SISTEM_SA_TREKEROM_ALIAS,
 } from '../../lib/extrimli/developer-create-vrh-ekviladenta-contract';
@@ -221,6 +224,43 @@ async function runTests(): Promise<void> {
       DEVELOPER_CREATE_KRALJEVSKI_RAD_SUMMARY_SAFE_FIELDS,
       ['canonicalAlias', 'status', 'blockerReason', 'watchReasons', 'reviewPosture', 'downstreamReference', 'sequenceValidationSummary', 'tokenOrderStatus', 'duplicateRuleStatus', 'fallbackInputStatus'],
       'unexpected kraljevski rad summary-safe fields',
+    );
+  });
+
+  await test('vinogradi grocka restoran alias remains bounded and governance-ready', () => {
+    assert(
+      DEVELOPER_CREATE_VRH_INTERPRETATION_ALIASES.includes(
+        DEVELOPER_CREATE_VRH_VINOGRADI_GROCKA_RESTORAN_ALIAS,
+      ),
+      'VINOGRADI GROCKA, RESTORAN alias must remain part of the VRH interpretation aliases',
+    );
+    assertArrayEquals(
+      DEVELOPER_CREATE_VINOGRADI_GROCKA_RESTORAN_LEADERSHIP_TRANSITION.appointedExecutiveDirectors,
+      ['JONAČIĆ SLAVIŠA', 'JONAČIĆ MARKO'],
+      'unexpected VINOGRADI GROCKA, RESTORAN appointed executive directors',
+    );
+    assert(
+      DEVELOPER_CREATE_VINOGRADI_GROCKA_RESTORAN_LEADERSHIP_TRANSITION.mandatoryAuditTrail,
+      'VINOGRADI GROCKA, RESTORAN audit trail must stay mandatory',
+    );
+    assert(
+      DEVELOPER_CREATE_VINOGRADI_GROCKA_RESTORAN_LEADERSHIP_TRANSITION.mandatoryEffectiveDate,
+      'VINOGRADI GROCKA, RESTORAN effective date must stay mandatory',
+    );
+    assertArrayEquals(
+      DEVELOPER_CREATE_VINOGRADI_GROCKA_RESTORAN_SUMMARY_SAFE_FIELDS,
+      [
+        'canonicalAlias',
+        'status',
+        'blockerReason',
+        'watchReasons',
+        'reviewPosture',
+        'downstreamReference',
+        'effectiveDate',
+        'auditTrailReference',
+        'leadershipTransitionSummary',
+      ],
+      'unexpected VINOGRADI GROCKA, RESTORAN summary-safe fields',
     );
   });
 

@@ -1283,6 +1283,24 @@ export interface ExtrimliExtrondolDeveloperAndCreateRepoWideReflectionGovernance
     ];
     downstreamReference: 'docs/MULTI-REPO-LINKS.md -> spaja86/IO-OPENUI-AO (summary-only)';
   };
+  vinogradiGrockaRestoranTrack: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['vinogradiGrockaRestoranTrack'] & {
+    sourceOfTruth: '/api/extrimli/extrem';
+    governanceSource: '/api/extrimli/extrondol';
+    publicBoundary: '/api/extrimli/spaja-kod';
+    currentWave: ExtrimliExtrondolWaweStage;
+    eligibleNextWave: ExtrimliExtrondolWaweStage;
+    promotionFreeze: boolean;
+    reviewRequiredBeforeWideRollout: boolean;
+    reviewPosture: 'ALIGNED' | 'WATCH' | 'REVIEW_REQUIRED';
+    rolloutPlan: string;
+    rollbackPlan: string;
+    humanReviewStatus: 'required-before-promotion';
+    acceptanceEvidence: readonly [
+      'developerAndCreateRepoWideReflection.vinogradiGrockaRestoranTrack',
+      'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.vinogradiGrockaRestoranTrack'
+    ];
+    downstreamReference: 'docs/MULTI-REPO-LINKS.md -> spaja86/IO-OPENUI-AO (summary-only)';
+  };
   aiIqKonferencijaZaStampuTrack: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['aiIqKonferencijaZaStampuTrack'] & {
     sourceOfTruth: '/api/extrimli/extrem';
     governanceSource: '/api/extrimli/extrondol';
@@ -3042,6 +3060,7 @@ export interface ExtrimliSpajaKodPublicFacade {
     radniProstorStatus: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['radniProstorTrack']['readinessSignal']['status'];
     aiIqLaboratorijaStatus: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['aiIqLaboratorijaTrack']['readinessSignal']['status'];
     konstrukcijeIProjektovanjeStatus: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['konstrukcijeIProjektovanjeTrack']['readinessSignal']['status'];
+    vinogradiGrockaRestoranStatus: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['vinogradiGrockaRestoranTrack']['readinessSignal']['status'];
     aiIqKonferencijaZaStampuStatus: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['aiIqKonferencijaZaStampuTrack']['readinessSignal']['status'];
     radioStatus: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['radioTrack']['readinessSignal']['status'];
     muzickaKutijaStatus: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['muzickaKutijaTrack']['readinessSignal']['status'];
@@ -3168,6 +3187,7 @@ export interface ExtrimliSpajaKodPublicFacade {
       'publicSignals.radniProstorStatus',
       'publicSignals.aiIqLaboratorijaStatus',
       'publicSignals.konstrukcijeIProjektovanjeStatus',
+      'publicSignals.vinogradiGrockaRestoranStatus',
       'publicSignals.aiIqKonferencijaZaStampuStatus',
       'publicSignals.radioStatus',
       'publicSignals.muzickaKutijaStatus',
@@ -3201,6 +3221,7 @@ export interface ExtrimliSpajaKodPublicFacade {
       'developerAndCreateImplementationPackage.radniProstorSummary',
       'developerAndCreateImplementationPackage.aiIqLaboratorijaSummary',
       'developerAndCreateImplementationPackage.konstrukcijeIProjektovanjeSummary',
+      'developerAndCreateImplementationPackage.vinogradiGrockaRestoranSummary',
       'developerAndCreateImplementationPackage.aiIqKonferencijaZaStampuSummary',
       'developerAndCreateImplementationPackage.radioSummary',
       'developerAndCreateImplementationPackage.muzickaKutijaSummary',
@@ -3418,6 +3439,19 @@ export interface ExtrimliSpajaKodPublicFacade {
       constructionDesignSummary: string;
       gradjevinskiFakultetStatus: 'READY' | 'WATCH' | 'BLOCKED';
       gradjevinskiAktStatus: 'READY' | 'WATCH' | 'BLOCKED';
+    };
+    vinogradiGrockaRestoranSummary: {
+      canonicalAlias: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['vinogradiGrockaRestoranTrack']['canonicalAlias'];
+      roleClassification: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['vinogradiGrockaRestoranTrack']['roleClassification'];
+      status: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['vinogradiGrockaRestoranTrack']['readinessSignal']['status'];
+      blockerReason: string | null;
+      watchReasons: string[];
+      reviewPosture: 'ALIGNED' | 'WATCH' | 'REVIEW_REQUIRED';
+      downstreamReference: 'docs/MULTI-REPO-LINKS.md -> spaja86/IO-OPENUI-AO (summary-only)';
+      publicBoundary: 'audit-safe-summary-only';
+      leadershipTransitionSummary: string;
+      effectiveDate: string;
+      auditTrailReference: string;
     };
     aiIqKonferencijaZaStampuSummary: {
       canonicalAlias: typeof DEVELOPER_CREATE_AI_IQ_KONFERENCIJA_ZA_STAMPU_CANONICAL_ALIAS;

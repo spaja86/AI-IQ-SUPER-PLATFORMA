@@ -199,6 +199,8 @@ async function runTests(): Promise<void> {
       report.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.aiIqLaboratorijaTrack;
     const konstrukcijeIProjektovanjeTrack =
       report.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.konstrukcijeIProjektovanjeTrack;
+    const vinogradiGrockaRestoranTrack =
+      report.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.vinogradiGrockaRestoranTrack;
     const aiIqKonferencijaZaStampuTrack =
       report.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.aiIqKonferencijaZaStampuTrack;
     const radioTrack =
@@ -369,6 +371,14 @@ async function runTests(): Promise<void> {
     assert(konstrukcijeIProjektovanjeTrack.summarySafePublicFields.join(',') === 'canonicalAlias,status,blockerReason,watchReasons,reviewPosture,downstreamReference,nalazSummary,constructionDesignSummary,gradjevinskiFakultetStatus,gradjevinskiAktStatus', 'developer/create KONSTRUKCIJE I PROJEKTOVANJE summary-safe fields mismatch');
     assert(['READY', 'WATCH', 'BLOCKED'].includes(konstrukcijeIProjektovanjeTrack.readinessSignal.gradjevinskiFakultetStatus), 'developer/create KONSTRUKCIJE I PROJEKTOVANJE gradjevinski fakultet status mismatch');
     assert(['READY', 'WATCH', 'BLOCKED'].includes(konstrukcijeIProjektovanjeTrack.readinessSignal.gradjevinskiAktStatus), 'developer/create KONSTRUKCIJE I PROJEKTOVANJE gradjevinski akt status mismatch');
+    assert(vinogradiGrockaRestoranTrack.canonicalAlias === 'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == VINOGRADI GROCKA, RESTORAN', 'developer/create VINOGRADI GROCKA, RESTORAN canonical alias mismatch');
+    assert(vinogradiGrockaRestoranTrack.roleClassification === 'additive-only-bounded-vinogradi-grocka-restoran-leadership-transition-track', 'developer/create VINOGRADI GROCKA, RESTORAN role classification mismatch');
+    assert(vinogradiGrockaRestoranTrack.leadershipTransition.appointedExecutiveDirectors.join(',') === 'JONAČIĆ SLAVIŠA,JONAČIĆ MARKO', 'developer/create VINOGRADI GROCKA, RESTORAN executive transition assignees mismatch');
+    assert(vinogradiGrockaRestoranTrack.summarySafePublicFields.join(',') === 'canonicalAlias,status,blockerReason,watchReasons,reviewPosture,downstreamReference,effectiveDate,auditTrailReference,leadershipTransitionSummary', 'developer/create VINOGRADI GROCKA, RESTORAN summary-safe fields mismatch');
+    assert(['READY', 'WATCH', 'BLOCKED'].includes(vinogradiGrockaRestoranTrack.readinessSignal.status), 'developer/create VINOGRADI GROCKA, RESTORAN readiness status mismatch');
+    assert(vinogradiGrockaRestoranTrack.acceptanceEvidence.join(',') === 'developerAndCreateRepoWideReflection.vinogradiGrockaRestoranTrack,releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.vinogradiGrockaRestoranTrack', 'developer/create VINOGRADI GROCKA, RESTORAN acceptance evidence mismatch');
+    assert(implementationPackage.vinogradiGrockaRestoranBoundary.trackRole === 'bounded-vinogradi-grocka-restoran-leadership-transition-track', 'developer/create implementation package VINOGRADI GROCKA, RESTORAN boundary role mismatch');
+    assert(implementationPackage.vinogradiGrockaRestoranBoundary.spajaKodPublishes === 'summary-only-without-internal-hr-details', 'developer/create implementation package VINOGRADI GROCKA, RESTORAN public boundary mismatch');
     assert(report.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.technicalReadinessProfile.immersiveVisualization3dTrack.dimensionalProgression.join(',') === '360D,720D,1440D,2880D,5760D', 'developer/create immersive dimensional progression mismatch');
     assert(report.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.technicalReadinessProfile.immersiveVisualization3dTrack.fallbackPolicy.degradedMode === 'partial-payload-no-500', 'developer/create immersive degraded policy mismatch');
     assert(report.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.technicalReadinessProfile.immersiveVisualization3dTrack.dimensionalSignals.length === 5, 'developer/create immersive dimensional signals mismatch');
