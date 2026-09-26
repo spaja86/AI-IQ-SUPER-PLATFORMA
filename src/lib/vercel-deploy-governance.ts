@@ -94,7 +94,7 @@ export function buildVercelDeployGovernanceSummary({
     blockerSourceOfTruth: {
       primaryEndpoint: sourceOfTruthPath,
       mirroredEndpoint: mirrorPath,
-      currentStatus: blockers.length === 0 && infraReady && deployHookConfigured ? 'READY' : 'BLOCKED',
+      currentStatus: blockers.length === 0 && infraReady ? 'READY' : 'BLOCKED',
       mustStayAligned: true,
       policy: 'Deploy ostaje blokiran dok oba endpointa ne potvrde da su governance i billing uslovi kompletni.',
     },
