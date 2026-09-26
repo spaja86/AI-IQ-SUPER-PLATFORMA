@@ -26,6 +26,12 @@ import {
   DEVELOPER_CREATE_VRH_IZVESTAJ_ALIAS,
   DEVELOPER_CREATE_VRH_POSLOVNA_PONUDA_ZELEZARA_DOO_ALIAS,
   DEVELOPER_CREATE_NAVIGACIONI_SISTEM_SA_TREKEROM_TRACKER_CONTRACT,
+  DEVELOPER_CREATE_REPO_WIDE_BOUNDED_VOCABULARY,
+  DEVELOPER_CREATE_REPO_WIDE_BOUNDED_VOCABULARY_PHRASE,
+  DEVELOPER_CREATE_REPO_WIDE_RADNI_TAKT_SUPPLEMENTAL_AUDIT_ROLE,
+  DEVELOPER_CREATE_REPO_WIDE_RADNI_TAKT_SUPPLEMENTAL_DOWNSTREAM_FIELDS,
+  DEVELOPER_CREATE_REPO_WIDE_RADNI_TAKT_SUPPLEMENTAL_SCOPE_LOCK,
+  DEVELOPER_CREATE_REPO_WIDE_RADNI_TAKT_SUPPLEMENTAL_THEMATIC_SIGNALS,
   DEVELOPER_CREATE_VINOGRADI_GROCKA_RESTORAN_LEADERSHIP_TRANSITION,
   DEVELOPER_CREATE_VINOGRADI_GROCKA_RESTORAN_SUMMARY_SAFE_FIELDS,
   DEVELOPER_CREATE_POSLOVNA_PONUDA_ZELEZARA_DOO_URGENT_MEETING_INTAKE_PACKAGE,
@@ -73,6 +79,52 @@ async function runTests(): Promise<void> {
         DEVELOPER_CREATE_VRH_NAVIGACIONI_SISTEM_SA_TREKEROM_ALIAS,
       ),
       'NAVIGACIONI SISTEM SA TREKEROM alias must be present in interpretation aliases',
+    );
+  });
+
+  await test('repo-wide RADNI TAKT supplemental lock stays additive-only and bounded', () => {
+    assertArrayEquals(
+      DEVELOPER_CREATE_REPO_WIDE_BOUNDED_VOCABULARY,
+      ['EXTRIMLI', 'EXTRONDOL', 'EXTREM', 'DOK', 'DUK', 'DAK', 'DIK', 'FOR'],
+      'unexpected repo-wide bounded vocabulary',
+    );
+    assert(
+      DEVELOPER_CREATE_REPO_WIDE_BOUNDED_VOCABULARY_PHRASE ===
+        'EXTRIMLI EXTRONDOL EXTREM DOK DUK DAK DIK FOR',
+      'repo-wide bounded vocabulary phrase mismatch',
+    );
+    assert(
+      DEVELOPER_CREATE_REPO_WIDE_RADNI_TAKT_SUPPLEMENTAL_SCOPE_LOCK ===
+        'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == RADNI TAKT DA SE ODRAZI NA SVEMU U REPOZITORIJUMU',
+      'repo-wide RADNI TAKT supplemental scope lock mismatch',
+    );
+    assertArrayEquals(
+      DEVELOPER_CREATE_REPO_WIDE_RADNI_TAKT_SUPPLEMENTAL_THEMATIC_SIGNALS,
+      [
+        'developer-and-create-vrh',
+        'radni-takt-repo-wide-reflection',
+        'vuk',
+        'bounded-vocabulary-extrimli-extrondol-extrem-dok-duk-dak-dik-for',
+        'audit-safe-summary-only',
+      ],
+      'unexpected repo-wide RADNI TAKT supplemental thematic signals',
+    );
+    assert(
+      DEVELOPER_CREATE_REPO_WIDE_RADNI_TAKT_SUPPLEMENTAL_AUDIT_ROLE ===
+        'additive-audit-reference-only',
+      'repo-wide RADNI TAKT supplemental audit role mismatch',
+    );
+    assertArrayEquals(
+      DEVELOPER_CREATE_REPO_WIDE_RADNI_TAKT_SUPPLEMENTAL_DOWNSTREAM_FIELDS,
+      [
+        'scenarioId',
+        'readinessStatus',
+        'blockerWatchReason',
+        'reviewPosture',
+        'ownershipLockSummary',
+        'boundedThematicLabels',
+      ],
+      'unexpected repo-wide RADNI TAKT supplemental downstream fields',
     );
   });
 
