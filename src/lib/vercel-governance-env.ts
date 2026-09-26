@@ -139,13 +139,14 @@ export async function resolveVercelBillingGovernanceEnv(
 }
 
 export function getVercelDeployInfrastructureState(
-  _mergedEnv: Record<string, string | undefined>,
-  rawInfraEnv: Record<string, string | undefined> = _mergedEnv,
+  env: Record<string, string | undefined>,
+  rawInfraEnv?: Record<string, string | undefined>,
 ) {
+  const sourceEnv = rawInfraEnv ?? env;
   return {
-    tokenConfigured: Boolean(rawInfraEnv.VERCEL_TOKEN?.trim()),
-    projectIdConfigured: Boolean(rawInfraEnv.VERCEL_PROJECT_ID?.trim()),
-    teamOrOrgConfigured: Boolean(rawInfraEnv.VERCEL_TEAM_ID?.trim()) || Boolean(rawInfraEnv.VERCEL_ORG_ID?.trim()),
-    deployHookConfigured: Boolean(rawInfraEnv.VERCEL_DEPLOY_HOOK_AI_IQ?.trim()),
+    tokenConfigured: Boolean(sourceEnv.VERCEL_TOKEN?.trim()),
+    projectIdConfigured: Boolean(sourceEnv.VERCEL_PROJECT_ID?.trim()),
+    teamOrOrgConfigured: Boolean(sourceEnv.VERCEL_TEAM_ID?.trim()) || Boolean(sourceEnv.VERCEL_ORG_ID?.trim()),
+    deployHookConfigured: Boolean(sourceEnv.VERCEL_DEPLOY_HOOK_AI_IQ?.trim()),
   };
 }
