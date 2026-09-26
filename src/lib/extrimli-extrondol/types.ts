@@ -107,6 +107,82 @@ export interface ExtrimliImplementationGapItem {
   blockerReason: string | null;
 }
 
+export interface ExtrimliDeveloperCreateBranchReportBucketItem {
+  id: string;
+  label: string;
+  owner: 'EXTREM' | 'EXTRONDOL' | 'SPAJA KOD' | 'Kompanija SPAJA / Digitalna Industrija';
+  source: 'gap-registry' | 'four-track' | 'bounded-package';
+  status: ExtrimliSpajaKodPublicStatus;
+  completionPercent: 0 | 50 | 100;
+}
+
+export interface ExtrimliDeveloperCreateBranchReport {
+  canonicalFormat: 'developer-create-branch-report-v1';
+  canonicalScopeLock: 'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA';
+  boundedVocabularyPhrase: 'EXTRIMLI EXTRONDOL EXTREM DOK DUK DAK DIK FOR';
+  sourceOfTruth: '/api/extrimli/extrondol';
+  reportTemplateSource: 'docs/EXTRIMLI-DEVELOPER-CREATE-PROGRAM.md#14-implementacija-plana-audit-snapshot-2026-09-25';
+  roadmapStageId: 'v5-extrondol-release-audit-and-orchestration';
+  measurableOutput: string;
+  acceptanceEvidence: readonly string[];
+  rolloutPlan: string;
+  rollbackPlan: string;
+  humanReviewStatus: 'required-before-promotion';
+  downstreamReference: 'docs/MULTI-REPO-LINKS.md -> spaja86/IO-OPENUI-AO (summary-only)';
+  branchCompletionPercent: number;
+  platformCompletionPercent: number;
+  branchStatus: ExtrimliSpajaKodPublicStatus;
+  platformStatus: ExtrimliSpajaKodPublicStatus;
+  completed: string[];
+  partial: string[];
+  blocked: string[];
+  nextStep: string;
+  gapRegistrySummary: Array<ExtrimliImplementationGapItem & {
+    completionPercent: 0 | 50 | 100;
+  }>;
+  fourTrackSummary: {
+    technical: ExtrimliDeveloperCreateBranchReportBucketItem & {
+      id: 'technical-track';
+      owner: 'EXTREM';
+      source: 'four-track';
+    };
+    governance: ExtrimliDeveloperCreateBranchReportBucketItem & {
+      id: 'governance-track';
+      owner: 'EXTRONDOL';
+      source: 'four-track';
+    };
+    publicBoundary: ExtrimliDeveloperCreateBranchReportBucketItem & {
+      id: 'public-boundary-track';
+      owner: 'SPAJA KOD';
+      source: 'four-track';
+    };
+    business: ExtrimliDeveloperCreateBranchReportBucketItem & {
+      id: 'business-track';
+      owner: 'Kompanija SPAJA / Digitalna Industrija';
+      source: 'four-track';
+    };
+  };
+  boundedPackageSummary: ExtrimliDeveloperCreateBranchReportBucketItem[];
+  reportingLayers: {
+    extrem: {
+      owner: 'EXTREM';
+      focus: readonly ['technical-readiness', 'fallback', 'consistency'];
+      status: ExtrimliSpajaKodPublicStatus;
+    };
+    extrondol: {
+      owner: 'EXTRONDOL';
+      focus: readonly ['human-review', 'freeze-promotion', 'release-audit', 'rollout-rollback'];
+      status: ExtrimliSpajaKodPublicStatus;
+    };
+    spajaKod: {
+      owner: 'SPAJA KOD';
+      publicBoundary: 'audit-safe-summary-only';
+      focus: readonly ['status', 'branchCompletionPercent', 'platformCompletionPercent', 'nextStep'];
+      status: ExtrimliSpajaKodPublicStatus;
+    };
+  };
+}
+
 export interface ExtrimliExtrondolAcceptanceCriterion {
   id: string;
   description: string;
@@ -775,6 +851,7 @@ export interface ExtrimliExtrondolDeveloperAndCreateRepoWideReflectionGovernance
   technicalReadinessProfile: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['technicalReadinessProfile'];
   priorityExecutionOrder: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['priorityExecutionOrder'];
   fourTrackProgramPackage: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['fourTrackProgramPackage'];
+  branchReport: ExtrimliDeveloperCreateBranchReport;
   universityLifecycle: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['universityLifecycle'] & {
     reviewRequiredBeforePayout: true;
   };
@@ -3074,6 +3151,7 @@ export interface ExtrimliSpajaKodPublicFacade {
       'developerAndCreateVisualReflection.kraljevskiBastaUneverzite',
       'developerAndCreateVisualReflection.packageOutputs',
       'developerAndCreateImplementationPackage.aiIqWorldBankPrepiskaSummary',
+      'developerAndCreateImplementationPackage.branchReport',
       'developerAndCreateImplementationPackage.kraljevskiDrustveniPoredakSummary',
       'developerAndCreateImplementationPackage.kraljevskiAktBezbednostiSummary',
       'developerAndCreateImplementationPackage.smartProgramskiJezikSummary',
@@ -3098,6 +3176,7 @@ export interface ExtrimliSpajaKodPublicFacade {
     validationStatus: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['readiness']['status'];
     covecanstvuPublicOutput: 'summary-only';
     downstreamSyncRepo: 'spaja86/IO-OPENUI-AO';
+    branchReport: ExtrimliDeveloperCreateBranchReport;
     fourTrackSummary: {
       technical: {
         owner: 'EXTREM';
