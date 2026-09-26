@@ -1,8 +1,10 @@
+import { execFileSync } from 'node:child_process';
 import fs from 'node:fs';
 import { execFileSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 import os from 'node:os';
 import path from 'node:path';
+import { fileURLToPath } from 'node:url';
 
 let passed = 0;
 let failed = 0;
@@ -26,6 +28,61 @@ function assert(condition: boolean, message: string): void {
   if (!condition) throw new Error(message);
 }
 
+function extractRunBlock(workflow: string, marker: string): string {
+  const lines = workflow.split('\n');
+  const markerIndex = lines.findIndex((line) => line.includes(marker));
+  assert(markerIndex >= 0, `${marker} marker missing`);
+
+  const runIndex = lines.findIndex((line, index) => index > markerIndex && line.includes('run: |'));
+  assert(runIndex >= 0, `run block missing for ${marker}`);
+
+  const scriptLines: string[] = [];
+  let blockIndent: string | undefined;
+  for (let index = runIndex + 1; index < lines.length; index++) {
+    const line = lines[index];
+    if (line.trim() === '') {
+      scriptLines.push('');
+      continue;
+    }
+
+    const indentMatch = line.match(/^(\s+)/);
+    if (!indentMatch) break;
+
+    if (!blockIndent) blockIndent = indentMatch[1];
+    if (indentMatch[1].length < blockIndent.length) break;
+
+    scriptLines.push(line.slice(blockIndent.length));
+  }
+
+  assert(scriptLines.length > 0, `script body missing for ${marker}`);
+  return scriptLines.join('\n');
+}
+
+function executeStartDeployDomainGate(
+  script: string,
+  envOverrides: Record<string, string | undefined>,
+): { output: string; summary: string } {
+  const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), 'start-deploy-gate-'));
+  const summaryPath = path.join(tempDir, 'summary.md');
+  const outputPath = path.join(tempDir, 'output.txt');
+  try {
+    fs.writeFileSync(summaryPath, '', 'utf8');
+    fs.writeFileSync(outputPath, '', 'utf8');
+
+    execFileSync('bash', ['-c', script], {
+      env: {
+        ...process.env,
+        ...envOverrides,
+        GITHUB_STEP_SUMMARY: summaryPath,
+        GITHUB_OUTPUT: outputPath,
+      },
+      stdio: 'pipe',
+      encoding: 'utf8',
+    });
+
+    return {
+      output: fs.readFileSync(outputPath, 'utf8'),
+      summary: fs.readFileSync(summaryPath, 'utf8'),
 function extractStartDeployDomainGateScript(workflow: string): string {
   const markerIndex = workflow.indexOf('# START_DEPLOY_DOMAIN_GATE');
   assert(markerIndex >= 0, 'workflow domain gate marker missing');
@@ -108,6 +165,7 @@ async function run(): Promise<void> {
   const startDeployDoc = fs.readFileSync(path.join(root, 'docs/EXTRIMLI-START-DEPLOY.md'), 'utf8');
   const multiRepoLinksDoc = fs.readFileSync(path.join(root, 'docs/MULTI-REPO-LINKS.md'), 'utf8');
   const workflow = fs.readFileSync(path.join(root, '.github/workflows/extrimli-spaja-deploy.yml'), 'utf8');
+  const startDeployDomainGateScript = extractRunBlock(workflow, 'START_DEPLOY_DOMAIN_GATE');
   const domainGateScript = extractStartDeployDomainGateScript(workflow);
 
   await test('START deploy doc locks canonical domain strategy and required labels', () => {
@@ -142,6 +200,51 @@ async function run(): Promise<void> {
     assert(workflow.includes('START_DEPLOY_PROMOTION_FREEZE'), 'workflow promotion freeze marker missing');
   });
 
+  await test('workflow reads domain inputs from step environment before shell validation', () => {
+    assert(
+      workflow.includes('INPUT_CANONICAL_DOMAIN: ${{ github.event.inputs.canonical_domain }}'),
+      'canonical domain input must be passed through step env',
+    );
+    assert(
+      workflow.includes('INPUT_WILDCARD_DOMAIN: ${{ github.event.inputs.wildcard_domain }}'),
+      'wildcard domain input must be passed through step env',
+    );
+    assert(
+      startDeployDomainGateScript.includes('CANONICAL_DOMAIN="${INPUT_CANONICAL_DOMAIN}"'),
+      'script must read canonical domain from step env',
+    );
+    assert(
+      startDeployDomainGateScript.includes('WILDCARD_DOMAIN="${INPUT_WILDCARD_DOMAIN}"'),
+      'script must read wildcard domain from step env',
+    );
+  });
+
+  await test('START deploy domain gate accepts the locked canonical pair', () => {
+    const { output, summary } = executeStartDeployDomainGate(startDeployDomainGateScript, {
+      INPUT_CANONICAL_DOMAIN: 'spaja.nivo-spaja',
+      INPUT_WILDCARD_DOMAIN: '*.spaja.nivo-spaja',
+    });
+
+    assert(output.includes('canonical_domain=spaja.nivo-spaja'), 'canonical domain output missing');
+    assert(output.includes('wildcard_domain=*.spaja.nivo-spaja'), 'wildcard domain output missing');
+    assert(summary.includes('`spaja.nivo-spaja`'), 'summary missing canonical domain');
+    assert(summary.includes('`*.spaja.nivo-spaja`'), 'summary missing wildcard domain');
+  });
+
+  await test('START deploy domain gate rejects non-canonical domain pairs', () => {
+    let rejected = false;
+
+    try {
+      executeStartDeployDomainGate(startDeployDomainGateScript, {
+        INPUT_CANONICAL_DOMAIN: 'spaja.nivo-spaja',
+        INPUT_WILDCARD_DOMAIN: '*.example.com',
+      });
+    } catch (error) {
+      const message = error instanceof Error ? error.message : String(error);
+      rejected = message.includes('START canonical domain strategy mora ostati zaključana');
+    }
+
+    assert(rejected, 'non-canonical domain pair should be rejected by the gate');
   await test('START deploy workflow preserves the canonical pair equality gate', () => {
     assert(
       domainGateScript.includes('EXPECTED_CANONICAL_DOMAIN="spaja.nivo-spaja"'),

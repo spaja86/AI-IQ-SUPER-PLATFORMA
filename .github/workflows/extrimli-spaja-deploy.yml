@@ -449,6 +449,11 @@ jobs:
       - name: 🌐 Validate canonical domain strategy
         id: domain_strategy
         env:
+          INPUT_CANONICAL_DOMAIN: ${{ github.event.inputs.canonical_domain }}
+          INPUT_WILDCARD_DOMAIN: ${{ github.event.inputs.wildcard_domain }}
+        run: |
+          CANONICAL_DOMAIN="${INPUT_CANONICAL_DOMAIN}"
+          WILDCARD_DOMAIN="${INPUT_WILDCARD_DOMAIN}"
           MANUAL_CANONICAL_DOMAIN: ${{ github.event.inputs.canonical_domain }}
           MANUAL_WILDCARD_DOMAIN: ${{ github.event.inputs.wildcard_domain }}
         run: |
