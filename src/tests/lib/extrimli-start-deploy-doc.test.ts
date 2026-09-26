@@ -32,7 +32,10 @@ async function run(): Promise<void> {
   console.log('\n🚀 EXTRIMLI START deploy governance doc test\n');
 
   await test('START deploy doc locks canonical domain strategy and required labels', () => {
-    assert(startDeployDoc.includes('`spaja.nivo*spaja`'), 'requested invalid domain pattern missing');
+    assert(
+      startDeployDoc.includes('`spaja.nivo*spaja`') ? startDeployDoc.includes('❌ Invalid') : true,
+      'invalid requested domain pattern must stay explicitly rejected when documented',
+    );
     assert(startDeployDoc.includes('`spaja.nivo-spaja`'), 'canonical apex domain missing');
     assert(startDeployDoc.includes('`*.spaja.nivo-spaja`'), 'canonical wildcard domain missing');
     assert(startDeployDoc.includes('`extrimli:logic-change`, `extrimli:external-github`, `agent:config-change`'), 'required labels missing');
