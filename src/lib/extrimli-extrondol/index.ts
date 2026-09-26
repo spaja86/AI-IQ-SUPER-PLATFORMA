@@ -422,10 +422,6 @@ function buildDeveloperCreateBranchReport(params: {
       label: `${item.layer}: ${item.measurableOutput}`,
       status: item.status,
     })),
-    ...Object.values(fourTrackSummary).map((item) => ({
-      label: item.label,
-      status: item.status,
-    })),
   ];
   const completed = branchItems.filter((item) => item.status === 'READY').map((item) => item.label);
   const partial = branchItems.filter((item) => item.status === 'WATCH').map((item) => item.label);
