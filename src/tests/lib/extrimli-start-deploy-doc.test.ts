@@ -52,13 +52,15 @@ async function run(): Promise<void> {
 
   await test('downstream doc and workflow preserve START deploy governance evidence', () => {
     assert(multiRepoLinksDoc.includes('**Cross-repo issue gate:**'), 'cross-repo issue gate block missing');
-    assert(multiRepoLinksDoc.includes('Pre WAWE 4 promocije mora postojati konkretan downstream issue'), 'concrete downstream issue gate missing');
-    assert(multiRepoLinksDoc.includes('Placeholder reference nije dovoljan'), 'placeholder rejection missing');
+    assert(multiRepoLinksDoc.includes('WAWE 4 promocije'), 'WAWE 4 downstream issue gate missing');
+    assert(multiRepoLinksDoc.includes('IO-OPENUI-AO#<number>'), 'downstream issue format marker missing');
+    assert(multiRepoLinksDoc.includes('Placeholder reference nije dovoljan'), 'placeholder rejection marker missing');
     assert(multiRepoLinksDoc.includes('**WAWE 3 execution evidence:**'), 'WAWE 3 downstream evidence block missing');
     assert(multiRepoLinksDoc.includes('DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == AKTIVACIJA'), 'downstream activation lock missing');
     assert(workflow.includes('🌐 Validate canonical domain strategy'), 'workflow domain strategy gate missing');
-    assert(workflow.includes('multi-repo-sync-agent: Sinhronizacija EXTRONDOL START payload-a'), 'workflow multi-repo sync summary missing');
-    assert(workflow.includes('Release promotion mora biti zaustavljen ako KPI/audit/sync status nije potpun.'), 'workflow promotion freeze summary missing');
+    assert(workflow.includes('📢 Multi-repo sync (IO-OPENUI-AO)'), 'workflow multi-repo sync step missing');
+    assert(workflow.includes('### 🚧 Promotion freeze policy'), 'workflow promotion freeze section missing');
+    assert(workflow.includes('EXTRONDOL START PROJEKAT ostaje frozen'), 'workflow EXTRONDOL freeze marker missing');
   });
 
   console.log(`\nPassed: ${passed}, Failed: ${failed}`);
