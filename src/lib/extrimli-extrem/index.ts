@@ -12485,9 +12485,20 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
     .filter((token) => token === 'DAR').length;
   const kraljevskiRadObservedDARCount = normalizedKraljevskiRadTokens
     .filter((token) => token === 'DAR').length;
+  const countKraljevskiRadTokens = (tokens: readonly string[]) =>
+    tokens.reduce<Record<string, number>>((counts, token) => {
+      counts[token] = (counts[token] ?? 0) + 1;
+      return counts;
+    }, {});
+  const kraljevskiRadExpectedTokenCounts = countKraljevskiRadTokens(expectedKraljevskiRadTokens);
+  const kraljevskiRadObservedTokenCounts = countKraljevskiRadTokens(normalizedKraljevskiRadTokens);
+  const kraljevskiRadCountMatchStatus = Object.entries(kraljevskiRadExpectedTokenCounts)
+    .every(([token, count]) => (kraljevskiRadObservedTokenCounts[token] ?? 0) === count)
+    && Object.keys(kraljevskiRadObservedTokenCounts).every((token) => token in kraljevskiRadExpectedTokenCounts);
   const kraljevskiRadDuplicateRuleStatus: ExtrimliExtremReadinessStatus =
     kraljevskiRadHasExactLength
     && kraljevskiRadHasCanonicalVocabulary
+    && kraljevskiRadCountMatchStatus
     && kraljevskiRadObservedDURCount === kraljevskiRadExpectedDURCount
     && kraljevskiRadObservedDARCount === kraljevskiRadExpectedDARCount
       ? 'READY'
