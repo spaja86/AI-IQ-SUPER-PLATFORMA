@@ -92,6 +92,15 @@ function runStartDeployDomainGateScript(
   }
 }
 
+function isBashAvailable(): boolean {
+  try {
+    execFileSync('bash', ['-lc', 'exit 0'], { stdio: 'ignore' });
+    return true;
+  } catch {
+    return false;
+  }
+}
+
 async function run(): Promise<void> {
   console.log('\n🚀 EXTRIMLI START deploy governance doc test\n');
   const filePath = fileURLToPath(import.meta.url);
@@ -134,6 +143,11 @@ async function run(): Promise<void> {
   });
 
   await test('START deploy workflow accepts only the canonical apex + wildcard pair', () => {
+    if (!isBashAvailable()) {
+      console.log('    ℹ️ Bash unavailable; skipping extracted workflow execution check.');
+      return;
+    }
+
     const result = runStartDeployDomainGateScript(domainGateScript, {
       canonicalDomain: 'spaja.nivo-spaja',
       wildcardDomain: '*.spaja.nivo-spaja',
@@ -145,6 +159,11 @@ async function run(): Promise<void> {
   });
 
   await test('START deploy workflow rejects valid-but-non-canonical domain pairs', () => {
+    if (!isBashAvailable()) {
+      console.log('    ℹ️ Bash unavailable; skipping extracted workflow execution check.');
+      return;
+    }
+
     const result = runStartDeployDomainGateScript(domainGateScript, {
       canonicalDomain: 'example.com',
       wildcardDomain: '*.example.com',
