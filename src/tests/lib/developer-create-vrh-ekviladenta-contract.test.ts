@@ -13,6 +13,9 @@ import {
   DEVELOPER_CREATE_SARADNJA_READY_RECOMMENDATION_LEVEL,
   DEVELOPER_CREATE_SARADNJA_READY_SUMMARY_SAFE_FIELDS,
   DEVELOPER_CREATE_IZVESTAJ_REPORT_LOCK,
+  DEVELOPER_CREATE_IZVESTAJ_MEASURED_BRANCH_LAYERS,
+  DEVELOPER_CREATE_IZVESTAJ_PLATFORM_TRACKS,
+  DEVELOPER_CREATE_IZVESTAJ_REPORTING_LAYERS,
   DEVELOPER_CREATE_IZVESTAJ_SCOPE_STATEMENT,
   DEVELOPER_CREATE_VRH_KRALJEVSKI_SAT_ALIAS,
   DEVELOPER_CREATE_VRH_KRALJEVSKI_RAD_ALIAS,
@@ -97,17 +100,17 @@ async function runTests(): Promise<void> {
     );
     assertArrayEquals(
       DEVELOPER_CREATE_IZVESTAJ_REPORT_LOCK.measuredBranchLayers,
-      ['docs', 'types', 'routes', 'tests', 'workflows'],
+      DEVELOPER_CREATE_IZVESTAJ_MEASURED_BRANCH_LAYERS,
       'unexpected IZVEŠTAJ measured branch layers',
     );
     assertArrayEquals(
       DEVELOPER_CREATE_IZVESTAJ_REPORT_LOCK.platformTracks,
-      ['technical-track', 'governance-track', 'public-boundary-track', 'business-track'],
+      DEVELOPER_CREATE_IZVESTAJ_PLATFORM_TRACKS,
       'unexpected IZVEŠTAJ platform tracks',
     );
     assertArrayEquals(
       DEVELOPER_CREATE_IZVESTAJ_REPORT_LOCK.reportingLayers,
-      ['EXTREM', 'EXTRONDOL', 'SPAJA KOD'],
+      DEVELOPER_CREATE_IZVESTAJ_REPORTING_LAYERS,
       'unexpected IZVEŠTAJ reporting layers',
     );
     assert(

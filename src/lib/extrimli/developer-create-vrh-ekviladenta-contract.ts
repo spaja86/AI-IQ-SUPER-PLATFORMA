@@ -104,6 +104,27 @@ export const DEVELOPER_CREATE_VRH_NARRATIVE_CONTRACT_BOUNDARY = {
 export const DEVELOPER_CREATE_IZVESTAJ_SCOPE_STATEMENT =
   'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == IZVEŠTAJ == additive-only bounded branch report / audit snapshot alias nad postojećim EXTRONDOL formatom, bez novih runtime ruta i bez paralelnog source-of-truth sistema' as const;
 
+export const DEVELOPER_CREATE_IZVESTAJ_MEASURED_BRANCH_LAYERS = [
+  'docs',
+  'types',
+  'routes',
+  'tests',
+  'workflows',
+] as const;
+
+export const DEVELOPER_CREATE_IZVESTAJ_PLATFORM_TRACKS = [
+  'technical-track',
+  'governance-track',
+  'public-boundary-track',
+  'business-track',
+] as const;
+
+export const DEVELOPER_CREATE_IZVESTAJ_REPORTING_LAYERS = [
+  'EXTREM',
+  'EXTRONDOL',
+  'SPAJA KOD',
+] as const;
+
 export const DEVELOPER_CREATE_IZVESTAJ_REPORT_LOCK = {
   canonicalAlias: DEVELOPER_CREATE_VRH_IZVESTAJ_ALIAS,
   sourceOfTruth: '/api/extrimli/extrondol',
@@ -112,9 +133,9 @@ export const DEVELOPER_CREATE_IZVESTAJ_REPORT_LOCK = {
   reportKind: 'additive-only-branch-report-audit-snapshot',
   noNewRuntimeRoutes: true,
   noParallelSourceOfTruth: true,
-  measuredBranchLayers: ['docs', 'types', 'routes', 'tests', 'workflows'],
-  platformTracks: ['technical-track', 'governance-track', 'public-boundary-track', 'business-track'],
-  reportingLayers: ['EXTREM', 'EXTRONDOL', 'SPAJA KOD'],
+  measuredBranchLayers: DEVELOPER_CREATE_IZVESTAJ_MEASURED_BRANCH_LAYERS,
+  platformTracks: DEVELOPER_CREATE_IZVESTAJ_PLATFORM_TRACKS,
+  reportingLayers: DEVELOPER_CREATE_IZVESTAJ_REPORTING_LAYERS,
   requiredAuditBlocks: [
     'completed',
     'partial',
