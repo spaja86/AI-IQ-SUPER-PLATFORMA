@@ -51,7 +51,7 @@ async function run(): Promise<void> {
 
   await test('downstream doc and workflow preserve START deploy governance evidence', () => {
     assert(multiRepoLinksDoc.includes('**Cross-repo issue gate:**'), 'cross-repo issue gate block missing');
-    assert(multiRepoLinksDoc.includes('IO-OPENUI-AO#<number>'), 'concrete downstream issue format requirement missing');
+    assert(multiRepoLinksDoc.includes('Pre WAWE 4 promocije mora postojati konkretan downstream issue'), 'concrete downstream issue gate missing');
     assert(multiRepoLinksDoc.includes('Placeholder reference nije dovoljan'), 'placeholder rejection missing');
     assert(multiRepoLinksDoc.includes('**WAWE 3 execution evidence:**'), 'WAWE 3 downstream evidence block missing');
     assert(multiRepoLinksDoc.includes('DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == AKTIVACIJA'), 'downstream activation lock missing');
