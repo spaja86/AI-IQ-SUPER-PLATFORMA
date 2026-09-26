@@ -23,13 +23,12 @@ function assert(condition: boolean, message: string): void {
   if (!condition) throw new Error(message);
 }
 
-const root = process.cwd();
-const startDeployDoc = fs.readFileSync(path.join(root, 'docs/EXTRIMLI-START-DEPLOY.md'), 'utf8');
-const multiRepoLinksDoc = fs.readFileSync(path.join(root, 'docs/MULTI-REPO-LINKS.md'), 'utf8');
-const workflow = fs.readFileSync(path.join(root, '.github/workflows/extrimli-spaja-deploy.yml'), 'utf8');
-
 async function run(): Promise<void> {
   console.log('\n🚀 EXTRIMLI START deploy governance doc test\n');
+  const root = process.cwd();
+  const startDeployDoc = fs.readFileSync(path.join(root, 'docs/EXTRIMLI-START-DEPLOY.md'), 'utf8');
+  const multiRepoLinksDoc = fs.readFileSync(path.join(root, 'docs/MULTI-REPO-LINKS.md'), 'utf8');
+  const workflow = fs.readFileSync(path.join(root, '.github/workflows/extrimli-spaja-deploy.yml'), 'utf8');
 
   await test('START deploy doc locks canonical domain strategy and required labels', () => {
     assert(startDeployDoc.includes('<!-- START_DEPLOY_REQUIRED_LABELS -->'), 'required-labels marker missing');
