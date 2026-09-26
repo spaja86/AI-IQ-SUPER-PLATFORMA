@@ -98,7 +98,7 @@ na SPAJA platformi. Prati sve faze, KPI rezultate, rollback plan i downstream ko
 | Canonical domain strategy mirror (`spaja.nivo-spaja` + `*.spaja.nivo-spaja`) | linked deploy docs / runbooks | ✅ Required |
 | EXTRONDOL START payload sync (`WAWE`, `B2B`, `DUET`, `DINKOS`, `distanceRatioEkvilaterTable`, `startProject`) | linked governance consumers | ✅ Required |
 | Developer/Create activation summary sync (`DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == AKTIVACIJA`) | summary-only downstream reflection | ✅ Required |
-| Cross-repo follow-up remains explicit | `AI-IQ-SUPER-PLATFORMA#EXTRIMLI-START-001 -> IO-OPENUI-AO#<follow-up issue>` | ✅ Locked |
+| Cross-repo follow-up issue remains mandatory before WAWE 4 promotion | use concrete `IO-OPENUI-AO#<number>` reference once opened | ✅ Locked |
 
 ### WAWE 4 — Production rollout evidence
 

@@ -50,10 +50,9 @@ async function run(): Promise<void> {
   });
 
   await test('downstream doc and workflow preserve START deploy governance evidence', () => {
-    assert(
-      /AI-IQ-SUPER-PLATFORMA#EXTRIMLI-START-001 -> IO-OPENUI-AO#(?:<follow-up issue>|\d+)/.test(multiRepoLinksDoc),
-      'cross-repo follow-up reference missing',
-    );
+    assert(multiRepoLinksDoc.includes('**Cross-repo issue gate:**'), 'cross-repo issue gate block missing');
+    assert(multiRepoLinksDoc.includes('IO-OPENUI-AO#<number>'), 'concrete downstream issue format requirement missing');
+    assert(multiRepoLinksDoc.includes('Placeholder reference nije dovoljan'), 'placeholder rejection missing');
     assert(multiRepoLinksDoc.includes('**WAWE 3 execution evidence:**'), 'WAWE 3 downstream evidence block missing');
     assert(multiRepoLinksDoc.includes('DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == AKTIVACIJA'), 'downstream activation lock missing');
     assert(workflow.includes('🌐 Validate canonical domain strategy'), 'workflow domain strategy gate missing');

@@ -1054,9 +1054,9 @@ AI-IQ-SUPER-PLATFORMA#EXTRIMLI-003 -> IO-OPENUI-AO#<follow-up issue>
 - EXTRONDOL START payload mirror obuhvata `WAWE`, `B2B`, `DUET`, `DINKOS`, `distanceRatioEkvilaterTable` i `startProject` bez otvaranja novog downstream source-of-truth sloja.
 - Ako linked-repo ostane delimično neusaglašen posle WAWE 3, follow-up issue ostaje obavezan pre WAWE 4 promocije.
 
-```
-AI-IQ-SUPER-PLATFORMA#EXTRIMLI-START-001 -> IO-OPENUI-AO#<follow-up issue>
-```
+**Cross-repo issue gate:**
+- Pre WAWE 4 promocije mora postojati konkretan downstream issue u formatu `AI-IQ-SUPER-PLATFORMA#EXTRIMLI-START-001 -> IO-OPENUI-AO#<number>`.
+- Placeholder reference nije dovoljan; follow-up issue ostaje release-blocking dok konkretan broj ne bude upisan.
 
 ### EXTRIMLI — TRANCE EXTREM Deploy (Platform SPAJA)
 
