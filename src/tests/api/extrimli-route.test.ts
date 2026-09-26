@@ -1203,6 +1203,11 @@ async function runTests(): Promise<void> {
     assert(body.data.developerAndCreateImplementationPackage.validationStatus === body.data.publicSignals.developerAndCreateImplementationStatus, 'unexpected SPAJA KOD implementation package validation mismatch');
     const branchReport = body.data.developerAndCreateImplementationPackage.branchReport;
     assert(branchReport.canonicalFormat === 'developer-create-branch-report-v1', 'unexpected SPAJA KOD branch report canonical format');
+    assert(branchReport.canonicalAlias === 'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == IZVEŠTAJ', 'unexpected SPAJA KOD branch report canonical alias');
+    assert(branchReport.reportLock.sourceOfTruth === '/api/extrimli/extrondol', 'unexpected SPAJA KOD branch report lock source');
+    assert(branchReport.reportLock.measuredBranchLayers.join(',') === 'docs,types,routes,tests,workflows', 'unexpected SPAJA KOD branch report measured layers');
+    assert(branchReport.reportLock.platformTracks.join(',') === 'technical-track,governance-track,public-boundary-track,business-track', 'unexpected SPAJA KOD branch report platform tracks');
+    assert(branchReport.reportLock.reportingLayers.join(',') === 'EXTREM,EXTRONDOL,SPAJA KOD', 'unexpected SPAJA KOD branch report reporting layers');
     const aggregateStatus = (statuses: Array<'READY' | 'WATCH' | 'BLOCKED'>) => (statuses.includes('BLOCKED') ? 'BLOCKED' : statuses.includes('WATCH') ? 'WATCH' : 'READY');
     assert(branchReport.branchStatus === aggregateStatus(body.data.gapRegistrySummary.map((item: { status: 'READY' | 'WATCH' | 'BLOCKED' }) => item.status)), 'unexpected SPAJA KOD branch report branch status');
     assert(branchReport.promotionReadinessStatus === body.data.publicSignals.developerAndCreateImplementationStatus, 'unexpected SPAJA KOD branch report promotion readiness status');

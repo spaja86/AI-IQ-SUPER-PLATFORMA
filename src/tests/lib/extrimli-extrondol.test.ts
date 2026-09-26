@@ -1350,6 +1350,14 @@ async function runTests(): Promise<void> {
     assert(['READY', 'WATCH', 'BLOCKED'].includes(report.spajaKod.publicSignals.developerAndCreateImplementationStatus), 'SPAJA KOD developer/create implementation status mismatch');
     assert(report.spajaKod.developerAndCreateImplementationPackage.validationStatus === report.spajaKod.publicSignals.developerAndCreateImplementationStatus, 'SPAJA KOD implementation package validation status mismatch');
     assert(report.developerAndCreateRepoWideReflection.branchReport.canonicalFormat === 'developer-create-branch-report-v1', 'developer/create branch report canonical format mismatch');
+    assert(report.developerAndCreateRepoWideReflection.branchReport.canonicalAlias === 'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == IZVEŠTAJ', 'developer/create branch report canonical alias mismatch');
+    assert(report.developerAndCreateRepoWideReflection.branchReport.scopeStatement.includes('additive-only bounded branch report / audit snapshot alias'), 'developer/create branch report scope statement mismatch');
+    assert(report.developerAndCreateRepoWideReflection.branchReport.reportLock.sourceOfTruth === '/api/extrimli/extrondol', 'developer/create branch report lock source mismatch');
+    assert(report.developerAndCreateRepoWideReflection.branchReport.reportLock.roadmapStageId === 'v5-extrondol-release-audit-and-orchestration', 'developer/create branch report lock roadmap mismatch');
+    assert(report.developerAndCreateRepoWideReflection.branchReport.reportLock.measuredBranchLayers.join(',') === 'docs,types,routes,tests,workflows', 'developer/create branch report measured layers mismatch');
+    assert(report.developerAndCreateRepoWideReflection.branchReport.reportLock.platformTracks.join(',') === 'technical-track,governance-track,public-boundary-track,business-track', 'developer/create branch report platform tracks mismatch');
+    assert(report.developerAndCreateRepoWideReflection.branchReport.reportLock.reportingLayers.join(',') === 'EXTREM,EXTRONDOL,SPAJA KOD', 'developer/create branch report reporting layers mismatch');
+    assert(report.developerAndCreateRepoWideReflection.branchReport.reportLock.requiredAuditBlocks.includes('acceptanceEvidence'), 'developer/create branch report required audit blocks mismatch');
     const aggregateStatus = (statuses: Array<'READY' | 'WATCH' | 'BLOCKED'>) => (statuses.includes('BLOCKED') ? 'BLOCKED' : statuses.includes('WATCH') ? 'WATCH' : 'READY');
     assert(report.developerAndCreateRepoWideReflection.branchReport.branchStatus === aggregateStatus(report.gapRegistry.map((item) => item.status)), 'developer/create branch report branch status mismatch');
     assert(report.developerAndCreateRepoWideReflection.branchReport.promotionReadinessStatus === report.spajaKod.publicSignals.developerAndCreateImplementationStatus, 'developer/create branch report promotion readiness mismatch');

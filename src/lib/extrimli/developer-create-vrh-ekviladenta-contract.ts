@@ -28,6 +28,9 @@ export const DEVELOPER_CREATE_VRH_VINOGRADI_GROCKA_RESTORAN_ALIAS =
 export const DEVELOPER_CREATE_VRH_POSLOVNA_PONUDA_ZELEZARA_DOO_ALIAS =
   'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == POSLOVNA PONUDA / ŽELEZARA D.O.O. SMEDEREVO' as const;
 
+export const DEVELOPER_CREATE_VRH_IZVESTAJ_ALIAS =
+  'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == IZVEŠTAJ' as const;
+
 export const DEVELOPER_CREATE_VRH_INTERPRETATION_ALIASES = [
   'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == RADNI TAKT MOZGA (MISLILAC)',
   'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == MAPE UMA',
@@ -49,6 +52,7 @@ export const DEVELOPER_CREATE_VRH_INTERPRETATION_ALIASES = [
   DEVELOPER_CREATE_VRH_KRALJEVSKI_RAD_ALIAS,
   DEVELOPER_CREATE_VRH_VINOGRADI_GROCKA_RESTORAN_ALIAS,
   DEVELOPER_CREATE_VRH_POSLOVNA_PONUDA_ZELEZARA_DOO_ALIAS,
+  DEVELOPER_CREATE_VRH_IZVESTAJ_ALIAS,
 ] as const;
 
 export const DEVELOPER_CREATE_VRH_DIJALIZA_POGONSKOG_OMOTACA_ALIAS_BOUNDARY = {
@@ -95,6 +99,43 @@ export const DEVELOPER_CREATE_VRH_NARRATIVE_CONTRACT_BOUNDARY = {
     'readiness-blocker-human-review-rollout-rollback-downstream-reference',
   noNewRuntimeModule: true,
   noParallelSourceOfTruth: true,
+} as const;
+
+export const DEVELOPER_CREATE_IZVESTAJ_SCOPE_STATEMENT =
+  'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == IZVEŠTAJ == additive-only bounded branch report / audit snapshot alias nad postojećim EXTRONDOL formatom, bez novih runtime ruta i bez paralelnog source-of-truth sistema' as const;
+
+export const DEVELOPER_CREATE_IZVESTAJ_REPORT_LOCK = {
+  canonicalAlias: DEVELOPER_CREATE_VRH_IZVESTAJ_ALIAS,
+  sourceOfTruth: '/api/extrimli/extrondol',
+  canonicalFormat: 'developer-create-branch-report-v1',
+  roadmapStageId: 'v5-extrondol-release-audit-and-orchestration',
+  reportKind: 'additive-only-branch-report-audit-snapshot',
+  noNewRuntimeRoutes: true,
+  noParallelSourceOfTruth: true,
+  measuredBranchLayers: ['docs', 'types', 'routes', 'tests', 'workflows'],
+  platformTracks: ['technical-track', 'governance-track', 'public-boundary-track', 'business-track'],
+  reportingLayers: ['EXTREM', 'EXTRONDOL', 'SPAJA KOD'],
+  requiredAuditBlocks: [
+    'completed',
+    'partial',
+    'blocked',
+    'branchCompletionPercent',
+    'platformCompletionPercent',
+    'promotionReadinessStatus',
+    'nextStep',
+    'rolloutPlan',
+    'rollbackPlan',
+    'humanReviewStatus',
+    'downstreamReference',
+    'measurableOutput',
+    'acceptanceEvidence',
+  ],
+  ownershipSplit: {
+    dokDikFor: 'EXTREM',
+    dakDuk: 'EXTRONDOL',
+    spajaKod: 'audit-safe-summary-only',
+  },
+  downstreamReference: 'docs/MULTI-REPO-LINKS.md -> spaja86/IO-OPENUI-AO (summary-only)',
 } as const;
 
 export const DEVELOPER_CREATE_CANONICAL_SCOPE_LOCK = {
