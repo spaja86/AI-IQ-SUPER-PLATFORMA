@@ -1350,6 +1350,10 @@ async function runTests(): Promise<void> {
     assert(['READY', 'WATCH', 'BLOCKED'].includes(report.spajaKod.publicSignals.developerAndCreateImplementationStatus), 'SPAJA KOD developer/create implementation status mismatch');
     assert(report.spajaKod.developerAndCreateImplementationPackage.validationStatus === report.spajaKod.publicSignals.developerAndCreateImplementationStatus, 'SPAJA KOD implementation package validation status mismatch');
     assert(report.developerAndCreateRepoWideReflection.branchReport.canonicalFormat === 'developer-create-branch-report-v1', 'developer/create branch report canonical format mismatch');
+    assert(report.developerAndCreateRepoWideReflection.branchReport.canonicalAlias === 'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == IZVEŠTAJ', 'developer/create branch report canonical alias mismatch');
+    assert(report.developerAndCreateRepoWideReflection.branchReport.additiveOnly, 'developer/create branch report must stay additive-only');
+    assert(report.developerAndCreateRepoWideReflection.branchReport.noNewRuntimeModule, 'developer/create branch report must not become a new runtime module');
+    assert(report.developerAndCreateRepoWideReflection.branchReport.noParallelSourceOfTruth, 'developer/create branch report must not become a parallel source of truth');
     const aggregateStatus = (statuses: Array<'READY' | 'WATCH' | 'BLOCKED'>) => (statuses.includes('BLOCKED') ? 'BLOCKED' : statuses.includes('WATCH') ? 'WATCH' : 'READY');
     assert(report.developerAndCreateRepoWideReflection.branchReport.branchStatus === aggregateStatus(report.gapRegistry.map((item) => item.status)), 'developer/create branch report branch status mismatch');
     assert(report.developerAndCreateRepoWideReflection.branchReport.promotionReadinessStatus === report.spajaKod.publicSignals.developerAndCreateImplementationStatus, 'developer/create branch report promotion readiness mismatch');
@@ -1373,6 +1377,12 @@ async function runTests(): Promise<void> {
     assert(branchReport.platformCompletionPercent === expectedPlatformCompletionPercent, 'developer/create branch platform completion percent must average only four-track statuses');
     assert(report.spajaKod.developerAndCreateImplementationPackage.branchReport.branchCompletionPercent === branchReport.branchCompletionPercent, 'SPAJA KOD branch completion percent mismatch');
     assert(report.spajaKod.developerAndCreateImplementationPackage.branchReport.platformCompletionPercent === branchReport.platformCompletionPercent, 'SPAJA KOD platform completion percent mismatch');
+    assert(branchReport.sourceOfTruthLayers.extrem.sourceOfTruth === '/api/extrimli/extrem', 'developer/create branch report EXTREM source mismatch');
+    assert(branchReport.sourceOfTruthLayers.extrondol.sourceOfTruth === '/api/extrimli/extrondol', 'developer/create branch report EXTRONDOL source mismatch');
+    assert(branchReport.sourceOfTruthLayers.spajaKod.sourceOfTruth === '/api/extrimli/spaja-kod', 'developer/create branch report SPAJA KOD source mismatch');
+    assert(branchReport.sourceOfTruthLayers.extrem.boundedVocabulary.join(',') === 'DOK,DIK,FOR', 'developer/create branch report EXTREM vocabulary mismatch');
+    assert(branchReport.sourceOfTruthLayers.extrondol.boundedVocabulary.join(',') === 'DAK,DUK', 'developer/create branch report EXTRONDOL vocabulary mismatch');
+    assert(branchReport.sourceOfTruthLayers.spajaKod.publicBoundary === 'audit-safe-summary-only', 'developer/create branch report SPAJA KOD boundary mismatch');
     if (branchReport.boundedPackageSummary.some((item) => item.status === 'BLOCKED')) {
       assert(
         branchReport.nextStep === 'Resolve blocked branch layers before promotion, then rerun the governance conformance flow.',

@@ -22,6 +22,9 @@ export const DEVELOPER_CREATE_VRH_KRALJEVSKI_SAT_ALIAS =
 export const DEVELOPER_CREATE_VRH_KRALJEVSKI_RAD_ALIAS =
   'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == KRALJEVSKI RAD' as const;
 
+export const DEVELOPER_CREATE_VRH_IZVESTAJ_ALIAS =
+  'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == IZVEŠTAJ' as const;
+
 export const DEVELOPER_CREATE_VRH_VINOGRADI_GROCKA_RESTORAN_ALIAS =
   'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == VINOGRADI GROCKA, RESTORAN' as const;
 
@@ -47,6 +50,7 @@ export const DEVELOPER_CREATE_VRH_INTERPRETATION_ALIASES = [
   'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == KRALJEVSKI POKLONI ZA SVAČIJI ROĐENDAN',
   DEVELOPER_CREATE_VRH_KRALJEVSKI_SAT_ALIAS,
   DEVELOPER_CREATE_VRH_KRALJEVSKI_RAD_ALIAS,
+  DEVELOPER_CREATE_VRH_IZVESTAJ_ALIAS,
   DEVELOPER_CREATE_VRH_VINOGRADI_GROCKA_RESTORAN_ALIAS,
   DEVELOPER_CREATE_VRH_POSLOVNA_PONUDA_ZELEZARA_DOO_ALIAS,
 ] as const;
@@ -249,6 +253,56 @@ export const DEVELOPER_CREATE_LEKSIKON_DOWNSTREAM_POLICY = {
   syncMode: 'summary-only',
   rawLexiconInternalsStayRepoLocal: true,
   rawExtremExtrondolInternalsStayRepoLocal: true,
+} as const;
+
+export const DEVELOPER_CREATE_IZVESTAJ_SCOPE_STATEMENT =
+  'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == IZVEŠTAJ == additive-only canonical branch report alias over existing EXTREM, EXTRONDOL, and SPAJA KOD readiness/governance/summary surfaces without new runtime routes or parallel source-of-truth systems' as const;
+
+export const DEVELOPER_CREATE_IZVESTAJ_ROLE_CLASSIFICATION =
+  'additive-only-bounded-branch-report-alias' as const;
+
+export const DEVELOPER_CREATE_IZVESTAJ_REQUIRED_BLOCKS = [
+  'completed',
+  'partial',
+  'blocked',
+  'branchCompletionPercent',
+  'platformCompletionPercent',
+  'promotionReadinessStatus',
+  'nextStep',
+  'rolloutPlan',
+  'rollbackPlan',
+  'humanReviewStatus',
+  'downstreamReference',
+] as const;
+
+export const DEVELOPER_CREATE_IZVESTAJ_REQUIRED_AUDIT_FIELDS = [
+  'roadmapStageId',
+  'measurableOutput',
+  'acceptanceEvidence',
+  'rolloutPlan',
+  'rollbackPlan',
+  'humanReviewStatus',
+  'downstreamReference',
+  'branchCompletionPercent',
+  'platformCompletionPercent',
+] as const;
+
+export const DEVELOPER_CREATE_IZVESTAJ_SOURCE_OF_TRUTH_LAYERS = {
+  extrem: {
+    sourceOfTruth: '/api/extrimli/extrem',
+    boundedVocabulary: ['DOK', 'DIK', 'FOR'],
+    role: 'technical-signal-and-readiness',
+  },
+  extrondol: {
+    sourceOfTruth: '/api/extrimli/extrondol',
+    boundedVocabulary: ['DAK', 'DUK'],
+    role: 'governance-wawe-audit-rollout-rollback-human-review',
+  },
+  spajaKod: {
+    sourceOfTruth: '/api/extrimli/spaja-kod',
+    publicBoundary: 'audit-safe-summary-only',
+    focus: ['status', 'reasons', 'nextStep'],
+  },
 } as const;
 
 export const DEVELOPER_CREATE_PROMOCIJE_TIKETI_BONUSI_PROPUSNICE_ADMINISTRATIVNI_BONUSI_CANONICAL_ALIAS =
