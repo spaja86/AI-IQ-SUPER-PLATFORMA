@@ -217,6 +217,8 @@ async function runTests(): Promise<void> {
       report.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.konstrukcijeIProjektovanjeTrack;
     const vinogradiGrockaRestoranTrack =
       report.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.vinogradiGrockaRestoranTrack;
+    const poslovnaPonudaZelezaraDooTrack =
+      report.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.poslovnaPonudaZelezaraDooTrack;
     const aiIqKonferencijaZaStampuTrack =
       report.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.aiIqKonferencijaZaStampuTrack;
     const radioTrack =
@@ -395,6 +397,17 @@ async function runTests(): Promise<void> {
     assert(vinogradiGrockaRestoranTrack.acceptanceEvidence.join(',') === 'developerAndCreateRepoWideReflection.vinogradiGrockaRestoranTrack,releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.vinogradiGrockaRestoranTrack', 'developer/create VINOGRADI GROCKA, RESTORAN acceptance evidence mismatch');
     assert(implementationPackage.vinogradiGrockaRestoranBoundary.trackRole === 'bounded-vinogradi-grocka-restoran-leadership-transition-track', 'developer/create implementation package VINOGRADI GROCKA, RESTORAN boundary role mismatch');
     assert(implementationPackage.vinogradiGrockaRestoranBoundary.spajaKodPublishes === 'summary-only-without-internal-hr-details', 'developer/create implementation package VINOGRADI GROCKA, RESTORAN public boundary mismatch');
+    assert(poslovnaPonudaZelezaraDooTrack.canonicalAlias === 'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == POSLOVNA PONUDA / ŽELEZARA D.O.O. SMEDEREVO', 'developer/create POSLOVNA PONUDA / ŽELEZARA D.O.O. SMEDEREVO canonical alias mismatch');
+    assert(poslovnaPonudaZelezaraDooTrack.roleClassification === 'additive-only-bounded-business-offer-zelezara-urgent-meeting-track', 'developer/create POSLOVNA PONUDA / ŽELEZARA D.O.O. SMEDEREVO role classification mismatch');
+    assert(poslovnaPonudaZelezaraDooTrack.summarySafePublicFields.join(',') === 'canonicalAlias,status,blockerReason,watchReasons,reviewPosture,downstreamReference,urgentMeetingSummary,businessCollaborationStatus,locationReadinessStatus,operationsPlanStatus,procurementLogisticsStatus,referenceListStatus', 'developer/create POSLOVNA PONUDA / ŽELEZARA D.O.O. SMEDEREVO summary-safe fields mismatch');
+    assert(poslovnaPonudaZelezaraDooTrack.urgentMeetingIntakePackage.infrastructureRequirements.storageSqm === 2000, 'developer/create POSLOVNA PONUDA / ŽELEZARA D.O.O. SMEDEREVO storage requirement mismatch');
+    assert(poslovnaPonudaZelezaraDooTrack.urgentMeetingIntakePackage.infrastructureRequirements.truckParkingSqm === 5000, 'developer/create POSLOVNA PONUDA / ŽELEZARA D.O.O. SMEDEREVO truck parking requirement mismatch');
+    assert(poslovnaPonudaZelezaraDooTrack.urgentMeetingIntakePackage.privacyCompliance.phoneNumbersPublicSummaryAllowed === false, 'developer/create POSLOVNA PONUDA / ŽELEZARA D.O.O. SMEDEREVO must keep phone numbers out of public summary');
+    assert(poslovnaPonudaZelezaraDooTrack.urgentMeetingIntakePackage.privacyCompliance.phoneNumbersDownstreamSyncAllowed === false, 'developer/create POSLOVNA PONUDA / ŽELEZARA D.O.O. SMEDEREVO must keep phone numbers out of downstream sync');
+    assert(['READY', 'WATCH', 'BLOCKED'].includes(poslovnaPonudaZelezaraDooTrack.readinessSignal.status), 'developer/create POSLOVNA PONUDA / ŽELEZARA D.O.O. SMEDEREVO readiness status mismatch');
+    assert(poslovnaPonudaZelezaraDooTrack.acceptanceEvidence.join(',') === 'developerAndCreateRepoWideReflection.poslovnaPonudaZelezaraDooTrack,releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.poslovnaPonudaZelezaraDooTrack,spajaKod.publicSignals.poslovnaPonudaZelezaraDooStatus,spajaKod.developerAndCreateImplementationPackage.poslovnaPonudaZelezaraDooSummary', 'developer/create POSLOVNA PONUDA / ŽELEZARA D.O.O. SMEDEREVO acceptance evidence mismatch');
+    assert(implementationPackage.poslovnaPonudaZelezaraDooBoundary.trackRole === 'bounded-business-offer-zelezara-urgent-meeting-track', 'developer/create implementation package POSLOVNA PONUDA / ŽELEZARA D.O.O. SMEDEREVO boundary role mismatch');
+    assert(implementationPackage.poslovnaPonudaZelezaraDooBoundary.spajaKodPublishes === 'status-blocker-review-downstream-and-urgent-meeting-summary-only', 'developer/create implementation package POSLOVNA PONUDA / ŽELEZARA D.O.O. SMEDEREVO public boundary mismatch');
     assert(report.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.technicalReadinessProfile.immersiveVisualization3dTrack.dimensionalProgression.join(',') === '360D,720D,1440D,2880D,5760D', 'developer/create immersive dimensional progression mismatch');
     assert(report.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.technicalReadinessProfile.immersiveVisualization3dTrack.fallbackPolicy.degradedMode === 'partial-payload-no-500', 'developer/create immersive degraded policy mismatch');
     assert(report.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.technicalReadinessProfile.immersiveVisualization3dTrack.dimensionalSignals.length === 5, 'developer/create immersive dimensional signals mismatch');

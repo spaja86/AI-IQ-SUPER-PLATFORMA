@@ -43,6 +43,11 @@ import type {
   DEVELOPER_CREATE_VINOGRADI_GROCKA_RESTORAN_SUMMARY_SAFE_FIELDS,
   DEVELOPER_CREATE_VINOGRADI_GROCKA_RESTORAN_FALLBACK_INPUTS,
   DEVELOPER_CREATE_VINOGRADI_GROCKA_RESTORAN_LEADERSHIP_TRANSITION,
+  DEVELOPER_CREATE_POSLOVNA_PONUDA_ZELEZARA_DOO_CANONICAL_ALIAS,
+  DEVELOPER_CREATE_POSLOVNA_PONUDA_ZELEZARA_DOO_SCOPE_STATEMENT,
+  DEVELOPER_CREATE_POSLOVNA_PONUDA_ZELEZARA_DOO_ROLE_CLASSIFICATION,
+  DEVELOPER_CREATE_POSLOVNA_PONUDA_ZELEZARA_DOO_URGENT_MEETING_INTAKE_PACKAGE,
+  DEVELOPER_CREATE_POSLOVNA_PONUDA_ZELEZARA_DOO_FALLBACK_INPUTS,
   DEVELOPER_CREATE_KRALJEVSKO_TAKMICENJE_AUTHENTICITY_RULES,
   DEVELOPER_CREATE_KRALJEVSKO_TAKMICENJE_CANONICAL_ALIAS,
   DEVELOPER_CREATE_KRALJEVSKO_TAKMICENJE_EVALUATION_CRITERIA,
@@ -3337,6 +3342,62 @@ export interface ExtrimliDokDikDakDukConsistencyHealth {
       ];
       downstreamReference: 'docs/MULTI-REPO-LINKS.md -> spaja86/IO-OPENUI-AO (summary-only)';
     };
+    poslovnaPonudaZelezaraDooTrack: {
+      canonicalAlias: typeof DEVELOPER_CREATE_POSLOVNA_PONUDA_ZELEZARA_DOO_CANONICAL_ALIAS;
+      scopeStatement: typeof DEVELOPER_CREATE_POSLOVNA_PONUDA_ZELEZARA_DOO_SCOPE_STATEMENT;
+      roleClassification: typeof DEVELOPER_CREATE_POSLOVNA_PONUDA_ZELEZARA_DOO_ROLE_CLASSIFICATION;
+      boundedVocabularyPhrase: 'EXTRIMLI EXTRONDOL EXTREM DOK DUK DAK DIK FOR';
+      additiveOnly: true;
+      noNewRuntimeEngine: true;
+      noNewRuntimeRoutes: true;
+      noParallelSourceOfTruth: true;
+      sourceOfTruthRoutes: readonly ['/api/extrimli/extrem', '/api/extrimli/extrondol', '/api/extrimli/spaja-kod'];
+      ownershipLock: {
+        dokDikFor: 'EXTREM';
+        dakDuk: 'EXTRONDOL';
+        spajaKod: 'audit-safe-summary-only';
+      };
+      summarySafePublicFields: readonly [
+        'canonicalAlias',
+        'status',
+        'blockerReason',
+        'watchReasons',
+        'reviewPosture',
+        'downstreamReference',
+        'urgentMeetingSummary',
+        'businessCollaborationStatus',
+        'locationReadinessStatus',
+        'operationsPlanStatus',
+        'procurementLogisticsStatus',
+        'referenceListStatus'
+      ];
+      urgentMeetingIntakePackage: typeof DEVELOPER_CREATE_POSLOVNA_PONUDA_ZELEZARA_DOO_URGENT_MEETING_INTAKE_PACKAGE;
+      readinessSignal: {
+        status: 'READY' | 'WATCH' | 'BLOCKED';
+        readinessScore: number;
+        businessCollaborationStatus: 'READY' | 'WATCH' | 'BLOCKED';
+        locationReadinessStatus: 'READY' | 'WATCH' | 'BLOCKED';
+        operationsPlanStatus: 'READY' | 'WATCH' | 'BLOCKED';
+        procurementLogisticsStatus: 'READY' | 'WATCH' | 'BLOCKED';
+        referenceListStatus: 'READY' | 'WATCH' | 'BLOCKED';
+        fallbackInputStatus: 'READY' | 'WATCH' | 'BLOCKED';
+        deterministicFallbackRequired: boolean;
+        fallbackInputs: typeof DEVELOPER_CREATE_POSLOVNA_PONUDA_ZELEZARA_DOO_FALLBACK_INPUTS;
+        driver: 'developerAndCreateRepoWideReflection.readiness + technicalReadinessProfile.consolidatedRhythmStatus + urgentMeetingIntakePackageSignals';
+      };
+      blockerReason: string | null;
+      watchReasons: string[];
+      reviewPosture: 'ALIGNED' | 'WATCH' | 'REVIEW_REQUIRED';
+      urgentMeetingSummary: string;
+      governanceReadinessSummary: string;
+      acceptanceEvidence: readonly [
+        'developerAndCreateRepoWideReflection.poslovnaPonudaZelezaraDooTrack',
+        'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.poslovnaPonudaZelezaraDooTrack',
+        'spajaKod.publicSignals.poslovnaPonudaZelezaraDooStatus',
+        'spajaKod.developerAndCreateImplementationPackage.poslovnaPonudaZelezaraDooSummary'
+      ];
+      downstreamReference: 'docs/MULTI-REPO-LINKS.md -> spaja86/IO-OPENUI-AO (summary-only)';
+    };
     aiIqKonferencijaZaStampuTrack: {
       canonicalAlias: typeof DEVELOPER_CREATE_AI_IQ_KONFERENCIJA_ZA_STAMPU_CANONICAL_ALIAS;
       scopeStatement: typeof DEVELOPER_CREATE_AI_IQ_KONFERENCIJA_ZA_STAMPU_SCOPE_STATEMENT;
@@ -5221,6 +5282,20 @@ export interface ExtrimliDokDikDakDukConsistencyHealth {
         extrondolPublishes: 'wawe-freeze-promotion-review-rollback-audit-summary-only';
         spajaKodPublishes: 'summary-only-without-internal-hr-details';
         technicalBinding: 'developerAndCreateRepoWideReflection.vinogradiGrockaRestoranTrack';
+        noNewRuntimeEngine: true;
+        noNewRuntimeRoutes: true;
+        noParallelSourceOfTruth: true;
+        rawInternalsExposed: false;
+      };
+      poslovnaPonudaZelezaraDooBoundary: {
+        trackRole: 'bounded-business-offer-zelezara-urgent-meeting-track';
+        parentTrack: 'VRH PROGRAMSKOG EKVILADENTA';
+        canonicalAlias: typeof DEVELOPER_CREATE_POSLOVNA_PONUDA_ZELEZARA_DOO_CANONICAL_ALIAS;
+        roleClassification: typeof DEVELOPER_CREATE_POSLOVNA_PONUDA_ZELEZARA_DOO_ROLE_CLASSIFICATION;
+        extremPublishes: 'status-business-location-operations-procurement-reference-readiness-and-deterministic-fallback-signal-only';
+        extrondolPublishes: 'wawe-freeze-promotion-review-rollback-kpi-audit-summary-only';
+        spajaKodPublishes: 'status-blocker-review-downstream-and-urgent-meeting-summary-only';
+        technicalBinding: 'developerAndCreateRepoWideReflection.poslovnaPonudaZelezaraDooTrack';
         noNewRuntimeEngine: true;
         noNewRuntimeRoutes: true;
         noParallelSourceOfTruth: true;
