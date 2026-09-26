@@ -18,6 +18,7 @@ import { getOwnerPhoneVerifikacijaStatus } from '@/lib/owner-phone-auth';
 import {
   VERCEL_STATUS_ROUTE_PATH,
   buildVercelDeployGovernanceSummary,
+  buildVercelOwnershipBlockers,
 } from '@/lib/vercel-deploy-governance';
 import {
   getVercelDeployInfrastructureState,
@@ -282,9 +283,25 @@ export async function GET() {
 
   const ukupnoKonfigurisan = Object.values(checklist).filter((c) => c.status).length;
   const ukupnoProvera = Object.keys(checklist).length;
+  const canonicalDeployBlockers = buildVercelOwnershipBlockers({
+   phoneVerified,
+   billingOwnerLocked: pretplataVercel.billingGovernance.billingOwnerLocked,
+   billingOwner: pretplataVercel.billingGovernance.billingOwner,
+   legalIntakeComplete: pretplataVercel.billingGovernance.legalIntakeComplete,
+   enterpriseGovernedModel: pretplataVercel.billingGovernance.enterpriseGovernedModel,
+   currentInvoiceNumber: pretplataVercel.billingGovernance.currentInvoice.number,
+   currentInvoiceAmount: pretplataVercel.billingGovernance.currentInvoice.amountUsd,
+   invoiceResolved:
+     pretplataVercel.billingGovernance.currentInvoice.paid
+     || pretplataVercel.billingGovernance.currentInvoice.correctedInvoiceResolved,
+   currentInvoiceEvidenceCaptured: pretplataVercel.billingGovernance.currentInvoice.evidenceCaptured,
+   bankStatementCaptured: pretplataVercel.billingGovernance.currentInvoice.bankStatementCaptured,
+   paymentReferenceCaptured: pretplataVercel.billingGovernance.currentInvoice.paymentReferenceCaptured,
+   publicAnnouncementRedacted: pretplataVercel.billingGovernance.publicAnnouncement.redacted,
+  });
   const deployGovernance = buildVercelDeployGovernanceSummary({
    sourceOfTruthPath: VERCEL_STATUS_ROUTE_PATH,
-   blockers: pretplataVercel.blokatori,
+   blockers: canonicalDeployBlockers,
    tokenConfigured: infrastructure.tokenConfigured,
    projectIdConfigured: infrastructure.projectIdConfigured,
    teamOrOrgConfigured: infrastructure.teamOrOrgConfigured,
