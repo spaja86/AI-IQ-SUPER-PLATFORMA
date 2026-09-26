@@ -429,11 +429,12 @@ function buildDeveloperCreateBranchReport(params: {
   const completed = branchItems.filter((item) => item.status === 'READY').map((item) => item.label);
   const partial = branchItems.filter((item) => item.status === 'WATCH').map((item) => item.label);
   const blocked = branchItems.filter((item) => item.status === 'BLOCKED').map((item) => item.label);
-  const nextStep = blocked.length > 0 || params.branchStatus === 'BLOCKED' || params.platformStatus === 'BLOCKED'
-    ? 'Resolve blocked branch layers before promotion, then rerun the governance conformance flow.'
-    : partial.length > 0 || params.branchStatus === 'WATCH' || params.platformStatus === 'WATCH'
-      ? 'Close WATCH follow-ups across the branch report and rerun governance conformance before promotion.'
-      : 'Advance the branch report through human review and summary-only downstream synchronization.';
+  let nextStep = 'Advance the branch report through human review and summary-only downstream synchronization.';
+  if (blocked.length > 0 || params.branchStatus === 'BLOCKED' || params.platformStatus === 'BLOCKED') {
+    nextStep = 'Resolve blocked branch layers before promotion, then rerun the governance conformance flow.';
+  } else if (partial.length > 0 || params.branchStatus === 'WATCH' || params.platformStatus === 'WATCH') {
+    nextStep = 'Close WATCH follow-ups across the branch report and rerun governance conformance before promotion.';
+  }
 
   return {
     canonicalFormat: 'developer-create-branch-report-v1',
