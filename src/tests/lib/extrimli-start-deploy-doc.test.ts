@@ -56,7 +56,7 @@ async function run(): Promise<void> {
     assert(multiRepoLinksDoc.includes('<!-- START_DEPLOY_WAWE3_EVIDENCE -->'), 'WAWE 3 evidence marker missing');
     assert(multiRepoLinksDoc.includes('<!-- START_DEPLOY_ISSUE_GATE -->'), 'issue gate marker missing');
     assert(multiRepoLinksDoc.includes('WAWE 4 promocije'), 'WAWE 4 downstream issue gate missing');
-    assert(multiRepoLinksDoc.includes('IO-OPENUI-AO#<number>'), 'downstream issue format marker missing');
+    assert(multiRepoLinksDoc.includes('konkretan downstream issue'), 'concrete downstream issue requirement missing');
     assert(multiRepoLinksDoc.includes('DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == AKTIVACIJA'), 'downstream activation lock missing');
     assert(workflow.includes('START_DEPLOY_DOMAIN_GATE'), 'workflow domain gate marker missing');
     assert(workflow.includes('START_DEPLOY_MULTI_REPO_SYNC'), 'workflow multi-repo sync marker missing');
