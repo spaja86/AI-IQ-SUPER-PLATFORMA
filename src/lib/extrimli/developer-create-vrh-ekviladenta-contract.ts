@@ -375,7 +375,7 @@ export const DEVELOPER_CREATE_KRALJEVSKI_SAT_CANONICAL_ALIAS =
   DEVELOPER_CREATE_VRH_KRALJEVSKI_SAT_ALIAS;
 
 export const DEVELOPER_CREATE_KRALJEVSKI_SAT_SCOPE_STATEMENT =
-  'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == KRALJEVSKI SAT == additive-only bounded traka bez novih runtime ruta i bez paralelnog source-of-truth modela; ownership ostaje zaključan na EXTREM (DOK/DIK/FOR), EXTRONDOL (DAK/DUK) i SPAJA KOD (audit-safe summary-only).' as const;
+  'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == KRALJEVSKI SAT == additive-only bounded traka bez novih runtime ruta i bez paralelnog source-of-truth modela; ownership ostaje zaključan na EXTREM (tehnički readiness nad DIP/KAR/DUR/CUR/RET/DOK/OKOT signalima), EXTRONDOL (governance/freeze/promotion/rollback/release-audit) i SPAJA KOD (audit-safe summary-only).' as const;
 
 export const DEVELOPER_CREATE_KRALJEVSKI_SAT_ROLE_CLASSIFICATION =
   'additive-only-bounded-kraljevski-sat-track' as const;
@@ -391,8 +391,8 @@ export const DEVELOPER_CREATE_KRALJEVSKI_SAT_BOUNDED_TOKEN_SET = [
 ] as const;
 
 export const DEVELOPER_CREATE_KRALJEVSKI_SAT_LAYER_OWNERSHIP_LOCK = {
-  extrem: 'technical-readiness-signal-dok-dik-for',
-  extrondol: 'governance-freeze-promotion-rollback-release-audit-dak-duk',
+  extrem: 'technical-readiness-signal-over-dip-kar-dur-cur-ret-dok-okot',
+  extrondol: 'governance-freeze-promotion-rollback-release-audit',
   spajaKod: 'audit-safe-summary-only',
 } as const;
 
@@ -417,8 +417,8 @@ export const DEVELOPER_CREATE_KRALJEVSKI_SAT_DOWNSTREAM_POLICY = {
   linkedRepo: 'spaja86/IO-OPENUI-AO',
   syncMode: 'summary-only',
   rawTokenInternalsStayRepoLocal: true,
-  rawExtremFormulaStaysRepoLocal: true,
-  rawExtrondolGovernanceStaysRepoLocal: true,
+  rawExtremFormulasStayRepoLocal: true,
+  rawExtrondolGovernanceFormulasStayRepoLocal: true,
 } as const;
 
 export const DEVELOPER_CREATE_RADNI_PROSTOR_CANONICAL_ALIAS =
