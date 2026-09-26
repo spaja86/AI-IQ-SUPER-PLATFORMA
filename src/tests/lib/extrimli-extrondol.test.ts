@@ -155,6 +155,14 @@ async function runTests(): Promise<void> {
     assert(['RING-0-CONTRACT', 'RING-1-STAGING', 'RING-2-CANARY', 'RING-3-PRODUCTION', 'RING-4-RESILIENCE'].includes(report.b2bReadiness.tenant.rolloutRing), 'invalid B2B rollout ring');
     assert(report.versionRoadmap.contractVersion === 'v1-7-roadmap', 'roadmap contract mismatch');
     assert(report.versionRoadmap.developerCreateLock.additiveOnly, 'developer/create lock must remain additive-only');
+    assert(report.scopeLock.canonicalExpression === 'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA', 'scope lock canonical expression mismatch');
+    assert(report.scopeLock.boundedVocabulary.join(',') === 'EXTRIMLI,EXTRONDOL,EXTREM,DOK,DUK,DAK,DIK,FOR', 'scope lock bounded vocabulary mismatch');
+    assert(report.healthSnapshot.surfaces.length === 3, 'health snapshot must include all three surfaces');
+    assert(report.healthSnapshot.surfaces[0].route === '/api/extrimli/extrem', 'health snapshot EXTREM route mismatch');
+    assert(report.healthSnapshot.surfaces[1].route === '/api/extrimli/extrondol', 'health snapshot EXTRONDOL route mismatch');
+    assert(report.healthSnapshot.surfaces[2].route === '/api/extrimli/spaja-kod', 'health snapshot SPAJA KOD route mismatch');
+    assert(report.gapRegistry.length === 5, 'gap registry should include docs/types/routes/tests/workflows');
+    assert(report.spajaKod.gapRegistrySummary.length === report.gapRegistry.length, 'SPAJA KOD gap registry summary mismatch');
   });
 
   await test('report exposes Developer/Create lock and downstream sync expectations', () => {

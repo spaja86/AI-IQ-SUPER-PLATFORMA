@@ -222,6 +222,10 @@ async function runTests(): Promise<void> {
       };
     };
     assert(body.data.sourceOfTruth === '/api/extrimli/extrondol', 'unexpected EXTRONDOL sourceOfTruth');
+    assert((body.data as { scopeLock: { canonicalExpression: string; boundedVocabulary: string[] } }).scopeLock.canonicalExpression === 'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA', 'unexpected EXTRONDOL scope lock expression');
+    assert((body.data as { scopeLock: { boundedVocabulary: string[] } }).scopeLock.boundedVocabulary.join(',') === 'EXTRIMLI,EXTRONDOL,EXTREM,DOK,DUK,DAK,DIK,FOR', 'unexpected EXTRONDOL scope lock vocabulary');
+    assert((body.data as { healthSnapshot: { surfaces: Array<{ route: string; status: string }> } }).healthSnapshot.surfaces.length === 3, 'unexpected EXTRONDOL health snapshot size');
+    assert((body.data as { gapRegistry: Array<{ layer: string; roadmapStageId: string }> }).gapRegistry.map((item) => item.layer).join(',') === 'docs,types,routes,tests,workflows', 'unexpected EXTRONDOL gap registry layers');
     assert(body.data.orchestrationReadinessScore >= 0 && body.data.orchestrationReadinessScore <= 100, 'unexpected EXTRONDOL orchestrationReadinessScore');
     assert(body.data.startProject.initiativeId === 'OKRID-2026-EXTRIMLI-START-001', 'unexpected START project initiative id');
     assert(body.data.startProject.programName === 'START PROJEKAT', 'unexpected START project name');
@@ -1132,6 +1136,10 @@ async function runTests(): Promise<void> {
     };
     assert(body.data.surfaceName === 'SPAJA KOD', 'unexpected SPAJA KOD surface');
     assert(body.data.sourceOfTruth === '/api/extrimli/spaja-kod', 'unexpected SPAJA KOD source');
+    assert((body.data as { scopeLock: { canonicalExpression: string; boundedVocabulary: string[] } }).scopeLock.canonicalExpression === 'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA', 'unexpected SPAJA KOD scope lock expression');
+    assert((body.data as { scopeLock: { boundedVocabulary: string[] } }).scopeLock.boundedVocabulary.join(',') === 'EXTRIMLI,EXTRONDOL,EXTREM,DOK,DUK,DAK,DIK,FOR', 'unexpected SPAJA KOD scope lock vocabulary');
+    assert((body.data as { healthSnapshot: { surfaces: Array<{ route: string }> } }).healthSnapshot.surfaces.map((surface) => surface.route).join(',') === '/api/extrimli/extrem,/api/extrimli/extrondol,/api/extrimli/spaja-kod', 'unexpected SPAJA KOD health snapshot routes');
+    assert((body.data as { gapRegistrySummary: Array<{ layer: string; roadmapStageId: string; status: string }> }).gapRegistrySummary.map((item) => item.layer).join(',') === 'docs,types,routes,tests,workflows', 'unexpected SPAJA KOD gap registry summary layers');
     assert(body.data.rawPatternVisibility === 'HIDDEN', 'SPAJA KOD must hide raw pattern visibility');
     assert(body.data.completeness.consistent === true, 'SPAJA KOD must be consistent');
     assert(body.data.completeness.exportReady === true, 'SPAJA KOD must be export ready');

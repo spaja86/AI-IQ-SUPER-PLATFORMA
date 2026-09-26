@@ -13797,6 +13797,95 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
         && mobilnaLinija.installationMessages.messages.length >= 3,
     },
   ];
+  const scopeLock = {
+    canonicalExpression: DEVELOPER_CREATE_VRH_CANONICAL_NARRATIVE_SENTENCE,
+    boundedVocabulary: ['EXTRIMLI', 'EXTRONDOL', 'EXTREM', 'DOK', 'DUK', 'DAK', 'DIK', 'FOR'],
+    noNewRuntimeRoutes: true,
+    noParallelSourceOfTruth: true,
+    ownershipSplit: {
+      dokDikFor: 'EXTREM',
+      dakDuk: 'EXTRONDOL',
+      spajaKod: 'audit-safe-summary-only',
+    },
+  } as const;
+  const extremSurfaceStatus = dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.status;
+  const extrondolSurfaceStatus =
+    freezeRequired ? 'BLOCKED' : governanceReasons.length > 0 ? 'WATCH' : 'READY';
+  const spajaKodSurfaceStatus = spajaKodEncapsulation.readiness.status;
+  const healthSnapshot = {
+    generatedFrom: '/api/extrimli/extrem',
+    surfaces: [
+      {
+        route: '/api/extrimli/extrem',
+        status: extremSurfaceStatus,
+        reason: 'EXTREM technical readiness from DOK/DIK/FOR consistency and deterministic fallback checks.',
+      },
+      {
+        route: '/api/extrimli/extrondol',
+        status: extrondolSurfaceStatus,
+        reason: freezeRequired
+          ? 'Promotion freeze requested by EXTREM governance signal.'
+          : governanceReasons.length > 0
+            ? 'EXTREM reports watch-level governance reasons for EXTRONDOL follow-up.'
+            : 'No EXTREM governance blockers detected for EXTRONDOL.',
+      },
+      {
+        route: '/api/extrimli/spaja-kod',
+        status: spajaKodSurfaceStatus,
+        reason: 'SPAJA KOD encapsulation status from EXTREM summary-safe boundary checks.',
+      },
+    ],
+  } as const;
+  const gapRegistry = [
+    {
+      id: 'docs-lock',
+      layer: 'docs',
+      roadmapStageId: 'v5-extrondol-release-audit-and-orchestration',
+      measurableOutput: 'Manifest and VRH docs keep canonical scope lock and additive-only policy.',
+      status: isExtrimliDeveloperCreateLockAligned(versionRoadmap.developerCreateLock) ? 'READY' : 'BLOCKED',
+      blockerReason: isExtrimliDeveloperCreateLockAligned(versionRoadmap.developerCreateLock)
+        ? null
+        : 'Developer/Create lock drift detected in roadmap documents.',
+    },
+    {
+      id: 'types-lock',
+      layer: 'types',
+      roadmapStageId: 'v4-extrem-governance-hardening',
+      measurableOutput: 'DOK/DIK/FOR ownership and READY/WATCH/BLOCKED model remain deterministic in types.',
+      status: dokDikDakDukConsistencyHealth.checks.ownershipBoundaryPreserved ? 'READY' : 'BLOCKED',
+      blockerReason: dokDikDakDukConsistencyHealth.checks.ownershipBoundaryPreserved
+        ? null
+        : 'Ownership boundary in typed consistency contract is not preserved.',
+    },
+    {
+      id: 'routes-lock',
+      layer: 'routes',
+      roadmapStageId: 'v5-extrondol-release-audit-and-orchestration',
+      measurableOutput: 'Only canonical EXTRIMLI source-of-truth routes are used.',
+      status: versionRoadmap.developerCreateLock.sourceOfTruthRoutes.length === 3 ? 'READY' : 'BLOCKED',
+      blockerReason: versionRoadmap.developerCreateLock.sourceOfTruthRoutes.length === 3
+        ? null
+        : 'Source-of-truth route set is incomplete.',
+    },
+    {
+      id: 'tests-lock',
+      layer: 'tests',
+      roadmapStageId: 'v4-extrem-governance-hardening',
+      measurableOutput: 'EXTREM acceptance criteria remain passing for locked contract gates.',
+      status: acceptanceCriteria.every((criterion) => criterion.passed) ? 'READY' : 'WATCH',
+      blockerReason: acceptanceCriteria.every((criterion) => criterion.passed)
+        ? null
+        : 'One or more EXTREM acceptance criteria currently require follow-up.',
+    },
+    {
+      id: 'workflow-lock',
+      layer: 'workflows',
+      roadmapStageId: DEVELOPER_CREATE_V700_ROADMAP_STAGE_ID,
+      measurableOutput: 'Governance freeze/promotion model remains auditable with rollback discipline.',
+      status: freezeRequired ? 'BLOCKED' : 'READY',
+      blockerReason: freezeRequired ? 'Governance freeze is active until blocker reasons are resolved.' : null,
+    },
+  ] as const;
 
   return {
     personaId: EXTRIMLI_EXTREM_PROFILER_PERSONA_ID,
@@ -13918,6 +14007,9 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
       apiResponseMs,
       withinTargets,
     },
+    scopeLock,
+    healthSnapshot,
+    gapRegistry: [...gapRegistry],
     degraded: degradedSources.length > 0,
     degradedMode: 'partial-payload-no-500',
     degradedSources,

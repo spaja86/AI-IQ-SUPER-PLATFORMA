@@ -120,6 +120,11 @@ async function runTests(): Promise<void> {
 
   await test('default report exposes Developer/Create lock through the shared roadmap', () => {
     const report = getExtrimliExtremProfilerReport();
+    assert(report.scopeLock.canonicalExpression === 'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA', 'EXTREM scope lock canonical expression mismatch');
+    assert(report.scopeLock.boundedVocabulary.join(',') === 'EXTRIMLI,EXTRONDOL,EXTREM,DOK,DUK,DAK,DIK,FOR', 'EXTREM bounded vocabulary mismatch');
+    assert(report.healthSnapshot.generatedFrom === '/api/extrimli/extrem', 'EXTREM health snapshot source mismatch');
+    assert(report.healthSnapshot.surfaces.length === 3, 'EXTREM health snapshot should include three surfaces');
+    assert(report.gapRegistry.length === 5, 'EXTREM gap registry should include docs/types/routes/tests/workflows');
     const lock = report.versionRoadmap.developerCreateLock;
     assert(lock.sourceOfTruthRoutes.join(',') === '/api/extrimli/extrem,/api/extrimli/extrondol,/api/extrimli/spaja-kod', 'developer/create source-of-truth routes mismatch');
     assert(lock.lockedCoreArtifacts.includes('src/lib/extrimli-extrem/**'), 'locked EXTREM core artifact missing');
