@@ -63,24 +63,28 @@ function executeStartDeployDomainGate(
   const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), 'start-deploy-gate-'));
   const summaryPath = path.join(tempDir, 'summary.md');
   const outputPath = path.join(tempDir, 'output.txt');
-  fs.writeFileSync(summaryPath, '', 'utf8');
-  fs.writeFileSync(outputPath, '', 'utf8');
+  try {
+    fs.writeFileSync(summaryPath, '', 'utf8');
+    fs.writeFileSync(outputPath, '', 'utf8');
 
-  execFileSync('bash', ['-c', script], {
-    env: {
-      ...process.env,
-      ...envOverrides,
-      GITHUB_STEP_SUMMARY: summaryPath,
-      GITHUB_OUTPUT: outputPath,
-    },
-    stdio: 'pipe',
-    encoding: 'utf8',
-  });
+    execFileSync('bash', ['-c', script], {
+      env: {
+        ...process.env,
+        ...envOverrides,
+        GITHUB_STEP_SUMMARY: summaryPath,
+        GITHUB_OUTPUT: outputPath,
+      },
+      stdio: 'pipe',
+      encoding: 'utf8',
+    });
 
-  return {
-    output: fs.readFileSync(outputPath, 'utf8'),
-    summary: fs.readFileSync(summaryPath, 'utf8'),
-  };
+    return {
+      output: fs.readFileSync(outputPath, 'utf8'),
+      summary: fs.readFileSync(summaryPath, 'utf8'),
+    };
+  } finally {
+    fs.rmSync(tempDir, { recursive: true, force: true });
+  }
 }
 
 async function run(): Promise<void> {
