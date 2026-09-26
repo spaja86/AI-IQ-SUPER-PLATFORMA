@@ -1,4 +1,5 @@
 import {
+  EXPECTED_VERCEL_BILLING_OWNER,
   EXPECTED_VERCEL_INVOICE_AMOUNT,
   EXPECTED_VERCEL_INVOICE_NUMBER,
 } from '@/lib/vercel-billing-governance';
@@ -10,8 +11,10 @@ export const VERCEL_FALLBACK_DEPLOY_WORKFLOW_PATH = '.github/workflows/vercel-de
 export const VERCEL_CANONICAL_APEX_DOMAIN = 'spaja.nivo-spaja' as const;
 export const VERCEL_CANONICAL_WILDCARD_DOMAIN = '*.spaja.nivo-spaja' as const;
 export const VERCEL_INVALID_DOMAIN_PATTERN = 'spaja.nivo*spaja' as const;
+const DOWNSTREAM_SYNC_PHASE_SEQUENCE = 3 as const;
+const POST_RELEASE_AUDIT_PHASE_SEQUENCE = 5 as const;
 
-export type VercelDeployWaweStatus = 'BLOCKED' | 'READY' | 'PENDING';
+export type VercelDeployWaveStatus = 'BLOCKED' | 'READY' | 'PENDING';
 
 export interface BuildVercelDeployGovernanceSummaryOptions {
   sourceOfTruthPath: typeof VERCEL_STATUS_ROUTE_PATH | typeof VERCEL_OWNERSHIP_ROUTE_PATH;
@@ -20,6 +23,21 @@ export interface BuildVercelDeployGovernanceSummaryOptions {
   projectIdConfigured: boolean;
   teamOrOrgConfigured: boolean;
   deployHookConfigured: boolean;
+}
+
+export interface BuildVercelOwnershipBlockersOptions {
+  phoneVerified: boolean;
+  billingOwnerLocked: boolean;
+  billingOwner: string;
+  legalIntakeComplete: boolean;
+  enterpriseGovernedModel: boolean;
+  currentInvoiceNumber: string;
+  currentInvoiceAmount: string;
+  invoiceResolved: boolean;
+  currentInvoiceEvidenceCaptured: boolean;
+  bankStatementCaptured: boolean;
+  paymentReferenceCaptured: boolean;
+  publicAnnouncementRedacted: boolean;
 }
 
 function resolveRecommendedNextAction(blockers: string[]): string {
@@ -42,16 +60,16 @@ function resolveRecommendedNextAction(blockers: string[]): string {
   return 'Pokrenuti deploy prvo push-em kroz Vercel Git integraciju, a ručni workflow koristiti samo kao fallback.';
 }
 
-function resolveWaweStatus(blockers: string[], infraReady: boolean, phaseNumber: number): VercelDeployWaweStatus {
+function resolveWaveStatus(blockers: string[], infraReady: boolean, phaseNumber: number): VercelDeployWaveStatus {
   if (blockers.length > 0) {
     return 'BLOCKED';
   }
 
-  if (!infraReady && phaseNumber <= 2) {
+  if (!infraReady) {
     return 'BLOCKED';
   }
 
-  if (phaseNumber === 3 || phaseNumber === 5) {
+  if (phaseNumber === DOWNSTREAM_SYNC_PHASE_SEQUENCE || phaseNumber === POST_RELEASE_AUDIT_PHASE_SEQUENCE) {
     return 'PENDING';
   }
 
@@ -76,7 +94,7 @@ export function buildVercelDeployGovernanceSummary({
     blockerSourceOfTruth: {
       primaryEndpoint: sourceOfTruthPath,
       mirroredEndpoint: mirrorPath,
-      currentStatus: blockers.length === 0 ? 'READY' : 'BLOCKED',
+      currentStatus: blockers.length === 0 && infraReady && deployHookConfigured ? 'READY' : 'BLOCKED',
       mustStayAligned: true,
       policy: 'Deploy ostaje blokiran dok oba endpointa ne potvrde da su governance i billing uslovi kompletni.',
     },
@@ -123,38 +141,76 @@ export function buildVercelDeployGovernanceSummary({
       },
       noNewDeployMechanism: true,
     },
-    wawePhases: [
+    wavePhases: [
       {
-        id: 'WAWE 1',
+        id: 'WAVE 1',
         name: 'Pre-release validation',
-        status: resolveWaweStatus(blockers, infraReady, 1),
+        status: resolveWaveStatus(blockers, infraReady, 1),
         gate: 'typecheck + test + smoke + predeploy + security',
       },
       {
-        id: 'WAWE 2',
+        id: 'WAVE 2',
         name: 'Build + staging verification',
-        status: resolveWaweStatus(blockers, infraReady, 2),
+        status: resolveWaveStatus(blockers, infraReady, 2),
         gate: 'build + staging smoke + KPI verification',
       },
       {
-        id: 'WAWE 3',
+        id: 'WAVE 3',
         name: 'Downstream sync + audit reference',
-        status: resolveWaweStatus(blockers, infraReady, 3),
+        status: resolveWaveStatus(blockers, infraReady, 3),
         gate: 'linked-repo sync + audit references',
       },
       {
-        id: 'WAWE 4',
+        id: 'WAVE 4',
         name: 'Production rollout',
-        status: resolveWaweStatus(blockers, infraReady, 4),
+        status: resolveWaveStatus(blockers, infraReady, 4),
         gate: 'progressive production promotion',
       },
       {
-        id: 'WAWE 5',
+        id: 'WAVE 5',
         name: 'Post-release resilience + audit',
-        status: resolveWaweStatus(blockers, infraReady, 5),
+        status: resolveWaveStatus(blockers, infraReady, 5),
         gate: 'stability, analytics, audit closure',
       },
     ],
     recommendedNextAction: resolveRecommendedNextAction(blockers),
   };
+}
+
+export function buildVercelOwnershipBlockers({
+  phoneVerified,
+  billingOwnerLocked,
+  billingOwner,
+  legalIntakeComplete,
+  enterpriseGovernedModel,
+  currentInvoiceNumber,
+  currentInvoiceAmount,
+  invoiceResolved,
+  currentInvoiceEvidenceCaptured,
+  bankStatementCaptured,
+  paymentReferenceCaptured,
+  publicAnnouncementRedacted,
+}: BuildVercelOwnershipBlockersOptions): string[] {
+  return [
+    ...(!phoneVerified ? ['Telefonska verifikacija je obavezna pre slanja Vercel enterprise zahteva.'] : []),
+    ...(!billingOwnerLocked ? ['Billing owner nije zaključan na Digitalna Industrija.'] : []),
+    ...(billingOwner !== EXPECTED_VERCEL_BILLING_OWNER ? [`Billing owner mora biti: ${EXPECTED_VERCEL_BILLING_OWNER}.`] : []),
+    ...(!legalIntakeComplete ? ['Privredni intake podaci (PIB/MB, potpisnik, PDV/eFaktura) nisu kompletni.'] : []),
+    ...(!enterpriseGovernedModel ? ['Pretplata nije označena kao privreda / enterprise-governed model.'] : []),
+    ...(currentInvoiceNumber !== EXPECTED_VERCEL_INVOICE_NUMBER ? [`Trenutni invoice mora biti ${EXPECTED_VERCEL_INVOICE_NUMBER}.`] : []),
+    ...(currentInvoiceAmount !== EXPECTED_VERCEL_INVOICE_AMOUNT ? [`Trenutni invoice iznos mora biti ${EXPECTED_VERCEL_INVOICE_AMOUNT}.`] : []),
+    ...(!invoiceResolved ? ['Trenutna faktura nije rešena (pay ili support correction/re-issue).'] : []),
+    ...(!currentInvoiceEvidenceCaptured && invoiceResolved
+      ? ['Nedostaje dokaz o fakturi/plaćanju (PDF, potvrda, timestamp, odgovorno lice).']
+      : []),
+    ...(!bankStatementCaptured && invoiceResolved && currentInvoiceEvidenceCaptured
+      ? ['Nedostaje izvod platnog računa.']
+      : []),
+    ...(!paymentReferenceCaptured && invoiceResolved && currentInvoiceEvidenceCaptured
+      ? ['Nedostaje barkod / payment reference.']
+      : []),
+    ...(!publicAnnouncementRedacted && invoiceResolved && bankStatementCaptured && paymentReferenceCaptured
+      ? ['Javni sažetak mora biti redigovan.']
+      : []),
+  ];
 }

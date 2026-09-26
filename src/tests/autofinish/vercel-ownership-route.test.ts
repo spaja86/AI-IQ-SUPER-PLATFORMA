@@ -153,7 +153,7 @@ async function runTests(): Promise<void> {
           deployTriggerOrder: Array<{ handler: string }>;
           developerCreateBoundary: { noNewDeployMechanism: boolean };
           recommendedNextAction: string;
-          wawePhases: Array<{ id: string; status: string }>;
+          wavePhases: Array<{ id: string; status: string }>;
         };
       };
     };
@@ -164,8 +164,8 @@ async function runTests(): Promise<void> {
     assert.strictEqual(body.vercel.deployGovernance.deployTriggerOrder[0]?.handler, 'Vercel Git integracija');
     assert.strictEqual(body.vercel.deployGovernance.deployTriggerOrder[1]?.handler, '.github/workflows/vercel-deploy.yml');
     assert.strictEqual(body.vercel.deployGovernance.developerCreateBoundary.noNewDeployMechanism, true);
-    assert.strictEqual(body.vercel.deployGovernance.wawePhases[0]?.id, 'WAWE 1');
-    assert.strictEqual(body.vercel.deployGovernance.wawePhases[0]?.status, 'BLOCKED');
+    assert.strictEqual(body.vercel.deployGovernance.wavePhases[0]?.id, 'WAVE 1');
+    assert.strictEqual(body.vercel.deployGovernance.wavePhases[0]?.status, 'BLOCKED');
     assert.ok(body.vercel.deployGovernance.recommendedNextAction.includes(EXPECTED_INVOICE_NUMBER));
   });
 

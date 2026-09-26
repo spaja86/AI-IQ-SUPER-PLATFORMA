@@ -30,6 +30,7 @@ import {
 } from '@/lib/vercel-billing-governance';
 import {
   VERCEL_OWNERSHIP_ROUTE_PATH,
+  buildVercelOwnershipBlockers,
   buildVercelDeployGovernanceSummary,
 } from '@/lib/vercel-deploy-governance';
 
@@ -212,32 +213,23 @@ export async function GET() {
     ? 'u-procesu'
     : identity.vercel.status;
 
-  const blokator = !checklist.phoneVerified
-    ? 'Telefonska verifikacija je obavezna pre slanja Vercel enterprise zahteva.'
-    : null;
   const publicAnnouncement = buildVercelPublicAnnouncementState(billing);
-  const blockers = [
-    ...(blokator ? [blokator] : []),
-    ...(!billing.billingOwnerLocked ? ['Billing owner nije zaključan na Digitalna Industrija.'] : []),
-    ...(billing.billingOwner !== EXPECTED_BILLING_OWNER ? [`Billing owner mora biti: ${EXPECTED_BILLING_OWNER}.`] : []),
-    ...(!billing.legalIntakeComplete ? ['Privredni intake podaci (PIB/MB, potpisnik, PDV/eFaktura) nisu kompletni.'] : []),
-    ...(!billing.enterpriseGovernedModel ? ['Pretplata nije označena kao privreda / enterprise-governed model.'] : []),
-    ...(billing.currentInvoiceNumber !== EXPECTED_INVOICE_NUMBER ? [`Trenutni invoice mora biti ${EXPECTED_INVOICE_NUMBER}.`] : []),
-    ...(billing.currentInvoiceAmount !== EXPECTED_INVOICE_AMOUNT ? [`Trenutni invoice iznos mora biti ${EXPECTED_INVOICE_AMOUNT}.`] : []),
-    ...(!isVercelInvoiceResolved(billing) ? ['Trenutna faktura nije rešena (pay ili support correction/re-issue).'] : []),
-    ...(!billing.currentInvoiceEvidenceCaptured && isVercelInvoiceResolved(billing)
-      ? ['Nedostaje dokaz o fakturi/plaćanju (PDF, potvrda, timestamp, odgovorno lice).']
-      : []),
-    ...(!billing.bankStatementCaptured && isVercelInvoiceResolved(billing) && billing.currentInvoiceEvidenceCaptured
-      ? ['Nedostaje izvod platnog računa.']
-      : []),
-    ...(!billing.paymentReferenceCaptured && isVercelInvoiceResolved(billing) && billing.currentInvoiceEvidenceCaptured
-      ? ['Nedostaje barkod / payment reference.']
-      : []),
-    ...(!billing.publicAnnouncementRedacted && isVercelInvoiceResolved(billing) && billing.bankStatementCaptured && billing.paymentReferenceCaptured
-      ? ['Javni sažetak mora biti redigovan.']
-      : []),
-  ];
+  const invoiceResolved = isVercelInvoiceResolved(billing);
+  const blockers = buildVercelOwnershipBlockers({
+    phoneVerified: checklist.phoneVerified,
+    billingOwnerLocked: billing.billingOwnerLocked,
+    billingOwner: billing.billingOwner,
+    legalIntakeComplete: billing.legalIntakeComplete,
+    enterpriseGovernedModel: billing.enterpriseGovernedModel,
+    currentInvoiceNumber: billing.currentInvoiceNumber,
+    currentInvoiceAmount: billing.currentInvoiceAmount,
+    invoiceResolved,
+    currentInvoiceEvidenceCaptured: billing.currentInvoiceEvidenceCaptured,
+    bankStatementCaptured: billing.bankStatementCaptured,
+    paymentReferenceCaptured: billing.paymentReferenceCaptured,
+    publicAnnouncementRedacted: billing.publicAnnouncementRedacted,
+  });
+  const blokator = blockers[0] ?? null;
   const deployGovernance = buildVercelDeployGovernanceSummary({
     sourceOfTruthPath: VERCEL_OWNERSHIP_ROUTE_PATH,
     blockers,
