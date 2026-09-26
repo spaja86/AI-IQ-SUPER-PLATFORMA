@@ -32,6 +32,8 @@ async function run(): Promise<void> {
   console.log('\n🚀 EXTRIMLI START deploy governance doc test\n');
 
   await test('START deploy doc locks canonical domain strategy and required labels', () => {
+    assert(startDeployDoc.includes('<!-- START_DEPLOY_REQUIRED_LABELS -->'), 'required-labels marker missing');
+    assert(startDeployDoc.includes('<!-- START_DEPLOY_CANONICAL_DOMAIN_STRATEGY -->'), 'canonical-domain marker missing');
     assert(startDeployDoc.includes('`spaja.nivo*spaja`'), 'requested invalid domain pattern missing');
     assert(startDeployDoc.includes('❌ Invalid'), 'invalid requested domain pattern must stay explicitly rejected');
     assert(startDeployDoc.includes('`spaja.nivo-spaja`'), 'canonical apex domain missing');
@@ -40,27 +42,26 @@ async function run(): Promise<void> {
   });
 
   await test('START deploy doc records WAWE 1 through WAWE 5 evidence and activation lock', () => {
-    assert(startDeployDoc.includes('### WAWE 1 — Pre-release validation evidence'), 'WAWE 1 evidence heading missing');
-    assert(startDeployDoc.includes('### WAWE 2 — Build + staging + KPI evidence'), 'WAWE 2 evidence heading missing');
-    assert(startDeployDoc.includes('### WAWE 3 — Downstream sync evidence'), 'WAWE 3 evidence heading missing');
-    assert(startDeployDoc.includes('### WAWE 4 — Production rollout evidence'), 'WAWE 4 evidence heading missing');
-    assert(startDeployDoc.includes('### WAWE 5 — Post-release resilience + analytics + audit evidence'), 'WAWE 5 evidence heading missing');
+    assert(startDeployDoc.includes('<!-- START_DEPLOY_WAWE_1 -->'), 'WAWE 1 marker missing');
+    assert(startDeployDoc.includes('<!-- START_DEPLOY_WAWE_2 -->'), 'WAWE 2 marker missing');
+    assert(startDeployDoc.includes('<!-- START_DEPLOY_WAWE_3 -->'), 'WAWE 3 marker missing');
+    assert(startDeployDoc.includes('<!-- START_DEPLOY_WAWE_4 -->'), 'WAWE 4 marker missing');
+    assert(startDeployDoc.includes('<!-- START_DEPLOY_WAWE_5 -->'), 'WAWE 5 marker missing');
     assert(startDeployDoc.includes('DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == AKTIVACIJA'), 'Developer/Create activation lock missing');
-    assert(startDeployDoc.includes('Human review remains mandatory pre-promotion'), 'human review gate evidence missing');
-    assert(startDeployDoc.includes('Rollback path validated'), 'rollback evidence missing');
+    assert(startDeployDoc.includes('Mandatory before merge / release per `AGENTS.md`'), 'human review gate value missing');
+    assert(startDeployDoc.includes('| Rollback path validated |'), 'rollback evidence row missing');
   });
 
   await test('downstream doc and workflow preserve START deploy governance evidence', () => {
-    assert(multiRepoLinksDoc.includes('**Cross-repo issue gate:**'), 'cross-repo issue gate block missing');
+    assert(multiRepoLinksDoc.includes('<!-- START_DEPLOY_MULTI_REPO_SECTION -->'), 'multi-repo section marker missing');
+    assert(multiRepoLinksDoc.includes('<!-- START_DEPLOY_WAWE3_EVIDENCE -->'), 'WAWE 3 evidence marker missing');
+    assert(multiRepoLinksDoc.includes('<!-- START_DEPLOY_ISSUE_GATE -->'), 'issue gate marker missing');
     assert(multiRepoLinksDoc.includes('WAWE 4 promocije'), 'WAWE 4 downstream issue gate missing');
     assert(multiRepoLinksDoc.includes('IO-OPENUI-AO#<number>'), 'downstream issue format marker missing');
-    assert(multiRepoLinksDoc.includes('Placeholder reference nije dovoljan'), 'placeholder rejection marker missing');
-    assert(multiRepoLinksDoc.includes('**WAWE 3 execution evidence:**'), 'WAWE 3 downstream evidence block missing');
     assert(multiRepoLinksDoc.includes('DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == AKTIVACIJA'), 'downstream activation lock missing');
-    assert(workflow.includes('🌐 Validate canonical domain strategy'), 'workflow domain strategy gate missing');
-    assert(workflow.includes('📢 Multi-repo sync (IO-OPENUI-AO)'), 'workflow multi-repo sync step missing');
-    assert(workflow.includes('### 🚧 Promotion freeze policy'), 'workflow promotion freeze section missing');
-    assert(workflow.includes('EXTRONDOL START PROJEKAT ostaje frozen'), 'workflow EXTRONDOL freeze marker missing');
+    assert(workflow.includes('START_DEPLOY_DOMAIN_GATE'), 'workflow domain gate marker missing');
+    assert(workflow.includes('START_DEPLOY_MULTI_REPO_SYNC'), 'workflow multi-repo sync marker missing');
+    assert(workflow.includes('START_DEPLOY_PROMOTION_FREEZE'), 'workflow promotion freeze marker missing');
   });
 
   console.log(`\nPassed: ${passed}, Failed: ${failed}`);

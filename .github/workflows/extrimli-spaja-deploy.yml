@@ -445,6 +445,7 @@ jobs:
       wildcard_domain: ${{ steps.domain_strategy.outputs.wildcard_domain }}
 
     steps:
+      # START_DEPLOY_DOMAIN_GATE
       - name: 🌐 Validate canonical domain strategy
         id: domain_strategy
         run: |
@@ -565,6 +566,7 @@ jobs:
             fi
           fi
 
+      # START_DEPLOY_MULTI_REPO_SYNC
       - name: 📢 Multi-repo sync (IO-OPENUI-AO)
         run: |
           echo "## 🔗 Multi-Repo Sync" >> "$GITHUB_STEP_SUMMARY"
@@ -647,7 +649,7 @@ jobs:
             echo "| **Razlog** | \`${{ github.event.inputs.razlog }}\` |" >> "$GITHUB_STEP_SUMMARY"
           fi
           echo "" >> "$GITHUB_STEP_SUMMARY"
-          echo "### 🚧 Promotion freeze policy" >> "$GITHUB_STEP_SUMMARY"
+          echo "### 🚧 Promotion freeze policy" >> "$GITHUB_STEP_SUMMARY" # START_DEPLOY_PROMOTION_FREEZE
           echo "" >> "$GITHUB_STEP_SUMMARY"
           echo "Release promotion mora biti zaustavljen ako KPI/audit/sync status nije potpun." >> "$GITHUB_STEP_SUMMARY"
           echo "EXTRONDOL START PROJEKAT ostaje frozen dok contract/onboarding/downstream-sync/human-review evidence nije potpun." >> "$GITHUB_STEP_SUMMARY"

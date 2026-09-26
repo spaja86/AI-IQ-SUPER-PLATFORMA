@@ -1024,6 +1024,7 @@ AI-IQ-SUPER-PLATFORMA#EXTRIMLI-003 -> IO-OPENUI-AO#<follow-up issue>
 
 ### EXTRIMLI — START Deploy (SPAJA Platform)
 
+<!-- START_DEPLOY_MULTI_REPO_SECTION -->
 | Field | Value |
 |-------|-------|
 | **Deploy workflow** | `.github/workflows/extrimli-spaja-deploy.yml` |
@@ -1049,11 +1050,13 @@ AI-IQ-SUPER-PLATFORMA#EXTRIMLI-003 -> IO-OPENUI-AO#<follow-up issue>
 - Mirror canonical DNS convention (`spaja.nivo-spaja` + `*.spaja.nivo-spaja`) u linked deploy dokumentaciji
 - Mirror summary-only activation lock `DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == AKTIVACIJA` with bounded vocabulary `EXTRIMLI EXTRONDOL EXTREM DOK DUK DAK DIK FOR`
 
+<!-- START_DEPLOY_WAWE3_EVIDENCE -->
 **WAWE 3 execution evidence:**
 - Downstream sync ostaje summary-only i obuhvata START deploy governance reference, canonical domain strategy, WAWE 1→5 posture i human-review freeze discipline.
 - EXTRONDOL START payload mirror obuhvata `WAWE`, `B2B`, `DUET`, `DINKOS`, `distanceRatioEkvilaterTable` i `startProject` bez otvaranja novog downstream source-of-truth sloja.
 - Ako linked-repo ostane delimično neusaglašen posle WAWE 3, follow-up issue ostaje obavezan pre WAWE 4 promocije.
 
+<!-- START_DEPLOY_ISSUE_GATE -->
 **Cross-repo issue gate:**
 - Pre WAWE 4 promocije mora postojati konkretan downstream issue u formatu `AI-IQ-SUPER-PLATFORMA#EXTRIMLI-START-001 -> IO-OPENUI-AO#<number>`.
 - Placeholder reference nije dovoljan; follow-up issue ostaje release-blocking dok konkretan broj ne bude upisan.

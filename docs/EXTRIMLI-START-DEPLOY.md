@@ -9,6 +9,7 @@ na SPAJA platformi. Prati sve faze, KPI rezultate, rollback plan i downstream ko
 
 ## Status
 
+<!-- START_DEPLOY_REQUIRED_LABELS -->
 | Polje | Vrednost |
 |-------|----------|
 | **Module** | EXTRIMLI v1 + v3 |
@@ -28,6 +29,7 @@ na SPAJA platformi. Prati sve faze, KPI rezultate, rollback plan i downstream ko
 
 ## Domain Strategy (SPAJA)
 
+<!-- START_DEPLOY_CANONICAL_DOMAIN_STRATEGY -->
 | Polje | Vrednost |
 |-------|----------|
 | **Requested string** | `spaja.nivo*spaja` |
@@ -67,6 +69,7 @@ na SPAJA platformi. Prati sve faze, KPI rezultate, rollback plan i downstream ko
 
 ## WAWE execution evidence
 
+<!-- START_DEPLOY_WAWE_1 -->
 ### WAWE 1 — Pre-release validation evidence
 
 | Evidence | Source | Status |
@@ -80,6 +83,7 @@ na SPAJA platformi. Prati sve faze, KPI rezultate, rollback plan i downstream ko
 | Required labels posture | `extrimli:logic-change`, `extrimli:external-github`, `agent:config-change` | ✅ Required |
 | Human review remains mandatory pre-promotion | `AGENTS.md` + START governance | ✅ Locked |
 
+<!-- START_DEPLOY_WAWE_2 -->
 ### WAWE 2 — Build + staging + KPI evidence
 
 | Evidence | KPI / Gate | Status |
@@ -90,6 +94,7 @@ na SPAJA platformi. Prati sve faze, KPI rezultate, rollback plan i downstream ko
 | Performance KPI summary | API ≤ 200ms, evaluacija ≤ 50ms, rollback ≤ 60s | ✅ Locked |
 | Persona-bank snapshot + Nova Generacija integrity evidence | node 56 active, node 256 anchor active | ✅ Locked |
 
+<!-- START_DEPLOY_WAWE_3 -->
 ### WAWE 3 — Downstream sync evidence
 
 | Evidence | Target | Status |
@@ -100,6 +105,7 @@ na SPAJA platformi. Prati sve faze, KPI rezultate, rollback plan i downstream ko
 | Developer/Create activation summary sync (`DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == AKTIVACIJA`) | summary-only downstream reflection | ✅ Required |
 | Cross-repo follow-up issue remains mandatory before WAWE 4 promotion | use concrete `IO-OPENUI-AO#<number>` reference once opened | ✅ Locked |
 
+<!-- START_DEPLOY_WAWE_4 -->
 ### WAWE 4 — Production rollout evidence
 
 | Evidence | Rule | Status |
@@ -110,6 +116,7 @@ na SPAJA platformi. Prati sve faze, KPI rezultate, rollback plan i downstream ko
 | Promotion freeze stays active unless audit/KPI/downstream/human-review evidence is complete | no premature activation | ✅ Locked |
 | Rollback path validated | Vercel promote/revert + follow-up sync | ✅ Locked |
 
+<!-- START_DEPLOY_WAWE_5 -->
 ### WAWE 5 — Post-release resilience + analytics + audit evidence
 
 | Evidence | Source | Status |
