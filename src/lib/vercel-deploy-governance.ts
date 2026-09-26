@@ -89,12 +89,50 @@ export function buildVercelDeployGovernanceSummary({
       ? VERCEL_OWNERSHIP_ROUTE_PATH
       : VERCEL_STATUS_ROUTE_PATH;
   const infraReady = tokenConfigured && projectIdConfigured && teamOrOrgConfigured;
+  const wavePhases = [
+    {
+      id: 'WAVE 1',
+      name: 'Pre-release validation',
+      status: resolveWaveStatus(blockers, infraReady, 1),
+      gate: 'typecheck + test + smoke + predeploy + security',
+    },
+    {
+      id: 'WAVE 2',
+      name: 'Build + staging verification',
+      status: resolveWaveStatus(blockers, infraReady, 2),
+      gate: 'build + staging smoke + KPI verification',
+    },
+    {
+      id: 'WAVE 3',
+      name: 'Downstream sync + audit reference',
+      status: resolveWaveStatus(blockers, infraReady, 3),
+      gate: 'linked-repo sync + audit references',
+    },
+    {
+      id: 'WAVE 4',
+      name: 'Production rollout',
+      status: resolveWaveStatus(blockers, infraReady, 4),
+      gate: 'progressive production promotion',
+    },
+    {
+      id: 'WAVE 5',
+      name: 'Post-release resilience + audit',
+      status: resolveWaveStatus(blockers, infraReady, 5),
+      gate: 'stability, analytics, audit closure',
+    },
+  ];
+  const currentStatus: VercelDeployWaveStatus =
+    wavePhases.some((phase) => phase.status === 'BLOCKED')
+      ? 'BLOCKED'
+      : wavePhases.some((phase) => phase.status === 'PENDING')
+        ? 'PENDING'
+        : 'READY';
 
   return {
     blockerSourceOfTruth: {
       primaryEndpoint: sourceOfTruthPath,
       mirroredEndpoint: mirrorPath,
-      currentStatus: blockers.length === 0 && infraReady ? 'READY' : 'BLOCKED',
+      currentStatus,
       mustStayAligned: true,
       policy: 'Deploy ostaje blokiran dok oba endpointa ne potvrde da su governance i billing uslovi kompletni.',
     },
@@ -141,38 +179,7 @@ export function buildVercelDeployGovernanceSummary({
       },
       noNewDeployMechanism: true,
     },
-    wavePhases: [
-      {
-        id: 'WAVE 1',
-        name: 'Pre-release validation',
-        status: resolveWaveStatus(blockers, infraReady, 1),
-        gate: 'typecheck + test + smoke + predeploy + security',
-      },
-      {
-        id: 'WAVE 2',
-        name: 'Build + staging verification',
-        status: resolveWaveStatus(blockers, infraReady, 2),
-        gate: 'build + staging smoke + KPI verification',
-      },
-      {
-        id: 'WAVE 3',
-        name: 'Downstream sync + audit reference',
-        status: resolveWaveStatus(blockers, infraReady, 3),
-        gate: 'linked-repo sync + audit references',
-      },
-      {
-        id: 'WAVE 4',
-        name: 'Production rollout',
-        status: resolveWaveStatus(blockers, infraReady, 4),
-        gate: 'progressive production promotion',
-      },
-      {
-        id: 'WAVE 5',
-        name: 'Post-release resilience + audit',
-        status: resolveWaveStatus(blockers, infraReady, 5),
-        gate: 'stability, analytics, audit closure',
-      },
-    ],
+    wavePhases,
     recommendedNextAction: resolveRecommendedNextAction(blockers),
   };
 }
