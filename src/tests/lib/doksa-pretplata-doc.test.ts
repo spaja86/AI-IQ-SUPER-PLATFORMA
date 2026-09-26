@@ -70,10 +70,7 @@ async function run(): Promise<void> {
   });
 
   await test('DOKSA doc keeps private message out of public-safe and downstream surfaces', () => {
-    assert(
-      doc.includes('`Bato zaposli mi i drugare, ljubi brat`'),
-      'private intake message reference missing',
-    );
+    assert(doc.includes('Direktna poruka'), 'private intake message boundary section missing');
     assert(doc.includes('private intake evidence'), 'private evidence classification missing');
     assert(
       doc.includes(
