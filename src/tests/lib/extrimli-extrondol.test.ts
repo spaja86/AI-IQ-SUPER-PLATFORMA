@@ -1308,7 +1308,10 @@ async function runTests(): Promise<void> {
     assert(report.developerAndCreateRepoWideReflection.branchReport.platformStatus === report.developerAndCreateRepoWideReflection.status, 'developer/create branch report platform status mismatch');
     assert(report.developerAndCreateRepoWideReflection.branchReport.gapRegistrySummary.length === report.gapRegistry.length, 'developer/create branch report gap summary mismatch');
     const completionFromStatus = (status: 'READY' | 'WATCH' | 'BLOCKED') => (status === 'READY' ? 100 : status === 'WATCH' ? 50 : 0);
-    const expectedBranchCompletionPercent = report.gapRegistry.reduce((sum, item) => sum + completionFromStatus(item.status), 0) / report.gapRegistry.length;
+    const roundCompletionPercent = (value: number) => Math.round(value * 100) / 100;
+    const expectedBranchCompletionPercent = roundCompletionPercent(
+      report.gapRegistry.reduce((sum, item) => sum + completionFromStatus(item.status), 0) / report.gapRegistry.length,
+    );
     assert(report.developerAndCreateRepoWideReflection.branchReport.branchCompletionPercent === expectedBranchCompletionPercent, 'developer/create branch completion percent mismatch');
     assert(report.spajaKod.developerAndCreateImplementationPackage.branchReport.branchCompletionPercent === report.developerAndCreateRepoWideReflection.branchReport.branchCompletionPercent, 'SPAJA KOD branch completion percent mismatch');
     assert(report.spajaKod.developerAndCreateImplementationPackage.branchReport.platformCompletionPercent === report.developerAndCreateRepoWideReflection.branchReport.platformCompletionPercent, 'SPAJA KOD platform completion percent mismatch');

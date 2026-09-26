@@ -1200,7 +1200,10 @@ async function runTests(): Promise<void> {
     assert(body.data.developerAndCreateImplementationPackage.branchReport.branchStatus === body.data.publicSignals.developerAndCreateImplementationStatus, 'unexpected SPAJA KOD branch report branch status');
     assert(body.data.developerAndCreateImplementationPackage.branchReport.gapRegistrySummary.length === body.data.gapRegistrySummary.length, 'unexpected SPAJA KOD branch report gap summary length');
     const completionFromStatus = (status: 'READY' | 'WATCH' | 'BLOCKED') => (status === 'READY' ? 100 : status === 'WATCH' ? 50 : 0);
-    const expectedBranchCompletionPercent = body.data.gapRegistrySummary.reduce((sum: number, item: { status: 'READY' | 'WATCH' | 'BLOCKED' }) => sum + completionFromStatus(item.status), 0) / body.data.gapRegistrySummary.length;
+    const roundCompletionPercent = (value: number) => Math.round(value * 100) / 100;
+    const expectedBranchCompletionPercent = roundCompletionPercent(
+      body.data.gapRegistrySummary.reduce((sum: number, item: { status: 'READY' | 'WATCH' | 'BLOCKED' }) => sum + completionFromStatus(item.status), 0) / body.data.gapRegistrySummary.length,
+    );
     assert(body.data.developerAndCreateImplementationPackage.branchReport.branchCompletionPercent === expectedBranchCompletionPercent, 'unexpected SPAJA KOD branch completion percent');
     assert(body.data.developerAndCreateImplementationPackage.aiIqKonferencijaZaStampuSummary.canonicalAlias === 'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == AI IQ KONFERENCIJA ZA ŠTAMPU (NOVINE, DIGITALNE NOVINE)', 'unexpected SPAJA KOD AI IQ press canonical alias');
     assert(body.data.developerAndCreateImplementationPackage.aiIqKonferencijaZaStampuSummary.publicBoundary === 'audit-safe-summary-only', 'unexpected SPAJA KOD AI IQ press boundary');
