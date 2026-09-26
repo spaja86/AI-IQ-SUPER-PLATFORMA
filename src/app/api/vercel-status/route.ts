@@ -291,9 +291,13 @@ export async function GET() {
    enterpriseGovernedModel: pretplataVercel.billingGovernance.enterpriseGovernedModel,
    currentInvoiceNumber: pretplataVercel.billingGovernance.currentInvoice.number,
    currentInvoiceAmount: pretplataVercel.billingGovernance.currentInvoice.amountUsd,
-   invoiceResolved:
-     pretplataVercel.billingGovernance.currentInvoice.paid
-     || pretplataVercel.billingGovernance.currentInvoice.correctedInvoiceResolved,
+   invoiceResolved: isVercelInvoiceResolved({
+     currentInvoiceNumber: pretplataVercel.billingGovernance.currentInvoice.number,
+     currentInvoiceAmount: pretplataVercel.billingGovernance.currentInvoice.amountUsd,
+     currentInvoicePaid: pretplataVercel.billingGovernance.currentInvoice.paid,
+     invoiceCorrectionRequested: pretplataVercel.billingGovernance.currentInvoice.correctionRequested,
+     correctedInvoiceResolved: pretplataVercel.billingGovernance.currentInvoice.correctedInvoiceResolved,
+   }),
    currentInvoiceEvidenceCaptured: pretplataVercel.billingGovernance.currentInvoice.evidenceCaptured,
    bankStatementCaptured: pretplataVercel.billingGovernance.currentInvoice.bankStatementCaptured,
    paymentReferenceCaptured: pretplataVercel.billingGovernance.currentInvoice.paymentReferenceCaptured,
