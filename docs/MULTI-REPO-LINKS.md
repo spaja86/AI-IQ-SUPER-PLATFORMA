@@ -2054,8 +2054,9 @@ Koristiti format `AI-IQ-SUPER-PLATFORMA#VPOREKLO-2026-09 -> IO-OPENUI-AO#123` gd
 
 - Scope lock: `DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == POSLOVNA PONUDA`.
 - Kanonska poruka ka Vercel-u ostaje governance artefakt: pozdrav, alternativna poslovna saradnja i prelazni model međusobne pretplate preko GitHub-a do fizičkog susreta.
+- `NOTES 1450` ostaje obavezni bounded handoff dokaz da poslovna ponuda čuva cilj, kontekst, kontinuitet zadataka i deterministički sledeći korak pre summary sync-a.
 - `github-subscription-bridge-until-in-person-meeting` ostaje privremeni operativni režim sa obaveznim aktivacionim uslovima: `contract-approval`, `compliance-review`, `human-review`, `payment-verification`, `downstream-reference`.
 - Deaktivacija bridge režima je obavezna kada je fizički susret potvrđen ili kada je aktiviran freeze/rollback posture.
-- Downstream boundary za `spaja86/IO-OPENUI-AO` ostaje summary-only: dozvoljeni su status (`READY | WATCH | BLOCKED`), blocker reason, review posture, WAWE faza i downstream reference.
+- Downstream boundary za `spaja86/IO-OPENUI-AO` ostaje summary-only: dozvoljeni su status (`READY | WATCH | BLOCKED`), blocker reason, review posture, WAWE faza, `EKSTREMNA PREPORUKA` rezime i downstream reference.
 - Ownership ostaje nepromenjen: `DOK/DIK/FOR -> EXTREM`, `DAK/DUK -> EXTRONDOL`, `SPAJA KOD -> audit-safe-summary-only`.
 - Sirovi pregovarački/komercijalni detalji, interni scoring i payment internals ostaju repo-local.

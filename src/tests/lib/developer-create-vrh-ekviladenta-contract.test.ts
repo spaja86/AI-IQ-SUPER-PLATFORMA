@@ -1,4 +1,9 @@
 import {
+  DEVELOPER_CREATE_SARADNJA_READY_BOUNDED_VOCABULARY,
+  DEVELOPER_CREATE_SARADNJA_READY_POSLOVNA_PONUDA_SCOPE_LOCK,
+  DEVELOPER_CREATE_SARADNJA_READY_READINESS_SIGNALS,
+  DEVELOPER_CREATE_SARADNJA_READY_RECOMMENDATION_LEVEL,
+  DEVELOPER_CREATE_SARADNJA_READY_SUMMARY_SAFE_FIELDS,
   DEVELOPER_CREATE_NAVIGACIONI_SISTEM_SA_TREKEROM_TRACKER_CONTRACT,
   DEVELOPER_CREATE_VRH_INTERPRETATION_ALIASES,
   DEVELOPER_CREATE_VRH_NAVIGACIONI_SISTEM_SA_TREKEROM_ALIAS,
@@ -75,6 +80,41 @@ async function runTests(): Promise<void> {
       DEVELOPER_CREATE_NAVIGACIONI_SISTEM_SA_TREKEROM_TRACKER_CONTRACT.requiredGovernanceOutputs,
       expected,
       'unexpected navigacioni governance outputs',
+    );
+  });
+
+  await test('saradnja-ready poslovna ponuda contract stays bounded and summary-safe', () => {
+    assert(
+      DEVELOPER_CREATE_VRH_INTERPRETATION_ALIASES.includes(DEVELOPER_CREATE_SARADNJA_READY_POSLOVNA_PONUDA_SCOPE_LOCK),
+      'POSLOVNA PONUDA alias must remain part of the VRH interpretation aliases',
+    );
+    assertArrayEquals(
+      DEVELOPER_CREATE_SARADNJA_READY_BOUNDED_VOCABULARY,
+      ['EXTRIMLI', 'EXTRONDOL', 'EXTREM', 'DOK', 'DUK', 'DAK', 'DIK', 'FOR'],
+      'unexpected saradnja-ready bounded vocabulary',
+    );
+    assertArrayEquals(
+      DEVELOPER_CREATE_SARADNJA_READY_READINESS_SIGNALS,
+      ['offer-clarity', 'consistency', 'collaboration-utility', 'presentation-readiness', 'stability'],
+      'unexpected saradnja-ready readiness signals',
+    );
+    assertArrayEquals(
+      DEVELOPER_CREATE_SARADNJA_READY_SUMMARY_SAFE_FIELDS,
+      [
+        'canonicalAlias',
+        'status',
+        'blockerReason',
+        'watchReasons',
+        'reviewPosture',
+        'downstreamReference',
+        'businessSummary',
+        'recommendationLevel',
+      ],
+      'unexpected saradnja-ready summary-safe fields',
+    );
+    assert(
+      DEVELOPER_CREATE_SARADNJA_READY_RECOMMENDATION_LEVEL === 'EKSTREMNA_PREPORUKA',
+      'saradnja-ready recommendation level must stay extreme',
     );
   });
 

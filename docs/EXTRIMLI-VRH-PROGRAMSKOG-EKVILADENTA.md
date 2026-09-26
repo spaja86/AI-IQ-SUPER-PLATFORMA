@@ -43,6 +43,7 @@ Bounded vokabular ostaje zaključan na `EXTRIMLI EXTRONDOL EXTREM DOK DUK DAK DI
 - `RADIO` → bounded media/distribution/audio paket istog lock-a sa zaključanim nizom `DOR, TRU, SKU, GIVE, TRAJ, TUR, DIR, KON, ZION, KURA, DOKER`; bounded jednakost `MIKROFON == MEGAFON, DISTRIBUTER, SAKSOFON` ostaje njegov additive-only projection sloj za capture/amplification/distribution/tonal reflection bez novih ruta; EXTREM objavljuje readiness + bounded audio/distribution summary + semantic-preservation snapshot, EXTRONDOL governance ogledalo za human review/WAWE/rollout/rollback, a SPAJA KOD samo audit-safe radio summary bez sirovog token modela
 - `MUZIČKA KUTIJA` → bounded audio/instrument reflection paket istog lock-a; `UBACUJEM SVE INSTRUMENTE MUZIČKE` ostaje samo thematic/bounded opis, `PARADIJOGONALNO PROGRAMIRANJE` ostaje instrument tabla, `METRIČKO PROGRAMIRANJE` ritam/duracije, `SINEMETRIČKO PROGRAMIRANJE` narativ/vokal, a postojeći `AUDIO-VIZUELNI KONTRABAS PAKET` audio-vizuelno ogledalo; nema novih runtime ruta, nema novog muzičkog engine-a i nema paralelnog source-of-truth sistema
 - `POSLOVNA PONUDA` → additive-only bounded business-governance alias istog lock-a; kanonski Vercel pozdrav + alternativna saradnja + GitHub subscription bridge ostaju audit-only governance artefakt, bez novih ruta i bez paralelnog source-of-truth sistema
+- `POSLOVNA PONUDA` zadržava i `EKSTREMNA PREPORUKA` javni sloj, ali samo kao summary-safe preporuku za GitHub/Vercel poslovnu saradnju; `NOTES 1450` ostaje obavezni bounded handoff dokaz kontinuiteta pre bilo kakve promocije.
 - `TELEVIZIJA` → bounded media/distribution paket istog lock-a; EXTREM objavljuje distribucioni readiness + provider/channel/region-language fallback posture, EXTRONDOL governance ogledalo za provider review/compliance/payment/rollout/rollback, a SPAJA KOD samo audit-safe distribution summary bez sirovih provider formula i bez enforcement logike
 - Ownership split za `RADNI PROSTOR`, `KONSTRUKCIJE I PROJEKTOVANJE`, `RADIO`, `MUZIČKA KUTIJA`, `TELEVIZIJA` i `POSLOVNA PONUDA` ostaje zaključan: `DOK/DIK/FOR -> EXTREM`, `DAK/DUK -> EXTRONDOL`, `SPAJA KOD -> summary-only`.
 
@@ -503,6 +504,7 @@ Implementacioni redosled ostaje zaključan:
 - `AI PLATE` nije novi runtime modul i ne uvodi novu rutu; bounded readiness profil ostaje izveden iz postojećeg `developerAndCreateRepoWideReflection`.
 - `12000 EURA nedeljno` ostaje business/finops target i mora proći billing approval, Vercel sales alignment, audit evidence i legal/tax review pre WAWE promocije.
 - Public boundary ostaje zaključan na `SPAJA KOD` audit-safe summary bez finansijskih detalja, sirovih governance mapa ili internih formula.
+- GitHub ostaje source-of-truth za kod, workflow i audit trag, dok Vercel ostaje kontrolisani deployment layer sa jasnim gate-ovima; sekreti, billing detalji i payment internals ostaju van repo surface-a.
 
 ## KRALJEVSKO TAKMIČENJE (bounded extension)
 

@@ -213,6 +213,7 @@ async function runTests(): Promise<void> {
     const audioVisualKontrabasPackage = report.developerAndCreateRepoWideReflection.audioVisualKontrabasPackage;
     const eksperimentProgramskiJezikTrack = report.developerAndCreateRepoWideReflection.eksperimentProgramskiJezikTrack;
     const sarkazamPrivrednaGranaDigitalizmaTrack = report.developerAndCreateRepoWideReflection.sarkazamPrivrednaGranaDigitalizmaTrack;
+    const saradnjaReadyPackage = report.developerAndCreateRepoWideReflection.saradnjaReadyPackage;
     const promocijeTiketiBonusiPropusniceAdministrativniBonusiTrack =
       report.developerAndCreateRepoWideReflection.promocijeTiketiBonusiPropusniceAdministrativniBonusiTrack;
     const napoleonDiskaveriSelectionTrack = report.developerAndCreateRepoWideReflection.napoleonDiskaveriSelectionTrack;
@@ -228,6 +229,19 @@ async function runTests(): Promise<void> {
     assert(implementationPackage.currentWawe === report.rollout.currentWawe, 'developer/create governance implementation package current WAWE mismatch');
     assert(implementationPackage.eligibleNextWawe === report.rollout.eligibleNextWawe, 'developer/create governance implementation package next WAWE mismatch');
     assert(implementationPackage.canonicalOwnershipSplit.spajaKod === 'audit-safe-summary-only', 'developer/create governance implementation package SPAJA KOD boundary mismatch');
+    assert(saradnjaReadyPackage.canonicalAlias === 'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == POSLOVNA PONUDA', 'saradnja-ready canonical alias mismatch');
+    assert(saradnjaReadyPackage.parentScope === 'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA', 'saradnja-ready parent scope mismatch');
+    assert(saradnjaReadyPackage.recommendationLevel === 'EKSTREMNA_PREPORUKA', 'saradnja-ready recommendation level mismatch');
+    assert(saradnjaReadyPackage.boundedVocabulary.join(',') === 'EXTRIMLI,EXTRONDOL,EXTREM,DOK,DUK,DAK,DIK,FOR', 'saradnja-ready bounded vocabulary mismatch');
+    assert(saradnjaReadyPackage.githubVercelOperatingModel.githubRole === 'code-source-of-truth-workflow-governance-audit-evidence', 'saradnja-ready GitHub role mismatch');
+    assert(saradnjaReadyPackage.githubVercelOperatingModel.vercelRole === 'controlled-deployment-layer-with-clear-gates', 'saradnja-ready Vercel role mismatch');
+    assert(saradnjaReadyPackage.qualityGates.mandatoryHumanReviewBeforePromotion, 'saradnja-ready human review gate must be mandatory');
+    assert(report.spajaKod.publicSignals.saradnjaReadyStatus === saradnjaReadyPackage.readinessSignal.status, 'SPAJA KOD saradnja-ready status mismatch');
+    assert(report.spajaKod.developerAndCreateImplementationPackage.saradnjaReadySummary.recommendationLevel === 'EKSTREMNA_PREPORUKA', 'SPAJA KOD saradnja-ready recommendation mismatch');
+    assert(report.spajaKod.developerAndCreateImplementationPackage.saradnjaReadySummary.githubRole === 'code-source-of-truth-workflow-governance-audit-evidence', 'SPAJA KOD saradnja-ready GitHub role mismatch');
+    assert(report.spajaKod.developerAndCreateImplementationPackage.saradnjaReadySummary.vercelRole === 'controlled-deployment-layer-with-clear-gates', 'SPAJA KOD saradnja-ready Vercel role mismatch');
+    assert(report.releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.saradnjaReadyPackage.humanReviewStatus === 'required-before-promotion', 'saradnja-ready release audit human review status mismatch');
+    assert(report.releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.saradnjaReadyPackage.acceptanceEvidence.join(',') === 'developerAndCreateRepoWideReflection.saradnjaReadyPackage,releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.saradnjaReadyPackage,spajaKod.publicSignals.saradnjaReadyStatus,spajaKod.developerAndCreateImplementationPackage.saradnjaReadySummary', 'saradnja-ready acceptance evidence mismatch');
     assert(implementationPackage.smartProgramskiJezikPackage.scopeLock === 'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA', 'developer/create governance smart language scope mismatch');
     assert(implementationPackage.smartProgramskiJezikPackage.governanceMirror.waweProgressionRequired, 'developer/create governance smart language WAWE requirement mismatch');
     assert(['READY', 'WATCH', 'BLOCKED'].includes(implementationPackage.smartProgramskiJezikPackage.technicalProfile.status), 'developer/create governance smart language status mismatch');
