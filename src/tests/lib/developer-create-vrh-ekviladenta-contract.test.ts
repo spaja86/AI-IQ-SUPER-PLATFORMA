@@ -1,6 +1,9 @@
 import {
   DEVELOPER_CREATE_KRALJEVSKI_SAT_BOUNDED_TOKEN_SET,
   DEVELOPER_CREATE_KRALJEVSKI_SAT_READINESS_LANGUAGE,
+  DEVELOPER_CREATE_KRALJEVSKI_RAD_BOUNDED_TOKEN_SEQUENCE,
+  DEVELOPER_CREATE_KRALJEVSKI_RAD_FALLBACK_INPUTS,
+  DEVELOPER_CREATE_KRALJEVSKI_RAD_SUMMARY_SAFE_FIELDS,
   DEVELOPER_CREATE_KRALJEVSKI_SAT_SUMMARY_SAFE_FIELDS,
   DEVELOPER_CREATE_SARADNJA_READY_BOUNDED_VOCABULARY,
   DEVELOPER_CREATE_SARADNJA_READY_POSLOVNA_PONUDA_SCOPE_LOCK,
@@ -8,6 +11,7 @@ import {
   DEVELOPER_CREATE_SARADNJA_READY_RECOMMENDATION_LEVEL,
   DEVELOPER_CREATE_SARADNJA_READY_SUMMARY_SAFE_FIELDS,
   DEVELOPER_CREATE_VRH_KRALJEVSKI_SAT_ALIAS,
+  DEVELOPER_CREATE_VRH_KRALJEVSKI_RAD_ALIAS,
   DEVELOPER_CREATE_NAVIGACIONI_SISTEM_SA_TREKEROM_TRACKER_CONTRACT,
   DEVELOPER_CREATE_VRH_INTERPRETATION_ALIASES,
   DEVELOPER_CREATE_VRH_NAVIGACIONI_SISTEM_SA_TREKEROM_ALIAS,
@@ -150,6 +154,28 @@ async function runTests(): Promise<void> {
         'fallbackInputStatus',
       ],
       'unexpected kraljevski sat summary-safe fields',
+    );
+  });
+
+  await test('kraljevski rad track remains bounded with strict sequence and summary-safe contract', () => {
+    assert(
+      DEVELOPER_CREATE_VRH_INTERPRETATION_ALIASES.includes(DEVELOPER_CREATE_VRH_KRALJEVSKI_RAD_ALIAS),
+      'KRALJEVSKI RAD alias must remain part of the VRH interpretation aliases',
+    );
+    assertArrayEquals(
+      DEVELOPER_CREATE_KRALJEVSKI_RAD_BOUNDED_TOKEN_SEQUENCE,
+      ['DIR', 'DUR', 'DAR', 'RER', 'DIK', 'DUR', 'DAR', 'DJOMPA', 'DOKAT', 'KRUNA', 'ZOMBAT', 'DUKUS', 'NIKSON', 'KITAN', 'DIKAT', 'KVATRO', 'KALIMERO'],
+      'unexpected kraljevski rad bounded token sequence',
+    );
+    assertArrayEquals(
+      DEVELOPER_CREATE_KRALJEVSKI_RAD_FALLBACK_INPUTS,
+      ['NaN', 'Infinity', 'empty', 'conflict'],
+      'unexpected kraljevski rad fallback inputs',
+    );
+    assertArrayEquals(
+      DEVELOPER_CREATE_KRALJEVSKI_RAD_SUMMARY_SAFE_FIELDS,
+      ['canonicalAlias', 'status', 'blockerReason', 'watchReasons', 'reviewPosture', 'downstreamReference', 'sequenceValidationSummary', 'tokenOrderStatus', 'duplicateRuleStatus', 'fallbackInputStatus'],
+      'unexpected kraljevski rad summary-safe fields',
     );
   });
 
