@@ -407,7 +407,7 @@ const buildDefaultAiIqLaboratorijaTrack = (): ExtrimliDeveloperCreateAiIqLaborat
   domainTracks: DEVELOPER_CREATE_AI_IQ_LABORATORIJA_DOMAIN_TRACKS,
   boundedTokenSequence: DEVELOPER_CREATE_AI_IQ_LABORATORIJA_BOUNDED_TOKEN_SEQUENCE,
   normalizationRules: DEVELOPER_CREATE_AI_IQ_LABORATORIJA_NORMALIZATION_RULES,
-  boundedVocabularyPhrase: 'EXTRIMLI EXTRONDOL EXTREM DOK DUK DAK DIK FOR',
+  boundedVocabularyPhrase: DEVELOPER_CREATE_REPO_WIDE_BOUNDED_VOCABULARY_PHRASE,
   additiveOnly: true,
   noNewRuntimeEngine: true,
   noNewRuntimeRoutes: true,
@@ -7042,7 +7042,7 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
       eksperimentProgramskiJezikTrack: {
         canonicalAlias:
           'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == EKSPERIMENT PROGRAMSKI JEZIK (PRODUKCIJA FILMSKOG I AUDIO REPERTOARA)',
-        boundedVocabularyPhrase: 'EXTRIMLI EXTRONDOL EXTREM DOK DUK DAK DIK FOR',
+        boundedVocabularyPhrase: DEVELOPER_CREATE_REPO_WIDE_BOUNDED_VOCABULARY_PHRASE,
         additiveOnly: true,
         noNewRuntimeEngine: true,
         noNewRuntimeRoutes: true,
