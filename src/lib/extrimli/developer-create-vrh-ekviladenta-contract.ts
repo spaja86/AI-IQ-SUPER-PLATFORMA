@@ -68,9 +68,6 @@ export const DEVELOPER_CREATE_VRH_VINOGRADI_GROCKA_RESTORAN_ALIAS =
 export const DEVELOPER_CREATE_VRH_POSLOVNA_PONUDA_ZELEZARA_DOO_ALIAS =
   'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == POSLOVNA PONUDA / ŽELEZARA D.O.O. SMEDEREVO' as const;
 
-export const DEVELOPER_CREATE_VRH_IZVESTAJ_ALIAS =
-  'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == IZVEŠTAJ' as const;
-
 export const DEVELOPER_CREATE_VRH_INTERPRETATION_ALIASES = [
   'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == RADNI TAKT MOZGA (MISLILAC)',
   'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == MAPE UMA',
@@ -353,9 +350,6 @@ export const DEVELOPER_CREATE_LEKSIKON_DOWNSTREAM_POLICY = {
   rawLexiconInternalsStayRepoLocal: true,
   rawExtremExtrondolInternalsStayRepoLocal: true,
 } as const;
-
-export const DEVELOPER_CREATE_IZVESTAJ_SCOPE_STATEMENT =
-  'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == IZVEŠTAJ == additive-only canonical branch report alias over existing EXTREM, EXTRONDOL, and SPAJA KOD readiness/governance/summary surfaces without new runtime routes or parallel source-of-truth systems' as const;
 
 export const DEVELOPER_CREATE_IZVESTAJ_ROLE_CLASSIFICATION =
   'additive-only-bounded-branch-report-alias' as const;

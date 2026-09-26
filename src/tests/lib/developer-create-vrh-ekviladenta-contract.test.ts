@@ -171,6 +171,9 @@ async function runTests(): Promise<void> {
     assert(
       DEVELOPER_CREATE_IZVESTAJ_REPORT_LOCK.requiredAuditBlocks.includes('acceptanceEvidence'),
       'IZVEŠTAJ report lock must require acceptanceEvidence',
+    );
+  });
+
   await test('izvestaj alias remains additive-only and keeps canonical branch report fields stable', () => {
     assert(
       DEVELOPER_CREATE_VRH_INTERPRETATION_ALIASES.includes(DEVELOPER_CREATE_VRH_IZVESTAJ_ALIAS),
