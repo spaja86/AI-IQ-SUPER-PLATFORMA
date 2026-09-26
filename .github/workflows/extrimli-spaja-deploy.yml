@@ -110,6 +110,14 @@ on:
         description: 'Rollback deploy hook URL (aktivira se ako health check padne)'
         required: false
         default: ''
+      downstream_sync_evidence:
+        description: 'WAWE 3 downstream sync evidence reference (summary-only, audit-safe)'
+        required: false
+        default: ''
+      downstream_issue_reference:
+        description: 'Cross-repo issue gate ref: AI-IQ-SUPER-PLATFORMA#EXTRIMLI-START-001 -> IO-OPENUI-AO#<number>'
+        required: false
+        default: ''
       razlog:
         description: 'Razlog pokretanja'
         required: false
@@ -451,10 +459,20 @@ jobs:
         run: |
           CANONICAL_DOMAIN="${{ github.event.inputs.canonical_domain }}"
           WILDCARD_DOMAIN="${{ github.event.inputs.wildcard_domain }}"
+          EXPECTED_CANONICAL="spaja.nivo-spaja"
+          EXPECTED_WILDCARD="*.spaja.nivo-spaja"
 
-          if [ -z "$CANONICAL_DOMAIN" ]; then CANONICAL_DOMAIN="spaja.nivo-spaja"; fi
-          if [ -z "$WILDCARD_DOMAIN" ]; then WILDCARD_DOMAIN="*.spaja.nivo-spaja"; fi
+          if [ -z "$CANONICAL_DOMAIN" ]; then CANONICAL_DOMAIN="$EXPECTED_CANONICAL"; fi
+          if [ -z "$WILDCARD_DOMAIN" ]; then WILDCARD_DOMAIN="$EXPECTED_WILDCARD"; fi
           DOMAIN_REGEX='^([A-Za-z0-9]|[A-Za-z0-9][A-Za-z0-9-]{0,61}[A-Za-z0-9])(\.([A-Za-z0-9]|[A-Za-z0-9][A-Za-z0-9-]{0,61}[A-Za-z0-9]))+$'
+
+          if [ "$CANONICAL_DOMAIN" != "$EXPECTED_CANONICAL" ] || [ "$WILDCARD_DOMAIN" != "$EXPECTED_WILDCARD" ]; then
+            echo "❌ START deploy podržava isključivo kanonski domain pair:"
+            echo "   canonical_domain=$EXPECTED_CANONICAL"
+            echo "   wildcard_domain=$EXPECTED_WILDCARD"
+            echo "   Dobijeno: canonical_domain=$CANONICAL_DOMAIN, wildcard_domain=$WILDCARD_DOMAIN"
+            exit 1
+          fi
 
           if [[ "$CANONICAL_DOMAIN" == *"*"* ]]; then
             echo "❌ canonical_domain ne sme sadržati '*' (primer pogrešnog formata: spaja.nivo*spaja)."
@@ -515,6 +533,45 @@ jobs:
           fi
           echo "✅ Production gate prošao za: $TARGET_ENV"
 
+      # START_DEPLOY_MULTI_REPO_SYNC
+      - name: 📢 Validate WAWE 3 downstream sync evidence
+        run: |
+          TARGET_ENV="${{ github.event.inputs.environment || 'staging' }}"
+          SYNC_EVIDENCE="${{ github.event.inputs.downstream_sync_evidence }}"
+          DOWNSTREAM_ISSUE="${{ github.event.inputs.downstream_issue_reference }}"
+          REQUIRED_ISSUE_REGEX='^AI-IQ-SUPER-PLATFORMA#EXTRIMLI-START-001[[:space:]]*->[[:space:]]*IO-OPENUI-AO#[0-9]+$'
+
+          if [ "$TARGET_ENV" != "production" ]; then
+            echo "ℹ️ WAWE 3 downstream sync gate je informational za non-production target: $TARGET_ENV"
+            exit 0
+          fi
+
+          if [ -z "$SYNC_EVIDENCE" ]; then
+            echo "❌ Production deploy zahteva downstream_sync_evidence (WAWE 3 audit dokaz)."
+            exit 1
+          fi
+          if [ -z "$DOWNSTREAM_ISSUE" ]; then
+            echo "❌ Production deploy zahteva downstream_issue_reference."
+            exit 1
+          fi
+          if [[ "$DOWNSTREAM_ISSUE" == *"<number>"* ]]; then
+            echo "❌ Placeholder downstream issue reference nije dozvoljen: $DOWNSTREAM_ISSUE"
+            exit 1
+          fi
+          if ! [[ "$DOWNSTREAM_ISSUE" =~ $REQUIRED_ISSUE_REGEX ]]; then
+            echo "❌ downstream_issue_reference mora biti u formatu:"
+            echo "   AI-IQ-SUPER-PLATFORMA#EXTRIMLI-START-001 -> IO-OPENUI-AO#<number>"
+            echo "   Dobijeno: $DOWNSTREAM_ISSUE"
+            exit 1
+          fi
+
+          echo "✅ WAWE 3 evidence gate prošao."
+          echo "## 🔗 WAWE 3 downstream sync gate" >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          echo "- downstream_sync_evidence: \`$SYNC_EVIDENCE\`" >> "$GITHUB_STEP_SUMMARY"
+          echo "- downstream_issue_reference: \`$DOWNSTREAM_ISSUE\`" >> "$GITHUB_STEP_SUMMARY"
+          echo "- promotion status: \`eligible for WAWE 4\`" >> "$GITHUB_STEP_SUMMARY"
+
   deploy:
     name: 🚀 FAZA 4 — Deploy via Vercel Hook
     runs-on: ubuntu-latest
@@ -566,7 +623,6 @@ jobs:
             fi
           fi
 
-      # START_DEPLOY_MULTI_REPO_SYNC
       - name: 📢 Multi-repo sync (IO-OPENUI-AO)
         run: |
           echo "## 🔗 Multi-Repo Sync" >> "$GITHUB_STEP_SUMMARY"
