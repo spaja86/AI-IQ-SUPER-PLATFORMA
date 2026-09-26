@@ -4,6 +4,43 @@ export const DEVELOPER_CREATE_VRH_MAIN_MANIFEST_DOCUMENT =
 export const DEVELOPER_CREATE_VRH_CANONICAL_NARRATIVE_SENTENCE =
   'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA' as const;
 
+export const DEVELOPER_CREATE_REPO_WIDE_BOUNDED_VOCABULARY = [
+  'EXTRIMLI',
+  'EXTRONDOL',
+  'EXTREM',
+  'DOK',
+  'DUK',
+  'DAK',
+  'DIK',
+  'FOR',
+] as const;
+
+export const DEVELOPER_CREATE_REPO_WIDE_BOUNDED_VOCABULARY_PHRASE =
+  'EXTRIMLI EXTRONDOL EXTREM DOK DUK DAK DIK FOR' as const;
+
+export const DEVELOPER_CREATE_REPO_WIDE_RADNI_TAKT_SUPPLEMENTAL_SCOPE_LOCK =
+  'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == RADNI TAKT DA SE ODRAZI NA SVEMU U REPOZITORIJUMU' as const;
+
+export const DEVELOPER_CREATE_REPO_WIDE_RADNI_TAKT_SUPPLEMENTAL_THEMATIC_SIGNALS = [
+  'developer-and-create-vrh',
+  'radni-takt-repo-wide-reflection',
+  'vuk',
+  'bounded-vocabulary-extrimli-extrondol-extrem-dok-duk-dak-dik-for',
+  'audit-safe-summary-only',
+] as const;
+
+export const DEVELOPER_CREATE_REPO_WIDE_RADNI_TAKT_SUPPLEMENTAL_AUDIT_ROLE =
+  'additive-audit-reference-only' as const;
+
+export const DEVELOPER_CREATE_REPO_WIDE_RADNI_TAKT_SUPPLEMENTAL_DOWNSTREAM_FIELDS = [
+  'scenarioId',
+  'readinessStatus',
+  'blockerWatchReason',
+  'reviewPosture',
+  'ownershipLockSummary',
+  'boundedThematicLabels',
+] as const;
+
 export const DEVELOPER_CREATE_VRH_DIJALIZA_POGONSKOG_OMOTACA_ALIAS =
   'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == DIJALIZA POGONSKOG OMOTAČA' as const;
 
@@ -30,9 +67,6 @@ export const DEVELOPER_CREATE_VRH_VINOGRADI_GROCKA_RESTORAN_ALIAS =
 
 export const DEVELOPER_CREATE_VRH_POSLOVNA_PONUDA_ZELEZARA_DOO_ALIAS =
   'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == POSLOVNA PONUDA / ŽELEZARA D.O.O. SMEDEREVO' as const;
-
-export const DEVELOPER_CREATE_VRH_IZVESTAJ_ALIAS =
-  'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == IZVEŠTAJ' as const;
 
 export const DEVELOPER_CREATE_VRH_INTERPRETATION_ALIASES = [
   'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == RADNI TAKT MOZGA (MISLILAC)',
@@ -316,9 +350,6 @@ export const DEVELOPER_CREATE_LEKSIKON_DOWNSTREAM_POLICY = {
   rawLexiconInternalsStayRepoLocal: true,
   rawExtremExtrondolInternalsStayRepoLocal: true,
 } as const;
-
-export const DEVELOPER_CREATE_IZVESTAJ_SCOPE_STATEMENT =
-  'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == IZVEŠTAJ == additive-only canonical branch report alias over existing EXTREM, EXTRONDOL, and SPAJA KOD readiness/governance/summary surfaces without new runtime routes or parallel source-of-truth systems' as const;
 
 export const DEVELOPER_CREATE_IZVESTAJ_ROLE_CLASSIFICATION =
   'additive-only-bounded-branch-report-alias' as const;

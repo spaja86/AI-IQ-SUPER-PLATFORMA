@@ -132,6 +132,10 @@ import {
   createDeveloperCreateGapRegistryItem,
   DEVELOPER_CREATE_GAP_REGISTRY_ROADMAP_STAGE_IDS,
   DEVELOPER_CREATE_RANDOM_SELECTION_SCOPE_STATEMENT,
+  DEVELOPER_CREATE_REPO_WIDE_BOUNDED_VOCABULARY_PHRASE,
+  DEVELOPER_CREATE_REPO_WIDE_RADNI_TAKT_SUPPLEMENTAL_AUDIT_ROLE,
+  DEVELOPER_CREATE_REPO_WIDE_RADNI_TAKT_SUPPLEMENTAL_SCOPE_LOCK,
+  DEVELOPER_CREATE_REPO_WIDE_RADNI_TAKT_SUPPLEMENTAL_THEMATIC_SIGNALS,
   DEVELOPER_CREATE_RADNI_PROSTOR_BOUNDED_TOKEN_SEQUENCE,
   DEVELOPER_CREATE_RADNI_PROSTOR_CANONICAL_ALIAS,
   DEVELOPER_CREATE_RADNI_PROSTOR_FALLBACK_INPUTS,
@@ -649,7 +653,7 @@ const EXTRIMLI_EXTREM_DEVELOPER_CREATE_RADNI_TAKT_REPO_WIDE_VUK_CANONICAL_NARRAT
 const EXTRIMLI_EXTREM_DEVELOPER_CREATE_RADNI_TAKT_REPO_WIDE_VUK_SCENARIO_ID =
   'developer-create-vrh-radni-takt-da-se-odrazi-na-svemu-u-repozitorijumu-vuk-developer-create' as const;
 const EXTRIMLI_EXTREM_DEVELOPER_CREATE_RADNI_TAKT_REPO_WIDE_VUK_CITATION =
-  'EXTRIMLI EXTRONDOL EXTREM DOK DUK DAK DIK FOR — DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == RADNI TAKT DA SE ODRAZI NA SVEMU U REPOZITORIJUMU ostaje additive-only supplemental audit/reference vizuel: signal “VUK” i radni takt na svim repo slojevima mapiraju se isključivo kao bounded documentation/evidence metapodaci unutar postojećeg Developer/Create ⇄ VRH ⇄ Radni Takt modela, bez novih runtime ruta, bez novih formula i bez promene ownership split-a.' as const;
+  `${DEVELOPER_CREATE_REPO_WIDE_BOUNDED_VOCABULARY_PHRASE} — ${DEVELOPER_CREATE_REPO_WIDE_RADNI_TAKT_SUPPLEMENTAL_SCOPE_LOCK} ostaje additive-only supplemental audit/reference vizuel: signal “VUK” i radni takt na svim repo slojevima mapiraju se isključivo kao bounded documentation/evidence metapodaci unutar postojećeg Developer/Create ⇄ VRH ⇄ Radni Takt modela, bez novih runtime ruta, bez novih formula i bez promene ownership split-a.` as const;
 const EXTRIMLI_EXTREM_DEVELOPER_CREATE_CARNEVALE_MASKNBALE_VISUAL_REFERENCE =
   'documentation-only://carnevale-masknbale-prirodni-portret-lica' as const;
 const EXTRIMLI_EXTREM_DEVELOPER_CREATE_CARNEVALE_MASKNBALE_CANONICAL_NARRATIVE_ID =
@@ -9211,14 +9215,8 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
                 deterministicFallbackRequired: true,
               },
             },
-            thematicSignals: [
-              'developer-and-create-vrh',
-              'radni-takt-repo-wide-reflection',
-              'vuk',
-              'bounded-vocabulary-extrimli-extrondol-extrem-dok-duk-dak-dik-for',
-              'audit-safe-summary-only',
-            ],
-            auditRole: 'additive-audit-reference-only',
+            thematicSignals: [...DEVELOPER_CREATE_REPO_WIDE_RADNI_TAKT_SUPPLEMENTAL_THEMATIC_SIGNALS],
+            auditRole: DEVELOPER_CREATE_REPO_WIDE_RADNI_TAKT_SUPPLEMENTAL_AUDIT_ROLE,
           },
           {
             title: 'KRALJEVSTVO — PROFESIONALNA GLOBALNA KAMPANJA / NIKOLA SPAJIĆ / ČOVEČANSTVO',
