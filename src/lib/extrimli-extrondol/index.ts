@@ -324,6 +324,203 @@ const AUDIO_VISUAL_KONTRABAS_ROLLBACK_PLAN =
   'Freeze promotion and fall back to the prior Developer/Create reflection package if audio-vizuelni readiness, review evidence, or downstream summary alignment drifts.';
 const AUDIO_VISUAL_KONTRABAS_DOWNSTREAM_REFERENCE =
   'docs/MULTI-REPO-LINKS.md -> spaja86/IO-OPENUI-AO (summary-only)';
+const DEVELOPER_CREATE_BRANCH_REPORT_TEMPLATE_SOURCE =
+  'docs/EXTRIMLI-DEVELOPER-CREATE-PROGRAM.md#14-implementacija-plana-audit-snapshot-2026-09-25' as const;
+
+function mapDeveloperCreateCompletionPercent(
+  status: ExtrimliSpajaKodPublicFacade['readiness']['status'],
+): 0 | 50 | 100 {
+  switch (status) {
+    case 'READY':
+      return 100;
+    case 'WATCH':
+      return 50;
+    default:
+      return 0;
+  }
+}
+
+function calculateAverageCompletionPercent(
+  items: ReadonlyArray<{ completionPercent: number }>,
+): number {
+  if (items.length === 0) return 0;
+  return round(
+    items.reduce((sum, item) => sum + item.completionPercent, 0) / items.length,
+    2,
+  );
+}
+
+function calculateAggregateReadinessStatus(
+  statuses: ReadonlyArray<ExtrimliSpajaKodPublicFacade['readiness']['status']>,
+): ExtrimliSpajaKodPublicFacade['readiness']['status'] {
+  if (statuses.includes('BLOCKED')) return 'BLOCKED';
+  if (statuses.includes('WATCH')) return 'WATCH';
+  return 'READY';
+}
+
+function buildDeveloperCreateBranchReport(params: {
+  gapRegistry: ExtrimliExtrondolReport['gapRegistry'];
+  promotionReadinessStatus: ExtrimliSpajaKodPublicFacade['readiness']['status'];
+  platformStatus: ExtrimliExtrondolReport['developerAndCreateRepoWideReflection']['status'];
+  roadmapStageId: ExtrimliExtrondolReport['developerAndCreateRepoWideReflection']['roadmapExecution']['roadmapStageId'];
+  measurableOutput: ExtrimliExtrondolReport['developerAndCreateRepoWideReflection']['roadmapExecution']['measurableOutput'];
+  acceptanceEvidence: ExtrimliExtrondolReport['developerAndCreateRepoWideReflection']['roadmapExecution']['acceptanceEvidence'];
+  rolloutPlan: string;
+  rollbackPlan: string;
+  humanReviewStatus: 'required-before-promotion';
+  downstreamReference: 'docs/MULTI-REPO-LINKS.md -> spaja86/IO-OPENUI-AO (summary-only)';
+  fourTrackStatuses: {
+    technical: ExtrimliSpajaKodPublicFacade['readiness']['status'];
+    governance: ExtrimliSpajaKodPublicFacade['readiness']['status'];
+    publicBoundary: ExtrimliSpajaKodPublicFacade['readiness']['status'];
+    business: ExtrimliSpajaKodPublicFacade['readiness']['status'];
+  };
+  boundedPackageStatuses: Array<{
+    id: string;
+    label: string;
+    owner: 'EXTREM' | 'EXTRONDOL' | 'SPAJA KOD' | 'Kompanija SPAJA / Digitalna Industrija';
+    status: ExtrimliSpajaKodPublicFacade['readiness']['status'];
+  }>;
+}): ExtrimliExtrondolReport['developerAndCreateRepoWideReflection']['branchReport'] {
+  const gapRegistrySummary = params.gapRegistry.map((item) => ({
+    ...item,
+    completionPercent: mapDeveloperCreateCompletionPercent(item.status),
+  }));
+  const branchStatus = calculateAggregateReadinessStatus(gapRegistrySummary.map((item) => item.status));
+  const fourTrackSummary = {
+    technical: {
+      id: 'technical-track' as const,
+      label: 'Tehnička traka',
+      owner: 'EXTREM' as const,
+      source: 'four-track' as const,
+      status: params.fourTrackStatuses.technical,
+      completionPercent: mapDeveloperCreateCompletionPercent(params.fourTrackStatuses.technical),
+    },
+    governance: {
+      id: 'governance-track' as const,
+      label: 'Governance traka',
+      owner: 'EXTRONDOL' as const,
+      source: 'four-track' as const,
+      status: params.fourTrackStatuses.governance,
+      completionPercent: mapDeveloperCreateCompletionPercent(params.fourTrackStatuses.governance),
+    },
+    publicBoundary: {
+      id: 'public-boundary-track' as const,
+      label: 'Javni boundary',
+      owner: 'SPAJA KOD' as const,
+      source: 'four-track' as const,
+      status: params.fourTrackStatuses.publicBoundary,
+      completionPercent: mapDeveloperCreateCompletionPercent(params.fourTrackStatuses.publicBoundary),
+    },
+    business: {
+      id: 'business-track' as const,
+      label: 'Poslovna traka',
+      owner: 'Kompanija SPAJA / Digitalna Industrija' as const,
+      source: 'four-track' as const,
+      status: params.fourTrackStatuses.business,
+      completionPercent: mapDeveloperCreateCompletionPercent(params.fourTrackStatuses.business),
+    },
+  };
+  const boundedPackageSummary = params.boundedPackageStatuses.map((item) => ({
+    ...item,
+    source: 'bounded-package' as const,
+    completionPercent: mapDeveloperCreateCompletionPercent(item.status),
+  }));
+  const branchCompletionPercent = calculateAverageCompletionPercent(gapRegistrySummary);
+  const platformCompletionPercent = calculateAverageCompletionPercent([
+    fourTrackSummary.technical,
+    fourTrackSummary.governance,
+    fourTrackSummary.publicBoundary,
+    fourTrackSummary.business,
+  ]);
+  const branchItems = gapRegistrySummary.map((item) => ({
+    label: `${item.layer}: ${item.measurableOutput}`,
+    status: item.status,
+  }));
+  const reportScopeItems = [
+    ...gapRegistrySummary.map((item) => ({
+      label: `${item.layer}: ${item.measurableOutput}`,
+      status: item.status,
+    })),
+    ...Object.values(fourTrackSummary).map((item) => ({
+      label: item.label,
+      status: item.status,
+    })),
+    ...boundedPackageSummary.map((item) => ({
+      label: item.label,
+      status: item.status,
+    })),
+  ];
+  const completed = reportScopeItems.filter((item) => item.status === 'READY').map((item) => item.label);
+  const partial = reportScopeItems.filter((item) => item.status === 'WATCH').map((item) => item.label);
+  const blocked = reportScopeItems.filter((item) => item.status === 'BLOCKED').map((item) => item.label);
+  const completedBranchLayers = branchItems.filter((item) => item.status === 'READY').map((item) => item.label);
+  const partialBranchLayers = branchItems.filter((item) => item.status === 'WATCH').map((item) => item.label);
+  const blockedBranchLayers = branchItems.filter((item) => item.status === 'BLOCKED').map((item) => item.label);
+  const platformSupportStatuses = [
+    fourTrackSummary.technical.status,
+    fourTrackSummary.governance.status,
+    fourTrackSummary.publicBoundary.status,
+    fourTrackSummary.business.status,
+    ...boundedPackageSummary.map((item) => item.status),
+  ];
+  const hasBlockedPlatformSupport = platformSupportStatuses.includes('BLOCKED');
+  const hasWatchPlatformSupport = platformSupportStatuses.includes('WATCH');
+  let nextStep = 'Advance the branch report through human review and summary-only downstream synchronization.';
+  if (blocked.length > 0 || params.promotionReadinessStatus === 'BLOCKED' || params.platformStatus === 'BLOCKED' || hasBlockedPlatformSupport) {
+    nextStep = 'Resolve blocked branch layers before promotion, then rerun the governance conformance flow.';
+  } else if (partial.length > 0 || params.promotionReadinessStatus === 'WATCH' || params.platformStatus === 'WATCH' || hasWatchPlatformSupport) {
+    nextStep = 'Close WATCH follow-ups across the branch report and rerun governance conformance before promotion.';
+  }
+
+  return {
+    canonicalFormat: 'developer-create-branch-report-v1',
+    canonicalScopeLock: 'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA',
+    boundedVocabularyPhrase: 'EXTRIMLI EXTRONDOL EXTREM DOK DUK DAK DIK FOR',
+    sourceOfTruth: '/api/extrimli/extrondol',
+    reportTemplateSource: DEVELOPER_CREATE_BRANCH_REPORT_TEMPLATE_SOURCE,
+    roadmapStageId: params.roadmapStageId,
+    measurableOutput: params.measurableOutput,
+    acceptanceEvidence: [...params.acceptanceEvidence],
+    rolloutPlan: params.rolloutPlan,
+    rollbackPlan: params.rollbackPlan,
+    humanReviewStatus: params.humanReviewStatus,
+    downstreamReference: params.downstreamReference,
+    branchCompletionPercent,
+    platformCompletionPercent,
+    branchStatus,
+    promotionReadinessStatus: params.promotionReadinessStatus,
+    platformStatus: params.platformStatus,
+    completed,
+    partial,
+    blocked,
+    completedBranchLayers,
+    partialBranchLayers,
+    blockedBranchLayers,
+    nextStep,
+    gapRegistrySummary,
+    fourTrackSummary,
+    boundedPackageSummary,
+    reportingLayers: {
+      extrem: {
+        owner: 'EXTREM',
+        focus: ['technical-readiness', 'fallback', 'consistency'],
+        status: params.fourTrackStatuses.technical,
+      },
+      extrondol: {
+        owner: 'EXTRONDOL',
+        focus: ['human-review', 'freeze-promotion', 'release-audit', 'rollout-rollback'],
+        status: params.fourTrackStatuses.governance,
+      },
+      spajaKod: {
+        owner: 'SPAJA KOD',
+        publicBoundary: 'audit-safe-summary-only',
+        focus: ['status', 'branchCompletionPercent', 'platformCompletionPercent', 'nextStep'],
+        status: params.fourTrackStatuses.publicBoundary,
+      },
+    },
+  };
+}
 
 function getAudioVisualKontrabasBlockerReason(
   audioVisualKontrabasPackage: ExtrimliDokDikDakDukConsistencyHealth['developerAndCreateRepoWideReflection']['audioVisualKontrabasPackage'],
@@ -3198,6 +3395,7 @@ function buildSpajaKodFacade(params: {
   scopeLock: ExtrimliExtrondolReport['scopeLock'];
   healthSnapshot: ExtrimliExtrondolReport['healthSnapshot'];
   gapRegistry: ExtrimliExtrondolReport['gapRegistry'];
+  branchReport: ExtrimliExtrondolReport['developerAndCreateRepoWideReflection']['branchReport'];
 }): ExtrimliSpajaKodPublicFacade {
   const developerAndCreateImplementationPackage =
     params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.implementationPackage;
@@ -3465,6 +3663,7 @@ function buildSpajaKodFacade(params: {
         'developerAndCreateVisualReflection.kraljevskiBastaUneverzite',
         'developerAndCreateVisualReflection.packageOutputs',
         'developerAndCreateImplementationPackage.aiIqWorldBankPrepiskaSummary',
+        'developerAndCreateImplementationPackage.branchReport',
         'developerAndCreateImplementationPackage.kraljevskiDrustveniPoredakSummary',
         'developerAndCreateImplementationPackage.kraljevskiAktBezbednostiSummary',
         'developerAndCreateImplementationPackage.smartProgramskiJezikSummary',
@@ -3489,6 +3688,7 @@ function buildSpajaKodFacade(params: {
       validationStatus: developerAndCreateImplementationStatus,
       covecanstvuPublicOutput: 'summary-only',
       downstreamSyncRepo: 'spaja86/IO-OPENUI-AO',
+      branchReport: params.branchReport,
       fourTrackSummary: {
         technical: {
           owner: 'EXTREM',
@@ -6434,6 +6634,161 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
         : `Governance conformance blockers: ${governanceConformance.blockers.join(', ')}`,
     }),
   ] as const;
+  const developerAndCreateStatus =
+    extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.status;
+  const aiPlateStatus =
+    extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.aiPlateOffer.boundedReadinessProfile.consolidatedStatus;
+  const implementationPackagePolicyLocked =
+    extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.implementationPackage.noNewRuntimeRoutes
+    && extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.implementationPackage.noParallelSourceOfTruth
+    && extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.implementationPackage.validationLock.readyWatchBlockedOnly
+    && extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.implementationPackage.validationLock.degradedPolicy === 'partial-payload-no-500';
+  const developerAndCreateImplementationStatus = implementationPackagePolicyLocked
+    ? aggregateReadinessStatus([developerAndCreateStatus, aiPlateStatus])
+    : 'BLOCKED';
+  const developerAndCreateBranchReport = buildDeveloperCreateBranchReport({
+    gapRegistry: [...gapRegistry],
+    promotionReadinessStatus: developerAndCreateImplementationStatus,
+    platformStatus: developerAndCreateStatus,
+    roadmapStageId: 'v5-extrondol-release-audit-and-orchestration',
+    measurableOutput:
+      'EXTRONDOL consumes the repo-wide technical profile plus bounded Napoleon Diskaveri discovery-selection alias metadata, RADNI PROSTOR bounded token-lock metadata, KRALJEVSKI DRUŠTVENI POREDAK governance, KRALJEVSKI AKT BEZBEDNOSTI bounded civil-readiness, AI identity-finance governance, KRALJEVSKI BAŠTA UNEVERZITE bounded narrative metadata, additive audio-vizuelni kontrabas package metadata, and primary/supplemental/companion audit visual metadata, then publishes only audit-safe WAWE/review/rollback governance',
+    acceptanceEvidence: DEVELOPER_CREATE_GOVERNANCE_ACCEPTANCE_EVIDENCE,
+    rolloutPlan:
+      'Promote only after additive terminology lock, EXTREM profile alignment, EXTRONDOL release-audit mirror, SPAJA KOD summary boundary, enterprise mapping, and drift-zero validation all stay aligned.',
+    rollbackPlan:
+      'Freeze WAWE progression, drop the additive governance overlay back to the previously verified summary contract, and re-run drift-zero checks before any renewed promotion.',
+    humanReviewStatus: 'required-before-promotion',
+    downstreamReference: 'docs/MULTI-REPO-LINKS.md -> spaja86/IO-OPENUI-AO (summary-only)',
+    fourTrackStatuses: {
+      technical:
+        extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.technicalReadinessProfile.consolidatedRhythmStatus,
+      governance: developerAndCreateImplementationStatus,
+      publicBoundary: developerAndCreateImplementationStatus,
+      business: developerAndCreateImplementationStatus,
+    },
+    boundedPackageStatuses: [
+      {
+        id: 'audio-visual-kontrabas-package',
+        label: 'AUDIO-VIZUELNI KONTRABAS PAKET',
+        owner: 'EXTREM',
+        status:
+          extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.audioVisualKontrabasPackage.readinessStatus,
+      },
+      {
+        id: 'smart-programski-jezik',
+        label: 'SMART PROGRAMSKI JEZIK',
+        owner: 'EXTREM',
+        status:
+          extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.implementationPackage.smartProgramskiJezikPackage.technicalProfile.status,
+      },
+      {
+        id: 'eksperiment-programski-jezik',
+        label: 'EKSPERIMENT PROGRAMSKI JEZIK',
+        owner: 'EXTREM',
+        status:
+          extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.eksperimentProgramskiJezikTrack.readinessSignal.status,
+      },
+      {
+        id: 'sarkazam-privredna-grana-digitalizma',
+        label: 'SARKAZAM / PRIVREDNA GRANA DIGITALIZMA',
+        owner: 'EXTREM',
+        status:
+          extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.sarkazamPrivrednaGranaDigitalizmaTrack.reflectionSignal.status,
+      },
+      {
+        id: 'notes-1450',
+        label: 'NOTES 1450',
+        owner: 'EXTREM',
+        status:
+          extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.notes1450Track.readinessSignal.status,
+      },
+      {
+        id: 'saradnja-ready',
+        label: 'SARADNJA READY',
+        owner: 'EXTRONDOL',
+        status:
+          extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.saradnjaReadyPackage.readinessSignal.status,
+      },
+      {
+        id: 'leksikon',
+        label: 'LEKSIKON',
+        owner: 'EXTREM',
+        status:
+          extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.leksikonTrack.readinessSignal.status,
+      },
+      {
+        id: 'promocije-tiketi-bonusi-propusnice-administrativni-bonusi',
+        label: 'PROMOCIJE / TIKETI / BONUSI / PROPUSNICE / ADMINISTRATIVNI BONUSI',
+        owner: 'EXTRONDOL',
+        status:
+          extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.promocijeTiketiBonusiPropusniceAdministrativniBonusiTrack.readinessSignal.status,
+      },
+      {
+        id: 'kraljevsko-takmicenje',
+        label: 'KRALJEVSKO TAKMIČENJE',
+        owner: 'EXTRONDOL',
+        status:
+          extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.kraljevskoTakmicenjeTrack.readinessSignal.status,
+      },
+      {
+        id: 'kraljevski-pokloni-za-svaciji-rodjendan',
+        label: 'KRALJEVSKI POKLONI ZA SVAČIJI ROĐENDAN',
+        owner: 'EXTREM',
+        status:
+          extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.kraljevskiPokloniZaSvacijiRodjendanTrack.readinessSignal.status,
+      },
+      {
+        id: 'radni-prostor',
+        label: 'RADNI PROSTOR',
+        owner: 'EXTREM',
+        status:
+          extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.radniProstorTrack.readinessSignal.status,
+      },
+      {
+        id: 'ai-iq-laboratorija',
+        label: 'AI IQ LABORATORIJA',
+        owner: 'EXTREM',
+        status:
+          extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.aiIqLaboratorijaTrack.readinessSignal.status,
+      },
+      {
+        id: 'konstrukcije-i-projektovanje',
+        label: 'KONSTRUKCIJE I PROJEKTOVANJE',
+        owner: 'EXTREM',
+        status:
+          extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.konstrukcijeIProjektovanjeTrack.readinessSignal.status,
+      },
+      {
+        id: 'ai-iq-konferencija-za-stampu',
+        label: 'AI IQ KONFERENCIJA ZA ŠTAMPU',
+        owner: 'EXTREM',
+        status:
+          extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.aiIqKonferencijaZaStampuTrack.readinessSignal.status,
+      },
+      {
+        id: 'radio',
+        label: 'RADIO',
+        owner: 'EXTREM',
+        status:
+          extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.radioTrack.readinessSignal.status,
+      },
+      {
+        id: 'muzicka-kutija',
+        label: 'MUZIČKA KUTIJA',
+        owner: 'EXTREM',
+        status:
+          extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.muzickaKutijaTrack.readinessSignal.status,
+      },
+      {
+        id: 'napoleon-diskaveri',
+        label: 'NAPOLEON DISKAVERI',
+        owner: 'EXTREM',
+        status:
+          extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.napoleonDiskaveriSelectionTrack.discoverySelectionSignal.selectionStatus,
+      },
+    ],
+  });
   const spajaKod = buildSpajaKodFacade({
     extremProfiler,
     dokerKuratIzekDokarTrack,
@@ -6470,7 +6825,7 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
     proporcionalnoProgramiranjeStatus: extremProfiler.proporcionalnoProgramiranje.readiness.status,
     spajinoProporcionalnoProgramiranjeUniverzitetStatus: extremProfiler.spajinoProporcionalnoProgramiranjeUniverzitet.readiness.status,
     vrhProgramskogEkviladentaStatus: extremProfiler.vrhProgramskogEkviladenta.readiness.status,
-    developerAndCreateStatus: extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.status,
+    developerAndCreateStatus,
     eksperimentProgramskiJezikStatus:
       extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.eksperimentProgramskiJezikTrack.readinessSignal.status,
     sarkazamPrivrednaGranaDigitalizmaStatus:
@@ -6501,11 +6856,12 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
       extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.radioTrack.readinessSignal.status,
     muzickaKutijaStatus:
       extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.muzickaKutijaTrack.readinessSignal.status,
-    aiPlateStatus: extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.aiPlateOffer.boundedReadinessProfile.consolidatedStatus,
+    aiPlateStatus,
     aiPlateEnterprisePackageStatus,
     scopeLock,
     healthSnapshot,
     gapRegistry: [...gapRegistry],
+    branchReport: developerAndCreateBranchReport,
   });
   const spajaproTrack = buildSpajaproGovernanceTrack({
     technicalState: technicalState === 'WATCH' || technicalState === 'BLOCKED' ? technicalState : 'READY',
@@ -8204,6 +8560,7 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
         extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.priorityExecutionOrder,
       fourTrackProgramPackage:
         extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.fourTrackProgramPackage,
+      branchReport: developerAndCreateBranchReport,
       universityLifecycle: {
         ...extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.universityLifecycle,
         reviewRequiredBeforePayout: true,

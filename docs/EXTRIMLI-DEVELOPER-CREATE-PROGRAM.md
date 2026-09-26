@@ -780,6 +780,74 @@ Bez kompletnog audit paketa release ostaje u freeze režimu.
 
 ## 14) Implementacija plana — audit snapshot (2026-09-25)
 
+### 14.0) Kanonski format branch izveštaja
+
+- Ovaj audit snapshot postaje **kanonski branch izveštaj** za `DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA`.
+- Izveštaj ostaje zaključan u postojećem modelu `EXTRIMLI / EXTREM / EXTRONDOL / SPAJA KOD` i ne uvodi novi paralelni sistem.
+- Bounded rečnik ostaje zaključan na `EXTRIMLI EXTRONDOL EXTREM DOK DUK DAK DIK FOR`.
+- Ownership split ostaje nepromenjen:
+  - `DOK/DIK/FOR -> EXTREM`
+  - `DAK/DUK -> EXTRONDOL`
+  - `SPAJA KOD -> audit-safe public summary-only`
+
+Obavezni blokovi svakog branch izveštaja:
+
+- šta je završeno
+- šta je delimično završeno
+- šta je blokirano
+- `branchCompletionPercent`
+- `platformCompletionPercent`
+- `promotionReadinessStatus`
+
+Napomena o scope-u:
+
+- `completed` / `partial` / `blocked` pokrivaju ceo branch report scope (gap slojevi + four-track rezime + bounded package readiness signali).
+- `completedBranchLayers` / `partialBranchLayers` / `blockedBranchLayers` zadržavaju uži branch-layer pregled koji prati zaključani `gapRegistry`.
+- `nextStep`
+- `rolloutPlan`
+- `rollbackPlan`
+- `humanReviewStatus`
+- `downstreamReference`
+
+Obavezna audit polja svakog branch izveštaja:
+
+- `roadmapStageId`
+- `measurableOutput`
+- `acceptanceEvidence`
+- `rolloutPlan`
+- `rollbackPlan`
+- `humanReviewStatus`
+- `downstreamReference`
+- `branchCompletionPercent`
+- `platformCompletionPercent`
+
+Pravila računanja procenata:
+
+- **Branch completion %** se računa isključivo preko postojećeg `gapRegistry` sloja:
+  - `docs`
+  - `types`
+  - `routes`
+  - `tests`
+  - `workflows`
+- Status ponderi za branch completion ostaju zaključani:
+  - `READY = 100%`
+  - `WATCH = 50%`
+  - `BLOCKED = 0%`
+- Branch completion procenat se objavljuje sa fiksnom preciznošću od dve decimale.
+- **Platform completion %** se računa preko zaključanih traka:
+  - tehnička traka
+  - governance traka
+  - javni boundary
+  - poslovna traka
+- Postojeći bounded paketi iz implementation package-a ostaju obavezni deo izveštaja kao supporting readiness/governance signal, ali ne menjaju zaključani four-track platform procenat.
+- Platform completion procenat se objavljuje sa fiksnom preciznošću od dve decimale.
+
+Tri zaključana nivoa izveštavanja ostaju:
+
+1. **EXTREM** — tehnička spremnost, fallback, consistency
+2. **EXTRONDOL** — review, freeze/promotion, release audit, rollout/rollback
+3. **SPAJA KOD** — samo audit-safe javni rezime sa statusom, procentima i sledećim korakom
+
 ### 14.1) Scope lock potvrda (Dan 1)
 
 - **Centralni lock potvrđen**: `DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA` je prisutan i u glavnom manifestu i u VRH dokumentu.
