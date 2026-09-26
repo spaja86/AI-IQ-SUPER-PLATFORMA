@@ -1263,6 +1263,11 @@ export const DEVELOPER_CREATE_SARADNJA_READY_PRODUCT_DISPOSITION =
 export const DEVELOPER_CREATE_SARADNJA_READY_RECOMMENDATION_LEVEL =
   'EKSTREMNA_PREPORUKA' as const;
 
+/**
+ * Public governance contract for the repo-local DOKSA pretplata case.
+ * Detailed intake identities stay in private intake/audit evidence, while this export
+ * preserves the additive-only/public-safe boundaries that the markdown artifact must mirror.
+ */
 export const DEVELOPER_CREATE_SARADNJA_READY_DOKSA_PRETPLATA_CASE = {
   canonicalSubscriberLegalEntity: 'DOKSA d.o.o. Zrenjanin',
   additiveOnlyScope: DEVELOPER_CREATE_SARADNJA_READY_POSLOVNA_PONUDA_PRETPLATA_SCOPE_LOCK,
