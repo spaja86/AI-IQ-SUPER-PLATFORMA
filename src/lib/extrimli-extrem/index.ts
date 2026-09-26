@@ -12480,7 +12480,9 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
       ? 'BLOCKED'
       : kraljevskiRadHasSoftFallback
         ? 'WATCH'
-        : kraljevskiRadHasExactLength && kraljevskiRadMatchedTokenCount === expectedKraljevskiRadTokens.length
+        : kraljevskiRadHasExactLength
+          && kraljevskiRadHasCanonicalVocabulary
+          && kraljevskiRadMatchedTokenCount === expectedKraljevskiRadTokens.length
           ? 'READY'
           : 'BLOCKED';
   const kraljevskiRadExpectedDURCount = expectedKraljevskiRadTokens
