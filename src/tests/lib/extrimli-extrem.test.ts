@@ -191,6 +191,8 @@ async function runTests(): Promise<void> {
       report.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.napoleonDiskaveriSelectionTrack;
     const kraljevskiPokloniZaSvacijiRodjendanTrack =
       report.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.kraljevskiPokloniZaSvacijiRodjendanTrack;
+    const kraljevskiRadTrack =
+      report.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.kraljevskiRadTrack;
     const radniProstorTrack =
       report.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.radniProstorTrack;
     const aiIqLaboratorijaTrack =
@@ -338,6 +340,12 @@ async function runTests(): Promise<void> {
     assert(kraljevskiPokloniZaSvacijiRodjendanTrack.summarySafePublicFields.join(',') === 'canonicalAlias,status,blockerReason,watchReasons,reviewPosture,downstreamReference,birthdayGiftSummary,fallbackInputStatus', 'developer/create kraljevski pokloni summary-safe fields mismatch');
     assert(['READY', 'WATCH', 'BLOCKED'].includes(kraljevskiPokloniZaSvacijiRodjendanTrack.readinessSignal.status), 'developer/create kraljevski pokloni status mismatch');
     assert(kraljevskiPokloniZaSvacijiRodjendanTrack.readinessSignal.fallbackInputs.join(',') === 'NaN,Infinity,empty,conflict', 'developer/create kraljevski pokloni fallback inputs mismatch');
+    assert(kraljevskiRadTrack.canonicalAlias === 'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == KRALJEVSKI RAD', 'developer/create kraljevski rad canonical alias mismatch');
+    assert(kraljevskiRadTrack.roleClassification === 'additive-only-bounded-kraljevski-rad-track', 'developer/create kraljevski rad role classification mismatch');
+    assert(kraljevskiRadTrack.boundedTokenSequence.join(',') === 'DIR,DUR,DAR,RER,DIK,DUR,DAR,DJOMPA,DOKAT,KRUNA,ZOMBAT,DUKUS,NIKSON,KITAN,DIKAT,KVATRO,KALIMERO', 'developer/create kraljevski rad token sequence mismatch');
+    assert(kraljevskiRadTrack.summarySafePublicFields.join(',') === 'canonicalAlias,status,blockerReason,watchReasons,reviewPosture,downstreamReference,sequenceValidationSummary,fallbackInputStatus', 'developer/create kraljevski rad summary-safe fields mismatch');
+    assert(['READY', 'WATCH', 'BLOCKED'].includes(kraljevskiRadTrack.readinessSignal.status), 'developer/create kraljevski rad status mismatch');
+    assert(kraljevskiRadTrack.readinessSignal.fallbackInputs.join(',') === 'NaN,Infinity,empty,conflict', 'developer/create kraljevski rad fallback inputs mismatch');
     assert(radniProstorTrack.canonicalAlias === 'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == RADNI PROSTOR', 'developer/create RADNI PROSTOR canonical alias mismatch');
     assert(radniProstorTrack.roleClassification === 'additive-only-bounded-radni-prostor-alias-track', 'developer/create RADNI PROSTOR role classification mismatch');
     assert(radniProstorTrack.boundedTokenSequence.join(',') === 'OKUR,DJUKUR,DAR,ZOR,IKON,ZULUM,DABRE,IZOS,JAKOR,DAPR,ZUKUR,ENTER,DIKAR,ZUMBUL,SIRGED,ZIKOR,DJENDER,ĆUR,NIKON,DERKO,ZUKAL,IKON,ZAJDI', 'developer/create RADNI PROSTOR token sequence mismatch');
@@ -1507,7 +1515,7 @@ async function runTests(): Promise<void> {
     assert(report.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.inspektori.justicePath.reviewPosture === 'REVIEW_REQUIRED', 'developer/create INSPEKTORI review posture should escalate when the justice path is blocked');
     assert(
       report.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.currentImplementationStage.acceptanceEvidence.join(',') ===
-      'dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.implementationPackage,dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection,dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.audioVisualKontrabasPackage,dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.inspektori,dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.kraljevskiBastaUneverzite,dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.aiIdentityFinanceGovernance,dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.covecnostAuditVisualReference,dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.covecnostAuditVisualReference.supplementalVisualReferences,dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.covecnostAuditVisualReference.companionAuditVisualReferences,dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.osnoveRispektProtocol,dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.aiPlateOffer,dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.leksikonTrack,dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.radniProstorTrack,dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.promocijeTiketiBonusiPropusniceAdministrativniBonusiTrack,spajaKod.publicSignals.developerAndCreateStatus,radniTaktMozgaMislilac.readiness,metrikoProgramiranje.readiness,sinemetrickoProgramiranje.readiness,paradijogonalnoProgrimiranje.readiness,vrhProgramskogEkviladenta.readiness',
+      'dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.implementationPackage,dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection,dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.audioVisualKontrabasPackage,dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.inspektori,dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.kraljevskiBastaUneverzite,dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.aiIdentityFinanceGovernance,dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.covecnostAuditVisualReference,dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.covecnostAuditVisualReference.supplementalVisualReferences,dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.covecnostAuditVisualReference.companionAuditVisualReferences,dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.osnoveRispektProtocol,dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.aiPlateOffer,dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.leksikonTrack,dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.radniProstorTrack,dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.kraljevskiRadTrack,dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.promocijeTiketiBonusiPropusniceAdministrativniBonusiTrack,spajaKod.publicSignals.developerAndCreateStatus,radniTaktMozgaMislilac.readiness,metrikoProgramiranje.readiness,sinemetrickoProgramiranje.readiness,paradijogonalnoProgrimiranje.readiness,vrhProgramskogEkviladenta.readiness',
       'developer/create EXTREM acceptance evidence mismatch',
     );
     assert(report.dokDikDakDukConsistencyHealth.consistent, 'consistency health should be consistent');
@@ -2217,6 +2225,68 @@ async function runTests(): Promise<void> {
 
         assert(track.readinessSignal.fallbackInputStatus === 'BLOCKED', 'kraljevski pokloni conflict input should map to BLOCKED');
         assert(track.readinessSignal.status === 'BLOCKED', 'kraljevski pokloni conflict input should block readiness');
+      });
+    });
+
+    await test('KRALJEVSKI RAD keeps READY status for canonical sequence', async () => {
+      await withEnv({
+        NODE_ENV: 'test',
+        EXTRIMLI_KRALJEVSKI_RAD_TOKEN_INPUT: 'DIR,DUR,DAR,RER,DIK,DUR,DAR,DJOMPA,DOKAT,KRUNA,ZOMBAT,DUKUS,NIKSON,KITAN,DIKAT,KVATRO,KALIMERO',
+      }, () => {
+        const track =
+          getExtrimliExtremProfilerReport()
+            .dokDikDakDukConsistencyHealth
+            .developerAndCreateRepoWideReflection
+            .kraljevskiRadTrack;
+
+        assert(track.readinessSignal.tokenOrderStatus === 'READY', 'kraljevski rad valid sequence must keep token order READY');
+        assert(track.readinessSignal.duplicateRuleStatus === 'READY', 'kraljevski rad valid sequence must keep duplicate rule READY');
+      });
+    });
+
+    await test('KRALJEVSKI RAD blocks wrong token order', async () => {
+      await withEnv({
+        NODE_ENV: 'test',
+        EXTRIMLI_KRALJEVSKI_RAD_TOKEN_INPUT: 'DIR,DAR,DUR,RER,DIK,DUR,DAR,DJOMPA,DOKAT,KRUNA,ZOMBAT,DUKUS,NIKSON,KITAN,DIKAT,KVATRO,KALIMERO',
+      }, () => {
+        const track =
+          getExtrimliExtremProfilerReport()
+            .dokDikDakDukConsistencyHealth
+            .developerAndCreateRepoWideReflection
+            .kraljevskiRadTrack;
+
+        assert(track.readinessSignal.tokenOrderStatus === 'BLOCKED', 'kraljevski rad wrong order must block token order');
+      });
+    });
+
+    await test('KRALJEVSKI RAD blocks unknown tokens', async () => {
+      await withEnv({
+        NODE_ENV: 'test',
+        EXTRIMLI_KRALJEVSKI_RAD_TOKEN_INPUT: 'DIR,DUR,DAR,RER,DIK,DUR,DAR,DJOMPA,DOKAT,KRUNA,ZOMBAT,DUKUS,NIKSON,KITAN,DIKAT,KVATRO,KALIMERO,UNKNOWN',
+      }, () => {
+        const track =
+          getExtrimliExtremProfilerReport()
+            .dokDikDakDukConsistencyHealth
+            .developerAndCreateRepoWideReflection
+            .kraljevskiRadTrack;
+
+        assert(track.readinessSignal.tokenOrderStatus === 'BLOCKED', 'kraljevski rad unknown token must block token order');
+        assert(track.readinessSignal.status === 'BLOCKED', 'kraljevski rad unknown token must block readiness');
+      });
+    });
+
+    await test('KRALJEVSKI RAD empty input keeps fallback-safe degraded posture', async () => {
+      await withEnv({
+        NODE_ENV: 'test',
+        EXTRIMLI_KRALJEVSKI_RAD_TOKEN_INPUT: '',
+      }, () => {
+        const track =
+          getExtrimliExtremProfilerReport()
+            .dokDikDakDukConsistencyHealth
+            .developerAndCreateRepoWideReflection
+            .kraljevskiRadTrack;
+
+        assert(['WATCH', 'BLOCKED'].includes(track.readinessSignal.status), 'kraljevski rad empty input must not produce unsafe READY-by-default when bounded checks degrade');
       });
     });
   });

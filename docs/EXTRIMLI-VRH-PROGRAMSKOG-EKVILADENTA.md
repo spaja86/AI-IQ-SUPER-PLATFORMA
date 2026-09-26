@@ -8,7 +8,7 @@
 
 Kanonski scope lock ostaje i u kraćem obliku: `DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA`.
 
-Ovaj dokument ostaje **interpretativni extension document**, dok `docs/EXTRIMLI-DEVELOPER-CREATE-PROGRAM.md` ostaje glavni manifest. Sve duže varijante (`RADNI TAKT MOZGA (MISLILAC)`, `MAPE UMA`, `MAPA UMA`, `ŽIVOPIS U DIGITALIZMU`, `DIJALIZA POGONSKOG OMOTAČA`, `LEKSIKON`, `RADNI PROSTOR`, `NAVIGACIONI SISTEM SA TREKEROM`, `KONSTRUKCIJE I PROJEKTOVANJE`, `AI IQ KONFERENCIJA ZA ŠTAMPU (NOVINE, DIGITALNE NOVINE)`, `AI IQ LABORATORIJA == LABORATORIJSKI NALAZI FAUNE I FLORE I GRAĐEVINSKOG MATERIJALA`, `RADIO`, `MUZIČKA KUTIJA`, `TELEVIZIJA`, `POSLOVNA PONUDA` i slične trake) moraju ostati alias-i ili proširenja iste centralne rečenice, nikad novi centri priče.
+Ovaj dokument ostaje **interpretativni extension document**, dok `docs/EXTRIMLI-DEVELOPER-CREATE-PROGRAM.md` ostaje glavni manifest. Sve duže varijante (`RADNI TAKT MOZGA (MISLILAC)`, `MAPE UMA`, `MAPA UMA`, `ŽIVOPIS U DIGITALIZMU`, `DIJALIZA POGONSKOG OMOTAČA`, `LEKSIKON`, `RADNI PROSTOR`, `KRALJEVSKI RAD`, `NAVIGACIONI SISTEM SA TREKEROM`, `KONSTRUKCIJE I PROJEKTOVANJE`, `AI IQ KONFERENCIJA ZA ŠTAMPU (NOVINE, DIGITALNE NOVINE)`, `AI IQ LABORATORIJA == LABORATORIJSKI NALAZI FAUNE I FLORE I GRAĐEVINSKOG MATERIJALA`, `RADIO`, `MUZIČKA KUTIJA`, `TELEVIZIJA`, `POSLOVNA PONUDA` i slične trake) moraju ostati alias-i ili proširenja iste centralne rečenice, nikad novi centri priče.
 
 ## MALI/VEĆI PROJEKAT — VRH lock sa ortogonalnom projekcijom
 
@@ -98,6 +98,17 @@ Repo-wide reflection sada obavezno uključuje i dnevni operativni cadence: `morn
 - Status jezik ostaje bounded `READY | WATCH | BLOCKED` sa obaveznim blocker/watch razlozima i deterministic fallback mapiranjem (`NaN`, `Infinity`, `empty`, `conflict`).
 - EXTREM objavljuje readiness/fallback signal i `birthdayGiftSummary`, EXTRONDOL objavljuje review/freeze/promotion/rollback governance posture, a SPAJA KOD objavljuje samo summary-safe status + fallbackInputStatus + downstream reference.
 - Downstream prema `spaja86/IO-OPENUI-AO` ostaje summary-only, bez sirovih formula ili internih interpretacija.
+
+## KRALJEVSKI RAD bounded traka
+
+`DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == KRALJEVSKI RAD` ostaje additive-only bounded alias u okviru istog vršnog lock-a.
+
+- Nema novih runtime ruta i nema novog source-of-truth sloja; koristi se postojeći EXTRIMLI/EXTREM/EXTRONDOL/SPAJA KOD surface.
+- Zaključani token niz ostaje: `DIR, DUR, DAR, RER, DIK, DUR, DAR, DJOMPA, DOKAT, KRUNA, ZOMBAT, DUKUS, NIKSON, KITAN, DIKAT, KVATRO, KALIMERO`.
+- Validacija ostaje deterministička i bounded: redosled je obavezan (`strict-order-required`), duplikat pravilo je obavezno (`DUR=2`, `DAR=2`), a fallback ulazi `NaN`, `Infinity`, `empty`, `conflict` ostaju zaključani.
+- Ownership split ostaje zaključan: `DOK + DIK + FOR` = EXTREM, `DAK + DUK` = EXTRONDOL, `SPAJA KOD` = audit-safe summary-only.
+- EXTREM objavljuje samo readiness/token-order/duplicate signal i bounded `kraljevskiRadSummary`, EXTRONDOL objavljuje governance/release-audit ogledalo, a SPAJA KOD objavljuje samo summary-safe status + fallbackInputStatus + downstream reference.
+- Downstream prema `spaja86/IO-OPENUI-AO` ostaje summary-only, bez sirovih token/formula internala.
 
 ## RADIO bounded media/distribution/audio paket
 
