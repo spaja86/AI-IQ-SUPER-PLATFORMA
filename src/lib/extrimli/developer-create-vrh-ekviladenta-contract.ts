@@ -37,6 +37,7 @@ export const DEVELOPER_CREATE_VRH_INTERPRETATION_ALIASES = [
   'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == MUZIČKA KUTIJA',
   'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == AI IQ LABORATORIJA == LABORATORIJSKI NALAZI FAUNE I FLORE I GRAĐEVINSKOG MATERIJALA',
   'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == POSLOVNA PONUDA',
+  'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == POSLOVNA PONUDA / PRETPLATA',
   'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == KRALJEVSKI POKLONI ZA SVAČIJI ROĐENDAN',
   DEVELOPER_CREATE_VRH_KRALJEVSKI_SAT_ALIAS,
   DEVELOPER_CREATE_VRH_KRALJEVSKI_RAD_ALIAS,
@@ -1124,6 +1125,9 @@ export const DEVELOPER_CREATE_SARADNJA_READY_SCOPE_LOCK =
 export const DEVELOPER_CREATE_SARADNJA_READY_POSLOVNA_PONUDA_SCOPE_LOCK =
   'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == POSLOVNA PONUDA' as const;
 
+export const DEVELOPER_CREATE_SARADNJA_READY_POSLOVNA_PONUDA_PRETPLATA_SCOPE_LOCK =
+  'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == POSLOVNA PONUDA / PRETPLATA' as const;
+
 export const DEVELOPER_CREATE_SARADNJA_READY_BOUNDED_VOCABULARY = [
   'EXTRIMLI',
   'EXTRONDOL',
@@ -1258,6 +1262,46 @@ export const DEVELOPER_CREATE_SARADNJA_READY_PRODUCT_DISPOSITION =
 
 export const DEVELOPER_CREATE_SARADNJA_READY_RECOMMENDATION_LEVEL =
   'EKSTREMNA_PREPORUKA' as const;
+
+/**
+ * Public governance contract for the repo-local DOKSA pretplata case.
+ * Detailed intake identities stay in private intake/audit evidence, while this export
+ * preserves the additive-only/public-safe boundaries that the markdown artifact must mirror.
+ */
+export const DEVELOPER_CREATE_SARADNJA_READY_DOKSA_PRETPLATA_CASE = {
+  canonicalSubscriberLegalEntity: 'DOKSA d.o.o. Zrenjanin',
+  additiveOnlyScope: DEVELOPER_CREATE_SARADNJA_READY_POSLOVNA_PONUDA_PRETPLATA_SCOPE_LOCK,
+  intakeContactOrAuthorizedSignerRole: 'private-intake-contact-or-authorized-signer',
+  intakeContactOrAuthorizedSignerRequiresValidation: true,
+  ownershipSplit: {
+    extrem: 'technical-readiness-and-evidence-only',
+    extrondol: 'review-freeze-promotion-rollback-payment-verification',
+    spajaKod: 'audit-safe-summary-only',
+  },
+  activationHardGates: [
+    'contract-approval',
+    'compliance-review',
+    'human-review',
+    'payment-verification',
+    'downstream-reference',
+  ],
+  directEmploymentRequestMessageHandling: {
+    classification: 'private-intake-or-audit-evidence-only',
+    publicSafeSummaryAllowed: false,
+    downstreamSyncAllowed: false,
+  },
+  employmentOrPartnershipTrackSeparation: {
+    pretplataTrack: 'billing-and-governance-only',
+    employmentTrack: 'separate-human-review-commercial-track',
+  },
+  acceptanceCriteria: {
+    noNewRuntimeRoutes: true,
+    noParallelSourceOfTruth: true,
+    noActivationWithoutConfirmedIdentityContractAndPayment: true,
+    noPrivateMessagesOrContactsInPublicSafeSummary: true,
+    downstreamSyncMode: 'summary-only',
+  },
+} as const;
 
 export const DEVELOPER_CREATE_PROJECT_GRADATION_SCOPE_LOCK =
   'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA' as const;

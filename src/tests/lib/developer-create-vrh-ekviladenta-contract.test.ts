@@ -6,7 +6,9 @@ import {
   DEVELOPER_CREATE_KRALJEVSKI_RAD_SUMMARY_SAFE_FIELDS,
   DEVELOPER_CREATE_KRALJEVSKI_SAT_SUMMARY_SAFE_FIELDS,
   DEVELOPER_CREATE_SARADNJA_READY_BOUNDED_VOCABULARY,
+  DEVELOPER_CREATE_SARADNJA_READY_DOKSA_PRETPLATA_CASE,
   DEVELOPER_CREATE_SARADNJA_READY_POSLOVNA_PONUDA_SCOPE_LOCK,
+  DEVELOPER_CREATE_SARADNJA_READY_POSLOVNA_PONUDA_PRETPLATA_SCOPE_LOCK,
   DEVELOPER_CREATE_SARADNJA_READY_READINESS_SIGNALS,
   DEVELOPER_CREATE_SARADNJA_READY_RECOMMENDATION_LEVEL,
   DEVELOPER_CREATE_SARADNJA_READY_SUMMARY_SAFE_FIELDS,
@@ -96,6 +98,12 @@ async function runTests(): Promise<void> {
       DEVELOPER_CREATE_VRH_INTERPRETATION_ALIASES.includes(DEVELOPER_CREATE_SARADNJA_READY_POSLOVNA_PONUDA_SCOPE_LOCK),
       'POSLOVNA PONUDA alias must remain part of the VRH interpretation aliases',
     );
+    assert(
+      DEVELOPER_CREATE_VRH_INTERPRETATION_ALIASES.includes(
+        DEVELOPER_CREATE_SARADNJA_READY_POSLOVNA_PONUDA_PRETPLATA_SCOPE_LOCK,
+      ),
+      'POSLOVNA PONUDA / PRETPLATA alias must remain part of the VRH interpretation aliases',
+    );
     assertArrayEquals(
       DEVELOPER_CREATE_SARADNJA_READY_BOUNDED_VOCABULARY,
       ['EXTRIMLI', 'EXTRONDOL', 'EXTREM', 'DOK', 'DUK', 'DAK', 'DIK', 'FOR'],
@@ -123,6 +131,43 @@ async function runTests(): Promise<void> {
     assert(
       DEVELOPER_CREATE_SARADNJA_READY_RECOMMENDATION_LEVEL === 'EKSTREMNA_PREPORUKA',
       'saradnja-ready recommendation level must stay extreme',
+    );
+  });
+
+  await test('DOKSA pretplata case stays additive-only, gated, and private-message safe', () => {
+    assert(
+      DEVELOPER_CREATE_SARADNJA_READY_DOKSA_PRETPLATA_CASE.canonicalSubscriberLegalEntity ===
+        'DOKSA d.o.o. Zrenjanin',
+      'DOKSA legal entity must remain canonical',
+    );
+    assert(
+      DEVELOPER_CREATE_SARADNJA_READY_DOKSA_PRETPLATA_CASE.intakeContactOrAuthorizedSignerRole ===
+        'private-intake-contact-or-authorized-signer',
+      'DOKSA signer/contact role must stay private-intake scoped',
+    );
+    assert(
+      DEVELOPER_CREATE_SARADNJA_READY_DOKSA_PRETPLATA_CASE.intakeContactOrAuthorizedSignerRequiresValidation,
+      'DOKSA signer/contact validation requirement must remain enabled',
+    );
+    assertArrayEquals(
+      DEVELOPER_CREATE_SARADNJA_READY_DOKSA_PRETPLATA_CASE.activationHardGates,
+      ['contract-approval', 'compliance-review', 'human-review', 'payment-verification', 'downstream-reference'],
+      'unexpected DOKSA pretplata hard gates',
+    );
+    assert(
+      DEVELOPER_CREATE_SARADNJA_READY_DOKSA_PRETPLATA_CASE.directEmploymentRequestMessageHandling
+        .publicSafeSummaryAllowed === false,
+      'private employment-request message must stay out of public-safe summary',
+    );
+    assert(
+      DEVELOPER_CREATE_SARADNJA_READY_DOKSA_PRETPLATA_CASE.directEmploymentRequestMessageHandling
+        .downstreamSyncAllowed === false,
+      'private employment-request message must stay out of downstream sync',
+    );
+    assert(
+      DEVELOPER_CREATE_SARADNJA_READY_DOKSA_PRETPLATA_CASE.acceptanceCriteria
+        .noActivationWithoutConfirmedIdentityContractAndPayment,
+      'identity, contract, and payment must remain mandatory before activation',
     );
   });
 
