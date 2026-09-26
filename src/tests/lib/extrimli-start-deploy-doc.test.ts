@@ -1,5 +1,7 @@
 import fs from 'node:fs';
+import { execFileSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
+import os from 'node:os';
 import path from 'node:path';
 
 let passed = 0;
@@ -24,6 +26,72 @@ function assert(condition: boolean, message: string): void {
   if (!condition) throw new Error(message);
 }
 
+function extractStartDeployDomainGateScript(workflow: string): string {
+  const markerIndex = workflow.indexOf('# START_DEPLOY_DOMAIN_GATE');
+  assert(markerIndex >= 0, 'workflow domain gate marker missing');
+
+  const runIndex = workflow.indexOf('run: |\n', markerIndex);
+  assert(runIndex >= 0, 'workflow domain gate script block missing');
+
+  const runBlock = workflow.slice(runIndex + 'run: |\n'.length);
+  const nextStepIndex = runBlock.search(/\n {6}- name: /);
+  const scriptBlock = nextStepIndex >= 0 ? runBlock.slice(0, nextStepIndex) : runBlock;
+
+  return scriptBlock
+    .replace(/^ {10}/gm, '')
+    .replace(
+      'CANONICAL_DOMAIN="${{ github.event.inputs.canonical_domain }}"',
+      'CANONICAL_DOMAIN="${CANONICAL_DOMAIN_INPUT:-}"',
+    )
+    .replace(
+      'WILDCARD_DOMAIN="${{ github.event.inputs.wildcard_domain }}"',
+      'WILDCARD_DOMAIN="${WILDCARD_DOMAIN_INPUT:-}"',
+    );
+}
+
+function runStartDeployDomainGateScript(
+  script: string,
+  inputs: { canonicalDomain?: string; wildcardDomain?: string },
+): { ok: boolean; stdout: string; stderr: string; githubOutput: string } {
+  const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), 'start-deploy-domain-gate-'));
+  const githubOutputPath = path.join(tempDir, 'github-output.txt');
+  const githubStepSummaryPath = path.join(tempDir, 'github-step-summary.md');
+
+  try {
+    const stdout = execFileSync('bash', ['-c', script], {
+      encoding: 'utf8',
+      env: {
+        ...process.env,
+        CANONICAL_DOMAIN_INPUT: inputs.canonicalDomain ?? '',
+        WILDCARD_DOMAIN_INPUT: inputs.wildcardDomain ?? '',
+        GITHUB_OUTPUT: githubOutputPath,
+        GITHUB_STEP_SUMMARY: githubStepSummaryPath,
+      },
+    });
+
+    return {
+      ok: true,
+      stdout,
+      stderr: '',
+      githubOutput: fs.readFileSync(githubOutputPath, 'utf8'),
+    };
+  } catch (error) {
+    const execError = error as {
+      stdout?: string | Buffer;
+      stderr?: string | Buffer;
+    };
+
+    return {
+      ok: false,
+      stdout: execError.stdout ? String(execError.stdout) : '',
+      stderr: execError.stderr ? String(execError.stderr) : '',
+      githubOutput: fs.existsSync(githubOutputPath) ? fs.readFileSync(githubOutputPath, 'utf8') : '',
+    };
+  } finally {
+    fs.rmSync(tempDir, { recursive: true, force: true });
+  }
+}
+
 async function run(): Promise<void> {
   console.log('\n🚀 EXTRIMLI START deploy governance doc test\n');
   const filePath = fileURLToPath(import.meta.url);
@@ -31,6 +99,7 @@ async function run(): Promise<void> {
   const startDeployDoc = fs.readFileSync(path.join(root, 'docs/EXTRIMLI-START-DEPLOY.md'), 'utf8');
   const multiRepoLinksDoc = fs.readFileSync(path.join(root, 'docs/MULTI-REPO-LINKS.md'), 'utf8');
   const workflow = fs.readFileSync(path.join(root, '.github/workflows/extrimli-spaja-deploy.yml'), 'utf8');
+  const domainGateScript = extractStartDeployDomainGateScript(workflow);
 
   await test('START deploy doc locks canonical domain strategy and required labels', () => {
     assert(startDeployDoc.includes('<!-- START_DEPLOY_REQUIRED_LABELS -->'), 'required-labels marker missing');
@@ -62,6 +131,30 @@ async function run(): Promise<void> {
     assert(workflow.includes('START_DEPLOY_DOMAIN_GATE'), 'workflow domain gate marker missing');
     assert(workflow.includes('START_DEPLOY_MULTI_REPO_SYNC'), 'workflow multi-repo sync marker missing');
     assert(workflow.includes('START_DEPLOY_PROMOTION_FREEZE'), 'workflow promotion freeze marker missing');
+  });
+
+  await test('START deploy workflow accepts only the canonical apex + wildcard pair', () => {
+    const result = runStartDeployDomainGateScript(domainGateScript, {
+      canonicalDomain: 'spaja.nivo-spaja',
+      wildcardDomain: '*.spaja.nivo-spaja',
+    });
+
+    assert(result.ok, `canonical domain pair should pass the workflow gate\n${result.stdout}${result.stderr}`);
+    assert(result.githubOutput.includes('canonical_domain=spaja.nivo-spaja'), 'canonical domain output missing');
+    assert(result.githubOutput.includes('wildcard_domain=*.spaja.nivo-spaja'), 'wildcard domain output missing');
+  });
+
+  await test('START deploy workflow rejects valid-but-non-canonical domain pairs', () => {
+    const result = runStartDeployDomainGateScript(domainGateScript, {
+      canonicalDomain: 'example.com',
+      wildcardDomain: '*.example.com',
+    });
+
+    assert(!result.ok, 'non-canonical domain pair should be rejected by the workflow gate');
+    assert(
+      `${result.stdout}${result.stderr}`.includes('START canonical domain strategy mora ostati zaključana'),
+      'canonical-pair rejection message missing',
+    );
   });
 
   console.log(`\nPassed: ${passed}, Failed: ${failed}`);
