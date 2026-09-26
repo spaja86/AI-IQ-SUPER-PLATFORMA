@@ -132,6 +132,7 @@ export interface ExtrimliDeveloperCreateBranchReport {
   branchCompletionPercent: number;
   platformCompletionPercent: number;
   branchStatus: ExtrimliSpajaKodPublicStatus;
+  promotionReadinessStatus: ExtrimliSpajaKodPublicStatus;
   platformStatus: ExtrimliSpajaKodPublicStatus;
   completed: string[];
   partial: string[];

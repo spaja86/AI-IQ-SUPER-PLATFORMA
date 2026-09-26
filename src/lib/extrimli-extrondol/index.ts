@@ -346,9 +346,17 @@ function calculateAverageCompletionPercent(
   );
 }
 
+function calculateAggregateReadinessStatus(
+  statuses: ReadonlyArray<ExtrimliSpajaKodPublicFacade['readiness']['status']>,
+): ExtrimliSpajaKodPublicFacade['readiness']['status'] {
+  if (statuses.includes('BLOCKED')) return 'BLOCKED';
+  if (statuses.includes('WATCH')) return 'WATCH';
+  return 'READY';
+}
+
 function buildDeveloperCreateBranchReport(params: {
   gapRegistry: ExtrimliExtrondolReport['gapRegistry'];
-  branchStatus: ExtrimliSpajaKodPublicFacade['readiness']['status'];
+  promotionReadinessStatus: ExtrimliSpajaKodPublicFacade['readiness']['status'];
   platformStatus: ExtrimliExtrondolReport['developerAndCreateRepoWideReflection']['status'];
   roadmapStageId: ExtrimliExtrondolReport['developerAndCreateRepoWideReflection']['roadmapExecution']['roadmapStageId'];
   measurableOutput: ExtrimliExtrondolReport['developerAndCreateRepoWideReflection']['roadmapExecution']['measurableOutput'];
@@ -374,6 +382,7 @@ function buildDeveloperCreateBranchReport(params: {
     ...item,
     completionPercent: mapDeveloperCreateCompletionPercent(item.status),
   }));
+  const branchStatus = calculateAggregateReadinessStatus(gapRegistrySummary.map((item) => item.status));
   const fourTrackSummary = {
     technical: {
       id: 'technical-track' as const,
@@ -454,9 +463,9 @@ function buildDeveloperCreateBranchReport(params: {
   const hasBlockedPlatformSupport = platformSupportStatuses.includes('BLOCKED');
   const hasWatchPlatformSupport = platformSupportStatuses.includes('WATCH');
   let nextStep = 'Advance the branch report through human review and summary-only downstream synchronization.';
-  if (blocked.length > 0 || params.branchStatus === 'BLOCKED' || params.platformStatus === 'BLOCKED' || hasBlockedPlatformSupport) {
+  if (blocked.length > 0 || params.promotionReadinessStatus === 'BLOCKED' || params.platformStatus === 'BLOCKED' || hasBlockedPlatformSupport) {
     nextStep = 'Resolve blocked branch layers before promotion, then rerun the governance conformance flow.';
-  } else if (partial.length > 0 || params.branchStatus === 'WATCH' || params.platformStatus === 'WATCH' || hasWatchPlatformSupport) {
+  } else if (partial.length > 0 || params.promotionReadinessStatus === 'WATCH' || params.platformStatus === 'WATCH' || hasWatchPlatformSupport) {
     nextStep = 'Close WATCH follow-ups across the branch report and rerun governance conformance before promotion.';
   }
 
@@ -475,7 +484,8 @@ function buildDeveloperCreateBranchReport(params: {
     downstreamReference: params.downstreamReference,
     branchCompletionPercent,
     platformCompletionPercent,
-    branchStatus: params.branchStatus,
+    branchStatus,
+    promotionReadinessStatus: params.promotionReadinessStatus,
     platformStatus: params.platformStatus,
     completed,
     partial,
@@ -6599,7 +6609,7 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
     : 'BLOCKED';
   const developerAndCreateBranchReport = buildDeveloperCreateBranchReport({
     gapRegistry: [...gapRegistry],
-    branchStatus: developerAndCreateImplementationStatus,
+    promotionReadinessStatus: developerAndCreateImplementationStatus,
     platformStatus: developerAndCreateStatus,
     roadmapStageId: 'v5-extrondol-release-audit-and-orchestration',
     measurableOutput:

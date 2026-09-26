@@ -1304,7 +1304,9 @@ async function runTests(): Promise<void> {
     assert(['READY', 'WATCH', 'BLOCKED'].includes(report.spajaKod.publicSignals.developerAndCreateImplementationStatus), 'SPAJA KOD developer/create implementation status mismatch');
     assert(report.spajaKod.developerAndCreateImplementationPackage.validationStatus === report.spajaKod.publicSignals.developerAndCreateImplementationStatus, 'SPAJA KOD implementation package validation status mismatch');
     assert(report.developerAndCreateRepoWideReflection.branchReport.canonicalFormat === 'developer-create-branch-report-v1', 'developer/create branch report canonical format mismatch');
-    assert(report.developerAndCreateRepoWideReflection.branchReport.branchStatus === report.spajaKod.publicSignals.developerAndCreateImplementationStatus, 'developer/create branch report branch status mismatch');
+    const aggregateStatus = (statuses: Array<'READY' | 'WATCH' | 'BLOCKED'>) => (statuses.includes('BLOCKED') ? 'BLOCKED' : statuses.includes('WATCH') ? 'WATCH' : 'READY');
+    assert(report.developerAndCreateRepoWideReflection.branchReport.branchStatus === aggregateStatus(report.gapRegistry.map((item) => item.status)), 'developer/create branch report branch status mismatch');
+    assert(report.developerAndCreateRepoWideReflection.branchReport.promotionReadinessStatus === report.spajaKod.publicSignals.developerAndCreateImplementationStatus, 'developer/create branch report promotion readiness mismatch');
     assert(report.developerAndCreateRepoWideReflection.branchReport.platformStatus === report.developerAndCreateRepoWideReflection.status, 'developer/create branch report platform status mismatch');
     assert(report.developerAndCreateRepoWideReflection.branchReport.gapRegistrySummary.length === report.gapRegistry.length, 'developer/create branch report gap summary mismatch');
     const completionFromStatus = (status: 'READY' | 'WATCH' | 'BLOCKED') => (status === 'READY' ? 100 : status === 'WATCH' ? 50 : 0);

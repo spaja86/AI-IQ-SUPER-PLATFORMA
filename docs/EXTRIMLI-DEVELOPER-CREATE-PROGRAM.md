@@ -796,6 +796,7 @@ Obavezni blokovi svakog branch izveštaja:
 - šta je blokirano
 - `branchCompletionPercent`
 - `platformCompletionPercent`
+- `promotionReadinessStatus`
 
 Napomena o scope-u:
 

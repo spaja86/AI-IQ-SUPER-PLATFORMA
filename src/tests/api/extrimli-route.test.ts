@@ -1197,7 +1197,9 @@ async function runTests(): Promise<void> {
     assert(['READY', 'WATCH', 'BLOCKED'].includes(body.data.publicSignals.developerAndCreateImplementationStatus), 'unexpected SPAJA KOD implementation status');
     assert(body.data.developerAndCreateImplementationPackage.validationStatus === body.data.publicSignals.developerAndCreateImplementationStatus, 'unexpected SPAJA KOD implementation package validation mismatch');
     assert(body.data.developerAndCreateImplementationPackage.branchReport.canonicalFormat === 'developer-create-branch-report-v1', 'unexpected SPAJA KOD branch report canonical format');
-    assert(body.data.developerAndCreateImplementationPackage.branchReport.branchStatus === body.data.publicSignals.developerAndCreateImplementationStatus, 'unexpected SPAJA KOD branch report branch status');
+    const aggregateStatus = (statuses: Array<'READY' | 'WATCH' | 'BLOCKED'>) => (statuses.includes('BLOCKED') ? 'BLOCKED' : statuses.includes('WATCH') ? 'WATCH' : 'READY');
+    assert(body.data.developerAndCreateImplementationPackage.branchReport.branchStatus === aggregateStatus(body.data.gapRegistrySummary.map((item: { status: 'READY' | 'WATCH' | 'BLOCKED' }) => item.status)), 'unexpected SPAJA KOD branch report branch status');
+    assert(body.data.developerAndCreateImplementationPackage.branchReport.promotionReadinessStatus === body.data.publicSignals.developerAndCreateImplementationStatus, 'unexpected SPAJA KOD branch report promotion readiness status');
     assert(body.data.developerAndCreateImplementationPackage.branchReport.gapRegistrySummary.length === body.data.gapRegistrySummary.length, 'unexpected SPAJA KOD branch report gap summary length');
     const completionFromStatus = (status: 'READY' | 'WATCH' | 'BLOCKED') => (status === 'READY' ? 100 : status === 'WATCH' ? 50 : 0);
     const roundCompletionPercent = (value: number) => Math.round(value * 100) / 100;
