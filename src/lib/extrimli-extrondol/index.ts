@@ -3180,6 +3180,9 @@ function buildSpajaKodFacade(params: {
   muzickaKutijaStatus: ExtrimliExtrondolReport['extremProfiler']['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['muzickaKutijaTrack']['readinessSignal']['status'];
   aiPlateStatus: ExtrimliExtrondolReport['extremProfiler']['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['aiPlateOffer']['boundedReadinessProfile']['consolidatedStatus'];
   aiPlateEnterprisePackageStatus: ExtrimliExtrondolReport['releaseAuditSummary']['aiPlateEnterprisePackageGovernance']['status'];
+  scopeLock: ExtrimliExtrondolReport['scopeLock'];
+  healthSnapshot: ExtrimliExtrondolReport['healthSnapshot'];
+  gapRegistry: ExtrimliExtrondolReport['gapRegistry'];
 }): ExtrimliSpajaKodPublicFacade {
   const developerAndCreateImplementationPackage =
     params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.implementationPackage;
@@ -3256,6 +3259,9 @@ function buildSpajaKodFacade(params: {
     encapsulationStatus: 'ACTIVE',
     rawPatternVisibility: 'HIDDEN',
     completeness,
+    scopeLock: params.scopeLock,
+    healthSnapshot: params.healthSnapshot,
+    gapRegistrySummary: params.gapRegistry,
     interpretation: params.promotionFreeze
       ? 'SPAJA KOD exposes only system blockers and freeze posture while internal EXTREM pattern logic remains hidden.'
       : status === 'WATCH'
@@ -6207,6 +6213,94 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
     humanReviewComplete,
     rollbackPlanRequired: releaseAuditSummary.rollbackPlanRequired,
   });
+  const scopeLock = {
+    canonicalExpression: DEVELOPER_CREATE_VRH_CANONICAL_NARRATIVE_SENTENCE,
+    boundedVocabulary: ['EXTRIMLI', 'EXTRONDOL', 'EXTREM', 'DOK', 'DUK', 'DAK', 'DIK', 'FOR'],
+    noNewRuntimeRoutes: true,
+    noParallelSourceOfTruth: true,
+    ownershipSplit: {
+      dokDikFor: 'EXTREM',
+      dakDuk: 'EXTRONDOL',
+      spajaKod: 'audit-safe-summary-only',
+    },
+  } as const;
+  const extrondolSurfaceStatus = promotionFreeze ? 'BLOCKED' : degraded ? 'WATCH' : 'READY';
+  const healthSnapshot = {
+    generatedFrom: '/api/extrimli/extrondol',
+    surfaces: [
+      {
+        route: '/api/extrimli/extrem',
+        status: extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.status,
+        reason: 'EXTREM status comes from DOK/DIK/FOR consistency and technical readiness outputs.',
+      },
+      {
+        route: '/api/extrimli/extrondol',
+        status: extrondolSurfaceStatus,
+        reason: promotionFreeze
+          ? 'EXTRONDOL promotion freeze is active because governance blockers are present.'
+          : degraded
+            ? 'EXTRONDOL runs in degraded watch posture (partial-payload-no-500).'
+            : 'EXTRONDOL governance and WAWE orchestration are currently aligned.',
+      },
+      {
+        route: '/api/extrimli/spaja-kod',
+        status: extrondolSurfaceStatus,
+        reason: 'SPAJA KOD summary facade inherits EXTRONDOL governance posture.',
+      },
+    ],
+  } as const;
+  const spajaKodPolicyAligned =
+    extremProfiler.spajaKodEncapsulation.rawPatternVisibility === 'HIDDEN'
+    && extremProfiler.spajaKodEncapsulation.exposurePolicy.exposesRawPatternModel === false
+    && extremProfiler.spajaKodEncapsulation.exposurePolicy.exposesFormulaInternals === false;
+  const gapRegistry = [
+    {
+      id: 'docs-drift-lock',
+      layer: 'docs',
+      roadmapStageId: 'v5-extrondol-release-audit-and-orchestration',
+      measurableOutput: 'Docs lock canonical scope and additive-only ownership split.',
+      status: contractDriftChecks.sourceOfTruthRoutesAligned ? 'READY' : 'BLOCKED',
+      blockerReason: contractDriftChecks.sourceOfTruthRoutesAligned ? null : 'Source-of-truth route documentation is not aligned.',
+    },
+    {
+      id: 'types-ownership-lock',
+      layer: 'types',
+      roadmapStageId: 'v5-extrondol-release-audit-and-orchestration',
+      measurableOutput: 'Type contracts preserve DOK/DIK/FOR and DAK/DUK ownership boundaries.',
+      status: extremProfiler.dokDikDakDukConsistencyHealth.checks.ownershipBoundaryPreserved ? 'READY' : 'BLOCKED',
+      blockerReason: extremProfiler.dokDikDakDukConsistencyHealth.checks.ownershipBoundaryPreserved
+        ? null
+        : 'Ownership boundary checks are failing in consistency health.',
+    },
+    {
+      id: 'routes-summary-boundary-lock',
+      layer: 'routes',
+      roadmapStageId: 'v5-extrondol-release-audit-and-orchestration',
+      measurableOutput: 'SPAJA KOD remains summary-only without internal formulas.',
+      status: spajaKodPolicyAligned ? 'READY' : 'BLOCKED',
+      blockerReason: spajaKodPolicyAligned ? null : 'SPAJA KOD policy is not aligned with summary-only boundary.',
+    },
+    {
+      id: 'tests-governance-lock',
+      layer: 'tests',
+      roadmapStageId: DEVELOPER_CREATE_V700_ROADMAP_STAGE_ID,
+      measurableOutput: 'Acceptance checks validate release-audit, rollback, and human-review gates.',
+      status: contractDriftBlockers.length === 0 ? 'READY' : 'WATCH',
+      blockerReason: contractDriftBlockers.length === 0
+        ? null
+        : 'Contract drift checks identified follow-up test scope before promotion.',
+    },
+    {
+      id: 'workflows-conformance-lock',
+      layer: 'workflows',
+      roadmapStageId: DEVELOPER_CREATE_V700_ROADMAP_STAGE_ID,
+      measurableOutput: 'Workflow governance conformance stays PASS with no contract drift blockers.',
+      status: governanceConformance.status === 'PASS' ? 'READY' : 'BLOCKED',
+      blockerReason: governanceConformance.status === 'PASS'
+        ? null
+        : `Governance conformance blockers: ${governanceConformance.blockers.join(', ')}`,
+    },
+  ] as const;
   const spajaKod = buildSpajaKodFacade({
     extremProfiler,
     dokerKuratIzekDokarTrack,
@@ -6272,6 +6366,9 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
       extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.muzickaKutijaTrack.readinessSignal.status,
     aiPlateStatus: extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.aiPlateOffer.boundedReadinessProfile.consolidatedStatus,
     aiPlateEnterprisePackageStatus,
+    scopeLock,
+    healthSnapshot,
+    gapRegistry: [...gapRegistry],
   });
   const spajaproTrack = buildSpajaproGovernanceTrack({
     technicalState: technicalState === 'WATCH' || technicalState === 'BLOCKED' ? technicalState : 'READY',
@@ -7850,6 +7947,7 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
       'src/app/api/extrimli/extrem/**',
       'src/tests/lib/extrimli-extrem.test.ts',
     ],
+    scopeLock,
     orchestrationReadinessScore,
     roadmapAlignment: {
       sourceProgram: versionRoadmap.programName,
@@ -8534,6 +8632,8 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
     dokerKuratIzekDokarTrack,
     spajaproTrack,
     spajaKod,
+    healthSnapshot,
+    gapRegistry: [...gapRegistry],
     nivoDuet: {
       sourceOfTruth: '/api/duet/evaluate',
       triggerLabel: EXTRONDOL_NIVO_DUET_TRIGGER_LABEL,

@@ -5313,6 +5313,48 @@ export interface ExtrimliDokDikDakDukConsistencyHealth {
   reasons: string[];
 }
 
+export interface ExtrimliDeveloperCreateScopeLock {
+  canonicalExpression: 'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA';
+  boundedVocabulary: readonly ['EXTRIMLI', 'EXTRONDOL', 'EXTREM', 'DOK', 'DUK', 'DAK', 'DIK', 'FOR'];
+  noNewRuntimeRoutes: true;
+  noParallelSourceOfTruth: true;
+  ownershipSplit: {
+    dokDikFor: 'EXTREM';
+    dakDuk: 'EXTRONDOL';
+    spajaKod: 'audit-safe-summary-only';
+  };
+}
+
+export interface ExtrimliSurfaceHealthSnapshot {
+  generatedFrom: '/api/extrimli/extrem';
+  surfaces: [
+    {
+      route: '/api/extrimli/extrem';
+      status: ExtrimliSpajaKodPublicStatus;
+      reason: string;
+    },
+    {
+      route: '/api/extrimli/extrondol';
+      status: ExtrimliSpajaKodPublicStatus;
+      reason: string;
+    },
+    {
+      route: '/api/extrimli/spaja-kod';
+      status: ExtrimliSpajaKodPublicStatus;
+      reason: string;
+    },
+  ];
+}
+
+export interface ExtrimliImplementationGapItem {
+  id: string;
+  layer: 'docs' | 'types' | 'routes' | 'tests' | 'workflows';
+  roadmapStageId: string;
+  measurableOutput: string;
+  status: 'READY' | 'WATCH' | 'BLOCKED';
+  blockerReason: string | null;
+}
+
 export interface ExtrimliExtremProfilerReport {
   personaId: string;
   contractVersion: string;
@@ -5448,6 +5490,9 @@ export interface ExtrimliExtremProfilerReport {
     apiResponseMs: number;
     withinTargets: boolean;
   };
+  scopeLock: ExtrimliDeveloperCreateScopeLock;
+  healthSnapshot: ExtrimliSurfaceHealthSnapshot;
+  gapRegistry: ExtrimliImplementationGapItem[];
   degraded: boolean;
   degradedMode: 'partial-payload-no-500';
   degradedSources: string[];

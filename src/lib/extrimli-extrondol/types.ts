@@ -65,6 +65,48 @@ import { EXTRIMLI_OBJEKTNO_ORIJENTUSANO_UZDIZANJE_EPSKIH_ELIKVADENATA_CONTRACT_V
 export type ExtrimliExtrondolWaweStage = 'WAWE-1' | 'WAWE-2' | 'WAWE-3' | 'WAWE-4' | 'WAWE-5';
 export type ExtrimliExtrondolMobilnaLinijaActivationStatus = 'READY' | 'WATCH' | 'BLOCKED';
 
+export interface ExtrimliDeveloperCreateScopeLock {
+  canonicalExpression: 'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA';
+  boundedVocabulary: readonly ['EXTRIMLI', 'EXTRONDOL', 'EXTREM', 'DOK', 'DUK', 'DAK', 'DIK', 'FOR'];
+  noNewRuntimeRoutes: true;
+  noParallelSourceOfTruth: true;
+  ownershipSplit: {
+    dokDikFor: 'EXTREM';
+    dakDuk: 'EXTRONDOL';
+    spajaKod: 'audit-safe-summary-only';
+  };
+}
+
+export interface ExtrimliSurfaceHealthSnapshot {
+  generatedFrom: '/api/extrimli/extrondol';
+  surfaces: [
+    {
+      route: '/api/extrimli/extrem';
+      status: ExtrimliSpajaKodPublicStatus;
+      reason: string;
+    },
+    {
+      route: '/api/extrimli/extrondol';
+      status: ExtrimliSpajaKodPublicStatus;
+      reason: string;
+    },
+    {
+      route: '/api/extrimli/spaja-kod';
+      status: ExtrimliSpajaKodPublicStatus;
+      reason: string;
+    },
+  ];
+}
+
+export interface ExtrimliImplementationGapItem {
+  id: string;
+  layer: 'docs' | 'types' | 'routes' | 'tests' | 'workflows';
+  roadmapStageId: string;
+  measurableOutput: string;
+  status: ExtrimliSpajaKodPublicStatus;
+  blockerReason: string | null;
+}
+
 export interface ExtrimliExtrondolAcceptanceCriterion {
   id: string;
   description: string;
@@ -2819,6 +2861,9 @@ export interface ExtrimliSpajaKodPublicFacade {
     consistent: boolean;
     exportReady: boolean;
   };
+  scopeLock: ExtrimliDeveloperCreateScopeLock;
+  healthSnapshot: ExtrimliSurfaceHealthSnapshot;
+  gapRegistrySummary: ExtrimliImplementationGapItem[];
   interpretation: string;
   readiness: {
     status: ExtrimliSpajaKodPublicStatus;
@@ -3400,6 +3445,7 @@ export interface ExtrimliExtrondolReport {
   ownership: string;
   triggerLabel: string;
   pathScope: string[];
+  scopeLock: ExtrimliDeveloperCreateScopeLock;
   orchestrationReadinessScore: number;
   roadmapAlignment: {
     sourceProgram: string;
@@ -3444,6 +3490,8 @@ export interface ExtrimliExtrondolReport {
   dokerKuratIzekDokarTrack: ExtrimliDokerKuratIzekDokarGovernanceTrack;
   spajaproTrack: ExtrimliSpajaproGovernanceTrack;
   spajaKod: ExtrimliSpajaKodPublicFacade;
+  healthSnapshot: ExtrimliSurfaceHealthSnapshot;
+  gapRegistry: ExtrimliImplementationGapItem[];
   mobilnaLinija: ExtrimliExtrondolMobilnaLinijaReadiness;
   nivoDuet: ExtrimliExtrondolNivoDuetSection;
   dinkos: ExtrimliExtrondolDinkosContract;
