@@ -1,4 +1,4 @@
-import fs from 'node:fs';
+import fs from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import {
@@ -32,9 +32,9 @@ async function run(): Promise<void> {
   console.log('\n📄 DOKSA pretplata governance doc test\n');
   const filePath = fileURLToPath(import.meta.url);
   const root = path.resolve(path.dirname(filePath), '../../..');
-  const doc = fs.readFileSync(path.join(root, 'docs/DOKSA-DOO-ZRENJANIN-PRETPLATA.md'), 'utf8');
-  const billing = fs.readFileSync(path.join(root, 'BILLING.md'), 'utf8');
-  const manifest = fs.readFileSync(path.join(root, 'docs/EXTRIMLI-DEVELOPER-CREATE-PROGRAM.md'), 'utf8');
+  const doc = await fs.readFile(path.join(root, 'docs/DOKSA-DOO-ZRENJANIN-PRETPLATA.md'), 'utf8');
+  const billing = await fs.readFile(path.join(root, 'BILLING.md'), 'utf8');
+  const manifest = await fs.readFile(path.join(root, 'docs/EXTRIMLI-DEVELOPER-CREATE-PROGRAM.md'), 'utf8');
 
   await test('DOKSA doc preserves additive-only pretplata scope and identity gates', () => {
     assert(
