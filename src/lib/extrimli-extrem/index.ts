@@ -12449,6 +12449,13 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
   const normalizeKraljevskiRadToken = (token: string): string =>
     token.trim().replace(/\s+/g, ' ').toUpperCase();
   const normalizedKraljevskiRadTokens = kraljevskiRadObservedTokens.map(normalizeKraljevskiRadToken);
+  const kraljevskiRadFallbackTokens = normalizedKraljevskiRadTokens.map((token) => token.toLowerCase());
+  const kraljevskiRadHasConflictFallback = kraljevskiRadFallbackTokens.includes('conflict');
+  const kraljevskiRadHasSoftFallback =
+    normalizedKraljevskiRadTokens.length === 0
+    || kraljevskiRadFallbackTokens.includes('nan')
+    || kraljevskiRadFallbackTokens.includes('infinity')
+    || kraljevskiRadFallbackTokens.includes('empty');
   const expectedKraljevskiRadTokens = DEVELOPER_CREATE_KRALJEVSKI_RAD_BOUNDED_TOKEN_SEQUENCE.map(
     normalizeKraljevskiRadToken,
   );
@@ -12469,11 +12476,13 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
     2,
   );
   const kraljevskiRadTokenOrderStatus: ExtrimliExtremReadinessStatus =
-    kraljevskiRadHasExactLength && kraljevskiRadMatchedTokenCount === expectedKraljevskiRadTokens.length
-      ? 'READY'
-      : normalizedKraljevskiRadTokens.length === 0
+    kraljevskiRadHasConflictFallback
+      ? 'BLOCKED'
+      : kraljevskiRadHasSoftFallback
         ? 'WATCH'
-        : 'BLOCKED';
+        : kraljevskiRadHasExactLength && kraljevskiRadMatchedTokenCount === expectedKraljevskiRadTokens.length
+          ? 'READY'
+          : 'BLOCKED';
   const kraljevskiRadExpectedDURCount = expectedKraljevskiRadTokens
     .filter((token) => token === 'DUR').length;
   const kraljevskiRadObservedDURCount = normalizedKraljevskiRadTokens
@@ -12493,26 +12502,23 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
     .every(([token, count]) => (kraljevskiRadObservedTokenCounts[token] ?? 0) === count)
     && Object.keys(kraljevskiRadObservedTokenCounts).every((token) => token in kraljevskiRadExpectedTokenCounts);
   const kraljevskiRadDuplicateRuleStatus: ExtrimliExtremReadinessStatus =
-    kraljevskiRadHasExactLength
-    && kraljevskiRadHasCanonicalVocabulary
-    && kraljevskiRadCountMatchStatus
-    && kraljevskiRadObservedDURCount === kraljevskiRadExpectedDURCount
-    && kraljevskiRadObservedDARCount === kraljevskiRadExpectedDARCount
-      ? 'READY'
-      : 'BLOCKED';
-  const kraljevskiRadFallbackTokens = normalizedKraljevskiRadTokens.map((token) => token.toLowerCase());
-  const kraljevskiRadFallbackInputStatus: ExtrimliExtremReadinessStatus =
-    normalizedKraljevskiRadTokens.length === 0
-      ? 'WATCH'
-      : kraljevskiRadFallbackTokens.includes('conflict')
+    kraljevskiRadHasConflictFallback
       ? 'BLOCKED'
-      : (
-        kraljevskiRadFallbackTokens.includes('nan')
-        || kraljevskiRadFallbackTokens.includes('infinity')
-        || kraljevskiRadFallbackTokens.includes('empty')
-      )
+      : kraljevskiRadHasSoftFallback
         ? 'WATCH'
-        : 'READY';
+        : kraljevskiRadHasExactLength
+        && kraljevskiRadHasCanonicalVocabulary
+        && kraljevskiRadCountMatchStatus
+        && kraljevskiRadObservedDURCount === kraljevskiRadExpectedDURCount
+        && kraljevskiRadObservedDARCount === kraljevskiRadExpectedDARCount
+          ? 'READY'
+          : 'BLOCKED';
+  const kraljevskiRadFallbackInputStatus: ExtrimliExtremReadinessStatus =
+    kraljevskiRadHasSoftFallback
+      ? 'WATCH'
+      : kraljevskiRadHasConflictFallback
+      ? 'BLOCKED'
+      : 'READY';
   const kraljevskiRadSignalStatuses = [
     dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.status,
     dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.technicalReadinessProfile.consolidatedRhythmStatus,
