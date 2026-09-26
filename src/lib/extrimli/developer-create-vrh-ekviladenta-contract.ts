@@ -80,6 +80,32 @@ export const DEVELOPER_CREATE_VRH_NARRATIVE_CONTRACT_BOUNDARY = {
   noParallelSourceOfTruth: true,
 } as const;
 
+export const DEVELOPER_CREATE_CANONICAL_SCOPE_LOCK = {
+  canonicalExpression: DEVELOPER_CREATE_VRH_CANONICAL_NARRATIVE_SENTENCE,
+  boundedVocabulary: ['EXTRIMLI', 'EXTRONDOL', 'EXTREM', 'DOK', 'DUK', 'DAK', 'DIK', 'FOR'],
+  noNewRuntimeRoutes: true,
+  noParallelSourceOfTruth: true,
+  ownershipSplit: {
+    dokDikFor: 'EXTREM',
+    dakDuk: 'EXTRONDOL',
+    spajaKod: 'audit-safe-summary-only',
+  },
+} as const;
+
+export type DeveloperCreateSurfaceStatus = 'READY' | 'WATCH' | 'BLOCKED';
+
+export const resolveDeveloperCreateSurfaceStatus = ({
+  promotionFreeze,
+  degraded,
+}: {
+  promotionFreeze: boolean;
+  degraded: boolean;
+}): DeveloperCreateSurfaceStatus => (promotionFreeze ? 'BLOCKED' : degraded ? 'WATCH' : 'READY');
+
+export const normalizeDeveloperCreateSurfaceStatus = (status: string): DeveloperCreateSurfaceStatus => (
+  status === 'BLOCKED' || status === 'WATCH' ? status : 'READY'
+);
+
 export const DEVELOPER_CREATE_VRH_VISUAL_EVIDENCE_POLICY = {
   role: 'audit-and-documentation-evidence-only',
   confirmsExistingContract: true,
@@ -117,6 +143,39 @@ export const DEVELOPER_CREATE_NAPOLEON_DISKAVERI_BOUNDED_SIGNALS = [
 
 export const DEVELOPER_CREATE_V700_ROADMAP_STAGE_ID =
   'v700-apdejt-na-verziju-700' as const;
+
+export const DEVELOPER_CREATE_GAP_REGISTRY_ROADMAP_STAGE_IDS = {
+  docs: 'v5-extrondol-release-audit-and-orchestration',
+  types: 'v4-extrem-governance-hardening',
+  routes: 'v5-extrondol-release-audit-and-orchestration',
+  tests: 'v4-extrem-governance-hardening',
+  workflows: DEVELOPER_CREATE_V700_ROADMAP_STAGE_ID,
+} as const;
+
+export type DeveloperCreateGapRegistryLayer = keyof typeof DEVELOPER_CREATE_GAP_REGISTRY_ROADMAP_STAGE_IDS;
+
+export const createDeveloperCreateGapRegistryItem = ({
+  id,
+  layer,
+  measurableOutput,
+  status,
+  blockerReason,
+  roadmapStageId,
+}: {
+  id: string;
+  layer: DeveloperCreateGapRegistryLayer;
+  measurableOutput: string;
+  status: 'READY' | 'WATCH' | 'BLOCKED';
+  blockerReason: string | null;
+  roadmapStageId?: string;
+}) => ({
+  id,
+  layer,
+  roadmapStageId: roadmapStageId ?? DEVELOPER_CREATE_GAP_REGISTRY_ROADMAP_STAGE_IDS[layer],
+  measurableOutput,
+  status,
+  blockerReason,
+});
 
 export const DEVELOPER_CREATE_V700_SCOPE_STATEMENT =
   'APDEJT NA VERZIJU 700 remains an additive governance/program extension above v1-v7, without new runtime routes and without parallel source-of-truth systems.' as const;

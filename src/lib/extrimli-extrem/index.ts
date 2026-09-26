@@ -15,6 +15,7 @@ import {
   DEVELOPER_CREATE_AUDIO_VISUAL_KONTRABAS_CANONICAL_NAME,
   DEVELOPER_CREATE_AUDIO_VISUAL_KONTRABAS_SCOPE_STATEMENT,
   DEVELOPER_CREATE_AUDIO_VISUAL_SCENE_VOCABULARY,
+  DEVELOPER_CREATE_CANONICAL_SCOPE_LOCK,
   DEVELOPER_CREATE_AI_IQ_KONFERENCIJA_ZA_STAMPU_CANONICAL_ALIAS,
   DEVELOPER_CREATE_AI_IQ_KONFERENCIJA_ZA_STAMPU_ROLE_CLASSIFICATION,
   DEVELOPER_CREATE_AI_IQ_KONFERENCIJA_ZA_STAMPU_SCOPE_STATEMENT,
@@ -90,6 +91,8 @@ import {
   DEVELOPER_CREATE_NAPOLEON_DISKAVERI_BOUNDED_SIGNALS,
   DEVELOPER_CREATE_NAPOLEON_DISKAVERI_CANONICAL_ALIAS,
   DEVELOPER_CREATE_NAPOLEON_DISKAVERI_SCOPE_STATEMENT,
+  createDeveloperCreateGapRegistryItem,
+  DEVELOPER_CREATE_GAP_REGISTRY_ROADMAP_STAGE_IDS,
   DEVELOPER_CREATE_RANDOM_SELECTION_SCOPE_STATEMENT,
   DEVELOPER_CREATE_RADNI_PROSTOR_BOUNDED_TOKEN_SEQUENCE,
   DEVELOPER_CREATE_RADNI_PROSTOR_CANONICAL_ALIAS,
@@ -112,6 +115,8 @@ import {
   DEVELOPER_CREATE_V700_SCOPE_STATEMENT,
   DEVELOPER_CREATE_VRH_SUCCESSFUL_NARRATIVE_CRITERIA,
   DEVELOPER_CREATE_VRH_VISUAL_EVIDENCE_POLICY,
+  normalizeDeveloperCreateSurfaceStatus,
+  resolveDeveloperCreateSurfaceStatus,
 } from '../extrimli/developer-create-vrh-ekviladenta-contract';
 import {
   DEVELOPER_CREATE_VRH_MAPE_UMA_EXPLANATION_TITLE,
@@ -13797,21 +13802,17 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
         && mobilnaLinija.installationMessages.messages.length >= 3,
     },
   ];
-  const scopeLock = {
-    canonicalExpression: DEVELOPER_CREATE_VRH_CANONICAL_NARRATIVE_SENTENCE,
-    boundedVocabulary: ['EXTRIMLI', 'EXTRONDOL', 'EXTREM', 'DOK', 'DUK', 'DAK', 'DIK', 'FOR'],
-    noNewRuntimeRoutes: true,
-    noParallelSourceOfTruth: true,
-    ownershipSplit: {
-      dokDikFor: 'EXTREM',
-      dakDuk: 'EXTRONDOL',
-      spajaKod: 'audit-safe-summary-only',
-    },
-  } as const;
-  const extremSurfaceStatus = dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.status;
-  const extrondolSurfaceStatus =
-    freezeRequired ? 'BLOCKED' : governanceReasons.length > 0 ? 'WATCH' : 'READY';
-  const spajaKodSurfaceStatus = spajaKodEncapsulation.readiness.status;
+  const scopeLock = DEVELOPER_CREATE_CANONICAL_SCOPE_LOCK;
+  const extremSurfaceStatus = normalizeDeveloperCreateSurfaceStatus(
+    dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.status,
+  );
+  const sharedGovernanceDegraded = governanceReasons.length > 0;
+  const sharedGovernanceSurfaceStatus = resolveDeveloperCreateSurfaceStatus({
+    promotionFreeze: freezeRequired,
+    degraded: sharedGovernanceDegraded,
+  });
+  const extrondolSurfaceStatus = sharedGovernanceSurfaceStatus;
+  const spajaKodSurfaceStatus = sharedGovernanceSurfaceStatus;
   const healthSnapshot = {
     generatedFrom: '/api/extrimli/extrem',
     surfaces: [
@@ -13825,66 +13826,86 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
         status: extrondolSurfaceStatus,
         reason: freezeRequired
           ? 'Promotion freeze requested by EXTREM governance signal.'
-          : governanceReasons.length > 0
+          : sharedGovernanceDegraded
             ? 'EXTREM reports watch-level governance reasons for EXTRONDOL follow-up.'
             : 'No EXTREM governance blockers detected for EXTRONDOL.',
       },
       {
         route: '/api/extrimli/spaja-kod',
         status: spajaKodSurfaceStatus,
-        reason: 'SPAJA KOD encapsulation status from EXTREM summary-safe boundary checks.',
+        reason: 'SPAJA KOD summary posture mirrors EXTRONDOL governance status in the shared surface contract.',
       },
     ],
   } as const;
+  const canonicalSourceOfTruthRoutes = [
+    '/api/extrimli/extrem',
+    '/api/extrimli/extrondol',
+    '/api/extrimli/spaja-kod',
+  ] as const;
+  const hasCanonicalSourceOfTruthRoutes = canonicalSourceOfTruthRoutes.every(
+    (route) => versionRoadmap.developerCreateLock.sourceOfTruthRoutes.includes(route),
+  ) && versionRoadmap.developerCreateLock.sourceOfTruthRoutes.length === canonicalSourceOfTruthRoutes.length;
+  const acceptanceCriteriaPassed = acceptanceCriteria.every((criterion) => criterion.passed);
+  const workflowGovernanceStatus = resolveDeveloperCreateSurfaceStatus({
+    promotionFreeze: freezeRequired,
+    degraded: governanceReasons.length > 0,
+  });
+
   const gapRegistry = [
-    {
+    createDeveloperCreateGapRegistryItem({
       id: 'docs-lock',
       layer: 'docs',
-      roadmapStageId: 'v5-extrondol-release-audit-and-orchestration',
+      roadmapStageId: DEVELOPER_CREATE_GAP_REGISTRY_ROADMAP_STAGE_IDS.docs,
       measurableOutput: 'Manifest and VRH docs keep canonical scope lock and additive-only policy.',
       status: isExtrimliDeveloperCreateLockAligned(versionRoadmap.developerCreateLock) ? 'READY' : 'BLOCKED',
       blockerReason: isExtrimliDeveloperCreateLockAligned(versionRoadmap.developerCreateLock)
         ? null
         : 'Developer/Create lock drift detected in roadmap documents.',
-    },
-    {
+    }),
+    createDeveloperCreateGapRegistryItem({
       id: 'types-lock',
       layer: 'types',
-      roadmapStageId: 'v4-extrem-governance-hardening',
+      roadmapStageId: DEVELOPER_CREATE_GAP_REGISTRY_ROADMAP_STAGE_IDS.types,
       measurableOutput: 'DOK/DIK/FOR ownership and READY/WATCH/BLOCKED model remain deterministic in types.',
       status: dokDikDakDukConsistencyHealth.checks.ownershipBoundaryPreserved ? 'READY' : 'BLOCKED',
       blockerReason: dokDikDakDukConsistencyHealth.checks.ownershipBoundaryPreserved
         ? null
         : 'Ownership boundary in typed consistency contract is not preserved.',
-    },
-    {
+    }),
+    createDeveloperCreateGapRegistryItem({
       id: 'routes-lock',
       layer: 'routes',
-      roadmapStageId: 'v5-extrondol-release-audit-and-orchestration',
+      roadmapStageId: DEVELOPER_CREATE_GAP_REGISTRY_ROADMAP_STAGE_IDS.routes,
       measurableOutput: 'Only canonical EXTRIMLI source-of-truth routes are used.',
-      status: versionRoadmap.developerCreateLock.sourceOfTruthRoutes.length === 3 ? 'READY' : 'BLOCKED',
-      blockerReason: versionRoadmap.developerCreateLock.sourceOfTruthRoutes.length === 3
-        ? null
-        : 'Source-of-truth route set is incomplete.',
-    },
-    {
+      status: hasCanonicalSourceOfTruthRoutes ? 'READY' : 'BLOCKED',
+      blockerReason: hasCanonicalSourceOfTruthRoutes ? null : 'Source-of-truth route set is incomplete or not canonical.',
+    }),
+    createDeveloperCreateGapRegistryItem({
       id: 'tests-lock',
       layer: 'tests',
-      roadmapStageId: 'v4-extrem-governance-hardening',
+      roadmapStageId: DEVELOPER_CREATE_GAP_REGISTRY_ROADMAP_STAGE_IDS.tests,
       measurableOutput: 'EXTREM acceptance criteria remain passing for locked contract gates.',
-      status: acceptanceCriteria.every((criterion) => criterion.passed) ? 'READY' : 'WATCH',
-      blockerReason: acceptanceCriteria.every((criterion) => criterion.passed)
+      status: acceptanceCriteriaPassed ? 'READY' : 'WATCH',
+      blockerReason: acceptanceCriteriaPassed
         ? null
         : 'One or more EXTREM acceptance criteria currently require follow-up.',
-    },
-    {
+    }),
+    createDeveloperCreateGapRegistryItem({
       id: 'workflow-lock',
       layer: 'workflows',
-      roadmapStageId: DEVELOPER_CREATE_V700_ROADMAP_STAGE_ID,
+      roadmapStageId: DEVELOPER_CREATE_GAP_REGISTRY_ROADMAP_STAGE_IDS.workflows,
       measurableOutput: 'Governance freeze/promotion model remains auditable with rollback discipline.',
-      status: freezeRequired ? 'BLOCKED' : 'READY',
-      blockerReason: freezeRequired ? 'Governance freeze is active until blocker reasons are resolved.' : null,
-    },
+      status: workflowGovernanceStatus === 'READY' && acceptanceCriteriaPassed
+        ? 'READY'
+        : workflowGovernanceStatus === 'BLOCKED'
+          ? 'BLOCKED'
+          : 'WATCH',
+      blockerReason: workflowGovernanceStatus === 'BLOCKED'
+        ? 'Governance freeze is active until blocker reasons are resolved.'
+        : workflowGovernanceStatus === 'READY' && acceptanceCriteriaPassed
+        ? null
+        : 'Workflow conformance checks are not fully passing in the current EXTREM report.',
+    }),
   ] as const;
 
   return {
