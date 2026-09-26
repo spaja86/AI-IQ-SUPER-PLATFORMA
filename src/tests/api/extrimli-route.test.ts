@@ -1196,13 +1196,14 @@ async function runTests(): Promise<void> {
     assert(body.data.publicSignals.aiPlateStatus === body.data.publicSignals.developerAndCreateStatus, 'unexpected SPAJA KOD AI PLATE/developer-create mismatch');
     assert(['READY', 'WATCH', 'BLOCKED'].includes(body.data.publicSignals.developerAndCreateImplementationStatus), 'unexpected SPAJA KOD implementation status');
     assert(body.data.developerAndCreateImplementationPackage.validationStatus === body.data.publicSignals.developerAndCreateImplementationStatus, 'unexpected SPAJA KOD implementation package validation mismatch');
-    assert(body.data.developerAndCreateImplementationPackage.branchReport.canonicalFormat === 'developer-create-branch-report-v1', 'unexpected SPAJA KOD branch report canonical format');
+    const branchReport = body.data.developerAndCreateImplementationPackage.branchReport;
+    assert(branchReport.canonicalFormat === 'developer-create-branch-report-v1', 'unexpected SPAJA KOD branch report canonical format');
     const aggregateStatus = (statuses: Array<'READY' | 'WATCH' | 'BLOCKED'>) => (statuses.includes('BLOCKED') ? 'BLOCKED' : statuses.includes('WATCH') ? 'WATCH' : 'READY');
-    assert(body.data.developerAndCreateImplementationPackage.branchReport.branchStatus === aggregateStatus(body.data.gapRegistrySummary.map((item: { status: 'READY' | 'WATCH' | 'BLOCKED' }) => item.status)), 'unexpected SPAJA KOD branch report branch status');
-    assert(body.data.developerAndCreateImplementationPackage.branchReport.promotionReadinessStatus === body.data.publicSignals.developerAndCreateImplementationStatus, 'unexpected SPAJA KOD branch report promotion readiness status');
+    assert(branchReport.branchStatus === aggregateStatus(body.data.gapRegistrySummary.map((item: { status: 'READY' | 'WATCH' | 'BLOCKED' }) => item.status)), 'unexpected SPAJA KOD branch report branch status');
+    assert(branchReport.promotionReadinessStatus === body.data.publicSignals.developerAndCreateImplementationStatus, 'unexpected SPAJA KOD branch report promotion readiness status');
     assert(
       JSON.stringify(
-        body.data.developerAndCreateImplementationPackage.branchReport.gapRegistrySummary.map((item: { id: string; layer: string; status: string }) => ({
+        branchReport.gapRegistrySummary.map((item: { id: string; layer: string; status: string }) => ({
           id: item.id,
           layer: item.layer,
           status: item.status,
@@ -1221,7 +1222,22 @@ async function runTests(): Promise<void> {
     const expectedBranchCompletionPercent = roundCompletionPercent(
       body.data.gapRegistrySummary.reduce((sum: number, item: { status: 'READY' | 'WATCH' | 'BLOCKED' }) => sum + completionFromStatus(item.status), 0) / body.data.gapRegistrySummary.length,
     );
-    assert(body.data.developerAndCreateImplementationPackage.branchReport.branchCompletionPercent === expectedBranchCompletionPercent, 'unexpected SPAJA KOD branch completion percent');
+    const expectedPlatformCompletionPercent = roundCompletionPercent(
+      [
+        branchReport.fourTrackSummary.technical.status,
+        branchReport.fourTrackSummary.governance.status,
+        branchReport.fourTrackSummary.publicBoundary.status,
+        branchReport.fourTrackSummary.business.status,
+      ].reduce((sum: number, status: 'READY' | 'WATCH' | 'BLOCKED') => sum + completionFromStatus(status), 0) / 4,
+    );
+    assert(branchReport.branchCompletionPercent === expectedBranchCompletionPercent, 'unexpected SPAJA KOD branch completion percent');
+    assert(branchReport.platformCompletionPercent === expectedPlatformCompletionPercent, 'unexpected SPAJA KOD branch platform completion percent');
+    if (branchReport.boundedPackageSummary.some((item: { status: 'READY' | 'WATCH' | 'BLOCKED' }) => item.status === 'BLOCKED')) {
+      assert(
+        branchReport.nextStep === 'Resolve blocked branch layers before promotion, then rerun the governance conformance flow.',
+        'unexpected SPAJA KOD branch nextStep for blocked supporting packages',
+      );
+    }
     assert(body.data.developerAndCreateImplementationPackage.aiIqKonferencijaZaStampuSummary.canonicalAlias === 'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == AI IQ KONFERENCIJA ZA ŠTAMPU (NOVINE, DIGITALNE NOVINE)', 'unexpected SPAJA KOD AI IQ press canonical alias');
     assert(body.data.developerAndCreateImplementationPackage.aiIqKonferencijaZaStampuSummary.publicBoundary === 'audit-safe-summary-only', 'unexpected SPAJA KOD AI IQ press boundary');
     assert(body.data.developerAndCreateImplementationPackage.aiIqLaboratorijaSummary.canonicalAlias === 'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == AI IQ LABORATORIJA == LABORATORIJSKI NALAZI FAUNE I FLORE I GRAĐEVINSKOG MATERIJALA', 'unexpected SPAJA KOD AI IQ laboratorija canonical alias');
