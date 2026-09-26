@@ -12436,10 +12436,7 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
     'KRALJEVSKI POKLONI ZA SVAČIJI ROĐENDAN ostaje additive-only bounded paket: EXTREM (DOK/DIK/FOR) objavljuje tehnički readiness/fallback signal, EXTRONDOL (DAK/DUK) vodi freeze/promotion/review/audit, a SPAJA KOD objavljuje samo audit-safe summary bez novih ruta i bez novog source-of-truth sloja.';
   const kraljevskiRadTrack =
     dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.kraljevskiRadTrack;
-  const kraljevskiRadRuntimeTokenInput =
-    process.env.NODE_ENV === 'test'
-      ? process.env.EXTRIMLI_KRALJEVSKI_RAD_TOKEN_INPUT
-      : undefined;
+  const kraljevskiRadRuntimeTokenInput = process.env.EXTRIMLI_KRALJEVSKI_RAD_TOKEN_INPUT;
   const kraljevskiRadObservedTokens =
     typeof kraljevskiRadRuntimeTokenInput === 'string'
       ? kraljevskiRadRuntimeTokenInput.trim().length > 0
