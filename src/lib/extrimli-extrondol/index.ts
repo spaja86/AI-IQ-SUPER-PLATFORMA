@@ -5376,6 +5376,67 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
           reviewRequiredBeforeWideRollout:
             extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.status !== 'READY',
         },
+        notes1450Track: {
+          ...extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.notes1450Track,
+          sourceOfTruth: '/api/extrimli/extrem',
+          governanceSource: '/api/extrimli/extrondol',
+          publicBoundary: '/api/extrimli/spaja-kod',
+          currentWave: currentWawe,
+          eligibleNextWave,
+          promotionFreeze:
+            promotionFreeze
+            || extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.notes1450Track.readinessSignal.status !== 'READY',
+          reviewRequiredBeforeWideRollout:
+            extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.notes1450Track.readinessSignal.status !== 'READY'
+            || extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.notes1450Track.reviewPosture === 'REVIEW_REQUIRED',
+          reviewPosture:
+            extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.notes1450Track.reviewPosture,
+          rolloutPlan:
+            'Advance NOTES 1450 only as an additive-only bounded work-continuation package through the existing EXTREM technical signal, EXTRONDOL governance mirror, and SPAJA KOD audit-safe summary boundary.',
+          rollbackPlan:
+            'Freeze promotion and fall back to the previously verified ordinary summary-safe notes posture if NOTES 1450 can no longer prove better continuity, clearer next steps, or lower AI material waste.',
+          humanReviewStatus: 'required-before-promotion',
+          acceptanceEvidence: [
+            'developerAndCreateRepoWideReflection.notes1450Track',
+            'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.notes1450Track',
+            'spajaKod.publicSignals.notes1450Status',
+            'spajaKod.developerAndCreateImplementationPackage.notes1450Summary',
+          ],
+          downstreamReference: 'docs/MULTI-REPO-LINKS.md -> spaja86/IO-OPENUI-AO (summary-only)',
+        },
+        saradnjaReadyPackage: {
+          ...extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.saradnjaReadyPackage,
+          sourceOfTruth: '/api/extrimli/extrem',
+          governanceSource: '/api/extrimli/extrondol',
+          publicBoundary: '/api/extrimli/spaja-kod',
+          currentWave: currentWawe,
+          eligibleNextWave,
+          promotionFreeze:
+            promotionFreeze
+            || extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.saradnjaReadyPackage.readinessSignal.status
+              !== 'READY',
+          reviewRequiredBeforeWideRollout:
+            extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.saradnjaReadyPackage.readinessSignal.status
+              !== 'READY'
+            || extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.saradnjaReadyPackage.reviewPosture
+              === 'REVIEW_REQUIRED',
+          reviewPosture:
+            extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.saradnjaReadyPackage.reviewPosture,
+          rolloutPlan:
+            'Advance POSLOVNA PONUDA only as an additive-only GitHub/Vercel poslovna saradnja package through the existing EXTREM technical signal, EXTRONDOL governance mirror, and SPAJA KOD audit-safe summary boundary.',
+          rollbackPlan:
+            'Freeze promotion and fall back to the previously verified summary-safe poslovna ponuda posture if readiness, human review, downstream reference, or GitHub/Vercel governance evidence drifts.',
+          kpiImpactSummary:
+            'KPI impact stays bounded to review readiness, rollout safety, and downstream summary alignment; no raw billing, payment, or secret-bearing commercial internals cross the SPAJA KOD boundary.',
+          humanReviewStatus: 'required-before-promotion',
+          acceptanceEvidence: [
+            'developerAndCreateRepoWideReflection.saradnjaReadyPackage',
+            'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.saradnjaReadyPackage',
+            'spajaKod.publicSignals.saradnjaReadyStatus',
+            'spajaKod.developerAndCreateImplementationPackage.saradnjaReadySummary',
+          ],
+          downstreamReference: 'docs/MULTI-REPO-LINKS.md -> spaja86/IO-OPENUI-AO (summary-only)',
+        },
         audioVisualKontrabasPackage: buildAudioVisualKontrabasGovernancePackage(
           extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.audioVisualKontrabasPackage,
           currentWawe,
@@ -7269,6 +7330,67 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
             promotionFreeze,
             reviewRequiredBeforeWideRollout:
               extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.status !== 'READY',
+          },
+          notes1450Track: {
+            ...extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.notes1450Track,
+            sourceOfTruth: '/api/extrimli/extrem',
+            governanceSource: '/api/extrimli/extrondol',
+            publicBoundary: '/api/extrimli/spaja-kod',
+            currentWave: currentWawe,
+            eligibleNextWave,
+            promotionFreeze:
+              promotionFreeze
+              || extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.notes1450Track.readinessSignal.status !== 'READY',
+            reviewRequiredBeforeWideRollout:
+              extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.notes1450Track.readinessSignal.status !== 'READY'
+              || extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.notes1450Track.reviewPosture === 'REVIEW_REQUIRED',
+            reviewPosture:
+              extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.notes1450Track.reviewPosture,
+            rolloutPlan:
+              'Advance NOTES 1450 only as an additive-only bounded work-continuation package through the existing EXTREM technical signal, EXTRONDOL governance mirror, and SPAJA KOD audit-safe summary boundary.',
+            rollbackPlan:
+              'Freeze promotion and fall back to the previously verified ordinary summary-safe notes posture if NOTES 1450 can no longer prove better continuity, clearer next steps, or lower AI material waste.',
+            humanReviewStatus: 'required-before-promotion',
+            acceptanceEvidence: [
+              'developerAndCreateRepoWideReflection.notes1450Track',
+              'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.notes1450Track',
+              'spajaKod.publicSignals.notes1450Status',
+              'spajaKod.developerAndCreateImplementationPackage.notes1450Summary',
+            ],
+            downstreamReference: 'docs/MULTI-REPO-LINKS.md -> spaja86/IO-OPENUI-AO (summary-only)',
+          },
+          saradnjaReadyPackage: {
+            ...extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.saradnjaReadyPackage,
+            sourceOfTruth: '/api/extrimli/extrem',
+            governanceSource: '/api/extrimli/extrondol',
+            publicBoundary: '/api/extrimli/spaja-kod',
+            currentWave: currentWawe,
+            eligibleNextWave,
+            promotionFreeze:
+              promotionFreeze
+              || extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.saradnjaReadyPackage.readinessSignal.status
+                !== 'READY',
+            reviewRequiredBeforeWideRollout:
+              extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.saradnjaReadyPackage.readinessSignal.status
+                !== 'READY'
+              || extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.saradnjaReadyPackage.reviewPosture
+                === 'REVIEW_REQUIRED',
+            reviewPosture:
+              extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.saradnjaReadyPackage.reviewPosture,
+            rolloutPlan:
+              'Advance POSLOVNA PONUDA only as an additive-only GitHub/Vercel poslovna saradnja package through the existing EXTREM technical signal, EXTRONDOL governance mirror, and SPAJA KOD audit-safe summary boundary.',
+            rollbackPlan:
+              'Freeze promotion and fall back to the previously verified summary-safe poslovna ponuda posture if readiness, human review, downstream reference, or GitHub/Vercel governance evidence drifts.',
+            kpiImpactSummary:
+              'KPI impact stays bounded to review readiness, rollout safety, and downstream summary alignment; no raw billing, payment, or secret-bearing commercial internals cross the SPAJA KOD boundary.',
+            humanReviewStatus: 'required-before-promotion',
+            acceptanceEvidence: [
+              'developerAndCreateRepoWideReflection.saradnjaReadyPackage',
+              'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.saradnjaReadyPackage',
+              'spajaKod.publicSignals.saradnjaReadyStatus',
+              'spajaKod.developerAndCreateImplementationPackage.saradnjaReadySummary',
+            ],
+            downstreamReference: 'docs/MULTI-REPO-LINKS.md -> spaja86/IO-OPENUI-AO (summary-only)',
           },
           audioVisualKontrabasPackage: buildAudioVisualKontrabasGovernancePackage(
             extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.audioVisualKontrabasPackage,
