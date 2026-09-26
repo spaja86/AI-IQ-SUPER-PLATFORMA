@@ -62,6 +62,11 @@ async function run(): Promise<void> {
     assert(workflow.includes('START_DEPLOY_DOMAIN_GATE'), 'workflow domain gate marker missing');
     assert(workflow.includes('START_DEPLOY_MULTI_REPO_SYNC'), 'workflow multi-repo sync marker missing');
     assert(workflow.includes('START_DEPLOY_PROMOTION_FREEZE'), 'workflow promotion freeze marker missing');
+    assert(workflow.includes('EXPECTED_CANONICAL="spaja.nivo-spaja"'), 'strict canonical apex domain gate missing');
+    assert(workflow.includes('EXPECTED_WILDCARD="*.spaja.nivo-spaja"'), 'strict canonical wildcard domain gate missing');
+    assert(workflow.includes('downstream_sync_evidence'), 'downstream sync evidence workflow input missing');
+    assert(workflow.includes('downstream_issue_reference'), 'downstream issue workflow input missing');
+    assert(workflow.includes('REQUIRED_ISSUE_REGEX='), 'downstream issue regex gate missing');
   });
 
   console.log(`\nPassed: ${passed}, Failed: ${failed}`);
