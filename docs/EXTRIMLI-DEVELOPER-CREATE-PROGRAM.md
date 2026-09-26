@@ -832,6 +832,7 @@ Pravila računanja procenata:
   - javni boundary
   - poslovna traka
 - Na ukupni platform score se zatim dodaju postojeći bounded paketi iz implementation package-a, a ne ručni/proizvoljni procenat.
+- Svaka zaključana traka i svaki bounded paket učestvuju kao po jedna merna stavka u zbirnom platform completion proračunu.
 
 Tri zaključana nivoa izveštavanja ostaju:
 
