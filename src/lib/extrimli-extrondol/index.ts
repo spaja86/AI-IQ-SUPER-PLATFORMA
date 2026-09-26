@@ -420,15 +420,30 @@ function buildDeveloperCreateBranchReport(params: {
     fourTrackSummary.publicBoundary,
     fourTrackSummary.business,
   ]);
-  const branchItems = [
+  const branchItems = gapRegistrySummary.map((item) => ({
+    label: `${item.layer}: ${item.measurableOutput}`,
+    status: item.status,
+  }));
+  const reportScopeItems = [
     ...gapRegistrySummary.map((item) => ({
       label: `${item.layer}: ${item.measurableOutput}`,
       status: item.status,
     })),
+    ...Object.values(fourTrackSummary).map((item) => ({
+      label: item.label,
+      status: item.status,
+    })),
+    ...boundedPackageSummary.map((item) => ({
+      label: item.label,
+      status: item.status,
+    })),
   ];
-  const completed = branchItems.filter((item) => item.status === 'READY').map((item) => item.label);
-  const partial = branchItems.filter((item) => item.status === 'WATCH').map((item) => item.label);
-  const blocked = branchItems.filter((item) => item.status === 'BLOCKED').map((item) => item.label);
+  const completed = reportScopeItems.filter((item) => item.status === 'READY').map((item) => item.label);
+  const partial = reportScopeItems.filter((item) => item.status === 'WATCH').map((item) => item.label);
+  const blocked = reportScopeItems.filter((item) => item.status === 'BLOCKED').map((item) => item.label);
+  const completedBranchLayers = branchItems.filter((item) => item.status === 'READY').map((item) => item.label);
+  const partialBranchLayers = branchItems.filter((item) => item.status === 'WATCH').map((item) => item.label);
+  const blockedBranchLayers = branchItems.filter((item) => item.status === 'BLOCKED').map((item) => item.label);
   const platformSupportStatuses = [
     fourTrackSummary.technical.status,
     fourTrackSummary.governance.status,
@@ -465,6 +480,9 @@ function buildDeveloperCreateBranchReport(params: {
     completed,
     partial,
     blocked,
+    completedBranchLayers,
+    partialBranchLayers,
+    blockedBranchLayers,
     nextStep,
     gapRegistrySummary,
     fourTrackSummary,

@@ -796,6 +796,11 @@ Obavezni blokovi svakog branch izveštaja:
 - šta je blokirano
 - `branchCompletionPercent`
 - `platformCompletionPercent`
+
+Napomena o scope-u:
+
+- `completed` / `partial` / `blocked` pokrivaju ceo branch report scope (gap slojevi + four-track rezime + bounded package readiness signali).
+- `completedBranchLayers` / `partialBranchLayers` / `blockedBranchLayers` zadržavaju uži branch-layer pregled koji prati zaključani `gapRegistry`.
 - `nextStep`
 - `rolloutPlan`
 - `rollbackPlan`

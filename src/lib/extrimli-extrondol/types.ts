@@ -136,6 +136,9 @@ export interface ExtrimliDeveloperCreateBranchReport {
   completed: string[];
   partial: string[];
   blocked: string[];
+  completedBranchLayers: string[];
+  partialBranchLayers: string[];
+  blockedBranchLayers: string[];
   nextStep: string;
   gapRegistrySummary: Array<ExtrimliImplementationGapItem & {
     completionPercent: 0 | 50 | 100;
