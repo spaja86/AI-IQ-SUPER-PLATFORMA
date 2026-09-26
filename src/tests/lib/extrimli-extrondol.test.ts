@@ -1331,12 +1331,28 @@ async function runTests(): Promise<void> {
     assert(report.developerAndCreateRepoWideReflection.branchReport.gapRegistrySummary.length === report.gapRegistry.length, 'developer/create branch report gap summary mismatch');
     const completionFromStatus = (status: 'READY' | 'WATCH' | 'BLOCKED') => (status === 'READY' ? 100 : status === 'WATCH' ? 50 : 0);
     const roundCompletionPercent = (value: number) => Math.round(value * 100) / 100;
+    const branchReport = report.developerAndCreateRepoWideReflection.branchReport;
     const expectedBranchCompletionPercent = roundCompletionPercent(
       report.gapRegistry.reduce((sum, item) => sum + completionFromStatus(item.status), 0) / report.gapRegistry.length,
     );
-    assert(report.developerAndCreateRepoWideReflection.branchReport.branchCompletionPercent === expectedBranchCompletionPercent, 'developer/create branch completion percent mismatch');
-    assert(report.spajaKod.developerAndCreateImplementationPackage.branchReport.branchCompletionPercent === report.developerAndCreateRepoWideReflection.branchReport.branchCompletionPercent, 'SPAJA KOD branch completion percent mismatch');
-    assert(report.spajaKod.developerAndCreateImplementationPackage.branchReport.platformCompletionPercent === report.developerAndCreateRepoWideReflection.branchReport.platformCompletionPercent, 'SPAJA KOD platform completion percent mismatch');
+    const expectedPlatformCompletionPercent = roundCompletionPercent(
+      [
+        branchReport.fourTrackSummary.technical.status,
+        branchReport.fourTrackSummary.governance.status,
+        branchReport.fourTrackSummary.publicBoundary.status,
+        branchReport.fourTrackSummary.business.status,
+      ].reduce((sum, status) => sum + completionFromStatus(status), 0) / 4,
+    );
+    assert(branchReport.branchCompletionPercent === expectedBranchCompletionPercent, 'developer/create branch completion percent mismatch');
+    assert(branchReport.platformCompletionPercent === expectedPlatformCompletionPercent, 'developer/create branch platform completion percent must average only four-track statuses');
+    assert(report.spajaKod.developerAndCreateImplementationPackage.branchReport.branchCompletionPercent === branchReport.branchCompletionPercent, 'SPAJA KOD branch completion percent mismatch');
+    assert(report.spajaKod.developerAndCreateImplementationPackage.branchReport.platformCompletionPercent === branchReport.platformCompletionPercent, 'SPAJA KOD platform completion percent mismatch');
+    if (branchReport.boundedPackageSummary.some((item) => item.status === 'BLOCKED')) {
+      assert(
+        branchReport.nextStep === 'Resolve blocked branch layers before promotion, then rerun the governance conformance flow.',
+        'developer/create branch nextStep must stay blocked when any supporting package is blocked',
+      );
+    }
     assert(report.spajaKod.developerAndCreateImplementationPackage.canonicalScopeLock === 'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA', 'SPAJA KOD implementation package canonical scope lock mismatch');
     assert(report.spajaKod.developerAndCreateImplementationPackage.fourTrackSummary.business.canonicalName === 'Kompanija SPAJA / Digitalna Industrija', 'SPAJA KOD implementation package business summary mismatch');
     assert(report.spajaKod.developerAndCreateImplementationPackage.kompanijaSpajaDigitalnaIndustrijaSummary.umbrellaModel === 'DIGITALNA INDUSTRIJA', 'SPAJA KOD implementation package business umbrella mismatch');
