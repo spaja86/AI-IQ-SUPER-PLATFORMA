@@ -46,6 +46,7 @@ import {
   DEVELOPER_CREATE_IZVESTAJ_REPORT_LOCK,
   DEVELOPER_CREATE_IZVESTAJ_SCOPE_STATEMENT,
   DEVELOPER_CREATE_RANDOM_SELECTION_SCOPE_STATEMENT,
+  DEVELOPER_CREATE_REPO_WIDE_RADNI_TAKT_SUPPLEMENTAL_DOWNSTREAM_FIELDS,
   DEVELOPER_CREATE_V700_ROADMAP_STAGE_ID,
   DEVELOPER_CREATE_V700_SCOPE_STATEMENT,
   DEVELOPER_CREATE_VRH_CANONICAL_NARRATIVE_SENTENCE,
@@ -768,6 +769,49 @@ function mapDeveloperCreateCovecnostAuditVisualReference(
         ownershipLock: { ...reference.imageToSignalProfile.ownershipLock },
         signalOutputs: { ...reference.imageToSignalProfile.signalOutputs },
       },
+      ...Object.fromEntries(
+        DEVELOPER_CREATE_REPO_WIDE_RADNI_TAKT_SUPPLEMENTAL_DOWNSTREAM_FIELDS.map((field) => {
+          switch (field) {
+            case 'scenarioId':
+              return [field, reference.imageToSignalProfile.scenarioId] as const;
+            case 'readinessStatus':
+              return [field, reference.imageToSignalProfile.signalOutputs.readinessStatus] as const;
+            case 'blockerWatchReason': {
+              const readinessStatus = reference.imageToSignalProfile.signalOutputs.readinessStatus;
+              return [
+                field,
+                readinessStatus === 'BLOCKED'
+                  ? 'readiness-status-blocked'
+                  : readinessStatus === 'WATCH'
+                    ? 'readiness-status-watch'
+                    : 'none',
+              ] as const;
+            }
+            case 'reviewPosture': {
+              const readinessStatus = reference.imageToSignalProfile.signalOutputs.readinessStatus;
+              return [
+                field,
+                readinessStatus === 'BLOCKED'
+                  ? 'REVIEW_REQUIRED'
+                  : readinessStatus === 'WATCH'
+                    ? 'WATCH'
+                    : 'ALIGNED',
+              ] as const;
+            }
+            case 'ownershipLockSummary':
+              return [
+                field,
+                `dokDikFor=${reference.imageToSignalProfile.ownershipLock.dokDikFor};dakDuk=${reference.imageToSignalProfile.ownershipLock.dakDuk};spajaKod=${reference.imageToSignalProfile.ownershipLock.spajaKod}`,
+              ] as const;
+            case 'boundedThematicLabels':
+              return [field, [...reference.thematicSignals]] as const;
+            default: {
+              const exhaustiveField: never = field;
+              return [exhaustiveField, ''] as const;
+            }
+          }
+        }),
+      ),
     })),
     flowLock: { ...reflection.flowLock, sequence: [...reflection.flowLock.sequence] },
     packageOutputs: { ...reflection.packageOutputs },

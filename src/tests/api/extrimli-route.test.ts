@@ -35,6 +35,7 @@ import {
   DEVELOPER_CREATE_VRH_INTERPRETATION_ALIASES,
   DEVELOPER_CREATE_VRH_MAIN_MANIFEST_DOCUMENT,
   DEVELOPER_CREATE_VRH_NARRATIVE_CONTRACT_BOUNDARY,
+  DEVELOPER_CREATE_REPO_WIDE_RADNI_TAKT_SUPPLEMENTAL_DOWNSTREAM_FIELDS,
   DEVELOPER_CREATE_VRH_SUCCESSFUL_NARRATIVE_CRITERIA,
   DEVELOPER_CREATE_VRH_VISUAL_EVIDENCE_POLICY,
 } from '../../lib/extrimli/developer-create-vrh-ekviladenta-contract';
@@ -529,11 +530,25 @@ async function runTests(): Promise<void> {
     assert(releaseAuditEpilogSupplemental?.visualReference.includes('36ce7570-103e-4097-b903-fbe0efaf4026'), 'unexpected release-audit developer/create EPILOG supplemental visual reference');
     const releaseAuditPostojatiEpilogSupplemental = body.data.releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.covecnostAuditVisualReference.supplementalVisualReferences.find((reference: { canonicalNarrativeId: string }) => reference.canonicalNarrativeId === 'covecanstvo-epilog-postojati-znaci-doprineti-boljem-svetu-developer-create');
     assert(releaseAuditPostojatiEpilogSupplemental?.visualReference.includes('429b7479-7be9-41d3-9e9d-3531b1e9e596'), 'unexpected release-audit developer/create EPILOG (POSTOJATI) supplemental visual reference');
-    const releaseAuditMapeUmaEpilogSupplemental = body.data.releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.covecnostAuditVisualReference.supplementalVisualReferences.find((reference: { canonicalNarrativeId: string; thematicSignals: string[]; imageToSignalProfile: { scenarioId: string; signalOutputs: { readinessStatus: string } } }) => reference.canonicalNarrativeId === 'covecanstvo-epilog-mape-uma-slike-znacenje-developer-create');
+    const releaseAuditMapeUmaEpilogSupplemental = body.data.releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.covecnostAuditVisualReference.supplementalVisualReferences.find((reference: { canonicalNarrativeId: string; thematicSignals: string[]; imageToSignalProfile: { scenarioId: string; signalOutputs: { readinessStatus: string } }; scenarioId: string; readinessStatus: string; blockerWatchReason: string; reviewPosture: string; ownershipLockSummary: string; boundedThematicLabels: string[] }) => reference.canonicalNarrativeId === 'covecanstvo-epilog-mape-uma-slike-znacenje-developer-create');
     assert(releaseAuditMapeUmaEpilogSupplemental?.visualReference.includes('f857f0fd-c29d-4749-aecd-f42745646e69'), 'unexpected release-audit developer/create EPILOG (MAPE UMA) supplemental visual reference');
     assert(releaseAuditMapeUmaEpilogSupplemental?.imageToSignalProfile.scenarioId === 'covecanstvo-epilog-mape-uma-slike-znacenje-developer-create', 'unexpected release-audit developer/create EPILOG (MAPE UMA) supplemental scenario id');
     assert(releaseAuditMapeUmaEpilogSupplemental?.thematicSignals.join(',') === 'mape-uma,slike-plus-znacenje,ucenje,znanje,kreativnost,saradnja,odrzivost,mir,covecanstvo-epilog', 'unexpected release-audit developer/create EPILOG (MAPE UMA) thematic signals');
     assert(releaseAuditMapeUmaEpilogSupplemental?.imageToSignalProfile.signalOutputs.readinessStatus === body.data.releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.status, 'unexpected release-audit developer/create EPILOG (MAPE UMA) readiness status');
+    assert(
+      releaseAuditMapeUmaEpilogSupplemental
+        ? DEVELOPER_CREATE_REPO_WIDE_RADNI_TAKT_SUPPLEMENTAL_DOWNSTREAM_FIELDS.every(
+            (field) => field in releaseAuditMapeUmaEpilogSupplemental,
+          )
+        : false,
+      'release-audit developer/create EPILOG (MAPE UMA) supplemental downstream fields must follow the locked contract',
+    );
+    assert(releaseAuditMapeUmaEpilogSupplemental?.scenarioId === releaseAuditMapeUmaEpilogSupplemental?.imageToSignalProfile.scenarioId, 'unexpected release-audit developer/create EPILOG (MAPE UMA) flattened scenario id');
+    assert(releaseAuditMapeUmaEpilogSupplemental?.readinessStatus === releaseAuditMapeUmaEpilogSupplemental?.imageToSignalProfile.signalOutputs.readinessStatus, 'unexpected release-audit developer/create EPILOG (MAPE UMA) flattened readiness status');
+    assert(releaseAuditMapeUmaEpilogSupplemental?.reviewPosture === 'REVIEW_REQUIRED', 'unexpected release-audit developer/create EPILOG (MAPE UMA) review posture');
+    assert(releaseAuditMapeUmaEpilogSupplemental?.blockerWatchReason === 'readiness-status-blocked', 'unexpected release-audit developer/create EPILOG (MAPE UMA) blocker/watch reason');
+    assert(releaseAuditMapeUmaEpilogSupplemental?.ownershipLockSummary === 'dokDikFor=EXTREM;dakDuk=EXTRONDOL;spajaKod=audit-safe-summary-only', 'unexpected release-audit developer/create EPILOG (MAPE UMA) ownership lock summary');
+    assert(releaseAuditMapeUmaEpilogSupplemental?.boundedThematicLabels.join(',') === releaseAuditMapeUmaEpilogSupplemental?.thematicSignals.join(','), 'unexpected release-audit developer/create EPILOG (MAPE UMA) bounded thematic labels');
     const releaseAuditMaticneCelijeSupplemental = body.data.releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.covecnostAuditVisualReference.supplementalVisualReferences.find((reference: { canonicalNarrativeId: string }) => reference.canonicalNarrativeId === 'covecanstvo-maticne-celije-i-spoznavanje-sebe-developer-create');
     assert(releaseAuditMaticneCelijeSupplemental?.visualReference.includes('ca803ee2-f56e-4aa1-bd7f-18df213228d6'), 'unexpected release-audit developer/create MATIČNE ĆELIJE supplemental visual reference');
     const releaseAuditKukuruzSupplemental = body.data.releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.covecnostAuditVisualReference.supplementalVisualReferences.find((reference: { canonicalNarrativeId: string; thematicSignals: string[]; imageToSignalProfile: { scenarioId: string } }) => reference.canonicalNarrativeId === 'covecanstvo-prirodne-maticne-celije-kukuruz-developer-create');
