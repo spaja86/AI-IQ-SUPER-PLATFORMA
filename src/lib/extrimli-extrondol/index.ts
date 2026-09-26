@@ -340,9 +340,8 @@ function calculateAverageCompletionPercent(
   items: ReadonlyArray<{ completionPercent: number }>,
 ): number {
   if (items.length === 0) return 0;
-  return round(
+  return Math.round(
     items.reduce((sum, item) => sum + item.completionPercent, 0) / items.length,
-    2,
   );
 }
 
@@ -414,13 +413,19 @@ function buildDeveloperCreateBranchReport(params: {
     completionPercent: mapDeveloperCreateCompletionPercent(item.status),
   }));
   const branchCompletionPercent = calculateAverageCompletionPercent(gapRegistrySummary);
-  const platformCompletionPercent = calculateAverageCompletionPercent([
+  const fourTrackCompletionPercent = calculateAverageCompletionPercent([
     fourTrackSummary.technical,
     fourTrackSummary.governance,
     fourTrackSummary.publicBoundary,
     fourTrackSummary.business,
-    ...boundedPackageSummary,
   ]);
+  const boundedPackageCompletionPercent = calculateAverageCompletionPercent(boundedPackageSummary);
+  const platformCompletionPercent = boundedPackageSummary.length === 0
+    ? fourTrackCompletionPercent
+    : calculateAverageCompletionPercent([
+      { completionPercent: fourTrackCompletionPercent },
+      { completionPercent: boundedPackageCompletionPercent },
+    ]);
   const branchItems = [
     ...gapRegistrySummary.map((item) => ({
       label: `${item.layer}: ${item.measurableOutput}`,
