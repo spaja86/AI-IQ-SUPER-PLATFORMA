@@ -17,6 +17,10 @@ import { FUNNEL_EVENTS } from '@/lib/analytics-events';
 import { getOwnerPhoneVerifikacijaStatus } from '@/lib/owner-phone-auth';
 import { kvGet } from '@/lib/kv-client';
 import {
+  VERCEL_STATUS_ROUTE_PATH,
+  buildVercelDeployGovernanceSummary,
+} from '@/lib/vercel-deploy-governance';
+import {
   EXPECTED_VERCEL_BILLING_OWNER,
   EXPECTED_VERCEL_INVOICE_AMOUNT,
   EXPECTED_VERCEL_INVOICE_NUMBER,
@@ -385,6 +389,17 @@ export async function GET() {
 
   const ukupnoKonfigurisan = Object.values(checklist).filter((c) => c.status).length;
   const ukupnoProvera = Object.keys(checklist).length;
+  const teamOrOrgConfigured =
+    Boolean(env.VERCEL_TEAM_ID?.trim())
+    || Boolean(env.VERCEL_ORG_ID?.trim());
+  const deployGovernance = buildVercelDeployGovernanceSummary({
+    sourceOfTruthPath: VERCEL_STATUS_ROUTE_PATH,
+    blockers: pretplataVercel.blokatori,
+    tokenConfigured: health.tokenKonfigurisan,
+    projectIdConfigured: health.projectIdKonfigurisan,
+    teamOrOrgConfigured,
+    deployHookConfigured: checklist.deployHookKonfigurisan.status,
+  });
 
   // Analytics event (pasivno — ne blokira odgovor)
   const eventTip = health.vercelPriključeno
@@ -411,6 +426,7 @@ export async function GET() {
         }
       : null,
     pretplataVercel,
+    deployGovernance,
     uputstvo: {
       korak1: 'Kreirati Personal Access Token na Vercel → Account Settings → Tokens',
       korak2: 'Dodati VERCEL_TOKEN u Vercel → Project → Settings → Environment Variables',

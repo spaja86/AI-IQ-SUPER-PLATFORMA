@@ -142,6 +142,33 @@ async function runTests(): Promise<void> {
     assert(body['sledećiKoraci'].includes('⬜ Sačuvati invoice PDF + payment dokaz + timestamp + odgovorno lice'));
   });
 
+  await test('ownership route exposes deploy governance source-of-truth and trigger order', async () => {
+    await seedApprovedOpenInvoiceState();
+    const response = await GET();
+    assert.strictEqual(response.status, 200);
+    const body = await response.json() as {
+      vercel: {
+        deployGovernance: {
+          blockerSourceOfTruth: { primaryEndpoint: string; mirroredEndpoint: string; currentStatus: string };
+          deployTriggerOrder: Array<{ handler: string }>;
+          developerCreateBoundary: { noNewDeployMechanism: boolean };
+          recommendedNextAction: string;
+          wawePhases: Array<{ id: string; status: string }>;
+        };
+      };
+    };
+
+    assert.strictEqual(body.vercel.deployGovernance.blockerSourceOfTruth.primaryEndpoint, '/api/owner/vercel-ownership');
+    assert.strictEqual(body.vercel.deployGovernance.blockerSourceOfTruth.mirroredEndpoint, '/api/vercel-status');
+    assert.strictEqual(body.vercel.deployGovernance.blockerSourceOfTruth.currentStatus, 'BLOCKED');
+    assert.strictEqual(body.vercel.deployGovernance.deployTriggerOrder[0]?.handler, 'Vercel Git integracija');
+    assert.strictEqual(body.vercel.deployGovernance.deployTriggerOrder[1]?.handler, '.github/workflows/vercel-deploy.yml');
+    assert.strictEqual(body.vercel.deployGovernance.developerCreateBoundary.noNewDeployMechanism, true);
+    assert.strictEqual(body.vercel.deployGovernance.wawePhases[0]?.id, 'WAWE 1');
+    assert.strictEqual(body.vercel.deployGovernance.wawePhases[0]?.status, 'BLOCKED');
+    assert.ok(body.vercel.deployGovernance.recommendedNextAction.includes(EXPECTED_INVOICE_NUMBER));
+  });
+
   await test('corrected invoice resolve requires prior correction request', async () => {
     await seedApprovedOpenInvoiceState();
     const response = await postAction('set-corrected-invoice-resolved');

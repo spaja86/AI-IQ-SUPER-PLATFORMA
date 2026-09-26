@@ -35,11 +35,21 @@ async function testRouteResponse() {
   const json = (await response.json()) as {
     status: string;
     pretplataVercel?: { status: string; blokatori: string[] };
+    deployGovernance?: {
+      blockerSourceOfTruth?: { primaryEndpoint?: string; mirroredEndpoint?: string };
+      deployTriggerOrder?: Array<{ handler?: string }>;
+      developerCreateBoundary?: { noNewDeployMechanism?: boolean };
+    };
   };
   assert.ok(typeof json.status === 'string' && json.status.length > 0);
   assert.ok(json.pretplataVercel, 'pretplataVercel mora biti prisutan');
   assert.ok(['service-active', 'blocked-until-validated'].includes(json.pretplataVercel?.status ?? ''));
   assert.ok(Array.isArray(json.pretplataVercel?.blokatori), 'blokatori mora biti niz');
+  assert.strictEqual(json.deployGovernance?.blockerSourceOfTruth?.primaryEndpoint, '/api/vercel-status');
+  assert.strictEqual(json.deployGovernance?.blockerSourceOfTruth?.mirroredEndpoint, '/api/owner/vercel-ownership');
+  assert.strictEqual(json.deployGovernance?.deployTriggerOrder?.[0]?.handler, 'Vercel Git integracija');
+  assert.strictEqual(json.deployGovernance?.deployTriggerOrder?.[1]?.handler, '.github/workflows/vercel-deploy.yml');
+  assert.strictEqual(json.deployGovernance?.developerCreateBoundary?.noNewDeployMechanism, true);
 }
 
 async function testRouteResponseUsesKvGovernanceFlags() {
