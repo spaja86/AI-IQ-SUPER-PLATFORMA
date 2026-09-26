@@ -3287,6 +3287,8 @@ export interface ExtrimliSpajaKodPublicFacade {
       downstreamReference: 'docs/MULTI-REPO-LINKS.md -> spaja86/IO-OPENUI-AO (summary-only)';
       publicBoundary: 'audit-safe-summary-only';
       sequenceValidationSummary: string;
+      tokenOrderStatus: 'READY' | 'WATCH' | 'BLOCKED';
+      duplicateRuleStatus: 'READY' | 'WATCH' | 'BLOCKED';
       fallbackInputStatus: 'READY' | 'WATCH' | 'BLOCKED';
       governancePosture: {
         sequenceOrderRule: 'strict-order-required';
