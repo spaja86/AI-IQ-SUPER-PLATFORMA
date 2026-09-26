@@ -426,10 +426,6 @@ function buildDeveloperCreateBranchReport(params: {
       label: item.label,
       status: item.status,
     })),
-    ...boundedPackageSummary.map((item) => ({
-      label: item.label,
-      status: item.status,
-    })),
   ];
   const completed = branchItems.filter((item) => item.status === 'READY').map((item) => item.label);
   const partial = branchItems.filter((item) => item.status === 'WATCH').map((item) => item.label);
