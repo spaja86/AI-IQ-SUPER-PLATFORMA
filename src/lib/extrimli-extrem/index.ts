@@ -707,6 +707,14 @@ const EXTRIMLI_EXTREM_DEVELOPER_CREATE_PROFESIONALNA_GLOBALNA_KAMPANJA_KRALJEVST
   'kraljevstvo-profesionalna-globalna-kampanja-medijska-strategija-developer-create' as const;
 const EXTRIMLI_EXTREM_DEVELOPER_CREATE_PROFESIONALNA_GLOBALNA_KAMPANJA_KRALJEVSTVO_CITATION =
   'KRALJEVSTVO — PROFESIONALNA GLOBALNA KAMPANJA / NIKOLA SPAJIĆ / ČOVEČANSTVO ostaje additive-only supplemental audit/reference vizuel: javno predstavljanje Nikole Spajića, čovečanstvo, znanje i obrazovanje, priroda i život, tehnologija, porodica i društvo, zdravlje, pravda, budućnost i razvoj, profesionalni gejming i AI IQ WORLD BANK pokroviteljski okvir mapiraju se isključivo kao bounded documentation/evidence sloj unutar postojećeg Developer/Create ⇄ VRH ⇄ Radni Takt modela; TV/radio/social distribucija ostaje samo audit-safe media-distribution strategy (ciljni kanali, planirani cadence, regioni/jezici, review/compliance gate-ovi i audit evidencija), bez obaveznog emitovanja, bez novih ruta, bez finansijskog engine-a i bez novog source-of-truth sistema.' as const;
+const EXTRIMLI_EXTREM_DEVELOPER_CREATE_POLITICKA_KOMPANJA_KRALJEVSTVO_VISUAL_REFERENCE =
+  'documentation-only://kraljevstvo-covecanstvo-kralj-nad-kraljevima-spajic-nikola-politicka-kompanja-ekstremno-maksimalno-profesionalna' as const;
+const EXTRIMLI_EXTREM_DEVELOPER_CREATE_POLITICKA_KOMPANJA_KRALJEVSTVO_CANONICAL_NARRATIVE_ID =
+  'kraljevstvo-covecanstvo-kralj-nad-kraljevima-spajic-nikola-politicka-kompanja-ekstremno-maksimalno-profesionalna-developer-create' as const;
+const EXTRIMLI_EXTREM_DEVELOPER_CREATE_POLITICKA_KOMPANJA_KRALJEVSTVO_SCENARIO_ID =
+  'kraljevstvo-covecanstvo-politicka-kompanja-ekstremno-maksimalno-profesionalna-audit-safe-developer-create' as const;
+const EXTRIMLI_EXTREM_DEVELOPER_CREATE_POLITICKA_KOMPANJA_KRALJEVSTVO_CITATION =
+  'KRALJEVSTVO / ČOVEČANSTVO — KRALJ NAD KRALJEVIMA / SPAJIĆ NIKOLA / POLITIČKA KOMPANJA EKSTREMNO MAKSIMALNO PROFESIONALNA ostaje additive-only supplemental audit/reference traka: bounded vokabular `EXTRIMLI EXTRONDOL EXTREM DOK DUK DAK DIK FOR` i ownership split (`DOK + DIK + FOR -> EXTREM`, `DAK + DUK -> EXTRONDOL`, `SPAJA KOD -> summary-only`) ostaju zaključani; politička kampanja ostaje audit-safe media/governance strategija (human-review, WAWE, promotion/freeze, rollout/rollback i release-audit summary) bez novih ruta, bez novih formula, bez runtime enforcement logike i bez novog source-of-truth sistema.' as const;
 const EXTRIMLI_EXTREM_DEVELOPER_CREATE_GILSKULTURE_COVECANSTVO_VISUAL_REFERENCE =
   'https://github.com/user-attachments/assets/50cb9759-5ce2-490f-bcb2-8a3b73fed39f' as const;
 const EXTRIMLI_EXTREM_DEVELOPER_CREATE_GILSKULTURE_COVECANSTVO_CANONICAL_NARRATIVE_ID =
@@ -9200,6 +9208,49 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
               'profesionalni-gejming',
               'ai-iq-world-bank-governance',
               'audit-safe-media-strategy',
+            ],
+            auditRole: 'additive-audit-reference-only',
+          },
+          {
+            title:
+              'KRALJEVSTVO / ČOVEČANSTVO — KRALJ NAD KRALJEVIMA / SPAJIĆ NIKOLA / POLITIČKA KOMPANJA EKSTREMNO MAKSIMALNO PROFESIONALNA',
+            canonicalNarrativeId:
+              EXTRIMLI_EXTREM_DEVELOPER_CREATE_POLITICKA_KOMPANJA_KRALJEVSTVO_CANONICAL_NARRATIVE_ID,
+            citation:
+              EXTRIMLI_EXTREM_DEVELOPER_CREATE_POLITICKA_KOMPANJA_KRALJEVSTVO_CITATION,
+            visualReference:
+              EXTRIMLI_EXTREM_DEVELOPER_CREATE_POLITICKA_KOMPANJA_KRALJEVSTVO_VISUAL_REFERENCE,
+            interpretation:
+              'Supplied documentation-only KRALJEVSTVO / ČOVEČANSTVO campaign record remains additive-only supplemental audit/reference evidence and extends the same bounded Developer/Create reflection package through locked ownership (`DOK+DIK+FOR -> EXTREM`, `DAK+DUK -> EXTRONDOL`, `SPAJA KOD -> summary-only`) and audit-safe campaign governance (human-review, WAWE, promotion/freeze, rollout/rollback) without introducing any new source-of-truth runtime route.',
+            sourceStatement: 'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA',
+            imageToSignalProfile: {
+              scenarioId:
+                EXTRIMLI_EXTREM_DEVELOPER_CREATE_POLITICKA_KOMPANJA_KRALJEVSTVO_SCENARIO_ID,
+              theme:
+                'KRALJEVSTVO / ČOVEČANSTVO — KRALJ NAD KRALJEVIMA / SPAJIĆ NIKOLA / POLITIČKA KOMPANJA EKSTREMNO MAKSIMALNO PROFESIONALNA',
+              narrativeInput:
+                EXTRIMLI_EXTREM_DEVELOPER_CREATE_POLITICKA_KOMPANJA_KRALJEVSTVO_CITATION,
+              ownershipLock: {
+                dokDikFor: 'EXTREM',
+                dakDuk: 'EXTRONDOL',
+                spajaKod: 'audit-safe-summary-only',
+              },
+              signalOutputs: {
+                readinessScore: 0,
+                readinessStatus: 'BLOCKED',
+                conflictPressurePercent: 100,
+                deterministicFallbackRequired: true,
+              },
+            },
+            thematicSignals: [
+              'kraljevstvo-covecanstvo',
+              'kralj-nad-kraljevima',
+              'spajic-nikola-public-presentation',
+              'politicka-kompanja-ekstremno-maksimalno-profesionalna',
+              'dok-dik-for-extrem',
+              'dak-duk-extrondol',
+              'spaja-kod-summary-only',
+              'audit-safe-release-governance',
             ],
             auditRole: 'additive-audit-reference-only',
           },

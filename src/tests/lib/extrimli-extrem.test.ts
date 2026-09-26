@@ -150,6 +150,22 @@ async function runTests(): Promise<void> {
     assert(lock.dailyOperationalCadence.cadenceBlocks.join(',') === 'morning-startup,deep-focus-block,midday-checkpoint,end-of-day-closeout', 'developer/create cadence blocks mismatch');
     assert(lock.dailyOperationalCadence.taskPriorities.join(',') === '1,2,3', 'developer/create task priorities mismatch');
     assert(lock.dailyOperationalCadence.endOfDayStatuses.join(',') === 'completed,carried-over,blocked', 'developer/create closeout statuses mismatch');
+  });
+
+  await test('default report keeps VINOGRADI GROCKA RESTORAN track removed from repo-wide reflection', () => {
+    const report = getExtrimliExtremProfilerReport();
+    const lock = report.versionRoadmap.developerCreateLock;
+    const repoWideReflection = JSON.stringify(report.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection);
+    const implementationBoundaries = JSON.stringify({
+      scopeLock: report.scopeLock,
+      developerCreateLock: lock,
+    });
+    assert(!repoWideReflection.toLowerCase().includes('vinogradi'), 'removed VINOGRADI track must not reappear in repo-wide reflection');
+    assert(!repoWideReflection.toLowerCase().includes('grocka'), 'removed GROCKA track must not reappear in repo-wide reflection');
+    assert(!repoWideReflection.toLowerCase().includes('restoran'), 'removed RESTORAN track must not reappear in repo-wide reflection');
+    assert(!implementationBoundaries.toLowerCase().includes('vinogradi'), 'removed VINOGRADI track must not reappear in implementation boundaries');
+    assert(!implementationBoundaries.toLowerCase().includes('grocka'), 'removed GROCKA track must not reappear in implementation boundaries');
+    assert(!implementationBoundaries.toLowerCase().includes('restoran'), 'removed RESTORAN track must not reappear in implementation boundaries');
     assert(
       report.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.canonicalMapeUmaScopeLock
         === 'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == MAPE UMA',
@@ -1498,6 +1514,14 @@ async function runTests(): Promise<void> {
     assert(developerCreateProfesionalnaGlobalnaKampanjaKraljevstvoSupplemental?.thematicSignals.join(',') === 'nikola-spajic-public-presentation,covecanstvo,znanje-i-obrazovanje,priroda-i-zivot,tehnologija,porodica-drustvo-zdravlje,pravda-buducnost-razvoj,profesionalni-gejming,ai-iq-world-bank-governance,audit-safe-media-strategy', 'developer/create KRALJEVSTVO professional global campaign thematic signals mismatch');
     assert(developerCreateProfesionalnaGlobalnaKampanjaKraljevstvoSupplemental?.citation.includes('TV/radio/social distribucija ostaje samo audit-safe media-distribution strategy'), 'developer/create KRALJEVSTVO professional global campaign citation mismatch');
     assert(developerCreateProfesionalnaGlobalnaKampanjaKraljevstvoSupplemental?.imageToSignalProfile.signalOutputs.readinessStatus === report.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.status, 'developer/create KRALJEVSTVO professional global campaign supplemental readiness status mismatch');
+    const developerCreatePolitickaKompanjaKraljevstvoSupplemental = report.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.covecnostAuditVisualReference.supplementalVisualReferences.find((reference) => reference.canonicalNarrativeId === 'kraljevstvo-covecanstvo-kralj-nad-kraljevima-spajic-nikola-politicka-kompanja-ekstremno-maksimalno-profesionalna-developer-create');
+    assert(Boolean(developerCreatePolitickaKompanjaKraljevstvoSupplemental), 'developer/create KRALJEVSTVO/ČOVEČANSTVO political campaign supplemental narrative id mismatch');
+    assert(developerCreatePolitickaKompanjaKraljevstvoSupplemental?.imageToSignalProfile.scenarioId === 'kraljevstvo-covecanstvo-politicka-kompanja-ekstremno-maksimalno-profesionalna-audit-safe-developer-create', 'developer/create KRALJEVSTVO/ČOVEČANSTVO political campaign supplemental scenario id mismatch');
+    assert(developerCreatePolitickaKompanjaKraljevstvoSupplemental?.visualReference === 'documentation-only://kraljevstvo-covecanstvo-kralj-nad-kraljevima-spajic-nikola-politicka-kompanja-ekstremno-maksimalno-profesionalna', 'developer/create KRALJEVSTVO/ČOVEČANSTVO political campaign supplemental visual reference mismatch');
+    assert(developerCreatePolitickaKompanjaKraljevstvoSupplemental?.thematicSignals.join(',') === 'kraljevstvo-covecanstvo,kralj-nad-kraljevima,spajic-nikola-public-presentation,politicka-kompanja-ekstremno-maksimalno-profesionalna,dok-dik-for-extrem,dak-duk-extrondol,spaja-kod-summary-only,audit-safe-release-governance', 'developer/create KRALJEVSTVO/ČOVEČANSTVO political campaign thematic signals mismatch');
+    assert(developerCreatePolitickaKompanjaKraljevstvoSupplemental?.citation.includes('DOK + DIK + FOR -> EXTREM'), 'developer/create KRALJEVSTVO/ČOVEČANSTVO political campaign citation ownership mismatch');
+    assert(developerCreatePolitickaKompanjaKraljevstvoSupplemental?.citation.includes('DAK + DUK -> EXTRONDOL'), 'developer/create KRALJEVSTVO/ČOVEČANSTVO political campaign citation governance mismatch');
+    assert(developerCreatePolitickaKompanjaKraljevstvoSupplemental?.imageToSignalProfile.signalOutputs.readinessStatus === report.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.status, 'developer/create KRALJEVSTVO/ČOVEČANSTVO political campaign supplemental readiness status mismatch');
     const developerCreateGilskultureKraljevstvoSupplemental = report.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.covecnostAuditVisualReference.supplementalVisualReferences.find((reference) => reference.canonicalNarrativeId === 'covecanstvo-epilog-kraljevstvo-gilskulture-developer-create');
     assert(Boolean(developerCreateGilskultureKraljevstvoSupplemental), 'developer/create GILSKULTURE supplemental narrative id mismatch');
     assert(developerCreateGilskultureKraljevstvoSupplemental?.imageToSignalProfile.scenarioId === 'covecanstvo-epilog-kraljevstvo-gilskulture-znanje-mir-odgovornost-developer-create', 'developer/create GILSKULTURE supplemental scenario id mismatch');
