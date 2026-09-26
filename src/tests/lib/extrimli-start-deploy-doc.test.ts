@@ -1,4 +1,5 @@
 import fs from 'node:fs';
+import { fileURLToPath } from 'node:url';
 import path from 'node:path';
 
 let passed = 0;
@@ -25,7 +26,8 @@ function assert(condition: boolean, message: string): void {
 
 async function run(): Promise<void> {
   console.log('\n🚀 EXTRIMLI START deploy governance doc test\n');
-  const root = process.cwd();
+  const filePath = fileURLToPath(import.meta.url);
+  const root = path.resolve(path.dirname(filePath), '../../..');
   const startDeployDoc = fs.readFileSync(path.join(root, 'docs/EXTRIMLI-START-DEPLOY.md'), 'utf8');
   const multiRepoLinksDoc = fs.readFileSync(path.join(root, 'docs/MULTI-REPO-LINKS.md'), 'utf8');
   const workflow = fs.readFileSync(path.join(root, '.github/workflows/extrimli-spaja-deploy.yml'), 'utf8');
