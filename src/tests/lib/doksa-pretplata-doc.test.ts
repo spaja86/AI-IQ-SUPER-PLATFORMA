@@ -1,6 +1,10 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import {
+  DEVELOPER_CREATE_SARADNJA_READY_DOKSA_PRETPLATA_CASE,
+  DEVELOPER_CREATE_SARADNJA_READY_POSLOVNA_PONUDA_PRETPLATA_SCOPE_LOCK,
+} from '../../lib/extrimli/developer-create-vrh-ekviladenta-contract';
 
 let passed = 0;
 let failed = 0;
@@ -34,13 +38,35 @@ async function run(): Promise<void> {
 
   await test('DOKSA doc preserves additive-only pretplata scope and identity gates', () => {
     assert(
-      doc.includes('DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == POSLOVNA PONUDA / PRETPLATA'),
+      doc.includes(DEVELOPER_CREATE_SARADNJA_READY_POSLOVNA_PONUDA_PRETPLATA_SCOPE_LOCK),
       'pretplata scope lock missing',
     );
-    assert(doc.includes('`DOKSA d.o.o. Zrenjanin`'), 'canonical legal entity missing');
-    assert(doc.includes('`Vladimir Anđelković`'), 'signer/contact validation subject missing');
-    assert(doc.includes('bez novih runtime ruta'), 'no-new-routes rule missing');
-    assert(doc.includes('bez paralelnog source-of-truth sistema'), 'no-parallel-source-of-truth rule missing');
+    assert(
+      doc.includes(`\`${DEVELOPER_CREATE_SARADNJA_READY_DOKSA_PRETPLATA_CASE.canonicalSubscriberLegalEntity}\``),
+      'canonical legal entity missing',
+    );
+    assert(
+      doc.includes(
+        `\`${DEVELOPER_CREATE_SARADNJA_READY_DOKSA_PRETPLATA_CASE.intakeContactOrAuthorizedSignerRequiresValidation}\``,
+      ),
+      'signer/contact validation subject missing',
+    );
+    assert(
+      doc.includes(
+        DEVELOPER_CREATE_SARADNJA_READY_DOKSA_PRETPLATA_CASE.acceptanceCriteria.noNewRuntimeRoutes
+          ? 'nema novih runtime ruta'
+          : '__unexpected__',
+      ),
+      'no-new-routes rule missing',
+    );
+    assert(
+      doc.includes(
+        DEVELOPER_CREATE_SARADNJA_READY_DOKSA_PRETPLATA_CASE.acceptanceCriteria.noParallelSourceOfTruth
+          ? 'nema paralelnog source-of-truth sistema'
+          : '__unexpected__',
+      ),
+      'no-parallel-source-of-truth rule missing',
+    );
   });
 
   await test('DOKSA doc keeps private message out of public-safe and downstream surfaces', () => {
@@ -49,8 +75,24 @@ async function run(): Promise<void> {
       'private intake message reference missing',
     );
     assert(doc.includes('private intake evidence'), 'private evidence classification missing');
-    assert(doc.includes('public-safe summary'), 'public-safe summary boundary missing');
-    assert(doc.includes('downstream sync paketu'), 'downstream sync boundary missing');
+    assert(
+      doc.includes(
+        DEVELOPER_CREATE_SARADNJA_READY_DOKSA_PRETPLATA_CASE.directEmploymentRequestMessageHandling
+          .publicSafeSummaryAllowed === false
+          ? 'public-safe summary'
+          : '__unexpected__',
+      ),
+      'public-safe summary boundary missing',
+    );
+    assert(
+      doc.includes(
+        DEVELOPER_CREATE_SARADNJA_READY_DOKSA_PRETPLATA_CASE.directEmploymentRequestMessageHandling
+          .downstreamSyncAllowed === false
+          ? 'downstream sync paketu'
+          : '__unexpected__',
+      ),
+      'downstream sync boundary missing',
+    );
   });
 
   await test('billing and main manifest reference the DOKSA pretplata governance artifact', () => {
