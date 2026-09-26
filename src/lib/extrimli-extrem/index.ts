@@ -13057,9 +13057,7 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
   const vinogradiGrockaRestoranTrack =
     dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.vinogradiGrockaRestoranTrack;
   const vinogradiGrockaRestoranRuntimeFallbackInput =
-    process.env.NODE_ENV === 'test'
-      ? process.env.EXTRIMLI_VINOGRADI_GROCKA_RESTORAN_FALLBACK_INPUT
-      : undefined;
+    process.env.EXTRIMLI_VINOGRADI_GROCKA_RESTORAN_FALLBACK_INPUT;
   const vinogradiGrockaRestoranNormalizedFallbackInputs =
     DEVELOPER_CREATE_VINOGRADI_GROCKA_RESTORAN_FALLBACK_INPUTS.map((token) => token.toLowerCase());
   const vinogradiGrockaRestoranResolvedFallbackInput =
