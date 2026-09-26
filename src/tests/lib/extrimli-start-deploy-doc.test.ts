@@ -110,8 +110,6 @@ async function run(): Promise<void> {
   const workflow = fs.readFileSync(path.join(root, '.github/workflows/extrimli-spaja-deploy.yml'), 'utf8');
   const domainGateScript = extractStartDeployDomainGateScript(workflow);
 
-  assert(isBashAvailable(), 'bash is required to execute the extracted START deploy workflow gate');
-
   await test('START deploy doc locks canonical domain strategy and required labels', () => {
     assert(startDeployDoc.includes('<!-- START_DEPLOY_REQUIRED_LABELS -->'), 'required-labels marker missing');
     assert(startDeployDoc.includes('<!-- START_DEPLOY_CANONICAL_DOMAIN_STRATEGY -->'), 'canonical-domain marker missing');
@@ -144,7 +142,29 @@ async function run(): Promise<void> {
     assert(workflow.includes('START_DEPLOY_PROMOTION_FREEZE'), 'workflow promotion freeze marker missing');
   });
 
+  await test('START deploy workflow preserves the canonical pair equality gate', () => {
+    assert(
+      domainGateScript.includes('EXPECTED_CANONICAL_DOMAIN="spaja.nivo-spaja"'),
+      'expected canonical domain lock missing',
+    );
+    assert(
+      domainGateScript.includes('EXPECTED_WILDCARD_DOMAIN="*.spaja.nivo-spaja"'),
+      'expected wildcard domain lock missing',
+    );
+    assert(
+      domainGateScript.includes(
+        'if [ "$CANONICAL_DOMAIN" != "$EXPECTED_CANONICAL_DOMAIN" ] || [ "$WILDCARD_DOMAIN" != "$EXPECTED_WILDCARD_DOMAIN" ]; then',
+      ),
+      'canonical pair equality gate missing',
+    );
+  });
+
   await test('START deploy workflow accepts only the canonical apex + wildcard pair', () => {
+    if (!isBashAvailable()) {
+      console.log('    ℹ️ Bash unavailable; skipping extracted workflow execution check.');
+      return;
+    }
+
     const result = runStartDeployDomainGateScript(domainGateScript, {
       canonicalDomain: 'spaja.nivo-spaja',
       wildcardDomain: '*.spaja.nivo-spaja',
@@ -156,6 +176,11 @@ async function run(): Promise<void> {
   });
 
   await test('START deploy workflow rejects valid-but-non-canonical domain pairs', () => {
+    if (!isBashAvailable()) {
+      console.log('    ℹ️ Bash unavailable; skipping extracted workflow execution check.');
+      return;
+    }
+
     const result = runStartDeployDomainGateScript(domainGateScript, {
       canonicalDomain: 'example.com',
       wildcardDomain: '*.example.com',
