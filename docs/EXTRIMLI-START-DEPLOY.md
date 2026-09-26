@@ -137,15 +137,17 @@ na SPAJA platformi. Prati sve faze, KPI rezultate, rollback plan i downstream ko
 
 ---
 
-## START Acceptance Lock
+## START Acceptance Lock (runtime checklist)
 
-- [x] EXTRONDOL ostaje `/api/extrimli/extrondol` source-of-truth
-- [x] START payload ostaje additive-only
-- [x] DUET ostaje signal-only sloj za WAWE odluke
-- [x] `spaja.nivo*spaja` ostaje odbijen obrazac
-- [x] `spaja.nivo-spaja` + `*.spaja.nivo-spaja` ostaju jedini kanonski domeni
-- [x] Downstream sync prema `spaja86/IO-OPENUI-AO` uključuje WAWE, B2B, DUET/DINKOS i distance-ratio polja
-- [x] Human review, audit trail, onboarding i downstream sync evidence kompletni pre promocije
+- [ ] EXTRONDOL ostaje `/api/extrimli/extrondol` source-of-truth
+- [ ] START payload ostaje additive-only
+- [ ] DUET ostaje signal-only sloj za WAWE odluke
+- [ ] `spaja.nivo*spaja` ostaje odbijen obrazac
+- [ ] `spaja.nivo-spaja` + `*.spaja.nivo-spaja` ostaju jedini kanonski domeni
+- [ ] Downstream sync prema `spaja86/IO-OPENUI-AO` uključuje WAWE, B2B, DUET/DINKOS i distance-ratio polja
+- [ ] Human review, audit trail, onboarding i downstream sync evidence kompletni pre promocije
+
+Status ove checkliste se potvrđuje u workflow summary / release audit izlazu, ne unapred u source dokumentu.
 
 ---
 
