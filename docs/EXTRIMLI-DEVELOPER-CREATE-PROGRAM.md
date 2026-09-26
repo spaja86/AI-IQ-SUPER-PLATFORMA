@@ -929,6 +929,6 @@ Neproverene oblasti (u ovom ciklusu):
 - Alias ostaje zaključan na `DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == KRALJEVSKI SAT`.
 - Traka je additive-only i ostaje unutar postojećih `/api/extrimli/extrem`, `/api/extrimli/extrondol` i `/api/extrimli/spaja-kod` granica (bez novih ruta i bez paralelnog source-of-truth modela).
 - Zaključani token set ostaje: `DIP, KAR, DUR, CUR, RET, DOK, OKOT`.
-- Ownership split ostaje nepromenjen: EXTREM vodi tehnički readiness signal, EXTRONDOL vodi governance/freeze/promotion/rollback/release-audit, a SPAJA KOD ostaje audit-safe summary-only.
+- Ownership split ostaje nepromenjen: EXTREM vodi tehnički readiness signal nad `DIP, KAR, DUR, CUR, RET, DOK, OKOT`, EXTRONDOL vodi governance/freeze/promotion/rollback/release-audit, a SPAJA KOD ostaje audit-safe summary-only.
 - Status jezik ostaje zaključan na `READY | WATCH | BLOCKED`, sa obaveznim blocker/watch razlozima i deterministic fallback ulazima (`NaN`, `Infinity`, `empty`, `conflict`).
 - Summary-safe izlaz ostaje ograničen na `canonicalAlias`, `status`, `blockerReason`, `watchReasons`, `reviewPosture`, `downstreamReference`, `kraljevskiSatTokenSummary`, `fallbackInputStatus`; downstream sync prema `spaja86/IO-OPENUI-AO` ostaje striktno summary-only.

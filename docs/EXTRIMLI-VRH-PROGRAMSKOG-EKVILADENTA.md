@@ -518,6 +518,6 @@ Implementacioni redosled ostaje zaključan:
 
 - `DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == KRALJEVSKI SAT` je additive-only bounded extension postojećeg VRH modela.
 - Zaključani token set ostaje: `DIP, KAR, DUR, CUR, RET, DOK, OKOT`.
-- Ownership split ostaje nepromenjen: `DOK/DIK/FOR -> EXTREM`, `DAK/DUK -> EXTRONDOL`, `SPAJA KOD -> audit-safe summary-only`.
+- Ownership split ostaje nepromenjen: EXTREM vodi tehnički readiness signal nad `DIP, KAR, DUR, CUR, RET, DOK, OKOT`, EXTRONDOL vodi governance/freeze/promotion/rollback/release-audit, a SPAJA KOD ostaje audit-safe summary-only.
 - Status jezik ostaje zaključan na `READY | WATCH | BLOCKED`, sa deterministic fallback ulazima (`NaN`, `Infinity`, `empty`, `conflict`) i obaveznim blocker/watch razlozima.
 - Downstream sync prema `spaja86/IO-OPENUI-AO` ostaje summary-only bez izvoza internih token/formula internala.
