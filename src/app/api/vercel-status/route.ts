@@ -234,9 +234,10 @@ export function buildVercelPretplataStatus(
 }
 
 export async function GET() {
+  const rawRuntimeEnv = process.env as Record<string, string | undefined>;
   const health = await getVercelHealthCheck();
-  const env = await resolveVercelBillingGovernanceEnv(process.env as Record<string, string | undefined>);
-  const infrastructure = getVercelDeployInfrastructureState(env);
+  const env = await resolveVercelBillingGovernanceEnv(rawRuntimeEnv);
+  const infrastructure = getVercelDeployInfrastructureState(env, rawRuntimeEnv);
   const phone = resolveOwnerPhone(env);
   const phoneVerified = getOwnerPhoneVerifikacijaStatus(phone) === 'verifikovan';
   const pretplataVercel = buildVercelPretplataStatus(env, {
