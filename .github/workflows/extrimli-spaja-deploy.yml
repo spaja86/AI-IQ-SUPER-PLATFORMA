@@ -454,7 +454,16 @@ jobs:
 
           if [ -z "$CANONICAL_DOMAIN" ]; then CANONICAL_DOMAIN="spaja.nivo-spaja"; fi
           if [ -z "$WILDCARD_DOMAIN" ]; then WILDCARD_DOMAIN="*.spaja.nivo-spaja"; fi
+          EXPECTED_CANONICAL_DOMAIN="spaja.nivo-spaja"
+          EXPECTED_WILDCARD_DOMAIN="*.spaja.nivo-spaja"
           DOMAIN_REGEX='^([A-Za-z0-9]|[A-Za-z0-9][A-Za-z0-9-]{0,61}[A-Za-z0-9])(\.([A-Za-z0-9]|[A-Za-z0-9][A-Za-z0-9-]{0,61}[A-Za-z0-9]))+$'
+
+          if [ "$CANONICAL_DOMAIN" != "$EXPECTED_CANONICAL_DOMAIN" ] || [ "$WILDCARD_DOMAIN" != "$EXPECTED_WILDCARD_DOMAIN" ]; then
+            echo "❌ START canonical domain strategy mora ostati zaključana na: $EXPECTED_CANONICAL_DOMAIN + $EXPECTED_WILDCARD_DOMAIN"
+            echo "   canonical_domain=$CANONICAL_DOMAIN"
+            echo "   wildcard_domain=$WILDCARD_DOMAIN"
+            exit 1
+          fi
 
           if [[ "$CANONICAL_DOMAIN" == *"*"* ]]; then
             echo "❌ canonical_domain ne sme sadržati '*' (primer pogrešnog formata: spaja.nivo*spaja)."
