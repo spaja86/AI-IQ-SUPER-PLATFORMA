@@ -1200,7 +1200,22 @@ async function runTests(): Promise<void> {
     const aggregateStatus = (statuses: Array<'READY' | 'WATCH' | 'BLOCKED'>) => (statuses.includes('BLOCKED') ? 'BLOCKED' : statuses.includes('WATCH') ? 'WATCH' : 'READY');
     assert(body.data.developerAndCreateImplementationPackage.branchReport.branchStatus === aggregateStatus(body.data.gapRegistrySummary.map((item: { status: 'READY' | 'WATCH' | 'BLOCKED' }) => item.status)), 'unexpected SPAJA KOD branch report branch status');
     assert(body.data.developerAndCreateImplementationPackage.branchReport.promotionReadinessStatus === body.data.publicSignals.developerAndCreateImplementationStatus, 'unexpected SPAJA KOD branch report promotion readiness status');
-    assert(body.data.developerAndCreateImplementationPackage.branchReport.gapRegistrySummary.length === body.data.gapRegistrySummary.length, 'unexpected SPAJA KOD branch report gap summary length');
+    assert(
+      JSON.stringify(
+        body.data.developerAndCreateImplementationPackage.branchReport.gapRegistrySummary.map((item: { id: string; layer: string; status: string }) => ({
+          id: item.id,
+          layer: item.layer,
+          status: item.status,
+        })),
+      ) === JSON.stringify(
+        body.data.gapRegistrySummary.map((item: { id: string; layer: string; status: string }) => ({
+          id: item.id,
+          layer: item.layer,
+          status: item.status,
+        })),
+      ),
+      'unexpected SPAJA KOD branch report gap summary mapping',
+    );
     const completionFromStatus = (status: 'READY' | 'WATCH' | 'BLOCKED') => (status === 'READY' ? 100 : status === 'WATCH' ? 50 : 0);
     const roundCompletionPercent = (value: number) => Math.round(value * 100) / 100;
     const expectedBranchCompletionPercent = roundCompletionPercent(
