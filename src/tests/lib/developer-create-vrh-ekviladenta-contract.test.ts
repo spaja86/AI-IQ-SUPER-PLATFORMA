@@ -15,9 +15,13 @@ import {
   DEVELOPER_CREATE_VRH_KRALJEVSKI_SAT_ALIAS,
   DEVELOPER_CREATE_VRH_KRALJEVSKI_RAD_ALIAS,
   DEVELOPER_CREATE_VRH_VINOGRADI_GROCKA_RESTORAN_ALIAS,
+  DEVELOPER_CREATE_VRH_POSLOVNA_PONUDA_ZELEZARA_DOO_ALIAS,
   DEVELOPER_CREATE_NAVIGACIONI_SISTEM_SA_TREKEROM_TRACKER_CONTRACT,
   DEVELOPER_CREATE_VINOGRADI_GROCKA_RESTORAN_LEADERSHIP_TRANSITION,
   DEVELOPER_CREATE_VINOGRADI_GROCKA_RESTORAN_SUMMARY_SAFE_FIELDS,
+  DEVELOPER_CREATE_POSLOVNA_PONUDA_ZELEZARA_DOO_URGENT_MEETING_INTAKE_PACKAGE,
+  DEVELOPER_CREATE_POSLOVNA_PONUDA_ZELEZARA_DOO_SUMMARY_SAFE_FIELDS,
+  DEVELOPER_CREATE_POSLOVNA_PONUDA_ZELEZARA_DOO_FALLBACK_INPUTS,
   DEVELOPER_CREATE_VRH_INTERPRETATION_ALIASES,
   DEVELOPER_CREATE_VRH_NAVIGACIONI_SISTEM_SA_TREKEROM_ALIAS,
 } from '../../lib/extrimli/developer-create-vrh-ekviladenta-contract';
@@ -261,6 +265,58 @@ async function runTests(): Promise<void> {
         'leadershipTransitionSummary',
       ],
       'unexpected VINOGRADI GROCKA, RESTORAN summary-safe fields',
+    );
+  });
+
+  await test('poslovna ponuda / železara d.o.o. smederevo alias remains additive-only, intake-structured, and privacy-safe', () => {
+    assert(
+      DEVELOPER_CREATE_VRH_INTERPRETATION_ALIASES.includes(
+        DEVELOPER_CREATE_VRH_POSLOVNA_PONUDA_ZELEZARA_DOO_ALIAS,
+      ),
+      'POSLOVNA PONUDA / ŽELEZARA D.O.O. SMEDEREVO alias must remain part of the VRH interpretation aliases',
+    );
+    assert(
+      DEVELOPER_CREATE_POSLOVNA_PONUDA_ZELEZARA_DOO_URGENT_MEETING_INTAKE_PACKAGE.infrastructureRequirements
+        .storageSqm === 2000,
+      'ŽELEZARA urgent-meeting intake storage requirement must stay 2000m²',
+    );
+    assert(
+      DEVELOPER_CREATE_POSLOVNA_PONUDA_ZELEZARA_DOO_URGENT_MEETING_INTAKE_PACKAGE.infrastructureRequirements
+        .truckParkingSqm === 5000,
+      'ŽELEZARA urgent-meeting intake truck-parking requirement must stay 5000m²',
+    );
+    assert(
+      DEVELOPER_CREATE_POSLOVNA_PONUDA_ZELEZARA_DOO_URGENT_MEETING_INTAKE_PACKAGE.privacyCompliance
+        .phoneNumbersPublicSummaryAllowed === false,
+      'ŽELEZARA phone numbers must remain blocked from public summary',
+    );
+    assert(
+      DEVELOPER_CREATE_POSLOVNA_PONUDA_ZELEZARA_DOO_URGENT_MEETING_INTAKE_PACKAGE.privacyCompliance
+        .phoneNumbersDownstreamSyncAllowed === false,
+      'ŽELEZARA phone numbers must remain blocked from downstream sync',
+    );
+    assertArrayEquals(
+      DEVELOPER_CREATE_POSLOVNA_PONUDA_ZELEZARA_DOO_SUMMARY_SAFE_FIELDS,
+      [
+        'canonicalAlias',
+        'status',
+        'blockerReason',
+        'watchReasons',
+        'reviewPosture',
+        'downstreamReference',
+        'urgentMeetingSummary',
+        'businessCollaborationStatus',
+        'locationReadinessStatus',
+        'operationsPlanStatus',
+        'procurementLogisticsStatus',
+        'referenceListStatus',
+      ],
+      'unexpected POSLOVNA PONUDA / ŽELEZARA D.O.O. SMEDEREVO summary-safe fields',
+    );
+    assertArrayEquals(
+      DEVELOPER_CREATE_POSLOVNA_PONUDA_ZELEZARA_DOO_FALLBACK_INPUTS,
+      ['NaN', 'Infinity', 'empty', 'conflict'],
+      'unexpected POSLOVNA PONUDA / ŽELEZARA D.O.O. SMEDEREVO fallback inputs',
     );
   });
 

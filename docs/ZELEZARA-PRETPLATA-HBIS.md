@@ -91,6 +91,7 @@ Ako bilo koji od ovih elemenata nedostaje, status ostaje `blocked` ili `legal-re
 - **EXTREM** proverava identity consistency, alias coverage, naming conflict i restore-old-name completion.
 - **EXTRONDOL** orkestrira procurement flow, contract approval, onboarding completion, downstream sync, human review i payment verification.
 - **SPAJA KOD** prikazuje samo konačni audit-safe subscription/governance status.
+- Za additive-only `DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == POSLOVNA PONUDA / ŽELEZARA D.O.O. SMEDEREVO` urgent-meeting intake, lični kontakt podaci (npr. telefoni) ostaju samo private intake/audit evidence i ne ulaze u public-safe summary niti u downstream payload.
 
 Ako `restoreOldNameCompleted = false`, `namingConflictDetected = true` ili `splitClientRiskDetected = true`, EXTRONDOL mora zadržati explicit freeze reason.
 

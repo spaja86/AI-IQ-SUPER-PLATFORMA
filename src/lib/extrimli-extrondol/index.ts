@@ -243,6 +243,7 @@ const DEVELOPER_CREATE_ROADMAP_ACCEPTANCE_EVIDENCE_BASE = [
   'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.kraljevskiRadTrack',
   'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.aiIqLaboratorijaTrack',
   'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.konstrukcijeIProjektovanjeTrack',
+  'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.poslovnaPonudaZelezaraDooTrack',
   'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.aiIqKonferencijaZaStampuTrack',
   'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.radioTrack',
   'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.muzickaKutijaTrack',
@@ -260,6 +261,7 @@ const DEVELOPER_CREATE_ROADMAP_ACCEPTANCE_EVIDENCE_BASE = [
   'spajaKod.publicSignals.kraljevskiRadStatus',
   'spajaKod.publicSignals.aiIqLaboratorijaStatus',
   'spajaKod.publicSignals.konstrukcijeIProjektovanjeStatus',
+  'spajaKod.publicSignals.poslovnaPonudaZelezaraDooStatus',
   'spajaKod.publicSignals.aiIqKonferencijaZaStampuStatus',
   'spajaKod.publicSignals.radioStatus',
   'spajaKod.publicSignals.muzickaKutijaStatus',
@@ -292,6 +294,7 @@ const DEVELOPER_CREATE_GOVERNANCE_ACCEPTANCE_EVIDENCE: ExtrimliExtrondolReport['
   'developerAndCreateRepoWideReflection.kraljevskiRadTrack',
   'developerAndCreateRepoWideReflection.aiIqLaboratorijaTrack',
   'developerAndCreateRepoWideReflection.konstrukcijeIProjektovanjeTrack',
+  'developerAndCreateRepoWideReflection.poslovnaPonudaZelezaraDooTrack',
   'developerAndCreateRepoWideReflection.aiIqKonferencijaZaStampuTrack',
   'developerAndCreateRepoWideReflection.radioTrack',
   'developerAndCreateRepoWideReflection.muzickaKutijaTrack',
@@ -308,6 +311,7 @@ const DEVELOPER_CREATE_GOVERNANCE_ACCEPTANCE_EVIDENCE: ExtrimliExtrondolReport['
   'spajaKod.publicSignals.kraljevskiRadStatus',
   'spajaKod.publicSignals.aiIqLaboratorijaStatus',
   'spajaKod.publicSignals.konstrukcijeIProjektovanjeStatus',
+  'spajaKod.publicSignals.poslovnaPonudaZelezaraDooStatus',
   'spajaKod.publicSignals.aiIqKonferencijaZaStampuStatus',
   'spajaKod.publicSignals.radioStatus',
   'spajaKod.publicSignals.aiPlateStatus',
@@ -3388,6 +3392,7 @@ function buildSpajaKodFacade(params: {
   aiIqLaboratorijaStatus: ExtrimliExtrondolReport['extremProfiler']['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['aiIqLaboratorijaTrack']['readinessSignal']['status'];
   konstrukcijeIProjektovanjeStatus: ExtrimliExtrondolReport['extremProfiler']['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['konstrukcijeIProjektovanjeTrack']['readinessSignal']['status'];
   vinogradiGrockaRestoranStatus: ExtrimliExtrondolReport['extremProfiler']['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['vinogradiGrockaRestoranTrack']['readinessSignal']['status'];
+  poslovnaPonudaZelezaraDooStatus: ExtrimliExtrondolReport['extremProfiler']['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['poslovnaPonudaZelezaraDooTrack']['readinessSignal']['status'];
   aiIqKonferencijaZaStampuStatus: ExtrimliExtrondolReport['extremProfiler']['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['aiIqKonferencijaZaStampuTrack']['readinessSignal']['status'];
   radioStatus: ExtrimliExtrondolReport['extremProfiler']['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['radioTrack']['readinessSignal']['status'];
   muzickaKutijaStatus: ExtrimliExtrondolReport['extremProfiler']['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['muzickaKutijaTrack']['readinessSignal']['status'];
@@ -3532,6 +3537,7 @@ function buildSpajaKodFacade(params: {
       aiIqLaboratorijaStatus: params.aiIqLaboratorijaStatus,
       konstrukcijeIProjektovanjeStatus: params.konstrukcijeIProjektovanjeStatus,
       vinogradiGrockaRestoranStatus: params.vinogradiGrockaRestoranStatus,
+      poslovnaPonudaZelezaraDooStatus: params.poslovnaPonudaZelezaraDooStatus,
       aiIqKonferencijaZaStampuStatus: params.aiIqKonferencijaZaStampuStatus,
       radioStatus: params.radioStatus,
       muzickaKutijaStatus: params.muzickaKutijaStatus,
@@ -3649,6 +3655,7 @@ function buildSpajaKodFacade(params: {
         'publicSignals.aiIqLaboratorijaStatus',
         'publicSignals.konstrukcijeIProjektovanjeStatus',
         'publicSignals.vinogradiGrockaRestoranStatus',
+        'publicSignals.poslovnaPonudaZelezaraDooStatus',
         'publicSignals.aiIqKonferencijaZaStampuStatus',
         'publicSignals.radioStatus',
         'publicSignals.muzickaKutijaStatus',
@@ -3682,6 +3689,7 @@ function buildSpajaKodFacade(params: {
         'developerAndCreateImplementationPackage.aiIqLaboratorijaSummary',
         'developerAndCreateImplementationPackage.konstrukcijeIProjektovanjeSummary',
         'developerAndCreateImplementationPackage.vinogradiGrockaRestoranSummary',
+        'developerAndCreateImplementationPackage.poslovnaPonudaZelezaraDooSummary',
         'developerAndCreateImplementationPackage.aiIqKonferencijaZaStampuSummary',
         'developerAndCreateImplementationPackage.radioSummary',
         'developerAndCreateImplementationPackage.muzickaKutijaSummary',
@@ -4045,6 +4053,38 @@ function buildSpajaKodFacade(params: {
           params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.vinogradiGrockaRestoranTrack.effectiveDate,
         auditTrailReference:
           params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.vinogradiGrockaRestoranTrack.auditTrailReference,
+      },
+      poslovnaPonudaZelezaraDooSummary: {
+        canonicalAlias:
+          params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.poslovnaPonudaZelezaraDooTrack.canonicalAlias,
+        roleClassification:
+          params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.poslovnaPonudaZelezaraDooTrack.roleClassification,
+        status:
+          params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.poslovnaPonudaZelezaraDooTrack.readinessSignal.status,
+        blockerReason:
+          params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.poslovnaPonudaZelezaraDooTrack.blockerReason,
+        watchReasons: [
+          ...params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.poslovnaPonudaZelezaraDooTrack.watchReasons,
+        ],
+        reviewPosture:
+          params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.poslovnaPonudaZelezaraDooTrack.reviewPosture,
+        downstreamReference:
+          params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.poslovnaPonudaZelezaraDooTrack.downstreamReference,
+        publicBoundary: 'audit-safe-summary-only',
+        urgentMeetingSummary:
+          params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.poslovnaPonudaZelezaraDooTrack.urgentMeetingSummary,
+        businessCollaborationStatus:
+          params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.poslovnaPonudaZelezaraDooTrack.readinessSignal.businessCollaborationStatus,
+        locationReadinessStatus:
+          params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.poslovnaPonudaZelezaraDooTrack.readinessSignal.locationReadinessStatus,
+        operationsPlanStatus:
+          params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.poslovnaPonudaZelezaraDooTrack.readinessSignal.operationsPlanStatus,
+        procurementLogisticsStatus:
+          params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.poslovnaPonudaZelezaraDooTrack.readinessSignal.procurementLogisticsStatus,
+        referenceListStatus:
+          params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.poslovnaPonudaZelezaraDooTrack.readinessSignal.referenceListStatus,
+        legalComplianceReviewStatus: 'required-before-promotion',
+        personalContactsRedacted: true,
       },
       aiIqKonferencijaZaStampuSummary: {
         canonicalAlias: DEVELOPER_CREATE_AI_IQ_KONFERENCIJA_ZA_STAMPU_CANONICAL_ALIAS,
@@ -6788,6 +6828,13 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
           extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.konstrukcijeIProjektovanjeTrack.readinessSignal.status,
       },
       {
+        id: 'poslovna-ponuda-zelezara-doo-smederevo',
+        label: 'POSLOVNA PONUDA / ŽELEZARA D.O.O. SMEDEREVO',
+        owner: 'EXTREM',
+        status:
+          extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.poslovnaPonudaZelezaraDooTrack.readinessSignal.status,
+      },
+      {
         id: 'ai-iq-konferencija-za-stampu',
         label: 'AI IQ KONFERENCIJA ZA ŠTAMPU',
         owner: 'EXTREM',
@@ -6880,6 +6927,8 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
       extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.konstrukcijeIProjektovanjeTrack.readinessSignal.status,
     vinogradiGrockaRestoranStatus:
       extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.vinogradiGrockaRestoranTrack.readinessSignal.status,
+    poslovnaPonudaZelezaraDooStatus:
+      extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.poslovnaPonudaZelezaraDooTrack.readinessSignal.status,
     aiIqKonferencijaZaStampuStatus:
       extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.aiIqKonferencijaZaStampuTrack.readinessSignal.status,
     radioStatus:
@@ -7411,6 +7460,7 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
         'extremProfiler.businessLicensingSignals.freezeRequired',
         'extremProfiler.zelezaraPretplataIdentityTrack.readiness.status',
         'extremProfiler.zelezaraPretplataIdentityTrack.readiness.restoreOldNameCompleted',
+        'extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.poslovnaPonudaZelezaraDooTrack.readinessSignal.status',
         'extremProfiler.kraljevskiPravniUniverzitetTrack.readiness.status',
         'extremProfiler.kraljevskiPravniUniverzitetTrack.readiness.completenessScore',
         'extremProfiler.kraljevskiPravniUniverzitetTrack.readiness.consistencyScore',
@@ -7418,6 +7468,7 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
         'b2bReadiness.globalLicensing',
         'zelezaraPretplataGovernance.status',
         'zelezaraPretplataGovernance.waweImpact',
+        'developerAndCreateRepoWideReflection.poslovnaPonudaZelezaraDooTrack.readinessSignal.status',
         'kraljevskiPravniUniverzitetGovernance.status',
         'kraljevskiPravniUniverzitetGovernance.waweImpact',
         'funkcinalnoProgramiranjeEnergetskogMisaonogToka.waweImpact',
@@ -7471,6 +7522,7 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
         'spajaKod.publicSignals.vrhProgramskogEkviladentaStatus',
         'spajaKod.publicSignals.radniTaktMozgaMislilacStatus',
         'spajaKod.publicSignals.zelezaraPretplataIdentityStatus',
+        'spajaKod.publicSignals.poslovnaPonudaZelezaraDooStatus',
         'spajaKod.publicSignals.aiPlateEnterprisePackageStatus',
         'spajaKod.platformTrack.finalPublicStatusToken',
         'spajaKod.platformTrack.publicStatus',
@@ -9143,6 +9195,37 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
         acceptanceEvidence: [
           'developerAndCreateRepoWideReflection.vinogradiGrockaRestoranTrack',
           'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.vinogradiGrockaRestoranTrack',
+        ],
+        downstreamReference: 'docs/MULTI-REPO-LINKS.md -> spaja86/IO-OPENUI-AO (summary-only)',
+      },
+      poslovnaPonudaZelezaraDooTrack: {
+        ...extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.poslovnaPonudaZelezaraDooTrack,
+        sourceOfTruth: '/api/extrimli/extrem',
+        governanceSource: '/api/extrimli/extrondol',
+        publicBoundary: '/api/extrimli/spaja-kod',
+        currentWave: currentWawe,
+        eligibleNextWave: eligibleNextWave,
+        promotionFreeze:
+          promotionFreeze
+          || extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.poslovnaPonudaZelezaraDooTrack.readinessSignal.status !== 'READY',
+        reviewRequiredBeforeWideRollout:
+          extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.poslovnaPonudaZelezaraDooTrack.readinessSignal.status !== 'READY'
+          || extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.poslovnaPonudaZelezaraDooTrack.reviewPosture === 'REVIEW_REQUIRED',
+        reviewPosture:
+          extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.poslovnaPonudaZelezaraDooTrack.reviewPosture,
+        rolloutPlan:
+          'Advance POSLOVNA PONUDA / ŽELEZARA D.O.O. SMEDEREVO only as an additive-only urgent-meeting governance package through existing EXTREM readiness signals, EXTRONDOL WAWE governance, legal/compliance review, and summary-only downstream sync.',
+        rollbackPlan:
+          'Freeze promotion and roll back to the previously verified package if urgent-meeting intake evidence, rollout/rollback governance, KPI impact posture, or privacy boundary drifts.',
+        humanReviewStatus: 'required-before-promotion',
+        legalComplianceReviewStatus: 'required-before-promotion',
+        kpiImpactStatus: 'required-before-promotion',
+        releaseAuditSummaryRequired: true,
+        acceptanceEvidence: [
+          'developerAndCreateRepoWideReflection.poslovnaPonudaZelezaraDooTrack',
+          'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.poslovnaPonudaZelezaraDooTrack',
+          'spajaKod.publicSignals.poslovnaPonudaZelezaraDooStatus',
+          'spajaKod.developerAndCreateImplementationPackage.poslovnaPonudaZelezaraDooSummary',
         ],
         downstreamReference: 'docs/MULTI-REPO-LINKS.md -> spaja86/IO-OPENUI-AO (summary-only)',
       },

@@ -42,6 +42,13 @@ import {
   DEVELOPER_CREATE_VINOGRADI_GROCKA_RESTORAN_FALLBACK_INPUTS,
   DEVELOPER_CREATE_VINOGRADI_GROCKA_RESTORAN_SUMMARY_SAFE_FIELDS,
   DEVELOPER_CREATE_VINOGRADI_GROCKA_RESTORAN_LEADERSHIP_TRANSITION,
+  DEVELOPER_CREATE_POSLOVNA_PONUDA_ZELEZARA_DOO_CANONICAL_ALIAS,
+  DEVELOPER_CREATE_POSLOVNA_PONUDA_ZELEZARA_DOO_SCOPE_STATEMENT,
+  DEVELOPER_CREATE_POSLOVNA_PONUDA_ZELEZARA_DOO_ROLE_CLASSIFICATION,
+  DEVELOPER_CREATE_POSLOVNA_PONUDA_ZELEZARA_DOO_BOUNDED_VOCABULARY_PHRASE,
+  DEVELOPER_CREATE_POSLOVNA_PONUDA_ZELEZARA_DOO_URGENT_MEETING_INTAKE_PACKAGE,
+  DEVELOPER_CREATE_POSLOVNA_PONUDA_ZELEZARA_DOO_FALLBACK_INPUTS,
+  DEVELOPER_CREATE_POSLOVNA_PONUDA_ZELEZARA_DOO_SUMMARY_SAFE_FIELDS,
   DEVELOPER_CREATE_KRALJEVSKO_TAKMICENJE_AUTHENTICITY_RULES,
   DEVELOPER_CREATE_KRALJEVSKO_TAKMICENJE_CANONICAL_ALIAS,
   DEVELOPER_CREATE_KRALJEVSKO_TAKMICENJE_EVALUATION_CRITERIA,
@@ -7601,6 +7608,51 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
         ],
         downstreamReference: 'docs/MULTI-REPO-LINKS.md -> spaja86/IO-OPENUI-AO (summary-only)',
       },
+      poslovnaPonudaZelezaraDooTrack: {
+        canonicalAlias: DEVELOPER_CREATE_POSLOVNA_PONUDA_ZELEZARA_DOO_CANONICAL_ALIAS,
+        scopeStatement: DEVELOPER_CREATE_POSLOVNA_PONUDA_ZELEZARA_DOO_SCOPE_STATEMENT,
+        roleClassification: DEVELOPER_CREATE_POSLOVNA_PONUDA_ZELEZARA_DOO_ROLE_CLASSIFICATION,
+        boundedVocabularyPhrase: DEVELOPER_CREATE_POSLOVNA_PONUDA_ZELEZARA_DOO_BOUNDED_VOCABULARY_PHRASE,
+        additiveOnly: true,
+        noNewRuntimeEngine: true,
+        noNewRuntimeRoutes: true,
+        noParallelSourceOfTruth: true,
+        sourceOfTruthRoutes: ['/api/extrimli/extrem', '/api/extrimli/extrondol', '/api/extrimli/spaja-kod'],
+        ownershipLock: {
+          dokDikFor: 'EXTREM',
+          dakDuk: 'EXTRONDOL',
+          spajaKod: 'audit-safe-summary-only',
+        },
+        summarySafePublicFields: DEVELOPER_CREATE_POSLOVNA_PONUDA_ZELEZARA_DOO_SUMMARY_SAFE_FIELDS,
+        urgentMeetingIntakePackage: DEVELOPER_CREATE_POSLOVNA_PONUDA_ZELEZARA_DOO_URGENT_MEETING_INTAKE_PACKAGE,
+        readinessSignal: {
+          status: 'BLOCKED',
+          readinessScore: 0,
+          businessCollaborationStatus: 'BLOCKED',
+          locationReadinessStatus: 'BLOCKED',
+          operationsPlanStatus: 'BLOCKED',
+          procurementLogisticsStatus: 'BLOCKED',
+          referenceListStatus: 'BLOCKED',
+          fallbackInputStatus: 'BLOCKED',
+          deterministicFallbackRequired: true,
+          fallbackInputs: DEVELOPER_CREATE_POSLOVNA_PONUDA_ZELEZARA_DOO_FALLBACK_INPUTS,
+          driver:
+            'developerAndCreateRepoWideReflection.readiness + technicalReadinessProfile.consolidatedRhythmStatus + urgentMeetingIntakePackageSignals',
+        },
+        blockerReason:
+          'poslovna-ponuda-zelezara-doo-track-awaits-urgent-meeting-intake-readiness-and-governance-alignment',
+        watchReasons: [],
+        reviewPosture: 'REVIEW_REQUIRED',
+        urgentMeetingSummary: '',
+        governanceReadinessSummary: '',
+        acceptanceEvidence: [
+          'developerAndCreateRepoWideReflection.poslovnaPonudaZelezaraDooTrack',
+          'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.poslovnaPonudaZelezaraDooTrack',
+          'spajaKod.publicSignals.poslovnaPonudaZelezaraDooStatus',
+          'spajaKod.developerAndCreateImplementationPackage.poslovnaPonudaZelezaraDooSummary',
+        ],
+        downstreamReference: 'docs/MULTI-REPO-LINKS.md -> spaja86/IO-OPENUI-AO (summary-only)',
+      },
       aiIqKonferencijaZaStampuTrack: {
         canonicalAlias: DEVELOPER_CREATE_AI_IQ_KONFERENCIJA_ZA_STAMPU_CANONICAL_ALIAS,
         scopeStatement: DEVELOPER_CREATE_AI_IQ_KONFERENCIJA_ZA_STAMPU_SCOPE_STATEMENT,
@@ -11921,6 +11973,20 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
       noParallelSourceOfTruth: true,
       rawInternalsExposed: false,
     },
+    poslovnaPonudaZelezaraDooBoundary: {
+      trackRole: 'bounded-business-offer-zelezara-urgent-meeting-track',
+      parentTrack: 'VRH PROGRAMSKOG EKVILADENTA',
+      canonicalAlias: DEVELOPER_CREATE_POSLOVNA_PONUDA_ZELEZARA_DOO_CANONICAL_ALIAS,
+      roleClassification: DEVELOPER_CREATE_POSLOVNA_PONUDA_ZELEZARA_DOO_ROLE_CLASSIFICATION,
+      extremPublishes: 'status-business-location-operations-procurement-reference-readiness-and-deterministic-fallback-signal-only',
+      extrondolPublishes: 'wawe-freeze-promotion-review-rollback-kpi-audit-summary-only',
+      spajaKodPublishes: 'status-blocker-review-downstream-and-urgent-meeting-summary-only',
+      technicalBinding: 'developerAndCreateRepoWideReflection.poslovnaPonudaZelezaraDooTrack',
+      noNewRuntimeEngine: true,
+      noNewRuntimeRoutes: true,
+      noParallelSourceOfTruth: true,
+      rawInternalsExposed: false,
+    },
     canonicalTerminologyMapping: {
       phrase: 'EXTRIMLI EXTRONDOL EXTREM DOK DUK DAK DIK FOR',
       nucleusLayers: ['documentation', 'types', 'route-summary-fields', 'tests', 'workflow-audit-layer'],
@@ -13123,6 +13189,97 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
     vinogradiGrockaRestoranStatus === 'READY'
       ? 'ALIGNED'
       : vinogradiGrockaRestoranStatus === 'WATCH'
+        ? 'WATCH'
+        : 'REVIEW_REQUIRED';
+  const poslovnaPonudaZelezaraDooTrack =
+    dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.poslovnaPonudaZelezaraDooTrack;
+  const poslovnaPonudaZelezaraDooRuntimeFallbackInput =
+    process.env.EXTRIMLI_POSLOVNA_PONUDA_ZELEZARA_DOO_FALLBACK_INPUT;
+  const poslovnaPonudaZelezaraDooNormalizedFallbackInputs =
+    DEVELOPER_CREATE_POSLOVNA_PONUDA_ZELEZARA_DOO_FALLBACK_INPUTS.map((token) => token.toLowerCase());
+  const poslovnaPonudaZelezaraDooResolvedFallbackInput =
+    poslovnaPonudaZelezaraDooRuntimeFallbackInput?.trim().toLowerCase() ?? null;
+  const poslovnaPonudaZelezaraDooFallbackInputStatus: ExtrimliExtremReadinessStatus =
+    poslovnaPonudaZelezaraDooResolvedFallbackInput === 'conflict'
+      ? 'BLOCKED'
+      : poslovnaPonudaZelezaraDooResolvedFallbackInput
+        && poslovnaPonudaZelezaraDooNormalizedFallbackInputs.includes(poslovnaPonudaZelezaraDooResolvedFallbackInput)
+        ? 'WATCH'
+        : 'READY';
+  const poslovnaPonudaZelezaraDooBusinessCollaborationStatus: ExtrimliExtremReadinessStatus =
+    poslovnaPonudaZelezaraDooTrack.urgentMeetingIntakePackage.objectiveOfCollaboration.length > 0
+      && poslovnaPonudaZelezaraDooTrack.urgentMeetingIntakePackage.executiveAppointments.length >= 2
+      ? 'READY'
+      : 'BLOCKED';
+  const poslovnaPonudaZelezaraDooLocationReadinessStatus: ExtrimliExtremReadinessStatus =
+    poslovnaPonudaZelezaraDooTrack.urgentMeetingIntakePackage.infrastructureRequirements.storageSqm >= 2000
+      && poslovnaPonudaZelezaraDooTrack.urgentMeetingIntakePackage.infrastructureRequirements.truckParkingSqm >= 5000
+      ? 'READY'
+      : 'BLOCKED';
+  const poslovnaPonudaZelezaraDooOperationsPlanStatus: ExtrimliExtremReadinessStatus =
+    poslovnaPonudaZelezaraDooTrack.urgentMeetingIntakePackage.newPlantsAndSectorsPlan.required
+      ? 'READY'
+      : 'BLOCKED';
+  const poslovnaPonudaZelezaraDooProcurementLogisticsStatus: ExtrimliExtremReadinessStatus =
+    poslovnaPonudaZelezaraDooTrack.urgentMeetingIntakePackage.infrastructureRequirements.locationConstraint === 'blizu-zelezare'
+      ? 'READY'
+      : 'WATCH';
+  const poslovnaPonudaZelezaraDooReferenceListStatus: ExtrimliExtremReadinessStatus =
+    poslovnaPonudaZelezaraDooTrack.urgentMeetingIntakePackage.referenceListPlan.required
+      ? 'WATCH'
+      : 'BLOCKED';
+  const poslovnaPonudaZelezaraDooSignalStatuses = [
+    dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.status,
+    dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.technicalReadinessProfile.consolidatedRhythmStatus,
+    poslovnaPonudaZelezaraDooBusinessCollaborationStatus,
+    poslovnaPonudaZelezaraDooLocationReadinessStatus,
+    poslovnaPonudaZelezaraDooOperationsPlanStatus,
+    poslovnaPonudaZelezaraDooProcurementLogisticsStatus,
+    poslovnaPonudaZelezaraDooReferenceListStatus,
+    poslovnaPonudaZelezaraDooFallbackInputStatus,
+  ] as const;
+  const poslovnaPonudaZelezaraDooStatus = aggregateSignalReadinessStatus([
+    ...poslovnaPonudaZelezaraDooSignalStatuses,
+  ]);
+  poslovnaPonudaZelezaraDooTrack.readinessSignal.status = poslovnaPonudaZelezaraDooStatus;
+  poslovnaPonudaZelezaraDooTrack.readinessSignal.readinessScore = round(
+    poslovnaPonudaZelezaraDooSignalStatuses.reduce((sum, status) => sum + readinessStatusScore(status), 0)
+      / poslovnaPonudaZelezaraDooSignalStatuses.length,
+    2,
+  );
+  poslovnaPonudaZelezaraDooTrack.readinessSignal.businessCollaborationStatus =
+    poslovnaPonudaZelezaraDooBusinessCollaborationStatus;
+  poslovnaPonudaZelezaraDooTrack.readinessSignal.locationReadinessStatus =
+    poslovnaPonudaZelezaraDooLocationReadinessStatus;
+  poslovnaPonudaZelezaraDooTrack.readinessSignal.operationsPlanStatus =
+    poslovnaPonudaZelezaraDooOperationsPlanStatus;
+  poslovnaPonudaZelezaraDooTrack.readinessSignal.procurementLogisticsStatus =
+    poslovnaPonudaZelezaraDooProcurementLogisticsStatus;
+  poslovnaPonudaZelezaraDooTrack.readinessSignal.referenceListStatus =
+    poslovnaPonudaZelezaraDooReferenceListStatus;
+  poslovnaPonudaZelezaraDooTrack.readinessSignal.fallbackInputStatus =
+    poslovnaPonudaZelezaraDooFallbackInputStatus;
+  poslovnaPonudaZelezaraDooTrack.readinessSignal.deterministicFallbackRequired =
+    poslovnaPonudaZelezaraDooStatus !== 'READY'
+    || poslovnaPonudaZelezaraDooFallbackInputStatus !== 'READY';
+  poslovnaPonudaZelezaraDooTrack.urgentMeetingSummary =
+    'Urgent-meeting intake paket ostaje additive-only: poslovna saradnja, imenovanja izvršnih direktora, infrastrukturni zahtevi (2000m² skladište i 5000m² parking), plan novih pogona/sektora i referentna lista su mapirani kao audit-safe readiness signal bez privatnih kontakata.';
+  poslovnaPonudaZelezaraDooTrack.governanceReadinessSummary =
+    'Track je spreman samo kroz postojeći ownership split (DOK/DIK/FOR=EXTREM, DAK/DUK=EXTRONDOL, SPAJA KOD=summary-only), uz obavezni human/legal/compliance review i release audit pre promocije.';
+  poslovnaPonudaZelezaraDooTrack.blockerReason =
+    poslovnaPonudaZelezaraDooStatus === 'BLOCKED'
+      ? 'POSLOVNA PONUDA / ŽELEZARA D.O.O. SMEDEREVO ostaje BLOCKED dok urgent-meeting intake readiness i governance gate-ovi nisu poravnati bez curenja privatnih podataka.'
+      : null;
+  poslovnaPonudaZelezaraDooTrack.watchReasons =
+    poslovnaPonudaZelezaraDooStatus === 'WATCH'
+      ? [
+          'POSLOVNA PONUDA / ŽELEZARA D.O.O. SMEDEREVO ostaje u WATCH režimu dok referentna lista i governance review zahtevaju dodatnu potvrdu pre promotion odluke.',
+        ]
+      : [];
+  poslovnaPonudaZelezaraDooTrack.reviewPosture =
+    poslovnaPonudaZelezaraDooStatus === 'READY'
+      ? 'ALIGNED'
+      : poslovnaPonudaZelezaraDooStatus === 'WATCH'
         ? 'WATCH'
         : 'REVIEW_REQUIRED';
   const aiIqKonferencijaZaStampuTrack =

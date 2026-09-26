@@ -2073,6 +2073,14 @@ Koristiti format `AI-IQ-SUPER-PLATFORMA#VPOREKLO-2026-09 -> IO-OPENUI-AO#123` gd
 - Ownership ostaje nepromenjen: `DOK/DIK/FOR -> EXTREM`, `DAK/DUK -> EXTRONDOL`, `SPAJA KOD -> audit-safe-summary-only`.
 - Sirovi pregovarački/komercijalni detalji, interni scoring i payment internals ostaju repo-local.
 
+## Developer/Create POSLOVNA PONUDA / ŽELEZARA D.O.O. SMEDEREVO downstream reference
+
+- Scope lock: `DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == POSLOVNA PONUDA / ŽELEZARA D.O.O. SMEDEREVO`.
+- Scenario ostaje additive-only bounded intake paket bez novih ruta i bez promene ownership split-a (`DOK/DIK/FOR -> EXTREM`, `DAK/DUK -> EXTRONDOL`, `SPAJA KOD -> audit-safe-summary-only`).
+- Obavezni intake sadržaj ostaje strukturiran: cilj saradnje, imenovanja izvršnih direktora, infrastrukturni zahtevi (`2000m² skladište`, `5000m² parking`), plan novih pogona/sektora, referentna lista i rokovi.
+- Downstream boundary za `spaja86/IO-OPENUI-AO` ostaje summary-only: dozvoljeni su `status`, `blocker reason`, `review posture`, `downstream reference`, `urgent meeting summary` i pet readiness status polja (`businessCollaboration`, `location`, `operationsPlan`, `procurementLogistics`, `referenceList`).
+- Lični kontakt podaci (npr. telefoni) ostaju private intake/audit evidence i ne ulaze u public summary ni downstream payload.
+
 ## Developer/Create VINOGRADI GROCKA, RESTORAN downstream reference
 
 - Scope lock: `DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == VINOGRADI GROCKA, RESTORAN`.

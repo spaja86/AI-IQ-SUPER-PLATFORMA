@@ -25,6 +25,9 @@ export const DEVELOPER_CREATE_VRH_KRALJEVSKI_RAD_ALIAS =
 export const DEVELOPER_CREATE_VRH_VINOGRADI_GROCKA_RESTORAN_ALIAS =
   'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == VINOGRADI GROCKA, RESTORAN' as const;
 
+export const DEVELOPER_CREATE_VRH_POSLOVNA_PONUDA_ZELEZARA_DOO_ALIAS =
+  'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == POSLOVNA PONUDA / ŽELEZARA D.O.O. SMEDEREVO' as const;
+
 export const DEVELOPER_CREATE_VRH_INTERPRETATION_ALIASES = [
   'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == RADNI TAKT MOZGA (MISLILAC)',
   'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == MAPE UMA',
@@ -45,6 +48,7 @@ export const DEVELOPER_CREATE_VRH_INTERPRETATION_ALIASES = [
   DEVELOPER_CREATE_VRH_KRALJEVSKI_SAT_ALIAS,
   DEVELOPER_CREATE_VRH_KRALJEVSKI_RAD_ALIAS,
   DEVELOPER_CREATE_VRH_VINOGRADI_GROCKA_RESTORAN_ALIAS,
+  DEVELOPER_CREATE_VRH_POSLOVNA_PONUDA_ZELEZARA_DOO_ALIAS,
 ] as const;
 
 export const DEVELOPER_CREATE_VRH_DIJALIZA_POGONSKOG_OMOTACA_ALIAS_BOUNDARY = {
@@ -718,6 +722,81 @@ export const DEVELOPER_CREATE_VINOGRADI_GROCKA_RESTORAN_SUMMARY_SAFE_FIELDS = [
   'leadershipTransitionSummary',
 ] as const;
 
+export const DEVELOPER_CREATE_POSLOVNA_PONUDA_ZELEZARA_DOO_CANONICAL_ALIAS =
+  DEVELOPER_CREATE_VRH_POSLOVNA_PONUDA_ZELEZARA_DOO_ALIAS;
+
+export const DEVELOPER_CREATE_POSLOVNA_PONUDA_ZELEZARA_DOO_SCOPE_STATEMENT =
+  'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == POSLOVNA PONUDA / ŽELEZARA D.O.O. SMEDEREVO == additive-only bounded urgent-meeting intake paket bez novih ruta i bez paralelnog source-of-truth sistema' as const;
+
+export const DEVELOPER_CREATE_POSLOVNA_PONUDA_ZELEZARA_DOO_ROLE_CLASSIFICATION =
+  'additive-only-bounded-business-offer-zelezara-urgent-meeting-track' as const;
+
+export const DEVELOPER_CREATE_POSLOVNA_PONUDA_ZELEZARA_DOO_BOUNDED_VOCABULARY_PHRASE =
+  'EXTRIMLI EXTRONDOL EXTREM DOK DUK DAK DIK FOR' as const;
+
+export const DEVELOPER_CREATE_POSLOVNA_PONUDA_ZELEZARA_DOO_URGENT_MEETING_INTAKE_PACKAGE = {
+  objectiveOfCollaboration: 'prosirenje-poslovne-saradnje-i-industrijska-ekspanzija',
+  executiveAppointments: [
+    {
+      name: 'BOGDAN PRAVILOVIĆ',
+      role: 'izvrsni-direktor-poslovna-saradnja',
+      scope: 'prosirenje-poslovne-saradnje',
+    },
+    {
+      name: 'MILENKO SPAJIĆ',
+      role: 'izvrsni-direktor-informacioni-segment-i-rudna-logistika',
+      scope: 'informacioni-segment-iskopine-ruda-i-industrijska-logistika',
+      privateIntakeContactRole: 'private-intake-contact',
+    },
+  ],
+  infrastructureRequirements: {
+    storageSqm: 2000,
+    truckParkingSqm: 5000,
+    storageRequirementLabel: 'skladiste-robe',
+    parkingRequirementLabel: 'parking-kamiona',
+    locationConstraint: 'blizu-zelezare',
+  },
+  newPlantsAndSectorsPlan: {
+    required: true,
+    purpose: 'novi-materijali-za-povecanje-trzisne-ekonomije-po-poslovnom-planu',
+  },
+  referenceListPlan: {
+    required: true,
+    status: 'pending-compilation',
+  },
+  timelines: {
+    intakePriority: 'urgent-meeting',
+    activationWindow: 'post-human-review-and-governance-gates',
+  },
+  privacyCompliance: {
+    personalContactDataPolicy: 'private-intake-audit-evidence-only',
+    phoneNumbersPublicSummaryAllowed: false,
+    phoneNumbersDownstreamSyncAllowed: false,
+    hrAndOperationalDetailsPublicSummaryAllowed: false,
+  },
+} as const;
+
+export const DEVELOPER_CREATE_POSLOVNA_PONUDA_ZELEZARA_DOO_FALLBACK_INPUTS = [
+  'NaN',
+  'Infinity',
+  'empty',
+  'conflict',
+] as const;
+
+export const DEVELOPER_CREATE_POSLOVNA_PONUDA_ZELEZARA_DOO_SUMMARY_SAFE_FIELDS = [
+  'canonicalAlias',
+  'status',
+  'blockerReason',
+  'watchReasons',
+  'reviewPosture',
+  'downstreamReference',
+  'urgentMeetingSummary',
+  'businessCollaborationStatus',
+  'locationReadinessStatus',
+  'operationsPlanStatus',
+  'procurementLogisticsStatus',
+  'referenceListStatus',
+] as const;
 export const DEVELOPER_CREATE_AI_IQ_KONFERENCIJA_ZA_STAMPU_CANONICAL_ALIAS =
   'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == AI IQ KONFERENCIJA ZA ŠTAMPU (NOVINE, DIGITALNE NOVINE)' as const;
 
