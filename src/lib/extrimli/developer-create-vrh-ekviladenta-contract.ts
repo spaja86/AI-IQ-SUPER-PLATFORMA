@@ -16,6 +16,9 @@ export const DEVELOPER_CREATE_VRH_MAPA_UMA_ALIAS =
 export const DEVELOPER_CREATE_VRH_NAVIGACIONI_SISTEM_SA_TREKEROM_ALIAS =
   'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == NAVIGACIONI SISTEM SA TREKEROM' as const;
 
+export const DEVELOPER_CREATE_VRH_KRALJEVSKI_SAT_ALIAS =
+  'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == KRALJEVSKI SAT' as const;
+
 export const DEVELOPER_CREATE_VRH_INTERPRETATION_ALIASES = [
   'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == RADNI TAKT MOZGA (MISLILAC)',
   'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == MAPE UMA',
@@ -32,6 +35,7 @@ export const DEVELOPER_CREATE_VRH_INTERPRETATION_ALIASES = [
   'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == AI IQ LABORATORIJA == LABORATORIJSKI NALAZI FAUNE I FLORE I GRAĐEVINSKOG MATERIJALA',
   'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == POSLOVNA PONUDA',
   'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == KRALJEVSKI POKLONI ZA SVAČIJI ROĐENDAN',
+  DEVELOPER_CREATE_VRH_KRALJEVSKI_SAT_ALIAS,
 ] as const;
 
 export const DEVELOPER_CREATE_VRH_DIJALIZA_POGONSKOG_OMOTACA_ALIAS_BOUNDARY = {
@@ -365,6 +369,56 @@ export const DEVELOPER_CREATE_KRALJEVSKI_POKLONI_ZA_SVACIJI_RODJENDAN_DOWNSTREAM
   rawGiftInterpretationStaysRepoLocal: true,
   rawExtremFormulasStayRepoLocal: true,
   rawExtrondolGovernanceFormulasStayRepoLocal: true,
+} as const;
+
+export const DEVELOPER_CREATE_KRALJEVSKI_SAT_CANONICAL_ALIAS =
+  DEVELOPER_CREATE_VRH_KRALJEVSKI_SAT_ALIAS;
+
+export const DEVELOPER_CREATE_KRALJEVSKI_SAT_SCOPE_STATEMENT =
+  'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == KRALJEVSKI SAT == additive-only bounded traka bez novih runtime ruta i bez paralelnog source-of-truth modela; ownership ostaje zaključan na EXTREM (DOK/DIK/FOR), EXTRONDOL (DAK/DUK) i SPAJA KOD (audit-safe summary-only).' as const;
+
+export const DEVELOPER_CREATE_KRALJEVSKI_SAT_ROLE_CLASSIFICATION =
+  'additive-only-bounded-kraljevski-sat-track' as const;
+
+export const DEVELOPER_CREATE_KRALJEVSKI_SAT_BOUNDED_TOKEN_SET = [
+  'DIP',
+  'KAR',
+  'DUR',
+  'CUR',
+  'RET',
+  'DOK',
+  'OKOT',
+] as const;
+
+export const DEVELOPER_CREATE_KRALJEVSKI_SAT_LAYER_OWNERSHIP_LOCK = {
+  extrem: 'technical-readiness-signal-dok-dik-for',
+  extrondol: 'governance-freeze-promotion-rollback-release-audit-dak-duk',
+  spajaKod: 'audit-safe-summary-only',
+} as const;
+
+export const DEVELOPER_CREATE_KRALJEVSKI_SAT_READINESS_LANGUAGE = [
+  'READY',
+  'WATCH',
+  'BLOCKED',
+] as const;
+
+export const DEVELOPER_CREATE_KRALJEVSKI_SAT_SUMMARY_SAFE_FIELDS = [
+  'canonicalAlias',
+  'status',
+  'blockerReason',
+  'watchReasons',
+  'reviewPosture',
+  'downstreamReference',
+  'kraljevskiSatTokenSummary',
+  'fallbackInputStatus',
+] as const;
+
+export const DEVELOPER_CREATE_KRALJEVSKI_SAT_DOWNSTREAM_POLICY = {
+  linkedRepo: 'spaja86/IO-OPENUI-AO',
+  syncMode: 'summary-only',
+  rawTokenInternalsStayRepoLocal: true,
+  rawExtremFormulaStaysRepoLocal: true,
+  rawExtrondolGovernanceStaysRepoLocal: true,
 } as const;
 
 export const DEVELOPER_CREATE_RADNI_PROSTOR_CANONICAL_ALIAS =
