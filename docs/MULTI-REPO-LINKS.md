@@ -2073,3 +2073,11 @@ Koristiti format `AI-IQ-SUPER-PLATFORMA#VPOREKLO-2026-09 -> IO-OPENUI-AO#123` gd
 - Downstream boundary za `spaja86/IO-OPENUI-AO` ostaje summary-only: dozvoljeni su status (`READY | WATCH | BLOCKED`), blocker reason, review posture, WAWE faza, `EKSTREMNA PREPORUKA` rezime i downstream reference.
 - Ownership ostaje nepromenjen: `DOK/DIK/FOR -> EXTREM`, `DAK/DUK -> EXTRONDOL`, `SPAJA KOD -> audit-safe-summary-only`.
 - Sirovi pregovarački/komercijalni detalji, interni scoring i payment internals ostaju repo-local.
+
+## Developer/Create VINOGRADI GROCKA, RESTORAN downstream reference
+
+- Scope lock: `DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == VINOGRADI GROCKA, RESTORAN`.
+- Paket ostaje additive-only bounded leadership-transition governance artefakt: razrešenje postojećeg izvršnog direktora i imenovanje `JONAČIĆ SLAVIŠA` i `JONAČIĆ MARKO` uz obavezan audit evidencioni trag i datum efektivnosti.
+- Obavezni governance izlazi ostaju zaključani: `humanReviewStatus`, `releaseAuditSummary`, `rolloutPlan`, `rollbackPlan`, `downstreamReference`.
+- Downstream boundary za `spaja86/IO-OPENUI-AO` ostaje summary-only (`READY|WATCH|BLOCKED`, blocker reason, review posture, effective date, audit trail reference) bez internih HR detalja i bez internih formula.
+- Ownership ostaje nepromenjen: `DOK/DIK/FOR -> EXTREM`, `DAK/DUK -> EXTRONDOL`, `SPAJA KOD -> audit-safe-summary-only`.
