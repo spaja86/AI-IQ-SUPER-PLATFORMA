@@ -12494,7 +12494,9 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
       : 'BLOCKED';
   const kraljevskiRadFallbackTokens = normalizedKraljevskiRadTokens.map((token) => token.toLowerCase());
   const kraljevskiRadFallbackInputStatus: ExtrimliExtremReadinessStatus =
-    kraljevskiRadFallbackTokens.includes('conflict')
+    normalizedKraljevskiRadTokens.length === 0
+      ? 'WATCH'
+      : kraljevskiRadFallbackTokens.includes('conflict')
       ? 'BLOCKED'
       : (
         kraljevskiRadFallbackTokens.includes('nan')
