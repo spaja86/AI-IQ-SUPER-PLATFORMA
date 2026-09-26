@@ -513,3 +513,11 @@ Implementacioni redosled ostaje zaključan:
 - EXTRONDOL vodi round-robin governance (`svako sa svakim`), review/freeze/promotion/rollback i release-audit evidenciju.
 - SPAJA KOD objavljuje samo summary-safe status, razloge, review posture i audit reference bez internih formula.
 - Top-100 kraljevske nagrade ostaju audit-governed governance paket sa obaveznim human review pre promocije.
+
+## KRALJEVSKI SAT (bounded extension)
+
+- `DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == KRALJEVSKI SAT` je additive-only bounded extension postojećeg VRH modela.
+- Zaključani token set ostaje: `DIP, KAR, DUR, CUR, RET, DOK, OKOT`.
+- Ownership split ostaje nepromenjen: `DOK/DIK/FOR -> EXTREM`, `DAK/DUK -> EXTRONDOL`, `SPAJA KOD -> audit-safe summary-only`.
+- Status jezik ostaje zaključan na `READY | WATCH | BLOCKED`, sa deterministic fallback ulazima (`NaN`, `Infinity`, `empty`, `conflict`) i obaveznim blocker/watch razlozima.
+- Downstream sync prema `spaja86/IO-OPENUI-AO` ostaje summary-only bez izvoza internih token/formula internala.

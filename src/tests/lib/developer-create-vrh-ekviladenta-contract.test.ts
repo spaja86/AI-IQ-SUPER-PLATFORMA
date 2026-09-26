@@ -1,9 +1,13 @@
 import {
+  DEVELOPER_CREATE_KRALJEVSKI_SAT_BOUNDED_TOKEN_SET,
+  DEVELOPER_CREATE_KRALJEVSKI_SAT_READINESS_LANGUAGE,
+  DEVELOPER_CREATE_KRALJEVSKI_SAT_SUMMARY_SAFE_FIELDS,
   DEVELOPER_CREATE_SARADNJA_READY_BOUNDED_VOCABULARY,
   DEVELOPER_CREATE_SARADNJA_READY_POSLOVNA_PONUDA_SCOPE_LOCK,
   DEVELOPER_CREATE_SARADNJA_READY_READINESS_SIGNALS,
   DEVELOPER_CREATE_SARADNJA_READY_RECOMMENDATION_LEVEL,
   DEVELOPER_CREATE_SARADNJA_READY_SUMMARY_SAFE_FIELDS,
+  DEVELOPER_CREATE_VRH_KRALJEVSKI_SAT_ALIAS,
   DEVELOPER_CREATE_NAVIGACIONI_SISTEM_SA_TREKEROM_TRACKER_CONTRACT,
   DEVELOPER_CREATE_VRH_INTERPRETATION_ALIASES,
   DEVELOPER_CREATE_VRH_NAVIGACIONI_SISTEM_SA_TREKEROM_ALIAS,
@@ -115,6 +119,37 @@ async function runTests(): Promise<void> {
     assert(
       DEVELOPER_CREATE_SARADNJA_READY_RECOMMENDATION_LEVEL === 'EKSTREMNA_PREPORUKA',
       'saradnja-ready recommendation level must stay extreme',
+    );
+  });
+
+  await test('kraljevski sat track remains additive-only and summary-safe', () => {
+    assert(
+      DEVELOPER_CREATE_VRH_INTERPRETATION_ALIASES.includes(DEVELOPER_CREATE_VRH_KRALJEVSKI_SAT_ALIAS),
+      'KRALJEVSKI SAT alias must remain part of the VRH interpretation aliases',
+    );
+    assertArrayEquals(
+      DEVELOPER_CREATE_KRALJEVSKI_SAT_BOUNDED_TOKEN_SET,
+      ['DIP', 'KAR', 'DUR', 'CUR', 'RET', 'DOK', 'OKOT'],
+      'unexpected kraljevski sat bounded token set',
+    );
+    assertArrayEquals(
+      DEVELOPER_CREATE_KRALJEVSKI_SAT_READINESS_LANGUAGE,
+      ['READY', 'WATCH', 'BLOCKED'],
+      'unexpected kraljevski sat readiness language',
+    );
+    assertArrayEquals(
+      DEVELOPER_CREATE_KRALJEVSKI_SAT_SUMMARY_SAFE_FIELDS,
+      [
+        'canonicalAlias',
+        'status',
+        'blockerReason',
+        'watchReasons',
+        'reviewPosture',
+        'downstreamReference',
+        'kraljevskiSatTokenSummary',
+        'fallbackInputStatus',
+      ],
+      'unexpected kraljevski sat summary-safe fields',
     );
   });
 

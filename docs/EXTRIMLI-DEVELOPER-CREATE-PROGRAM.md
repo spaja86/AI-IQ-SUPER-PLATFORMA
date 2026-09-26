@@ -923,3 +923,12 @@ Neproverene oblasti (u ovom ciklusu):
 - Bounded signal model ostaje zaključan na `READY | WATCH | BLOCKED` sa obaveznim blocker/watch razlozima i deterministic fallback pravilom za `NaN`, `Infinity`, `empty` i `conflict` ulaze.
 - EXTREM objavljuje samo readiness/fallback signal i bounded `birthdayGiftSummary`, EXTRONDOL objavljuje release-audit/governance posture, a SPAJA KOD objavljuje samo summary-safe izlaz (`status`, razlozi, review posture, downstream reference, fallbackInputStatus).
 - Downstream sync prema `spaja86/IO-OPENUI-AO` ostaje summary-only i ne sme izvoziti sirove token/formula/gift internale.
+
+### 2.2.14) KRALJEVSKI SAT bounded traka
+
+- Alias ostaje zaključan na `DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == KRALJEVSKI SAT`.
+- Traka je additive-only i ostaje unutar postojećih `/api/extrimli/extrem`, `/api/extrimli/extrondol` i `/api/extrimli/spaja-kod` granica (bez novih ruta i bez paralelnog source-of-truth modela).
+- Zaključani token set ostaje: `DIP, KAR, DUR, CUR, RET, DOK, OKOT`.
+- Ownership split ostaje nepromenjen: EXTREM vodi tehnički readiness signal, EXTRONDOL vodi governance/freeze/promotion/rollback/release-audit, a SPAJA KOD ostaje audit-safe summary-only.
+- Status jezik ostaje zaključan na `READY | WATCH | BLOCKED`, sa obaveznim blocker/watch razlozima i deterministic fallback ulazima (`NaN`, `Infinity`, `empty`, `conflict`).
+- Summary-safe izlaz ostaje ograničen na `canonicalAlias`, `status`, `blockerReason`, `watchReasons`, `reviewPosture`, `downstreamReference`, `kraljevskiSatTokenSummary`, `fallbackInputStatus`; downstream sync prema `spaja86/IO-OPENUI-AO` ostaje striktno summary-only.
