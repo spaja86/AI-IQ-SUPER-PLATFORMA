@@ -47,6 +47,12 @@ import {
   DEVELOPER_CREATE_KRALJEVSKI_POKLONI_ZA_SVACIJI_RODJENDAN_ROLE_CLASSIFICATION,
   DEVELOPER_CREATE_KRALJEVSKI_POKLONI_ZA_SVACIJI_RODJENDAN_SCOPE_STATEMENT,
   DEVELOPER_CREATE_KRALJEVSKI_POKLONI_ZA_SVACIJI_RODJENDAN_SUMMARY_SAFE_FIELDS,
+  DEVELOPER_CREATE_LEKSIKON_BOUNDED_SIGNALS,
+  DEVELOPER_CREATE_LEKSIKON_CANONICAL_ALIAS,
+  DEVELOPER_CREATE_LEKSIKON_DOWNSTREAM_POLICY,
+  DEVELOPER_CREATE_LEKSIKON_ROLE_CLASSIFICATION,
+  DEVELOPER_CREATE_LEKSIKON_SCOPE_STATEMENT,
+  DEVELOPER_CREATE_LEKSIKON_SUMMARY_SAFE_FIELDS,
   DEVELOPER_CREATE_NOTES_1450_BOUNDED_SIGNALS,
   DEVELOPER_CREATE_NOTES_1450_CANONICAL_ALIAS,
   DEVELOPER_CREATE_NOTES_1450_ROLE_CLASSIFICATION,
@@ -7100,6 +7106,46 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
         businessValueSummary: '',
         downstreamReference: 'docs/MULTI-REPO-LINKS.md -> spaja86/IO-OPENUI-AO (summary-only)',
       },
+      leksikonTrack: {
+        canonicalAlias: DEVELOPER_CREATE_LEKSIKON_CANONICAL_ALIAS,
+        scopeStatement: DEVELOPER_CREATE_LEKSIKON_SCOPE_STATEMENT,
+        roleClassification: DEVELOPER_CREATE_LEKSIKON_ROLE_CLASSIFICATION,
+        boundedSignals: DEVELOPER_CREATE_LEKSIKON_BOUNDED_SIGNALS,
+        summarySafePublicFields: DEVELOPER_CREATE_LEKSIKON_SUMMARY_SAFE_FIELDS,
+        downstreamPolicy: DEVELOPER_CREATE_LEKSIKON_DOWNSTREAM_POLICY,
+        boundedVocabularyPhrase: 'EXTRIMLI EXTRONDOL EXTREM DOK DUK DAK DIK FOR',
+        additiveOnly: true,
+        noNewRuntimeEngine: true,
+        noNewRuntimeRoutes: true,
+        noParallelSourceOfTruth: true,
+        sourceOfTruthRoutes: ['/api/extrimli/extrem', '/api/extrimli/extrondol', '/api/extrimli/spaja-kod'],
+        ownershipLock: {
+          dokDikFor: 'EXTREM',
+          dakDuk: 'EXTRONDOL',
+          spajaKod: 'audit-safe-summary-only',
+        },
+        readinessSignal: {
+          status: 'BLOCKED',
+          readinessScore: 0,
+          blockerSignalStatus: 'BLOCKED',
+          watchSignalStatus: 'BLOCKED',
+          deterministicFallbackRequired: true,
+          fallbackInputs: ['NaN', 'Infinity', 'empty', 'conflict'],
+          driver:
+            'developerAndCreateRepoWideReflection.readiness + developerAndCreateRepoWideReflection.technicalReadinessProfile.consolidatedRhythmStatus + developerAndCreateRepoWideReflection.implementationPackage',
+        },
+        blockerReason: 'leksikon-track-awaits-bounded-readiness-and-governance-alignment',
+        watchReasons: [],
+        reviewPosture: 'REVIEW_REQUIRED',
+        lexiconSummary: '',
+        acceptanceEvidence: [
+          'developerAndCreateRepoWideReflection.leksikonTrack',
+          'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.leksikonTrack',
+          'spajaKod.publicSignals.leksikonStatus',
+          'spajaKod.developerAndCreateImplementationPackage.leksikonSummary',
+        ],
+        downstreamReference: 'docs/MULTI-REPO-LINKS.md -> spaja86/IO-OPENUI-AO (summary-only)',
+      },
       promocijeTiketiBonusiPropusniceAdministrativniBonusiTrack: {
         canonicalAlias:
           DEVELOPER_CREATE_PROMOCIJE_TIKETI_BONUSI_PROPUSNICE_ADMINISTRATIVNI_BONUSI_CANONICAL_ALIAS,
@@ -11092,7 +11138,7 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
   };
   dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.currentImplementationStage = {
     roadmapStageId: 'v5-extrondol-release-audit-and-orchestration',
-    measurableOutput: 'audit-safe repo-wide reflection status plus AI identity-finance governance, INSPEKTORI justice-path summary, RADNI PROSTOR bounded token-lock metadata, primary ČOVEČNOST, supplemental ČOVEČANSTVO, KRALJEVSKI BAŠTA UNEVERZITE bounded narrative metadata, additive audio-vizuelni kontrabas package metadata, companion ČOVEČANSTVO / OSEĆAJ OSEBENOSTI visual metadata, and OSNOVE / RISPEKT protocol evidence are published only through existing EXTRIMLI/EXTREM/EXTRONDOL/SPAJA KOD surfaces',
+    measurableOutput: 'audit-safe repo-wide reflection status plus AI identity-finance governance, INSPEKTORI justice-path summary, LEKSIKON bounded explanation metadata, RADNI PROSTOR bounded token-lock metadata, primary ČOVEČNOST, supplemental ČOVEČANSTVO, KRALJEVSKI BAŠTA UNEVERZITE bounded narrative metadata, additive audio-vizuelni kontrabas package metadata, companion ČOVEČANSTVO / OSEĆAJ OSEBENOSTI visual metadata, and OSNOVE / RISPEKT protocol evidence are published only through existing EXTRIMLI/EXTREM/EXTRONDOL/SPAJA KOD surfaces',
     acceptanceEvidence: [
       'dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.implementationPackage',
       'dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection',
@@ -11105,6 +11151,7 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
       'dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.covecnostAuditVisualReference.companionAuditVisualReferences',
       'dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.osnoveRispektProtocol',
       'dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.aiPlateOffer',
+      'dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.leksikonTrack',
       'dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.radniProstorTrack',
       'dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.promocijeTiketiBonusiPropusniceAdministrativniBonusiTrack',
       'spajaKod.publicSignals.developerAndCreateStatus',
@@ -11462,6 +11509,20 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
       noParallelSourceOfTruth: true,
       rawInternalsExposed: false,
     },
+    leksikonBoundary: {
+      trackRole: 'bounded-leksikon-interpretation-alias-track',
+      parentTrack: 'VRH PROGRAMSKOG EKVILADENTA',
+      canonicalAlias: DEVELOPER_CREATE_LEKSIKON_CANONICAL_ALIAS,
+      roleClassification: DEVELOPER_CREATE_LEKSIKON_ROLE_CLASSIFICATION,
+      extremPublishes: 'readiness-blocker-watch-deterministic-fallback-signal-only',
+      extrondolPublishes: 'wawe-freeze-promotion-review-rollback-audit-summary-only',
+      spajaKodPublishes: 'status-blocker-watch-review-and-downstream-reference-only',
+      technicalBinding: 'developerAndCreateRepoWideReflection.leksikonTrack',
+      noNewRuntimeEngine: true,
+      noNewRuntimeRoutes: true,
+      noParallelSourceOfTruth: true,
+      rawInternalsExposed: false,
+    },
     promocijeTiketiBonusiPropusniceAdministrativniBonusiBoundary: {
       trackRole: 'bounded-enterprise-promotions-tickets-bonuses-passes-admin-overrides-track',
       parentTrack: 'VRH PROGRAMSKOG EKVILADENTA',
@@ -11801,6 +11862,84 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
   };
   notes1450Track.businessValueSummary =
     'NOTES 1450 ostaje additive-only bounded radni naslednik koji smanjuje gubitak konteksta, ponavljanje i neefikasno trošenje AI materijala kroz audit-ready nastavak rada.';
+  const leksikonTrack =
+    dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.leksikonTrack;
+  const leksikonReadinessStatus =
+    dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.status;
+  const leksikonRhythmStatus =
+    dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.technicalReadinessProfile.consolidatedRhythmStatus;
+  const leksikonImplementationPackageStatus =
+    leksikonTrack.additiveOnly
+      && leksikonTrack.noNewRuntimeEngine
+      && leksikonTrack.noNewRuntimeRoutes
+      && leksikonTrack.noParallelSourceOfTruth
+      && leksikonTrack.ownershipLock.dokDikFor === 'EXTREM'
+      && leksikonTrack.ownershipLock.dakDuk === 'EXTRONDOL'
+      && leksikonTrack.ownershipLock.spajaKod === 'audit-safe-summary-only'
+      ? 'READY'
+      : 'BLOCKED';
+  const leksikonDeterministicFallbackInputRequired =
+    leksikonReadinessStatus !== 'READY'
+    || leksikonRhythmStatus !== 'READY'
+    || leksikonImplementationPackageStatus !== 'READY';
+  const leksikonFallbackStatus =
+    leksikonDeterministicFallbackInputRequired
+      ? leksikonReadinessStatus === 'BLOCKED'
+        || leksikonRhythmStatus === 'BLOCKED'
+        || leksikonImplementationPackageStatus === 'BLOCKED'
+        ? 'BLOCKED'
+        : 'WATCH'
+      : 'READY';
+  const leksikonWatchSignalStatus =
+    leksikonReadinessStatus === 'WATCH'
+    || leksikonRhythmStatus === 'WATCH'
+    || leksikonImplementationPackageStatus === 'WATCH'
+    || leksikonFallbackStatus === 'WATCH'
+      ? 'WATCH'
+      : 'READY';
+  const leksikonFinalStatuses = [
+    leksikonReadinessStatus,
+    leksikonRhythmStatus,
+    leksikonImplementationPackageStatus,
+    leksikonFallbackStatus,
+  ] as const;
+  const leksikonBlockerSignalStatus =
+    leksikonReadinessStatus === 'BLOCKED'
+    || leksikonRhythmStatus === 'BLOCKED'
+    || leksikonImplementationPackageStatus === 'BLOCKED'
+    || leksikonFallbackStatus === 'BLOCKED'
+      ? 'BLOCKED'
+      : 'READY';
+  const leksikonStatus = aggregateSignalReadinessStatus([...leksikonFinalStatuses]);
+  const leksikonReadinessScore = round(
+    leksikonFinalStatuses.reduce((sum, status) => sum + readinessStatusScore(status), 0)
+      / leksikonFinalStatuses.length,
+    2,
+  );
+  const leksikonDeterministicFallbackRequired = leksikonFallbackStatus !== 'READY';
+  leksikonTrack.readinessSignal.status = leksikonStatus;
+  leksikonTrack.readinessSignal.readinessScore = leksikonReadinessScore;
+  leksikonTrack.readinessSignal.blockerSignalStatus = leksikonBlockerSignalStatus;
+  leksikonTrack.readinessSignal.watchSignalStatus = leksikonWatchSignalStatus;
+  leksikonTrack.readinessSignal.deterministicFallbackRequired = leksikonDeterministicFallbackRequired;
+  leksikonTrack.blockerReason =
+    leksikonStatus === 'BLOCKED'
+      ? 'LEKSIKON ostaje BLOCKED dok bounded interpretativni alias paket ne potvrdi readiness, ownership lock i deterministički fallback model bez novog runtime engine-a ili novih ruta.'
+      : null;
+  leksikonTrack.watchReasons =
+    leksikonStatus === 'WATCH'
+      ? [
+          'LEKSIKON ostaje u WATCH režimu dok additive-only bounded rečnik još zahteva review za readiness/fallback doslednost između EXTREM, EXTRONDOL i SPAJA KOD slojeva.',
+        ]
+      : [];
+  leksikonTrack.reviewPosture =
+    leksikonStatus === 'READY'
+      ? 'ALIGNED'
+      : leksikonStatus === 'WATCH'
+        ? 'WATCH'
+        : 'REVIEW_REQUIRED';
+  leksikonTrack.lexiconSummary =
+    'LEKSIKON ostaje bounded interpretativni rečnik/sloj objašnjenja u okviru Developer/Create vršnog ugovora, bez novih runtime ruta i bez paralelnog source-of-truth sistema.';
   const promocijeTiketiBonusiPropusniceAdministrativniBonusiTrack =
     dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.promocijeTiketiBonusiPropusniceAdministrativniBonusiTrack;
   const promotionsStatus =

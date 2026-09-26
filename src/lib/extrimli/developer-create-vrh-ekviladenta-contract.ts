@@ -22,6 +22,7 @@ export const DEVELOPER_CREATE_VRH_INTERPRETATION_ALIASES = [
   DEVELOPER_CREATE_VRH_MAPA_UMA_ALIAS,
   DEVELOPER_CREATE_VRH_ZIVOPIS_U_DIGITALIZMU_ALIAS,
   DEVELOPER_CREATE_VRH_DIJALIZA_POGONSKOG_OMOTACA_ALIAS,
+  'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == LEKSIKON',
   'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == RADNI PROSTOR',
   DEVELOPER_CREATE_VRH_NAVIGACIONI_SISTEM_SA_TREKEROM_ALIAS,
   'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == SARKAZAM / PRIVREDNA GRANA DIGITALIZMA / PROJEKTI ENTUZIJAZMA PO ČINU OBLASTIMA',
@@ -139,6 +140,40 @@ export const DEVELOPER_CREATE_NOTES_1450_BOUNDED_SIGNALS = [
   'ai-material-saturation-risk',
   'deterministic-next-step',
 ] as const;
+
+export const DEVELOPER_CREATE_LEKSIKON_CANONICAL_ALIAS =
+  'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == LEKSIKON' as const;
+
+export const DEVELOPER_CREATE_LEKSIKON_SCOPE_STATEMENT =
+  'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == LEKSIKON == additive-only bounded interpretativni rečnik/sloj objašnjenja bez novih runtime ruta i bez paralelnog source-of-truth sistema' as const;
+
+export const DEVELOPER_CREATE_LEKSIKON_ROLE_CLASSIFICATION =
+  'additive-only-bounded-leksikon-interpretative-vocabulary-track' as const;
+
+export const DEVELOPER_CREATE_LEKSIKON_BOUNDED_SIGNALS = [
+  'lexicon-readiness',
+  'bounded-vocabulary-lock',
+  'interpretation-layer-consistency',
+  'summary-safe-governance-mirroring',
+  'deterministic-fallback-signal',
+] as const;
+
+export const DEVELOPER_CREATE_LEKSIKON_SUMMARY_SAFE_FIELDS = [
+  'canonicalAlias',
+  'status',
+  'blockerReason',
+  'watchReasons',
+  'reviewPosture',
+  'downstreamReference',
+  'lexiconSummary',
+] as const;
+
+export const DEVELOPER_CREATE_LEKSIKON_DOWNSTREAM_POLICY = {
+  linkedRepo: 'spaja86/IO-OPENUI-AO',
+  syncMode: 'summary-only',
+  rawLexiconInternalsStayRepoLocal: true,
+  rawExtremExtrondolInternalsStayRepoLocal: true,
+} as const;
 
 export const DEVELOPER_CREATE_PROMOCIJE_TIKETI_BONUSI_PROPUSNICE_ADMINISTRATIVNI_BONUSI_CANONICAL_ALIAS =
   'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == PROMOCIJE / TIKETI / BONUSI / PROPUSNICE / ADMINISTRATIVNI BONUSI' as const;
