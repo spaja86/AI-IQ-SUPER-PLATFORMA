@@ -1119,6 +1119,31 @@ export const DEVELOPER_CREATE_SARADNJA_READY_PACKAGE = {
   mandatoryAuditFields: DEVELOPER_CREATE_SARADNJA_READY_AUDIT_FIELDS_LOCK,
 } as const;
 
+export const DEVELOPER_CREATE_SARADNJA_READY_READINESS_SIGNALS = [
+  'offer-clarity',
+  'consistency',
+  'collaboration-utility',
+  'presentation-readiness',
+  'stability',
+] as const;
+
+export const DEVELOPER_CREATE_SARADNJA_READY_SUMMARY_SAFE_FIELDS = [
+  'canonicalAlias',
+  'status',
+  'blockerReason',
+  'watchReasons',
+  'reviewPosture',
+  'downstreamReference',
+  'businessSummary',
+  'recommendationLevel',
+] as const;
+
+export const DEVELOPER_CREATE_SARADNJA_READY_PRODUCT_DISPOSITION =
+  'poklon-za-rad-za-poslovnu-saradnju' as const;
+
+export const DEVELOPER_CREATE_SARADNJA_READY_RECOMMENDATION_LEVEL =
+  'EKSTREMNA_PREPORUKA' as const;
+
 export const DEVELOPER_CREATE_PROJECT_GRADATION_SCOPE_LOCK =
   'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA' as const;
 

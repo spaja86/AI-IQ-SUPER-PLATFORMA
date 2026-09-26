@@ -58,6 +58,24 @@ import {
   DEVELOPER_CREATE_NOTES_1450_CANONICAL_ALIAS,
   DEVELOPER_CREATE_NOTES_1450_ROLE_CLASSIFICATION,
   DEVELOPER_CREATE_NOTES_1450_SCOPE_STATEMENT,
+  DEVELOPER_CREATE_SARADNJA_READY_AUDIT_FIELDS_LOCK,
+  DEVELOPER_CREATE_SARADNJA_READY_BOUNDED_VOCABULARY,
+  DEVELOPER_CREATE_SARADNJA_READY_COMMUNICATION_FORMAT_LOCK,
+  DEVELOPER_CREATE_SARADNJA_READY_CROSS_REPO_BOUNDARY_LOCK,
+  DEVELOPER_CREATE_SARADNJA_READY_FINAL_PACKAGE_LOCK,
+  DEVELOPER_CREATE_SARADNJA_READY_GITHUB_SUBSCRIPTION_BRIDGE,
+  DEVELOPER_CREATE_SARADNJA_READY_GITHUB_VERCEL_OPERATING_MODEL,
+  DEVELOPER_CREATE_SARADNJA_READY_LAYER_RESPONSIBILITIES,
+  DEVELOPER_CREATE_SARADNJA_READY_PACKAGE,
+  DEVELOPER_CREATE_SARADNJA_READY_POSLOVNA_PONUDA_SCOPE_LOCK,
+  DEVELOPER_CREATE_SARADNJA_READY_PRODUCT_DISPOSITION,
+  DEVELOPER_CREATE_SARADNJA_READY_QUALITY_GATES,
+  DEVELOPER_CREATE_SARADNJA_READY_READINESS_SIGNALS,
+  DEVELOPER_CREATE_SARADNJA_READY_RECOMMENDATION_LEVEL,
+  DEVELOPER_CREATE_SARADNJA_READY_SCOPE_LOCK,
+  DEVELOPER_CREATE_SARADNJA_READY_SUMMARY_SAFE_FIELDS,
+  DEVELOPER_CREATE_SARADNJA_READY_VERCEL_CANONICAL_BUSINESS_MESSAGE,
+  DEVELOPER_CREATE_SARADNJA_READY_WAWE_ALIGNMENT_LOCK,
   DEVELOPER_CREATE_PROMOCIJE_TIKETI_BONUSI_PROPUSNICE_ADMINISTRATIVNI_BONUSI_BOUNDED_SIGNALS,
   DEVELOPER_CREATE_PROMOCIJE_TIKETI_BONUSI_PROPUSNICE_ADMINISTRATIVNI_BONUSI_CANONICAL_ALIAS,
   DEVELOPER_CREATE_PROMOCIJE_TIKETI_BONUSI_PROPUSNICE_ADMINISTRATIVNI_BONUSI_DOWNSTREAM_POLICY,
@@ -7119,6 +7137,56 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
         businessValueSummary: '',
         downstreamReference: 'docs/MULTI-REPO-LINKS.md -> spaja86/IO-OPENUI-AO (summary-only)',
       },
+      saradnjaReadyPackage: {
+        canonicalAlias: DEVELOPER_CREATE_SARADNJA_READY_POSLOVNA_PONUDA_SCOPE_LOCK,
+        parentScope: DEVELOPER_CREATE_SARADNJA_READY_SCOPE_LOCK,
+        boundedVocabulary: DEVELOPER_CREATE_SARADNJA_READY_BOUNDED_VOCABULARY,
+        layerResponsibilities: DEVELOPER_CREATE_SARADNJA_READY_LAYER_RESPONSIBILITIES,
+        readinessSignals: DEVELOPER_CREATE_SARADNJA_READY_READINESS_SIGNALS,
+        summarySafePublicFields: DEVELOPER_CREATE_SARADNJA_READY_SUMMARY_SAFE_FIELDS,
+        githubVercelOperatingModel: DEVELOPER_CREATE_SARADNJA_READY_GITHUB_VERCEL_OPERATING_MODEL,
+        canonicalBusinessMessage: DEVELOPER_CREATE_SARADNJA_READY_VERCEL_CANONICAL_BUSINESS_MESSAGE,
+        githubSubscriptionBridge: DEVELOPER_CREATE_SARADNJA_READY_GITHUB_SUBSCRIPTION_BRIDGE,
+        waweAlignmentLock: DEVELOPER_CREATE_SARADNJA_READY_WAWE_ALIGNMENT_LOCK,
+        auditFieldsLock: DEVELOPER_CREATE_SARADNJA_READY_AUDIT_FIELDS_LOCK,
+        communicationFormatLock: DEVELOPER_CREATE_SARADNJA_READY_COMMUNICATION_FORMAT_LOCK,
+        crossRepoBoundary: DEVELOPER_CREATE_SARADNJA_READY_CROSS_REPO_BOUNDARY_LOCK,
+        finalPackageLock: DEVELOPER_CREATE_SARADNJA_READY_FINAL_PACKAGE_LOCK,
+        qualityGates: DEVELOPER_CREATE_SARADNJA_READY_QUALITY_GATES,
+        packageContract: DEVELOPER_CREATE_SARADNJA_READY_PACKAGE,
+        productDisposition: DEVELOPER_CREATE_SARADNJA_READY_PRODUCT_DISPOSITION,
+        recommendationLevel: DEVELOPER_CREATE_SARADNJA_READY_RECOMMENDATION_LEVEL,
+        additiveOnly: true,
+        noNewRuntimeRoutes: true,
+        noParallelSourceOfTruth: true,
+        readinessSignal: {
+          status: 'BLOCKED',
+          readinessScore: 0,
+          offerClarityStatus: 'BLOCKED',
+          consistencyStatus: 'BLOCKED',
+          collaborationUtilityStatus: 'BLOCKED',
+          presentationReadinessStatus: 'BLOCKED',
+          stabilityStatus: 'BLOCKED',
+          deterministicFallbackRequired: true,
+          driver:
+            'developerAndCreateRepoWideReflection.readiness + developerAndCreateRepoWideReflection.notes1450Track + developerAndCreateRepoWideReflection.technicalReadinessProfile.consolidatedRhythmStatus + developerAndCreateRepoWideReflection.dailyOperationalCadence',
+        },
+        blockerReason: null,
+        watchReasons: [],
+        reviewPosture: 'REVIEW_REQUIRED',
+        measurableProof: {
+          offerReadyForPresentation: false,
+          githubSourceOfTruthLocked: false,
+          vercelDeploymentLayerLocked: false,
+          humanReviewRequiredBeforePromotion: true,
+          summarySafeBoundaryLocked: false,
+        },
+        governanceApprovedBusinessMessage: {
+          ...DEVELOPER_CREATE_SARADNJA_READY_VERCEL_CANONICAL_BUSINESS_MESSAGE,
+        },
+        businessSummary: '',
+        downstreamReference: 'docs/MULTI-REPO-LINKS.md -> spaja86/IO-OPENUI-AO (summary-only)',
+      },
       leksikonTrack: {
         canonicalAlias: DEVELOPER_CREATE_LEKSIKON_CANONICAL_ALIAS,
         scopeStatement: DEVELOPER_CREATE_LEKSIKON_SCOPE_STATEMENT,
@@ -11560,6 +11628,19 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
       noParallelSourceOfTruth: true,
       rawInternalsExposed: false,
     },
+    saradnjaReadyBoundary: {
+      trackRole: 'bounded-poslovna-ponuda-business-package',
+      parentTrack: 'VRH PROGRAMSKOG EKVILADENTA',
+      canonicalAlias: DEVELOPER_CREATE_SARADNJA_READY_POSLOVNA_PONUDA_SCOPE_LOCK,
+      extremPublishes: 'offer-readiness-consistency-collaboration-presentation-and-stability-signal-only',
+      extrondolPublishes: 'wawe-freeze-promotion-review-rollback-kpi-and-audit-summary-only',
+      spajaKodPublishes: 'status-blocker-review-downstream-business-summary-and-recommendation-only',
+      technicalBinding: 'developerAndCreateRepoWideReflection.saradnjaReadyPackage',
+      noNewRuntimeEngine: true,
+      noNewRuntimeRoutes: true,
+      noParallelSourceOfTruth: true,
+      rawInternalsExposed: false,
+    },
     leksikonBoundary: {
       trackRole: 'bounded-leksikon-interpretation-alias-track',
       parentTrack: 'VRH PROGRAMSKOG EKVILADENTA',
@@ -11913,6 +11994,94 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
   };
   notes1450Track.businessValueSummary =
     'NOTES 1450 ostaje additive-only bounded radni naslednik koji smanjuje gubitak konteksta, ponavljanje i neefikasno trošenje AI materijala kroz audit-ready nastavak rada.';
+  const saradnjaReadyPackage =
+    dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.saradnjaReadyPackage;
+  const saradnjaOfferClarityStatus =
+    dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.status;
+  const saradnjaConsistencyStatus = (
+    saradnjaReadyPackage.canonicalAlias === DEVELOPER_CREATE_SARADNJA_READY_POSLOVNA_PONUDA_SCOPE_LOCK
+    && saradnjaReadyPackage.parentScope === DEVELOPER_CREATE_SARADNJA_READY_SCOPE_LOCK
+    && saradnjaReadyPackage.boundedVocabulary.join(' ') === 'EXTRIMLI EXTRONDOL EXTREM DOK DUK DAK DIK FOR'
+    && saradnjaReadyPackage.noNewRuntimeRoutes
+    && saradnjaReadyPackage.noParallelSourceOfTruth
+    && saradnjaReadyPackage.layerResponsibilities.extrem === 'technical-readiness-and-execution-signal-dok-dik-for'
+    && saradnjaReadyPackage.layerResponsibilities.extrondol === 'governance-review-freeze-promotion-rollback-dak-duk'
+    && saradnjaReadyPackage.layerResponsibilities.spajaKod === 'public-audit-safe-summary-without-internal-formulas'
+    && saradnjaReadyPackage.layerResponsibilities.vrh === 'interpretative-orchestration-layer-without-new-runtime-source-of-truth'
+  )
+    ? 'READY'
+    : 'BLOCKED';
+  const saradnjaCollaborationUtilityStatus = aggregateReadinessStatus([
+    notes1450Track.readinessSignal.status,
+    saradnjaReadyPackage.githubSubscriptionBridge.activationCriteria.includes('human-review') ? 'READY' : 'BLOCKED',
+    saradnjaReadyPackage.githubSubscriptionBridge.activationCriteria.includes('downstream-reference') ? 'READY' : 'BLOCKED',
+  ]);
+  const saradnjaPresentationReadinessStatus =
+    saradnjaReadyPackage.canonicalBusinessMessage.greeting.length > 0
+    && saradnjaReadyPackage.canonicalBusinessMessage.collaborationProposal.length > 0
+    && saradnjaReadyPackage.canonicalBusinessMessage.closing === 'Srdačan pozdrav, Nikola Spajić'
+    && saradnjaReadyPackage.recommendationLevel === 'EKSTREMNA_PREPORUKA'
+      ? 'READY'
+      : 'BLOCKED';
+  const saradnjaStabilityStatus = aggregateReadinessStatus([
+    dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.technicalReadinessProfile.consolidatedRhythmStatus,
+    dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.dailyOperationalCadence.status,
+  ]);
+  const saradnjaFinalStatuses = [
+    saradnjaOfferClarityStatus,
+    saradnjaConsistencyStatus,
+    saradnjaCollaborationUtilityStatus,
+    saradnjaPresentationReadinessStatus,
+    saradnjaStabilityStatus,
+  ] as const;
+  const saradnjaStatus = aggregateReadinessStatus(saradnjaFinalStatuses);
+  const saradnjaReadinessScore = round(
+    saradnjaFinalStatuses.reduce((sum, status) => sum + readinessStatusScore(status), 0) / saradnjaFinalStatuses.length,
+    2,
+  );
+  saradnjaReadyPackage.readinessSignal.status = saradnjaStatus;
+  saradnjaReadyPackage.readinessSignal.readinessScore = saradnjaReadinessScore;
+  saradnjaReadyPackage.readinessSignal.offerClarityStatus = saradnjaOfferClarityStatus;
+  saradnjaReadyPackage.readinessSignal.consistencyStatus = saradnjaConsistencyStatus;
+  saradnjaReadyPackage.readinessSignal.collaborationUtilityStatus = saradnjaCollaborationUtilityStatus;
+  saradnjaReadyPackage.readinessSignal.presentationReadinessStatus = saradnjaPresentationReadinessStatus;
+  saradnjaReadyPackage.readinessSignal.stabilityStatus = saradnjaStabilityStatus;
+  saradnjaReadyPackage.readinessSignal.deterministicFallbackRequired =
+    dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.deterministicFallbackRequired;
+  saradnjaReadyPackage.blockerReason =
+    saradnjaStatus === 'BLOCKED'
+      ? 'POSLOVNA PONUDA ostaje BLOCKED dok ponuda ne ostane jasna, dosledna, korisna za saradnju, spremna za prezentaciju i stabilna kroz postojeći GitHub/Vercel governance model.'
+      : null;
+  saradnjaReadyPackage.watchReasons =
+    saradnjaStatus === 'WATCH'
+      ? [
+        'POSLOVNA PONUDA ostaje u WATCH režimu dok NOTES 1450, human review i GitHub/Vercel bridge još traže dodatnu governance potvrdu pre promocije.',
+      ]
+      : [];
+  saradnjaReadyPackage.reviewPosture =
+    saradnjaStatus === 'READY'
+      ? 'ALIGNED'
+      : saradnjaStatus === 'WATCH'
+        ? 'WATCH'
+        : 'REVIEW_REQUIRED';
+  saradnjaReadyPackage.measurableProof = {
+    offerReadyForPresentation: saradnjaPresentationReadinessStatus === 'READY',
+    githubSourceOfTruthLocked:
+      saradnjaReadyPackage.githubVercelOperatingModel.githubRole
+      === 'code-source-of-truth-workflow-governance-audit-evidence',
+    vercelDeploymentLayerLocked:
+      saradnjaReadyPackage.githubVercelOperatingModel.vercelRole === 'controlled-deployment-layer-with-clear-gates',
+    humanReviewRequiredBeforePromotion: saradnjaReadyPackage.qualityGates.mandatoryHumanReviewBeforePromotion,
+    summarySafeBoundaryLocked:
+      saradnjaReadyPackage.crossRepoBoundary.syncMode === 'summary-only'
+      && saradnjaReadyPackage.summarySafePublicFields.includes('businessSummary')
+      && saradnjaReadyPackage.summarySafePublicFields.includes('recommendationLevel'),
+  };
+  saradnjaReadyPackage.governanceApprovedBusinessMessage = {
+    ...saradnjaReadyPackage.canonicalBusinessMessage,
+  };
+  saradnjaReadyPackage.businessSummary =
+    'POSLOVNA PONUDA ostaje additive-only poklon-za-rad paket za poslovnu saradnju: EXTREM objavljuje readiness signal i ekstremnu preporuku, EXTRONDOL vodi human review / rollout / rollback / KPI audit, a SPAJA KOD ostaje summary-safe GitHub/Vercel rezime bez internih formula.';
   const leksikonTrack =
     dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.leksikonTrack;
   const leksikonReadinessStatus =

@@ -60,6 +60,24 @@ import type {
   DEVELOPER_CREATE_NOTES_1450_CANONICAL_ALIAS,
   DEVELOPER_CREATE_NOTES_1450_ROLE_CLASSIFICATION,
   DEVELOPER_CREATE_NOTES_1450_SCOPE_STATEMENT,
+  DEVELOPER_CREATE_SARADNJA_READY_AUDIT_FIELDS_LOCK,
+  DEVELOPER_CREATE_SARADNJA_READY_BOUNDED_VOCABULARY,
+  DEVELOPER_CREATE_SARADNJA_READY_COMMUNICATION_FORMAT_LOCK,
+  DEVELOPER_CREATE_SARADNJA_READY_CROSS_REPO_BOUNDARY_LOCK,
+  DEVELOPER_CREATE_SARADNJA_READY_FINAL_PACKAGE_LOCK,
+  DEVELOPER_CREATE_SARADNJA_READY_GITHUB_SUBSCRIPTION_BRIDGE,
+  DEVELOPER_CREATE_SARADNJA_READY_GITHUB_VERCEL_OPERATING_MODEL,
+  DEVELOPER_CREATE_SARADNJA_READY_LAYER_RESPONSIBILITIES,
+  DEVELOPER_CREATE_SARADNJA_READY_PACKAGE,
+  DEVELOPER_CREATE_SARADNJA_READY_POSLOVNA_PONUDA_SCOPE_LOCK,
+  DEVELOPER_CREATE_SARADNJA_READY_PRODUCT_DISPOSITION,
+  DEVELOPER_CREATE_SARADNJA_READY_QUALITY_GATES,
+  DEVELOPER_CREATE_SARADNJA_READY_READINESS_SIGNALS,
+  DEVELOPER_CREATE_SARADNJA_READY_RECOMMENDATION_LEVEL,
+  DEVELOPER_CREATE_SARADNJA_READY_SCOPE_LOCK,
+  DEVELOPER_CREATE_SARADNJA_READY_SUMMARY_SAFE_FIELDS,
+  DEVELOPER_CREATE_SARADNJA_READY_VERCEL_CANONICAL_BUSINESS_MESSAGE,
+  DEVELOPER_CREATE_SARADNJA_READY_WAWE_ALIGNMENT_LOCK,
   DEVELOPER_CREATE_PROMOCIJE_TIKETI_BONUSI_PROPUSNICE_ADMINISTRATIVNI_BONUSI_BOUNDED_SIGNALS,
   DEVELOPER_CREATE_PROMOCIJE_TIKETI_BONUSI_PROPUSNICE_ADMINISTRATIVNI_BONUSI_CANONICAL_ALIAS,
   DEVELOPER_CREATE_PROMOCIJE_TIKETI_BONUSI_PROPUSNICE_ADMINISTRATIVNI_BONUSI_DOWNSTREAM_POLICY,
@@ -2883,6 +2901,57 @@ export interface ExtrimliDokDikDakDukConsistencyHealth {
       businessValueSummary: string;
       downstreamReference: 'docs/MULTI-REPO-LINKS.md -> spaja86/IO-OPENUI-AO (summary-only)';
     };
+    saradnjaReadyPackage: {
+      canonicalAlias: typeof DEVELOPER_CREATE_SARADNJA_READY_POSLOVNA_PONUDA_SCOPE_LOCK;
+      parentScope: typeof DEVELOPER_CREATE_SARADNJA_READY_SCOPE_LOCK;
+      boundedVocabulary: typeof DEVELOPER_CREATE_SARADNJA_READY_BOUNDED_VOCABULARY;
+      layerResponsibilities: typeof DEVELOPER_CREATE_SARADNJA_READY_LAYER_RESPONSIBILITIES;
+      readinessSignals: typeof DEVELOPER_CREATE_SARADNJA_READY_READINESS_SIGNALS;
+      summarySafePublicFields: typeof DEVELOPER_CREATE_SARADNJA_READY_SUMMARY_SAFE_FIELDS;
+      githubVercelOperatingModel: typeof DEVELOPER_CREATE_SARADNJA_READY_GITHUB_VERCEL_OPERATING_MODEL;
+      canonicalBusinessMessage: typeof DEVELOPER_CREATE_SARADNJA_READY_VERCEL_CANONICAL_BUSINESS_MESSAGE;
+      githubSubscriptionBridge: typeof DEVELOPER_CREATE_SARADNJA_READY_GITHUB_SUBSCRIPTION_BRIDGE;
+      waweAlignmentLock: typeof DEVELOPER_CREATE_SARADNJA_READY_WAWE_ALIGNMENT_LOCK;
+      auditFieldsLock: typeof DEVELOPER_CREATE_SARADNJA_READY_AUDIT_FIELDS_LOCK;
+      communicationFormatLock: typeof DEVELOPER_CREATE_SARADNJA_READY_COMMUNICATION_FORMAT_LOCK;
+      crossRepoBoundary: typeof DEVELOPER_CREATE_SARADNJA_READY_CROSS_REPO_BOUNDARY_LOCK;
+      finalPackageLock: typeof DEVELOPER_CREATE_SARADNJA_READY_FINAL_PACKAGE_LOCK;
+      qualityGates: typeof DEVELOPER_CREATE_SARADNJA_READY_QUALITY_GATES;
+      packageContract: typeof DEVELOPER_CREATE_SARADNJA_READY_PACKAGE;
+      productDisposition: typeof DEVELOPER_CREATE_SARADNJA_READY_PRODUCT_DISPOSITION;
+      recommendationLevel: typeof DEVELOPER_CREATE_SARADNJA_READY_RECOMMENDATION_LEVEL;
+      additiveOnly: true;
+      noNewRuntimeRoutes: true;
+      noParallelSourceOfTruth: true;
+      readinessSignal: {
+        status: 'READY' | 'WATCH' | 'BLOCKED';
+        readinessScore: number;
+        offerClarityStatus: 'READY' | 'WATCH' | 'BLOCKED';
+        consistencyStatus: 'READY' | 'WATCH' | 'BLOCKED';
+        collaborationUtilityStatus: 'READY' | 'WATCH' | 'BLOCKED';
+        presentationReadinessStatus: 'READY' | 'WATCH' | 'BLOCKED';
+        stabilityStatus: 'READY' | 'WATCH' | 'BLOCKED';
+        deterministicFallbackRequired: boolean;
+        driver: 'developerAndCreateRepoWideReflection.readiness + developerAndCreateRepoWideReflection.notes1450Track + developerAndCreateRepoWideReflection.technicalReadinessProfile.consolidatedRhythmStatus + developerAndCreateRepoWideReflection.dailyOperationalCadence';
+      };
+      blockerReason: string | null;
+      watchReasons: string[];
+      reviewPosture: 'ALIGNED' | 'WATCH' | 'REVIEW_REQUIRED';
+      measurableProof: {
+        offerReadyForPresentation: boolean;
+        githubSourceOfTruthLocked: boolean;
+        vercelDeploymentLayerLocked: boolean;
+        humanReviewRequiredBeforePromotion: boolean;
+        summarySafeBoundaryLocked: boolean;
+      };
+      governanceApprovedBusinessMessage: {
+        greeting: string;
+        collaborationProposal: string;
+        closing: string;
+      };
+      businessSummary: string;
+      downstreamReference: 'docs/MULTI-REPO-LINKS.md -> spaja86/IO-OPENUI-AO (summary-only)';
+    };
     leksikonTrack: {
       canonicalAlias: typeof DEVELOPER_CREATE_LEKSIKON_CANONICAL_ALIAS;
       scopeStatement: typeof DEVELOPER_CREATE_LEKSIKON_SCOPE_STATEMENT;
@@ -4915,6 +4984,19 @@ export interface ExtrimliDokDikDakDukConsistencyHealth {
         extrondolPublishes: 'wawe-freeze-promotion-review-rollback-audit-summary-only';
         spajaKodPublishes: 'status-blocker-review-downstream-and-business-value-summary-only';
         technicalBinding: 'developerAndCreateRepoWideReflection.notes1450Track';
+        noNewRuntimeEngine: true;
+        noNewRuntimeRoutes: true;
+        noParallelSourceOfTruth: true;
+        rawInternalsExposed: false;
+      };
+      saradnjaReadyBoundary: {
+        trackRole: 'bounded-poslovna-ponuda-business-package';
+        parentTrack: 'VRH PROGRAMSKOG EKVILADENTA';
+        canonicalAlias: typeof DEVELOPER_CREATE_SARADNJA_READY_POSLOVNA_PONUDA_SCOPE_LOCK;
+        extremPublishes: 'offer-readiness-consistency-collaboration-presentation-and-stability-signal-only';
+        extrondolPublishes: 'wawe-freeze-promotion-review-rollback-kpi-and-audit-summary-only';
+        spajaKodPublishes: 'status-blocker-review-downstream-business-summary-and-recommendation-only';
+        technicalBinding: 'developerAndCreateRepoWideReflection.saradnjaReadyPackage';
         noNewRuntimeEngine: true;
         noNewRuntimeRoutes: true;
         noParallelSourceOfTruth: true;
