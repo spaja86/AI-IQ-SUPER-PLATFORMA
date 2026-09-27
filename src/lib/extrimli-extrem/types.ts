@@ -149,6 +149,11 @@ import type {
   DEVELOPER_CREATE_MONTEZACIJA_ROLE_CLASSIFICATION,
   DEVELOPER_CREATE_MONTEZACIJA_SCOPE_STATEMENT,
   DEVELOPER_CREATE_MONTEZACIJA_SUMMARY_SAFE_FIELDS,
+  DEVELOPER_CREATE_PILOT_CANONICAL_ALIAS,
+  DEVELOPER_CREATE_PILOT_FALLBACK_INPUTS,
+  DEVELOPER_CREATE_PILOT_ROLE_CLASSIFICATION,
+  DEVELOPER_CREATE_PILOT_SCOPE_STATEMENT,
+  DEVELOPER_CREATE_PILOT_SUMMARY_SAFE_FIELDS,
   DEVELOPER_CREATE_NAPOLEON_DISKAVERI_BOUNDED_SIGNALS,
   DEVELOPER_CREATE_NAPOLEON_DISKAVERI_CANONICAL_ALIAS,
   DEVELOPER_CREATE_NAPOLEON_DISKAVERI_SCOPE_STATEMENT,
@@ -3383,6 +3388,39 @@ export interface ExtrimliDokDikDakDukConsistencyHealth {
         'spajaKod.publicSignals.montezacijaStatus',
         'spajaKod.developerAndCreateImplementationPackage.montezacijaSummary'
       ];
+      downstreamReference: 'docs/MULTI-REPO-LINKS.md -> spaja86/IO-OPENUI-AO (summary-only)';
+    };
+    pilotTrack: {
+      canonicalAlias: typeof DEVELOPER_CREATE_PILOT_CANONICAL_ALIAS;
+      scopeStatement: typeof DEVELOPER_CREATE_PILOT_SCOPE_STATEMENT;
+      roleClassification: typeof DEVELOPER_CREATE_PILOT_ROLE_CLASSIFICATION;
+      boundedVocabularyPhrase: 'EXTRIMLI EXTRONDOL EXTREM DOK DUK DAK DIK FOR';
+      additiveOnly: true;
+      noNewRuntimeEngine: true;
+      noNewRuntimeRoutes: true;
+      noParallelSourceOfTruth: true;
+      sourceOfTruthRoutes: readonly ['/api/extrimli/extrem', '/api/extrimli/extrondol', '/api/extrimli/spaja-kod'];
+      ownershipLock: {
+        dokDikFor: 'EXTREM';
+        dakDuk: 'EXTRONDOL';
+        spajaKod: 'audit-safe-summary-only';
+      };
+      summarySafePublicFields: typeof DEVELOPER_CREATE_PILOT_SUMMARY_SAFE_FIELDS;
+      readinessSignal: {
+        status: 'READY' | 'WATCH' | 'BLOCKED';
+        readinessScore: number;
+        fallbackInputStatus: 'READY' | 'WATCH' | 'BLOCKED';
+        deterministicFallbackRequired: boolean;
+        fallbackInputs: typeof DEVELOPER_CREATE_PILOT_FALLBACK_INPUTS;
+        driver: 'developerAndCreateRepoWideReflection.readiness + developerAndCreateRepoWideReflection.technicalReadinessProfile.consolidatedRhythmStatus';
+      };
+      blockerReason: string | null;
+      watchReasons: string[];
+      reviewPosture: 'ALIGNED' | 'WATCH' | 'REVIEW_REQUIRED';
+      rolloutPlan: string;
+      rollbackPlan: string;
+      humanReviewStatus: 'required-before-promotion';
+      releaseAuditSummary: string;
       downstreamReference: 'docs/MULTI-REPO-LINKS.md -> spaja86/IO-OPENUI-AO (summary-only)';
     };
     aiIqLaboratorijaTrack: ExtrimliDeveloperCreateAiIqLaboratorijaTrack;
