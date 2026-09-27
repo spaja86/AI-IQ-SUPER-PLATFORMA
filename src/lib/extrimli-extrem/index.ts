@@ -7701,7 +7701,7 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
           deterministicFallbackRequired: true,
           fallbackInputs: DEVELOPER_CREATE_PILOT_FALLBACK_INPUTS,
           driver:
-            'developerAndCreateRepoWideReflection.readiness + developerAndCreateRepoWideReflection.technicalReadinessProfile.consolidatedRhythmStatus + runtimePilotFallbackInput',
+            'developerAndCreateRepoWideReflection.readiness + developerAndCreateRepoWideReflection.technicalReadinessProfile.consolidatedRhythmStatus',
         },
         blockerReason:
           'pilot-track-awaits-existing-extrem-readiness-and-governance-alignment-without-new-runtime-surfaces',
