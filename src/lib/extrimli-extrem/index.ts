@@ -13462,6 +13462,12 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
         || elektronskiPotpisIdentityConfirmationStatus === 'REVIEW_REQUIRED'
         ? 'WATCH'
         : 'REVIEW_REQUIRED';
+  const elektronskiPotpisSignatureDisplayStatus: ExtrimliExtremReadinessStatus =
+    elektronskiPotpisIdentityConfirmationStatus === 'CONFIRMED'
+      ? elektronskiPotpisStatus
+      : elektronskiPotpisIdentityConfirmationStatus === 'REVIEW_REQUIRED'
+        ? 'WATCH'
+        : 'BLOCKED';
   elektronskiPotpisTrack.readinessSignal.status = elektronskiPotpisStatus;
   elektronskiPotpisTrack.readinessSignal.readinessScore = round(
     elektronskiPotpisSignalStatuses.reduce((sum, signalStatus) => sum + readinessStatusScore(signalStatus), 0)
@@ -13470,7 +13476,7 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
   );
   elektronskiPotpisTrack.readinessSignal.identityConfirmationStatus =
     elektronskiPotpisIdentityConfirmationStatus;
-  elektronskiPotpisTrack.readinessSignal.signatureDisplayStatus = elektronskiPotpisStatus;
+  elektronskiPotpisTrack.readinessSignal.signatureDisplayStatus = elektronskiPotpisSignatureDisplayStatus;
   elektronskiPotpisTrack.readinessSignal.fallbackInputStatus = elektronskiPotpisFallbackInputStatus;
   elektronskiPotpisTrack.readinessSignal.deterministicFallbackRequired =
     elektronskiPotpisStatus !== 'READY';
