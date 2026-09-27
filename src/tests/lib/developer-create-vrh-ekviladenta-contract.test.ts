@@ -168,9 +168,10 @@ async function runTests(): Promise<void> {
     );
     assert(
       DEVELOPER_CREATE_PADEZI_SCOPE_STATEMENT.includes('additive-only bounded jezički paket') &&
-        DEVELOPER_CREATE_PADEZI_SCOPE_STATEMENT.includes('bez novih runtime ruta') &&
+        DEVELOPER_CREATE_PADEZI_SCOPE_STATEMENT.includes('bez novih runtime source-of-truth površina') &&
+        DEVELOPER_CREATE_PADEZI_SCOPE_STATEMENT.includes('nove rute su dozvoljene samo kroz postojeći padežni UI/routing obrazac') &&
         DEVELOPER_CREATE_PADEZI_SCOPE_STATEMENT.includes('bez paralelnog source-of-truth sistema'),
-      'PADEŽI scope statement must preserve additive-only and no-new-runtime rules',
+      'PADEŽI scope statement must preserve additive-only and routing-pattern rules',
     );
     assertArrayEquals(
       DEVELOPER_CREATE_PADEZI_EXISTING_MODULE_ROUTES,
