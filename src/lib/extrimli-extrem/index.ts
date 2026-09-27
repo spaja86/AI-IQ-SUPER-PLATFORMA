@@ -12694,9 +12694,10 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
     dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.implementationPackage.smartProgramskiJezikPackage.technicalProfile.status;
   const ispitivanjeSvegaStoJeFunkcionalnoRepoWideReflectionStatus =
     dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.status;
-  const ispitivanjeSvegaStoJeFunkcionalnoExtendolCoverageStatus = Object.values(extendolReport.coverage).every(Boolean)
+  const ispitivanjeSvegaStoJeFunkcionalnoExtendolCoverageValues = Object.values(extendolReport.coverage);
+  const ispitivanjeSvegaStoJeFunkcionalnoExtendolCoverageStatus = ispitivanjeSvegaStoJeFunkcionalnoExtendolCoverageValues.every(Boolean)
     ? 'READY'
-    : extendolReport.degraded && Object.values(extendolReport.coverage).some(Boolean)
+    : extendolReport.degraded && ispitivanjeSvegaStoJeFunkcionalnoExtendolCoverageValues.some(Boolean)
       ? 'WATCH'
     : 'BLOCKED';
   const ispitivanjeSvegaStoJeFunkcionalnoExtendolFailedAcceptanceCriteria = extendolReport.acceptanceCriteria.filter(
