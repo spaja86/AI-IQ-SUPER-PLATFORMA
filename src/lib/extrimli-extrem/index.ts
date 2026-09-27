@@ -13439,8 +13439,8 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
     dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.technicalReadinessProfile
       .consolidatedRhythmStatus,
   ] as const;
-  const elektronskiPotpisStatus = aggregateSignalReadinessStatus([...elektronskiPotpisSignalStatuses]);
-  const elektronskiPotpisFallbackInputStatus: ExtrimliExtremReadinessStatus = elektronskiPotpisStatus;
+  const elektronskiPotpisReadinessStatus = aggregateSignalReadinessStatus([...elektronskiPotpisSignalStatuses]);
+  const elektronskiPotpisFallbackInputStatus: ExtrimliExtremReadinessStatus = elektronskiPotpisReadinessStatus;
   const identityVerificationSource = buildElektronskiPotpisIdentityVerificationSource();
   const elektronskiPotpisIdentityConfirmationStatus =
     identityVerificationSource.canonicalIdentityConfirmed
@@ -13455,6 +13455,16 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
         && identityVerificationSource.publicKeyReferenceRedacted
         ? 'REVIEW_REQUIRED'
         : 'UNCONFIRMED';
+  const elektronskiPotpisSignatureDisplayStatus: ExtrimliExtremReadinessStatus =
+    elektronskiPotpisIdentityConfirmationStatus === 'CONFIRMED'
+      ? elektronskiPotpisReadinessStatus
+      : elektronskiPotpisIdentityConfirmationStatus === 'REVIEW_REQUIRED'
+        ? 'WATCH'
+        : 'BLOCKED';
+  const elektronskiPotpisStatus = aggregateSignalReadinessStatus([
+    elektronskiPotpisReadinessStatus,
+    elektronskiPotpisSignatureDisplayStatus,
+  ]);
   const elektronskiPotpisReviewPosture =
     elektronskiPotpisStatus === 'READY' && elektronskiPotpisIdentityConfirmationStatus === 'CONFIRMED'
       ? 'ALIGNED'
@@ -13462,12 +13472,6 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
         || elektronskiPotpisIdentityConfirmationStatus === 'REVIEW_REQUIRED'
         ? 'WATCH'
         : 'REVIEW_REQUIRED';
-  const elektronskiPotpisSignatureDisplayStatus: ExtrimliExtremReadinessStatus =
-    elektronskiPotpisIdentityConfirmationStatus === 'CONFIRMED'
-      ? elektronskiPotpisStatus
-      : elektronskiPotpisIdentityConfirmationStatus === 'REVIEW_REQUIRED'
-        ? 'WATCH'
-        : 'BLOCKED';
   elektronskiPotpisTrack.readinessSignal.status = elektronskiPotpisStatus;
   elektronskiPotpisTrack.readinessSignal.readinessScore = round(
     elektronskiPotpisSignalStatuses.reduce((sum, signalStatus) => sum + readinessStatusScore(signalStatus), 0)
