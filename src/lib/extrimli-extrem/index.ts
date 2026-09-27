@@ -13353,9 +13353,7 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
   const alatiRadionicaTrack =
     dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.alatiRadionicaTrack;
   const alatiRadionicaRuntimeTokenInput =
-    process.env.NODE_ENV === 'test'
-      ? process.env.EXTRIMLI_ALATI_RADIONICA_TOKEN_INPUT
-      : undefined;
+    process.env.EXTRIMLI_ALATI_RADIONICA_TOKEN_INPUT;
   const alatiRadionicaObservedTokens =
     alatiRadionicaRuntimeTokenInput && alatiRadionicaRuntimeTokenInput.trim().length > 0
       ? alatiRadionicaRuntimeTokenInput

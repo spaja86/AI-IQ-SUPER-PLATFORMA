@@ -124,6 +124,7 @@ async function runTests(): Promise<void> {
   const root = path.resolve(path.dirname(filePath), '../../..');
   const manifest = await fs.readFile(path.join(root, 'docs/EXTRIMLI-DEVELOPER-CREATE-PROGRAM.md'), 'utf8');
   const vrhDoc = await fs.readFile(path.join(root, 'docs/EXTRIMLI-VRH-PROGRAMSKOG-EKVILADENTA.md'), 'utf8');
+  const extrimliDoc = await fs.readFile(path.join(root, 'docs/EXTRIMLI.md'), 'utf8');
   const multiRepoLinks = await fs.readFile(path.join(root, 'docs/MULTI-REPO-LINKS.md'), 'utf8');
 
   await test('navigacioni alias is registered in interpretation aliases', () => {
