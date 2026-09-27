@@ -34,6 +34,20 @@ export interface VercelPublicAnnouncementInput {
   publicAnnouncementPublished: boolean;
 }
 
+export interface VercelCostGovernancePackage {
+  canonicalTopicLock: typeof DEVELOPER_CREATE_SARADNJA_READY_SCOPE_LOCK;
+  boundedBusinessPackage: typeof DEVELOPER_CREATE_SARADNJA_READY_POSLOVNA_PONUDA_SCOPE_LOCK;
+  pretplataExtension: typeof DEVELOPER_CREATE_SARADNJA_READY_POSLOVNA_PONUDA_PRETPLATA_SCOPE_LOCK;
+  boundedVocabularyPhrase: typeof DEVELOPER_CREATE_REPO_WIDE_BOUNDED_VOCABULARY_PHRASE;
+  governanceBlockers: typeof DEVELOPER_CREATE_SARADNJA_READY_VERCEL_GOVERNANCE_BLOCKERS;
+  dualCostTargets: typeof DEVELOPER_CREATE_SARADNJA_READY_VERCEL_COST_TARGETS;
+  extremCostHotspots: typeof DEVELOPER_CREATE_SARADNJA_READY_EXTREM_COST_HOTSPOTS;
+  extrondolNegotiationQuestions: typeof DEVELOPER_CREATE_SARADNJA_READY_EXTRONDOL_NEGOTIATION_QUESTIONS;
+  costToZeroFallbackPlan: typeof DEVELOPER_CREATE_SARADNJA_READY_COST_TO_ZERO_FALLBACK_PLAN;
+  automaticSubscriptionGates: typeof DEVELOPER_CREATE_SARADNJA_READY_AUTOMATIC_SUBSCRIPTION_GATES;
+  finalAuditPackageContents: typeof DEVELOPER_CREATE_SARADNJA_READY_FINAL_AUDIT_PACKAGE_CONTENTS;
+}
+
 export function normalizePaymentReferenceClassification(value: string | null | undefined): string {
   const normalized = (value ?? '').trim().toLowerCase();
   return [
@@ -126,7 +140,7 @@ export function buildVercelPublicAnnouncementState(flags: VercelPublicAnnounceme
   };
 }
 
-export function buildVercelCostGovernancePackage() {
+export function buildVercelCostGovernancePackage(): VercelCostGovernancePackage {
   return {
     canonicalTopicLock: DEVELOPER_CREATE_SARADNJA_READY_SCOPE_LOCK,
     boundedBusinessPackage: DEVELOPER_CREATE_SARADNJA_READY_POSLOVNA_PONUDA_SCOPE_LOCK,
