@@ -320,8 +320,11 @@ import type {
 
 const DEVELOPER_CREATE_MEDALJE_SRBSKE_FALLBACK_INPUTS_LOWERCASE =
   DEVELOPER_CREATE_MEDALJE_SRBSKE_FALLBACK_INPUTS.map((item) => item.toLowerCase());
+const DEVELOPER_CREATE_PILOT_BLOCKING_FALLBACK_TOKEN = 'conflict' as const;
 const DEVELOPER_CREATE_PILOT_FALLBACK_INPUTS_LOWERCASE =
-  DEVELOPER_CREATE_PILOT_FALLBACK_INPUTS.map((item) => item.toLowerCase());
+  DEVELOPER_CREATE_PILOT_FALLBACK_INPUTS
+    .map((item) => item.toLowerCase())
+    .filter((item) => item !== DEVELOPER_CREATE_PILOT_BLOCKING_FALLBACK_TOKEN);
 import {
   EXTRIMLI_EXTREM_PROFILER_API_MAX_MS,
   EXTRIMLI_EXTREM_PROFILER_CONTRACT_VERSION,
@@ -13270,7 +13273,7 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
   const pilotFallbackInput = process.env.EXTRIMLI_PILOT_FALLBACK_INPUT;
   const normalizedPilotFallbackInput = pilotFallbackInput?.trim().toLowerCase() ?? null;
   const pilotFallbackInputStatus: ExtrimliExtremReadinessStatus =
-    normalizedPilotFallbackInput === 'conflict'
+    normalizedPilotFallbackInput === DEVELOPER_CREATE_PILOT_BLOCKING_FALLBACK_TOKEN
       ? 'BLOCKED'
       : normalizedPilotFallbackInput
         && DEVELOPER_CREATE_PILOT_FALLBACK_INPUTS_LOWERCASE.includes(normalizedPilotFallbackInput)
