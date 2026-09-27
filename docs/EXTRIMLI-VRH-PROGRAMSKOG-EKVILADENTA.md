@@ -70,14 +70,7 @@ Bounded vokabular ostaje zaključan na `EXTRIMLI EXTRONDOL EXTREM DOK DUK DAK DI
   - bez novih runtime ruta,
   - bez paralelnog source-of-truth sloja,
   - bez promene postojećih API ugovora (`/api/extrimli/extrem`, `/api/extrimli/extrondol`, `/api/extrimli/spaja-kod`).
-- Obavezni izlazni model za svaki novi bounded zahtev ostaje:
-  - `readinessStatus` (`READY | WATCH | BLOCKED`),
-  - `blockerReason` / `watchReasons`,
-  - `humanReviewStatus`,
-  - `rolloutPlan`,
-  - `rollbackPlan`,
-  - `releaseAuditSummary`,
-  - `downstreamReference` (summary-only).
+- Obavezni izlazni model za svaki novi bounded zahtev ostaje zaključan kroz `src/lib/extrimli/developer-create-vrh-ekviladenta-contract.ts` i `DEVELOPER_CREATE_VRH_CANONICAL_OUTPUT_MODEL_FIELDS` (`readinessStatus` ostaje bounded na `READY | WATCH | BLOCKED`).
 - Završna governance kontrola ostaje:
   - jedan narativni vrh (bez novog vrha),
   - alias-i su samo interpretativni dodatci,

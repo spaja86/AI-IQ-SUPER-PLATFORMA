@@ -52,14 +52,7 @@ Ovaj program standardizuje **developer/create** rad nad EXTRIMLI + EXTRONDOL + E
   - `docs/EXTRIMLI-DEVELOPER-CREATE-PROGRAM.md` (glavni manifest),
   - `docs/EXTRIMLI-VRH-PROGRAMSKOG-EKVILADENTA.md` (extension dokument),
   - `src/lib/extrimli/developer-create-vrh-ekviladenta-contract.ts` (kontrakt konstante).
-- Svaki novi zahtev unutar bounded fraze mora zadržati isti izlazni model:
-  - `readinessStatus` (`READY | WATCH | BLOCKED`),
-  - `blockerReason` / `watchReasons`,
-  - `humanReviewStatus`,
-  - `rolloutPlan`,
-  - `rollbackPlan`,
-  - `releaseAuditSummary`,
-  - `downstreamReference` (summary-only).
+- Svaki novi zahtev unutar bounded fraze mora zadržati isti izlazni model definisan u `src/lib/extrimli/developer-create-vrh-ekviladenta-contract.ts` kroz `DEVELOPER_CREATE_VRH_CANONICAL_OUTPUT_MODEL_FIELDS` (`readinessStatus` ostaje bounded na `READY | WATCH | BLOCKED`).
 - Završna governance kontrola ostaje obavezna:
   - jedan narativni centar (bez novog „vrha“),
   - alias-i su samo interpretativni dodatci,
