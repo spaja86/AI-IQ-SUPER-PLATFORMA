@@ -58,6 +58,31 @@ Bounded vokabular ostaje zaključan na `EXTRIMLI EXTRONDOL EXTREM DOK DUK DAK DI
 - Ownership split za `RADNI PROSTOR`, `KONSTRUKCIJE I PROJEKTOVANJE`, `VINOGRADI GROCKA, RESTORAN`, `RADIO`, `MUZIČKA KUTIJA`, `TELEVIZIJA` i `POSLOVNA PONUDA` ostaje zaključan: `DOK/DIK/FOR -> EXTREM`, `DAK/DUK -> EXTRONDOL`, `SPAJA KOD -> summary-only`.
 - Ownership split za `ALATI / RADIONICA` ostaje isti kao za `RADNI PROSTOR`: `DOK/DIK/FOR -> EXTREM`, `DAK/DUK -> EXTRONDOL`, `SPAJA KOD -> summary-only`.
 
+## Canonical implementation lock (Plan 1–6)
+
+- Jedini scope centar ostaje: `DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA`.
+- Bounded fraza ostaje zaključana: `EXTRIMLI EXTRONDOL EXTREM DOK DUK DAK DIK FOR`.
+- Ownership split ostaje nepromenjen:
+  - `DOK + DIK + FOR` → `EXTREM`,
+  - `DAK + DUK` → `EXTRONDOL`,
+  - `SPAJA KOD` → audit-safe summary-only.
+- Additive-only discipline ostaje obavezna:
+  - bez novih runtime ruta,
+  - bez paralelnog source-of-truth sloja,
+  - bez promene postojećih API ugovora (`/api/extrimli/extrem`, `/api/extrimli/extrondol`, `/api/extrimli/spaja-kod`).
+- Obavezni izlazni model za svaki novi bounded zahtev ostaje:
+  - `readinessStatus` (`READY | WATCH | BLOCKED`),
+  - `blockerReason` / `watchReasons`,
+  - `humanReviewStatus`,
+  - `rolloutPlan`,
+  - `rollbackPlan`,
+  - `releaseAuditSummary`,
+  - `downstreamReference` (summary-only).
+- Završna governance kontrola ostaje:
+  - jedan narativni vrh (bez novog vrha),
+  - alias-i su samo interpretativni dodatci,
+  - downstream prema `spaja86/IO-OPENUI-AO` ostaje summary-only.
+
 - nema novih runtime ruta
 - nema paralelnog source-of-truth sistema
 - oslonac ostaju `/api/extrimli/extrem`, `/api/extrimli/extrondol` i `/api/extrimli/spaja-kod`

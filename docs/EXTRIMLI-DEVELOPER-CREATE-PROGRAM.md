@@ -37,6 +37,34 @@ Ovaj program standardizuje **developer/create** rad nad EXTRIMLI + EXTRONDOL + E
 - Downstream prema `spaja86/IO-OPENUI-AO` ostaje isključivo summary-safe.
 - Uspešna naracija znači da ista priča ostaje prepoznatljiva kroz `docs + types + routes + tests + workflows`; ako zahteva novo objašnjenje u svakom fajlu, naracija nije stabilizovana.
 
+## 1.2) Canonical implementation lock (Plan 1–6)
+
+- Scope lock ostaje jedini centar: `DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA`, uz bounded frazu `EXTRIMLI EXTRONDOL EXTREM DOK DUK DAK DIK FOR`.
+- Ownership split ostaje zaključan na svim zahvaćenim površinama:
+  - `DOK + DIK + FOR` → `EXTREM` (tehnički readiness signal),
+  - `DAK + DUK` → `EXTRONDOL` (governance, WAWE, rollout/rollback, audit),
+  - `SPAJA KOD` → audit-safe summary-only.
+- Additive-only pravilo ostaje obavezno:
+  - bez novih runtime ruta,
+  - bez paralelnog source-of-truth sloja,
+  - bez promene postojećih API ugovora (`/api/extrimli/extrem`, `/api/extrimli/extrondol`, `/api/extrimli/spaja-kod`).
+- Plan ostaje vezan za kanonske artefakte:
+  - `docs/EXTRIMLI-DEVELOPER-CREATE-PROGRAM.md` (glavni manifest),
+  - `docs/EXTRIMLI-VRH-PROGRAMSKOG-EKVILADENTA.md` (extension dokument),
+  - `src/lib/extrimli/developer-create-vrh-ekviladenta-contract.ts` (kontrakt konstante).
+- Svaki novi zahtev unutar bounded fraze mora zadržati isti izlazni model:
+  - `readinessStatus` (`READY | WATCH | BLOCKED`),
+  - `blockerReason` / `watchReasons`,
+  - `humanReviewStatus`,
+  - `rolloutPlan`,
+  - `rollbackPlan`,
+  - `releaseAuditSummary`,
+  - `downstreamReference` (summary-only).
+- Završna governance kontrola ostaje obavezna:
+  - jedan narativni centar (bez novog „vrha“),
+  - alias-i su samo interpretativni dodatci,
+  - downstream prema `spaja86/IO-OPENUI-AO` ostaje summary-only.
+
 ## 2) Roadmap lock (Verzije 1–7)
 
 Program je zaključan na postojeći roadmap:
