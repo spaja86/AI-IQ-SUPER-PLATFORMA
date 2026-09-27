@@ -257,6 +257,8 @@ async function runTests(): Promise<void> {
       report.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.napoleonDiskaveriSelectionTrack;
     const kraljevskiPokloniZaSvacijiRodjendanTrack =
       report.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.kraljevskiPokloniZaSvacijiRodjendanTrack;
+    const medaljeSrbskeTrack =
+      report.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.medaljeSrbskeTrack;
     const kraljevskiRadTrack =
       report.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.kraljevskiRadTrack;
     const radniProstorTrack =
@@ -410,6 +412,11 @@ async function runTests(): Promise<void> {
     assert(kraljevskiPokloniZaSvacijiRodjendanTrack.summarySafePublicFields.join(',') === 'canonicalAlias,status,blockerReason,watchReasons,reviewPosture,downstreamReference,birthdayGiftSummary,fallbackInputStatus', 'developer/create kraljevski pokloni summary-safe fields mismatch');
     assert(['READY', 'WATCH', 'BLOCKED'].includes(kraljevskiPokloniZaSvacijiRodjendanTrack.readinessSignal.status), 'developer/create kraljevski pokloni status mismatch');
     assert(kraljevskiPokloniZaSvacijiRodjendanTrack.readinessSignal.fallbackInputs.join(',') === 'NaN,Infinity,empty,conflict', 'developer/create kraljevski pokloni fallback inputs mismatch');
+    assert(medaljeSrbskeTrack.canonicalAlias === 'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == MEDALJE SRBSKE', 'developer/create MEDALJE SRBSKE canonical alias mismatch');
+    assert(medaljeSrbskeTrack.roleClassification === 'additive-only-bounded-medalje-srbske-track', 'developer/create MEDALJE SRBSKE role classification mismatch');
+    assert(medaljeSrbskeTrack.summarySafePublicFields.join(',') === 'canonicalAlias,status,blockerReason,watchReasons,reviewPosture,humanReviewStatus,releaseAuditSummaryRequired,rollbackRequiredBeforePromotion,downstreamReference,fallbackInputStatus', 'developer/create MEDALJE SRBSKE summary-safe fields mismatch');
+    assert(['READY', 'WATCH', 'BLOCKED'].includes(medaljeSrbskeTrack.readinessSignal.status), 'developer/create MEDALJE SRBSKE status mismatch');
+    assert(medaljeSrbskeTrack.readinessSignal.fallbackInputs.join(',') === 'NaN,Infinity,empty,conflict', 'developer/create MEDALJE SRBSKE fallback inputs mismatch');
     assert(kraljevskiRadTrack.canonicalAlias === 'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == KRALJEVSKI RAD', 'developer/create kraljevski rad canonical alias mismatch');
     assert(kraljevskiRadTrack.roleClassification === 'additive-only-bounded-kraljevski-rad-track', 'developer/create kraljevski rad role classification mismatch');
     assert(kraljevskiRadTrack.boundedTokenSequence.join(',') === 'DIR,DUR,DAR,RER,DIK,DUR,DAR,DJOMPA,DOKAT,KRUNA,ZOMBAT,DUKUS,NIKSON,KITAN,DIKAT,KVATRO,KALIMERO', 'developer/create kraljevski rad token sequence mismatch');
