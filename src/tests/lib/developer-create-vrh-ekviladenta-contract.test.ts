@@ -227,11 +227,24 @@ async function runTests(): Promise<void> {
       extrimliDoc.includes('bounded `PADEŽI` paket'),
       'EXTRIMLI doc PADEŽI marker missing',
     );
+    const routeExpectations = [
+      ['src/app/padezi/page.tsx', 'padeziSekvence'],
+      ['src/app/vokativ/page.tsx', 'vokativSekvence'],
+      ['src/app/instrumental/page.tsx', 'instrumentalSekvence'],
+      ['src/app/lokativ/page.tsx', 'lokativSekvence'],
+    ] as const;
     await Promise.all(
-      ['src/app/padezi/page.tsx', 'src/app/vokativ/page.tsx', 'src/app/instrumental/page.tsx', 'src/app/lokativ/page.tsx']
-        .map(async (relativePath) => {
-          await fs.access(path.join(root, relativePath));
-        }),
+      routeExpectations.map(async ([relativePath, exportName]) => {
+        const absolutePath = path.join(root, relativePath);
+        await fs.access(absolutePath);
+        const routeSource = await fs.readFile(absolutePath, 'utf8');
+        assert(
+          routeSource.includes(exportName) &&
+            routeSource.includes('StranicaRenderer') &&
+            routeSource.includes(`sekvence={${exportName}}`),
+          `${relativePath} must render ${exportName} through StranicaRenderer`,
+        );
+      }),
     );
   });
 
