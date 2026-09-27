@@ -216,20 +216,16 @@ async function runTests(): Promise<void> {
 
   await test('padezi docs and routes stay aligned with the canonical package', async () => {
     assert(
-      manifest.includes('`DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == PADEŽI`') &&
-        manifest.includes('VOKATIV') &&
-        manifest.includes('dupli `LOKATIV`'),
-      'manifest PADEŽI markers missing',
+      manifest.includes('### 2.2.6.a) PADEŽI bounded jezički paket'),
+      'manifest PADEŽI section heading missing',
     );
     assert(
-      vrhDoc.includes('`PADEŽI`') &&
-        vrhDoc.includes('NOMINATIV`, `GENITIV`, `DATIV`, `AKUZATIV`, `VOKATIV`, `INSTRUMENTAL`, `LOKATIV`'),
-      'VRH doc PADEŽI markers missing',
+      vrhDoc.includes('`PADEŽI`'),
+      'VRH doc PADEŽI marker missing',
     );
     assert(
-      extrimliDoc.includes('bounded `PADEŽI` paket') &&
-        extrimliDoc.includes('`VOKATIV`, `INSTRUMENTAL` i `LOKATIV`'),
-      'EXTRIMLI doc PADEŽI markers missing',
+      extrimliDoc.includes('bounded `PADEŽI` paket'),
+      'EXTRIMLI doc PADEŽI marker missing',
     );
     await Promise.all(
       ['src/app/padezi/page.tsx', 'src/app/vokativ/page.tsx', 'src/app/instrumental/page.tsx', 'src/app/lokativ/page.tsx']

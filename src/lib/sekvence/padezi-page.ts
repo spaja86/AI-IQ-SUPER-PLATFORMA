@@ -16,10 +16,11 @@ export const padeziSekvence: Sekvenca[] = [
       opis:
         `${DEVELOPER_CREATE_PADEZI_CANONICAL_ALIAS} ostaje interpretativni paket bez novog source-of-truth sistema. ` +
         'Postojeći moduli za nominativ, genitiv, dativ i akuzativ zadržavaju obrazac, a isti UI/routing model se proširuje na vokativ, instrumental i lokativ.',
-      dugmad: [
-        { tekst: 'Nominativ', href: '/nominativ' },
-        { tekst: 'Akuzativ', href: '/akuzativ', stil: 'sekundarno' },
-      ],
+      dugmad: padeziMeta.map((item) => ({
+        tekst: item.naziv,
+        href: item.href,
+        stil: item.id === 'nominativ' ? undefined : ('sekundarno' as const),
+      })),
     },
   },
   {
