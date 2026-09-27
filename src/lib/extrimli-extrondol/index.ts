@@ -3451,6 +3451,7 @@ function buildSpajaKodFacade(params: {
   promocijeTiketiBonusiPropusniceAdministrativniBonusiStatus: ExtrimliExtrondolReport['extremProfiler']['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['promocijeTiketiBonusiPropusniceAdministrativniBonusiTrack']['readinessSignal']['status'];
   kraljevskoTakmicenjeStatus: ExtrimliExtrondolReport['extremProfiler']['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['kraljevskoTakmicenjeTrack']['readinessSignal']['status'];
   kraljevskiPokloniZaSvacijiRodjendanStatus: ExtrimliExtrondolReport['extremProfiler']['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['kraljevskiPokloniZaSvacijiRodjendanTrack']['readinessSignal']['status'];
+  medaljeSrbskeStatus: ExtrimliExtrondolReport['extremProfiler']['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['medaljeSrbskeTrack']['readinessSignal']['status'];
   kraljevskiRadStatus: ExtrimliExtrondolReport['extremProfiler']['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['kraljevskiRadTrack']['readinessSignal']['status'];
   radniProstorStatus: ExtrimliExtrondolReport['extremProfiler']['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['radniProstorTrack']['readinessSignal']['status'];
   kraljevskaMontezacijaStatus: ExtrimliExtrondolReport['extremProfiler']['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['montezacijaTrack']['kraljevskaMontezacijaApprovalPackage']['status'];
@@ -3598,6 +3599,7 @@ function buildSpajaKodFacade(params: {
         params.promocijeTiketiBonusiPropusniceAdministrativniBonusiStatus,
       kraljevskoTakmicenjeStatus: params.kraljevskoTakmicenjeStatus,
       kraljevskiPokloniZaSvacijiRodjendanStatus: params.kraljevskiPokloniZaSvacijiRodjendanStatus,
+      medaljeSrbskeStatus: params.medaljeSrbskeStatus,
       kraljevskiRadStatus: params.kraljevskiRadStatus,
       radniProstorStatus: params.radniProstorStatus,
       kraljevskaMontezacijaStatus: params.kraljevskaMontezacijaStatus,
@@ -3718,6 +3720,7 @@ function buildSpajaKodFacade(params: {
         'publicSignals.promocijeTiketiBonusiPropusniceAdministrativniBonusiStatus',
         'publicSignals.kraljevskoTakmicenjeStatus',
         'publicSignals.kraljevskiPokloniZaSvacijiRodjendanStatus',
+        'publicSignals.medaljeSrbskeStatus',
         'publicSignals.kraljevskiRadStatus',
         'publicSignals.radniProstorStatus',
         'publicSignals.kraljevskaMontezacijaStatus',
@@ -3754,6 +3757,7 @@ function buildSpajaKodFacade(params: {
         'developerAndCreateImplementationPackage.promocijeTiketiBonusiPropusniceAdministrativniBonusiSummary',
         'developerAndCreateImplementationPackage.kraljevskoTakmicenjeSummary',
         'developerAndCreateImplementationPackage.kraljevskiPokloniZaSvacijiRodjendanSummary',
+        'developerAndCreateImplementationPackage.medaljeSrbskeSummary',
         'developerAndCreateImplementationPackage.kraljevskiRadSummary',
         'developerAndCreateImplementationPackage.radniProstorSummary',
         'developerAndCreateImplementationPackage.montezacijaSummary.kraljevskaMontezacijaApprovalPackage',
@@ -4005,6 +4009,30 @@ function buildSpajaKodFacade(params: {
           ownershipSplit: 'DOK-DIK-FOR=EXTREM|DAK-DUK=EXTRONDOL|SPAJA-KOD=SUMMARY',
           fallbackPolicy: 'deterministic-ready-watch-blocked',
         },
+      },
+      medaljeSrbskeSummary: {
+        canonicalAlias:
+          params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.medaljeSrbskeTrack.canonicalAlias,
+        status:
+          params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.medaljeSrbskeTrack.readinessSignal.status,
+        blockerReason:
+          params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.medaljeSrbskeTrack.blockerReason,
+        watchReasons: [
+          ...params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.medaljeSrbskeTrack.watchReasons,
+        ],
+        reviewPosture:
+          params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.medaljeSrbskeTrack.reviewPosture,
+        humanReviewStatus:
+          params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.medaljeSrbskeTrack.humanReviewStatus,
+        releaseAuditSummaryRequired:
+          params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.medaljeSrbskeTrack.releaseAuditSummaryRequired,
+        rollbackRequiredBeforePromotion:
+          params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.medaljeSrbskeTrack.rollbackRequiredBeforePromotion,
+        downstreamReference:
+          params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.medaljeSrbskeTrack.downstreamReference,
+        fallbackInputStatus:
+          params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.medaljeSrbskeTrack.readinessSignal.fallbackInputStatus,
+        publicBoundary: 'audit-safe-summary-only',
       },
       kraljevskiRadSummary: {
         canonicalAlias:
@@ -7037,6 +7065,8 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
       extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.kraljevskoTakmicenjeTrack.readinessSignal.status,
     kraljevskiPokloniZaSvacijiRodjendanStatus:
       extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.kraljevskiPokloniZaSvacijiRodjendanTrack.readinessSignal.status,
+    medaljeSrbskeStatus:
+      extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.medaljeSrbskeTrack.readinessSignal.status,
     kraljevskiRadStatus:
       extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.kraljevskiRadTrack.readinessSignal.status,
     radniProstorStatus:
@@ -9176,6 +9206,34 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
           'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.kraljevskiPokloniZaSvacijiRodjendanTrack',
           'spajaKod.publicSignals.kraljevskiPokloniZaSvacijiRodjendanStatus',
           'spajaKod.developerAndCreateImplementationPackage.kraljevskiPokloniZaSvacijiRodjendanSummary',
+        ],
+        downstreamReference: 'docs/MULTI-REPO-LINKS.md -> spaja86/IO-OPENUI-AO (summary-only)',
+      },
+      medaljeSrbskeTrack: {
+        ...extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.medaljeSrbskeTrack,
+        sourceOfTruth: '/api/extrimli/extrem',
+        governanceSource: '/api/extrimli/extrondol',
+        publicBoundary: '/api/extrimli/spaja-kod',
+        currentWave: currentWawe,
+        eligibleNextWave: eligibleNextWave,
+        promotionFreeze:
+          promotionFreeze
+          || extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.medaljeSrbskeTrack.readinessSignal.status !== 'READY',
+        reviewRequiredBeforeWideRollout:
+          extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.medaljeSrbskeTrack.readinessSignal.status !== 'READY'
+          || extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.medaljeSrbskeTrack.reviewPosture === 'REVIEW_REQUIRED',
+        reviewPosture:
+          extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.medaljeSrbskeTrack.reviewPosture,
+        rolloutPlan:
+          'Advance MEDALJE SRBSKE only as an additive-only bounded package through existing EXTREM readiness signals, EXTRONDOL governance (freeze/promotion/rollback), and SPAJA KOD summary-safe outputs.',
+        rollbackPlan:
+          'Freeze promotion and fall back to the previously verified Developer/Create package if MEDALJE SRBSKE bounded readiness, fallback discipline, or ownership evidence drifts from audit policy.',
+        humanReviewStatus: 'required-before-promotion',
+        acceptanceEvidence: [
+          'developerAndCreateRepoWideReflection.medaljeSrbskeTrack',
+          'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.medaljeSrbskeTrack',
+          'spajaKod.publicSignals.medaljeSrbskeStatus',
+          'spajaKod.developerAndCreateImplementationPackage.medaljeSrbskeSummary',
         ],
         downstreamReference: 'docs/MULTI-REPO-LINKS.md -> spaja86/IO-OPENUI-AO (summary-only)',
       },

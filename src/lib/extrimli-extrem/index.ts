@@ -62,6 +62,12 @@ import {
   DEVELOPER_CREATE_KRALJEVSKI_POKLONI_ZA_SVACIJI_RODJENDAN_ROLE_CLASSIFICATION,
   DEVELOPER_CREATE_KRALJEVSKI_POKLONI_ZA_SVACIJI_RODJENDAN_SCOPE_STATEMENT,
   DEVELOPER_CREATE_KRALJEVSKI_POKLONI_ZA_SVACIJI_RODJENDAN_SUMMARY_SAFE_FIELDS,
+  DEVELOPER_CREATE_MEDALJE_SRBSKE_CANONICAL_ALIAS,
+  DEVELOPER_CREATE_MEDALJE_SRBSKE_FALLBACK_INPUTS,
+  DEVELOPER_CREATE_MEDALJE_SRBSKE_LAYER_OWNERSHIP_LOCK,
+  DEVELOPER_CREATE_MEDALJE_SRBSKE_ROLE_CLASSIFICATION,
+  DEVELOPER_CREATE_MEDALJE_SRBSKE_SCOPE_STATEMENT,
+  DEVELOPER_CREATE_MEDALJE_SRBSKE_SUMMARY_SAFE_FIELDS,
   DEVELOPER_CREATE_KRALJEVSKI_RAD_BOUNDED_TOKEN_SEQUENCE,
   DEVELOPER_CREATE_KRALJEVSKI_RAD_CANONICAL_ALIAS,
   DEVELOPER_CREATE_KRALJEVSKI_RAD_FALLBACK_INPUTS,
@@ -7446,6 +7452,41 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
         ],
         downstreamReference: 'docs/MULTI-REPO-LINKS.md -> spaja86/IO-OPENUI-AO (summary-only)',
       },
+      medaljeSrbskeTrack: {
+        canonicalAlias: DEVELOPER_CREATE_MEDALJE_SRBSKE_CANONICAL_ALIAS,
+        scopeStatement: DEVELOPER_CREATE_MEDALJE_SRBSKE_SCOPE_STATEMENT,
+        roleClassification: DEVELOPER_CREATE_MEDALJE_SRBSKE_ROLE_CLASSIFICATION,
+        boundedVocabularyPhrase: 'EXTRIMLI EXTRONDOL EXTREM DOK DUK DAK DIK FOR',
+        additiveOnly: true,
+        noNewRuntimeEngine: true,
+        noNewRuntimeRoutes: true,
+        noParallelSourceOfTruth: true,
+        sourceOfTruthRoutes: ['/api/extrimli/extrem', '/api/extrimli/extrondol', '/api/extrimli/spaja-kod'],
+        ownershipLock: DEVELOPER_CREATE_MEDALJE_SRBSKE_LAYER_OWNERSHIP_LOCK,
+        summarySafePublicFields: DEVELOPER_CREATE_MEDALJE_SRBSKE_SUMMARY_SAFE_FIELDS,
+        readinessSignal: {
+          status: 'BLOCKED',
+          readinessScore: 0,
+          fallbackInputStatus: 'BLOCKED',
+          deterministicFallbackRequired: true,
+          fallbackInputs: DEVELOPER_CREATE_MEDALJE_SRBSKE_FALLBACK_INPUTS,
+          driver:
+            'developerAndCreateRepoWideReflection.readiness + developerAndCreateRepoWideReflection.technicalReadinessProfile.consolidatedRhythmStatus + runtimeFallbackInput',
+        },
+        blockerReason: 'medalje-srbske-track-awaits-bounded-readiness-and-governance-alignment',
+        watchReasons: [],
+        reviewPosture: 'REVIEW_REQUIRED',
+        humanReviewStatus: 'required-before-promotion',
+        releaseAuditSummaryRequired: true,
+        rollbackRequiredBeforePromotion: true,
+        acceptanceEvidence: [
+          'developerAndCreateRepoWideReflection.medaljeSrbskeTrack',
+          'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.medaljeSrbskeTrack',
+          'spajaKod.publicSignals.medaljeSrbskeStatus',
+          'spajaKod.developerAndCreateImplementationPackage.medaljeSrbskeSummary',
+        ],
+        downstreamReference: 'docs/MULTI-REPO-LINKS.md -> spaja86/IO-OPENUI-AO (summary-only)',
+      },
       kraljevskiRadTrack: {
         canonicalAlias: DEVELOPER_CREATE_KRALJEVSKI_RAD_CANONICAL_ALIAS,
         scopeStatement: DEVELOPER_CREATE_KRALJEVSKI_RAD_SCOPE_STATEMENT,
@@ -7988,6 +8029,7 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
         sarkazamPrivrednaGranaDigitalizma: 'SARKAZAM / PRIVREDNA GRANA DIGITALIZMA / PROJEKTI ENTUZIJAZMA PO ČINU OBLASTIMA',
         kraljevskoTakmicenje: 'KRALJEVSKO TAKMIČENJE',
         kraljevskiPokloniZaSvacijiRodjendan: 'KRALJEVSKI POKLONI ZA SVAČIJI ROĐENDAN',
+        medaljeSrbske: 'MEDALJE SRBSKE',
         kraljevskiRad: 'KRALJEVSKI RAD',
         aiIqKonferencijaZaStampu: 'AI IQ KONFERENCIJA ZA ŠTAMPU (NOVINE, DIGITALNE NOVINE)',
         radio: 'RADIO',
@@ -12785,6 +12827,51 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
         : 'REVIEW_REQUIRED';
   kraljevskiPokloniZaSvacijiRodjendanTrack.birthdayGiftSummary =
     'KRALJEVSKI POKLONI ZA SVAČIJI ROĐENDAN ostaje additive-only bounded paket: EXTREM (DOK/DIK/FOR) objavljuje tehnički readiness/fallback signal, EXTRONDOL (DAK/DUK) vodi freeze/promotion/review/audit, a SPAJA KOD objavljuje samo audit-safe summary bez novih ruta i bez novog source-of-truth sloja.';
+  const medaljeSrbskeTrack =
+    dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.medaljeSrbskeTrack;
+  const medaljeSrbskeFallbackInput = process.env.EXTRIMLI_MEDALJE_SRBSKE_FALLBACK_INPUT;
+  const normalizedMedaljeSrbskeFallbackInput = medaljeSrbskeFallbackInput?.trim().toLowerCase() ?? null;
+  const medaljeSrbskeFallbackInputStatus: ExtrimliExtremReadinessStatus =
+    normalizedMedaljeSrbskeFallbackInput === 'conflict'
+      ? 'BLOCKED'
+      : normalizedMedaljeSrbskeFallbackInput
+          && DEVELOPER_CREATE_MEDALJE_SRBSKE_FALLBACK_INPUTS.map((item) => item.toLowerCase())
+            .includes(normalizedMedaljeSrbskeFallbackInput)
+        ? 'WATCH'
+        : 'READY';
+  const medaljeSrbskeSignalStatuses = [
+    dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.status,
+    dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.technicalReadinessProfile
+      .consolidatedRhythmStatus,
+    medaljeSrbskeFallbackInputStatus,
+  ] as const;
+  const medaljeSrbskeStatus = aggregateSignalReadinessStatus([...medaljeSrbskeSignalStatuses]);
+  medaljeSrbskeTrack.readinessSignal.status = medaljeSrbskeStatus;
+  medaljeSrbskeTrack.readinessSignal.readinessScore = round(
+    medaljeSrbskeSignalStatuses.reduce((sum, signalStatus) => sum + readinessStatusScore(signalStatus), 0)
+      / medaljeSrbskeSignalStatuses.length,
+    2,
+  );
+  medaljeSrbskeTrack.readinessSignal.fallbackInputStatus = medaljeSrbskeFallbackInputStatus;
+  medaljeSrbskeTrack.readinessSignal.deterministicFallbackRequired =
+    medaljeSrbskeStatus !== 'READY'
+    || dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.deterministicFallbackRequired;
+  medaljeSrbskeTrack.blockerReason =
+    medaljeSrbskeStatus === 'BLOCKED'
+      ? 'MEDALJE SRBSKE ostaje BLOCKED dok readiness/fallback signal i governance gate ne ostanu deterministički usklađeni.'
+      : null;
+  medaljeSrbskeTrack.watchReasons =
+    medaljeSrbskeStatus === 'WATCH'
+      ? [
+          'MEDALJE SRBSKE ostaje u WATCH režimu dok bounded fallback ulaz zahteva dodatni human/governance review pre promocije.',
+        ]
+      : [];
+  medaljeSrbskeTrack.reviewPosture =
+    medaljeSrbskeStatus === 'READY'
+      ? 'ALIGNED'
+      : medaljeSrbskeStatus === 'WATCH'
+        ? 'WATCH'
+        : 'REVIEW_REQUIRED';
   const kraljevskiRadTrack =
     dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.kraljevskiRadTrack;
   const kraljevskiRadRuntimeTokenInput = process.env.EXTRIMLI_KRALJEVSKI_RAD_TOKEN_INPUT;

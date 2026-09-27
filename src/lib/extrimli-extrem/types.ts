@@ -61,6 +61,12 @@ import type {
   DEVELOPER_CREATE_KRALJEVSKI_POKLONI_ZA_SVACIJI_RODJENDAN_ROLE_CLASSIFICATION,
   DEVELOPER_CREATE_KRALJEVSKI_POKLONI_ZA_SVACIJI_RODJENDAN_SCOPE_STATEMENT,
   DEVELOPER_CREATE_KRALJEVSKI_POKLONI_ZA_SVACIJI_RODJENDAN_SUMMARY_SAFE_FIELDS,
+  DEVELOPER_CREATE_MEDALJE_SRBSKE_CANONICAL_ALIAS,
+  DEVELOPER_CREATE_MEDALJE_SRBSKE_FALLBACK_INPUTS,
+  DEVELOPER_CREATE_MEDALJE_SRBSKE_LAYER_OWNERSHIP_LOCK,
+  DEVELOPER_CREATE_MEDALJE_SRBSKE_ROLE_CLASSIFICATION,
+  DEVELOPER_CREATE_MEDALJE_SRBSKE_SCOPE_STATEMENT,
+  DEVELOPER_CREATE_MEDALJE_SRBSKE_SUMMARY_SAFE_FIELDS,
   DEVELOPER_CREATE_KRALJEVSKI_RAD_BOUNDED_TOKEN_SEQUENCE,
   DEVELOPER_CREATE_KRALJEVSKI_RAD_CANONICAL_ALIAS,
   DEVELOPER_CREATE_KRALJEVSKI_RAD_FALLBACK_INPUTS,
@@ -3173,6 +3179,40 @@ export interface ExtrimliDokDikDakDukConsistencyHealth {
       ];
       downstreamReference: 'docs/MULTI-REPO-LINKS.md -> spaja86/IO-OPENUI-AO (summary-only)';
     };
+    medaljeSrbskeTrack: {
+      canonicalAlias: typeof DEVELOPER_CREATE_MEDALJE_SRBSKE_CANONICAL_ALIAS;
+      scopeStatement: typeof DEVELOPER_CREATE_MEDALJE_SRBSKE_SCOPE_STATEMENT;
+      roleClassification: typeof DEVELOPER_CREATE_MEDALJE_SRBSKE_ROLE_CLASSIFICATION;
+      boundedVocabularyPhrase: 'EXTRIMLI EXTRONDOL EXTREM DOK DUK DAK DIK FOR';
+      additiveOnly: true;
+      noNewRuntimeEngine: true;
+      noNewRuntimeRoutes: true;
+      noParallelSourceOfTruth: true;
+      sourceOfTruthRoutes: readonly ['/api/extrimli/extrem', '/api/extrimli/extrondol', '/api/extrimli/spaja-kod'];
+      ownershipLock: typeof DEVELOPER_CREATE_MEDALJE_SRBSKE_LAYER_OWNERSHIP_LOCK;
+      summarySafePublicFields: typeof DEVELOPER_CREATE_MEDALJE_SRBSKE_SUMMARY_SAFE_FIELDS;
+      readinessSignal: {
+        status: 'READY' | 'WATCH' | 'BLOCKED';
+        readinessScore: number;
+        fallbackInputStatus: 'READY' | 'WATCH' | 'BLOCKED';
+        deterministicFallbackRequired: boolean;
+        fallbackInputs: typeof DEVELOPER_CREATE_MEDALJE_SRBSKE_FALLBACK_INPUTS;
+        driver: 'developerAndCreateRepoWideReflection.readiness + developerAndCreateRepoWideReflection.technicalReadinessProfile.consolidatedRhythmStatus + runtimeFallbackInput';
+      };
+      blockerReason: string | null;
+      watchReasons: string[];
+      reviewPosture: 'ALIGNED' | 'WATCH' | 'REVIEW_REQUIRED';
+      humanReviewStatus: 'required-before-promotion';
+      releaseAuditSummaryRequired: true;
+      rollbackRequiredBeforePromotion: true;
+      acceptanceEvidence: readonly [
+        'developerAndCreateRepoWideReflection.medaljeSrbskeTrack',
+        'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.medaljeSrbskeTrack',
+        'spajaKod.publicSignals.medaljeSrbskeStatus',
+        'spajaKod.developerAndCreateImplementationPackage.medaljeSrbskeSummary'
+      ];
+      downstreamReference: 'docs/MULTI-REPO-LINKS.md -> spaja86/IO-OPENUI-AO (summary-only)';
+    };
     kraljevskiRadTrack: {
       canonicalAlias: typeof DEVELOPER_CREATE_KRALJEVSKI_RAD_CANONICAL_ALIAS;
       scopeStatement: typeof DEVELOPER_CREATE_KRALJEVSKI_RAD_SCOPE_STATEMENT;
@@ -3705,6 +3745,7 @@ export interface ExtrimliDokDikDakDukConsistencyHealth {
       sarkazamPrivrednaGranaDigitalizma: 'SARKAZAM / PRIVREDNA GRANA DIGITALIZMA / PROJEKTI ENTUZIJAZMA PO ČINU OBLASTIMA';
       kraljevskoTakmicenje: 'KRALJEVSKO TAKMIČENJE';
       kraljevskiPokloniZaSvacijiRodjendan: 'KRALJEVSKI POKLONI ZA SVAČIJI ROĐENDAN';
+      medaljeSrbske: 'MEDALJE SRBSKE';
       kraljevskiRad: 'KRALJEVSKI RAD';
       radniProstor: 'RADNI PROSTOR';
       konstrukcijeIProjektovanje: 'KONSTRUKCIJE I PROJEKTOVANJE';
