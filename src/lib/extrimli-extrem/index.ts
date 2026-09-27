@@ -13096,7 +13096,9 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
       : 'WATCH';
   montezacijaTrack.kraljevskaMontezacijaApprovalPackage.blockerReason = kraljevskaMontezacijaBlocked
     ? 'KRALJEVSKA MONTEZACIJA promotion remains blocked while MONTEZACIJA chain has unresolved blockers or governance misalignment.'
-    : null;
+    : kraljevskaMontezacijaReady
+      ? null
+      : 'KRALJEVSKA MONTEZACIJA remains in WATCH while MONTEZACIJA chain signals require additional governance alignment before promotion.';
   montezacijaTrack.kraljevskaMontezacijaApprovalPackage.reviewPosture = kraljevskaMontezacijaReady
     ? 'ALIGNED'
     : kraljevskaMontezacijaBlocked
