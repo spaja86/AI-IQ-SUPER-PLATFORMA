@@ -249,7 +249,7 @@ async function runTests(): Promise<void> {
       index > kraljevskiSistemLineIndex && line.includes('Za taj bounded roster javni izlaz sme da sadrži samo audit-safe uloge i review odgovornosti'));
     assert(boundedRosterBoundaryIndex > kraljevskiSistemLineIndex, 'manifest KRALJEVSKI SISTEM roster boundary missing');
     const manifestRosterLine = manifestLines
-      .slice(kraljevskiSistemLineIndex, boundedRosterBoundaryIndex)
+      .slice(kraljevskiSistemLineIndex, boundedRosterBoundaryIndex + 1)
       .find((line) => line.startsWith('- Imena `'));
     assert(Boolean(manifestRosterLine), 'manifest roster line missing');
     const downstreamForbiddenNames = [...manifestRosterLine!.matchAll(/`([^`]+)`/g)]
