@@ -120,11 +120,14 @@ export const akuzativSekvence: Sekvenca[] = [
     naslov: '🔗 Povezane jezičke teme',
     redosled: 8,
     podaci: {
-      opis: 'Nastavi kontinuitet učenja kroz povezane padeže iz kanonskog PADEŽI paketa, uz zadržan akuzativ fokus i direktne prečice ka susednim temama.',
+      opis: 'Nastavi kontinuitet učenja kroz svih šest preostalih padeža iz kanonskog PADEŽI paketa, uz zadržan akuzativ fokus i direktne prečice ka kompletnom nastavnom nizu.',
       stavke: [
         { naziv: 'Nominativ', vrednost: 'Osnovni oblik subjekta', ikona: '🅽' },
         { naziv: 'Genitiv', vrednost: 'Odnos pripadnosti i negacije', ikona: '🅶' },
         { naziv: 'Dativ', vrednost: 'Usmerenost prema primaocu', ikona: '🅳' },
+        { naziv: 'Vokativ', vrednost: 'Dozivanje i obraćanje', ikona: '🆅' },
+        { naziv: 'Instrumental', vrednost: 'Sredstvo, društvo i način', ikona: '🅸' },
+        { naziv: 'Lokativ', vrednost: 'Mesto, tema i oslonac uz predloge', ikona: '🅻' },
       ],
       dugmad: buildPadezNavigationButtons('akuzativ', { includeOverview: false }),
     },
