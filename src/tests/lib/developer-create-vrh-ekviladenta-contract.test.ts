@@ -256,8 +256,14 @@ async function runTests(): Promise<void> {
       .slice(kraljevskiSistemLineIndex, boundedRosterBoundaryIndex + 1)
       .find((line) => line.startsWith('- Imena `'));
     assert(Boolean(manifestRosterLine), 'manifest roster line missing');
-    const vrhRosterLine = vrhDoc
-      .split('\n')
+    const vrhLines = vrhDoc.split('\n');
+    const vrhKraljevskiSistemLineIndex = vrhLines.findIndex((line) =>
+      line.includes('`KRALJEVSKI SISTEM` je dozvoljen samo kao additive-only bounded governance/orchestration alias'));
+    assert(vrhKraljevskiSistemLineIndex >= 0, 'VRH doc KRALJEVSKI SISTEM line missing');
+    const vrhSectionEndIndex = vrhLines.findIndex((line, index) =>
+      index > vrhKraljevskiSistemLineIndex && (line.startsWith('### ') || line.startsWith('## ')));
+    const vrhRosterLine = vrhLines
+      .slice(vrhKraljevskiSistemLineIndex, vrhSectionEndIndex >= 0 ? vrhSectionEndIndex : undefined)
       .find((line) => line.startsWith('- Imena `'));
     assert(Boolean(vrhRosterLine), 'VRH doc roster line missing');
     const downstreamForbiddenNames = [
