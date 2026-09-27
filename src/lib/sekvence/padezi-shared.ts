@@ -94,9 +94,11 @@ export function buildPadezNavigationButtons(
 ) {
   const { includeOverview = true, includeCurrent = false, primaryId } = options;
   const visibleMeta = PADEZI_META.filter((item) => includeCurrent || item.id !== currentId);
+  const effectivePrimaryId =
+    primaryId && visibleMeta.some((item) => item.id === primaryId) ? primaryId : visibleMeta[0]?.id;
   const orderedMeta = [
-    ...(primaryId ? visibleMeta.filter((item) => item.id === primaryId) : []),
-    ...visibleMeta.filter((item) => item.id !== primaryId),
+    ...(effectivePrimaryId ? visibleMeta.filter((item) => item.id === effectivePrimaryId) : []),
+    ...visibleMeta.filter((item) => item.id !== effectivePrimaryId),
   ];
 
   return [
