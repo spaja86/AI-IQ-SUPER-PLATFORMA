@@ -13377,12 +13377,22 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
   ] as const;
   const elektronskiPotpisStatus = aggregateSignalReadinessStatus([...elektronskiPotpisSignalStatuses]);
   const elektronskiPotpisFallbackInputStatus: ExtrimliExtremReadinessStatus = elektronskiPotpisStatus;
+  const identityVerificationSource = zelezaraPretplataIdentityTrack.readiness;
   const elektronskiPotpisIdentityConfirmationStatus =
-    elektronskiPotpisStatus === 'READY'
+    identityVerificationSource.canonicalIdentityConfirmed
+    && identityVerificationSource.currentOperatingNameConfirmed
+    && identityVerificationSource.aliasCoverageScore >= 100
       ? 'CONFIRMED'
-      : elektronskiPotpisStatus === 'WATCH'
+      : identityVerificationSource.canonicalIdentityConfirmed
         ? 'REVIEW_REQUIRED'
         : 'UNCONFIRMED';
+  const elektronskiPotpisReviewPosture =
+    elektronskiPotpisStatus === 'READY' && elektronskiPotpisIdentityConfirmationStatus === 'CONFIRMED'
+      ? 'ALIGNED'
+      : elektronskiPotpisStatus === 'WATCH'
+        || elektronskiPotpisIdentityConfirmationStatus === 'REVIEW_REQUIRED'
+        ? 'WATCH'
+        : 'REVIEW_REQUIRED';
   elektronskiPotpisTrack.readinessSignal.status = elektronskiPotpisStatus;
   elektronskiPotpisTrack.readinessSignal.readinessScore = round(
     elektronskiPotpisSignalStatuses.reduce((sum, signalStatus) => sum + readinessStatusScore(signalStatus), 0)
@@ -13396,26 +13406,34 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
   elektronskiPotpisTrack.readinessSignal.deterministicFallbackRequired =
     elektronskiPotpisStatus !== 'READY';
   elektronskiPotpisTrack.blockerReason =
-    elektronskiPotpisStatus === 'BLOCKED'
-      ? 'ELEKTRONSKI POTPIS ostaje BLOCKED dok potvrda identiteta i audit-safe prikaz potpisa ne ostanu poravnati sa postojećim auth/crypto slojem bez novih ruta.'
+    elektronskiPotpisIdentityConfirmationStatus === 'UNCONFIRMED'
+      ? 'ELEKTRONSKI POTPIS ostaje BLOCKED dok potvrda identiteta ne bude dokaziva kroz postojeći identity verification sloj i audit-safe prikaz potpisa.'
+      : elektronskiPotpisStatus === 'BLOCKED'
+        ? 'ELEKTRONSKI POTPIS ostaje BLOCKED dok potvrda identiteta i audit-safe prikaz potpisa ne ostanu poravnati sa postojećim auth/crypto slojem bez novih ruta.'
       : null;
   elektronskiPotpisTrack.watchReasons =
-    elektronskiPotpisStatus === 'WATCH'
-      ? [
-          'ELEKTRONSKI POTPIS ostaje u WATCH režimu dok potvrda identiteta zahteva dodatni human review i audit-safe display summary pre promocije.',
-        ]
-      : [];
+    [
+      ...(elektronskiPotpisStatus === 'WATCH'
+        ? [
+            'ELEKTRONSKI POTPIS ostaje u WATCH režimu dok potvrda identiteta zahteva dodatni human review i audit-safe display summary pre promocije.',
+          ]
+        : []),
+      ...(elektronskiPotpisIdentityConfirmationStatus === 'REVIEW_REQUIRED'
+        ? [
+            'Identity verification source is partially confirmed and still requires review before ELEKTRONSKI POTPIS may be promoted.',
+          ]
+        : []),
+    ];
   elektronskiPotpisTrack.reviewPosture =
-    elektronskiPotpisStatus === 'READY'
-      ? 'ALIGNED'
-      : 'REVIEW_REQUIRED';
+    elektronskiPotpisReviewPosture;
   elektronskiPotpisTrack.releaseAuditSummary =
     DEVELOPER_CREATE_ELEKTRONSKI_POTPIS_RELEASE_AUDIT_SUMMARY_SIGNAL;
-  elektronskiPotpisTrack.rolloutPlan = elektronskiPotpisStatus === 'READY'
-    ? 'Promote ELEKTRONSKI POTPIS by preserving existing auth/crypto verification semantics, additive-only lock, and summary-only public boundary.'
-    : elektronskiPotpisStatus === 'BLOCKED'
-      ? 'Keep ELEKTRONSKI POTPIS BLOCKED until identity confirmation and signature-display governance evidence clear on existing source-of-truth routes.'
-      : 'Keep ELEKTRONSKI POTPIS in WATCH mode until identity confirmation, review posture, and signature-display summary return to READY alignment.';
+  elektronskiPotpisTrack.rolloutPlan =
+    elektronskiPotpisReviewPosture === 'ALIGNED'
+      ? 'Promote ELEKTRONSKI POTPIS by preserving existing auth/crypto verification semantics, additive-only lock, and summary-only public boundary.'
+      : elektronskiPotpisReviewPosture === 'REVIEW_REQUIRED'
+        ? 'Keep ELEKTRONSKI POTPIS BLOCKED until identity confirmation and signature-display governance evidence clear on existing source-of-truth routes.'
+        : 'Keep ELEKTRONSKI POTPIS in WATCH mode until identity confirmation, review posture, and signature-display summary return to READY alignment.';
   elektronskiPotpisTrack.rollbackPlan =
     'If ELEKTRONSKI POTPIS drifts, freeze promotion and rollback to the previously verified Developer/Create package while keeping keys, private identities, and crypto internals repo-local.';
   elektronskiPotpisTrack.signatureDisplaySummary =
