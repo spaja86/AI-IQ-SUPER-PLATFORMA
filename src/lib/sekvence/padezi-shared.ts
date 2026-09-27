@@ -95,12 +95,12 @@ export function buildPadezNavigationButtons(
   const { includeOverview = true } = options;
 
   return [
-    ...(includeOverview ? [{ tekst: 'Pregled PADEŽI', href: '/padezi' }] : []),
     ...PADEZI_META.filter((item) => item.id !== currentId).map((item) => ({
       tekst: item.naziv,
       href: item.href,
       stil: 'sekundarno' as const,
     })),
+    ...(includeOverview ? [{ tekst: 'Pregled PADEŽI', href: '/padezi', stil: 'sekundarno' as const }] : []),
   ];
 }
 
