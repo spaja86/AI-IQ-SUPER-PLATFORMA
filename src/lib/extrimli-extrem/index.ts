@@ -13064,18 +13064,35 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
         : 'Keep MONTEZACIJA NAD MONTEZACIJAMA in controlled rollout mode until status, blocker posture, and review posture return to READY alignment.';
   montezacijaTrack.montezacijaNadMontezacijamaApprovalPackage.rollbackPlan =
     'If lock drift, blocker escalation, or review regression occurs, freeze promotion and rollback to the last verified MONTEZACIJA additive package.';
+  const montezacijaReady = montezacijaStatus === 'READY';
+  const montezacijaBlocked = montezacijaStatus === 'BLOCKED';
+  const montezacijaReviewAligned = montezacijaTrack.reviewPosture === 'ALIGNED';
+  const montezacijaReviewRequired = montezacijaTrack.reviewPosture === 'REVIEW_REQUIRED';
+  const montezacijaNadMontezacijamaReady =
+    montezacijaTrack.montezacijaNadMontezacijamaApprovalPackage.status === 'READY';
+  const montezacijaNadMontezacijamaBlocked =
+    montezacijaTrack.montezacijaNadMontezacijamaApprovalPackage.status === 'BLOCKED';
+  const montezacijaNadMontezacijamaReviewAligned =
+    montezacijaTrack.montezacijaNadMontezacijamaApprovalPackage.reviewPosture === 'ALIGNED';
+  const montezacijaNadMontezacijamaReviewRequired =
+    montezacijaTrack.montezacijaNadMontezacijamaApprovalPackage.reviewPosture === 'REVIEW_REQUIRED';
+  const montezacijaFallbackReady = montezacijaFallbackInputStatus === 'READY';
+  const montezacijaFallbackBlocked = montezacijaFallbackInputStatus === 'BLOCKED';
   const kraljevskaMontezacijaReady =
-    montezacijaStatus === 'READY'
-    && montezacijaTrack.reviewPosture === 'ALIGNED'
-    && montezacijaTrack.montezacijaNadMontezacijamaApprovalPackage.status === 'READY'
-    && montezacijaTrack.montezacijaNadMontezacijamaApprovalPackage.reviewPosture === 'ALIGNED'
-    && montezacijaFallbackInputStatus === 'READY';
+    montezacijaReady
+    && montezacijaReviewAligned
+    && montezacijaNadMontezacijamaReady
+    && montezacijaNadMontezacijamaReviewAligned
+    && montezacijaFallbackReady;
   const kraljevskaMontezacijaBlocked =
-    montezacijaStatus === 'BLOCKED'
-    || montezacijaTrack.reviewPosture === 'REVIEW_REQUIRED'
-    || montezacijaTrack.montezacijaNadMontezacijamaApprovalPackage.status === 'BLOCKED'
-    || montezacijaTrack.montezacijaNadMontezacijamaApprovalPackage.reviewPosture === 'REVIEW_REQUIRED'
-    || montezacijaFallbackInputStatus === 'BLOCKED';
+    !kraljevskaMontezacijaReady
+    && (
+      montezacijaBlocked
+      || montezacijaReviewRequired
+      || montezacijaNadMontezacijamaBlocked
+      || montezacijaNadMontezacijamaReviewRequired
+      || montezacijaFallbackBlocked
+    );
   montezacijaTrack.kraljevskaMontezacijaApprovalPackage.status = kraljevskaMontezacijaReady
     ? 'READY'
     : kraljevskaMontezacijaBlocked
