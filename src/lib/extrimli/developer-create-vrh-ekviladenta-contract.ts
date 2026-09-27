@@ -245,6 +245,47 @@ export const DEVELOPER_CREATE_CANONICAL_SCOPE_LOCK = {
   },
 } as const;
 
+export const DEVELOPER_CREATE_VRH_CANONICAL_OUTPUT_MODEL_FIELDS = [
+  'readinessStatus',
+  'blockerReason',
+  'watchReasons',
+  'humanReviewStatus',
+  'rolloutPlan',
+  'rollbackPlan',
+  'releaseAuditSummary',
+  'downstreamReference',
+] as const;
+
+export const DEVELOPER_CREATE_VRH_CANONICAL_IMPLEMENTATION_LOCK = {
+  scopeLock: DEVELOPER_CREATE_VRH_CANONICAL_NARRATIVE_SENTENCE,
+  boundedVocabularyPhrase: DEVELOPER_CREATE_REPO_WIDE_BOUNDED_VOCABULARY_PHRASE,
+  ownershipSplit: {
+    dokDikFor: 'EXTREM',
+    dakDuk: 'EXTRONDOL',
+    spajaKod: 'audit-safe-summary-only',
+  },
+  additiveOnlyRules: {
+    noNewRuntimeRoutes: true,
+    noParallelSourceOfTruth: true,
+    lockedApiContracts: [
+      '/api/extrimli/extrem',
+      '/api/extrimli/extrondol',
+      '/api/extrimli/spaja-kod',
+    ],
+  },
+  canonicalArtifacts: [
+    'docs/EXTRIMLI-DEVELOPER-CREATE-PROGRAM.md',
+    'docs/EXTRIMLI-VRH-PROGRAMSKOG-EKVILADENTA.md',
+    'src/lib/extrimli/developer-create-vrh-ekviladenta-contract.ts',
+  ],
+  outputModelFields: DEVELOPER_CREATE_VRH_CANONICAL_OUTPUT_MODEL_FIELDS,
+  governanceFinalControl: {
+    singleNarrativeCenter: true,
+    aliasesAreInterpretativeOnly: true,
+    downstreamSummaryOnlyReference: 'docs/MULTI-REPO-LINKS.md -> spaja86/IO-OPENUI-AO (summary-only)',
+  },
+} as const;
+
 export const DEVELOPER_CREATE_KRALJEVSKI_SISTEM_SCOPE_LOCK =
   'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == KRALJEVSKI SISTEM == additive-only bounded governance/orchestration alias unutar postojećeg KRALJEVSTVO federation lock-a, bez novih runtime ruta, bez novog source-of-truth sistema i bez odstupanja od ownership split-a DOK/DIK/FOR -> EXTREM, DAK/DUK -> EXTRONDOL, SPAJA KOD -> audit-safe summary-only.' as const;
 
