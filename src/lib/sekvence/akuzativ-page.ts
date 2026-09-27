@@ -120,7 +120,7 @@ export const akuzativSekvence: Sekvenca[] = [
     naslov: '🔗 Povezane jezičke teme',
     redosled: 8,
     podaci: {
-      opis: 'Nastavi kontinuitet učenja kroz kanonski PADEŽI paket i isti navigacioni obrazac za svih sedam padeža.',
+      opis: 'Nastavi kontinuitet učenja kroz povezane padeže iz kanonskog PADEŽI paketa, uz zadržan akuzativ fokus i direktne prečice ka susednim temama.',
       stavke: [
         { naziv: 'Nominativ', vrednost: 'Osnovni oblik subjekta', ikona: '🅽' },
         { naziv: 'Genitiv', vrednost: 'Odnos pripadnosti i negacije', ikona: '🅶' },
