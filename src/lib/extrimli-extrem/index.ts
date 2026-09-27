@@ -13455,6 +13455,7 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
     && identityVerificationSource.currentOperatingNameConfirmed
     && identityVerificationSource.omegaDidFingerprintPresent
     && identityVerificationSource.publicKeyReferenceRedacted
+    && identityVerificationSource.signatureDisplayObjectReady
     && identityVerificationSource.aliasCoverageScore >= 100
       ? 'CONFIRMED'
       : identityVerificationSource.canonicalIdentityConfirmed
