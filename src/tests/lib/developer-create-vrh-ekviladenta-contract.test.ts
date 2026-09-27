@@ -256,10 +256,16 @@ async function runTests(): Promise<void> {
       .slice(kraljevskiSistemLineIndex, boundedRosterBoundaryIndex + 1)
       .find((line) => line.startsWith('- Imena `'));
     assert(Boolean(manifestRosterLine), 'manifest roster line missing');
-    const rosterNamesOnlySegment = manifestRosterLine!.split(' ostaju ')[0];
-    const downstreamForbiddenNames = [...rosterNamesOnlySegment.matchAll(/`([^`]+)`/g)]
+    const vrhRosterLine = vrhDoc
+      .split('\n')
+      .find((line) => line.startsWith('- Imena `'));
+    assert(Boolean(vrhRosterLine), 'VRH doc roster line missing');
+    const downstreamForbiddenNames = [
+      ...manifestRosterLine!.split(' ostaju ')[0].matchAll(/`([^`]+)`/g),
+      ...vrhRosterLine!.split(' ostaju ')[0].matchAll(/`([^`]+)`/g),
+    ]
       .map((match) => match[1]);
-    for (const forbiddenName of downstreamForbiddenNames) {
+    for (const forbiddenName of new Set(downstreamForbiddenNames)) {
       assert(!multiRepoLinks.includes(forbiddenName), `multi-repo links must not expose roster name: ${forbiddenName}`);
     }
     assert(
