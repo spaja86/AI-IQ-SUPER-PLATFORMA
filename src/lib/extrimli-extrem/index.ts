@@ -189,6 +189,7 @@ import {
   DEVELOPER_CREATE_ALATI_RADIONICA_CANONICAL_ALIAS,
   DEVELOPER_CREATE_ALATI_RADIONICA_FALLBACK_INPUTS,
   DEVELOPER_CREATE_ALATI_RADIONICA_NORMALIZATION_RULES,
+  DEVELOPER_CREATE_ALATI_RADIONICA_RANDOM_SELECTION_SCOPE_STATEMENT,
   DEVELOPER_CREATE_ALATI_RADIONICA_ROLE_CLASSIFICATION,
   DEVELOPER_CREATE_ALATI_RADIONICA_SCOPE_STATEMENT,
   DEVELOPER_CREATE_ALATI_RADIONICA_SUMMARY_SAFE_FIELDS,
@@ -7155,7 +7156,7 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
         watchReasons: [],
         humanReviewPosture: 'REVIEW_REQUIRED',
         downstreamReference: 'docs/MULTI-REPO-LINKS.md -> spaja86/IO-OPENUI-AO (summary-only)',
-        randomSelectionScopeStatement: DEVELOPER_CREATE_RANDOM_SELECTION_SCOPE_STATEMENT,
+        randomSelectionScopeStatement: DEVELOPER_CREATE_ALATI_RADIONICA_RANDOM_SELECTION_SCOPE_STATEMENT,
         randomSelectionPosture: {
           requestAlias: 'RANDOM selekcija svega',
           selectionChannel: 'napoleon-diskaveri-bounded-selection',

@@ -181,6 +181,7 @@ import type {
   DEVELOPER_CREATE_ALATI_RADIONICA_CANONICAL_ALIAS,
   DEVELOPER_CREATE_ALATI_RADIONICA_FALLBACK_INPUTS,
   DEVELOPER_CREATE_ALATI_RADIONICA_NORMALIZATION_RULES,
+  DEVELOPER_CREATE_ALATI_RADIONICA_RANDOM_SELECTION_SCOPE_STATEMENT,
   DEVELOPER_CREATE_ALATI_RADIONICA_ROLE_CLASSIFICATION,
   DEVELOPER_CREATE_ALATI_RADIONICA_SCOPE_STATEMENT,
   DEVELOPER_CREATE_ALATI_RADIONICA_SUMMARY_SAFE_FIELDS,
@@ -3372,7 +3373,7 @@ export interface ExtrimliDokDikDakDukConsistencyHealth {
       watchReasons: string[];
       reviewPosture: 'ALIGNED' | 'WATCH' | 'REVIEW_REQUIRED';
       sequenceValidationSummary: string;
-      randomSelectionScopeStatement: typeof import('../extrimli/developer-create-vrh-ekviladenta-contract').DEVELOPER_CREATE_RANDOM_SELECTION_SCOPE_STATEMENT;
+      randomSelectionScopeStatement: typeof DEVELOPER_CREATE_ALATI_RADIONICA_RANDOM_SELECTION_SCOPE_STATEMENT;
       acceptanceEvidence: readonly [
         'developerAndCreateRepoWideReflection.alatiRadionicaTrack',
         'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.alatiRadionicaTrack',
