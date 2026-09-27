@@ -320,6 +320,8 @@ import type {
 
 const DEVELOPER_CREATE_MEDALJE_SRBSKE_FALLBACK_INPUTS_LOWERCASE =
   DEVELOPER_CREATE_MEDALJE_SRBSKE_FALLBACK_INPUTS.map((item) => item.toLowerCase());
+const DEVELOPER_CREATE_PILOT_FALLBACK_INPUTS_LOWERCASE =
+  DEVELOPER_CREATE_PILOT_FALLBACK_INPUTS.map((item) => item.toLowerCase());
 import {
   EXTRIMLI_EXTREM_PROFILER_API_MAX_MS,
   EXTRIMLI_EXTREM_PROFILER_CONTRACT_VERSION,
@@ -13271,9 +13273,7 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
     normalizedPilotFallbackInput === 'conflict'
       ? 'BLOCKED'
       : normalizedPilotFallbackInput
-        && DEVELOPER_CREATE_PILOT_FALLBACK_INPUTS.map((item) => item.toLowerCase()).includes(
-          normalizedPilotFallbackInput,
-        )
+        && DEVELOPER_CREATE_PILOT_FALLBACK_INPUTS_LOWERCASE.includes(normalizedPilotFallbackInput)
         ? 'WATCH'
         : 'READY';
   const pilotSignalStatuses = [
