@@ -389,6 +389,9 @@ export const DEVELOPER_CREATE_V700_SCOPE_STATEMENT =
 export const DEVELOPER_CREATE_RANDOM_SELECTION_SCOPE_STATEMENT =
   'RANDOM selekcija svega is mapped only through Napoleon Diskaveri bounded selection outputs (status, blocker/watch reasons, review posture, downstream reference).' as const;
 
+export const DEVELOPER_CREATE_ALATI_RADIONICA_RANDOM_SELECTION_SCOPE_STATEMENT =
+  'ALATI / RADIONICA keeps RANDOM selekcija svega bound only to the existing Napoleon Diskaveri bounded selection outputs (status, blocker/watch reasons, review posture, downstream reference).' as const;
+
 export const DEVELOPER_CREATE_NOTES_1450_CANONICAL_ALIAS =
   'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == NOTES 1450' as const;
 
