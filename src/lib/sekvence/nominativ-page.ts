@@ -1,18 +1,13 @@
-import type { Sekvenca } from '@/lib/types';
+import { buildPadezSekvence } from './padezi-shared';
 
-export const nominativSekvence: Sekvenca[] = [
-  {
-    id: 'nominativ-hero',
-    tip: 'hero',
-    naslov: '🅽 NOMINATIV — povezani modul',
-    podnaslov: 'Polazna tačka za razumevanje padežnog sistema',
-    redosled: 1,
-    podaci: {
-      opis: 'Nominativ je osnovni padež za imenovanje subjekta. Ovaj modul služi kao povezana tema uz AKUZATIV.',
-      dugmad: [
-        { tekst: 'Nazad na AKUZATIV', href: '/akuzativ' },
-        { tekst: 'Genitiv', href: '/genitiv', stil: 'sekundarno' },
-      ],
-    },
-  },
-];
+export const nominativSekvence = buildPadezSekvence('nominativ', {
+  podnaslov: 'Polazna tačka za razumevanje padežnog sistema',
+  opis:
+    'Nominativ je osnovni padež za imenovanje subjekta i početni ulaz u PADEŽI paket. Modul zadržava isti edukativni i navigacioni obrazac kao ostali padeži.',
+  fokus: [
+    'prepoznavanje subjekta u rečenici',
+    'osnovni oblik imenice i slaganje sa glagolom',
+    'razlika između imenovanja i objekta radnje',
+  ],
+  primeri: ['„Učenik čita.”', '„Planina je visoka.”', '„Ana govori.”'],
+});

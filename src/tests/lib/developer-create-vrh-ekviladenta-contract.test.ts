@@ -63,6 +63,15 @@ import {
   DEVELOPER_CREATE_POSLOVNA_PONUDA_ZELEZARA_DOO_URGENT_MEETING_INTAKE_PACKAGE,
   DEVELOPER_CREATE_POSLOVNA_PONUDA_ZELEZARA_DOO_SUMMARY_SAFE_FIELDS,
   DEVELOPER_CREATE_POSLOVNA_PONUDA_ZELEZARA_DOO_FALLBACK_INPUTS,
+  DEVELOPER_CREATE_PADEZI_ACCEPTANCE_CRITERIA,
+  DEVELOPER_CREATE_PADEZI_CANONICAL_ALIAS,
+  DEVELOPER_CREATE_PADEZI_CANONICAL_CASE_SEQUENCE,
+  DEVELOPER_CREATE_PADEZI_DOWNSTREAM_POLICY,
+  DEVELOPER_CREATE_PADEZI_EXISTING_MODULE_ROUTES,
+  DEVELOPER_CREATE_PADEZI_EXPANDED_MODULE_ROUTES,
+  DEVELOPER_CREATE_PADEZI_OUTPUT_MODEL,
+  DEVELOPER_CREATE_PADEZI_SCOPE_STATEMENT,
+  DEVELOPER_CREATE_PADEZI_SUMMARY_SAFE_FIELDS,
   DEVELOPER_CREATE_VRH_MONTEZACIJA_ALIAS,
   DEVELOPER_CREATE_MONTEZACIJA_CANONICAL_ALIAS,
   DEVELOPER_CREATE_MONTEZACIJA_SCOPE_STATEMENT,
@@ -87,6 +96,8 @@ import {
   DEVELOPER_CREATE_VRH_KRALJEVSKA_MONTEZACIJA_ALIAS,
   DEVELOPER_CREATE_VRH_MONTEZACIJA_NAD_MONTEZACIJAMA_ALIAS,
   DEVELOPER_CREATE_VRH_NAVIGACIONI_SISTEM_SA_TREKEROM_ALIAS,
+  DEVELOPER_CREATE_VRH_PADEZI_ALIAS,
+  DEVELOPER_CREATE_VRH_CANONICAL_OUTPUT_MODEL_FIELDS,
 } from '../../lib/extrimli/developer-create-vrh-ekviladenta-contract';
 
 let passed = 0;
@@ -133,6 +144,97 @@ async function runTests(): Promise<void> {
         DEVELOPER_CREATE_VRH_NAVIGACIONI_SISTEM_SA_TREKEROM_ALIAS,
       ),
       'NAVIGACIONI SISTEM SA TREKEROM alias must be present in interpretation aliases',
+    );
+  });
+
+  await test('padezi alias stays registered, normalized and summary-safe', () => {
+    assert(
+      DEVELOPER_CREATE_VRH_INTERPRETATION_ALIASES.includes(DEVELOPER_CREATE_VRH_PADEZI_ALIAS),
+      'PADEŽI alias must be present in interpretation aliases',
+    );
+    assert(
+      DEVELOPER_CREATE_PADEZI_CANONICAL_ALIAS ===
+        'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == PADEŽI',
+      'PADEŽI canonical alias mismatch',
+    );
+    assertArrayEquals(
+      DEVELOPER_CREATE_PADEZI_CANONICAL_CASE_SEQUENCE,
+      ['NOMINATIV', 'GENITIV', 'DATIV', 'AKUZATIV', 'VOKATIV', 'INSTRUMENTAL', 'LOKATIV'],
+      'unexpected PADEŽI canonical case sequence',
+    );
+    assert(
+      DEVELOPER_CREATE_PADEZI_CANONICAL_CASE_SEQUENCE.filter((item) => item === 'LOKATIV').length === 1,
+      'LOKATIV must appear exactly once in the PADEŽI canonical sequence',
+    );
+    assert(
+      DEVELOPER_CREATE_PADEZI_SCOPE_STATEMENT.includes('additive-only bounded jezički paket') &&
+        DEVELOPER_CREATE_PADEZI_SCOPE_STATEMENT.includes('bez novih runtime ruta') &&
+        DEVELOPER_CREATE_PADEZI_SCOPE_STATEMENT.includes('bez paralelnog source-of-truth sistema'),
+      'PADEŽI scope statement must preserve additive-only and no-new-runtime rules',
+    );
+    assertArrayEquals(
+      DEVELOPER_CREATE_PADEZI_EXISTING_MODULE_ROUTES,
+      ['/nominativ', '/genitiv', '/dativ', '/akuzativ'],
+      'unexpected PADEŽI existing module routes',
+    );
+    assertArrayEquals(
+      DEVELOPER_CREATE_PADEZI_EXPANDED_MODULE_ROUTES,
+      ['/vokativ', '/instrumental', '/lokativ'],
+      'unexpected PADEŽI expanded module routes',
+    );
+    assertArrayEquals(
+      DEVELOPER_CREATE_PADEZI_OUTPUT_MODEL.fields,
+      DEVELOPER_CREATE_VRH_CANONICAL_OUTPUT_MODEL_FIELDS,
+      'PADEŽI output model must reuse the canonical VRH output fields',
+    );
+    assertArrayEquals(
+      DEVELOPER_CREATE_PADEZI_SUMMARY_SAFE_FIELDS,
+      [
+        'canonicalAlias',
+        'canonicalCases',
+        'readinessStatus',
+        'blockerReason',
+        'watchReasons',
+        'humanReviewStatus',
+        'rolloutPlan',
+        'rollbackPlan',
+        'releaseAuditSummary',
+        'downstreamReference',
+      ],
+      'unexpected PADEŽI summary-safe fields',
+    );
+    assert(
+      DEVELOPER_CREATE_PADEZI_ACCEPTANCE_CRITERIA.includes('duplicate-lokativ-normalized-to-vokativ-in-canonical-sequence'),
+      'PADEŽI acceptance criteria must record canonical normalization of the duplicate lokativ request',
+    );
+    assert(
+      DEVELOPER_CREATE_PADEZI_DOWNSTREAM_POLICY.syncMode === 'summary-only',
+      'PADEŽI downstream policy must remain summary-only',
+    );
+  });
+
+  await test('padezi docs and routes stay aligned with the canonical package', async () => {
+    assert(
+      manifest.includes('`DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == PADEŽI`') &&
+        manifest.includes('VOKATIV') &&
+        manifest.includes('dupli `LOKATIV`'),
+      'manifest PADEŽI markers missing',
+    );
+    assert(
+      vrhDoc.includes('`PADEŽI`') &&
+        vrhDoc.includes('NOMINATIV`, `GENITIV`, `DATIV`, `AKUZATIV`, `VOKATIV`, `INSTRUMENTAL`, `LOKATIV`'),
+      'VRH doc PADEŽI markers missing',
+    );
+    assert(
+      extrimliDoc.includes('bounded `PADEŽI` paket') &&
+        extrimliDoc.includes('`VOKATIV`, `INSTRUMENTAL` i `LOKATIV`'),
+      'EXTRIMLI doc PADEŽI markers missing',
+    );
+    await Promise.all(
+      ['src/app/padezi/page.tsx', 'src/app/vokativ/page.tsx', 'src/app/instrumental/page.tsx', 'src/app/lokativ/page.tsx']
+        .map(async (relativePath) => {
+          await fs.access(path.join(root, relativePath));
+        }),
     );
   });
 

@@ -1,4 +1,5 @@
 import type { Sekvenca } from '@/lib/types';
+import { buildPadezNavigationButtons } from './padezi-shared';
 
 export const akuzativSekvence: Sekvenca[] = [
   {
@@ -11,6 +12,7 @@ export const akuzativSekvence: Sekvenca[] = [
     podaci: {
       opis: 'AKUZATIV modul je samostalna edukativna sekvenca za razumevanje funkcije objekta, upotrebe sa/bez predloga i tipičnih grešaka. Modul uključuje mini-provere i povratnu informaciju.',
       dugmad: [
+        { tekst: 'Pregled PADEŽI', href: '/padezi' },
         { tekst: 'Počni osnovni nivo', href: '#akuzativ-osnovni' },
         { tekst: 'Srednji nivo', href: '#akuzativ-srednji', stil: 'sekundarno' },
         { tekst: 'Napredni nivo', href: '#akuzativ-napredni', stil: 'sekundarno' },
@@ -119,17 +121,13 @@ export const akuzativSekvence: Sekvenca[] = [
     naslov: '🔗 Povezane jezičke teme',
     redosled: 8,
     podaci: {
-      opis: 'Nastavi kontinuitet učenja kroz povezane padeže.',
+      opis: 'Nastavi kontinuitet učenja kroz kanonski PADEŽI paket i isti navigacioni obrazac za svih sedam padeža.',
       stavke: [
         { naziv: 'Nominativ', vrednost: 'Osnovni oblik subjekta', ikona: '🅽' },
         { naziv: 'Genitiv', vrednost: 'Odnos pripadnosti i negacije', ikona: '🅶' },
         { naziv: 'Dativ', vrednost: 'Usmerenost prema primaocu', ikona: '🅳' },
       ],
-      dugmad: [
-        { tekst: 'Nominativ', href: '/nominativ' },
-        { tekst: 'Genitiv', href: '/genitiv', stil: 'sekundarno' },
-        { tekst: 'Dativ', href: '/dativ', stil: 'sekundarno' },
-      ],
+      dugmad: buildPadezNavigationButtons('akuzativ'),
     },
   },
   {

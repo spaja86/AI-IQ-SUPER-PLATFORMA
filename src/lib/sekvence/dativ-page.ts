@@ -1,18 +1,13 @@
-import type { Sekvenca } from '@/lib/types';
+import { buildPadezSekvence } from './padezi-shared';
 
-export const dativSekvence: Sekvenca[] = [
-  {
-    id: 'dativ-hero',
-    tip: 'hero',
-    naslov: '🅳 DATIV — povezani modul',
-    podnaslov: 'Primaoc radnje i usmerenost',
-    redosled: 1,
-    podaci: {
-      opis: 'Dativ je povezana tema koja dopunjuje razumevanje AKUZATIV modula kroz usmerenost ka primaocu.',
-      dugmad: [
-        { tekst: 'Nazad na AKUZATIV', href: '/akuzativ' },
-        { tekst: 'Nominativ', href: '/nominativ', stil: 'sekundarno' },
-      ],
-    },
-  },
-];
+export const dativSekvence = buildPadezSekvence('dativ', {
+  podnaslov: 'Primaoc radnje i usmerenost',
+  opis:
+    'Dativ dopunjuje padežni niz kroz usmerenost ka primaocu, nameni ili cilju radnje i koristi isti pregledni obrazac kao ostali moduli.',
+  fokus: [
+    'odgovor na pitanje kome? čemu?',
+    'primaoc radnje, namena i korist',
+    'veza sa glagolima davanja, obraćanja i približavanja',
+  ],
+  primeri: ['„Dajem knjigu sestri.”', '„Pomažem drugu.”', '„Približavam se cilju.”'],
+});
