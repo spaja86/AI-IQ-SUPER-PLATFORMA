@@ -12,7 +12,6 @@ export const akuzativSekvence: Sekvenca[] = [
     podaci: {
       opis: 'AKUZATIV modul je samostalna edukativna sekvenca za razumevanje funkcije objekta, upotrebe sa/bez predloga i tipičnih grešaka. Modul uključuje mini-provere i povratnu informaciju.',
       dugmad: [
-        { tekst: 'Pregled PADEŽI', href: '/padezi' },
         { tekst: 'Počni osnovni nivo', href: '#akuzativ-osnovni' },
         { tekst: 'Srednji nivo', href: '#akuzativ-srednji', stil: 'sekundarno' },
         { tekst: 'Napredni nivo', href: '#akuzativ-napredni', stil: 'sekundarno' },
@@ -127,7 +126,7 @@ export const akuzativSekvence: Sekvenca[] = [
         { naziv: 'Genitiv', vrednost: 'Odnos pripadnosti i negacije', ikona: '🅶' },
         { naziv: 'Dativ', vrednost: 'Usmerenost prema primaocu', ikona: '🅳' },
       ],
-      dugmad: buildPadezNavigationButtons('akuzativ'),
+      dugmad: buildPadezNavigationButtons('akuzativ', { includeOverview: false }),
     },
   },
   {
