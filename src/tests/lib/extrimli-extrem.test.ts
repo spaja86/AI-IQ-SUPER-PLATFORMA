@@ -164,6 +164,23 @@ async function runTests(): Promise<void> {
       approvalPackage.acceptanceCriteria.includes('preserve-vrh-canonical-lock-and-bounded-vocabulary'),
       'MONTEZACIJA NAD MONTEZACIJAMA acceptance criteria must include canonical lock gate',
     );
+    assert(
+      approvalPackage.rolloutPlan.includes('Approve MONTEZACIJA NAD MONTEZACIJAMA for promotion'),
+      'MONTEZACIJA NAD MONTEZACIJAMA READY rollout message mismatch',
+    );
+  });
+
+  await test('MONTEZACIJA NAD MONTEZACIJAMA approval package switches to controlled rollout when fallback is degraded', async () => {
+    await withEnv({ EXTRIMLI_MONTEZACIJA_FALLBACK_INPUT: 'conflict' }, () => {
+      const report = getExtrimliExtremProfilerReport();
+      const approvalPackage =
+        report.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.montezacijaTrack
+          .montezacijaNadMontezacijamaApprovalPackage;
+      assert(
+        approvalPackage.rolloutPlan.includes('Keep MONTEZACIJA NAD MONTEZACIJAMA in controlled rollout mode'),
+        'MONTEZACIJA NAD MONTEZACIJAMA non-READY rollout message mismatch',
+      );
+    });
   });
 
   await test('default report keeps VINOGRADI GROCKA RESTORAN track removed from repo-wide reflection', () => {

@@ -12991,16 +12991,24 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
           'MONTEZACIJA ostaje u WATCH režimu dok fallback ulaz i review posture zahtevaju dodatnu proveru pre governance promocije.',
         ]
       : [];
+  const montezacijaReviewGateStatus = aggregateReadinessStatus([
+    montezacijaStatus,
+    montezacijaFallbackInputStatus,
+  ]);
   montezacijaTrack.reviewPosture =
-    montezacijaStatus === 'READY'
+    montezacijaReviewGateStatus === 'READY'
       ? 'ALIGNED'
-      : montezacijaStatus === 'WATCH'
+      : montezacijaReviewGateStatus === 'WATCH'
         ? 'WATCH'
         : 'REVIEW_REQUIRED';
   montezacijaTrack.montezacijaSummary =
     'MONTEZACIJA i MONTEZACIJA NAD MONTEZACIJAMA ostaju additive-only bounded aliasi: EXTREM vodi DOK/DIK/FOR readiness signal, EXTRONDOL vodi DAK/DUK governance odluke, a SPAJA KOD izlaže samo audit-safe status i downstream referencu.';
-  montezacijaTrack.montezacijaNadMontezacijamaApprovalPackage.rolloutPlan =
+  const montezacijaNadMontezacijamaApprovalReady =
     montezacijaStatus === 'READY'
+    && montezacijaFallbackInputStatus === 'READY'
+    && montezacijaTrack.reviewPosture === 'ALIGNED';
+  montezacijaTrack.montezacijaNadMontezacijamaApprovalPackage.rolloutPlan =
+    montezacijaNadMontezacijamaApprovalReady
       ? 'Approve MONTEZACIJA NAD MONTEZACIJAMA for promotion only while lock, ownership split, and governance evidence remain aligned.'
       : 'Keep MONTEZACIJA NAD MONTEZACIJAMA in controlled rollout mode until status, blocker posture, and review posture return to READY alignment.';
   montezacijaTrack.montezacijaNadMontezacijamaApprovalPackage.rollbackPlan =
