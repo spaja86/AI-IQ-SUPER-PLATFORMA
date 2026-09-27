@@ -63,8 +63,8 @@ async function testRouteResponse() {
           costToZeroFallbackPlan?: string[];
           automaticSubscriptionGates?: {
             activationCriteria?: string[];
-            mandatoryWaweOrder?: string[];
-            noSkippedWawePhases?: boolean;
+            mandatoryWaveOrder?: string[];
+            noSkippedWavePhases?: boolean;
           };
           finalAuditPackageContents?: string[];
         };
@@ -127,11 +127,11 @@ async function testRouteResponse() {
     [...DEVELOPER_CREATE_SARADNJA_READY_AUTOMATIC_SUBSCRIPTION_GATES.activationCriteria],
   );
   assert.deepStrictEqual(
-    json.pretplataVercel?.billingGovernance?.costGovernancePackage?.automaticSubscriptionGates?.mandatoryWaweOrder,
-    [...DEVELOPER_CREATE_SARADNJA_READY_AUTOMATIC_SUBSCRIPTION_GATES.mandatoryWaweOrder],
+    json.pretplataVercel?.billingGovernance?.costGovernancePackage?.automaticSubscriptionGates?.mandatoryWaveOrder,
+    [...DEVELOPER_CREATE_SARADNJA_READY_AUTOMATIC_SUBSCRIPTION_GATES.mandatoryWaveOrder],
   );
   assert.strictEqual(
-    json.pretplataVercel?.billingGovernance?.costGovernancePackage?.automaticSubscriptionGates?.noSkippedWawePhases,
+    json.pretplataVercel?.billingGovernance?.costGovernancePackage?.automaticSubscriptionGates?.noSkippedWavePhases,
     true,
   );
   assert.deepStrictEqual(

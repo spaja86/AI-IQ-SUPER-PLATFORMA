@@ -149,8 +149,8 @@ async function runTests(): Promise<void> {
             costToZeroFallbackPlan: string[];
             automaticSubscriptionGates: {
               activationCriteria: string[];
-              mandatoryWaweOrder: string[];
-              noSkippedWawePhases: boolean;
+              mandatoryWaveOrder: string[];
+              noSkippedWavePhases: boolean;
             };
             finalAuditPackageContents: string[];
           };
@@ -212,10 +212,10 @@ async function runTests(): Promise<void> {
       [...DEVELOPER_CREATE_SARADNJA_READY_AUTOMATIC_SUBSCRIPTION_GATES.activationCriteria],
     );
     assert.deepStrictEqual(
-      body.vercel.billingGovernance.costGovernancePackage.automaticSubscriptionGates.mandatoryWaweOrder,
-      [...DEVELOPER_CREATE_SARADNJA_READY_AUTOMATIC_SUBSCRIPTION_GATES.mandatoryWaweOrder],
+      body.vercel.billingGovernance.costGovernancePackage.automaticSubscriptionGates.mandatoryWaveOrder,
+      [...DEVELOPER_CREATE_SARADNJA_READY_AUTOMATIC_SUBSCRIPTION_GATES.mandatoryWaveOrder],
     );
-    assert.strictEqual(body.vercel.billingGovernance.costGovernancePackage.automaticSubscriptionGates.noSkippedWawePhases, true);
+    assert.strictEqual(body.vercel.billingGovernance.costGovernancePackage.automaticSubscriptionGates.noSkippedWavePhases, true);
     assert.deepStrictEqual(
       body.vercel.billingGovernance.costGovernancePackage.finalAuditPackageContents,
       [...DEVELOPER_CREATE_SARADNJA_READY_FINAL_AUDIT_PACKAGE_CONTENTS],
