@@ -200,6 +200,23 @@ async function runTests(): Promise<void> {
       assert(kraljevskaPackage.status === 'BLOCKED', 'KRALJEVSKA MONTEZACIJA degraded status must be BLOCKED');
       assert(kraljevskaPackage.reviewPosture === 'REVIEW_REQUIRED', 'KRALJEVSKA MONTEZACIJA degraded review posture mismatch');
     });
+
+    await test('default report exposes ELEKTRONSKI POTPIS track as identity-gated audit-safe summary surface', () => {
+      const report = getExtrimliExtremProfilerReport();
+      const track =
+        report.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.elektronskiPotpisTrack;
+      assert(track.canonicalAlias === 'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == ELEKTRONSKI POTPIS', 'ELEKTRONSKI POTPIS canonical alias mismatch');
+      assert(track.additiveOnly, 'ELEKTRONSKI POTPIS must remain additive-only');
+      assert(track.noNewRuntimeRoutes, 'ELEKTRONSKI POTPIS must not introduce new routes');
+      assert(track.noParallelSourceOfTruth, 'ELEKTRONSKI POTPIS must not introduce a parallel source-of-truth');
+      assert(track.summarySafePublicFields.join(',') === 'canonicalAlias,status,reviewPosture,identityConfirmationStatus,signatureDisplaySummary,downstreamReference', 'ELEKTRONSKI POTPIS summary-safe fields mismatch');
+      assert(track.readinessSignal.identityConfirmationStatus === 'CONFIRMED', 'ELEKTRONSKI POTPIS identity confirmation status mismatch');
+      assert(track.readinessSignal.signatureDisplayStatus === 'READY', 'ELEKTRONSKI POTPIS signature display status mismatch');
+      assert(track.reviewPosture === 'ALIGNED', 'ELEKTRONSKI POTPIS review posture mismatch');
+      assert(track.signatureDisplaySummary.includes('audit-safe summary'), 'ELEKTRONSKI POTPIS signature display summary mismatch');
+      assert(track.signatureDisplayObject.keyMaterialExposure === false, 'ELEKTRONSKI POTPIS must keep key material private');
+      assert(track.signatureDisplayObject.privateIdentityExposure === false, 'ELEKTRONSKI POTPIS must keep private identity details private');
+    });
   });
 
   await test('default report keeps VINOGRADI GROCKA RESTORAN track removed from repo-wide reflection', () => {

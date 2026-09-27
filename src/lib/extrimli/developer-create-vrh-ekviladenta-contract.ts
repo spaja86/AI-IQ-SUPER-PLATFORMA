@@ -86,6 +86,9 @@ export const DEVELOPER_CREATE_VRH_KRALJEVSKA_MONTEZACIJA_ALIAS =
 export const DEVELOPER_CREATE_VRH_PILOT_ALIAS =
   'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == PILOT' as const;
 
+export const DEVELOPER_CREATE_VRH_ELEKTRONSKI_POTPIS_ALIAS =
+  'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == ELEKTRONSKI POTPIS' as const;
+
 export const DEVELOPER_CREATE_VRH_INTERPRETATION_ALIASES = [
   'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == RADNI TAKT MOZGA (MISLILAC)',
   'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == MAPE UMA',
@@ -106,6 +109,7 @@ export const DEVELOPER_CREATE_VRH_INTERPRETATION_ALIASES = [
   DEVELOPER_CREATE_VRH_MONTEZACIJA_NAD_MONTEZACIJAMA_ALIAS,
   DEVELOPER_CREATE_VRH_KRALJEVSKA_MONTEZACIJA_ALIAS,
   DEVELOPER_CREATE_VRH_PILOT_ALIAS,
+  DEVELOPER_CREATE_VRH_ELEKTRONSKI_POTPIS_ALIAS,
   'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == KRALJEVSKI POKLONI ZA SVAČIJI ROĐENDAN',
   DEVELOPER_CREATE_VRH_KRALJEVSKI_SAT_ALIAS,
   DEVELOPER_CREATE_VRH_MEDALJE_SRBSKE_ALIAS,
@@ -783,6 +787,9 @@ export const DEVELOPER_CREATE_KRALJEVSKA_MONTEZACIJA_CANONICAL_ALIAS =
 export const DEVELOPER_CREATE_PILOT_CANONICAL_ALIAS =
   DEVELOPER_CREATE_VRH_PILOT_ALIAS;
 
+export const DEVELOPER_CREATE_ELEKTRONSKI_POTPIS_CANONICAL_ALIAS =
+  DEVELOPER_CREATE_VRH_ELEKTRONSKI_POTPIS_ALIAS;
+
 export const DEVELOPER_CREATE_MONTEZACIJA_SCOPE_STATEMENT =
   'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == MONTEZACIJA == additive-only bounded alias bez novih runtime ruta i bez paralelnog source-of-truth sloja' as const;
 
@@ -795,6 +802,9 @@ export const DEVELOPER_CREATE_KRALJEVSKA_MONTEZACIJA_SCOPE_STATEMENT =
 export const DEVELOPER_CREATE_PILOT_SCOPE_STATEMENT =
   'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == PILOT == additive-only bounded pilot alias bez novih runtime ruta i bez paralelnog source-of-truth sloja; koristi isključivo /api/extrimli/extrem, /api/extrimli/extrondol i /api/extrimli/spaja-kod' as const;
 
+export const DEVELOPER_CREATE_ELEKTRONSKI_POTPIS_SCOPE_STATEMENT =
+  'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == ELEKTRONSKI POTPIS == additive-only bounded elektronski-potpis alias bez novih runtime ruta i bez paralelnog source-of-truth sloja; koristi isključivo /api/extrimli/extrem, /api/extrimli/extrondol i /api/extrimli/spaja-kod' as const;
+
 export const DEVELOPER_CREATE_MONTEZACIJA_ROLE_CLASSIFICATION =
   'additive-only-bounded-montezacija-alias-track' as const;
 
@@ -806,6 +816,9 @@ export const DEVELOPER_CREATE_KRALJEVSKA_MONTEZACIJA_ROLE_CLASSIFICATION =
 
 export const DEVELOPER_CREATE_PILOT_ROLE_CLASSIFICATION =
   'additive-only-bounded-pilot-alias-track' as const;
+
+export const DEVELOPER_CREATE_ELEKTRONSKI_POTPIS_ROLE_CLASSIFICATION =
+  'additive-only-bounded-elektronski-potpis-alias-track' as const;
 
 export const DEVELOPER_CREATE_MONTEZACIJA_FALLBACK_INPUTS = [
   'NaN',
@@ -823,6 +836,15 @@ export const DEVELOPER_CREATE_PILOT_FALLBACK_INPUTS = [
   'unknown-token',
 ] as const;
 
+export const DEVELOPER_CREATE_ELEKTRONSKI_POTPIS_FALLBACK_INPUTS = [
+  'NaN',
+  'Infinity',
+  'empty',
+  'conflict',
+  'identity-unverified',
+  'signature-display-missing',
+] as const;
+
 export const DEVELOPER_CREATE_PILOT_GOVERNANCE_REQUIRED_OUTPUTS = [
   'rolloutPlan',
   'rollbackPlan',
@@ -831,7 +853,18 @@ export const DEVELOPER_CREATE_PILOT_GOVERNANCE_REQUIRED_OUTPUTS = [
   'downstreamReference',
 ] as const;
 
+export const DEVELOPER_CREATE_ELEKTRONSKI_POTPIS_GOVERNANCE_REQUIRED_OUTPUTS = [
+  'rolloutPlan',
+  'rollbackPlan',
+  'humanReviewStatus',
+  'releaseAuditSummary',
+  'downstreamReference',
+] as const;
+
 export const DEVELOPER_CREATE_PILOT_RELEASE_AUDIT_SUMMARY_SIGNAL =
+  'releaseAuditSummary' as const;
+
+export const DEVELOPER_CREATE_ELEKTRONSKI_POTPIS_RELEASE_AUDIT_SUMMARY_SIGNAL =
   'releaseAuditSummary' as const;
 
 export const DEVELOPER_CREATE_MONTEZACIJA_NAD_MONTEZACIJAMA_APPROVAL_ACCEPTANCE_CRITERIA = [
@@ -915,6 +948,19 @@ export const DEVELOPER_CREATE_PILOT_SUMMARY_SAFE_FIELDS = [
   'rolloutPlan',
   'rollbackPlan',
   'releaseAuditSummary',
+  'downstreamReference',
+] as const;
+
+export const DEVELOPER_CREATE_ELEKTRONSKI_POTPIS_SUMMARY_SAFE_FIELDS = [
+  'canonicalAlias',
+  'publicBoundary',
+  'status',
+  'blockerReason',
+  'watchReasons',
+  'reviewPosture',
+  'humanReviewStatus',
+  'identityConfirmationStatus',
+  'signatureDisplaySummary',
   'downstreamReference',
 ] as const;
 
