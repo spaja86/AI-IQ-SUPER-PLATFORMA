@@ -2423,6 +2423,40 @@ async function runTests(): Promise<void> {
         assert(['WATCH', 'BLOCKED'].includes(track.readinessSignal.status), 'kraljevski rad empty input must not produce unsafe READY-by-default when bounded checks degrade');
       });
     });
+
+    await test('ALATI / RADIONICA empty input stays in WATCH fallback posture instead of defaulting to canonical READY', async () => {
+      await withEnv({
+        NODE_ENV: 'test',
+        EXTRIMLI_ALATI_RADIONICA_TOKEN_INPUT: '',
+      }, () => {
+        const track =
+          getExtrimliExtremProfilerReport()
+            .dokDikDakDukConsistencyHealth
+            .developerAndCreateRepoWideReflection
+            .alatiRadionicaTrack;
+
+        assert(track.readinessSignal.fallbackInputStatus === 'WATCH', 'ALATI / RADIONICA empty input should map to WATCH fallback status');
+        assert(track.readinessSignal.tokenOrderStatus === 'WATCH', 'ALATI / RADIONICA empty input should degrade token order to WATCH');
+        assert(track.readinessSignal.duplicateRuleStatus === 'WATCH', 'ALATI / RADIONICA empty input should degrade duplicate rule to WATCH');
+        assert(track.readinessSignal.status !== 'READY', 'ALATI / RADIONICA empty input must not default overall readiness to READY');
+      });
+    });
+
+    await test('ALATI / RADIONICA conflict fallback stays BLOCKED even when mixed with unknown fallback tokens', async () => {
+      await withEnv({
+        NODE_ENV: 'test',
+        EXTRIMLI_ALATI_RADIONICA_TOKEN_INPUT: 'conflict,unknown-token',
+      }, () => {
+        const track =
+          getExtrimliExtremProfilerReport()
+            .dokDikDakDukConsistencyHealth
+            .developerAndCreateRepoWideReflection
+            .alatiRadionicaTrack;
+
+        assert(track.readinessSignal.fallbackInputStatus === 'BLOCKED', 'ALATI / RADIONICA conflict input must keep fallback status BLOCKED');
+        assert(track.readinessSignal.status === 'BLOCKED', 'ALATI / RADIONICA conflict input must keep overall readiness BLOCKED');
+      });
+    });
   });
 
   console.log(`\n📊 Results: ${passed} passed, ${failed} failed\n`);
