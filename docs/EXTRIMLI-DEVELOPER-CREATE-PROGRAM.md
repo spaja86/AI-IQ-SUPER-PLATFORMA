@@ -226,6 +226,18 @@ Prioritet realizacije ostaje zaključan:
 - Obavezni governance izlazi ostaju: `rolloutPlan`, `rollbackPlan`, `humanReviewStatus`, `releaseAuditSummary`, `downstreamReference`.
 - Odluka o odobrenju je dozvoljena samo ako lock kriterijumi i audit kriterijumi ostanu netaknuti.
 
+### 2.2.4.4) ELEKTRONSKI POTPIS bounded alias
+
+- Kanonski alias ostaje zaključan: `DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == ELEKTRONSKI POTPIS`.
+- Alias ostaje additive-only nad postojećim lock-om: nema novih ruta, nema novog runtime engine-a i nema paralelnog source-of-truth sistema.
+- `ELEKTRONSKI POTPIS` ostaje bounded objekat za sistemski prikaz potpisa; identitet mora biti potvrđen ili eksplicitno blokiran/review-gated pre promocije.
+- Bounded vokabular ostaje isti: `EXTRIMLI EXTRONDOL EXTREM DOK DUK DAK DIK FOR`.
+- Ownership split ostaje nepromenjen: `DOK + DIK + FOR -> EXTREM`, `DAK + DUK -> EXTRONDOL`, `SPAJA KOD -> audit-safe summary-only`.
+- Status jezik ostaje zaključan na `READY | WATCH | BLOCKED` sa obaveznim blocker/watch razlozima, deterministic fallback ulazima (`NaN`, `Infinity`, `empty`, `conflict`, `identity-unverified`, `signature-display-missing`) i obaveznim human review kada potvrda identiteta nije audit-ready.
+- Obavezni governance izlazi ostaju: `rolloutPlan`, `rollbackPlan`, `humanReviewStatus`, `releaseAuditSummary`, `downstreamReference`.
+- Acceptance kriterijumi ostaju zaključani: dokaziva potvrda identiteta, audit-safe `signatureDisplaySummary`, bez sirovih ključeva, bez privatnih identitetskih podataka i bez internog kripto materijala u javnom output-u.
+- Downstream prema `spaja86/IO-OPENUI-AO` ostaje isključivo summary-only (`canonicalAlias`, `status`, `reviewPosture`, `identityConfirmationStatus`, `signatureDisplaySummary`, `downstreamReference`).
+
 ### 2.2.5) NAVIGACIONI SISTEM SA TREKEROM bounded alias paket
 
 - Kanonski alias ostaje zaključan: `DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == NAVIGACIONI SISTEM SA TREKEROM`.

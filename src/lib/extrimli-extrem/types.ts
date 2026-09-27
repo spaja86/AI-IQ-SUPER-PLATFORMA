@@ -149,6 +149,11 @@ import type {
   DEVELOPER_CREATE_MONTEZACIJA_ROLE_CLASSIFICATION,
   DEVELOPER_CREATE_MONTEZACIJA_SCOPE_STATEMENT,
   DEVELOPER_CREATE_MONTEZACIJA_SUMMARY_SAFE_FIELDS,
+  DEVELOPER_CREATE_ELEKTRONSKI_POTPIS_CANONICAL_ALIAS,
+  DEVELOPER_CREATE_ELEKTRONSKI_POTPIS_FALLBACK_INPUTS,
+  DEVELOPER_CREATE_ELEKTRONSKI_POTPIS_ROLE_CLASSIFICATION,
+  DEVELOPER_CREATE_ELEKTRONSKI_POTPIS_SCOPE_STATEMENT,
+  DEVELOPER_CREATE_ELEKTRONSKI_POTPIS_SUMMARY_SAFE_FIELDS,
   DEVELOPER_CREATE_PILOT_CANONICAL_ALIAS,
   DEVELOPER_CREATE_PILOT_FALLBACK_INPUTS,
   DEVELOPER_CREATE_PILOT_ROLE_CLASSIFICATION,
@@ -3421,6 +3426,55 @@ export interface ExtrimliDokDikDakDukConsistencyHealth {
       rollbackPlan: string;
       humanReviewStatus: 'required-before-promotion';
       releaseAuditSummary: string;
+      downstreamReference: 'docs/MULTI-REPO-LINKS.md -> spaja86/IO-OPENUI-AO (summary-only)';
+    };
+    elektronskiPotpisTrack: {
+      canonicalAlias: typeof DEVELOPER_CREATE_ELEKTRONSKI_POTPIS_CANONICAL_ALIAS;
+      scopeStatement: typeof DEVELOPER_CREATE_ELEKTRONSKI_POTPIS_SCOPE_STATEMENT;
+      roleClassification: typeof DEVELOPER_CREATE_ELEKTRONSKI_POTPIS_ROLE_CLASSIFICATION;
+      boundedVocabularyPhrase: 'EXTRIMLI EXTRONDOL EXTREM DOK DUK DAK DIK FOR';
+      additiveOnly: true;
+      noNewRuntimeEngine: true;
+      noNewRuntimeRoutes: true;
+      noParallelSourceOfTruth: true;
+      sourceOfTruthRoutes: readonly ['/api/extrimli/extrem', '/api/extrimli/extrondol', '/api/extrimli/spaja-kod'];
+      ownershipLock: {
+        dokDikFor: 'EXTREM';
+        dakDuk: 'EXTRONDOL';
+        spajaKod: 'audit-safe-summary-only';
+      };
+      summarySafePublicFields: typeof DEVELOPER_CREATE_ELEKTRONSKI_POTPIS_SUMMARY_SAFE_FIELDS;
+      readinessSignal: {
+        status: 'READY' | 'WATCH' | 'BLOCKED';
+        readinessScore: number;
+        identityConfirmationStatus: 'CONFIRMED' | 'REVIEW_REQUIRED' | 'UNCONFIRMED';
+        signatureDisplayStatus: 'READY' | 'WATCH' | 'BLOCKED';
+        fallbackInputStatus: 'READY' | 'WATCH' | 'BLOCKED';
+        deterministicFallbackRequired: boolean;
+        fallbackInputs: typeof DEVELOPER_CREATE_ELEKTRONSKI_POTPIS_FALLBACK_INPUTS;
+        driver: 'developerAndCreateRepoWideReflection.readiness + developerAndCreateRepoWideReflection.technicalReadinessProfile.consolidatedRhythmStatus + auth.identity + auth.signature';
+      };
+      blockerReason: string | null;
+      watchReasons: string[];
+      reviewPosture: 'ALIGNED' | 'WATCH' | 'REVIEW_REQUIRED';
+      humanReviewStatus: 'required-before-promotion';
+      rolloutPlan: string;
+      rollbackPlan: string;
+      releaseAuditSummary: string;
+      signatureDisplayObject: {
+        canonicalName: 'sistemski-elektronski-potpis';
+        displayMode: 'audit-safe-summary-only';
+        identityProofMode: 'existing-auth-crypto-verification';
+        keyMaterialExposure: false;
+        privateIdentityExposure: false;
+      };
+      signatureDisplaySummary: string;
+      acceptanceEvidence: readonly [
+        'developerAndCreateRepoWideReflection.elektronskiPotpisTrack',
+        'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.elektronskiPotpisTrack',
+        'spajaKod.publicSignals.elektronskiPotpisStatus',
+        'spajaKod.developerAndCreateImplementationPackage.elektronskiPotpisSummary'
+      ];
       downstreamReference: 'docs/MULTI-REPO-LINKS.md -> spaja86/IO-OPENUI-AO (summary-only)';
     };
     aiIqLaboratorijaTrack: ExtrimliDeveloperCreateAiIqLaboratorijaTrack;

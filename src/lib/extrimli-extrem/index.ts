@@ -160,6 +160,12 @@ import {
   DEVELOPER_CREATE_MONTEZACIJA_SCOPE_STATEMENT,
   DEVELOPER_CREATE_MONTEZACIJA_SUMMARY_SAFE_FIELDS,
   DEVELOPER_CREATE_PILOT_CANONICAL_ALIAS,
+  DEVELOPER_CREATE_ELEKTRONSKI_POTPIS_CANONICAL_ALIAS,
+  DEVELOPER_CREATE_ELEKTRONSKI_POTPIS_FALLBACK_INPUTS,
+  DEVELOPER_CREATE_ELEKTRONSKI_POTPIS_RELEASE_AUDIT_SUMMARY_SIGNAL,
+  DEVELOPER_CREATE_ELEKTRONSKI_POTPIS_ROLE_CLASSIFICATION,
+  DEVELOPER_CREATE_ELEKTRONSKI_POTPIS_SCOPE_STATEMENT,
+  DEVELOPER_CREATE_ELEKTRONSKI_POTPIS_SUMMARY_SAFE_FIELDS,
   DEVELOPER_CREATE_PILOT_FALLBACK_INPUTS,
   DEVELOPER_CREATE_PILOT_GOVERNANCE_REQUIRED_OUTPUTS,
   DEVELOPER_CREATE_PILOT_RELEASE_AUDIT_SUMMARY_SIGNAL,
@@ -7722,6 +7728,59 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
         ],
         downstreamReference: 'docs/MULTI-REPO-LINKS.md -> spaja86/IO-OPENUI-AO (summary-only)',
       },
+      elektronskiPotpisTrack: {
+        canonicalAlias: DEVELOPER_CREATE_ELEKTRONSKI_POTPIS_CANONICAL_ALIAS,
+        scopeStatement: DEVELOPER_CREATE_ELEKTRONSKI_POTPIS_SCOPE_STATEMENT,
+        roleClassification: DEVELOPER_CREATE_ELEKTRONSKI_POTPIS_ROLE_CLASSIFICATION,
+        boundedVocabularyPhrase: DEVELOPER_CREATE_REPO_WIDE_BOUNDED_VOCABULARY_PHRASE,
+        additiveOnly: true,
+        noNewRuntimeEngine: true,
+        noNewRuntimeRoutes: true,
+        noParallelSourceOfTruth: true,
+        sourceOfTruthRoutes: ['/api/extrimli/extrem', '/api/extrimli/extrondol', '/api/extrimli/spaja-kod'],
+        ownershipLock: {
+          dokDikFor: 'EXTREM',
+          dakDuk: 'EXTRONDOL',
+          spajaKod: 'audit-safe-summary-only',
+        },
+        summarySafePublicFields: DEVELOPER_CREATE_ELEKTRONSKI_POTPIS_SUMMARY_SAFE_FIELDS,
+        readinessSignal: {
+          status: 'BLOCKED',
+          readinessScore: 0,
+          identityConfirmationStatus: 'UNCONFIRMED',
+          signatureDisplayStatus: 'BLOCKED',
+          fallbackInputStatus: 'BLOCKED',
+          deterministicFallbackRequired: true,
+          fallbackInputs: DEVELOPER_CREATE_ELEKTRONSKI_POTPIS_FALLBACK_INPUTS,
+          driver:
+            'developerAndCreateRepoWideReflection.readiness + developerAndCreateRepoWideReflection.technicalReadinessProfile.consolidatedRhythmStatus + auth.identity + auth.signature',
+        },
+        blockerReason:
+          'elektronski-potpis-track-awaits-existing-auth-identity-and-signature-verification-alignment-without-new-runtime-surfaces',
+        watchReasons: [],
+        reviewPosture: 'REVIEW_REQUIRED',
+        humanReviewStatus: 'required-before-promotion',
+        rolloutPlan:
+          'Promote ELEKTRONSKI POTPIS only after existing auth/crypto identity verification, EXTREM readiness, and EXTRONDOL governance remain aligned under current source-of-truth routes.',
+        rollbackPlan:
+          'Freeze ELEKTRONSKI POTPIS promotion and revert to the previously verified Developer/Create package if identity confirmation, signature display summary, or governance evidence drifts.',
+        releaseAuditSummary: DEVELOPER_CREATE_ELEKTRONSKI_POTPIS_RELEASE_AUDIT_SUMMARY_SIGNAL,
+        signatureDisplayObject: {
+          canonicalName: 'sistemski-elektronski-potpis',
+          displayMode: 'audit-safe-summary-only',
+          identityProofMode: 'existing-auth-crypto-verification',
+          keyMaterialExposure: false,
+          privateIdentityExposure: false,
+        },
+        signatureDisplaySummary: '',
+        acceptanceEvidence: [
+          'developerAndCreateRepoWideReflection.elektronskiPotpisTrack',
+          'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.elektronskiPotpisTrack',
+          'spajaKod.publicSignals.elektronskiPotpisStatus',
+          'spajaKod.developerAndCreateImplementationPackage.elektronskiPotpisSummary',
+        ],
+        downstreamReference: 'docs/MULTI-REPO-LINKS.md -> spaja86/IO-OPENUI-AO (summary-only)',
+      },
       aiIqLaboratorijaTrack: buildDefaultAiIqLaboratorijaTrack(),
       konstrukcijeIProjektovanjeTrack: {
         canonicalAlias: DEVELOPER_CREATE_KONSTRUKCIJE_I_PROJEKTOVANJE_CANONICAL_ALIAS,
@@ -13309,6 +13368,62 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
       : 'Keep PILOT in WATCH mode until readiness signal, review posture, and fallback handling return to READY alignment.';
   pilotTrack.rollbackPlan =
     'If PILOT drift appears, freeze promotion and rollback to the previously verified Developer/Create package while preserving summary-only downstream sync.';
+  const elektronskiPotpisTrack =
+    dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.elektronskiPotpisTrack;
+  const elektronskiPotpisSignalStatuses = [
+    dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.status,
+    dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.technicalReadinessProfile
+      .consolidatedRhythmStatus,
+  ] as const;
+  const elektronskiPotpisStatus = aggregateSignalReadinessStatus([...elektronskiPotpisSignalStatuses]);
+  const elektronskiPotpisFallbackInputStatus: ExtrimliExtremReadinessStatus = elektronskiPotpisStatus;
+  const elektronskiPotpisIdentityConfirmationStatus =
+    elektronskiPotpisStatus === 'READY'
+      ? 'CONFIRMED'
+      : elektronskiPotpisStatus === 'WATCH'
+        ? 'REVIEW_REQUIRED'
+        : 'UNCONFIRMED';
+  elektronskiPotpisTrack.readinessSignal.status = elektronskiPotpisStatus;
+  elektronskiPotpisTrack.readinessSignal.readinessScore = round(
+    elektronskiPotpisSignalStatuses.reduce((sum, signalStatus) => sum + readinessStatusScore(signalStatus), 0)
+      / elektronskiPotpisSignalStatuses.length,
+    2,
+  );
+  elektronskiPotpisTrack.readinessSignal.identityConfirmationStatus =
+    elektronskiPotpisIdentityConfirmationStatus;
+  elektronskiPotpisTrack.readinessSignal.signatureDisplayStatus = elektronskiPotpisStatus;
+  elektronskiPotpisTrack.readinessSignal.fallbackInputStatus = elektronskiPotpisFallbackInputStatus;
+  elektronskiPotpisTrack.readinessSignal.deterministicFallbackRequired =
+    elektronskiPotpisStatus !== 'READY';
+  elektronskiPotpisTrack.blockerReason =
+    elektronskiPotpisStatus === 'BLOCKED'
+      ? 'ELEKTRONSKI POTPIS ostaje BLOCKED dok potvrda identiteta i audit-safe prikaz potpisa ne ostanu poravnati sa postojećim auth/crypto slojem bez novih ruta.'
+      : null;
+  elektronskiPotpisTrack.watchReasons =
+    elektronskiPotpisStatus === 'WATCH'
+      ? [
+          'ELEKTRONSKI POTPIS ostaje u WATCH režimu dok potvrda identiteta zahteva dodatni human review i audit-safe display summary pre promocije.',
+        ]
+      : [];
+  elektronskiPotpisTrack.reviewPosture =
+    elektronskiPotpisStatus === 'READY'
+      ? 'ALIGNED'
+      : 'REVIEW_REQUIRED';
+  elektronskiPotpisTrack.releaseAuditSummary =
+    DEVELOPER_CREATE_ELEKTRONSKI_POTPIS_RELEASE_AUDIT_SUMMARY_SIGNAL;
+  elektronskiPotpisTrack.rolloutPlan = elektronskiPotpisStatus === 'READY'
+    ? 'Promote ELEKTRONSKI POTPIS by preserving existing auth/crypto verification semantics, additive-only lock, and summary-only public boundary.'
+    : elektronskiPotpisStatus === 'BLOCKED'
+      ? 'Keep ELEKTRONSKI POTPIS BLOCKED until identity confirmation and signature-display governance evidence clear on existing source-of-truth routes.'
+      : 'Keep ELEKTRONSKI POTPIS in WATCH mode until identity confirmation, review posture, and signature-display summary return to READY alignment.';
+  elektronskiPotpisTrack.rollbackPlan =
+    'If ELEKTRONSKI POTPIS drifts, freeze promotion and rollback to the previously verified Developer/Create package while keeping keys, private identities, and crypto internals repo-local.';
+  elektronskiPotpisTrack.signatureDisplaySummary =
+    elektronskiPotpisIdentityConfirmationStatus === 'CONFIRMED'
+      ? 'Sistemski elektronski potpis je potvrđen kroz postojeći auth/crypto sloj i objavljen samo kao audit-safe summary objekat bez sirovih ključeva.'
+      : elektronskiPotpisIdentityConfirmationStatus === 'REVIEW_REQUIRED'
+        ? 'Sistemski elektronski potpis čeka dodatnu potvrdu identiteta; javni izlaz ostaje summary-only i redigovan.'
+        : 'Sistemski elektronski potpis nije potvrđen; promocija ostaje blokirana dok identity verification dokaz ne bude audit-ready.';
   const aiIqLaboratorijaTrack =
     dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.aiIqLaboratorijaTrack;
   const aiIqLaboratorijaExpectedTokens = [

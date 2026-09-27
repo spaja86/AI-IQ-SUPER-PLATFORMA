@@ -557,3 +557,13 @@ Implementacioni redosled ostaje zaključan:
 - Status jezik ostaje zaključan na `READY | WATCH | BLOCKED`, sa deterministic fallback ulazima (`NaN`, `Infinity`, `empty`, `conflict`) i obaveznim blocker/watch razlozima.
 - Audit zahtevi ostaju obavezni pre promocije: human-review, release-audit summary, rollback readiness i downstream reference prema `docs/MULTI-REPO-LINKS.md`.
 - Downstream sync prema `spaja86/IO-OPENUI-AO` ostaje summary-only bez izvoza sirovih EXTREM/EXTRONDOL formula i bez internog token modela.
+
+## ELEKTRONSKI POTPIS (bounded extension)
+
+- `DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == ELEKTRONSKI POTPIS` je additive-only bounded extension postojećeg VRH modela.
+- Bounded vokabular ostaje nepromenjen: `EXTRIMLI EXTRONDOL EXTREM DOK DUK DAK DIK FOR`.
+- Ownership split ostaje zaključan: `DOK + DIK + FOR` ostaju EXTREM tehnički readiness i identity-verification signal, `DAK + DUK` ostaju EXTRONDOL governance (WAWE/freeze/promotion/rollback/release-audit), a SPAJA KOD ostaje audit-safe summary-only.
+- `ELEKTRONSKI POTPIS` ostaje bounded objekat za sistemski prikaz potpisa sa obaveznim `identityConfirmationStatus` slojem; bez potvrde identiteta promocija ostaje review-gated ili blocked.
+- Status jezik ostaje zaključan na `READY | WATCH | BLOCKED`, sa deterministic fallback ulazima (`NaN`, `Infinity`, `empty`, `conflict`, `identity-unverified`, `signature-display-missing`) i obaveznim blocker/watch razlozima.
+- Audit zahtevi ostaju obavezni pre promocije: human-review, release-audit summary, rollout/rollback readiness i downstream reference prema `docs/MULTI-REPO-LINKS.md`.
+- Javna summary površina ostaje ograničena na `canonicalAlias`, `status`, `reviewPosture`, `identityConfirmationStatus`, `signatureDisplaySummary` i `downstreamReference`; sirovi ključevi, privatni identitetski podaci i interni kripto materijal ostaju repo-local i van Git secret boundary-ja.

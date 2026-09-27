@@ -63,7 +63,15 @@ import {
   DEVELOPER_CREATE_KRALJEVSKA_MONTEZACIJA_CANONICAL_ALIAS,
   DEVELOPER_CREATE_MONTEZACIJA_NAD_MONTEZACIJAMA_CANONICAL_ALIAS,
   DEVELOPER_CREATE_MONTEZACIJA_SUMMARY_SAFE_FIELDS,
+  DEVELOPER_CREATE_ELEKTRONSKI_POTPIS_CANONICAL_ALIAS,
+  DEVELOPER_CREATE_ELEKTRONSKI_POTPIS_FALLBACK_INPUTS,
+  DEVELOPER_CREATE_ELEKTRONSKI_POTPIS_GOVERNANCE_REQUIRED_OUTPUTS,
+  DEVELOPER_CREATE_ELEKTRONSKI_POTPIS_RELEASE_AUDIT_SUMMARY_SIGNAL,
+  DEVELOPER_CREATE_ELEKTRONSKI_POTPIS_ROLE_CLASSIFICATION,
+  DEVELOPER_CREATE_ELEKTRONSKI_POTPIS_SCOPE_STATEMENT,
+  DEVELOPER_CREATE_ELEKTRONSKI_POTPIS_SUMMARY_SAFE_FIELDS,
   DEVELOPER_CREATE_VRH_INTERPRETATION_ALIASES,
+  DEVELOPER_CREATE_VRH_ELEKTRONSKI_POTPIS_ALIAS,
   DEVELOPER_CREATE_VRH_KRALJEVSKA_MONTEZACIJA_ALIAS,
   DEVELOPER_CREATE_VRH_MONTEZACIJA_NAD_MONTEZACIJAMA_ALIAS,
   DEVELOPER_CREATE_VRH_NAVIGACIONI_SISTEM_SA_TREKEROM_ALIAS,
@@ -687,6 +695,44 @@ async function runTests(): Promise<void> {
         'downstreamReference',
       ],
       'unexpected KRALJEVSKA MONTEZACIJA approval summary-safe fields',
+    );
+  });
+
+  await test('elektronski potpis alias remains additive-only, identity-gated, and summary-safe', () => {
+    assert(
+      DEVELOPER_CREATE_VRH_INTERPRETATION_ALIASES.includes(DEVELOPER_CREATE_VRH_ELEKTRONSKI_POTPIS_ALIAS),
+      'ELEKTRONSKI POTPIS alias must remain part of the VRH interpretation aliases',
+    );
+    assert(
+      DEVELOPER_CREATE_ELEKTRONSKI_POTPIS_CANONICAL_ALIAS === DEVELOPER_CREATE_VRH_ELEKTRONSKI_POTPIS_ALIAS,
+      'ELEKTRONSKI POTPIS canonical alias mismatch',
+    );
+    assert(
+      DEVELOPER_CREATE_ELEKTRONSKI_POTPIS_SCOPE_STATEMENT.includes('identity confirmation'),
+      'ELEKTRONSKI POTPIS scope statement must keep identity confirmation mandatory',
+    );
+    assert(
+      DEVELOPER_CREATE_ELEKTRONSKI_POTPIS_ROLE_CLASSIFICATION === 'additive-only-bounded-elektronski-potpis-track',
+      'ELEKTRONSKI POTPIS role classification mismatch',
+    );
+    assertArrayEquals(
+      DEVELOPER_CREATE_ELEKTRONSKI_POTPIS_FALLBACK_INPUTS,
+      ['NaN', 'Infinity', 'empty', 'conflict', 'identity-unverified', 'signature-display-missing'],
+      'unexpected ELEKTRONSKI POTPIS fallback inputs',
+    );
+    assertArrayEquals(
+      DEVELOPER_CREATE_ELEKTRONSKI_POTPIS_GOVERNANCE_REQUIRED_OUTPUTS,
+      ['humanReviewStatus', 'releaseAuditSummary', 'rolloutPlan', 'rollbackPlan', 'downstreamReference'],
+      'unexpected ELEKTRONSKI POTPIS governance outputs',
+    );
+    assert(
+      DEVELOPER_CREATE_ELEKTRONSKI_POTPIS_RELEASE_AUDIT_SUMMARY_SIGNAL.includes('identity confirmation'),
+      'ELEKTRONSKI POTPIS release audit summary signal mismatch',
+    );
+    assertArrayEquals(
+      DEVELOPER_CREATE_ELEKTRONSKI_POTPIS_SUMMARY_SAFE_FIELDS,
+      ['canonicalAlias', 'status', 'reviewPosture', 'identityConfirmationStatus', 'signatureDisplaySummary', 'downstreamReference'],
+      'unexpected ELEKTRONSKI POTPIS summary-safe fields',
     );
   });
 
