@@ -13398,14 +13398,23 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
     2,
   );
   const alatiRadionicaFallbackTokens = alatiRadionicaTrack.readinessSignal.fallbackInputs
-    .map((token) => token.toUpperCase());
+    .map((token) => normalizeAlatiRadionicaToken(token));
+  const alatiRadionicaConflictFallbackToken = normalizeAlatiRadionicaToken('conflict');
+  const alatiRadionicaUnknownTokenFallbackToken = normalizeAlatiRadionicaToken('unknown-token');
   const alatiRadionicaHasConflictFallback = normalizedAlatiRadionicaTokens
-    .includes('CONFLICT');
+    .includes(alatiRadionicaConflictFallbackToken);
+  const alatiRadionicaHasUnknownTokenFallback = normalizedAlatiRadionicaTokens
+    .some((token) =>
+      !normalizedExpectedAlatiRadionicaTokens.includes(token)
+      && !alatiRadionicaFallbackTokens.includes(token));
   const alatiRadionicaHasSoftFallback = normalizedAlatiRadionicaTokens
-    .some((token) => token !== 'CONFLICT' && alatiRadionicaFallbackTokens.includes(token));
+    .some((token) => token !== alatiRadionicaConflictFallbackToken && alatiRadionicaFallbackTokens.includes(token))
+    || alatiRadionicaHasUnknownTokenFallback;
   const alatiRadionicaHasCanonicalVocabulary = normalizedAlatiRadionicaTokens
     .every((token) =>
-      normalizedExpectedAlatiRadionicaTokens.includes(token) || alatiRadionicaFallbackTokens.includes(token));
+      normalizedExpectedAlatiRadionicaTokens.includes(token)
+      || alatiRadionicaFallbackTokens.includes(token)
+      || token === alatiRadionicaUnknownTokenFallbackToken);
   const alatiRadionicaTokenOrderStatus: ExtrimliExtremReadinessStatus =
     alatiRadionicaHasConflictFallback
       ? 'BLOCKED'
