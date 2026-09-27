@@ -1,5 +1,5 @@
 import type { Sekvenca } from '@/lib/types';
-import { buildPadezNavigationButtons } from './padezi-shared';
+import { buildPadezNavigationButtons, padeziMeta } from './padezi-shared';
 
 export const akuzativSekvence: Sekvenca[] = [
   {
@@ -121,14 +121,13 @@ export const akuzativSekvence: Sekvenca[] = [
     redosled: 8,
     podaci: {
       opis: 'Nastavi kontinuitet učenja kroz svih šest preostalih padeža iz kanonskog PADEŽI paketa, uz zadržan akuzativ fokus i direktne prečice ka kompletnom nastavnom nizu.',
-      stavke: [
-        { naziv: 'Nominativ', vrednost: 'Osnovni oblik subjekta', ikona: '🅽' },
-        { naziv: 'Genitiv', vrednost: 'Odnos pripadnosti i negacije', ikona: '🅶' },
-        { naziv: 'Dativ', vrednost: 'Usmerenost prema primaocu', ikona: '🅳' },
-        { naziv: 'Vokativ', vrednost: 'Dozivanje i obraćanje', ikona: '🆅' },
-        { naziv: 'Instrumental', vrednost: 'Sredstvo, društvo i način', ikona: '🅸' },
-        { naziv: 'Lokativ', vrednost: 'Mesto, tema i oslonac uz predloge', ikona: '🅻' },
-      ],
+      stavke: padeziMeta
+        .filter((item) => item.id !== 'akuzativ')
+        .map((item) => ({
+          naziv: item.naziv.charAt(0) + item.naziv.slice(1).toLowerCase(),
+          vrednost: item.kratkiOpis,
+          ikona: item.ikona,
+        })),
       dugmad: buildPadezNavigationButtons('akuzativ', { includeOverview: false }),
     },
   },
