@@ -99,6 +99,10 @@ import {
   DEVELOPER_CREATE_VRH_PADEZI_ALIAS,
   DEVELOPER_CREATE_VRH_CANONICAL_OUTPUT_MODEL_FIELDS,
 } from '../../lib/extrimli/developer-create-vrh-ekviladenta-contract';
+import { navigation } from '../../lib/navigation';
+import { akuzativSekvence } from '../../lib/sekvence/akuzativ-page';
+import { padeziSekvence } from '../../lib/sekvence/padezi-page';
+import { buildPadezNavigationButtons } from '../../lib/sekvence/padezi-shared';
 
 let passed = 0;
 let failed = 0;
@@ -245,6 +249,40 @@ async function runTests(): Promise<void> {
           `${relativePath} must render ${exportName} through StranicaRenderer`,
         );
       }),
+    );
+    const overviewHero = padeziSekvence.find((sekvenca) => sekvenca.id === 'padezi-hero');
+    const overviewCta = padeziSekvence.find((sekvenca) => sekvenca.id === 'padezi-cta');
+    const akuzativCta = akuzativSekvence.find((sekvenca) => sekvenca.id === 'akuzativ-povezane-teme');
+
+    assert(overviewHero && overviewCta && akuzativCta, 'expected PADEŽI and AKUZATIV navigation sections to exist');
+
+    const overviewHeroButtons = overviewHero!.podaci?.dugmad ?? [];
+    const overviewCtaButtons = overviewCta!.podaci?.dugmad ?? [];
+    const akuzativButtons = akuzativCta!.podaci?.dugmad ?? [];
+
+    assert(
+      overviewHeroButtons[0]?.href === '/akuzativ' && overviewCtaButtons[0]?.href === '/akuzativ',
+      'PADEŽI overview must keep AKUZATIV as the primary linked page flow',
+    );
+    assertArrayEquals(
+      overviewHeroButtons.map((button: { href: string }) => button.href),
+      ['/akuzativ', '/nominativ', '/genitiv', '/dativ', '/vokativ', '/instrumental', '/lokativ'],
+      'PADEŽI overview hero buttons must cover all case routes with AKUZATIV first',
+    );
+    assertArrayEquals(
+      overviewCtaButtons.map((button: { href: string }) => button.href),
+      ['/akuzativ', '/nominativ', '/genitiv', '/dativ', '/vokativ', '/instrumental', '/lokativ'],
+      'PADEŽI overview CTA buttons must cover all case routes with AKUZATIV first',
+    );
+    assertArrayEquals(
+      akuzativButtons.map((button: { href: string }) => button.href),
+      buildPadezNavigationButtons('akuzativ', { includeOverview: false }).map((button) => button.href),
+      'AKUZATIV related-case buttons must stay aligned with the shared PADEŽI navigation helper',
+    );
+    assert(
+      !navigation.some((item) => item.label === 'PADEŽI') &&
+        navigation.some((item) => item.label === 'AKUZATIV' && item.href === '/akuzativ'),
+      'top-level navigation must preserve AKUZATIV without adding a competing PADEŽI primary entry',
     );
   });
 
