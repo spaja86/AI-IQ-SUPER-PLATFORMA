@@ -13440,7 +13440,6 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
       .consolidatedRhythmStatus,
   ] as const;
   const elektronskiPotpisReadinessStatus = aggregateSignalReadinessStatus([...elektronskiPotpisSignalStatuses]);
-  const elektronskiPotpisFallbackInputStatus: ExtrimliExtremReadinessStatus = elektronskiPotpisReadinessStatus;
   const identityVerificationSource = buildElektronskiPotpisIdentityVerificationSource();
   const elektronskiPotpisIdentityConfirmationStatus =
     identityVerificationSource.canonicalIdentityConfirmed
@@ -13461,6 +13460,10 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
       : elektronskiPotpisIdentityConfirmationStatus === 'REVIEW_REQUIRED'
         ? 'WATCH'
         : 'BLOCKED';
+  const elektronskiPotpisFallbackInputStatus: ExtrimliExtremReadinessStatus = aggregateSignalReadinessStatus([
+    elektronskiPotpisReadinessStatus,
+    identityVerificationSource.status,
+  ]);
   const elektronskiPotpisStatus = aggregateSignalReadinessStatus([
     elektronskiPotpisReadinessStatus,
     elektronskiPotpisSignatureDisplayStatus,
