@@ -215,6 +215,15 @@ Prioritet realizacije ostaje zaključan:
 - `KRALJEVSKA MONTEZACIJA` promotion paket je validan samo uz merljive izlaze: `status`, `blockerReason`, `reviewPosture`, `humanReviewStatus`, `releaseAuditSummaryRequired`, `rolloutPlan`, `rollbackPlan`, `downstreamReference`.
 - Governance gate je obavezan pre promocije: `humanReviewStatus = required-before-promotion`, `releaseAuditSummaryRequired = true`, `rollbackRequiredBeforePromotion = true`.
 - `KRALJEVSKA MONTEZACIJA` governance gate je obavezan pre promocije: `humanReviewStatus = required-before-promotion`, `releaseAuditSummaryRequired = true`, `rollbackRequiredBeforePromotion = true`.
+
+### 2.2.4.3) PILOT bounded alias
+
+- Kanonski alias ostaje zaključan: `DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == PILOT`.
+- Alias ostaje additive-only nad postojećim lock-om: nema novih ruta, nema novog runtime engine-a i nema paralelnog source-of-truth sistema.
+- Bounded vokabular ostaje isti: `EXTRIMLI EXTRONDOL EXTREM DOK DUK DAK DIK FOR`.
+- Ownership split ostaje nepromenjen: `DOK + DIK + FOR -> EXTREM`, `DAK + DUK -> EXTRONDOL`, `SPAJA KOD -> audit-safe summary-only`.
+- Status jezik ostaje zaključan na `READY | WATCH | BLOCKED` sa obaveznim blocker/watch razlozima i deterministic fallback posture.
+- Obavezni governance izlazi ostaju: `rolloutPlan`, `rollbackPlan`, `humanReviewStatus`, `releaseAuditSummary`, `downstreamReference`.
 - Odluka o odobrenju je dozvoljena samo ako lock kriterijumi i audit kriterijumi ostanu netaknuti.
 
 ### 2.2.5) NAVIGACIONI SISTEM SA TREKEROM bounded alias paket

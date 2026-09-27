@@ -2028,6 +2028,14 @@ Koristiti format `AI-IQ-SUPER-PLATFORMA#VPOREKLO-2026-09 -> IO-OPENUI-AO#123` gd
 - Raw EXTREM/EXTRONDOL internals, token internals, and governance formulas remain repo-local.
 - Ownership lock remains unchanged: `DOK/DIK/FOR -> EXTREM`, `DAK/DUK -> EXTRONDOL`, `SPAJA KOD -> summary-only`.
 
+## Developer/Create PILOT downstream reference
+
+- Scope lock: `DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == PILOT`.
+- Linked repo: `spaja86/IO-OPENUI-AO` — Follow-up only / audit-safe summary sync.
+- Sync only audit-safe outputs (`developerAndCreateRepoWideReflection.pilotTrack`, `releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.pilotTrack`, `spajaKod.publicSignals.pilotStatus`, `spajaKod.developerAndCreateImplementationPackage.pilotSummary`) covering status, blocker/watch posture, review posture, rollout/rollback plan summary, human-review status, release-audit summary signal, and downstream reference.
+- Raw EXTREM/EXTRONDOL internals, token internals, and governance formulas remain repo-local.
+- Ownership lock remains unchanged: `DOK/DIK/FOR -> EXTREM`, `DAK/DUK -> EXTRONDOL`, `SPAJA KOD -> summary-only`.
+
 ## Developer/Create KRALJEVSKI POKLONI ZA SVAČIJI ROĐENDAN downstream reference
 
 - Scope lock: `DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == KRALJEVSKI POKLONI ZA SVAČIJI ROĐENDAN`.
