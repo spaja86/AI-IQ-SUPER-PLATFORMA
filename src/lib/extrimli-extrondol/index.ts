@@ -3453,6 +3453,7 @@ function buildSpajaKodFacade(params: {
   vrhProgramskogEkviladentaStatus: ExtrimliExtrondolReport['extremProfiler']['vrhProgramskogEkviladenta']['readiness']['status'];
   developerAndCreateStatus: ExtrimliExtrondolReport['extremProfiler']['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['readiness']['status'];
   eksperimentProgramskiJezikStatus: ExtrimliExtrondolReport['extremProfiler']['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['eksperimentProgramskiJezikTrack']['readinessSignal']['status'];
+  ispitivanjeSvegaStoJeFunkcionalnoStatus: ExtrimliExtrondolReport['extremProfiler']['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['ispitivanjeSvegaStoJeFunkcionalnoTrack']['readinessSignal']['status'];
   sarkazamPrivrednaGranaDigitalizmaStatus: ExtrimliExtrondolReport['extremProfiler']['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['sarkazamPrivrednaGranaDigitalizmaTrack']['reflectionSignal']['status'];
   notes1450Status: ExtrimliExtrondolReport['extremProfiler']['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['notes1450Track']['readinessSignal']['status'];
   saradnjaReadyStatus: ExtrimliExtrondolReport['extremProfiler']['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['saradnjaReadyPackage']['readinessSignal']['status'];
@@ -3603,6 +3604,7 @@ function buildSpajaKodFacade(params: {
       immersiveVisualization3dStatus:
         params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.technicalReadinessProfile.immersiveVisualization3dTrack.status,
       eksperimentProgramskiJezikStatus: params.eksperimentProgramskiJezikStatus,
+      ispitivanjeSvegaStoJeFunkcionalnoStatus: params.ispitivanjeSvegaStoJeFunkcionalnoStatus,
       sarkazamPrivrednaGranaDigitalizmaStatus: params.sarkazamPrivrednaGranaDigitalizmaStatus,
       notes1450Status: params.notes1450Status,
       saradnjaReadyStatus: params.saradnjaReadyStatus,
@@ -3729,6 +3731,7 @@ function buildSpajaKodFacade(params: {
         'publicSignals.smartProgramskiJezikStatus',
         'publicSignals.immersiveVisualization3dStatus',
         'publicSignals.eksperimentProgramskiJezikStatus',
+        'publicSignals.ispitivanjeSvegaStoJeFunkcionalnoStatus',
         'publicSignals.sarkazamPrivrednaGranaDigitalizmaStatus',
         'publicSignals.notes1450Status',
         'publicSignals.leksikonStatus',
@@ -3769,6 +3772,7 @@ function buildSpajaKodFacade(params: {
         'developerAndCreateImplementationPackage.kraljevskiAktBezbednostiSummary',
         'developerAndCreateImplementationPackage.smartProgramskiJezikSummary',
         'developerAndCreateImplementationPackage.eksperimentProgramskiJezikSummary',
+        'developerAndCreateImplementationPackage.ispitivanjeSvegaStoJeFunkcionalnoSummary',
         'developerAndCreateImplementationPackage.sarkazamPrivrednaGranaDigitalizmaSummary',
         'developerAndCreateImplementationPackage.notes1450Summary',
         'developerAndCreateImplementationPackage.leksikonSummary',
@@ -3869,6 +3873,31 @@ function buildSpajaKodFacade(params: {
         downstreamReference:
           params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.eksperimentProgramskiJezikTrack.downstreamReference,
         publicBoundary: 'audit-safe-summary-only',
+      },
+      ispitivanjeSvegaStoJeFunkcionalnoSummary: {
+        canonicalAlias:
+          params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.ispitivanjeSvegaStoJeFunkcionalnoTrack.canonicalAlias,
+        roleClassification:
+          params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.ispitivanjeSvegaStoJeFunkcionalnoTrack.roleClassification,
+        status:
+          params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.ispitivanjeSvegaStoJeFunkcionalnoTrack.readinessSignal.status,
+        blockerReason:
+          params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.ispitivanjeSvegaStoJeFunkcionalnoTrack.blockerReason,
+        watchReasons: [
+          ...params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.ispitivanjeSvegaStoJeFunkcionalnoTrack.watchReasons,
+        ],
+        reviewPosture:
+          params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.ispitivanjeSvegaStoJeFunkcionalnoTrack.reviewPosture,
+        downstreamReference:
+          params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.ispitivanjeSvegaStoJeFunkcionalnoTrack.downstreamReference,
+        publicBoundary: 'audit-safe-summary-only',
+        coverageAreas: [
+          ...params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.ispitivanjeSvegaStoJeFunkcionalnoTrack.coverageAreas,
+        ],
+        extendolEvidenceMode:
+          params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.ispitivanjeSvegaStoJeFunkcionalnoTrack.extendolEvidenceMode,
+        explicitCoverageClaim:
+          params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.ispitivanjeSvegaStoJeFunkcionalnoTrack.functionalCoverageSummary.explicitCoverageClaim,
       },
       sarkazamPrivrednaGranaDigitalizmaSummary: {
         canonicalAlias:
@@ -7148,6 +7177,8 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
     developerAndCreateStatus,
     eksperimentProgramskiJezikStatus:
       extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.eksperimentProgramskiJezikTrack.readinessSignal.status,
+    ispitivanjeSvegaStoJeFunkcionalnoStatus:
+      extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.ispitivanjeSvegaStoJeFunkcionalnoTrack.readinessSignal.status,
     sarkazamPrivrednaGranaDigitalizmaStatus:
       extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.sarkazamPrivrednaGranaDigitalizmaTrack.reflectionSignal.status,
     notes1450Status:
@@ -9124,6 +9155,35 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
           'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.eksperimentProgramskiJezikTrack',
           'spajaKod.publicSignals.eksperimentProgramskiJezikStatus',
           'spajaKod.developerAndCreateImplementationPackage.eksperimentProgramskiJezikSummary',
+        ],
+        downstreamReference: 'docs/MULTI-REPO-LINKS.md -> spaja86/IO-OPENUI-AO (summary-only)',
+      },
+      ispitivanjeSvegaStoJeFunkcionalnoTrack: {
+        ...extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.ispitivanjeSvegaStoJeFunkcionalnoTrack,
+        sourceOfTruth: '/api/extrimli/extrem',
+        governanceSource: '/api/extrimli/extrondol',
+        publicBoundary: '/api/extrimli/spaja-kod',
+        evidenceInputRoute: '/api/extrimli/extendol',
+        currentWawe,
+        eligibleNextWawe: eligibleNextWave,
+        promotionFreeze:
+          promotionFreeze
+          || extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.ispitivanjeSvegaStoJeFunkcionalnoTrack.readinessSignal.status !== 'READY',
+        reviewRequiredBeforeWideRollout:
+          extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.ispitivanjeSvegaStoJeFunkcionalnoTrack.readinessSignal.status !== 'READY'
+          || extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.ispitivanjeSvegaStoJeFunkcionalnoTrack.reviewPosture === 'REVIEW_REQUIRED',
+        reviewPosture:
+          extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.ispitivanjeSvegaStoJeFunkcionalnoTrack.reviewPosture,
+        rolloutPlan:
+          'Advance ISPITIVANJE SVEGA ŠTO JE FUNKCIONALNO only as an additive-only bounded functional-coverage alias through existing EXTREM readiness, EXTRONDOL WAWE governance, SPAJA KOD summary-safe outputs, and Extendol evidence input.',
+        rollbackPlan:
+          'Freeze promotion and revert to the previously verified Developer/Create package if bounded functional coverage, human-review posture, rollback evidence, or downstream summary alignment drifts.',
+        humanReviewStatus: 'required-before-promotion',
+        acceptanceEvidence: [
+          'developerAndCreateRepoWideReflection.ispitivanjeSvegaStoJeFunkcionalnoTrack',
+          'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.ispitivanjeSvegaStoJeFunkcionalnoTrack',
+          'spajaKod.publicSignals.ispitivanjeSvegaStoJeFunkcionalnoStatus',
+          'spajaKod.developerAndCreateImplementationPackage.ispitivanjeSvegaStoJeFunkcionalnoSummary',
         ],
         downstreamReference: 'docs/MULTI-REPO-LINKS.md -> spaja86/IO-OPENUI-AO (summary-only)',
       },
