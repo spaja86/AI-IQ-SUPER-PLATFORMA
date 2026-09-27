@@ -162,6 +162,7 @@ import {
   DEVELOPER_CREATE_PILOT_CANONICAL_ALIAS,
   DEVELOPER_CREATE_PILOT_FALLBACK_INPUTS,
   DEVELOPER_CREATE_PILOT_GOVERNANCE_REQUIRED_OUTPUTS,
+  DEVELOPER_CREATE_PILOT_RELEASE_AUDIT_SUMMARY_SIGNAL,
   DEVELOPER_CREATE_PILOT_ROLE_CLASSIFICATION,
   DEVELOPER_CREATE_PILOT_SCOPE_STATEMENT,
   DEVELOPER_CREATE_PILOT_SUMMARY_SAFE_FIELDS,
@@ -7712,7 +7713,7 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
           'Promote PILOT only after EXTREM readiness signal, EXTRONDOL governance evidence, and SPAJA KOD summary-safe outputs stay aligned under existing source-of-truth routes.',
         rollbackPlan:
           'Freeze promotion and revert to the previously verified Developer/Create package if PILOT readiness, review posture, or governance evidence drifts.',
-        releaseAuditSummary: DEVELOPER_CREATE_PILOT_GOVERNANCE_REQUIRED_OUTPUTS[3],
+        releaseAuditSummary: DEVELOPER_CREATE_PILOT_RELEASE_AUDIT_SUMMARY_SIGNAL,
         acceptanceEvidence: [
           'developerAndCreateRepoWideReflection.pilotTrack',
           'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.pilotTrack',
@@ -13296,7 +13297,7 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
       : pilotStatus === 'WATCH'
         ? 'WATCH'
         : 'REVIEW_REQUIRED';
-  pilotTrack.releaseAuditSummary = DEVELOPER_CREATE_PILOT_GOVERNANCE_REQUIRED_OUTPUTS[3];
+  pilotTrack.releaseAuditSummary = DEVELOPER_CREATE_PILOT_RELEASE_AUDIT_SUMMARY_SIGNAL;
   pilotTrack.rolloutPlan = pilotStatus === 'READY'
     ? 'Promote PILOT by preserving additive-only lock, existing EXTREM/EXTRONDOL/SPAJA KOD source-of-truth routes, and audit-safe summary boundary.'
     : pilotStatus === 'BLOCKED'
