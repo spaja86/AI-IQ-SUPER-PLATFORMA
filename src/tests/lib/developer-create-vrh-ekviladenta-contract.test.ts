@@ -563,7 +563,7 @@ async function runTests(): Promise<void> {
     );
     assert(
       multiRepoLinks.includes('Developer/Create `MEDALJE SRBSKE` bounded track') &&
-        multiRepoLinks.includes('`developerAndCreateRepoWideReflection.medaljeSrbskeTrack`') &&
+        multiRepoLinks.includes('do not promise dedicated `medaljeSrbskeTrack` runtime surfaces') &&
         multiRepoLinks.includes('`DAK/DUK=EXTRONDOL`'),
       'multi-repo links MEDALJE SRBSKE row missing',
     );
