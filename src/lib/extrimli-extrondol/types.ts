@@ -28,6 +28,7 @@ import type {
   DEVELOPER_CREATE_KRALJEVSKI_RAD_CANONICAL_ALIAS,
   DEVELOPER_CREATE_ALATI_RADIONICA_CANONICAL_ALIAS,
   DEVELOPER_CREATE_ALATI_RADIONICA_RANDOM_SELECTION_SCOPE_STATEMENT,
+  DEVELOPER_CREATE_RANDOM_SELECTION_SCOPE_STATEMENT,
   DEVELOPER_CREATE_IZVESTAJ_REPORT_LOCK,
   DEVELOPER_CREATE_IZVESTAJ_SCOPE_STATEMENT,
   DEVELOPER_CREATE_V700_ROADMAP_STAGE_ID,
@@ -3630,7 +3631,7 @@ export interface ExtrimliSpajaKodPublicFacade {
       tokenOrderStatus: 'READY' | 'WATCH' | 'BLOCKED';
       duplicateRuleStatus: 'READY' | 'WATCH' | 'BLOCKED';
       fallbackInputStatus: 'READY' | 'WATCH' | 'BLOCKED';
-      randomSelectionScopeStatement: typeof DEVELOPER_CREATE_ALATI_RADIONICA_RANDOM_SELECTION_SCOPE_STATEMENT;
+      randomSelectionScopeStatement: typeof DEVELOPER_CREATE_RANDOM_SELECTION_SCOPE_STATEMENT;
       governancePosture: {
         sequenceOrderRule: 'strict-order-required';
         duplicateRule: 'đukar-and-đukar-2-are-distinct-singletons';
