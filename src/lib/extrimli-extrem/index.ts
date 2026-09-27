@@ -13064,8 +13064,8 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
         : 'Keep MONTEZACIJA NAD MONTEZACIJAMA in controlled rollout mode until status, blocker posture, and review posture return to READY alignment.';
   montezacijaTrack.montezacijaNadMontezacijamaApprovalPackage.rollbackPlan =
     'If lock drift, blocker escalation, or review regression occurs, freeze promotion and rollback to the last verified MONTEZACIJA additive package.';
-  const montezacijaReady = montezacijaStatus === 'READY';
-  const montezacijaBlocked = montezacijaStatus === 'BLOCKED';
+  const montezacijaReady = montezacijaTrack.readinessSignal.status === 'READY';
+  const montezacijaBlocked = montezacijaTrack.readinessSignal.status === 'BLOCKED';
   const montezacijaReviewAligned = montezacijaTrack.reviewPosture === 'ALIGNED';
   const montezacijaReviewRequired = montezacijaTrack.reviewPosture === 'REVIEW_REQUIRED';
   const montezacijaNadMontezacijamaReady =
@@ -13076,14 +13076,11 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
     montezacijaTrack.montezacijaNadMontezacijamaApprovalPackage.reviewPosture === 'ALIGNED';
   const montezacijaNadMontezacijamaReviewRequired =
     montezacijaTrack.montezacijaNadMontezacijamaApprovalPackage.reviewPosture === 'REVIEW_REQUIRED';
-  const montezacijaFallbackReady = montezacijaFallbackInputStatus === 'READY';
-  const montezacijaFallbackBlocked = montezacijaFallbackInputStatus === 'BLOCKED';
   const kraljevskaMontezacijaReady =
     montezacijaReady
     && montezacijaReviewAligned
     && montezacijaNadMontezacijamaReady
-    && montezacijaNadMontezacijamaReviewAligned
-    && montezacijaFallbackReady;
+    && montezacijaNadMontezacijamaReviewAligned;
   const kraljevskaMontezacijaBlocked =
     !kraljevskaMontezacijaReady
     && (
@@ -13091,7 +13088,6 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
       || montezacijaReviewRequired
       || montezacijaNadMontezacijamaBlocked
       || montezacijaNadMontezacijamaReviewRequired
-      || montezacijaFallbackBlocked
     );
   montezacijaTrack.kraljevskaMontezacijaApprovalPackage.status = kraljevskaMontezacijaReady
     ? 'READY'
