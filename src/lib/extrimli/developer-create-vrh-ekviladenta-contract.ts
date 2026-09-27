@@ -242,27 +242,27 @@ export const DEVELOPER_CREATE_KRALJEVSKI_SISTEM_SUMMARY_SAFE_FIELDS = [
 
 export const DEVELOPER_CREATE_KRALJEVSKI_SISTEM_REVIEW_ROSTER = [
   {
-    name: 'Aleksandar Cvetić',
+    rosterSlot: 'review-slot-1',
     publicRole: 'documentation-review-stakeholder',
     responsibility: 'bounded review and audit-safe documentation feedback',
   },
   {
-    name: 'Vojislav Šešeljić',
+    rosterSlot: 'review-slot-2',
     publicRole: 'documentation-review-stakeholder',
     responsibility: 'bounded review and audit-safe documentation feedback',
   },
   {
-    name: 'Nenad Kuzmanović',
+    rosterSlot: 'review-slot-3',
     publicRole: 'documentation-review-stakeholder',
     responsibility: 'bounded review and audit-safe documentation feedback',
   },
   {
-    name: 'Nikola Mladenović',
+    rosterSlot: 'review-slot-4',
     publicRole: 'documentation-review-stakeholder',
     responsibility: 'bounded review and audit-safe documentation feedback',
   },
   {
-    name: 'Gordan Jovanović',
+    rosterSlot: 'review-slot-5',
     publicRole: 'documentation-review-stakeholder-psycholog-pedagog',
     responsibility: 'bounded pedagogical and psychological review feedback',
   },
@@ -275,7 +275,7 @@ export const DEVELOPER_CREATE_KRALJEVSKI_SISTEM_REVIEW_ROSTER_POLICY = {
   noSecurityActorUsage: true,
   noPayrollOwnershipUsage: true,
   publicOutputsStayAuditSafe: true,
-  summaryOnlyRoleFields: ['name', 'publicRole', 'responsibility'],
+  summaryOnlyRoleFields: ['rosterSlot', 'publicRole', 'responsibility'],
 } as const;
 
 export type DeveloperCreateSurfaceStatus = 'READY' | 'WATCH' | 'BLOCKED';
