@@ -12705,12 +12705,16 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
     : ispitivanjeSvegaStoJeFunkcionalnoExtendolCoverageValues.some(Boolean)
       ? 'WATCH'
     : 'BLOCKED';
-  const ispitivanjeSvegaStoJeFunkcionalnoExtendolFailedAcceptanceCriteria = extendolReport.acceptanceCriteria.filter(
-    (criterion) => !criterion.passed
-      && DEVELOPER_CREATE_ISPITIVANJE_SVEGA_STO_JE_FUNKCIONALNO_EXTENDOL_ACCEPTANCE_CRITERIA_IDS.includes(
-        criterion.id,
-      ),
-  );
+  const ispitivanjeSvegaStoJeFunkcionalnoExtendolAcceptanceCriteria =
+    DEVELOPER_CREATE_ISPITIVANJE_SVEGA_STO_JE_FUNKCIONALNO_EXTENDOL_ACCEPTANCE_CRITERIA_IDS.map(
+      (criterionId) => extendolReport.acceptanceCriteria.find((criterion) => criterion.id === criterionId) ?? {
+        id: criterionId,
+        description: 'missing-bounded-extendol-criterion',
+        passed: false,
+      },
+    );
+  const ispitivanjeSvegaStoJeFunkcionalnoExtendolFailedAcceptanceCriteria =
+    ispitivanjeSvegaStoJeFunkcionalnoExtendolAcceptanceCriteria.filter((criterion) => !criterion.passed);
   const ispitivanjeSvegaStoJeFunkcionalnoExtendolAcceptanceStatus =
     ispitivanjeSvegaStoJeFunkcionalnoExtendolFailedAcceptanceCriteria.length === 0
       ? 'READY'
