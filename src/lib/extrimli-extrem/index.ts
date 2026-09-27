@@ -13371,7 +13371,7 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
       normalizedToken = normalizedToken.replace(/^["'“”„`]+|["'“”„`]+$/g, '');
     }
     if (alatiRadionicaTrack.normalizationRules.stripTrailingPunctuation) {
-      normalizedToken = normalizedToken.replace(/[.]+$/g, '');
+      normalizedToken = normalizedToken.replace(/[.,;:!?]+$/g, '');
     }
     if (alatiRadionicaTrack.normalizationRules.collapseMultipleSpaces) {
       normalizedToken = normalizedToken.replace(/\s+/g, ' ');
@@ -13387,13 +13387,17 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
     DEVELOPER_CREATE_ALATI_RADIONICA_BOUNDED_TOKEN_SEQUENCE.map(normalizeAlatiRadionicaToken);
   const alatiRadionicaHasExactLength =
     normalizedAlatiRadionicaTokens.length === normalizedExpectedAlatiRadionicaTokens.length;
-  const alatiRadionicaMatchedTokenCount = alatiRadionicaHasExactLength
-    ? normalizedExpectedAlatiRadionicaTokens.reduce(
+  const alatiRadionicaComparisonLength = Math.min(
+    normalizedAlatiRadionicaTokens.length,
+    normalizedExpectedAlatiRadionicaTokens.length,
+  );
+  const alatiRadionicaMatchedTokenCount = normalizedExpectedAlatiRadionicaTokens
+    .slice(0, alatiRadionicaComparisonLength)
+    .reduce(
       (count, expectedToken, index) =>
         count + (normalizedAlatiRadionicaTokens[index] === expectedToken ? 1 : 0),
       0,
-    )
-    : 0;
+    );
   const alatiRadionicaTokenCoveragePercent = round(
     (alatiRadionicaMatchedTokenCount / (normalizedExpectedAlatiRadionicaTokens.length || 1)) * 100,
     2,
