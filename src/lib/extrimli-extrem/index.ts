@@ -7718,7 +7718,7 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
         watchReasons: [],
         reviewPosture: 'REVIEW_REQUIRED',
         sequenceValidationSummary: '',
-        randomSelectionScopeStatement: DEVELOPER_CREATE_RANDOM_SELECTION_SCOPE_STATEMENT,
+        randomSelectionScopeStatement: DEVELOPER_CREATE_ALATI_RADIONICA_RANDOM_SELECTION_SCOPE_STATEMENT,
         acceptanceEvidence: [
           'developerAndCreateRepoWideReflection.alatiRadionicaTrack',
           'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.alatiRadionicaTrack',
