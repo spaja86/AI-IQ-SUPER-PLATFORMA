@@ -13075,8 +13075,7 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
     || montezacijaTrack.reviewPosture === 'REVIEW_REQUIRED'
     || montezacijaTrack.montezacijaNadMontezacijamaApprovalPackage.status === 'BLOCKED'
     || montezacijaTrack.montezacijaNadMontezacijamaApprovalPackage.reviewPosture === 'REVIEW_REQUIRED'
-    || montezacijaFallbackInputStatus === 'BLOCKED'
-    || montezacijaStatus === 'BLOCKED';
+    || montezacijaFallbackInputStatus === 'BLOCKED';
   montezacijaTrack.kraljevskaMontezacijaApprovalPackage.status = kraljevskaMontezacijaReady
     ? 'READY'
     : kraljevskaMontezacijaBlocked
