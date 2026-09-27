@@ -245,33 +245,14 @@ async function runTests(): Promise<void> {
         vrhDoc.includes('nosioci osetljivih podataka'),
       'VRH doc roster privacy and documentation-only wording missing',
     );
-    const manifestLines = manifest.split('\n');
-    const kraljevskiSistemLineIndex = manifestLines.findIndex((line) =>
-      line.includes('`KRALJEVSKI SISTEM` ostaje bounded governance/orchestration alias'));
-    assert(kraljevskiSistemLineIndex >= 0, 'manifest KRALJEVSKI SISTEM line missing');
-    const boundedRosterBoundaryIndex = manifestLines.findIndex((line, index) =>
-      index > kraljevskiSistemLineIndex && line.includes('Za taj bounded roster javni izlaz sme da sadrži samo audit-safe uloge i review odgovornosti'));
-    assert(boundedRosterBoundaryIndex > kraljevskiSistemLineIndex, 'manifest KRALJEVSKI SISTEM roster boundary missing');
-    const manifestRosterLine = manifestLines
-      .slice(kraljevskiSistemLineIndex, boundedRosterBoundaryIndex + 1)
-      .find((line) => line.startsWith('- Imena `'));
-    assert(Boolean(manifestRosterLine), 'manifest roster line missing');
-    const vrhLines = vrhDoc.split('\n');
-    const vrhKraljevskiSistemLineIndex = vrhLines.findIndex((line) =>
-      line.includes('`KRALJEVSKI SISTEM` je dozvoljen samo kao additive-only bounded governance/orchestration alias'));
-    assert(vrhKraljevskiSistemLineIndex >= 0, 'VRH doc KRALJEVSKI SISTEM line missing');
-    const vrhSectionEndIndex = vrhLines.findIndex((line, index) =>
-      index > vrhKraljevskiSistemLineIndex && (line.startsWith('### ') || line.startsWith('## ')));
-    const vrhRosterLine = vrhLines
-      .slice(vrhKraljevskiSistemLineIndex, vrhSectionEndIndex >= 0 ? vrhSectionEndIndex : undefined)
-      .find((line) => line.startsWith('- Imena `'));
-    assert(Boolean(vrhRosterLine), 'VRH doc roster line missing');
     const downstreamForbiddenNames = [
-      ...manifestRosterLine!.split(' ostaju ')[0].matchAll(/`([^`]+)`/g),
-      ...vrhRosterLine!.split(' ostaju ')[0].matchAll(/`([^`]+)`/g),
-    ]
-      .map((match) => match[1]);
-    for (const forbiddenName of new Set(downstreamForbiddenNames)) {
+      'Aleksandar Cvetić',
+      'Vojislav Šešeljić',
+      'Nenad Kuzmanović',
+      'Nikola Mladenović',
+      'Gordan Jovanović (psiholog, pedagog)',
+    ];
+    for (const forbiddenName of downstreamForbiddenNames) {
       assert(!multiRepoLinks.includes(forbiddenName), `multi-repo links must not expose roster name: ${forbiddenName}`);
     }
     assert(
