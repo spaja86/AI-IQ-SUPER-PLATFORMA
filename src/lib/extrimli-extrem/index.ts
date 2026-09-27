@@ -12696,16 +12696,19 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
     dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.status;
   const ispitivanjeSvegaStoJeFunkcionalnoExtendolCoverageStatus = Object.values(extendolReport.coverage).every(Boolean)
     ? 'READY'
-    : extendolReport.degraded
-      ? 'WATCH'
-      : 'BLOCKED';
-  const ispitivanjeSvegaStoJeFunkcionalnoExtendolAcceptanceStatus = extendolReport.acceptanceCriteria.every(
-    (criterion) => criterion.passed,
-  )
-    ? 'READY'
-    : extendolReport.degraded
-      ? 'WATCH'
-      : 'BLOCKED';
+    : 'BLOCKED';
+  const ispitivanjeSvegaStoJeFunkcionalnoExtendolFailedAcceptanceCriteria = extendolReport.acceptanceCriteria.filter(
+    (criterion) => !criterion.passed,
+  );
+  const ispitivanjeSvegaStoJeFunkcionalnoExtendolAcceptanceStatus =
+    ispitivanjeSvegaStoJeFunkcionalnoExtendolFailedAcceptanceCriteria.length === 0
+      ? 'READY'
+      : extendolReport.degraded
+          && ispitivanjeSvegaStoJeFunkcionalnoExtendolFailedAcceptanceCriteria.every(
+            (criterion) => criterion.id === 'kpi-targets',
+          )
+        ? 'WATCH'
+        : 'BLOCKED';
   const ispitivanjeSvegaStoJeFunkcionalnoSignalStatuses = [
     ispitivanjeSvegaStoJeFunkcionalnoFunctionalThoughtFlowsStatus,
     ispitivanjeSvegaStoJeFunkcionalnoSmartProgramskiJezikStatus,
