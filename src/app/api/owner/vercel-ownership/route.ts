@@ -323,8 +323,8 @@ export async function GET() {
           billing.autopayCorporateOnly ? '✅ Autopay ograničen na korporativni metod plaćanja' : '⬜ Uključiti autopay samo na Digitalna Industrija korporativni metod',
           billing.financeChannelConfigured ? '✅ Invoice notifikacije na finansijskom kanalu' : '⬜ Postaviti invoice delivery/notifikacije na finansijski kanal Digitalna Industrija',
           billing.finopsThresholdsEnabled ? '✅ FinOps pragovi 50/75/90/100 aktivni' : '⬜ Aktivirati FinOps pragove 50/75/90/100',
-          '📉 Mapirati preview churn, duple GitHub/Vercel buildove, cron usage, add-on usage, bandwidth/image/function usage i retention/caching hotspotove',
-          '💬 Pripremiti Vercel pregovarački paket za credits, discounts, spending cap, overage protection i SLA/support bundle bez dodatnih varijabilnih troškova',
+          `📉 Mapirati EXTREM cost hotspotove: ${costGovernancePackage.extremCostHotspots.join(', ')}`,
+          `💬 Pripremiti EXTRONDOL pregovarački paket kroz pitanja: ${costGovernancePackage.extrondolNegotiationQuestions.slice(0, 5).join(', ')}…`,
           '📧 Pratiti email: ' + identity.vercel.accountEmail,
         ]
       : [
