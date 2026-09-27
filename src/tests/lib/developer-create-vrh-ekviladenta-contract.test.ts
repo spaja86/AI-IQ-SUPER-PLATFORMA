@@ -207,8 +207,10 @@ async function runTests(): Promise<void> {
   });
 
   await test('kraljevski sistem docs and downstream registry keep roster summary-only', () => {
+    const kraljevskiSistemAliasSuffix =
+      DEVELOPER_CREATE_VRH_KRALJEVSKI_SISTEM_ALIAS.split(' == ').at(-1);
     assert(
-      manifest.includes(`\`${DEVELOPER_CREATE_VRH_KRALJEVSKI_SISTEM_ALIAS.split(' == ').at(-1)}\``),
+      manifest.includes(`\`${kraljevskiSistemAliasSuffix}\``),
       'manifest KRALJEVSKI SISTEM alias marker missing',
     );
     assert(
@@ -218,7 +220,7 @@ async function runTests(): Promise<void> {
       'manifest KRALJEVSKI SISTEM summary-safe markers missing',
     );
     assert(
-      vrhDoc.includes(`\`${DEVELOPER_CREATE_VRH_KRALJEVSKI_SISTEM_ALIAS.split(' == ').at(-1)}\``) &&
+      vrhDoc.includes(`\`${kraljevskiSistemAliasSuffix}\``) &&
         vrhDoc.includes('documentation/review roster') &&
         vrhDoc.includes('payment verification posture'),
       'VRH doc KRALJEVSKI SISTEM markers missing',
