@@ -13356,12 +13356,14 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
   const alatiRadionicaRuntimeTokenInput =
     process.env.EXTRIMLI_ALATI_RADIONICA_TOKEN_INPUT;
   const alatiRadionicaObservedTokens =
-    alatiRadionicaRuntimeTokenInput && alatiRadionicaRuntimeTokenInput.trim().length > 0
+    typeof alatiRadionicaRuntimeTokenInput === 'undefined'
+      ? [...alatiRadionicaTrack.boundedTokenSequence]
+      : alatiRadionicaRuntimeTokenInput.trim().length > 0
       ? alatiRadionicaRuntimeTokenInput
         .split(/[,\n;|]+/)
         .map((token) => token.trim())
         .filter((token) => token.length > 0)
-      : [...alatiRadionicaTrack.boundedTokenSequence];
+      : [];
   const normalizeAlatiRadionicaToken = (token: string): string => {
     let normalizedToken = token;
     if (alatiRadionicaTrack.normalizationRules.trimWhitespace) {
@@ -13406,6 +13408,7 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
     .map((token) => normalizeAlatiRadionicaToken(token));
   const alatiRadionicaConflictFallbackToken = normalizeAlatiRadionicaToken('conflict');
   const alatiRadionicaUnknownTokenFallbackToken = normalizeAlatiRadionicaToken('unknown-token');
+  const alatiRadionicaHasEmptyFallback = normalizedAlatiRadionicaTokens.length === 0;
   const alatiRadionicaHasConflictFallback = normalizedAlatiRadionicaTokens
     .includes(alatiRadionicaConflictFallbackToken);
   const alatiRadionicaHasUnknownTokenFallback = normalizedAlatiRadionicaTokens
@@ -13414,6 +13417,7 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
       && !alatiRadionicaFallbackTokens.includes(token));
   const alatiRadionicaHasSoftFallback = normalizedAlatiRadionicaTokens
     .some((token) => token !== alatiRadionicaConflictFallbackToken && alatiRadionicaFallbackTokens.includes(token))
+    || alatiRadionicaHasEmptyFallback
     || alatiRadionicaHasUnknownTokenFallback;
   const alatiRadionicaHasCanonicalVocabulary = normalizedAlatiRadionicaTokens
     .every((token) =>
@@ -13452,10 +13456,10 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
           ? 'READY'
           : 'BLOCKED';
   const alatiRadionicaFallbackInputStatus: ExtrimliExtremReadinessStatus =
-    alatiRadionicaHasSoftFallback
-      ? 'WATCH'
-      : alatiRadionicaHasConflictFallback
-        ? 'BLOCKED'
+    alatiRadionicaHasConflictFallback
+      ? 'BLOCKED'
+      : alatiRadionicaHasSoftFallback
+        ? 'WATCH'
         : 'READY';
   const alatiRadionicaSignalStatuses = [
     dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.status,
