@@ -59,6 +59,9 @@ export const DEVELOPER_CREATE_VRH_KRALJEVSKI_SAT_ALIAS =
 export const DEVELOPER_CREATE_VRH_KRALJEVSKI_RAD_ALIAS =
   'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == KRALJEVSKI RAD' as const;
 
+export const DEVELOPER_CREATE_VRH_KRALJEVSKI_SISTEM_ALIAS =
+  'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == KRALJEVSKI SISTEM' as const;
+
 export const DEVELOPER_CREATE_VRH_IZVESTAJ_ALIAS =
   'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == IZVEŠTAJ' as const;
 
@@ -95,6 +98,7 @@ export const DEVELOPER_CREATE_VRH_INTERPRETATION_ALIASES = [
   'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == KRALJEVSKI POKLONI ZA SVAČIJI ROĐENDAN',
   DEVELOPER_CREATE_VRH_KRALJEVSKI_SAT_ALIAS,
   DEVELOPER_CREATE_VRH_KRALJEVSKI_RAD_ALIAS,
+  DEVELOPER_CREATE_VRH_KRALJEVSKI_SISTEM_ALIAS,
   DEVELOPER_CREATE_VRH_IZVESTAJ_ALIAS,
   DEVELOPER_CREATE_VRH_VINOGRADI_GROCKA_RESTORAN_ALIAS,
   DEVELOPER_CREATE_VRH_POSLOVNA_PONUDA_ZELEZARA_DOO_ALIAS,
@@ -215,6 +219,63 @@ export const DEVELOPER_CREATE_CANONICAL_SCOPE_LOCK = {
     dakDuk: 'EXTRONDOL',
     spajaKod: 'audit-safe-summary-only',
   },
+} as const;
+
+export const DEVELOPER_CREATE_KRALJEVSKI_SISTEM_SCOPE_LOCK =
+  'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == KRALJEVSKI SISTEM == additive-only bounded governance/orchestration alias unutar postojećeg KRALJEVSTVO federation lock-a, bez novih runtime ruta, bez novog source-of-truth sistema i bez odstupanja od ownership split-a DOK/DIK/FOR -> EXTREM, DAK/DUK -> EXTRONDOL, SPAJA KOD -> audit-safe summary-only.' as const;
+
+export const DEVELOPER_CREATE_KRALJEVSKI_SISTEM_ROLE_CLASSIFICATION =
+  'additive-only-bounded-kraljevski-sistem-governance-alias' as const;
+
+export const DEVELOPER_CREATE_KRALJEVSKI_SISTEM_SUMMARY_SAFE_FIELDS = [
+  'canonicalAlias',
+  'kraljevstvoScope',
+  'approvalStatus',
+  'payoutReadinessStatus',
+  'paymentVerificationPosture',
+  'blockerReason',
+  'reviewPosture',
+  'publicSummary',
+  'downstreamReference',
+  'boundedRosterRoles',
+] as const;
+
+export const DEVELOPER_CREATE_KRALJEVSKI_SISTEM_REVIEW_ROSTER = [
+  {
+    name: 'Aleksandar Cvetić',
+    publicRole: 'documentation-review-stakeholder',
+    responsibility: 'bounded review and audit-safe documentation feedback',
+  },
+  {
+    name: 'Vojislav Šešeljić',
+    publicRole: 'documentation-review-stakeholder',
+    responsibility: 'bounded review and audit-safe documentation feedback',
+  },
+  {
+    name: 'Nenad Kuzmanović',
+    publicRole: 'documentation-review-stakeholder',
+    responsibility: 'bounded review and audit-safe documentation feedback',
+  },
+  {
+    name: 'Nikola Mladenović',
+    publicRole: 'documentation-review-stakeholder',
+    responsibility: 'bounded review and audit-safe documentation feedback',
+  },
+  {
+    name: 'Gordan Jovanović',
+    publicRole: 'documentation-review-stakeholder-psycholog-pedagog',
+    responsibility: 'bounded pedagogical and psychological review feedback',
+  },
+] as const;
+
+export const DEVELOPER_CREATE_KRALJEVSKI_SISTEM_REVIEW_ROSTER_POLICY = {
+  classification: 'documentation-and-review-roster-only',
+  namesStayDocumentationOnly: true,
+  noOperationalIdentityUsage: true,
+  noSecurityActorUsage: true,
+  noPayrollOwnershipUsage: true,
+  publicOutputsStayAuditSafe: true,
+  summaryOnlyRoleFields: ['name', 'publicRole', 'responsibility'],
 } as const;
 
 export type DeveloperCreateSurfaceStatus = 'READY' | 'WATCH' | 'BLOCKED';
