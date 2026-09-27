@@ -12923,10 +12923,7 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
         : 'REVIEW_REQUIRED';
   const montezacijaTrack =
     dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.montezacijaTrack;
-  const montezacijaFallbackInput =
-    process.env.NODE_ENV === 'test'
-      ? process.env.EXTRIMLI_MONTEZACIJA_FALLBACK_INPUT
-      : undefined;
+  const montezacijaFallbackInput = process.env.EXTRIMLI_MONTEZACIJA_FALLBACK_INPUT;
   const normalizedMontezacijaFallbackInput = montezacijaFallbackInput?.trim().toLowerCase() ?? null;
   const montezacijaFallbackInputStatus: ExtrimliExtremReadinessStatus =
     normalizedMontezacijaFallbackInput === 'conflict'
