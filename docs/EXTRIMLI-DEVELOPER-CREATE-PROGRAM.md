@@ -196,6 +196,14 @@ Prioritet realizacije ostaje zaključan:
 - Ownership split ostaje nepromenjen: `DOK/DIK/FOR -> EXTREM`, `DAK/DUK -> EXTRONDOL`, `SPAJA KOD -> summary-only`.
 - Nepoznati ili konfliktni ulazi ostaju bounded kroz postojeći fallback model (`READY | WATCH | BLOCKED`) i obavezni human review.
 
+### 2.2.4.1) MONTEZACIJA bounded alias
+
+- Kanonski alias ostaje zaključan: `DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == MONTEZACIJA`.
+- Scope zaključavanje ostaje additive-only: bez novih runtime ruta i bez paralelnog source-of-truth sloja.
+- Ownership split ostaje nepromenjen: `DOK/DIK/FOR -> EXTREM` (tehnički readiness signal), `DAK/DUK -> EXTRONDOL` (WAWE/review/freeze/promotion/rollback/release-audit), `SPAJA KOD -> summary-only`.
+- Status model ostaje zaključan na `READY | WATCH | BLOCKED` sa blocker/watch razlogom i deterministic fallback ulazima (`NaN`, `Infinity`, `empty`, `conflict`, `unknown-token`).
+- Downstream prema `spaja86/IO-OPENUI-AO` ostaje isključivo summary-only (`status`, `blocker/watch`, `reviewPosture`, `downstreamReference`, `montezacijaSummary`).
+
 ### 2.2.5) NAVIGACIONI SISTEM SA TREKEROM bounded alias paket
 
 - Kanonski alias ostaje zaključan: `DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == NAVIGACIONI SISTEM SA TREKEROM`.

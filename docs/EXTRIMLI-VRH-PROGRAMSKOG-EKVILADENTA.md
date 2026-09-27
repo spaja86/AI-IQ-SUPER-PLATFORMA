@@ -32,6 +32,7 @@ Bounded vokabular ostaje zaključan na `EXTRIMLI EXTRONDOL EXTREM DOK DUK DAK DI
 - `DAK + DUK` → EXTRONDOL governance / WAWE / audit / rollback
 - `SPAJA KOD` → samo audit-safe javni rezime
 - `DIJALIZA POGONSKOG OMOTAČA` → isključivo dokumentacioni/interpretativni alias unutar istog lock-a (bez novih runtime ruta i bez promene governance strukture)
+- `MONTEZACIJA` → additive-only bounded alias istog lock-a; `DOK/DIK/FOR` ostaju EXTREM tehnički readiness signal, `DAK/DUK` ostaju EXTRONDOL governance signal, a `SPAJA KOD` ostaje audit-safe summary-only izlaz bez sirovih formula i bez internog token modela
 - `LEKSIKON` → bounded interpretativni rečnik/sloj objašnjenja unutar istog lock-a (bez novog engine-a, bez novih runtime ruta i bez paralelnog source-of-truth sistema)
 - `MAPA UMA` i `ŽIVOPIS U DIGITALIZMU` → additive-only dokumentacioni/interpretativni alias-i unutar istog lock-a (bez novih runtime ruta i bez promene governance strukture)
 - `SARKAZAM / PRIVREDNA GRANA DIGITALIZMA / PROJEKTI ENTUZIJAZMA PO ČINU OBLASTIMA` → bounded interpretativni/enterprise-policy/pedagoški alias istog lock-a; `SARKAZAM` ostaje samo narativni marker, nikad nova izvršna formula ili novi engine
