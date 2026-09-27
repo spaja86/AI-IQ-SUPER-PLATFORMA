@@ -12696,6 +12696,10 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
     dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.implementationPackage.smartProgramskiJezikPackage.technicalProfile.status;
   const ispitivanjeSvegaStoJeFunkcionalnoRepoWideReflectionStatus =
     dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.status;
+  const ispitivanjeSvegaStoJeFunkcionalnoMissingExtendolCoverageFields =
+    DEVELOPER_CREATE_ISPITIVANJE_SVEGA_STO_JE_FUNKCIONALNO_EXTENDOL_COVERAGE_FIELDS.filter(
+      (field) => !Object.prototype.hasOwnProperty.call(extendolReport.coverage, field),
+    );
   const ispitivanjeSvegaStoJeFunkcionalnoExtendolCoverageValues =
     DEVELOPER_CREATE_ISPITIVANJE_SVEGA_STO_JE_FUNKCIONALNO_EXTENDOL_COVERAGE_FIELDS.map(
       (field) => extendolReport.coverage[field] === true,
@@ -12764,11 +12768,19 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
     ispitivanjeSvegaStoJeFunkcionalnoDeterministicFallbackRequired;
   dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.ispitivanjeSvegaStoJeFunkcionalnoTrack.blockerReason =
     ispitivanjeSvegaStoJeFunkcionalnoStatus === 'BLOCKED'
-      ? 'ISPITIVANJE SVEGA ŠTO JE FUNKCIONALNO ostaje BLOCKED dok funkcionalni misaoni tokovi, Smart Programski Jezik, repo-wide reflection i Extendol evidence nisu poravnati unutar postojećih source-of-truth ruta.'
+      ? [
+        ispitivanjeSvegaStoJeFunkcionalnoMissingExtendolCoverageFields.length > 0
+          ? `Extendol coverage contract mismatch: missing ${ispitivanjeSvegaStoJeFunkcionalnoMissingExtendolCoverageFields.join(', ')}.`
+          : null,
+        'ISPITIVANJE SVEGA ŠTO JE FUNKCIONALNO ostaje BLOCKED dok funkcionalni misaoni tokovi, Smart Programski Jezik, repo-wide reflection i Extendol evidence nisu poravnati unutar postojećih source-of-truth ruta.',
+      ].filter((value): value is string => value !== null).join(' ')
       : null;
   dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.ispitivanjeSvegaStoJeFunkcionalnoTrack.watchReasons =
     ispitivanjeSvegaStoJeFunkcionalnoStatus === 'WATCH'
       ? [
+        ...(ispitivanjeSvegaStoJeFunkcionalnoMissingExtendolCoverageFields.length > 0
+          ? [`Extendol coverage contract mismatch: missing ${ispitivanjeSvegaStoJeFunkcionalnoMissingExtendolCoverageFields.join(', ')}.`]
+          : []),
         'ISPITIVANJE SVEGA ŠTO JE FUNKCIONALNO ostaje u WATCH režimu dok Extendol acceptance ili degraded/no-500 fallback i dalje zahtevaju dodatni human review.',
       ]
       : [];
