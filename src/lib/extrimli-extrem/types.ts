@@ -3284,6 +3284,9 @@ export interface ExtrimliDokDikDakDukConsistencyHealth {
       montezacijaSummary: string;
       montezacijaNadMontezacijamaApprovalPackage: {
         canonicalAlias: typeof DEVELOPER_CREATE_MONTEZACIJA_NAD_MONTEZACIJAMA_CANONICAL_ALIAS;
+        status: 'READY' | 'WATCH' | 'BLOCKED';
+        blockerReason: string | null;
+        reviewPosture: 'ALIGNED' | 'WATCH' | 'REVIEW_REQUIRED';
         scopeStatement: typeof DEVELOPER_CREATE_MONTEZACIJA_NAD_MONTEZACIJAMA_SCOPE_STATEMENT;
         roleClassification: typeof DEVELOPER_CREATE_MONTEZACIJA_NAD_MONTEZACIJAMA_ROLE_CLASSIFICATION;
         additiveOnly: true;

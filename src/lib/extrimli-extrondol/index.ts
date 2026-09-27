@@ -4075,9 +4075,9 @@ function buildSpajaKodFacade(params: {
           canonicalAlias:
             params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.montezacijaTrack.montezacijaNadMontezacijamaApprovalPackage.canonicalAlias,
           status:
-            params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.montezacijaTrack.readinessSignal.status,
+            params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.montezacijaTrack.montezacijaNadMontezacijamaApprovalPackage.status,
           reviewPosture:
-            params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.montezacijaTrack.reviewPosture,
+            params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.montezacijaTrack.montezacijaNadMontezacijamaApprovalPackage.reviewPosture,
           humanReviewStatus: 'required-before-promotion',
           releaseAuditSummaryRequired: true,
           rollbackRequiredBeforePromotion: true,
@@ -9238,13 +9238,17 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
           'Freeze promotion and revert to the previously verified Developer/Create package if MONTEZACIJA readiness, review posture, or downstream summary alignment drifts.',
         humanReviewStatus: 'required-before-promotion',
         montezacijaNadMontezacijamaApprovalPackage: {
-          ...extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.montezacijaTrack.montezacijaNadMontezacijamaApprovalPackage,
+          canonicalAlias:
+            extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.montezacijaTrack.montezacijaNadMontezacijamaApprovalPackage.canonicalAlias,
+          status:
+            extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.montezacijaTrack.montezacijaNadMontezacijamaApprovalPackage.status,
           reviewPosture:
-            extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.montezacijaTrack.reviewPosture,
+            extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.montezacijaTrack.montezacijaNadMontezacijamaApprovalPackage.reviewPosture,
           releaseAuditSummaryRequired: true,
           rollbackRequiredBeforePromotion: true,
           humanReviewStatus: 'required-before-promotion',
-          downstreamReference: 'docs/MULTI-REPO-LINKS.md -> spaja86/IO-OPENUI-AO (summary-only)',
+          downstreamReference:
+            extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.montezacijaTrack.downstreamReference,
         },
         acceptanceEvidence: [
           'developerAndCreateRepoWideReflection.montezacijaTrack',

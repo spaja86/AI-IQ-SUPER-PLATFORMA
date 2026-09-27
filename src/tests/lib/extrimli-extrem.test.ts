@@ -164,6 +164,8 @@ async function runTests(): Promise<void> {
       approvalPackage.acceptanceCriteria.includes('preserve-vrh-canonical-lock-and-bounded-vocabulary'),
       'MONTEZACIJA NAD MONTEZACIJAMA acceptance criteria must include canonical lock gate',
     );
+    assert(approvalPackage.status === 'READY', 'MONTEZACIJA NAD MONTEZACIJAMA READY status mismatch');
+    assert(approvalPackage.reviewPosture === 'ALIGNED', 'MONTEZACIJA NAD MONTEZACIJAMA READY review posture mismatch');
     assert(
       approvalPackage.rolloutPlan.includes('Approve MONTEZACIJA NAD MONTEZACIJAMA for promotion'),
       'MONTEZACIJA NAD MONTEZACIJAMA READY rollout message mismatch',
@@ -177,9 +179,11 @@ async function runTests(): Promise<void> {
         report.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.montezacijaTrack
           .montezacijaNadMontezacijamaApprovalPackage;
       assert(
-        approvalPackage.rolloutPlan.includes('Keep MONTEZACIJA NAD MONTEZACIJAMA in controlled rollout mode'),
+        approvalPackage.rolloutPlan.includes('Keep MONTEZACIJA NAD MONTEZACIJAMA promotion BLOCKED'),
         'MONTEZACIJA NAD MONTEZACIJAMA non-READY rollout message mismatch',
       );
+      assert(approvalPackage.status === 'BLOCKED', 'MONTEZACIJA NAD MONTEZACIJAMA degraded status must be BLOCKED');
+      assert(approvalPackage.reviewPosture === 'REVIEW_REQUIRED', 'MONTEZACIJA NAD MONTEZACIJAMA degraded review posture mismatch');
     });
   });
 

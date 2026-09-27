@@ -7561,6 +7561,10 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
         montezacijaSummary: '',
         montezacijaNadMontezacijamaApprovalPackage: {
           canonicalAlias: DEVELOPER_CREATE_MONTEZACIJA_NAD_MONTEZACIJAMA_CANONICAL_ALIAS,
+          status: 'BLOCKED',
+          blockerReason:
+            'MONTEZACIJA NAD MONTEZACIJAMA approval remains blocked until additive-only lock and existing EXTREM/EXTRONDOL evidence gates are satisfied.',
+          reviewPosture: 'REVIEW_REQUIRED',
           scopeStatement: DEVELOPER_CREATE_MONTEZACIJA_NAD_MONTEZACIJAMA_SCOPE_STATEMENT,
           roleClassification: DEVELOPER_CREATE_MONTEZACIJA_NAD_MONTEZACIJAMA_ROLE_CLASSIFICATION,
           additiveOnly: true,
@@ -12991,14 +12995,10 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
           'MONTEZACIJA ostaje u WATCH režimu dok fallback ulaz i review posture zahtevaju dodatnu proveru pre governance promocije.',
         ]
       : [];
-  const montezacijaReviewGateStatus = aggregateReadinessStatus([
-    montezacijaStatus,
-    montezacijaFallbackInputStatus,
-  ]);
   montezacijaTrack.reviewPosture =
-    montezacijaReviewGateStatus === 'READY'
+    montezacijaStatus === 'READY'
       ? 'ALIGNED'
-      : montezacijaReviewGateStatus === 'WATCH'
+      : montezacijaStatus === 'WATCH'
         ? 'WATCH'
         : 'REVIEW_REQUIRED';
   montezacijaTrack.montezacijaSummary =
@@ -13007,10 +13007,27 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
     montezacijaStatus === 'READY'
     && montezacijaFallbackInputStatus === 'READY'
     && montezacijaTrack.reviewPosture === 'ALIGNED';
+  const montezacijaNadMontezacijamaApprovalBlocked =
+    montezacijaStatus === 'BLOCKED' || montezacijaFallbackInputStatus === 'BLOCKED';
+  montezacijaTrack.montezacijaNadMontezacijamaApprovalPackage.status = montezacijaNadMontezacijamaApprovalReady
+    ? 'READY'
+    : montezacijaNadMontezacijamaApprovalBlocked
+      ? 'BLOCKED'
+      : 'WATCH';
+  montezacijaTrack.montezacijaNadMontezacijamaApprovalPackage.blockerReason = montezacijaNadMontezacijamaApprovalBlocked
+    ? 'MONTEZACIJA NAD MONTEZACIJAMA promotion stays blocked while fallback conflicts or readiness blockers remain unresolved.'
+    : null;
+  montezacijaTrack.montezacijaNadMontezacijamaApprovalPackage.reviewPosture = montezacijaNadMontezacijamaApprovalReady
+    ? 'ALIGNED'
+    : montezacijaNadMontezacijamaApprovalBlocked
+      ? 'REVIEW_REQUIRED'
+      : 'WATCH';
   montezacijaTrack.montezacijaNadMontezacijamaApprovalPackage.rolloutPlan =
     montezacijaNadMontezacijamaApprovalReady
       ? 'Approve MONTEZACIJA NAD MONTEZACIJAMA for promotion only while lock, ownership split, and governance evidence remain aligned.'
-      : 'Keep MONTEZACIJA NAD MONTEZACIJAMA in controlled rollout mode until status, blocker posture, and review posture return to READY alignment.';
+      : montezacijaNadMontezacijamaApprovalBlocked
+        ? 'Keep MONTEZACIJA NAD MONTEZACIJAMA promotion BLOCKED until fallback conflict and readiness blockers are resolved and governance evidence is re-validated.'
+        : 'Keep MONTEZACIJA NAD MONTEZACIJAMA in controlled rollout mode until status, blocker posture, and review posture return to READY alignment.';
   montezacijaTrack.montezacijaNadMontezacijamaApprovalPackage.rollbackPlan =
     'If lock drift, blocker escalation, or review regression occurs, freeze promotion and rollback to the last verified MONTEZACIJA additive package.';
   const aiIqLaboratorijaTrack =

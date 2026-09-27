@@ -1266,8 +1266,10 @@ export interface ExtrimliExtrondolDeveloperAndCreateRepoWideReflectionGovernance
     rolloutPlan: string;
     rollbackPlan: string;
     humanReviewStatus: 'required-before-promotion';
-    montezacijaNadMontezacijamaApprovalPackage: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['montezacijaTrack']['montezacijaNadMontezacijamaApprovalPackage'] & {
-      reviewPosture: 'ALIGNED' | 'WATCH' | 'REVIEW_REQUIRED';
+    montezacijaNadMontezacijamaApprovalPackage: {
+      canonicalAlias: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['montezacijaTrack']['montezacijaNadMontezacijamaApprovalPackage']['canonicalAlias'];
+      status: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['montezacijaTrack']['montezacijaNadMontezacijamaApprovalPackage']['status'];
+      reviewPosture: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['montezacijaTrack']['montezacijaNadMontezacijamaApprovalPackage']['reviewPosture'];
       releaseAuditSummaryRequired: true;
       rollbackRequiredBeforePromotion: true;
       humanReviewStatus: 'required-before-promotion';
@@ -3496,8 +3498,8 @@ export interface ExtrimliSpajaKodPublicFacade {
       montezacijaSummary: string;
       montezacijaNadMontezacijamaApprovalPackage: {
         canonicalAlias: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['montezacijaTrack']['montezacijaNadMontezacijamaApprovalPackage']['canonicalAlias'];
-        status: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['montezacijaTrack']['readinessSignal']['status'];
-        reviewPosture: 'ALIGNED' | 'WATCH' | 'REVIEW_REQUIRED';
+        status: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['montezacijaTrack']['montezacijaNadMontezacijamaApprovalPackage']['status'];
+        reviewPosture: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['montezacijaTrack']['montezacijaNadMontezacijamaApprovalPackage']['reviewPosture'];
         humanReviewStatus: 'required-before-promotion';
         releaseAuditSummaryRequired: true;
         rollbackRequiredBeforePromotion: true;
