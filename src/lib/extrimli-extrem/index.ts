@@ -12696,6 +12696,8 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
     dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.status;
   const ispitivanjeSvegaStoJeFunkcionalnoExtendolCoverageStatus = Object.values(extendolReport.coverage).every(Boolean)
     ? 'READY'
+    : extendolReport.degraded && Object.values(extendolReport.coverage).some(Boolean)
+      ? 'WATCH'
     : 'BLOCKED';
   const ispitivanjeSvegaStoJeFunkcionalnoExtendolFailedAcceptanceCriteria = extendolReport.acceptanceCriteria.filter(
     (criterion) => !criterion.passed,
