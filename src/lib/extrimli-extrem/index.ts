@@ -13465,15 +13465,15 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
         ? 'REVIEW_REQUIRED'
         : 'UNCONFIRMED';
   const elektronskiPotpisSignatureDisplayStatus: ExtrimliExtremReadinessStatus =
-    elektronskiPotpisIdentityConfirmationStatus === 'CONFIRMED'
-      && identityVerificationSource.signatureDisplayObjectReady
-      ? elektronskiPotpisReadinessStatus
-      : elektronskiPotpisIdentityConfirmationStatus === 'UNCONFIRMED'
+    !identityVerificationSource.signatureDisplayObjectReady
+      ? 'BLOCKED'
+      : elektronskiPotpisIdentityConfirmationStatus === 'CONFIRMED'
+        ? elektronskiPotpisReadinessStatus
+        : elektronskiPotpisIdentityConfirmationStatus === 'UNCONFIRMED'
         ? 'BLOCKED'
         : elektronskiPotpisIdentityConfirmationStatus === 'REVIEW_REQUIRED'
-          || !identityVerificationSource.signatureDisplayObjectReady
-        ? 'WATCH'
-        : 'BLOCKED';
+          ? 'WATCH'
+          : 'BLOCKED';
   const elektronskiPotpisFallbackInputStatus: ExtrimliExtremReadinessStatus = aggregateSignalReadinessStatus([
     elektronskiPotpisReadinessStatus,
     identityVerificationSource.status,
