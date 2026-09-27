@@ -13506,7 +13506,8 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
   elektronskiPotpisTrack.readinessSignal.signatureDisplayStatus = elektronskiPotpisSignatureDisplayStatus;
   elektronskiPotpisTrack.readinessSignal.fallbackInputStatus = elektronskiPotpisFallbackInputStatus;
   elektronskiPotpisTrack.readinessSignal.deterministicFallbackRequired =
-    elektronskiPotpisStatus !== 'READY';
+    elektronskiPotpisStatus !== 'READY'
+    || elektronskiPotpisIdentityConfirmationStatus !== 'CONFIRMED';
   elektronskiPotpisTrack.blockerReason =
     elektronskiPotpisIdentityConfirmationStatus === 'UNCONFIRMED'
       ? 'ELEKTRONSKI POTPIS ostaje BLOCKED dok potvrda identiteta ne bude dokaziva kroz postojeći identity verification sloj i audit-safe prikaz potpisa.'
