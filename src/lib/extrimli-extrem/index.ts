@@ -7156,7 +7156,7 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
         watchReasons: [],
         humanReviewPosture: 'REVIEW_REQUIRED',
         downstreamReference: 'docs/MULTI-REPO-LINKS.md -> spaja86/IO-OPENUI-AO (summary-only)',
-        randomSelectionScopeStatement: DEVELOPER_CREATE_ALATI_RADIONICA_RANDOM_SELECTION_SCOPE_STATEMENT,
+        randomSelectionScopeStatement: DEVELOPER_CREATE_RANDOM_SELECTION_SCOPE_STATEMENT,
         randomSelectionPosture: {
           requestAlias: 'RANDOM selekcija svega',
           selectionChannel: 'napoleon-diskaveri-bounded-selection',
