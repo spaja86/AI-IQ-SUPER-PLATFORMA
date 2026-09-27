@@ -243,9 +243,9 @@ async function runTests(): Promise<void> {
       .split('\n')
       .find((line) => line.includes('documentation/review roster'));
     assert(Boolean(manifestRosterLine), 'manifest roster line missing');
-    const downstreamForbiddenNames = [...manifestRosterLine!.matchAll(/`([^`]+)`/g)]
-      .map((match) => match[1])
-      .filter((value) => value !== 'documentation/review roster');
+    const rosterNamesOnlySegment = manifestRosterLine!.split('ostaju')[0];
+    const downstreamForbiddenNames = [...rosterNamesOnlySegment.matchAll(/`([^`]+)`/g)]
+      .map((match) => match[1]);
     for (const forbiddenName of downstreamForbiddenNames) {
       assert(!multiRepoLinks.includes(forbiddenName), `multi-repo links must not expose roster name: ${forbiddenName}`);
     }
