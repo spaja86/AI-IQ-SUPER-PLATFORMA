@@ -547,3 +547,12 @@ Implementacioni redosled ostaje zaključan:
 - Ownership split ostaje nepromenjen: EXTREM vodi tehnički readiness signal nad `DIP, KAR, DUR, CUR, RET, DOK, OKOT`, EXTRONDOL vodi governance/freeze/promotion/rollback/release-audit, a SPAJA KOD ostaje audit-safe summary-only.
 - Status jezik ostaje zaključan na `READY | WATCH | BLOCKED`, sa deterministic fallback ulazima (`NaN`, `Infinity`, `empty`, `conflict`) i obaveznim blocker/watch razlozima.
 - Downstream sync prema `spaja86/IO-OPENUI-AO` ostaje summary-only bez izvoza internih token/formula internala.
+
+## MEDALJE SRBSKE (bounded extension)
+
+- `DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == MEDALJE SRBSKE` je additive-only bounded extension postojećeg VRH modela.
+- Bounded vokabular ostaje nepromenjen: `EXTRIMLI EXTRONDOL EXTREM DOK DUK DAK DIK FOR`.
+- Ownership split ostaje zaključan: `DOK + DIK + FOR` ostaju EXTREM tehnički readiness signal, `DAK + DUK` ostaju EXTRONDOL governance (WAWE/freeze/promotion/rollback/release-audit), a SPAJA KOD ostaje audit-safe summary-only.
+- Status jezik ostaje zaključan na `READY | WATCH | BLOCKED`, sa deterministic fallback ulazima (`NaN`, `Infinity`, `empty`, `conflict`) i obaveznim blocker/watch razlozima.
+- Audit zahtevi ostaju obavezni pre promocije: human-review, release-audit summary, rollback readiness i downstream reference prema `docs/MULTI-REPO-LINKS.md`.
+- Downstream sync prema `spaja86/IO-OPENUI-AO` ostaje summary-only bez izvoza sirovih EXTREM/EXTRONDOL formula i bez internog token modela.

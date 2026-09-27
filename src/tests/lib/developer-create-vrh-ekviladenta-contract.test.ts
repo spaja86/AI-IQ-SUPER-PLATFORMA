@@ -8,6 +8,12 @@ import {
   DEVELOPER_CREATE_KRALJEVSKI_SISTEM_SUMMARY_SAFE_FIELDS,
   DEVELOPER_CREATE_KRALJEVSKI_SAT_BOUNDED_TOKEN_SET,
   DEVELOPER_CREATE_KRALJEVSKI_SAT_READINESS_LANGUAGE,
+  DEVELOPER_CREATE_MEDALJE_SRBSKE_ACCEPTANCE_CRITERIA,
+  DEVELOPER_CREATE_MEDALJE_SRBSKE_FALLBACK_INPUTS,
+  DEVELOPER_CREATE_MEDALJE_SRBSKE_LAYER_OWNERSHIP_LOCK,
+  DEVELOPER_CREATE_MEDALJE_SRBSKE_READINESS_LANGUAGE,
+  DEVELOPER_CREATE_MEDALJE_SRBSKE_SCOPE_STATEMENT,
+  DEVELOPER_CREATE_MEDALJE_SRBSKE_SUMMARY_SAFE_FIELDS,
   DEVELOPER_CREATE_KRALJEVSKI_RAD_BOUNDED_TOKEN_SEQUENCE,
   DEVELOPER_CREATE_KRALJEVSKI_RAD_FALLBACK_INPUTS,
   DEVELOPER_CREATE_KRALJEVSKI_RAD_SUMMARY_SAFE_FIELDS,
@@ -29,6 +35,7 @@ import {
   DEVELOPER_CREATE_VRH_KRALJEVSKI_SAT_ALIAS,
   DEVELOPER_CREATE_VRH_KRALJEVSKI_SISTEM_ALIAS,
   DEVELOPER_CREATE_VRH_KRALJEVSKI_RAD_ALIAS,
+  DEVELOPER_CREATE_VRH_MEDALJE_SRBSKE_ALIAS,
   DEVELOPER_CREATE_VRH_IZVESTAJ_ALIAS,
   DEVELOPER_CREATE_VRH_VINOGRADI_GROCKA_RESTORAN_ALIAS,
   DEVELOPER_CREATE_VRH_POSLOVNA_PONUDA_ZELEZARA_DOO_ALIAS,
@@ -476,6 +483,89 @@ async function runTests(): Promise<void> {
         'fallbackInputStatus',
       ],
       'unexpected kraljevski sat summary-safe fields',
+    );
+  });
+
+  await test('medalje srbske track remains additive-only, audit-gated, and summary-safe', () => {
+    assert(
+      DEVELOPER_CREATE_VRH_INTERPRETATION_ALIASES.includes(DEVELOPER_CREATE_VRH_MEDALJE_SRBSKE_ALIAS),
+      'MEDALJE SRBSKE alias must remain part of the VRH interpretation aliases',
+    );
+    assert(
+      DEVELOPER_CREATE_MEDALJE_SRBSKE_SCOPE_STATEMENT.includes('additive-only bounded traka'),
+      'MEDALJE SRBSKE scope statement must preserve additive-only wording',
+    );
+    assert(
+      DEVELOPER_CREATE_MEDALJE_SRBSKE_SCOPE_STATEMENT.includes('bez novih runtime ruta'),
+      'MEDALJE SRBSKE scope statement must forbid new runtime routes',
+    );
+    assert(
+      DEVELOPER_CREATE_MEDALJE_SRBSKE_SCOPE_STATEMENT.includes(
+        'bez paralelnog source-of-truth modela',
+      ),
+      'MEDALJE SRBSKE scope statement must forbid parallel source-of-truth models',
+    );
+    assertArrayEquals(
+      DEVELOPER_CREATE_MEDALJE_SRBSKE_READINESS_LANGUAGE,
+      ['READY', 'WATCH', 'BLOCKED'],
+      'unexpected MEDALJE SRBSKE readiness language',
+    );
+    assertArrayEquals(
+      DEVELOPER_CREATE_MEDALJE_SRBSKE_FALLBACK_INPUTS,
+      ['NaN', 'Infinity', 'empty', 'conflict'],
+      'unexpected MEDALJE SRBSKE fallback inputs',
+    );
+    assert(
+      DEVELOPER_CREATE_MEDALJE_SRBSKE_LAYER_OWNERSHIP_LOCK.dokDikFor === 'EXTREM' &&
+        DEVELOPER_CREATE_MEDALJE_SRBSKE_LAYER_OWNERSHIP_LOCK.dakDuk === 'EXTRONDOL' &&
+        DEVELOPER_CREATE_MEDALJE_SRBSKE_LAYER_OWNERSHIP_LOCK.spajaKod === 'audit-safe-summary-only',
+      'MEDALJE SRBSKE ownership lock mismatch',
+    );
+    assertArrayEquals(
+      DEVELOPER_CREATE_MEDALJE_SRBSKE_ACCEPTANCE_CRITERIA,
+      [
+        'preserve-vrh-canonical-lock-and-bounded-vocabulary',
+        'keep-track-additive-only-no-new-routes-and-no-parallel-source-of-truth',
+        'preserve-ownership-split-dok-dik-for-extrem-dak-duk-extrondol-spaja-kod-summary-only',
+        'require-ready-watch-blocked-with-deterministic-fallback-input-boundaries',
+        'require-human-review-release-audit-summary-and-rollback-readiness-before-promotion',
+        'require-downstream-reference-docs-multi-repo-links-summary-only',
+      ],
+      'unexpected MEDALJE SRBSKE acceptance criteria',
+    );
+    assertArrayEquals(
+      DEVELOPER_CREATE_MEDALJE_SRBSKE_SUMMARY_SAFE_FIELDS,
+      [
+        'canonicalAlias',
+        'status',
+        'blockerReason',
+        'watchReasons',
+        'reviewPosture',
+        'humanReviewStatus',
+        'releaseAuditSummaryRequired',
+        'rollbackRequiredBeforePromotion',
+        'downstreamReference',
+        'fallbackInputStatus',
+      ],
+      'unexpected MEDALJE SRBSKE summary-safe fields',
+    );
+    assert(
+      manifest.includes('### 2.2.16) MEDALJE SRBSKE bounded traka') &&
+        manifest.includes('`DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == MEDALJE SRBSKE`') &&
+        manifest.includes('`EXTRIMLI EXTRONDOL EXTREM DOK DUK DAK DIK FOR`'),
+      'manifest MEDALJE SRBSKE bounded-track markers missing',
+    );
+    assert(
+      vrhDoc.includes('## MEDALJE SRBSKE (bounded extension)') &&
+        vrhDoc.includes('`DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == MEDALJE SRBSKE`') &&
+        vrhDoc.includes('human-review, release-audit summary, rollback readiness'),
+      'VRH doc MEDALJE SRBSKE markers missing',
+    );
+    assert(
+      multiRepoLinks.includes('Developer/Create `MEDALJE SRBSKE` bounded track') &&
+        multiRepoLinks.includes('`developerAndCreateRepoWideReflection.medaljeSrbskeTrack`') &&
+        multiRepoLinks.includes('`DAK/DUK=EXTRONDOL`'),
+      'multi-repo links MEDALJE SRBSKE row missing',
     );
   });
 
