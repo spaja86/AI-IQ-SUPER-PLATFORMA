@@ -2976,6 +2976,10 @@ export interface ExtrimliDokDikDakDukConsistencyHealth {
       qualityGates: typeof DEVELOPER_CREATE_SARADNJA_READY_QUALITY_GATES;
       packageContract: typeof DEVELOPER_CREATE_SARADNJA_READY_PACKAGE;
       vercelCostGovernance: {
+        canonicalTopicLock: typeof DEVELOPER_CREATE_SARADNJA_READY_SCOPE_LOCK;
+        boundedBusinessPackage: typeof DEVELOPER_CREATE_SARADNJA_READY_POSLOVNA_PONUDA_SCOPE_LOCK;
+        pretplataExtension: typeof DEVELOPER_CREATE_SARADNJA_READY_POSLOVNA_PONUDA_PRETPLATA_SCOPE_LOCK;
+        boundedVocabularyPhrase: typeof DEVELOPER_CREATE_REPO_WIDE_BOUNDED_VOCABULARY_PHRASE;
         governanceBlockers: typeof DEVELOPER_CREATE_SARADNJA_READY_VERCEL_GOVERNANCE_BLOCKERS;
         dualCostTargets: typeof DEVELOPER_CREATE_SARADNJA_READY_VERCEL_COST_TARGETS;
         extremCostHotspots: typeof DEVELOPER_CREATE_SARADNJA_READY_EXTREM_COST_HOTSPOTS;

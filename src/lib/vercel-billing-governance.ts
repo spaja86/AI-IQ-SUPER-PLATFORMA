@@ -159,8 +159,8 @@ export function buildVercelCostGovernancePackage(): VercelCostGovernancePackage 
     costToZeroFallbackPlan: [...DEVELOPER_CREATE_SARADNJA_READY_COST_TO_ZERO_FALLBACK_PLAN],
     automaticSubscriptionGates: {
       activationCriteria: [...DEVELOPER_CREATE_SARADNJA_READY_AUTOMATIC_SUBSCRIPTION_GATES.activationCriteria],
-      mandatoryWaweOrder: [...DEVELOPER_CREATE_SARADNJA_READY_AUTOMATIC_SUBSCRIPTION_GATES.mandatoryWaweOrder],
-      noSkippedWawePhases: DEVELOPER_CREATE_SARADNJA_READY_AUTOMATIC_SUBSCRIPTION_GATES.noSkippedWawePhases,
+      mandatoryWaveOrder: [...DEVELOPER_CREATE_SARADNJA_READY_AUTOMATIC_SUBSCRIPTION_GATES.mandatoryWaveOrder],
+      noSkippedWavePhases: DEVELOPER_CREATE_SARADNJA_READY_AUTOMATIC_SUBSCRIPTION_GATES.noSkippedWavePhases,
     },
     finalAuditPackageContents: [...DEVELOPER_CREATE_SARADNJA_READY_FINAL_AUDIT_PACKAGE_CONTENTS],
   };
