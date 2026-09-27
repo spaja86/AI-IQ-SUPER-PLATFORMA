@@ -81,9 +81,14 @@ export function getPadezMeta(id: PadezId): PadezMeta {
   return PADEZI_META_BY_ID[id];
 }
 
-export function buildPadezNavigationButtons(currentId: PadezId) {
+export function buildPadezNavigationButtons(
+  currentId: PadezId,
+  options: { includeOverview?: boolean } = {},
+) {
+  const { includeOverview = true } = options;
+
   return [
-    { tekst: 'Pregled PADEŽI', href: '/padezi' },
+    ...(includeOverview ? [{ tekst: 'Pregled PADEŽI', href: '/padezi' }] : []),
     ...PADEZI_META.filter((item) => item.id !== currentId).map((item) => ({
       tekst: item.naziv,
       href: item.href,
