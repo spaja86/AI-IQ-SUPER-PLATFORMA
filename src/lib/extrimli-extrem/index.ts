@@ -12047,7 +12047,7 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
       roleClassification: DEVELOPER_CREATE_MONTEZACIJA_ROLE_CLASSIFICATION,
       extremPublishes: 'status-readiness-fallback-and-deterministic-signal-only',
       extrondolPublishes: 'wawe-freeze-promotion-review-rollback-audit-summary-only',
-      spajaKodPublishes: 'status-blocker-review-downstream-and-montezacija-summary-only',
+      spajaKodPublishes: 'status-blocker-review-downstream-montezacija-summary-and-approval-package-summary-only',
       technicalBinding: 'developerAndCreateRepoWideReflection.montezacijaTrack',
       noNewRuntimeEngine: true,
       noNewRuntimeRoutes: true,
