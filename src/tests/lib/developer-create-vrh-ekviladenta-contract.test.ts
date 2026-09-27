@@ -243,7 +243,16 @@ async function runTests(): Promise<void> {
         vrhDoc.includes('nosioci osetljivih podataka'),
       'VRH doc roster privacy and documentation-only wording missing',
     );
-    assert(!multiRepoLinks.includes('Aleksandar Cvetić'), 'multi-repo links must not expose roster names');
+    const manifestRosterLine = manifest
+      .split('\n')
+      .find((line) => line.includes('documentation/review roster'));
+    assert(Boolean(manifestRosterLine), 'manifest roster line missing');
+    const downstreamForbiddenNames = [...manifestRosterLine!.matchAll(/`([^`]+)`/g)]
+      .map((match) => match[1])
+      .filter((value) => value !== 'documentation/review roster');
+    for (const forbiddenName of downstreamForbiddenNames) {
+      assert(!multiRepoLinks.includes(forbiddenName), `multi-repo links must not expose roster name: ${forbiddenName}`);
+    }
     assert(
       multiRepoLinks.includes('never sync personal contacts, payroll/bank/KYC data, security roles, operational identities or raw governance formulas'),
       'multi-repo roster privacy boundary missing',
