@@ -29,11 +29,16 @@ import {
 import { OWNER_PHONE_DEFAULT, OWNER_PHONE_NUMBER_ENV_KEY } from '../../lib/constants';
 import { kvSet } from '../../lib/kv-client';
 import {
+  DEVELOPER_CREATE_REPO_WIDE_BOUNDED_VOCABULARY_PHRASE,
+  DEVELOPER_CREATE_SARADNJA_READY_SCOPE_LOCK,
+  DEVELOPER_CREATE_SARADNJA_READY_POSLOVNA_PONUDA_SCOPE_LOCK,
+  DEVELOPER_CREATE_SARADNJA_READY_POSLOVNA_PONUDA_PRETPLATA_SCOPE_LOCK,
   DEVELOPER_CREATE_SARADNJA_READY_AUTOMATIC_SUBSCRIPTION_GATES,
   DEVELOPER_CREATE_SARADNJA_READY_COST_TO_ZERO_FALLBACK_PLAN,
   DEVELOPER_CREATE_SARADNJA_READY_EXTRONDOL_NEGOTIATION_QUESTIONS,
   DEVELOPER_CREATE_SARADNJA_READY_EXTREM_COST_HOTSPOTS,
   DEVELOPER_CREATE_SARADNJA_READY_FINAL_AUDIT_PACKAGE_CONTENTS,
+  DEVELOPER_CREATE_SARADNJA_READY_VERCEL_COST_TARGETS,
   DEVELOPER_CREATE_SARADNJA_READY_VERCEL_GOVERNANCE_BLOCKERS,
 } from '../../lib/extrimli/developer-create-vrh-ekviladenta-contract';
 
@@ -47,6 +52,9 @@ async function testRouteResponse() {
       blokatori: string[];
       billingGovernance?: {
         costGovernancePackage?: {
+          canonicalTopicLock?: string;
+          boundedBusinessPackage?: string;
+          pretplataExtension?: string;
           boundedVocabularyPhrase?: string;
           governanceBlockers?: string[];
           dualCostTargets?: { primary?: string; fallback?: string };
@@ -75,8 +83,20 @@ async function testRouteResponse() {
   assert.ok(['service-active', 'blocked-until-validated'].includes(json.pretplataVercel?.status ?? ''));
   assert.ok(Array.isArray(json.pretplataVercel?.blokatori), 'blokatori mora biti niz');
   assert.strictEqual(
+    json.pretplataVercel?.billingGovernance?.costGovernancePackage?.canonicalTopicLock,
+    DEVELOPER_CREATE_SARADNJA_READY_SCOPE_LOCK,
+  );
+  assert.strictEqual(
+    json.pretplataVercel?.billingGovernance?.costGovernancePackage?.boundedBusinessPackage,
+    DEVELOPER_CREATE_SARADNJA_READY_POSLOVNA_PONUDA_SCOPE_LOCK,
+  );
+  assert.strictEqual(
+    json.pretplataVercel?.billingGovernance?.costGovernancePackage?.pretplataExtension,
+    DEVELOPER_CREATE_SARADNJA_READY_POSLOVNA_PONUDA_PRETPLATA_SCOPE_LOCK,
+  );
+  assert.strictEqual(
     json.pretplataVercel?.billingGovernance?.costGovernancePackage?.boundedVocabularyPhrase,
-    'EXTRIMLI EXTRONDOL EXTREM DOK DUK DAK DIK FOR',
+    DEVELOPER_CREATE_REPO_WIDE_BOUNDED_VOCABULARY_PHRASE,
   );
   assert.deepStrictEqual(
     json.pretplataVercel?.billingGovernance?.costGovernancePackage?.governanceBlockers,
@@ -84,11 +104,11 @@ async function testRouteResponse() {
   );
   assert.strictEqual(
     json.pretplataVercel?.billingGovernance?.costGovernancePackage?.dualCostTargets?.primary,
-    'drive-real-vercel-cost-as-close-to-zero-as-possible',
+    DEVELOPER_CREATE_SARADNJA_READY_VERCEL_COST_TARGETS.primary,
   );
   assert.strictEqual(
     json.pretplataVercel?.billingGovernance?.costGovernancePackage?.dualCostTargets?.fallback,
-    'if-zero-is-not-possible-use-controlled-enterprise-autopay-with-hard-guardrails',
+    DEVELOPER_CREATE_SARADNJA_READY_VERCEL_COST_TARGETS.fallback,
   );
   assert.deepStrictEqual(
     json.pretplataVercel?.billingGovernance?.costGovernancePackage?.extremCostHotspots,
