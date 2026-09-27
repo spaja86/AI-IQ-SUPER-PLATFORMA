@@ -124,6 +124,11 @@ async function runTests(): Promise<void> {
         billingGovernance: {
           currentInvoice: { number: string; amountUsd: string; requested: boolean; paid: boolean; evidenceCaptured: boolean };
           publicAnnouncement: { status: string; blockers: string[] };
+          costGovernancePackage: {
+            boundedVocabularyPhrase: string;
+            governanceBlockers: string[];
+            dualCostTargets: { primary: string; fallback: string };
+          };
         };
       };
       'sledećiKoraci': string[];
@@ -137,9 +142,16 @@ async function runTests(): Promise<void> {
     assert.strictEqual(body.vercel.billingGovernance.currentInvoice.paid, false);
     assert.strictEqual(body.vercel.billingGovernance.currentInvoice.evidenceCaptured, false);
     assert.strictEqual(body.vercel.billingGovernance.publicAnnouncement.status, 'not-ready');
+    assert.strictEqual(body.vercel.billingGovernance.costGovernancePackage.boundedVocabularyPhrase, 'EXTRIMLI EXTRONDOL EXTREM DOK DUK DAK DIK FOR');
+    assert.strictEqual(body.vercel.billingGovernance.costGovernancePackage.governanceBlockers.length, 8);
+    assert.strictEqual(
+      body.vercel.billingGovernance.costGovernancePackage.dualCostTargets.primary,
+      'drive-real-vercel-cost-as-close-to-zero-as-possible',
+    );
     assert(body.vercel.billingGovernance.publicAnnouncement.blockers.includes('Javno ozvaničenje je blokirano dok faktura nije plaćena ili korekcija nije rešena.'));
     assert(body['sledećiKoraci'].includes(`⬜ Platiti fakturu ${EXPECTED_INVOICE_NUMBER} ($${EXPECTED_INVOICE_AMOUNT}) ili otvoriti support correction`));
     assert(body['sledećiKoraci'].includes('⬜ Sačuvati invoice PDF + payment dokaz + timestamp + odgovorno lice'));
+    assert(body['sledećiKoraci'].includes('📉 Mapirati preview churn, duple GitHub/Vercel buildove, cron usage, add-on usage, bandwidth/image/function usage i retention/caching hotspotove'));
   });
 
   await test('ownership route exposes deploy governance source-of-truth and trigger order', async () => {

@@ -19,12 +19,19 @@ import {
   DEVELOPER_CREATE_KRALJEVSKI_RAD_SUMMARY_SAFE_FIELDS,
   DEVELOPER_CREATE_KRALJEVSKI_SAT_SUMMARY_SAFE_FIELDS,
   DEVELOPER_CREATE_SARADNJA_READY_BOUNDED_VOCABULARY,
+  DEVELOPER_CREATE_SARADNJA_READY_AUTOMATIC_SUBSCRIPTION_GATES,
+  DEVELOPER_CREATE_SARADNJA_READY_COST_TO_ZERO_FALLBACK_PLAN,
   DEVELOPER_CREATE_SARADNJA_READY_DOKSA_PRETPLATA_CASE,
+  DEVELOPER_CREATE_SARADNJA_READY_EXTRONDOL_NEGOTIATION_QUESTIONS,
+  DEVELOPER_CREATE_SARADNJA_READY_EXTREM_COST_HOTSPOTS,
+  DEVELOPER_CREATE_SARADNJA_READY_FINAL_AUDIT_PACKAGE_CONTENTS,
   DEVELOPER_CREATE_SARADNJA_READY_POSLOVNA_PONUDA_SCOPE_LOCK,
   DEVELOPER_CREATE_SARADNJA_READY_POSLOVNA_PONUDA_PRETPLATA_SCOPE_LOCK,
   DEVELOPER_CREATE_SARADNJA_READY_READINESS_SIGNALS,
   DEVELOPER_CREATE_SARADNJA_READY_RECOMMENDATION_LEVEL,
   DEVELOPER_CREATE_SARADNJA_READY_SUMMARY_SAFE_FIELDS,
+  DEVELOPER_CREATE_SARADNJA_READY_VERCEL_COST_TARGETS,
+  DEVELOPER_CREATE_SARADNJA_READY_VERCEL_GOVERNANCE_BLOCKERS,
   DEVELOPER_CREATE_IZVESTAJ_REPORT_LOCK,
   DEVELOPER_CREATE_IZVESTAJ_MEASURED_BRANCH_LAYERS,
   DEVELOPER_CREATE_IZVESTAJ_PLATFORM_TRACKS,
@@ -423,6 +430,77 @@ async function runTests(): Promise<void> {
     assert(
       DEVELOPER_CREATE_SARADNJA_READY_RECOMMENDATION_LEVEL === 'EKSTREMNA_PREPORUKA',
       'saradnja-ready recommendation level must stay extreme',
+    );
+    assert(
+      DEVELOPER_CREATE_SARADNJA_READY_VERCEL_COST_TARGETS.primary
+      === 'drive-real-vercel-cost-as-close-to-zero-as-possible',
+      'unexpected primary Vercel cost target',
+    );
+    assert(
+      DEVELOPER_CREATE_SARADNJA_READY_VERCEL_COST_TARGETS.fallback
+      === 'if-zero-is-not-possible-use-controlled-enterprise-autopay-with-hard-guardrails',
+      'unexpected fallback Vercel cost target',
+    );
+    assertArrayEquals(
+      DEVELOPER_CREATE_SARADNJA_READY_VERCEL_GOVERNANCE_BLOCKERS,
+      [
+        'confirm-enterprise-governed-model',
+        'resolve-invoice-5JJYX4KN-0015-amount-385.52-usd',
+        'capture-invoice-and-payment-evidence-package',
+        'lock-autopay-to-corporate-method-only',
+        'configure-finance-channel-notifications',
+        'enable-finops-thresholds-50-75-90-100',
+        'enable-monthly-reconciliation',
+        'enable-quarterly-vendor-review',
+      ],
+      'unexpected Vercel governance blockers',
+    );
+    assertArrayEquals(
+      DEVELOPER_CREATE_SARADNJA_READY_EXTREM_COST_HOTSPOTS,
+      [
+        'preview-deployment-churn',
+        'duplicate-github-actions-and-vercel-builds',
+        'cron-and-scheduled-route-usage',
+        'analytics-and-add-on-usage',
+        'bandwidth-image-and-function-usage',
+        'unnecessary-branch-deployments',
+        'artifact-cache-and-retention-patterns',
+      ],
+      'unexpected EXTREM cost hotspots',
+    );
+    assert(
+      DEVELOPER_CREATE_SARADNJA_READY_EXTRONDOL_NEGOTIATION_QUESTIONS.length === 14,
+      'unexpected number of EXTRONDOL negotiation questions',
+    );
+    assertArrayEquals(
+      DEVELOPER_CREATE_SARADNJA_READY_COST_TO_ZERO_FALLBACK_PLAN,
+      [
+        'reduce-preview-deployment-churn',
+        'keep-vercel-only-for-frontend-ssr-and-lightweight-apis',
+        'remove-duplicate-build-and-deploy-steps-from-github-actions-where-vercel-already-builds',
+        'disable-nonessential-scheduled-surfaces',
+        'keep-only-operationally-justified-add-ons',
+        'measure-cost-per-deployment-and-cost-per-active-user',
+      ],
+      'unexpected cost-to-zero fallback plan',
+    );
+    assert(
+      DEVELOPER_CREATE_SARADNJA_READY_AUTOMATIC_SUBSCRIPTION_GATES.activationCriteria.includes('payment-verification')
+      && DEVELOPER_CREATE_SARADNJA_READY_AUTOMATIC_SUBSCRIPTION_GATES.noSkippedWawePhases,
+      'automatic subscription gates must keep payment verification and no-skipped-WAWE lock',
+    );
+    assertArrayEquals(
+      DEVELOPER_CREATE_SARADNJA_READY_FINAL_AUDIT_PACKAGE_CONTENTS,
+      [
+        'vercel-business-offer',
+        'negotiation-question-list',
+        'cost-to-zero-fallback-plan',
+        'rollout-plan',
+        'rollback-plan',
+        'kpi-impact-summary',
+        'downstream-summary-only-reference',
+      ],
+      'unexpected final audit package contents',
     );
   });
 

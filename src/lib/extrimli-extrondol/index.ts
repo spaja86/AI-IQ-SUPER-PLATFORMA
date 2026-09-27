@@ -5936,11 +5936,11 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
           reviewPosture:
             extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.saradnjaReadyPackage.reviewPosture,
           rolloutPlan:
-            'Advance POSLOVNA PONUDA only as an additive-only GitHub/Vercel poslovna saradnja package through the existing EXTREM technical signal, EXTRONDOL governance mirror, and SPAJA KOD audit-safe summary boundary.',
+            'Advance POSLOVNA PONUDA only as an additive-only GitHub/Vercel poslovna saradnja package through the existing EXTREM cost-hotspot signal, EXTRONDOL governance mirror, WAWE 1-5 sequencing, and SPAJA KOD audit-safe summary boundary.',
           rollbackPlan:
-            'Freeze promotion and fall back to the previously verified summary-safe poslovna ponuda posture if readiness, human review, downstream reference, or GitHub/Vercel governance evidence drifts.',
+            'Freeze promotion and fall back to the previously verified summary-safe poslovna ponuda posture if cost-to-zero assumptions fail, enterprise-autopay guardrails drift, readiness drops, or human review/downstream evidence becomes incomplete.',
           kpiImpactSummary:
-            'KPI impact stays bounded to review readiness, rollout safety, and downstream summary alignment; no raw billing, payment, or secret-bearing commercial internals cross the SPAJA KOD boundary.',
+            'KPI impact stays bounded to cost per deployment, cost per active user, build/deploy duplication control, review readiness, rollout safety, and downstream summary alignment; no raw billing, payment, or secret-bearing commercial internals cross the SPAJA KOD boundary.',
           humanReviewStatus: 'required-before-promotion',
           acceptanceEvidence: [
             'developerAndCreateRepoWideReflection.saradnjaReadyPackage',

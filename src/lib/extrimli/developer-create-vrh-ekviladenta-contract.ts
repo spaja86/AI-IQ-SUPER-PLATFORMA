@@ -1724,6 +1724,58 @@ export const DEVELOPER_CREATE_SARADNJA_READY_GITHUB_SUBSCRIPTION_BRIDGE = {
   communicationStatusLanguage: ['READY', 'WATCH', 'BLOCKED'],
 } as const;
 
+export const DEVELOPER_CREATE_SARADNJA_READY_VERCEL_GOVERNANCE_BLOCKERS = [
+  'confirm-enterprise-governed-model',
+  'resolve-invoice-5JJYX4KN-0015-amount-385.52-usd',
+  'capture-invoice-and-payment-evidence-package',
+  'lock-autopay-to-corporate-method-only',
+  'configure-finance-channel-notifications',
+  'enable-finops-thresholds-50-75-90-100',
+  'enable-monthly-reconciliation',
+  'enable-quarterly-vendor-review',
+] as const;
+
+export const DEVELOPER_CREATE_SARADNJA_READY_VERCEL_COST_TARGETS = {
+  primary: 'drive-real-vercel-cost-as-close-to-zero-as-possible',
+  fallback: 'if-zero-is-not-possible-use-controlled-enterprise-autopay-with-hard-guardrails',
+} as const;
+
+export const DEVELOPER_CREATE_SARADNJA_READY_EXTREM_COST_HOTSPOTS = [
+  'preview-deployment-churn',
+  'duplicate-github-actions-and-vercel-builds',
+  'cron-and-scheduled-route-usage',
+  'analytics-and-add-on-usage',
+  'bandwidth-image-and-function-usage',
+  'unnecessary-branch-deployments',
+  'artifact-cache-and-retention-patterns',
+] as const;
+
+export const DEVELOPER_CREATE_SARADNJA_READY_EXTRONDOL_NEGOTIATION_QUESTIONS = [
+  'startup-or-program-credits-availability',
+  'open-source-partner-or-ecosystem-sponsorship',
+  'community-educational-or-showcase-plan-with-credits',
+  'temporary-credit-or-invoice-relief-for-current-invoice',
+  'annual-commit-discount',
+  'prepaid-discount-with-automatic-billing',
+  'hard-spending-cap-or-overage-protection',
+  'preview-cost-optimization-without-production-loss',
+  'analytics-speed-insights-and-add-on-consolidation',
+  'enterprise-lite-or-team-bundle-cheaper-than-current-model',
+  'single-legal-entity-billing-owner-with-autopay-rules',
+  'grace-period-during-enterprise-governance-transition',
+  'sla-support-bundle-without-extra-variable-costs',
+  'confirmation-of-which-features-must-stay-enabled-vs-can-be-disabled-for-zero-or-minimum-cost',
+] as const;
+
+export const DEVELOPER_CREATE_SARADNJA_READY_COST_TO_ZERO_FALLBACK_PLAN = [
+  'reduce-preview-deployment-churn',
+  'keep-vercel-only-for-frontend-ssr-and-lightweight-apis',
+  'remove-duplicate-build-and-deploy-steps-from-github-actions-where-vercel-already-builds',
+  'disable-nonessential-scheduled-surfaces',
+  'keep-only-operationally-justified-add-ons',
+  'measure-cost-per-deployment-and-cost-per-active-user',
+] as const;
+
 export const DEVELOPER_CREATE_SARADNJA_READY_WAWE_ALIGNMENT_LOCK = {
   mandatoryOrder: [
     'wawe-1-pre-release-validation',
@@ -1741,6 +1793,7 @@ export const DEVELOPER_CREATE_SARADNJA_READY_AUDIT_FIELDS_LOCK = [
   'acceptanceEvidence',
   'rolloutPlan',
   'rollbackPlan',
+  'kpiImpactSummary',
   'humanReviewStatus',
   'downstreamReference',
 ] as const;
@@ -1776,6 +1829,22 @@ export const DEVELOPER_CREATE_SARADNJA_READY_PACKAGE = {
   signature: 'Srdačan pozdrav, Nikola Spajić',
   mandatoryAuditFields: DEVELOPER_CREATE_SARADNJA_READY_AUDIT_FIELDS_LOCK,
 } as const;
+
+export const DEVELOPER_CREATE_SARADNJA_READY_AUTOMATIC_SUBSCRIPTION_GATES = {
+  activationCriteria: DEVELOPER_CREATE_SARADNJA_READY_GITHUB_SUBSCRIPTION_BRIDGE.activationCriteria,
+  mandatoryWaweOrder: DEVELOPER_CREATE_SARADNJA_READY_WAWE_ALIGNMENT_LOCK.mandatoryOrder,
+  noSkippedWawePhases: DEVELOPER_CREATE_SARADNJA_READY_WAWE_ALIGNMENT_LOCK.skipForbidden,
+} as const;
+
+export const DEVELOPER_CREATE_SARADNJA_READY_FINAL_AUDIT_PACKAGE_CONTENTS = [
+  'vercel-business-offer',
+  'negotiation-question-list',
+  'cost-to-zero-fallback-plan',
+  'rollout-plan',
+  'rollback-plan',
+  'kpi-impact-summary',
+  'downstream-summary-only-reference',
+] as const;
 
 export const DEVELOPER_CREATE_SARADNJA_READY_READINESS_SIGNALS = [
   'offer-clarity',

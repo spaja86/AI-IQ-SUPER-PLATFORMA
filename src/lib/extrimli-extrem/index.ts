@@ -85,10 +85,14 @@ import {
   DEVELOPER_CREATE_NOTES_1450_ROLE_CLASSIFICATION,
   DEVELOPER_CREATE_NOTES_1450_SCOPE_STATEMENT,
   DEVELOPER_CREATE_SARADNJA_READY_AUDIT_FIELDS_LOCK,
+  DEVELOPER_CREATE_SARADNJA_READY_AUTOMATIC_SUBSCRIPTION_GATES,
   DEVELOPER_CREATE_SARADNJA_READY_BOUNDED_VOCABULARY,
   DEVELOPER_CREATE_SARADNJA_READY_COMMUNICATION_FORMAT_LOCK,
+  DEVELOPER_CREATE_SARADNJA_READY_COST_TO_ZERO_FALLBACK_PLAN,
   DEVELOPER_CREATE_SARADNJA_READY_CROSS_REPO_BOUNDARY_LOCK,
+  DEVELOPER_CREATE_SARADNJA_READY_EXTRONDOL_NEGOTIATION_QUESTIONS,
   DEVELOPER_CREATE_SARADNJA_READY_FINAL_PACKAGE_LOCK,
+  DEVELOPER_CREATE_SARADNJA_READY_FINAL_AUDIT_PACKAGE_CONTENTS,
   DEVELOPER_CREATE_SARADNJA_READY_GITHUB_SUBSCRIPTION_BRIDGE,
   DEVELOPER_CREATE_SARADNJA_READY_GITHUB_VERCEL_OPERATING_MODEL,
   DEVELOPER_CREATE_SARADNJA_READY_LAYER_RESPONSIBILITIES,
@@ -101,7 +105,10 @@ import {
   DEVELOPER_CREATE_SARADNJA_READY_SCOPE_LOCK,
   DEVELOPER_CREATE_SARADNJA_READY_SUMMARY_SAFE_FIELDS,
   DEVELOPER_CREATE_SARADNJA_READY_VERCEL_CANONICAL_BUSINESS_MESSAGE,
+  DEVELOPER_CREATE_SARADNJA_READY_VERCEL_COST_TARGETS,
+  DEVELOPER_CREATE_SARADNJA_READY_VERCEL_GOVERNANCE_BLOCKERS,
   DEVELOPER_CREATE_SARADNJA_READY_WAWE_ALIGNMENT_LOCK,
+  DEVELOPER_CREATE_SARADNJA_READY_EXTREM_COST_HOTSPOTS,
   DEVELOPER_CREATE_PROMOCIJE_TIKETI_BONUSI_PROPUSNICE_ADMINISTRATIVNI_BONUSI_BOUNDED_SIGNALS,
   DEVELOPER_CREATE_PROMOCIJE_TIKETI_BONUSI_PROPUSNICE_ADMINISTRATIVNI_BONUSI_CANONICAL_ALIAS,
   DEVELOPER_CREATE_PROMOCIJE_TIKETI_BONUSI_PROPUSNICE_ADMINISTRATIVNI_BONUSI_DOWNSTREAM_POLICY,
@@ -7306,6 +7313,15 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
         finalPackageLock: DEVELOPER_CREATE_SARADNJA_READY_FINAL_PACKAGE_LOCK,
         qualityGates: DEVELOPER_CREATE_SARADNJA_READY_QUALITY_GATES,
         packageContract: DEVELOPER_CREATE_SARADNJA_READY_PACKAGE,
+        vercelCostGovernance: {
+          governanceBlockers: DEVELOPER_CREATE_SARADNJA_READY_VERCEL_GOVERNANCE_BLOCKERS,
+          dualCostTargets: DEVELOPER_CREATE_SARADNJA_READY_VERCEL_COST_TARGETS,
+          extremCostHotspots: DEVELOPER_CREATE_SARADNJA_READY_EXTREM_COST_HOTSPOTS,
+          extrondolNegotiationQuestions: DEVELOPER_CREATE_SARADNJA_READY_EXTRONDOL_NEGOTIATION_QUESTIONS,
+          costToZeroFallbackPlan: DEVELOPER_CREATE_SARADNJA_READY_COST_TO_ZERO_FALLBACK_PLAN,
+          automaticSubscriptionGates: DEVELOPER_CREATE_SARADNJA_READY_AUTOMATIC_SUBSCRIPTION_GATES,
+          finalAuditPackageContents: DEVELOPER_CREATE_SARADNJA_READY_FINAL_AUDIT_PACKAGE_CONTENTS,
+        },
         productDisposition: DEVELOPER_CREATE_SARADNJA_READY_PRODUCT_DISPOSITION,
         recommendationLevel: DEVELOPER_CREATE_SARADNJA_READY_RECOMMENDATION_LEVEL,
         additiveOnly: true,
@@ -12711,7 +12727,7 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
   saradnjaReadyPackage.watchReasons =
     saradnjaStatus === 'WATCH'
       ? [
-        'POSLOVNA PONUDA ostaje u WATCH režimu dok NOTES 1450, human review i GitHub/Vercel bridge još traže dodatnu governance potvrdu pre promocije.',
+        'POSLOVNA PONUDA ostaje u WATCH režimu dok NOTES 1450, human review, GitHub/Vercel bridge i cost-to-zero / enterprise-autopay paket još traže dodatnu governance potvrdu pre promocije.',
       ]
       : [];
   saradnjaReadyPackage.reviewPosture =
@@ -12737,7 +12753,7 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
     ...saradnjaReadyPackage.canonicalBusinessMessage,
   };
   saradnjaReadyPackage.businessSummary =
-    'POSLOVNA PONUDA ostaje additive-only poklon-za-rad paket za poslovnu saradnju: EXTREM objavljuje readiness signal i ekstremnu preporuku, EXTRONDOL vodi human review / rollout / rollback / KPI audit, a SPAJA KOD ostaje summary-safe GitHub/Vercel rezime bez internih formula.';
+    'POSLOVNA PONUDA ostaje additive-only poklon-za-rad paket za poslovnu saradnju: EXTREM mapira troškovne hotspotove i cost-to-zero signal, EXTRONDOL vodi human review / rollout / rollback / payment verification / KPI audit i enterprise-autopay guardrail-e, a SPAJA KOD ostaje summary-safe GitHub/Vercel rezime bez internih formula.';
   const leksikonTrack =
     dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.leksikonTrack;
   const leksikonReadinessStatus =
