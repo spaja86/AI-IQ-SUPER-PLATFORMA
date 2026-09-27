@@ -1182,6 +1182,11 @@ function buildElektronskiPotpisIdentityVerificationSource() {
     true,
     degradedSources,
   );
+  const signatureDisplayObjectReady = parseBooleanEnv(
+    'EXTRIMLI_EXTREM_ELEKTRONSKI_POTPIS_SIGNATURE_DISPLAY_OBJECT_READY',
+    true,
+    degradedSources,
+  );
   const aliasCoverageScore = parsePercentEnvWithInvalidFallback(
     'EXTRIMLI_EXTREM_ELEKTRONSKI_POTPIS_ALIAS_COVERAGE_SCORE',
     100,
@@ -1201,6 +1206,9 @@ function buildElektronskiPotpisIdentityVerificationSource() {
     ...(!publicKeyReferenceRedacted
       ? ['public-key-redaction-missing']
       : []),
+    ...(!signatureDisplayObjectReady
+      ? ['signature-display-missing']
+      : []),
   ];
   const watchReasons = [
     ...(aliasCoverageScore < 100
@@ -1216,6 +1224,7 @@ function buildElektronskiPotpisIdentityVerificationSource() {
     currentOperatingNameConfirmed,
     omegaDidFingerprintPresent,
     publicKeyReferenceRedacted,
+    signatureDisplayObjectReady,
     aliasCoverageScore,
     degradedSources,
     blockerReasons,
@@ -13456,8 +13465,12 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
         : 'UNCONFIRMED';
   const elektronskiPotpisSignatureDisplayStatus: ExtrimliExtremReadinessStatus =
     elektronskiPotpisIdentityConfirmationStatus === 'CONFIRMED'
+      && identityVerificationSource.signatureDisplayObjectReady
       ? elektronskiPotpisReadinessStatus
-      : elektronskiPotpisIdentityConfirmationStatus === 'REVIEW_REQUIRED'
+      : elektronskiPotpisIdentityConfirmationStatus === 'UNCONFIRMED'
+        ? 'BLOCKED'
+        : elektronskiPotpisIdentityConfirmationStatus === 'REVIEW_REQUIRED'
+          || !identityVerificationSource.signatureDisplayObjectReady
         ? 'WATCH'
         : 'BLOCKED';
   const elektronskiPotpisFallbackInputStatus: ExtrimliExtremReadinessStatus = aggregateSignalReadinessStatus([
