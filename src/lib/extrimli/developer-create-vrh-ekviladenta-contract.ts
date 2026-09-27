@@ -463,6 +463,26 @@ export const DEVELOPER_CREATE_ISPITIVANJE_SVEGA_STO_JE_FUNKCIONALNO_COVERAGE_ARE
   'extendol-unified-functionality-coverage',
 ] as const;
 
+export const DEVELOPER_CREATE_ISPITIVANJE_SVEGA_STO_JE_FUNKCIONALNO_EXTENDOL_COVERAGE_FIELDS = [
+  'sportRiskEvaluation',
+  'gearAndSafetyReadiness',
+  'eventLifecycleAndRegistration',
+  'destructionSafetyFlows',
+  'athleteProgressAndReadiness',
+  'duelKingCompetition',
+  'communityReputationAndMentorship',
+  'koronReadinessOverlay',
+] as const;
+
+export const DEVELOPER_CREATE_ISPITIVANJE_SVEGA_STO_JE_FUNKCIONALNO_EXTENDOL_ACCEPTANCE_CRITERIA_IDS = [
+  'extendol-contract',
+  'duel-king-covered',
+  'koron-overlay-covered',
+  'kpi-targets',
+  'real-readiness-signal',
+  'degraded-no-500-mode',
+] as const;
+
 export const DEVELOPER_CREATE_ISPITIVANJE_SVEGA_STO_JE_FUNKCIONALNO_EXTENDOL_EVIDENCE_MODE =
   'aggregate-evidence-input-only' as const;
 

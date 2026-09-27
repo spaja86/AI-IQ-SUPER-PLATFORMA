@@ -182,6 +182,8 @@ import {
   DEVELOPER_CREATE_PILOT_SUMMARY_SAFE_FIELDS,
   DEVELOPER_CREATE_ISPITIVANJE_SVEGA_STO_JE_FUNKCIONALNO_CANONICAL_ALIAS,
   DEVELOPER_CREATE_ISPITIVANJE_SVEGA_STO_JE_FUNKCIONALNO_COVERAGE_AREAS,
+  DEVELOPER_CREATE_ISPITIVANJE_SVEGA_STO_JE_FUNKCIONALNO_EXTENDOL_ACCEPTANCE_CRITERIA_IDS,
+  DEVELOPER_CREATE_ISPITIVANJE_SVEGA_STO_JE_FUNKCIONALNO_EXTENDOL_COVERAGE_FIELDS,
   DEVELOPER_CREATE_ISPITIVANJE_SVEGA_STO_JE_FUNKCIONALNO_EXTENDOL_EVIDENCE_MODE,
   DEVELOPER_CREATE_ISPITIVANJE_SVEGA_STO_JE_FUNKCIONALNO_FALLBACK_INPUTS,
   DEVELOPER_CREATE_ISPITIVANJE_SVEGA_STO_JE_FUNKCIONALNO_ROLE_CLASSIFICATION,
@@ -12694,14 +12696,20 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
     dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.implementationPackage.smartProgramskiJezikPackage.technicalProfile.status;
   const ispitivanjeSvegaStoJeFunkcionalnoRepoWideReflectionStatus =
     dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.status;
-  const ispitivanjeSvegaStoJeFunkcionalnoExtendolCoverageValues = Object.values(extendolReport.coverage);
+  const ispitivanjeSvegaStoJeFunkcionalnoExtendolCoverageValues =
+    DEVELOPER_CREATE_ISPITIVANJE_SVEGA_STO_JE_FUNKCIONALNO_EXTENDOL_COVERAGE_FIELDS.map(
+      (field) => extendolReport.coverage[field],
+    );
   const ispitivanjeSvegaStoJeFunkcionalnoExtendolCoverageStatus = ispitivanjeSvegaStoJeFunkcionalnoExtendolCoverageValues.every(Boolean)
     ? 'READY'
     : extendolReport.degraded && ispitivanjeSvegaStoJeFunkcionalnoExtendolCoverageValues.some(Boolean)
       ? 'WATCH'
     : 'BLOCKED';
   const ispitivanjeSvegaStoJeFunkcionalnoExtendolFailedAcceptanceCriteria = extendolReport.acceptanceCriteria.filter(
-    (criterion) => !criterion.passed,
+    (criterion) => !criterion.passed
+      && DEVELOPER_CREATE_ISPITIVANJE_SVEGA_STO_JE_FUNKCIONALNO_EXTENDOL_ACCEPTANCE_CRITERIA_IDS.includes(
+        criterion.id,
+      ),
   );
   const ispitivanjeSvegaStoJeFunkcionalnoExtendolAcceptanceStatus =
     ispitivanjeSvegaStoJeFunkcionalnoExtendolFailedAcceptanceCriteria.length === 0
