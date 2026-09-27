@@ -3,11 +3,16 @@ import type { NextRequest } from 'next/server';
 import { GET, POST } from '../../app/api/owner/vercel-ownership/route';
 import { OWNER_PHONE_NUMBER_ENV_KEY } from '../../lib/constants';
 import {
+  DEVELOPER_CREATE_REPO_WIDE_BOUNDED_VOCABULARY_PHRASE,
   DEVELOPER_CREATE_SARADNJA_READY_AUTOMATIC_SUBSCRIPTION_GATES,
   DEVELOPER_CREATE_SARADNJA_READY_COST_TO_ZERO_FALLBACK_PLAN,
   DEVELOPER_CREATE_SARADNJA_READY_EXTRONDOL_NEGOTIATION_QUESTIONS,
   DEVELOPER_CREATE_SARADNJA_READY_EXTREM_COST_HOTSPOTS,
   DEVELOPER_CREATE_SARADNJA_READY_FINAL_AUDIT_PACKAGE_CONTENTS,
+  DEVELOPER_CREATE_SARADNJA_READY_POSLOVNA_PONUDA_PRETPLATA_SCOPE_LOCK,
+  DEVELOPER_CREATE_SARADNJA_READY_POSLOVNA_PONUDA_SCOPE_LOCK,
+  DEVELOPER_CREATE_SARADNJA_READY_SCOPE_LOCK,
+  DEVELOPER_CREATE_SARADNJA_READY_VERCEL_COST_TARGETS,
   DEVELOPER_CREATE_SARADNJA_READY_VERCEL_GOVERNANCE_BLOCKERS,
 } from '../../lib/extrimli/developer-create-vrh-ekviladenta-contract';
 import { requestOwnerOtp, verifyOwnerOtp } from '../../lib/owner-phone-auth';
@@ -133,6 +138,9 @@ async function runTests(): Promise<void> {
           currentInvoice: { number: string; amountUsd: string; requested: boolean; paid: boolean; evidenceCaptured: boolean };
           publicAnnouncement: { status: string; blockers: string[] };
           costGovernancePackage: {
+            canonicalTopicLock: string;
+            boundedBusinessPackage: string;
+            pretplataExtension: string;
             boundedVocabularyPhrase: string;
             governanceBlockers: string[];
             dualCostTargets: { primary: string; fallback: string };
@@ -159,18 +167,33 @@ async function runTests(): Promise<void> {
     assert.strictEqual(body.vercel.billingGovernance.currentInvoice.paid, false);
     assert.strictEqual(body.vercel.billingGovernance.currentInvoice.evidenceCaptured, false);
     assert.strictEqual(body.vercel.billingGovernance.publicAnnouncement.status, 'not-ready');
-    assert.strictEqual(body.vercel.billingGovernance.costGovernancePackage.boundedVocabularyPhrase, 'EXTRIMLI EXTRONDOL EXTREM DOK DUK DAK DIK FOR');
+    assert.strictEqual(
+      body.vercel.billingGovernance.costGovernancePackage.canonicalTopicLock,
+      DEVELOPER_CREATE_SARADNJA_READY_SCOPE_LOCK,
+    );
+    assert.strictEqual(
+      body.vercel.billingGovernance.costGovernancePackage.boundedBusinessPackage,
+      DEVELOPER_CREATE_SARADNJA_READY_POSLOVNA_PONUDA_SCOPE_LOCK,
+    );
+    assert.strictEqual(
+      body.vercel.billingGovernance.costGovernancePackage.pretplataExtension,
+      DEVELOPER_CREATE_SARADNJA_READY_POSLOVNA_PONUDA_PRETPLATA_SCOPE_LOCK,
+    );
+    assert.strictEqual(
+      body.vercel.billingGovernance.costGovernancePackage.boundedVocabularyPhrase,
+      DEVELOPER_CREATE_REPO_WIDE_BOUNDED_VOCABULARY_PHRASE,
+    );
     assert.deepStrictEqual(
       body.vercel.billingGovernance.costGovernancePackage.governanceBlockers,
       [...DEVELOPER_CREATE_SARADNJA_READY_VERCEL_GOVERNANCE_BLOCKERS],
     );
     assert.strictEqual(
       body.vercel.billingGovernance.costGovernancePackage.dualCostTargets.primary,
-      'drive-real-vercel-cost-as-close-to-zero-as-possible',
+      DEVELOPER_CREATE_SARADNJA_READY_VERCEL_COST_TARGETS.primary,
     );
     assert.strictEqual(
       body.vercel.billingGovernance.costGovernancePackage.dualCostTargets.fallback,
-      'if-zero-is-not-possible-use-controlled-enterprise-autopay-with-hard-guardrails',
+      DEVELOPER_CREATE_SARADNJA_READY_VERCEL_COST_TARGETS.fallback,
     );
     assert.deepStrictEqual(
       body.vercel.billingGovernance.costGovernancePackage.extremCostHotspots,
