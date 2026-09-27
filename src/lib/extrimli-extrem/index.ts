@@ -13275,6 +13275,8 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
       : normalizedPilotFallbackInput
         && DEVELOPER_CREATE_PILOT_FALLBACK_INPUTS_LOWERCASE.includes(normalizedPilotFallbackInput)
         ? 'WATCH'
+        : normalizedPilotFallbackInput
+          ? 'WATCH'
         : 'READY';
   const pilotSignalStatuses = [
     dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.status,
