@@ -708,11 +708,11 @@ async function runTests(): Promise<void> {
       'ELEKTRONSKI POTPIS canonical alias mismatch',
     );
     assert(
-      DEVELOPER_CREATE_ELEKTRONSKI_POTPIS_SCOPE_STATEMENT.includes('identity confirmation'),
+      DEVELOPER_CREATE_ELEKTRONSKI_POTPIS_SCOPE_STATEMENT.includes('potvrdom identiteta'),
       'ELEKTRONSKI POTPIS scope statement must keep identity confirmation mandatory',
     );
     assert(
-      DEVELOPER_CREATE_ELEKTRONSKI_POTPIS_ROLE_CLASSIFICATION === 'additive-only-bounded-elektronski-potpis-track',
+      DEVELOPER_CREATE_ELEKTRONSKI_POTPIS_ROLE_CLASSIFICATION === 'additive-only-bounded-elektronski-potpis-alias-track',
       'ELEKTRONSKI POTPIS role classification mismatch',
     );
     assertArrayEquals(
@@ -726,7 +726,7 @@ async function runTests(): Promise<void> {
       'unexpected ELEKTRONSKI POTPIS governance outputs',
     );
     assert(
-      DEVELOPER_CREATE_ELEKTRONSKI_POTPIS_RELEASE_AUDIT_SUMMARY_SIGNAL.includes('identity confirmation'),
+      DEVELOPER_CREATE_ELEKTRONSKI_POTPIS_RELEASE_AUDIT_SUMMARY_SIGNAL === 'releaseAuditSummary',
       'ELEKTRONSKI POTPIS release audit summary signal mismatch',
     );
     assertArrayEquals(
