@@ -243,8 +243,12 @@ async function runTests(): Promise<void> {
         vrhDoc.includes('nosioci osetljivih podataka'),
       'VRH doc roster privacy and documentation-only wording missing',
     );
-    const manifestRosterLine = manifest
-      .split('\n')
+    const manifestLines = manifest.split('\n');
+    const kraljevskiSistemLineIndex = manifestLines.findIndex((line) =>
+      line.includes('`KRALJEVSKI SISTEM` ostaje bounded governance/orchestration alias'));
+    assert(kraljevskiSistemLineIndex >= 0, 'manifest KRALJEVSKI SISTEM line missing');
+    const manifestRosterLine = manifestLines
+      .slice(kraljevskiSistemLineIndex, kraljevskiSistemLineIndex + 4)
       .find((line) => line.startsWith('- Imena `'));
     assert(Boolean(manifestRosterLine), 'manifest roster line missing');
     const downstreamForbiddenNames = [...manifestRosterLine!.matchAll(/`([^`]+)`/g)]
