@@ -245,12 +245,16 @@ async function runTests(): Promise<void> {
     );
     const manifestRosterLine = manifest
       .split('\n')
-      .find((line) => line.includes('documentation/review roster'));
+      .find((line) => line.startsWith('- Imena `'));
     assert(Boolean(manifestRosterLine), 'manifest roster line missing');
-    const rosterNamesOnlySegment = manifestRosterLine!.split('ostaju')[0];
-    const downstreamForbiddenNames = [...rosterNamesOnlySegment.matchAll(/`([^`]+)`/g)]
+    const downstreamForbiddenNames = [...manifestRosterLine!.matchAll(/`([^`]+)`/g)]
       .map((match) => match[1]);
+    assert(
+      downstreamForbiddenNames.at(-1) === 'documentation/review roster',
+      'manifest roster line must keep documentation/review roster marker',
+    );
     for (const forbiddenName of downstreamForbiddenNames) {
+      if (forbiddenName === 'documentation/review roster') continue;
       assert(!multiRepoLinks.includes(forbiddenName), `multi-repo links must not expose roster name: ${forbiddenName}`);
     }
     assert(
