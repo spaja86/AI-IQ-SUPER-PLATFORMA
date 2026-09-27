@@ -28,6 +28,14 @@ import {
 } from '../../app/api/vercel-status/route';
 import { OWNER_PHONE_DEFAULT, OWNER_PHONE_NUMBER_ENV_KEY } from '../../lib/constants';
 import { kvSet } from '../../lib/kv-client';
+import {
+  DEVELOPER_CREATE_SARADNJA_READY_AUTOMATIC_SUBSCRIPTION_GATES,
+  DEVELOPER_CREATE_SARADNJA_READY_COST_TO_ZERO_FALLBACK_PLAN,
+  DEVELOPER_CREATE_SARADNJA_READY_EXTRONDOL_NEGOTIATION_QUESTIONS,
+  DEVELOPER_CREATE_SARADNJA_READY_EXTREM_COST_HOTSPOTS,
+  DEVELOPER_CREATE_SARADNJA_READY_FINAL_AUDIT_PACKAGE_CONTENTS,
+  DEVELOPER_CREATE_SARADNJA_READY_VERCEL_GOVERNANCE_BLOCKERS,
+} from '../../lib/extrimli/developer-create-vrh-ekviladenta-contract';
 
 async function testRouteResponse() {
   const response = await GET();
@@ -70,7 +78,10 @@ async function testRouteResponse() {
     json.pretplataVercel?.billingGovernance?.costGovernancePackage?.boundedVocabularyPhrase,
     'EXTRIMLI EXTRONDOL EXTREM DOK DUK DAK DIK FOR',
   );
-  assert.strictEqual(json.pretplataVercel?.billingGovernance?.costGovernancePackage?.governanceBlockers?.length, 8);
+  assert.deepStrictEqual(
+    json.pretplataVercel?.billingGovernance?.costGovernancePackage?.governanceBlockers,
+    [...DEVELOPER_CREATE_SARADNJA_READY_VERCEL_GOVERNANCE_BLOCKERS],
+  );
   assert.strictEqual(
     json.pretplataVercel?.billingGovernance?.costGovernancePackage?.dualCostTargets?.primary,
     'drive-real-vercel-cost-as-close-to-zero-as-possible',
@@ -79,22 +90,34 @@ async function testRouteResponse() {
     json.pretplataVercel?.billingGovernance?.costGovernancePackage?.dualCostTargets?.fallback,
     'if-zero-is-not-possible-use-controlled-enterprise-autopay-with-hard-guardrails',
   );
-  assert.strictEqual(json.pretplataVercel?.billingGovernance?.costGovernancePackage?.extremCostHotspots?.length, 7);
-  assert.strictEqual(json.pretplataVercel?.billingGovernance?.costGovernancePackage?.extrondolNegotiationQuestions?.length, 14);
-  assert.strictEqual(json.pretplataVercel?.billingGovernance?.costGovernancePackage?.costToZeroFallbackPlan?.length, 6);
-  assert.strictEqual(
-    json.pretplataVercel?.billingGovernance?.costGovernancePackage?.automaticSubscriptionGates?.activationCriteria?.length,
-    5,
+  assert.deepStrictEqual(
+    json.pretplataVercel?.billingGovernance?.costGovernancePackage?.extremCostHotspots,
+    [...DEVELOPER_CREATE_SARADNJA_READY_EXTREM_COST_HOTSPOTS],
   );
-  assert.strictEqual(
-    json.pretplataVercel?.billingGovernance?.costGovernancePackage?.automaticSubscriptionGates?.mandatoryWaweOrder?.length,
-    5,
+  assert.deepStrictEqual(
+    json.pretplataVercel?.billingGovernance?.costGovernancePackage?.extrondolNegotiationQuestions,
+    [...DEVELOPER_CREATE_SARADNJA_READY_EXTRONDOL_NEGOTIATION_QUESTIONS],
+  );
+  assert.deepStrictEqual(
+    json.pretplataVercel?.billingGovernance?.costGovernancePackage?.costToZeroFallbackPlan,
+    [...DEVELOPER_CREATE_SARADNJA_READY_COST_TO_ZERO_FALLBACK_PLAN],
+  );
+  assert.deepStrictEqual(
+    json.pretplataVercel?.billingGovernance?.costGovernancePackage?.automaticSubscriptionGates?.activationCriteria,
+    [...DEVELOPER_CREATE_SARADNJA_READY_AUTOMATIC_SUBSCRIPTION_GATES.activationCriteria],
+  );
+  assert.deepStrictEqual(
+    json.pretplataVercel?.billingGovernance?.costGovernancePackage?.automaticSubscriptionGates?.mandatoryWaweOrder,
+    [...DEVELOPER_CREATE_SARADNJA_READY_AUTOMATIC_SUBSCRIPTION_GATES.mandatoryWaweOrder],
   );
   assert.strictEqual(
     json.pretplataVercel?.billingGovernance?.costGovernancePackage?.automaticSubscriptionGates?.noSkippedWawePhases,
     true,
   );
-  assert.strictEqual(json.pretplataVercel?.billingGovernance?.costGovernancePackage?.finalAuditPackageContents?.length, 7);
+  assert.deepStrictEqual(
+    json.pretplataVercel?.billingGovernance?.costGovernancePackage?.finalAuditPackageContents,
+    [...DEVELOPER_CREATE_SARADNJA_READY_FINAL_AUDIT_PACKAGE_CONTENTS],
+  );
   assert.strictEqual(json.deployGovernance?.blockerSourceOfTruth?.primaryEndpoint, '/api/vercel-status');
   assert.strictEqual(json.deployGovernance?.blockerSourceOfTruth?.mirroredEndpoint, '/api/owner/vercel-ownership');
   assert.ok(['BLOCKED', 'PENDING', 'READY'].includes(json.deployGovernance?.blockerSourceOfTruth?.currentStatus ?? ''));
