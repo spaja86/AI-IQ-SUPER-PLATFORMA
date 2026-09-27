@@ -13493,6 +13493,8 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
   const elektronskiPotpisReviewPosture =
     elektronskiPotpisStatus === 'READY' && elektronskiPotpisIdentityConfirmationStatus === 'CONFIRMED'
       ? 'ALIGNED'
+      : elektronskiPotpisIdentityConfirmationStatus === 'UNCONFIRMED'
+        ? 'REVIEW_REQUIRED'
       : elektronskiPotpisStatus === 'WATCH'
         || elektronskiPotpisIdentityConfirmationStatus === 'REVIEW_REQUIRED'
         ? 'WATCH'
