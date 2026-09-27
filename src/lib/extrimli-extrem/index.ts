@@ -311,6 +311,9 @@ import type {
   ExtrimliExtremZelezaraPretplataIdentityTrack,
   ExtrimliSpajaKodPublicStatus,
 } from './types';
+
+const DEVELOPER_CREATE_MEDALJE_SRBSKE_FALLBACK_INPUTS_LOWERCASE =
+  DEVELOPER_CREATE_MEDALJE_SRBSKE_FALLBACK_INPUTS.map((item) => item.toLowerCase());
 import {
   EXTRIMLI_EXTREM_PROFILER_API_MAX_MS,
   EXTRIMLI_EXTREM_PROFILER_CONTRACT_VERSION,
@@ -12835,8 +12838,7 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
     normalizedMedaljeSrbskeFallbackInput === 'conflict'
       ? 'BLOCKED'
       : normalizedMedaljeSrbskeFallbackInput
-          && DEVELOPER_CREATE_MEDALJE_SRBSKE_FALLBACK_INPUTS.map((item) => item.toLowerCase())
-            .includes(normalizedMedaljeSrbskeFallbackInput)
+          && DEVELOPER_CREATE_MEDALJE_SRBSKE_FALLBACK_INPUTS_LOWERCASE.includes(normalizedMedaljeSrbskeFallbackInput)
         ? 'WATCH'
         : 'READY';
   const medaljeSrbskeSignalStatuses = [
