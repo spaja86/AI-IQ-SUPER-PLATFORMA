@@ -159,6 +159,12 @@ import {
   DEVELOPER_CREATE_MONTEZACIJA_ROLE_CLASSIFICATION,
   DEVELOPER_CREATE_MONTEZACIJA_SCOPE_STATEMENT,
   DEVELOPER_CREATE_MONTEZACIJA_SUMMARY_SAFE_FIELDS,
+  DEVELOPER_CREATE_PILOT_CANONICAL_ALIAS,
+  DEVELOPER_CREATE_PILOT_FALLBACK_INPUTS,
+  DEVELOPER_CREATE_PILOT_GOVERNANCE_REQUIRED_OUTPUTS,
+  DEVELOPER_CREATE_PILOT_ROLE_CLASSIFICATION,
+  DEVELOPER_CREATE_PILOT_SCOPE_STATEMENT,
+  DEVELOPER_CREATE_PILOT_SUMMARY_SAFE_FIELDS,
   DEVELOPER_CREATE_RADNI_PROSTOR_BOUNDED_TOKEN_SEQUENCE,
   DEVELOPER_CREATE_RADNI_PROSTOR_CANONICAL_ALIAS,
   DEVELOPER_CREATE_RADNI_PROSTOR_FALLBACK_INPUTS,
@@ -7672,6 +7678,49 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
         ],
         downstreamReference: 'docs/MULTI-REPO-LINKS.md -> spaja86/IO-OPENUI-AO (summary-only)',
       },
+      pilotTrack: {
+        canonicalAlias: DEVELOPER_CREATE_PILOT_CANONICAL_ALIAS,
+        scopeStatement: DEVELOPER_CREATE_PILOT_SCOPE_STATEMENT,
+        roleClassification: DEVELOPER_CREATE_PILOT_ROLE_CLASSIFICATION,
+        boundedVocabularyPhrase: DEVELOPER_CREATE_REPO_WIDE_BOUNDED_VOCABULARY_PHRASE,
+        additiveOnly: true,
+        noNewRuntimeEngine: true,
+        noNewRuntimeRoutes: true,
+        noParallelSourceOfTruth: true,
+        sourceOfTruthRoutes: ['/api/extrimli/extrem', '/api/extrimli/extrondol', '/api/extrimli/spaja-kod'],
+        ownershipLock: {
+          dokDikFor: 'EXTREM',
+          dakDuk: 'EXTRONDOL',
+          spajaKod: 'audit-safe-summary-only',
+        },
+        summarySafePublicFields: DEVELOPER_CREATE_PILOT_SUMMARY_SAFE_FIELDS,
+        readinessSignal: {
+          status: 'BLOCKED',
+          readinessScore: 0,
+          fallbackInputStatus: 'BLOCKED',
+          deterministicFallbackRequired: true,
+          fallbackInputs: DEVELOPER_CREATE_PILOT_FALLBACK_INPUTS,
+          driver:
+            'developerAndCreateRepoWideReflection.readiness + developerAndCreateRepoWideReflection.technicalReadinessProfile.consolidatedRhythmStatus + runtimePilotFallbackInput',
+        },
+        blockerReason:
+          'pilot-track-awaits-existing-extrem-readiness-and-governance-alignment-without-new-runtime-surfaces',
+        watchReasons: [],
+        reviewPosture: 'REVIEW_REQUIRED',
+        humanReviewStatus: 'required-before-promotion',
+        rolloutPlan:
+          'Promote PILOT only after EXTREM readiness signal, EXTRONDOL governance evidence, and SPAJA KOD summary-safe outputs stay aligned under existing source-of-truth routes.',
+        rollbackPlan:
+          'Freeze promotion and revert to the previously verified Developer/Create package if PILOT readiness, review posture, or governance evidence drifts.',
+        releaseAuditSummary: DEVELOPER_CREATE_PILOT_GOVERNANCE_REQUIRED_OUTPUTS[3],
+        acceptanceEvidence: [
+          'developerAndCreateRepoWideReflection.pilotTrack',
+          'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.pilotTrack',
+          'spajaKod.publicSignals.pilotStatus',
+          'spajaKod.developerAndCreateImplementationPackage.pilotSummary',
+        ],
+        downstreamReference: 'docs/MULTI-REPO-LINKS.md -> spaja86/IO-OPENUI-AO (summary-only)',
+      },
       aiIqLaboratorijaTrack: buildDefaultAiIqLaboratorijaTrack(),
       konstrukcijeIProjektovanjeTrack: {
         canonicalAlias: DEVELOPER_CREATE_KONSTRUKCIJE_I_PROJEKTOVANJE_CANONICAL_ALIAS,
@@ -12133,6 +12182,20 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
       noParallelSourceOfTruth: true,
       rawInternalsExposed: false,
     },
+    pilotBoundary: {
+      trackRole: 'bounded-pilot-alias-track',
+      parentTrack: 'VRH PROGRAMSKOG EKVILADENTA',
+      canonicalAlias: DEVELOPER_CREATE_PILOT_CANONICAL_ALIAS,
+      roleClassification: DEVELOPER_CREATE_PILOT_ROLE_CLASSIFICATION,
+      extremPublishes: 'status-readiness-fallback-and-deterministic-signal-only',
+      extrondolPublishes: 'wawe-freeze-promotion-review-rollback-audit-summary-only',
+      spajaKodPublishes: 'status-blocker-review-downstream-and-pilot-summary-only',
+      technicalBinding: 'developerAndCreateRepoWideReflection.pilotTrack',
+      noNewRuntimeEngine: true,
+      noNewRuntimeRoutes: true,
+      noParallelSourceOfTruth: true,
+      rawInternalsExposed: false,
+    },
     radioBoundary: {
       trackRole: 'bounded-radio-media-distribution-audio-alias-track',
       parentTrack: 'VRH PROGRAMSKOG EKVILADENTA',
@@ -13200,6 +13263,60 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
       : 'Keep KRALJEVSKA MONTEZACIJA in controlled WATCH mode until readiness, review posture, and governance gates return to READY alignment.';
   montezacijaTrack.kraljevskaMontezacijaApprovalPackage.rollbackPlan =
     'If KRALJEVSKA MONTEZACIJA governance drifts, freeze promotion and rollback to the previously verified MONTEZACIJA NAD MONTEZACIJAMA package.';
+  const pilotTrack =
+    dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.pilotTrack;
+  const pilotFallbackInput = process.env.EXTRIMLI_PILOT_FALLBACK_INPUT;
+  const normalizedPilotFallbackInput = pilotFallbackInput?.trim().toLowerCase() ?? null;
+  const pilotFallbackInputStatus: ExtrimliExtremReadinessStatus =
+    normalizedPilotFallbackInput === 'conflict'
+      ? 'BLOCKED'
+      : normalizedPilotFallbackInput
+        && DEVELOPER_CREATE_PILOT_FALLBACK_INPUTS.map((item) => item.toLowerCase()).includes(
+          normalizedPilotFallbackInput,
+        )
+        ? 'WATCH'
+        : 'READY';
+  const pilotSignalStatuses = [
+    dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.status,
+    dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.technicalReadinessProfile
+      .consolidatedRhythmStatus,
+    pilotFallbackInputStatus,
+  ] as const;
+  const pilotStatus = aggregateSignalReadinessStatus([...pilotSignalStatuses]);
+  pilotTrack.readinessSignal.status = pilotStatus;
+  pilotTrack.readinessSignal.readinessScore = round(
+    pilotSignalStatuses.reduce((sum, signalStatus) => sum + readinessStatusScore(signalStatus), 0)
+      / pilotSignalStatuses.length,
+    2,
+  );
+  pilotTrack.readinessSignal.fallbackInputStatus = pilotFallbackInputStatus;
+  pilotTrack.readinessSignal.deterministicFallbackRequired =
+    pilotStatus !== 'READY' || pilotFallbackInputStatus !== 'READY';
+  pilotTrack.blockerReason =
+    pilotStatus === 'BLOCKED'
+      ? 'PILOT ostaje BLOCKED dok postojeći EXTREM readiness signal i governance dokaz ne ostanu poravnati sa ownership split pravilom bez novih ruta.'
+      : null;
+  pilotTrack.watchReasons =
+    pilotStatus === 'WATCH'
+      ? [
+          'PILOT ostaje u WATCH režimu dok fallback ulaz i review posture zahtevaju dodatnu proveru pre governance promocije.',
+        ]
+      : [];
+  pilotTrack.reviewPosture =
+    pilotStatus === 'READY'
+      ? 'ALIGNED'
+      : pilotStatus === 'WATCH'
+        ? 'WATCH'
+        : 'REVIEW_REQUIRED';
+  pilotTrack.releaseAuditSummary =
+    `${DEVELOPER_CREATE_PILOT_GOVERNANCE_REQUIRED_OUTPUTS.join(', ')} -> required-before-promotion`;
+  pilotTrack.rolloutPlan = pilotStatus === 'READY'
+    ? 'Promote PILOT by preserving additive-only lock, existing EXTREM/EXTRONDOL/SPAJA KOD source-of-truth routes, and audit-safe summary boundary.'
+    : pilotStatus === 'BLOCKED'
+      ? 'Keep PILOT BLOCKED until readiness blockers clear, then rerun governance alignment over existing source-of-truth routes.'
+      : 'Keep PILOT in WATCH mode until readiness signal, review posture, and fallback handling return to READY alignment.';
+  pilotTrack.rollbackPlan =
+    'If PILOT drift appears, freeze promotion and rollback to the previously verified Developer/Create package while preserving summary-only downstream sync.';
   const aiIqLaboratorijaTrack =
     dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.aiIqLaboratorijaTrack;
   const aiIqLaboratorijaExpectedTokens = [
