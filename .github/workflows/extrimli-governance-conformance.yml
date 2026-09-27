@@ -147,7 +147,7 @@ jobs:
           assert(
             developerCreateProgramDoc.includes('DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == ALATI / RADIONICA')
               && developerCreateProgramDoc.includes('RIN, KUR, ZUR, ENDER, ĐUKAR, ZINDAR, ONDOR, DOKER, VIGAR, DOBER, ZUMBUR, ZAKAL, DOMBAR, ĐUKAR 2, OKAR, OMBER, KSION, DIPET, OPAL, DUET-KALER, ZIDION')
-              && developerCreateProgramDoc.includes('Napoleon Diskaveri already-governed bounded-selection path'),
+              && developerCreateProgramDoc.includes('postojeći Napoleon Diskaveri bounded-selection kanal'),
             'Developer/Create program doc must lock ALATI / RADIONICA bounded alias, token sequence, and Napoleon-bound random posture'
           );
           assert(
@@ -189,7 +189,7 @@ jobs:
           assert(
             vrhDoc.includes('ALATI / RADIONICA')
               && vrhDoc.includes('RIN, KUR, ZUR, ENDER, ĐUKAR, ZINDAR, ONDOR, DOKER, VIGAR, DOBER, ZUMBUR, ZAKAL, DOMBAR, ĐUKAR 2, OKAR, OMBER, KSION, DIPET, OPAL, DUET-KALER, ZIDION')
-              && vrhDoc.includes('SPAJA KOD only summary-safe alias/status/fallback posture'),
+              && vrhDoc.includes('SPAJA KOD -> summary-only'),
             'VRH doc must keep ALATI / RADIONICA bounded alias and summary-only public boundary'
           );
           assert(
