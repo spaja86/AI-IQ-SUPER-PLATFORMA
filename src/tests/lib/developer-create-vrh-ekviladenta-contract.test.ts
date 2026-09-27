@@ -253,6 +253,8 @@ async function runTests(): Promise<void> {
       'Gordan Jovanović (psiholog, pedagog)',
     ];
     for (const forbiddenName of downstreamForbiddenNames) {
+      assert(manifest.includes(forbiddenName), `manifest must keep roster name: ${forbiddenName}`);
+      assert(vrhDoc.includes(forbiddenName), `VRH doc must keep roster name: ${forbiddenName}`);
       assert(!multiRepoLinks.includes(forbiddenName), `multi-repo links must not expose roster name: ${forbiddenName}`);
     }
     assert(
