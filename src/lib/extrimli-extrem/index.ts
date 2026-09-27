@@ -13065,11 +13065,17 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
   montezacijaTrack.montezacijaNadMontezacijamaApprovalPackage.rollbackPlan =
     'If lock drift, blocker escalation, or review regression occurs, freeze promotion and rollback to the last verified MONTEZACIJA additive package.';
   const kraljevskaMontezacijaReady =
-    montezacijaTrack.montezacijaNadMontezacijamaApprovalPackage.status === 'READY'
+    montezacijaTrack.status === 'READY'
     && montezacijaTrack.reviewPosture === 'ALIGNED'
+    && montezacijaTrack.montezacijaNadMontezacijamaApprovalPackage.status === 'READY'
+    && montezacijaTrack.montezacijaNadMontezacijamaApprovalPackage.reviewPosture === 'ALIGNED'
     && montezacijaFallbackInputStatus === 'READY';
   const kraljevskaMontezacijaBlocked =
-    montezacijaTrack.montezacijaNadMontezacijamaApprovalPackage.status === 'BLOCKED'
+    montezacijaTrack.status === 'BLOCKED'
+    || montezacijaTrack.reviewPosture === 'REVIEW_REQUIRED'
+    || montezacijaTrack.montezacijaNadMontezacijamaApprovalPackage.status === 'BLOCKED'
+    || montezacijaTrack.montezacijaNadMontezacijamaApprovalPackage.reviewPosture === 'REVIEW_REQUIRED'
+    || montezacijaFallbackInputStatus === 'BLOCKED'
     || montezacijaStatus === 'BLOCKED';
   montezacijaTrack.kraljevskaMontezacijaApprovalPackage.status = kraljevskaMontezacijaReady
     ? 'READY'
