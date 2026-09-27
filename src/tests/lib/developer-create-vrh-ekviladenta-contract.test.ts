@@ -227,16 +227,18 @@ async function runTests(): Promise<void> {
       multiRepoLinks.includes('`KRALJEVSKI SISTEM` bounded governance/orchestration alias + documentation/review roster'),
       'multi-repo KRALJEVSKI SISTEM row missing',
     );
-    assert(manifest.includes('Aleksandar Cvetić'), 'manifest roster member missing: Aleksandar Cvetić');
-    assert(manifest.includes('Vojislav Šešeljić'), 'manifest roster member missing: Vojislav Šešeljić');
-    assert(manifest.includes('Nenad Kuzmanović'), 'manifest roster member missing: Nenad Kuzmanović');
-    assert(manifest.includes('Nikola Mladenović'), 'manifest roster member missing: Nikola Mladenović');
-    assert(manifest.includes('Gordan Jovanović (psiholog, pedagog)'), 'manifest roster member missing: Gordan Jovanović');
-    assert(vrhDoc.includes('Aleksandar Cvetić'), 'VRH doc roster member missing: Aleksandar Cvetić');
-    assert(vrhDoc.includes('Vojislav Šešeljić'), 'VRH doc roster member missing: Vojislav Šešeljić');
-    assert(vrhDoc.includes('Nenad Kuzmanović'), 'VRH doc roster member missing: Nenad Kuzmanović');
-    assert(vrhDoc.includes('Nikola Mladenović'), 'VRH doc roster member missing: Nikola Mladenović');
-    assert(vrhDoc.includes('Gordan Jovanović (psiholog, pedagog)'), 'VRH doc roster member missing: Gordan Jovanović');
+    assert(
+      manifest.includes('audit-safe review/stakeholder katalog') &&
+        manifest.includes('operativne identitete') &&
+        manifest.includes('nosioce payout podataka'),
+      'manifest roster privacy and documentation-only wording missing',
+    );
+    assert(
+      vrhDoc.includes('audit-safe uloge i review odgovornosti') &&
+        vrhDoc.includes('operativni identiteti') &&
+        vrhDoc.includes('nosioci osetljivih podataka'),
+      'VRH doc roster privacy and documentation-only wording missing',
+    );
     assert(!multiRepoLinks.includes('Aleksandar Cvetić'), 'multi-repo links must not expose roster names');
     assert(
       multiRepoLinks.includes('never sync personal contacts, payroll/bank/KYC data, security roles, operational identities or raw governance formulas'),
