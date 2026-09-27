@@ -13462,6 +13462,7 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
         && identityVerificationSource.currentOperatingNameConfirmed
         && identityVerificationSource.omegaDidFingerprintPresent
         && identityVerificationSource.publicKeyReferenceRedacted
+        && identityVerificationSource.signatureDisplayObjectReady
         ? 'REVIEW_REQUIRED'
         : 'UNCONFIRMED';
   const elektronskiPotpisSignatureDisplayStatus: ExtrimliExtremReadinessStatus =
