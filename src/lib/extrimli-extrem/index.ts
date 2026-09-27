@@ -12698,7 +12698,7 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
     dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.status;
   const ispitivanjeSvegaStoJeFunkcionalnoExtendolCoverageValues =
     DEVELOPER_CREATE_ISPITIVANJE_SVEGA_STO_JE_FUNKCIONALNO_EXTENDOL_COVERAGE_FIELDS.map(
-      (field) => extendolReport.coverage[field],
+      (field) => extendolReport.coverage[field] === true,
     );
   const ispitivanjeSvegaStoJeFunkcionalnoExtendolCoverageStatus = ispitivanjeSvegaStoJeFunkcionalnoExtendolCoverageValues.every(Boolean)
     ? 'READY'
