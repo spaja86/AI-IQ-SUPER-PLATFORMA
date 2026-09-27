@@ -37,7 +37,7 @@ export const navigation: NavItem[] = [
   { label: 'EKSPRITING', href: '/ekspriting', icon: '✍️', description: 'Ekspresni Skripting i Pisanje Engine — 5 domena brze generacije i orkestracije sadržaja: ekspresna sinteza, skripting logika, pisanje toka, iterativno uredivanje i tokenizacija sadrzaja' },
   { label: 'EKSPRES', href: '/ekspres', icon: '⚡', description: 'Ekspresni Operativni Readiness Engine — 4 domena za ubrzano donošenje odluka i stabilizaciju: brzina, pouzdanost, automatizacija i kvalitet izlaza' },
   { label: 'Prompt', href: '/prompt', icon: '💬', description: 'Prompt sistem sa 28 promptova' },
-  { label: 'AKUZATIV', href: '/akuzativ', icon: '🧠', description: 'Edukativni jezički modul: pravila, zadaci i validacija znanja za akuzativ' },
+  { label: 'PADEŽI', href: '/padezi', icon: '📚', description: 'Objedinjeni edukativni modul za nominativ, genitiv, dativ, akuzativ, vokativ, instrumental i lokativ' },
   { label: 'Igrice', href: '/igrice', icon: '🎮', description: '97 igrica u 18 kategorija' },
   { label: 'Gejming Industrija', href: '/gejming-industrija', icon: '🕹️', description: 'Nad-sloj gejming industrije — katalog, lifecycle, creation pipeline i distribucija' },
   { label: 'Gejming Likovi', href: '/gejming-likovi', icon: '🎭', description: 'Industrija gejming likova — dizajn likova, objekata, subjekata i svega što postoji za igrice' },

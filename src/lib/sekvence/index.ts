@@ -249,6 +249,10 @@ export { getEkspresSekvence } from './ekspres-page';
 export { getSpajaDrustvenaMrezaSekvence } from './spaja-drustvena-mreza-page';
 
 export { akuzativSekvence } from './akuzativ-page';
+export { padeziSekvence } from './padezi-page';
 export { nominativSekvence } from './nominativ-page';
 export { genitivSekvence } from './genitiv-page';
 export { dativSekvence } from './dativ-page';
+export { vokativSekvence } from './vokativ-page';
+export { instrumentalSekvence } from './instrumental-page';
+export { lokativSekvence } from './lokativ-page';

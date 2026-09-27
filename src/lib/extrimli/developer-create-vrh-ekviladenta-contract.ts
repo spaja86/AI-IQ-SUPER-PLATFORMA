@@ -95,6 +95,9 @@ export const DEVELOPER_CREATE_VRH_ELEKTRONSKI_POTPIS_ALIAS =
 export const DEVELOPER_CREATE_VRH_ALATI_RADIONICA_ALIAS =
   'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == ALATI / RADIONICA' as const;
 
+export const DEVELOPER_CREATE_VRH_PADEZI_ALIAS =
+  'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == PADEŽI' as const;
+
 export const DEVELOPER_CREATE_VRH_INTERPRETATION_ALIASES = [
   'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == RADNI TAKT MOZGA (MISLILAC)',
   'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == MAPE UMA',
@@ -105,6 +108,7 @@ export const DEVELOPER_CREATE_VRH_INTERPRETATION_ALIASES = [
   'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == LEKSIKON',
   'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == RADNI PROSTOR',
   DEVELOPER_CREATE_VRH_ALATI_RADIONICA_ALIAS,
+  DEVELOPER_CREATE_VRH_PADEZI_ALIAS,
   DEVELOPER_CREATE_VRH_NAVIGACIONI_SISTEM_SA_TREKEROM_ALIAS,
   'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == SARKAZAM / PRIVREDNA GRANA DIGITALIZMA / PROJEKTI ENTUZIJAZMA PO ČINU OBLASTIMA',
   'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == AI IQ KONFERENCIJA ZA ŠTAMPU (NOVINE, DIGITALNE NOVINE)',
@@ -1230,6 +1234,70 @@ export const DEVELOPER_CREATE_NAVIGACIONI_SISTEM_SA_TREKEROM_DOWNSTREAM_POLICY =
   syncMode: 'summary-only',
   rawTokenMappingStaysRepoLocal: true,
   rawExtremExtrondolInternalsStayRepoLocal: true,
+} as const;
+
+export const DEVELOPER_CREATE_PADEZI_CANONICAL_ALIAS =
+  DEVELOPER_CREATE_VRH_PADEZI_ALIAS;
+
+export const DEVELOPER_CREATE_PADEZI_SCOPE_STATEMENT =
+  'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == PADEŽI == additive-only bounded jezički paket bez novih runtime ruta i bez paralelnog source-of-truth sistema; koristi postojeći EXTRIMLI EXTRONDOL EXTREM DOK DUK DAK DIK FOR ownership split i postojeće UI/routing module za padeže' as const;
+
+export const DEVELOPER_CREATE_PADEZI_ROLE_CLASSIFICATION =
+  'additive-only-bounded-padezi-alias-track' as const;
+
+export const DEVELOPER_CREATE_PADEZI_CANONICAL_CASE_SEQUENCE = [
+  'NOMINATIV',
+  'GENITIV',
+  'DATIV',
+  'AKUZATIV',
+  'VOKATIV',
+  'INSTRUMENTAL',
+  'LOKATIV',
+] as const;
+
+export const DEVELOPER_CREATE_PADEZI_EXISTING_MODULE_ROUTES = [
+  '/nominativ',
+  '/genitiv',
+  '/dativ',
+  '/akuzativ',
+] as const;
+
+export const DEVELOPER_CREATE_PADEZI_EXPANDED_MODULE_ROUTES = [
+  '/vokativ',
+  '/instrumental',
+  '/lokativ',
+] as const;
+
+export const DEVELOPER_CREATE_PADEZI_SUMMARY_SAFE_FIELDS = [
+  'canonicalAlias',
+  'canonicalCases',
+  'readinessStatus',
+  'blockerReason',
+  'watchReasons',
+  'humanReviewStatus',
+  'rolloutPlan',
+  'rollbackPlan',
+  'releaseAuditSummary',
+  'downstreamReference',
+] as const;
+
+export const DEVELOPER_CREATE_PADEZI_OUTPUT_MODEL = {
+  fields: DEVELOPER_CREATE_VRH_CANONICAL_OUTPUT_MODEL_FIELDS,
+  summarySafeFields: DEVELOPER_CREATE_PADEZI_SUMMARY_SAFE_FIELDS,
+} as const;
+
+export const DEVELOPER_CREATE_PADEZI_ACCEPTANCE_CRITERIA = [
+  'no-new-runtime-routes-outside-existing-pattern-unless-necessary',
+  'no-parallel-source-of-truth-system',
+  'bounded-vocabulary-and-ownership-lock-remain-intact',
+  'all-seven-cases-share-one-ui-routing-pattern',
+  'duplicate-lokativ-normalized-to-vokativ-in-canonical-sequence',
+] as const;
+
+export const DEVELOPER_CREATE_PADEZI_DOWNSTREAM_POLICY = {
+  linkedRepo: 'spaja86/IO-OPENUI-AO',
+  syncMode: 'summary-only',
+  rawGrammarInternalsStayRepoLocal: true,
 } as const;
 
 export const DEVELOPER_CREATE_KONSTRUKCIJE_I_PROJEKTOVANJE_CANONICAL_ALIAS =
