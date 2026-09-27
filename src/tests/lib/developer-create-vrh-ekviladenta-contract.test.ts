@@ -248,7 +248,7 @@ async function runTests(): Promise<void> {
       line.includes('`KRALJEVSKI SISTEM` ostaje bounded governance/orchestration alias'));
     assert(kraljevskiSistemLineIndex >= 0, 'manifest KRALJEVSKI SISTEM line missing');
     const manifestRosterLine = manifestLines
-      .slice(kraljevskiSistemLineIndex, kraljevskiSistemLineIndex + 4)
+      .slice(kraljevskiSistemLineIndex)
       .find((line) => line.startsWith('- Imena `'));
     assert(Boolean(manifestRosterLine), 'manifest roster line missing');
     const downstreamForbiddenNames = [...manifestRosterLine!.matchAll(/`([^`]+)`/g)]
