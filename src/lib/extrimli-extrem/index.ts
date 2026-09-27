@@ -1160,6 +1160,70 @@ function parseBooleanEnv(name: string, fallback: boolean, degradedSources: strin
   return fallback;
 }
 
+function buildElektronskiPotpisIdentityVerificationSource() {
+  const degradedSources: string[] = [];
+  const canonicalIdentityConfirmed = parseBooleanEnv(
+    'EXTRIMLI_EXTREM_ELEKTRONSKI_POTPIS_CANONICAL_IDENTITY_CONFIRMED',
+    true,
+    degradedSources,
+  );
+  const currentOperatingNameConfirmed = parseBooleanEnv(
+    'EXTRIMLI_EXTREM_ELEKTRONSKI_POTPIS_CURRENT_OPERATING_NAME_CONFIRMED',
+    true,
+    degradedSources,
+  );
+  const omegaDidFingerprintPresent = parseBooleanEnv(
+    'EXTRIMLI_EXTREM_ELEKTRONSKI_POTPIS_OMEGA_DID_FINGERPRINT_PRESENT',
+    true,
+    degradedSources,
+  );
+  const publicKeyReferenceRedacted = parseBooleanEnv(
+    'EXTRIMLI_EXTREM_ELEKTRONSKI_POTPIS_PUBLIC_KEY_REFERENCE_REDACTED',
+    true,
+    degradedSources,
+  );
+  const aliasCoverageScore = parsePercentEnvWithInvalidFallback(
+    'EXTRIMLI_EXTREM_ELEKTRONSKI_POTPIS_ALIAS_COVERAGE_SCORE',
+    100,
+    0,
+    degradedSources,
+  );
+  const blockerReasons = [
+    ...(!canonicalIdentityConfirmed
+      ? ['canonical-identity-unconfirmed']
+      : []),
+    ...(!currentOperatingNameConfirmed
+      ? ['operating-name-unconfirmed']
+      : []),
+    ...(!omegaDidFingerprintPresent
+      ? ['omega-did-fingerprint-missing']
+      : []),
+    ...(!publicKeyReferenceRedacted
+      ? ['public-key-redaction-missing']
+      : []),
+  ];
+  const watchReasons = [
+    ...(aliasCoverageScore < 100
+      ? ['alias-coverage-incomplete']
+      : []),
+    ...(degradedSources.length > 0
+      ? degradedSources
+      : []),
+  ];
+
+  return {
+    canonicalIdentityConfirmed,
+    currentOperatingNameConfirmed,
+    omegaDidFingerprintPresent,
+    publicKeyReferenceRedacted,
+    aliasCoverageScore,
+    degradedSources,
+    blockerReasons,
+    watchReasons,
+    status: blockerReasons.length > 0 ? 'BLOCKED' : watchReasons.length > 0 ? 'WATCH' : 'READY',
+  } as const;
+}
+
 function classifyConflict(conflictScore: number): ExtrimliExtremConflictIntensity {
   if (conflictScore >= 80) return 'CRITICAL';
   if (conflictScore >= 60) return 'HIGH';
@@ -13377,14 +13441,18 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
   ] as const;
   const elektronskiPotpisStatus = aggregateSignalReadinessStatus([...elektronskiPotpisSignalStatuses]);
   const elektronskiPotpisFallbackInputStatus: ExtrimliExtremReadinessStatus = elektronskiPotpisStatus;
-  const identityVerificationSource = zelezaraPretplataIdentityTrack.readiness;
+  const identityVerificationSource = buildElektronskiPotpisIdentityVerificationSource();
   const elektronskiPotpisIdentityConfirmationStatus =
     identityVerificationSource.canonicalIdentityConfirmed
     && identityVerificationSource.currentOperatingNameConfirmed
+    && identityVerificationSource.omegaDidFingerprintPresent
+    && identityVerificationSource.publicKeyReferenceRedacted
     && identityVerificationSource.aliasCoverageScore >= 100
       ? 'CONFIRMED'
       : identityVerificationSource.canonicalIdentityConfirmed
         && identityVerificationSource.currentOperatingNameConfirmed
+        && identityVerificationSource.omegaDidFingerprintPresent
+        && identityVerificationSource.publicKeyReferenceRedacted
         ? 'REVIEW_REQUIRED'
         : 'UNCONFIRMED';
   const elektronskiPotpisReviewPosture =
@@ -13422,6 +13490,7 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
       ...(elektronskiPotpisIdentityConfirmationStatus === 'REVIEW_REQUIRED'
         ? [
             'Identity verification source is partially confirmed and still requires review before ELEKTRONSKI POTPIS may be promoted.',
+            ...identityVerificationSource.watchReasons,
           ]
         : []),
     ];
