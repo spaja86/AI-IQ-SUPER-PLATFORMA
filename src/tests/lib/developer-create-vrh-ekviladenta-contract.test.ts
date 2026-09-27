@@ -203,6 +203,11 @@ async function runTests(): Promise<void> {
       DEVELOPER_CREATE_KRALJEVSKI_SISTEM_REVIEW_ROSTER_POLICY.noPayrollOwnershipUsage,
       'KRALJEVSKI SISTEM roster must reject payroll ownership usage',
     );
+    assertArrayEquals(
+      DEVELOPER_CREATE_KRALJEVSKI_SISTEM_REVIEW_ROSTER_POLICY.summaryOnlyRoleFields,
+      ['rosterSlot', 'publicRole', 'responsibility'],
+      'unexpected KRALJEVSKI SISTEM summary-only roster fields',
+    );
   });
 
   await test('kraljevski sistem docs and downstream registry keep roster summary-only', () => {
@@ -226,11 +231,17 @@ async function runTests(): Promise<void> {
       multiRepoLinks.includes('`KRALJEVSKI SISTEM` bounded governance/orchestration alias + documentation/review roster'),
       'multi-repo KRALJEVSKI SISTEM row missing',
     );
-    for (const entry of DEVELOPER_CREATE_KRALJEVSKI_SISTEM_REVIEW_ROSTER) {
-      assert(manifest.includes(entry.name), `manifest roster member missing: ${entry.name}`);
-      assert(vrhDoc.includes(entry.name), `VRH doc roster member missing: ${entry.name}`);
-      assert(multiRepoLinks.includes(entry.name), `multi-repo roster member missing: ${entry.name}`);
-    }
+    assert(manifest.includes('Aleksandar Cvetić'), 'manifest roster member missing: Aleksandar Cvetić');
+    assert(manifest.includes('Vojislav Šešeljić'), 'manifest roster member missing: Vojislav Šešeljić');
+    assert(manifest.includes('Nenad Kuzmanović'), 'manifest roster member missing: Nenad Kuzmanović');
+    assert(manifest.includes('Nikola Mladenović'), 'manifest roster member missing: Nikola Mladenović');
+    assert(manifest.includes('Gordan Jovanović (psiholog, pedagog)'), 'manifest roster member missing: Gordan Jovanović');
+    assert(vrhDoc.includes('Aleksandar Cvetić'), 'VRH doc roster member missing: Aleksandar Cvetić');
+    assert(vrhDoc.includes('Vojislav Šešeljić'), 'VRH doc roster member missing: Vojislav Šešeljić');
+    assert(vrhDoc.includes('Nenad Kuzmanović'), 'VRH doc roster member missing: Nenad Kuzmanović');
+    assert(vrhDoc.includes('Nikola Mladenović'), 'VRH doc roster member missing: Nikola Mladenović');
+    assert(vrhDoc.includes('Gordan Jovanović (psiholog, pedagog)'), 'VRH doc roster member missing: Gordan Jovanović');
+    assert(!multiRepoLinks.includes('Aleksandar Cvetić'), 'multi-repo links must not expose roster names');
     assert(
       multiRepoLinks.includes('never sync personal contacts, payroll/bank/KYC data, security roles, operational identities or raw governance formulas'),
       'multi-repo roster privacy boundary missing',
