@@ -1089,6 +1089,7 @@ async function runTests(): Promise<void> {
             | 'publicSignals.leksikonStatus'
             | 'publicSignals.promocijeTiketiBonusiPropusniceAdministrativniBonusiStatus'
             | 'publicSignals.radniProstorStatus'
+            | 'publicSignals.kraljevskaMontezacijaStatus'
             | 'publicSignals.montezacijaStatus'
             | 'publicSignals.aiIqLaboratorijaStatus'
             | 'publicSignals.konstrukcijeIProjektovanjeStatus'
