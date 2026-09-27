@@ -136,6 +136,11 @@ import {
   DEVELOPER_CREATE_REPO_WIDE_RADNI_TAKT_SUPPLEMENTAL_AUDIT_ROLE,
   DEVELOPER_CREATE_REPO_WIDE_RADNI_TAKT_SUPPLEMENTAL_SCOPE_LOCK,
   DEVELOPER_CREATE_REPO_WIDE_RADNI_TAKT_SUPPLEMENTAL_THEMATIC_SIGNALS,
+  DEVELOPER_CREATE_MONTEZACIJA_CANONICAL_ALIAS,
+  DEVELOPER_CREATE_MONTEZACIJA_FALLBACK_INPUTS,
+  DEVELOPER_CREATE_MONTEZACIJA_ROLE_CLASSIFICATION,
+  DEVELOPER_CREATE_MONTEZACIJA_SCOPE_STATEMENT,
+  DEVELOPER_CREATE_MONTEZACIJA_SUMMARY_SAFE_FIELDS,
   DEVELOPER_CREATE_RADNI_PROSTOR_BOUNDED_TOKEN_SEQUENCE,
   DEVELOPER_CREATE_RADNI_PROSTOR_CANONICAL_ALIAS,
   DEVELOPER_CREATE_RADNI_PROSTOR_FALLBACK_INPUTS,
@@ -7517,6 +7522,45 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
         },
         downstreamReference: 'docs/MULTI-REPO-LINKS.md -> spaja86/IO-OPENUI-AO (summary-only)',
       },
+      montezacijaTrack: {
+        canonicalAlias: DEVELOPER_CREATE_MONTEZACIJA_CANONICAL_ALIAS,
+        scopeStatement: DEVELOPER_CREATE_MONTEZACIJA_SCOPE_STATEMENT,
+        roleClassification: DEVELOPER_CREATE_MONTEZACIJA_ROLE_CLASSIFICATION,
+        boundedVocabularyPhrase: DEVELOPER_CREATE_REPO_WIDE_BOUNDED_VOCABULARY_PHRASE,
+        additiveOnly: true,
+        noNewRuntimeEngine: true,
+        noNewRuntimeRoutes: true,
+        noParallelSourceOfTruth: true,
+        sourceOfTruthRoutes: ['/api/extrimli/extrem', '/api/extrimli/extrondol', '/api/extrimli/spaja-kod'],
+        ownershipLock: {
+          dokDikFor: 'EXTREM',
+          dakDuk: 'EXTRONDOL',
+          spajaKod: 'audit-safe-summary-only',
+        },
+        summarySafePublicFields: DEVELOPER_CREATE_MONTEZACIJA_SUMMARY_SAFE_FIELDS,
+        readinessSignal: {
+          status: 'BLOCKED',
+          readinessScore: 0,
+          technicalReadinessStatus: 'BLOCKED',
+          fallbackInputStatus: 'BLOCKED',
+          deterministicFallbackRequired: true,
+          fallbackInputs: DEVELOPER_CREATE_MONTEZACIJA_FALLBACK_INPUTS,
+          driver:
+            'developerAndCreateRepoWideReflection.readiness + developerAndCreateRepoWideReflection.technicalReadinessProfile.consolidatedRhythmStatus',
+        },
+        blockerReason:
+          'montezacija-track-awaits-existing-extrem-readiness-and-governance-alignment-without-new-runtime-surfaces',
+        watchReasons: [],
+        reviewPosture: 'REVIEW_REQUIRED',
+        montezacijaSummary: '',
+        acceptanceEvidence: [
+          'developerAndCreateRepoWideReflection.montezacijaTrack',
+          'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.montezacijaTrack',
+          'spajaKod.publicSignals.montezacijaStatus',
+          'spajaKod.developerAndCreateImplementationPackage.montezacijaSummary',
+        ],
+        downstreamReference: 'docs/MULTI-REPO-LINKS.md -> spaja86/IO-OPENUI-AO (summary-only)',
+      },
       aiIqLaboratorijaTrack: buildDefaultAiIqLaboratorijaTrack(),
       konstrukcijeIProjektovanjeTrack: {
         canonicalAlias: DEVELOPER_CREATE_KONSTRUKCIJE_I_PROJEKTOVANJE_CANONICAL_ALIAS,
@@ -11963,6 +12007,20 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
       noParallelSourceOfTruth: true,
       rawInternalsExposed: false,
     },
+    montezacijaBoundary: {
+      trackRole: 'bounded-montezacija-alias-track',
+      parentTrack: 'VRH PROGRAMSKOG EKVILADENTA',
+      canonicalAlias: DEVELOPER_CREATE_MONTEZACIJA_CANONICAL_ALIAS,
+      roleClassification: DEVELOPER_CREATE_MONTEZACIJA_ROLE_CLASSIFICATION,
+      extremPublishes: 'status-readiness-fallback-and-deterministic-signal-only',
+      extrondolPublishes: 'wawe-freeze-promotion-review-rollback-audit-summary-only',
+      spajaKodPublishes: 'status-blocker-review-downstream-and-montezacija-summary-only',
+      technicalBinding: 'developerAndCreateRepoWideReflection.montezacijaTrack',
+      noNewRuntimeEngine: true,
+      noNewRuntimeRoutes: true,
+      noParallelSourceOfTruth: true,
+      rawInternalsExposed: false,
+    },
     radioBoundary: {
       trackRole: 'bounded-radio-media-distribution-audio-alias-track',
       parentTrack: 'VRH PROGRAMSKOG EKVILADENTA',
@@ -12863,6 +12921,58 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
       : radniProstorStatus === 'WATCH'
         ? 'WATCH'
         : 'REVIEW_REQUIRED';
+  const montezacijaTrack =
+    dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.montezacijaTrack;
+  const montezacijaFallbackInput =
+    process.env.NODE_ENV === 'test'
+      ? process.env.EXTRIMLI_MONTEZACIJA_FALLBACK_INPUT
+      : undefined;
+  const normalizedMontezacijaFallbackInput = montezacijaFallbackInput?.trim().toLowerCase() ?? null;
+  const montezacijaFallbackInputStatus: ExtrimliExtremReadinessStatus =
+    normalizedMontezacijaFallbackInput === 'conflict'
+      ? 'BLOCKED'
+      : normalizedMontezacijaFallbackInput
+        && DEVELOPER_CREATE_MONTEZACIJA_FALLBACK_INPUTS.map((item) => item.toLowerCase())
+          .includes(normalizedMontezacijaFallbackInput)
+        ? 'WATCH'
+        : 'READY';
+  const montezacijaSignalStatuses = [
+    dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.status,
+    dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.technicalReadinessProfile
+      .consolidatedRhythmStatus,
+    montezacijaFallbackInputStatus,
+  ] as const;
+  const montezacijaStatus = aggregateSignalReadinessStatus([...montezacijaSignalStatuses]);
+  montezacijaTrack.readinessSignal.status = montezacijaStatus;
+  montezacijaTrack.readinessSignal.readinessScore = round(
+    montezacijaSignalStatuses.reduce((sum, signalStatus) => sum + readinessStatusScore(signalStatus), 0)
+      / montezacijaSignalStatuses.length,
+    2,
+  );
+  montezacijaTrack.readinessSignal.technicalReadinessStatus =
+    dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.technicalReadinessProfile
+      .consolidatedRhythmStatus;
+  montezacijaTrack.readinessSignal.fallbackInputStatus = montezacijaFallbackInputStatus;
+  montezacijaTrack.readinessSignal.deterministicFallbackRequired =
+    montezacijaStatus !== 'READY' || montezacijaFallbackInputStatus !== 'READY';
+  montezacijaTrack.blockerReason =
+    montezacijaStatus === 'BLOCKED'
+      ? 'MONTEZACIJA ostaje BLOCKED dok postojeći EXTREM readiness signal i fallback disciplina ne ostanu poravnati sa ownership split pravilom bez novih ruta.'
+      : null;
+  montezacijaTrack.watchReasons =
+    montezacijaStatus === 'WATCH'
+      ? [
+          'MONTEZACIJA ostaje u WATCH režimu dok fallback ulaz i review posture zahtevaju dodatnu proveru pre governance promocije.',
+        ]
+      : [];
+  montezacijaTrack.reviewPosture =
+    montezacijaStatus === 'READY'
+      ? 'ALIGNED'
+      : montezacijaStatus === 'WATCH'
+        ? 'WATCH'
+        : 'REVIEW_REQUIRED';
+  montezacijaTrack.montezacijaSummary =
+    'MONTEZACIJA ostaje additive-only bounded alias: EXTREM vodi DOK/DIK/FOR readiness signal, EXTRONDOL vodi DAK/DUK governance odluke, a SPAJA KOD izlaže samo audit-safe status i downstream referencu.';
   const aiIqLaboratorijaTrack =
     dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.aiIqLaboratorijaTrack;
   const aiIqLaboratorijaExpectedTokens = [

@@ -36,6 +36,12 @@ import {
   DEVELOPER_CREATE_POSLOVNA_PONUDA_ZELEZARA_DOO_URGENT_MEETING_INTAKE_PACKAGE,
   DEVELOPER_CREATE_POSLOVNA_PONUDA_ZELEZARA_DOO_SUMMARY_SAFE_FIELDS,
   DEVELOPER_CREATE_POSLOVNA_PONUDA_ZELEZARA_DOO_FALLBACK_INPUTS,
+  DEVELOPER_CREATE_VRH_MONTEZACIJA_ALIAS,
+  DEVELOPER_CREATE_MONTEZACIJA_CANONICAL_ALIAS,
+  DEVELOPER_CREATE_MONTEZACIJA_SCOPE_STATEMENT,
+  DEVELOPER_CREATE_MONTEZACIJA_ROLE_CLASSIFICATION,
+  DEVELOPER_CREATE_MONTEZACIJA_FALLBACK_INPUTS,
+  DEVELOPER_CREATE_MONTEZACIJA_SUMMARY_SAFE_FIELDS,
   DEVELOPER_CREATE_VRH_INTERPRETATION_ALIASES,
   DEVELOPER_CREATE_VRH_NAVIGACIONI_SISTEM_SA_TREKEROM_ALIAS,
 } from '../../lib/extrimli/developer-create-vrh-ekviladenta-contract';
@@ -373,6 +379,35 @@ async function runTests(): Promise<void> {
       DEVELOPER_CREATE_KRALJEVSKI_RAD_SUMMARY_SAFE_FIELDS,
       ['canonicalAlias', 'status', 'blockerReason', 'watchReasons', 'reviewPosture', 'downstreamReference', 'sequenceValidationSummary', 'tokenOrderStatus', 'duplicateRuleStatus', 'fallbackInputStatus'],
       'unexpected kraljevski rad summary-safe fields',
+    );
+  });
+
+  await test('montezacija alias remains additive-only and bounded', () => {
+    assert(
+      DEVELOPER_CREATE_VRH_INTERPRETATION_ALIASES.includes(DEVELOPER_CREATE_VRH_MONTEZACIJA_ALIAS),
+      'MONTEZACIJA alias must remain part of the VRH interpretation aliases',
+    );
+    assert(
+      DEVELOPER_CREATE_MONTEZACIJA_CANONICAL_ALIAS === DEVELOPER_CREATE_VRH_MONTEZACIJA_ALIAS,
+      'MONTEZACIJA canonical alias mismatch',
+    );
+    assert(
+      DEVELOPER_CREATE_MONTEZACIJA_SCOPE_STATEMENT.includes('additive-only bounded alias'),
+      'MONTEZACIJA scope statement must preserve additive-only boundary',
+    );
+    assert(
+      DEVELOPER_CREATE_MONTEZACIJA_ROLE_CLASSIFICATION === 'additive-only-bounded-montezacija-alias-track',
+      'MONTEZACIJA role classification mismatch',
+    );
+    assertArrayEquals(
+      DEVELOPER_CREATE_MONTEZACIJA_FALLBACK_INPUTS,
+      ['NaN', 'Infinity', 'empty', 'conflict', 'unknown-token'],
+      'unexpected MONTEZACIJA fallback inputs',
+    );
+    assertArrayEquals(
+      DEVELOPER_CREATE_MONTEZACIJA_SUMMARY_SAFE_FIELDS,
+      ['canonicalAlias', 'status', 'blockerReason', 'watchReasons', 'reviewPosture', 'downstreamReference', 'montezacijaSummary'],
+      'unexpected MONTEZACIJA summary-safe fields',
     );
   });
 

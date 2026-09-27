@@ -126,6 +126,11 @@ import type {
   DEVELOPER_CREATE_MUZICKA_KUTIJA_ROLE_CLASSIFICATION,
   DEVELOPER_CREATE_MUZICKA_KUTIJA_SCOPE_STATEMENT,
   DEVELOPER_CREATE_MUZICKA_KUTIJA_SUMMARY_SAFE_FIELDS,
+  DEVELOPER_CREATE_MONTEZACIJA_CANONICAL_ALIAS,
+  DEVELOPER_CREATE_MONTEZACIJA_FALLBACK_INPUTS,
+  DEVELOPER_CREATE_MONTEZACIJA_ROLE_CLASSIFICATION,
+  DEVELOPER_CREATE_MONTEZACIJA_SCOPE_STATEMENT,
+  DEVELOPER_CREATE_MONTEZACIJA_SUMMARY_SAFE_FIELDS,
   DEVELOPER_CREATE_NAPOLEON_DISKAVERI_BOUNDED_SIGNALS,
   DEVELOPER_CREATE_NAPOLEON_DISKAVERI_CANONICAL_ALIAS,
   DEVELOPER_CREATE_NAPOLEON_DISKAVERI_SCOPE_STATEMENT,
@@ -3242,6 +3247,43 @@ export interface ExtrimliDokDikDakDukConsistencyHealth {
       };
       downstreamReference: 'docs/MULTI-REPO-LINKS.md -> spaja86/IO-OPENUI-AO (summary-only)';
     };
+    montezacijaTrack: {
+      canonicalAlias: typeof DEVELOPER_CREATE_MONTEZACIJA_CANONICAL_ALIAS;
+      scopeStatement: typeof DEVELOPER_CREATE_MONTEZACIJA_SCOPE_STATEMENT;
+      roleClassification: typeof DEVELOPER_CREATE_MONTEZACIJA_ROLE_CLASSIFICATION;
+      boundedVocabularyPhrase: 'EXTRIMLI EXTRONDOL EXTREM DOK DUK DAK DIK FOR';
+      additiveOnly: true;
+      noNewRuntimeEngine: true;
+      noNewRuntimeRoutes: true;
+      noParallelSourceOfTruth: true;
+      sourceOfTruthRoutes: readonly ['/api/extrimli/extrem', '/api/extrimli/extrondol', '/api/extrimli/spaja-kod'];
+      ownershipLock: {
+        dokDikFor: 'EXTREM';
+        dakDuk: 'EXTRONDOL';
+        spajaKod: 'audit-safe-summary-only';
+      };
+      summarySafePublicFields: typeof DEVELOPER_CREATE_MONTEZACIJA_SUMMARY_SAFE_FIELDS;
+      readinessSignal: {
+        status: 'READY' | 'WATCH' | 'BLOCKED';
+        readinessScore: number;
+        technicalReadinessStatus: 'READY' | 'WATCH' | 'BLOCKED';
+        fallbackInputStatus: 'READY' | 'WATCH' | 'BLOCKED';
+        deterministicFallbackRequired: boolean;
+        fallbackInputs: typeof DEVELOPER_CREATE_MONTEZACIJA_FALLBACK_INPUTS;
+        driver: 'developerAndCreateRepoWideReflection.readiness + developerAndCreateRepoWideReflection.technicalReadinessProfile.consolidatedRhythmStatus';
+      };
+      blockerReason: string | null;
+      watchReasons: string[];
+      reviewPosture: 'ALIGNED' | 'WATCH' | 'REVIEW_REQUIRED';
+      montezacijaSummary: string;
+      acceptanceEvidence: readonly [
+        'developerAndCreateRepoWideReflection.montezacijaTrack',
+        'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.montezacijaTrack',
+        'spajaKod.publicSignals.montezacijaStatus',
+        'spajaKod.developerAndCreateImplementationPackage.montezacijaSummary'
+      ];
+      downstreamReference: 'docs/MULTI-REPO-LINKS.md -> spaja86/IO-OPENUI-AO (summary-only)';
+    };
     aiIqLaboratorijaTrack: ExtrimliDeveloperCreateAiIqLaboratorijaTrack;
     konstrukcijeIProjektovanjeTrack: {
       canonicalAlias: typeof DEVELOPER_CREATE_KONSTRUKCIJE_I_PROJEKTOVANJE_CANONICAL_ALIAS;
@@ -5224,6 +5266,20 @@ export interface ExtrimliDokDikDakDukConsistencyHealth {
         extrondolPublishes: 'wawe-freeze-promotion-review-rollback-audit-summary-only';
         spajaKodPublishes: 'status-blocker-review-downstream-and-nalaz-summary-only';
         technicalBinding: 'developerAndCreateRepoWideReflection.aiIqLaboratorijaTrack';
+        noNewRuntimeEngine: true;
+        noNewRuntimeRoutes: true;
+        noParallelSourceOfTruth: true;
+        rawInternalsExposed: false;
+      };
+      montezacijaBoundary: {
+        trackRole: 'bounded-montezacija-alias-track';
+        parentTrack: 'VRH PROGRAMSKOG EKVILADENTA';
+        canonicalAlias: typeof DEVELOPER_CREATE_MONTEZACIJA_CANONICAL_ALIAS;
+        roleClassification: typeof DEVELOPER_CREATE_MONTEZACIJA_ROLE_CLASSIFICATION;
+        extremPublishes: 'status-readiness-fallback-and-deterministic-signal-only';
+        extrondolPublishes: 'wawe-freeze-promotion-review-rollback-audit-summary-only';
+        spajaKodPublishes: 'status-blocker-review-downstream-and-montezacija-summary-only';
+        technicalBinding: 'developerAndCreateRepoWideReflection.montezacijaTrack';
         noNewRuntimeEngine: true;
         noNewRuntimeRoutes: true;
         noParallelSourceOfTruth: true;

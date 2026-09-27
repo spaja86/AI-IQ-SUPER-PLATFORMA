@@ -248,6 +248,7 @@ const DEVELOPER_CREATE_ROADMAP_ACCEPTANCE_EVIDENCE_BASE = [
   'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.promocijeTiketiBonusiPropusniceAdministrativniBonusiTrack',
   'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.radniProstorTrack',
   'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.kraljevskiRadTrack',
+  'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.montezacijaTrack',
   'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.aiIqLaboratorijaTrack',
   'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.konstrukcijeIProjektovanjeTrack',
   'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.poslovnaPonudaZelezaraDooTrack',
@@ -266,6 +267,7 @@ const DEVELOPER_CREATE_ROADMAP_ACCEPTANCE_EVIDENCE_BASE = [
   'spajaKod.publicSignals.promocijeTiketiBonusiPropusniceAdministrativniBonusiStatus',
   'spajaKod.publicSignals.radniProstorStatus',
   'spajaKod.publicSignals.kraljevskiRadStatus',
+  'spajaKod.publicSignals.montezacijaStatus',
   'spajaKod.publicSignals.aiIqLaboratorijaStatus',
   'spajaKod.publicSignals.konstrukcijeIProjektovanjeStatus',
   'spajaKod.publicSignals.poslovnaPonudaZelezaraDooStatus',
@@ -299,6 +301,7 @@ const DEVELOPER_CREATE_GOVERNANCE_ACCEPTANCE_EVIDENCE: ExtrimliExtrondolReport['
   'developerAndCreateRepoWideReflection.promocijeTiketiBonusiPropusniceAdministrativniBonusiTrack',
   'developerAndCreateRepoWideReflection.radniProstorTrack',
   'developerAndCreateRepoWideReflection.kraljevskiRadTrack',
+  'developerAndCreateRepoWideReflection.montezacijaTrack',
   'developerAndCreateRepoWideReflection.aiIqLaboratorijaTrack',
   'developerAndCreateRepoWideReflection.konstrukcijeIProjektovanjeTrack',
   'developerAndCreateRepoWideReflection.poslovnaPonudaZelezaraDooTrack',
@@ -316,6 +319,7 @@ const DEVELOPER_CREATE_GOVERNANCE_ACCEPTANCE_EVIDENCE: ExtrimliExtrondolReport['
   'spajaKod.publicSignals.leksikonStatus',
   'spajaKod.publicSignals.radniProstorStatus',
   'spajaKod.publicSignals.kraljevskiRadStatus',
+  'spajaKod.publicSignals.montezacijaStatus',
   'spajaKod.publicSignals.aiIqLaboratorijaStatus',
   'spajaKod.publicSignals.konstrukcijeIProjektovanjeStatus',
   'spajaKod.publicSignals.poslovnaPonudaZelezaraDooStatus',
@@ -3447,6 +3451,7 @@ function buildSpajaKodFacade(params: {
   kraljevskiPokloniZaSvacijiRodjendanStatus: ExtrimliExtrondolReport['extremProfiler']['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['kraljevskiPokloniZaSvacijiRodjendanTrack']['readinessSignal']['status'];
   kraljevskiRadStatus: ExtrimliExtrondolReport['extremProfiler']['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['kraljevskiRadTrack']['readinessSignal']['status'];
   radniProstorStatus: ExtrimliExtrondolReport['extremProfiler']['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['radniProstorTrack']['readinessSignal']['status'];
+  montezacijaStatus: ExtrimliExtrondolReport['extremProfiler']['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['montezacijaTrack']['readinessSignal']['status'];
   aiIqLaboratorijaStatus: ExtrimliExtrondolReport['extremProfiler']['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['aiIqLaboratorijaTrack']['readinessSignal']['status'];
   konstrukcijeIProjektovanjeStatus: ExtrimliExtrondolReport['extremProfiler']['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['konstrukcijeIProjektovanjeTrack']['readinessSignal']['status'];
   vinogradiGrockaRestoranStatus: ExtrimliExtrondolReport['extremProfiler']['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['vinogradiGrockaRestoranTrack']['readinessSignal']['status'];
@@ -3592,6 +3597,7 @@ function buildSpajaKodFacade(params: {
       kraljevskiPokloniZaSvacijiRodjendanStatus: params.kraljevskiPokloniZaSvacijiRodjendanStatus,
       kraljevskiRadStatus: params.kraljevskiRadStatus,
       radniProstorStatus: params.radniProstorStatus,
+      montezacijaStatus: params.montezacijaStatus,
       aiIqLaboratorijaStatus: params.aiIqLaboratorijaStatus,
       konstrukcijeIProjektovanjeStatus: params.konstrukcijeIProjektovanjeStatus,
       vinogradiGrockaRestoranStatus: params.vinogradiGrockaRestoranStatus,
@@ -3710,6 +3716,7 @@ function buildSpajaKodFacade(params: {
         'publicSignals.kraljevskiPokloniZaSvacijiRodjendanStatus',
         'publicSignals.kraljevskiRadStatus',
         'publicSignals.radniProstorStatus',
+        'publicSignals.montezacijaStatus',
         'publicSignals.aiIqLaboratorijaStatus',
         'publicSignals.konstrukcijeIProjektovanjeStatus',
         'publicSignals.vinogradiGrockaRestoranStatus',
@@ -3744,6 +3751,7 @@ function buildSpajaKodFacade(params: {
         'developerAndCreateImplementationPackage.kraljevskiPokloniZaSvacijiRodjendanSummary',
         'developerAndCreateImplementationPackage.kraljevskiRadSummary',
         'developerAndCreateImplementationPackage.radniProstorSummary',
+        'developerAndCreateImplementationPackage.montezacijaSummary',
         'developerAndCreateImplementationPackage.aiIqLaboratorijaSummary',
         'developerAndCreateImplementationPackage.konstrukcijeIProjektovanjeSummary',
         'developerAndCreateImplementationPackage.vinogradiGrockaRestoranSummary',
@@ -4043,6 +4051,26 @@ function buildSpajaKodFacade(params: {
         tokenSequenceLock: {
           ...params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.radniProstorTrack.tokenSequenceLock,
         },
+      },
+      montezacijaSummary: {
+        canonicalAlias:
+          params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.montezacijaTrack.canonicalAlias,
+        roleClassification:
+          params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.montezacijaTrack.roleClassification,
+        status:
+          params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.montezacijaTrack.readinessSignal.status,
+        blockerReason:
+          params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.montezacijaTrack.blockerReason,
+        watchReasons: [
+          ...params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.montezacijaTrack.watchReasons,
+        ],
+        reviewPosture:
+          params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.montezacijaTrack.reviewPosture,
+        downstreamReference:
+          params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.montezacijaTrack.downstreamReference,
+        publicBoundary: 'audit-safe-summary-only',
+        montezacijaSummary:
+          params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.montezacijaTrack.montezacijaSummary,
       },
       aiIqLaboratorijaSummary: {
         canonicalAlias:
@@ -6979,6 +7007,8 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
       extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.kraljevskiRadTrack.readinessSignal.status,
     radniProstorStatus:
       extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.radniProstorTrack.readinessSignal.status,
+    montezacijaStatus:
+      extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.montezacijaTrack.readinessSignal.status,
     aiIqLaboratorijaStatus:
       extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.aiIqLaboratorijaTrack.readinessSignal.status,
     konstrukcijeIProjektovanjeStatus:
@@ -9171,6 +9201,34 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
           'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.radniProstorTrack',
           'spajaKod.publicSignals.radniProstorStatus',
           'spajaKod.developerAndCreateImplementationPackage.radniProstorSummary',
+        ],
+        downstreamReference: 'docs/MULTI-REPO-LINKS.md -> spaja86/IO-OPENUI-AO (summary-only)',
+      },
+      montezacijaTrack: {
+        ...extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.montezacijaTrack,
+        sourceOfTruth: '/api/extrimli/extrem',
+        governanceSource: '/api/extrimli/extrondol',
+        publicBoundary: '/api/extrimli/spaja-kod',
+        currentWave: currentWawe,
+        eligibleNextWave: eligibleNextWave,
+        promotionFreeze:
+          promotionFreeze
+          || extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.montezacijaTrack.readinessSignal.status !== 'READY',
+        reviewRequiredBeforeWideRollout:
+          extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.montezacijaTrack.readinessSignal.status !== 'READY'
+          || extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.montezacijaTrack.reviewPosture === 'REVIEW_REQUIRED',
+        reviewPosture:
+          extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.montezacijaTrack.reviewPosture,
+        rolloutPlan:
+          'Advance MONTEZACIJA only as an additive-only bounded alias through existing EXTREM readiness signals, EXTRONDOL WAWE governance, and SPAJA KOD summary-safe outputs.',
+        rollbackPlan:
+          'Freeze promotion and revert to the previously verified Developer/Create package if MONTEZACIJA readiness, review posture, or downstream summary alignment drifts.',
+        humanReviewStatus: 'required-before-promotion',
+        acceptanceEvidence: [
+          'developerAndCreateRepoWideReflection.montezacijaTrack',
+          'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.montezacijaTrack',
+          'spajaKod.publicSignals.montezacijaStatus',
+          'spajaKod.developerAndCreateImplementationPackage.montezacijaSummary',
         ],
         downstreamReference: 'docs/MULTI-REPO-LINKS.md -> spaja86/IO-OPENUI-AO (summary-only)',
       },
