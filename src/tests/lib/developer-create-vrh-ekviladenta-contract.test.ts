@@ -487,7 +487,7 @@ async function runTests(): Promise<void> {
     assert(
       DEVELOPER_CREATE_SARADNJA_READY_AUTOMATIC_SUBSCRIPTION_GATES.activationCriteria.includes('payment-verification')
       && DEVELOPER_CREATE_SARADNJA_READY_AUTOMATIC_SUBSCRIPTION_GATES.noSkippedWavePhases,
-      'automatic subscription gates must keep payment verification and no-skipped-wawe lock',
+      'automatic subscription gates must keep payment verification and no-skipped-wave lock',
     );
     assertArrayEquals(
       DEVELOPER_CREATE_SARADNJA_READY_FINAL_AUDIT_PACKAGE_CONTENTS,
