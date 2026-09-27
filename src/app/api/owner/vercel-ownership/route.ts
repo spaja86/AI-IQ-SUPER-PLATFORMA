@@ -324,7 +324,7 @@ export async function GET() {
           billing.financeChannelConfigured ? '✅ Invoice notifikacije na finansijskom kanalu' : '⬜ Postaviti invoice delivery/notifikacije na finansijski kanal Digitalna Industrija',
           billing.finopsThresholdsEnabled ? '✅ FinOps pragovi 50/75/90/100 aktivni' : '⬜ Aktivirati FinOps pragove 50/75/90/100',
           `📉 Mapirati EXTREM cost hotspotove: ${costGovernancePackage.extremCostHotspots.join(', ')}`,
-          `💬 Pripremiti EXTRONDOL pregovarački paket kroz pitanja: ${costGovernancePackage.extrondolNegotiationQuestions.slice(0, 5).join(', ')}…`,
+          `💬 Pripremiti EXTRONDOL pregovarački paket kroz pitanja: ${costGovernancePackage.extrondolNegotiationQuestions.join(', ')}`,
           '📧 Pratiti email: ' + identity.vercel.accountEmail,
         ]
       : [
