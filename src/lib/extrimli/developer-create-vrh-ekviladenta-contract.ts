@@ -89,6 +89,9 @@ export const DEVELOPER_CREATE_VRH_PILOT_ALIAS =
 export const DEVELOPER_CREATE_VRH_ELEKTRONSKI_POTPIS_ALIAS =
   'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == ELEKTRONSKI POTPIS' as const;
 
+export const DEVELOPER_CREATE_VRH_ALATI_RADIONICA_ALIAS =
+  'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == ALATI / RADIONICA' as const;
+
 export const DEVELOPER_CREATE_VRH_INTERPRETATION_ALIASES = [
   'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == RADNI TAKT MOZGA (MISLILAC)',
   'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == MAPE UMA',
@@ -97,6 +100,7 @@ export const DEVELOPER_CREATE_VRH_INTERPRETATION_ALIASES = [
   DEVELOPER_CREATE_VRH_DIJALIZA_POGONSKOG_OMOTACA_ALIAS,
   'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == LEKSIKON',
   'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == RADNI PROSTOR',
+  DEVELOPER_CREATE_VRH_ALATI_RADIONICA_ALIAS,
   DEVELOPER_CREATE_VRH_NAVIGACIONI_SISTEM_SA_TREKEROM_ALIAS,
   'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == SARKAZAM / PRIVREDNA GRANA DIGITALIZMA / PROJEKTI ENTUZIJAZMA PO ČINU OBLASTIMA',
   'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == AI IQ KONFERENCIJA ZA ŠTAMPU (NOVINE, DIGITALNE NOVINE)',
@@ -774,6 +778,83 @@ export const DEVELOPER_CREATE_RADNI_PROSTOR_NORMALIZATION_RULES = {
   unknownTokenHandling: 'map-to-watch-and-require-review',
   conflictHandling: 'map-to-blocked-and-require-review',
 } as const;
+
+export const DEVELOPER_CREATE_ALATI_RADIONICA_CANONICAL_ALIAS =
+  DEVELOPER_CREATE_VRH_ALATI_RADIONICA_ALIAS;
+
+export const DEVELOPER_CREATE_ALATI_RADIONICA_SCOPE_STATEMENT =
+  'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == ALATI / RADIONICA == additive-only bounded alias bez novih runtime ruta i bez novog source-of-truth sistema; RANDOM ostaje vezan isključivo za postojeći Napoleon Diskaveri bounded-selection kanal.' as const;
+
+export const DEVELOPER_CREATE_ALATI_RADIONICA_ROLE_CLASSIFICATION =
+  'additive-only-bounded-alati-radionica-alias-track' as const;
+
+export const DEVELOPER_CREATE_ALATI_RADIONICA_BOUNDED_TOKEN_SEQUENCE = [
+  'RIN',
+  'KUR',
+  'ZUR',
+  'ENDER',
+  'ĐUKAR',
+  'ZINDAR',
+  'ONDOR',
+  'DOKER',
+  'VIGAR',
+  'DOBER',
+  'ZUMBUR',
+  'ZAKAL',
+  'DOMBAR',
+  'ĐUKAR 2',
+  'OKAR',
+  'OMBER',
+  'KSION',
+  'DIPET',
+  'OPAL',
+  'DUET-KALER',
+  'ZIDION',
+] as const;
+
+export const DEVELOPER_CREATE_ALATI_RADIONICA_FALLBACK_INPUTS = [
+  'NaN',
+  'Infinity',
+  'empty',
+  'conflict',
+  'unknown-token',
+] as const;
+
+export const DEVELOPER_CREATE_ALATI_RADIONICA_NORMALIZATION_RULES = {
+  trimWhitespace: true,
+  stripWrappingQuotes: true,
+  stripTrailingPunctuation: true,
+  collapseMultipleSpaces: true,
+  uppercaseTokens: true,
+  keepCanonicalOrder: true,
+  preserveVariantSuffixes: true,
+  unknownTokenHandling: 'map-to-watch-and-require-review',
+  conflictHandling: 'map-to-blocked-and-require-review',
+} as const;
+
+export const DEVELOPER_CREATE_ALATI_RADIONICA_TOKEN_POLICY = {
+  ondorIsCanonical: true,
+  djukarVariantMode: 'ĐUKAR and ĐUKAR 2 are distinct canonical singletons',
+  orderingRule: 'strict-order-required',
+  duplicateRule: 'exact-sequence-counts-required-with-distinct-đukar-variants',
+  deterministicFallbackRule: 'invalid-or-ambiguous-input-falls-back-to-ready-watch-blocked-governance-path',
+  punctuationRepairMode: 'trim-wrapping-quotes-and-trailing-punctuation-before-compare',
+  randomSelectionBinding: 'napoleon-diskaveri-bounded-selection',
+} as const;
+
+export const DEVELOPER_CREATE_ALATI_RADIONICA_SUMMARY_SAFE_FIELDS = [
+  'canonicalAlias',
+  'status',
+  'blockerReason',
+  'watchReasons',
+  'reviewPosture',
+  'downstreamReference',
+  'sequenceValidationSummary',
+  'tokenOrderStatus',
+  'duplicateRuleStatus',
+  'fallbackInputStatus',
+  'randomSelectionScopeStatement',
+] as const;
 
 export const DEVELOPER_CREATE_MONTEZACIJA_CANONICAL_ALIAS =
   DEVELOPER_CREATE_VRH_MONTEZACIJA_ALIAS;

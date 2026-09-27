@@ -185,6 +185,14 @@ import {
   DEVELOPER_CREATE_RADNI_PROSTOR_NORMALIZATION_RULES,
   DEVELOPER_CREATE_RADNI_PROSTOR_ROLE_CLASSIFICATION,
   DEVELOPER_CREATE_RADNI_PROSTOR_SCOPE_STATEMENT,
+  DEVELOPER_CREATE_ALATI_RADIONICA_BOUNDED_TOKEN_SEQUENCE,
+  DEVELOPER_CREATE_ALATI_RADIONICA_CANONICAL_ALIAS,
+  DEVELOPER_CREATE_ALATI_RADIONICA_FALLBACK_INPUTS,
+  DEVELOPER_CREATE_ALATI_RADIONICA_NORMALIZATION_RULES,
+  DEVELOPER_CREATE_ALATI_RADIONICA_ROLE_CLASSIFICATION,
+  DEVELOPER_CREATE_ALATI_RADIONICA_SCOPE_STATEMENT,
+  DEVELOPER_CREATE_ALATI_RADIONICA_SUMMARY_SAFE_FIELDS,
+  DEVELOPER_CREATE_ALATI_RADIONICA_TOKEN_POLICY,
   DEVELOPER_CREATE_SARKAZAM_PRIVREDNA_GRANA_DIGITALIZMA_BOUNDED_SIGNALS,
   DEVELOPER_CREATE_SARKAZAM_PRIVREDNA_GRANA_DIGITALIZMA_CANONICAL_ALIAS,
   DEVELOPER_CREATE_SARKAZAM_PRIVREDNA_GRANA_DIGITALIZMA_FALLBACK_INPUTS,
@@ -7673,6 +7681,51 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
         },
         downstreamReference: 'docs/MULTI-REPO-LINKS.md -> spaja86/IO-OPENUI-AO (summary-only)',
       },
+      alatiRadionicaTrack: {
+        canonicalAlias: DEVELOPER_CREATE_ALATI_RADIONICA_CANONICAL_ALIAS,
+        scopeStatement: DEVELOPER_CREATE_ALATI_RADIONICA_SCOPE_STATEMENT,
+        roleClassification: DEVELOPER_CREATE_ALATI_RADIONICA_ROLE_CLASSIFICATION,
+        boundedTokenSequence: DEVELOPER_CREATE_ALATI_RADIONICA_BOUNDED_TOKEN_SEQUENCE,
+        normalizationRules: DEVELOPER_CREATE_ALATI_RADIONICA_NORMALIZATION_RULES,
+        boundedVocabularyPhrase: 'EXTRIMLI EXTRONDOL EXTREM DOK DUK DAK DIK FOR',
+        additiveOnly: true,
+        noNewRuntimeEngine: true,
+        noNewRuntimeRoutes: true,
+        noParallelSourceOfTruth: true,
+        sourceOfTruthRoutes: ['/api/extrimli/extrem', '/api/extrimli/extrondol', '/api/extrimli/spaja-kod'],
+        ownershipLock: {
+          dokDikFor: 'EXTREM',
+          dakDuk: 'EXTRONDOL',
+          spajaKod: 'audit-safe-summary-only',
+        },
+        summarySafePublicFields: DEVELOPER_CREATE_ALATI_RADIONICA_SUMMARY_SAFE_FIELDS,
+        tokenPolicy: DEVELOPER_CREATE_ALATI_RADIONICA_TOKEN_POLICY,
+        readinessSignal: {
+          status: 'BLOCKED',
+          readinessScore: 0,
+          tokenOrderStatus: 'BLOCKED',
+          duplicateRuleStatus: 'BLOCKED',
+          fallbackInputStatus: 'BLOCKED',
+          tokenCoveragePercent: 0,
+          normalizedInputCount: 0,
+          deterministicFallbackRequired: true,
+          fallbackInputs: DEVELOPER_CREATE_ALATI_RADIONICA_FALLBACK_INPUTS,
+          driver:
+            'developerAndCreateRepoWideReflection.readiness + developerAndCreateRepoWideReflection.technicalReadinessProfile.consolidatedRhythmStatus + runtimeAlatiRadionicaTokenInput',
+        },
+        blockerReason: 'alati-radionica-track-awaits-bounded-token-order-and-governance-alignment',
+        watchReasons: [],
+        reviewPosture: 'REVIEW_REQUIRED',
+        sequenceValidationSummary: '',
+        randomSelectionScopeStatement: DEVELOPER_CREATE_RANDOM_SELECTION_SCOPE_STATEMENT,
+        acceptanceEvidence: [
+          'developerAndCreateRepoWideReflection.alatiRadionicaTrack',
+          'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.alatiRadionicaTrack',
+          'spajaKod.publicSignals.alatiRadionicaStatus',
+          'spajaKod.developerAndCreateImplementationPackage.alatiRadionicaSummary',
+        ],
+        downstreamReference: 'docs/MULTI-REPO-LINKS.md -> spaja86/IO-OPENUI-AO (summary-only)',
+      },
       montezacijaTrack: {
         canonicalAlias: DEVELOPER_CREATE_MONTEZACIJA_CANONICAL_ALIAS,
         scopeStatement: DEVELOPER_CREATE_MONTEZACIJA_SCOPE_STATEMENT,
@@ -12282,6 +12335,21 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
       noParallelSourceOfTruth: true,
       rawInternalsExposed: false,
     },
+    alatiRadionicaBoundary: {
+      trackRole: 'bounded-alati-radionica-sequence-track',
+      parentTrack: 'VRH PROGRAMSKOG EKVILADENTA',
+      canonicalAlias: DEVELOPER_CREATE_ALATI_RADIONICA_CANONICAL_ALIAS,
+      roleClassification: DEVELOPER_CREATE_ALATI_RADIONICA_ROLE_CLASSIFICATION,
+      extremPublishes: 'status-token-coverage-order-duplicate-and-deterministic-fallback-signal-only',
+      extrondolPublishes: 'wawe-freeze-promotion-review-rollback-audit-summary-only',
+      spajaKodPublishes: 'status-blocker-review-downstream-and-sequence-summary-only',
+      technicalBinding: 'developerAndCreateRepoWideReflection.alatiRadionicaTrack',
+      randomSelectionBinding: 'developerAndCreateRepoWideReflection.napoleonDiskaveriSelectionTrack',
+      noNewRuntimeEngine: true,
+      noNewRuntimeRoutes: true,
+      noParallelSourceOfTruth: true,
+      rawInternalsExposed: false,
+    },
     kraljevskiRadBoundary: {
       trackRole: 'bounded-kraljevski-rad-sequence-track',
       parentTrack: 'VRH PROGRAMSKOG EKVILADENTA',
@@ -13282,6 +13350,141 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
       : radniProstorStatus === 'WATCH'
         ? 'WATCH'
         : 'REVIEW_REQUIRED';
+  const alatiRadionicaTrack =
+    dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.alatiRadionicaTrack;
+  const alatiRadionicaRuntimeTokenInput =
+    process.env.NODE_ENV === 'test'
+      ? process.env.EXTRIMLI_ALATI_RADIONICA_TOKEN_INPUT
+      : undefined;
+  const alatiRadionicaObservedTokens =
+    alatiRadionicaRuntimeTokenInput && alatiRadionicaRuntimeTokenInput.trim().length > 0
+      ? alatiRadionicaRuntimeTokenInput
+        .split(/[,\n;|]+/)
+        .map((token) => token.trim())
+        .filter((token) => token.length > 0)
+      : [...alatiRadionicaTrack.boundedTokenSequence];
+  const normalizeAlatiRadionicaToken = (token: string): string => {
+    let normalizedToken = token;
+    if (alatiRadionicaTrack.normalizationRules.trimWhitespace) {
+      normalizedToken = normalizedToken.trim();
+    }
+    if (alatiRadionicaTrack.normalizationRules.stripWrappingQuotes) {
+      normalizedToken = normalizedToken.replace(/^["'“”„`]+|["'“”„`]+$/g, '');
+    }
+    if (alatiRadionicaTrack.normalizationRules.stripTrailingPunctuation) {
+      normalizedToken = normalizedToken.replace(/[.]+$/g, '');
+    }
+    if (alatiRadionicaTrack.normalizationRules.collapseMultipleSpaces) {
+      normalizedToken = normalizedToken.replace(/\s+/g, ' ');
+    }
+    if (alatiRadionicaTrack.normalizationRules.uppercaseTokens) {
+      normalizedToken = normalizedToken.toUpperCase();
+    }
+    return normalizedToken;
+  };
+  const normalizedAlatiRadionicaTokens =
+    alatiRadionicaObservedTokens.map(normalizeAlatiRadionicaToken);
+  const normalizedExpectedAlatiRadionicaTokens =
+    DEVELOPER_CREATE_ALATI_RADIONICA_BOUNDED_TOKEN_SEQUENCE.map(normalizeAlatiRadionicaToken);
+  const alatiRadionicaHasExactLength =
+    normalizedAlatiRadionicaTokens.length === normalizedExpectedAlatiRadionicaTokens.length;
+  const alatiRadionicaMatchedTokenCount = alatiRadionicaHasExactLength
+    ? normalizedExpectedAlatiRadionicaTokens.reduce(
+      (count, expectedToken, index) =>
+        count + (normalizedAlatiRadionicaTokens[index] === expectedToken ? 1 : 0),
+      0,
+    )
+    : 0;
+  const alatiRadionicaTokenCoveragePercent = round(
+    (alatiRadionicaMatchedTokenCount / (normalizedExpectedAlatiRadionicaTokens.length || 1)) * 100,
+    2,
+  );
+  const alatiRadionicaFallbackTokens = alatiRadionicaTrack.readinessSignal.fallbackInputs
+    .map((token) => token.toUpperCase());
+  const alatiRadionicaHasConflictFallback = normalizedAlatiRadionicaTokens
+    .includes('CONFLICT');
+  const alatiRadionicaHasSoftFallback = normalizedAlatiRadionicaTokens
+    .some((token) => token !== 'CONFLICT' && alatiRadionicaFallbackTokens.includes(token));
+  const alatiRadionicaHasCanonicalVocabulary = normalizedAlatiRadionicaTokens
+    .every((token) =>
+      normalizedExpectedAlatiRadionicaTokens.includes(token) || alatiRadionicaFallbackTokens.includes(token));
+  const alatiRadionicaTokenOrderStatus: ExtrimliExtremReadinessStatus =
+    alatiRadionicaHasConflictFallback
+      ? 'BLOCKED'
+      : alatiRadionicaHasSoftFallback
+        ? 'WATCH'
+        : alatiRadionicaHasExactLength
+          && alatiRadionicaHasCanonicalVocabulary
+          && alatiRadionicaMatchedTokenCount === normalizedExpectedAlatiRadionicaTokens.length
+          ? 'READY'
+          : 'BLOCKED';
+  const countAlatiRadionicaTokens = (tokens: readonly string[]) =>
+    tokens.reduce<Record<string, number>>((counts, token) => {
+      counts[token] = (counts[token] ?? 0) + 1;
+      return counts;
+    }, {});
+  const alatiRadionicaExpectedTokenCounts = countAlatiRadionicaTokens(normalizedExpectedAlatiRadionicaTokens);
+  const alatiRadionicaObservedTokenCounts = countAlatiRadionicaTokens(normalizedAlatiRadionicaTokens);
+  const alatiRadionicaCountMatchStatus = Object.entries(alatiRadionicaExpectedTokenCounts)
+    .every(([token, count]) => (alatiRadionicaObservedTokenCounts[token] ?? 0) === count)
+    && Object.keys(alatiRadionicaObservedTokenCounts)
+      .every((token) => token in alatiRadionicaExpectedTokenCounts || alatiRadionicaFallbackTokens.includes(token));
+  const alatiRadionicaDuplicateRuleStatus: ExtrimliExtremReadinessStatus =
+    alatiRadionicaHasConflictFallback
+      ? 'BLOCKED'
+      : alatiRadionicaHasSoftFallback
+        ? 'WATCH'
+        : alatiRadionicaHasExactLength
+          && alatiRadionicaHasCanonicalVocabulary
+          && alatiRadionicaCountMatchStatus
+          ? 'READY'
+          : 'BLOCKED';
+  const alatiRadionicaFallbackInputStatus: ExtrimliExtremReadinessStatus =
+    alatiRadionicaHasSoftFallback
+      ? 'WATCH'
+      : alatiRadionicaHasConflictFallback
+        ? 'BLOCKED'
+        : 'READY';
+  const alatiRadionicaSignalStatuses = [
+    dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.status,
+    dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.technicalReadinessProfile.consolidatedRhythmStatus,
+    alatiRadionicaTokenOrderStatus,
+    alatiRadionicaDuplicateRuleStatus,
+    alatiRadionicaFallbackInputStatus,
+  ] as const;
+  const alatiRadionicaStatus = aggregateReadinessStatus([...alatiRadionicaSignalStatuses]);
+  alatiRadionicaTrack.readinessSignal.status = alatiRadionicaStatus;
+  alatiRadionicaTrack.readinessSignal.readinessScore = round(
+    alatiRadionicaSignalStatuses.reduce((sum, status) => sum + readinessStatusScore(status), 0)
+      / alatiRadionicaSignalStatuses.length,
+    2,
+  );
+  alatiRadionicaTrack.readinessSignal.tokenOrderStatus = alatiRadionicaTokenOrderStatus;
+  alatiRadionicaTrack.readinessSignal.duplicateRuleStatus = alatiRadionicaDuplicateRuleStatus;
+  alatiRadionicaTrack.readinessSignal.fallbackInputStatus = alatiRadionicaFallbackInputStatus;
+  alatiRadionicaTrack.readinessSignal.tokenCoveragePercent = alatiRadionicaTokenCoveragePercent;
+  alatiRadionicaTrack.readinessSignal.normalizedInputCount = normalizedAlatiRadionicaTokens.length;
+  alatiRadionicaTrack.readinessSignal.deterministicFallbackRequired =
+    alatiRadionicaStatus !== 'READY'
+    || dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.deterministicFallbackRequired;
+  alatiRadionicaTrack.blockerReason =
+    alatiRadionicaStatus === 'BLOCKED'
+      ? 'ALATI / RADIONICA ostaje BLOCKED dok bounded token sekvenca, ONDOR kanonizacija, ĐUKAR/ĐUKAR 2 distinkcija i fallback disciplina ne ostanu deterministički usklađeni.'
+      : null;
+  alatiRadionicaTrack.watchReasons =
+    alatiRadionicaStatus === 'WATCH'
+      ? [
+        'ALATI / RADIONICA je u WATCH režimu zbog fallback/unknown ulaza; RANDOM ostaje zaključan na Napoleon Diskaveri bounded-selection putanji.',
+      ]
+      : [];
+  alatiRadionicaTrack.reviewPosture =
+    alatiRadionicaStatus === 'READY'
+      ? 'ALIGNED'
+      : alatiRadionicaStatus === 'WATCH'
+        ? 'WATCH'
+        : 'REVIEW_REQUIRED';
+  alatiRadionicaTrack.sequenceValidationSummary =
+    'ALATI / RADIONICA ostaje additive-only bounded token traka sa kanonskim ONDOR tokenom, razdvojenim ĐUKAR / ĐUKAR 2 singleton pravilom i Napoleon Diskaveri RANDOM vezom bez novih runtime ruta.';
   const montezacijaTrack =
     dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.montezacijaTrack;
   const montezacijaFallbackInput = process.env.EXTRIMLI_MONTEZACIJA_FALLBACK_INPUT;

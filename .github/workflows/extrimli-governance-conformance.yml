@@ -145,6 +145,12 @@ jobs:
             'Developer/Create program doc must lock RADNI PROSTOR bounded alias and token sequence'
           );
           assert(
+            developerCreateProgramDoc.includes('DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == ALATI / RADIONICA')
+              && developerCreateProgramDoc.includes('RIN, KUR, ZUR, ENDER, ĐUKAR, ZINDAR, ONDOR, DOKER, VIGAR, DOBER, ZUMBUR, ZAKAL, DOMBAR, ĐUKAR 2, OKAR, OMBER, KSION, DIPET, OPAL, DUET-KALER, ZIDION')
+              && developerCreateProgramDoc.includes('Napoleon Diskaveri already-governed bounded-selection path'),
+            'Developer/Create program doc must lock ALATI / RADIONICA bounded alias, token sequence, and Napoleon-bound random posture'
+          );
+          assert(
             developerCreateProgramDoc.includes('DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == AI IQ LABORATORIJA == LABORATORIJSKI NALAZI FAUNE I FLORE I GRAĐEVINSKOG MATERIJALA')
               && developerCreateProgramDoc.includes('ZUM, DUM, SAK, IK, MUN, DIKOT, DUN, ZAT, DJKUON, SIM, IKAR, DUKAR, IBAP, IRO, DUNOR, IBAN, UKOR, UTVAR, ZIPOT'),
             'Developer/Create program doc must lock AI IQ LABORATORIJA bounded alias and token sequence'
@@ -181,6 +187,12 @@ jobs:
             'VRH doc must keep RADNI PROSTOR bounded alias and unchanged ownership split'
           );
           assert(
+            vrhDoc.includes('ALATI / RADIONICA')
+              && vrhDoc.includes('RIN, KUR, ZUR, ENDER, ĐUKAR, ZINDAR, ONDOR, DOKER, VIGAR, DOBER, ZUMBUR, ZAKAL, DOMBAR, ĐUKAR 2, OKAR, OMBER, KSION, DIPET, OPAL, DUET-KALER, ZIDION')
+              && vrhDoc.includes('SPAJA KOD only summary-safe alias/status/fallback posture'),
+            'VRH doc must keep ALATI / RADIONICA bounded alias and summary-only public boundary'
+          );
+          assert(
             vrhDoc.includes('AI IQ LABORATORIJA == LABORATORIJSKI NALAZI FAUNE I FLORE I GRAĐEVINSKOG MATERIJALA')
               && vrhDoc.includes('ZUM, DUM, SAK, IK, MUN, DIKOT, DUN, ZAT, DJKUON, SIM, IKAR, DUKAR, IBAP, IRO, DUNOR, IBAN, UKOR, UTVAR, ZIPOT')
               && vrhDoc.includes('SPAJA KOD samo audit-safe nalaz summary'),
@@ -194,6 +206,12 @@ jobs:
               && developerCreateContract.includes('DEVELOPER_CREATE_RADNI_PROSTOR_BOUNDED_TOKEN_SEQUENCE')
               && developerCreateContract.includes('DEVELOPER_CREATE_RADNI_PROSTOR_NORMALIZATION_RULES'),
             'Developer/Create contract must formalize RADNI PROSTOR bounded token alias contract'
+          );
+          assert(
+            developerCreateContract.includes('DEVELOPER_CREATE_ALATI_RADIONICA_CANONICAL_ALIAS')
+              && developerCreateContract.includes('DEVELOPER_CREATE_ALATI_RADIONICA_BOUNDED_TOKEN_SEQUENCE')
+              && developerCreateContract.includes('DEVELOPER_CREATE_ALATI_RADIONICA_SUMMARY_SAFE_FIELDS'),
+            'Developer/Create contract must formalize ALATI / RADIONICA bounded token alias contract'
           );
           assert(
             developerCreateContract.includes('DEVELOPER_CREATE_AI_IQ_LABORATORIJA_CANONICAL_ALIAS')

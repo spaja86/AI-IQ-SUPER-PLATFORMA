@@ -275,6 +275,8 @@ async function runTests(): Promise<void> {
       report.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.kraljevskiRadTrack;
     const radniProstorTrack =
       report.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.radniProstorTrack;
+    const alatiRadionicaTrack =
+      report.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.alatiRadionicaTrack;
     const aiIqLaboratorijaTrack =
       report.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.aiIqLaboratorijaTrack;
     const konstrukcijeIProjektovanjeTrack =
@@ -337,6 +339,7 @@ async function runTests(): Promise<void> {
     assert(implementationPackage.notes1450Boundary.noNewRuntimeRoutes, 'developer/create implementation package NOTES 1450 boundary must forbid new runtime routes');
     assert(implementationPackage.notes1450Boundary.noParallelSourceOfTruth, 'developer/create implementation package NOTES 1450 boundary must forbid parallel source-of-truth systems');
     assert(implementationPackage.napoleonDiskaveriSelectionBoundary.trackRole === 'bounded-discovery-selection-alias-track', 'developer/create implementation package Napoleon Diskaveri boundary role mismatch');
+    assert(implementationPackage.alatiRadionicaBoundary.trackRole === 'bounded-alati-radionica-sequence-track', 'developer/create implementation package ALATI / RADIONICA boundary role mismatch');
     assert(aiIqKonferencijaZaStampuTrack.canonicalAlias === 'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == AI IQ KONFERENCIJA ZA ŠTAMPU (NOVINE, DIGITALNE NOVINE)', 'developer/create AI IQ press canonical alias mismatch');
     assert(aiIqKonferencijaZaStampuTrack.roleClassification === 'additive-only-bounded-media-documentation-explanation-track', 'developer/create AI IQ press role classification mismatch');
     assert(aiIqKonferencijaZaStampuTrack.boundedTokenVocabulary.canonicalSequence.join(',') === 'KIDOR,ZUKUR,SONG,DEPOR,DJAKUR,ZIMBA,OKUR,DIKTAFON,ZOND,AKURA,ZOMBUA,IKON,DESK,DJIKURI,ZMBABVE,ORON,DARS,DJONGE,DANAR,ZULAI,SERON,DISPOR,DUMBIR,KALU,ZUKAR,DINAR,DJOMPE,NURUS', 'developer/create AI IQ press token sequence mismatch');
@@ -440,6 +443,12 @@ async function runTests(): Promise<void> {
     assert(radniProstorTrack.boundedTokenSequence.join(',') === 'OKUR,DJUKUR,DAR,ZOR,IKON,ZULUM,DABRE,IZOS,JAKOR,DAPR,ZUKUR,ENTER,DIKAR,ZUMBUL,SIRGED,ZIKOR,DJENDER,ĆUR,NIKON,DERKO,ZUKAL,IKON,ZAJDI', 'developer/create RADNI PROSTOR token sequence mismatch');
     assert(['READY', 'WATCH', 'BLOCKED'].includes(radniProstorTrack.readinessSignal.status), 'developer/create RADNI PROSTOR status mismatch');
     assert(radniProstorTrack.summarySafePublicFields.join(',') === 'canonicalAlias,status,blockerReason,watchReasons,reviewPosture,downstreamReference,tokenSequenceLock', 'developer/create RADNI PROSTOR summary-safe fields mismatch');
+    assert(alatiRadionicaTrack.canonicalAlias === 'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == ALATI / RADIONICA', 'developer/create ALATI / RADIONICA canonical alias mismatch');
+    assert(alatiRadionicaTrack.roleClassification === 'additive-only-bounded-alati-radionica-alias-track', 'developer/create ALATI / RADIONICA role classification mismatch');
+    assert(alatiRadionicaTrack.boundedTokenSequence.join(',') === 'RIN,KUR,ZUR,ENDER,ĐUKAR,ZINDAR,ONDOR,DOKER,VIGAR,DOBER,ZUMBUR,ZAKAL,DOMBAR,ĐUKAR 2,OKAR,OMBER,KSION,DIPET,OPAL,DUET-KALER,ZIDION', 'developer/create ALATI / RADIONICA token sequence mismatch');
+    assert(alatiRadionicaTrack.summarySafePublicFields.join(',') === 'canonicalAlias,status,blockerReason,watchReasons,reviewPosture,downstreamReference,sequenceValidationSummary,tokenOrderStatus,duplicateRuleStatus,fallbackInputStatus,randomSelectionScopeStatement', 'developer/create ALATI / RADIONICA summary-safe fields mismatch');
+    assert(alatiRadionicaTrack.tokenPolicy.ondorIsCanonical, 'developer/create ALATI / RADIONICA must keep ONDOR canonical');
+    assert(alatiRadionicaTrack.tokenPolicy.randomSelectionBinding === 'napoleon-diskaveri-bounded-selection', 'developer/create ALATI / RADIONICA random binding mismatch');
     assert(aiIqLaboratorijaTrack.canonicalAlias === 'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == AI IQ LABORATORIJA == LABORATORIJSKI NALAZI FAUNE I FLORE I GRAĐEVINSKOG MATERIJALA', 'developer/create AI IQ LABORATORIJA canonical alias mismatch');
     assert(aiIqLaboratorijaTrack.roleClassification === 'additive-only-bounded-laboratory-evidence-track', 'developer/create AI IQ LABORATORIJA role classification mismatch');
     assert(aiIqLaboratorijaTrack.boundedTokenSequence.join(',') === 'ZUM,DUM,SAK,IK,MUN,DIKOT,DUN,ZAT,DJKUON,SIM,IKAR,DUKAR,IBAP,IRO,DUNOR,IBAN,UKOR,UTVAR,ZIPOT', 'developer/create AI IQ LABORATORIJA token sequence mismatch');

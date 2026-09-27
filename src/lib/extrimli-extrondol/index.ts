@@ -43,6 +43,7 @@ import {
   DEVELOPER_CREATE_MUZICKA_KUTIJA_CANONICAL_ALIAS,
   DEVELOPER_CREATE_RADIO_MIKROFON_PROJECTION_CANONICAL_EQUALITY,
   DEVELOPER_CREATE_NAPOLEON_DISKAVERI_CANONICAL_ALIAS,
+  DEVELOPER_CREATE_ALATI_RADIONICA_CANONICAL_ALIAS,
   DEVELOPER_CREATE_IZVESTAJ_REPORT_LOCK,
   DEVELOPER_CREATE_IZVESTAJ_SCOPE_STATEMENT,
   DEVELOPER_CREATE_REPO_WIDE_BOUNDED_VOCABULARY_PHRASE,
@@ -3462,6 +3463,7 @@ function buildSpajaKodFacade(params: {
   medaljeSrbskeStatus: ExtrimliExtrondolReport['extremProfiler']['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['medaljeSrbskeTrack']['readinessSignal']['status'];
   kraljevskiRadStatus: ExtrimliExtrondolReport['extremProfiler']['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['kraljevskiRadTrack']['readinessSignal']['status'];
   radniProstorStatus: ExtrimliExtrondolReport['extremProfiler']['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['radniProstorTrack']['readinessSignal']['status'];
+  alatiRadionicaStatus: ExtrimliExtrondolReport['extremProfiler']['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['alatiRadionicaTrack']['readinessSignal']['status'];
   kraljevskaMontezacijaStatus: ExtrimliExtrondolReport['extremProfiler']['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['montezacijaTrack']['kraljevskaMontezacijaApprovalPackage']['status'];
   montezacijaStatus: ExtrimliExtrondolReport['extremProfiler']['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['montezacijaTrack']['readinessSignal']['status'];
   pilotStatus: ExtrimliExtrondolReport['extremProfiler']['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['pilotTrack']['readinessSignal']['status'];
@@ -3612,6 +3614,7 @@ function buildSpajaKodFacade(params: {
       medaljeSrbskeStatus: params.medaljeSrbskeStatus,
       kraljevskiRadStatus: params.kraljevskiRadStatus,
       radniProstorStatus: params.radniProstorStatus,
+      alatiRadionicaStatus: params.alatiRadionicaStatus,
       kraljevskaMontezacijaStatus: params.kraljevskaMontezacijaStatus,
       montezacijaStatus: params.montezacijaStatus,
       pilotStatus: params.pilotStatus,
@@ -3735,6 +3738,7 @@ function buildSpajaKodFacade(params: {
         'publicSignals.medaljeSrbskeStatus',
         'publicSignals.kraljevskiRadStatus',
         'publicSignals.radniProstorStatus',
+        'publicSignals.alatiRadionicaStatus',
         'publicSignals.kraljevskaMontezacijaStatus',
         'publicSignals.montezacijaStatus',
         'publicSignals.pilotStatus',
@@ -3774,6 +3778,7 @@ function buildSpajaKodFacade(params: {
         'developerAndCreateImplementationPackage.medaljeSrbskeSummary',
         'developerAndCreateImplementationPackage.kraljevskiRadSummary',
         'developerAndCreateImplementationPackage.radniProstorSummary',
+        'developerAndCreateImplementationPackage.alatiRadionicaSummary',
         'developerAndCreateImplementationPackage.montezacijaSummary.kraljevskaMontezacijaApprovalPackage',
         'developerAndCreateImplementationPackage.montezacijaSummary',
         'developerAndCreateImplementationPackage.pilotSummary',
@@ -4100,6 +4105,40 @@ function buildSpajaKodFacade(params: {
         publicBoundary: 'audit-safe-summary-only',
         tokenSequenceLock: {
           ...params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.radniProstorTrack.tokenSequenceLock,
+        },
+      },
+      alatiRadionicaSummary: {
+        canonicalAlias:
+          DEVELOPER_CREATE_ALATI_RADIONICA_CANONICAL_ALIAS,
+        roleClassification:
+          params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.alatiRadionicaTrack.roleClassification,
+        status:
+          params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.alatiRadionicaTrack.readinessSignal.status,
+        blockerReason:
+          params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.alatiRadionicaTrack.blockerReason,
+        watchReasons: [
+          ...params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.alatiRadionicaTrack.watchReasons,
+        ],
+        reviewPosture:
+          params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.alatiRadionicaTrack.reviewPosture,
+        downstreamReference:
+          params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.alatiRadionicaTrack.downstreamReference,
+        publicBoundary: 'audit-safe-summary-only',
+        sequenceValidationSummary:
+          params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.alatiRadionicaTrack.sequenceValidationSummary,
+        tokenOrderStatus:
+          params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.alatiRadionicaTrack.readinessSignal.tokenOrderStatus,
+        duplicateRuleStatus:
+          params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.alatiRadionicaTrack.readinessSignal.duplicateRuleStatus,
+        fallbackInputStatus:
+          params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.alatiRadionicaTrack.readinessSignal.fallbackInputStatus,
+        randomSelectionScopeStatement:
+          params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.alatiRadionicaTrack.randomSelectionScopeStatement,
+        governancePosture: {
+          sequenceOrderRule: 'strict-order-required',
+          duplicateRule: 'đukar-and-đukar-2-are-distinct-singletons',
+          fallbackPolicy: 'deterministic-ready-watch-blocked',
+          randomSelectionBinding: 'napoleon-diskaveri-bounded-selection',
         },
       },
       montezacijaSummary: {
@@ -7129,6 +7168,8 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
       extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.kraljevskiRadTrack.readinessSignal.status,
     radniProstorStatus:
       extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.radniProstorTrack.readinessSignal.status,
+    alatiRadionicaStatus:
+      extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.alatiRadionicaTrack.readinessSignal.status,
     kraljevskaMontezacijaStatus:
       extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.montezacijaTrack.kraljevskaMontezacijaApprovalPackage.status,
     montezacijaStatus:
@@ -9027,6 +9068,37 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
           'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.napoleonDiskaveriSelectionTrack',
           'spajaKod.publicSignals.napoleonDiskaveriStatus',
           'spajaKod.developerAndCreateImplementationPackage.napoleonDiskaveriSummary',
+        ],
+        downstreamReference: 'docs/MULTI-REPO-LINKS.md -> spaja86/IO-OPENUI-AO (summary-only)',
+      },
+      alatiRadionicaTrack: {
+        ...extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.alatiRadionicaTrack,
+        sourceOfTruth: '/api/extrimli/extrem',
+        governanceSource: '/api/extrimli/extrondol',
+        publicBoundary: '/api/extrimli/spaja-kod',
+        currentWawe,
+        eligibleNextWawe: eligibleNextWave,
+        promotionFreeze,
+        reviewRequiredBeforeWideRollout:
+          extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.alatiRadionicaTrack.readinessSignal.status !== 'READY',
+        reviewPosture:
+          extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.alatiRadionicaTrack.reviewPosture,
+        rolloutPlan:
+          'Advance ALATI / RADIONICA only through the existing EXTREM bounded readiness signal, EXTRONDOL governance mirror, and SPAJA KOD audit-safe summary boundary while keeping RANDOM on Napoleon Diskaveri.',
+        rollbackPlan:
+          'Freeze promotion and fall back to the previously verified Developer/Create summary package if token order, ĐUKAR-variant distinction, or downstream alignment drifts.',
+        humanReviewStatus: 'required-before-promotion',
+        governancePosture: {
+          sequenceOrderRule: 'strict-order-required',
+          duplicateRule: 'đukar-and-đukar-2-are-distinct-singletons',
+          fallbackPolicy: 'deterministic-ready-watch-blocked',
+          randomSelectionBinding: 'napoleon-diskaveri-bounded-selection',
+        },
+        acceptanceEvidence: [
+          'developerAndCreateRepoWideReflection.alatiRadionicaTrack',
+          'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.alatiRadionicaTrack',
+          'spajaKod.publicSignals.alatiRadionicaStatus',
+          'spajaKod.developerAndCreateImplementationPackage.alatiRadionicaSummary',
         ],
         downstreamReference: 'docs/MULTI-REPO-LINKS.md -> spaja86/IO-OPENUI-AO (summary-only)',
       },
