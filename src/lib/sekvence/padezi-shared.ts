@@ -90,9 +90,14 @@ export function getPadezMeta(id: PadezId): PadezMeta {
 
 export function buildPadezNavigationButtons(
   currentId: PadezId | null,
-  options: { includeOverview?: boolean; includeCurrent?: boolean; primaryId?: PadezId } = {},
+  options: {
+    includeOverview?: boolean;
+    includeCurrent?: boolean;
+    primaryId?: PadezId;
+    overviewPlacement?: 'start' | 'end';
+  } = {},
 ) {
-  const { includeOverview = true, includeCurrent = false, primaryId } = options;
+  const { includeOverview = true, includeCurrent = false, primaryId, overviewPlacement = 'end' } = options;
   const visibleMeta = PADEZI_META.filter((item) => includeCurrent || item.id !== currentId);
   const effectivePrimaryId =
     primaryId && visibleMeta.some((item) => item.id === primaryId) ? primaryId : visibleMeta[0]?.id;
@@ -100,14 +105,17 @@ export function buildPadezNavigationButtons(
     ...(effectivePrimaryId ? visibleMeta.filter((item) => item.id === effectivePrimaryId) : []),
     ...visibleMeta.filter((item) => item.id !== effectivePrimaryId),
   ];
+  const overviewButton = { tekst: 'Pregled PADEŽI', href: '/padezi', stil: 'sekundarno' as const };
+  const caseButtons = orderedMeta.map((item) => ({
+    tekst: item.naziv,
+    href: item.href,
+    stil: 'sekundarno' as const,
+  }));
 
   return [
-    ...orderedMeta.map((item) => ({
-      tekst: item.naziv,
-      href: item.href,
-      stil: 'sekundarno' as const,
-    })),
-    ...(includeOverview ? [{ tekst: 'Pregled PADEŽI', href: '/padezi', stil: 'sekundarno' as const }] : []),
+    ...(includeOverview && overviewPlacement === 'start' ? [overviewButton] : []),
+    ...caseButtons,
+    ...(includeOverview && overviewPlacement === 'end' ? [overviewButton] : []),
   ];
 }
 
