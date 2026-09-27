@@ -18,57 +18,64 @@ type PadezMeta = {
   kratkiOpis: string;
 };
 
-const PADEZI_META: PadezMeta[] = [
-  {
+const PADEZI_META_BY_CASE: Record<
+  (typeof DEVELOPER_CREATE_PADEZI_CANONICAL_CASE_SEQUENCE)[number],
+  PadezMeta
+> = {
+  NOMINATIV: {
     id: 'nominativ',
     naziv: 'NOMINATIV',
     href: '/nominativ',
     ikona: '🅽',
     kratkiOpis: 'Imenovanje subjekta i osnovnog oblika reči.',
   },
-  {
+  GENITIV: {
     id: 'genitiv',
     naziv: 'GENITIV',
     href: '/genitiv',
     ikona: '🅶',
     kratkiOpis: 'Pripadnost, količina, odsustvo i negacija.',
   },
-  {
+  DATIV: {
     id: 'dativ',
     naziv: 'DATIV',
     href: '/dativ',
     ikona: '🅳',
     kratkiOpis: 'Primaoc radnje, namenjenost i usmerenost.',
   },
-  {
+  AKUZATIV: {
     id: 'akuzativ',
     naziv: 'AKUZATIV',
     href: '/akuzativ',
     ikona: '🧠',
     kratkiOpis: 'Direktan objekat i kretanje ka cilju.',
   },
-  {
+  VOKATIV: {
     id: 'vokativ',
     naziv: 'VOKATIV',
     href: '/vokativ',
     ikona: '🗣️',
     kratkiOpis: 'Dozivanje, obraćanje i tonska jasnoća poziva.',
   },
-  {
+  INSTRUMENTAL: {
     id: 'instrumental',
     naziv: 'INSTRUMENTAL',
     href: '/instrumental',
     ikona: '🛠️',
     kratkiOpis: 'Sredstvo, način vršenja radnje i društvo.',
   },
-  {
+  LOKATIV: {
     id: 'lokativ',
     naziv: 'LOKATIV',
     href: '/lokativ',
     ikona: '📍',
     kratkiOpis: 'Mesto, tema i odnos uz predloge.',
   },
-];
+};
+
+const PADEZI_META: PadezMeta[] = DEVELOPER_CREATE_PADEZI_CANONICAL_CASE_SEQUENCE.map(
+  (naziv) => PADEZI_META_BY_CASE[naziv],
+);
 
 const PADEZI_META_BY_ID = Object.fromEntries(PADEZI_META.map((item) => [item.id, item])) as Record<
   PadezId,
