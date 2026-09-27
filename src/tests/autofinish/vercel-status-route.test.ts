@@ -45,6 +45,12 @@ async function testRouteResponse() {
           extremCostHotspots?: string[];
           extrondolNegotiationQuestions?: string[];
           costToZeroFallbackPlan?: string[];
+          automaticSubscriptionGates?: {
+            activationCriteria?: string[];
+            mandatoryWaweOrder?: string[];
+            noSkippedWawePhases?: boolean;
+          };
+          finalAuditPackageContents?: string[];
         };
       };
     };
@@ -76,6 +82,19 @@ async function testRouteResponse() {
   assert.strictEqual(json.pretplataVercel?.billingGovernance?.costGovernancePackage?.extremCostHotspots?.length, 7);
   assert.strictEqual(json.pretplataVercel?.billingGovernance?.costGovernancePackage?.extrondolNegotiationQuestions?.length, 14);
   assert.strictEqual(json.pretplataVercel?.billingGovernance?.costGovernancePackage?.costToZeroFallbackPlan?.length, 6);
+  assert.strictEqual(
+    json.pretplataVercel?.billingGovernance?.costGovernancePackage?.automaticSubscriptionGates?.activationCriteria?.length,
+    5,
+  );
+  assert.strictEqual(
+    json.pretplataVercel?.billingGovernance?.costGovernancePackage?.automaticSubscriptionGates?.mandatoryWaweOrder?.length,
+    5,
+  );
+  assert.strictEqual(
+    json.pretplataVercel?.billingGovernance?.costGovernancePackage?.automaticSubscriptionGates?.noSkippedWawePhases,
+    true,
+  );
+  assert.strictEqual(json.pretplataVercel?.billingGovernance?.costGovernancePackage?.finalAuditPackageContents?.length, 7);
   assert.strictEqual(json.deployGovernance?.blockerSourceOfTruth?.primaryEndpoint, '/api/vercel-status');
   assert.strictEqual(json.deployGovernance?.blockerSourceOfTruth?.mirroredEndpoint, '/api/owner/vercel-ownership');
   assert.ok(['BLOCKED', 'PENDING', 'READY'].includes(json.deployGovernance?.blockerSourceOfTruth?.currentStatus ?? ''));
