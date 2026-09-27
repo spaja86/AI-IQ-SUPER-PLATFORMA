@@ -13313,8 +13313,7 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
       : pilotStatus === 'WATCH'
         ? 'WATCH'
         : 'REVIEW_REQUIRED';
-  pilotTrack.releaseAuditSummary =
-    `${DEVELOPER_CREATE_PILOT_GOVERNANCE_REQUIRED_OUTPUTS.join(', ')} -> required-before-promotion`;
+  pilotTrack.releaseAuditSummary = DEVELOPER_CREATE_PILOT_GOVERNANCE_REQUIRED_OUTPUTS[3];
   pilotTrack.rolloutPlan = pilotStatus === 'READY'
     ? 'Promote PILOT by preserving additive-only lock, existing EXTREM/EXTRONDOL/SPAJA KOD source-of-truth routes, and audit-safe summary boundary.'
     : pilotStatus === 'BLOCKED'
