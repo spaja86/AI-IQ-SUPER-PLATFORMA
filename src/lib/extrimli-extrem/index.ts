@@ -320,11 +320,6 @@ import type {
 
 const DEVELOPER_CREATE_MEDALJE_SRBSKE_FALLBACK_INPUTS_LOWERCASE =
   DEVELOPER_CREATE_MEDALJE_SRBSKE_FALLBACK_INPUTS.map((item) => item.toLowerCase());
-const DEVELOPER_CREATE_PILOT_BLOCKING_FALLBACK_TOKEN = 'conflict' as const;
-const DEVELOPER_CREATE_PILOT_FALLBACK_INPUTS_LOWERCASE =
-  DEVELOPER_CREATE_PILOT_FALLBACK_INPUTS
-    .map((item) => item.toLowerCase())
-    .filter((item) => item !== DEVELOPER_CREATE_PILOT_BLOCKING_FALLBACK_TOKEN);
 import {
   EXTRIMLI_EXTREM_PROFILER_API_MAX_MS,
   EXTRIMLI_EXTREM_PROFILER_CONTRACT_VERSION,
@@ -13270,24 +13265,13 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
     'If KRALJEVSKA MONTEZACIJA governance drifts, freeze promotion and rollback to the previously verified MONTEZACIJA NAD MONTEZACIJAMA package.';
   const pilotTrack =
     dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.pilotTrack;
-  const pilotFallbackInput = process.env.EXTRIMLI_PILOT_FALLBACK_INPUT;
-  const normalizedPilotFallbackInput = pilotFallbackInput?.trim().toLowerCase() ?? null;
-  const pilotFallbackInputStatus: ExtrimliExtremReadinessStatus =
-    normalizedPilotFallbackInput === DEVELOPER_CREATE_PILOT_BLOCKING_FALLBACK_TOKEN
-      ? 'BLOCKED'
-      : normalizedPilotFallbackInput
-        && DEVELOPER_CREATE_PILOT_FALLBACK_INPUTS_LOWERCASE.includes(normalizedPilotFallbackInput)
-        ? 'WATCH'
-        : normalizedPilotFallbackInput
-          ? 'BLOCKED'
-        : 'READY';
   const pilotSignalStatuses = [
     dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.status,
     dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.technicalReadinessProfile
       .consolidatedRhythmStatus,
-    pilotFallbackInputStatus,
   ] as const;
   const pilotStatus = aggregateSignalReadinessStatus([...pilotSignalStatuses]);
+  const pilotFallbackInputStatus: ExtrimliExtremReadinessStatus = pilotStatus;
   pilotTrack.readinessSignal.status = pilotStatus;
   pilotTrack.readinessSignal.readinessScore = round(
     pilotSignalStatuses.reduce((sum, signalStatus) => sum + readinessStatusScore(signalStatus), 0)
@@ -13295,8 +13279,7 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
     2,
   );
   pilotTrack.readinessSignal.fallbackInputStatus = pilotFallbackInputStatus;
-  pilotTrack.readinessSignal.deterministicFallbackRequired =
-    pilotStatus !== 'READY' || pilotFallbackInputStatus !== 'READY';
+  pilotTrack.readinessSignal.deterministicFallbackRequired = pilotStatus !== 'READY';
   pilotTrack.blockerReason =
     pilotStatus === 'BLOCKED'
       ? 'PILOT ostaje BLOCKED dok postojeći EXTREM readiness signal i governance dokaz ne ostanu poravnati sa ownership split pravilom bez novih ruta.'
