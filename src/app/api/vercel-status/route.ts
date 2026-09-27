@@ -28,6 +28,7 @@ import {
   EXPECTED_VERCEL_BILLING_OWNER,
   EXPECTED_VERCEL_INVOICE_AMOUNT,
   EXPECTED_VERCEL_INVOICE_NUMBER,
+  buildVercelCostGovernancePackage,
   buildVercelPublicAnnouncementState,
   isVercelInvoiceResolved,
   normalizePaymentReferenceClassification,
@@ -134,6 +135,7 @@ export function buildVercelPretplataStatus(
   const finopsThresholdsEnabled = boolFlag(env.SPAJA_VERCEL_FINOPS_THRESHOLDS_ENABLED);
   const monthlyReconciliationEnabled = boolFlag(env.SPAJA_VERCEL_MONTHLY_RECONCILIATION_ENABLED);
   const quarterlyVendorReviewEnabled = boolFlag(env.SPAJA_VERCEL_QUARTERLY_VENDOR_REVIEW_ENABLED);
+  const costGovernancePackage = buildVercelCostGovernancePackage();
   const teamConfigured =
     Boolean(env.VERCEL_TEAM_ID?.trim())
     || Boolean(env.VERCEL_ORG_ID?.trim());
@@ -205,6 +207,7 @@ export function buildVercelPretplataStatus(
         monthlyReconciliationEnabled,
         quarterlyVendorReviewEnabled,
       },
+      costGovernancePackage,
     },
     sledeciKoraci: [
       'POST /api/owner-phone-auth/request-otp',
@@ -230,6 +233,9 @@ export function buildVercelPretplataStatus(
       'POST /api/owner/vercel-ownership { "akcija": "set-finops-thresholds-enabled" }',
       'POST /api/owner/vercel-ownership { "akcija": "set-monthly-reconciliation-enabled" }',
       'POST /api/owner/vercel-ownership { "akcija": "set-quarterly-vendor-review-enabled" }',
+      'Mapirati preview churn, duple GitHub/Vercel buildove, cron usage, add-on usage, bandwidth/image/function usage i retention/caching hotspotove.',
+      'Pripremiti Vercel pregovarački paket za credits, discounts, spending cap, overage protection i SLA/support bundle bez dodatnih varijabilnih troškova.',
+      'Automatsku pretplatu aktivirati tek posle contract approval + compliance review + human review + payment verification + downstream reference + WAWE 1-5 redosleda.',
     ],
   };
 }

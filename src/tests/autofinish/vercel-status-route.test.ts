@@ -34,7 +34,19 @@ async function testRouteResponse() {
   assert.strictEqual(response.status, 200);
   const json = (await response.json()) as {
     status: string;
-    pretplataVercel?: { status: string; blokatori: string[] };
+    pretplataVercel?: {
+      status: string;
+      blokatori: string[];
+      billingGovernance?: {
+        costGovernancePackage?: {
+          boundedVocabularyPhrase?: string;
+          governanceBlockers?: string[];
+          extremCostHotspots?: string[];
+          extrondolNegotiationQuestions?: string[];
+          costToZeroFallbackPlan?: string[];
+        };
+      };
+    };
     deployGovernance?: {
       blockerSourceOfTruth?: { primaryEndpoint?: string; mirroredEndpoint?: string; currentStatus?: string };
       deployTriggerOrder?: Array<{ handler?: string }>;
@@ -47,6 +59,14 @@ async function testRouteResponse() {
   assert.ok(json.pretplataVercel, 'pretplataVercel mora biti prisutan');
   assert.ok(['service-active', 'blocked-until-validated'].includes(json.pretplataVercel?.status ?? ''));
   assert.ok(Array.isArray(json.pretplataVercel?.blokatori), 'blokatori mora biti niz');
+  assert.strictEqual(
+    json.pretplataVercel?.billingGovernance?.costGovernancePackage?.boundedVocabularyPhrase,
+    'EXTRIMLI EXTRONDOL EXTREM DOK DUK DAK DIK FOR',
+  );
+  assert.strictEqual(json.pretplataVercel?.billingGovernance?.costGovernancePackage?.governanceBlockers?.length, 8);
+  assert.strictEqual(json.pretplataVercel?.billingGovernance?.costGovernancePackage?.extremCostHotspots?.length, 7);
+  assert.strictEqual(json.pretplataVercel?.billingGovernance?.costGovernancePackage?.extrondolNegotiationQuestions?.length, 14);
+  assert.strictEqual(json.pretplataVercel?.billingGovernance?.costGovernancePackage?.costToZeroFallbackPlan?.length, 6);
   assert.strictEqual(json.deployGovernance?.blockerSourceOfTruth?.primaryEndpoint, '/api/vercel-status');
   assert.strictEqual(json.deployGovernance?.blockerSourceOfTruth?.mirroredEndpoint, '/api/owner/vercel-ownership');
   assert.ok(['BLOCKED', 'PENDING', 'READY'].includes(json.deployGovernance?.blockerSourceOfTruth?.currentStatus ?? ''));

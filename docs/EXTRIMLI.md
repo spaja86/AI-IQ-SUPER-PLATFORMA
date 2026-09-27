@@ -1367,6 +1367,12 @@ KORON je novi EXTRIMLI capability koji radi kao readiness overlay nad postojeći
   - javni audit-ready sažetak tek nakon potvrđene uplate ili resolved correction putanje, kompletiranog dokaznog paketa i redakcije osetljivih bankarskih podataka
   - javni prikaz ne sme sadržati neredigovan izvod, pune brojeve računa, nefiltrirane reference ni operativne sekrete
   - future controls: corporate-only autopay, finance channel notifikacije, FinOps pragovi `50/75/90/100`, mesečni reconciliation, kvartalni vendor review
+  - dualni cost posture: **A)** svesti realni Vercel trošak što bliže nuli, **B)** ako nula nije moguća prebaciti trošak u kontrolisanu enterprise/autopay pretplatu sa guardrail-ovima
+  - `EXTREM` cost-hotspot signal mora pokriti: preview churn, duple GitHub/Vercel buildove, cron/scheduled usage, analytics/add-on usage, bandwidth/image/function usage, nepotrebne branch deploy-eve i retention/cache obrasce
+  - `EXTRONDOL` pregovarački paket prema Vercel-u mora ostati auditabilan i obuhvatiti pitanja za credits/sponsorship, educational/showcase plan, invoice relief, annual/prepaid discount, hard spending cap, preview optimization, add-on konsolidaciju, enterprise-lite bundle, legal-entity billing owner, grace period i SLA/support bundle
+  - interni `cost-to-zero` fallback ostaje: smanjiti preview churn, zadržati Vercel samo za frontend/SSR/light APIs, ukloniti nepotrebne GitHub build/deploy duplikate, ugasiti neobavezne scheduled surface-e, držati samo opravdane add-on-e i meriti `cost per deployment` + `cost per active user`
+  - automatska pretplata ostaje zabranjena dok nisu zatvoreni `contract approval`, `compliance review`, `human review`, `payment verification`, `downstream reference` i WAWE 1–5 redosled bez preskakanja faza
+  - finalni audit-ready paket mora sadržati poslovnu ponudu, pregovaračka pitanja, cost-to-zero fallback, rollout plan, rollback plan, KPI impact i downstream summary-only reference prema `spaja86/IO-OPENUI-AO`
 
 ### START PROJEKAT rollout program
 

@@ -24,6 +24,7 @@ import {
   EXPECTED_VERCEL_INVOICE_NUMBER,
   PAYMENT_REFERENCE_CLASSIFICATION_INTERNAL_ONLY,
   PAYMENT_REFERENCE_CLASSIFICATION_PUBLIC_SAFE,
+  buildVercelCostGovernancePackage,
   buildVercelPublicAnnouncementState,
   isVercelInvoiceResolved,
   normalizePaymentReferenceClassification,
@@ -222,6 +223,7 @@ export async function GET() {
 
   const publicAnnouncement = buildVercelPublicAnnouncementState(billing);
   const invoiceResolved = isVercelInvoiceResolved(billing);
+  const costGovernancePackage = buildVercelCostGovernancePackage();
   const blockers = buildVercelOwnershipBlockers({
     phoneVerified: checklist.phoneVerified,
     billingOwnerLocked: billing.billingOwnerLocked,
@@ -289,6 +291,7 @@ export async function GET() {
           monthlyReconciliationEnabled: billing.monthlyReconciliationEnabled,
           quarterlyVendorReviewEnabled: billing.quarterlyVendorReviewEnabled,
         },
+        costGovernancePackage,
       },
       zahtevaTelefonVerifikaciju: identity.vercel.zahtevaTelefonVerifikaciju,
       blokator,
@@ -320,6 +323,8 @@ export async function GET() {
           billing.autopayCorporateOnly ? '✅ Autopay ograničen na korporativni metod plaćanja' : '⬜ Uključiti autopay samo na Digitalna Industrija korporativni metod',
           billing.financeChannelConfigured ? '✅ Invoice notifikacije na finansijskom kanalu' : '⬜ Postaviti invoice delivery/notifikacije na finansijski kanal Digitalna Industrija',
           billing.finopsThresholdsEnabled ? '✅ FinOps pragovi 50/75/90/100 aktivni' : '⬜ Aktivirati FinOps pragove 50/75/90/100',
+          '📉 Mapirati preview churn, duple GitHub/Vercel buildove, cron usage, add-on usage, bandwidth/image/function usage i retention/caching hotspotove',
+          '💬 Pripremiti Vercel pregovarački paket za credits, discounts, spending cap, overage protection i SLA/support bundle bez dodatnih varijabilnih troškova',
           '📧 Pratiti email: ' + identity.vercel.accountEmail,
         ]
       : [
