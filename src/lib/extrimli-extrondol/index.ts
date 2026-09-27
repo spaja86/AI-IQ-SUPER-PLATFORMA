@@ -4071,6 +4071,19 @@ function buildSpajaKodFacade(params: {
         publicBoundary: 'audit-safe-summary-only',
         montezacijaSummary:
           params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.montezacijaTrack.montezacijaSummary,
+        montezacijaNadMontezacijamaApprovalPackage: {
+          canonicalAlias:
+            params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.montezacijaTrack.montezacijaNadMontezacijamaApprovalPackage.canonicalAlias,
+          status:
+            params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.montezacijaTrack.readinessSignal.status,
+          reviewPosture:
+            params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.montezacijaTrack.reviewPosture,
+          humanReviewStatus: 'required-before-promotion',
+          releaseAuditSummaryRequired: true,
+          rollbackRequiredBeforePromotion: true,
+          downstreamReference:
+            params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.montezacijaTrack.downstreamReference,
+        },
       },
       aiIqLaboratorijaSummary: {
         canonicalAlias:
@@ -9224,6 +9237,15 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
         rollbackPlan:
           'Freeze promotion and revert to the previously verified Developer/Create package if MONTEZACIJA readiness, review posture, or downstream summary alignment drifts.',
         humanReviewStatus: 'required-before-promotion',
+        montezacijaNadMontezacijamaApprovalPackage: {
+          ...extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.montezacijaTrack.montezacijaNadMontezacijamaApprovalPackage,
+          reviewPosture:
+            extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.montezacijaTrack.reviewPosture,
+          releaseAuditSummaryRequired: true,
+          rollbackRequiredBeforePromotion: true,
+          humanReviewStatus: 'required-before-promotion',
+          downstreamReference: 'docs/MULTI-REPO-LINKS.md -> spaja86/IO-OPENUI-AO (summary-only)',
+        },
         acceptanceEvidence: [
           'developerAndCreateRepoWideReflection.montezacijaTrack',
           'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.montezacijaTrack',

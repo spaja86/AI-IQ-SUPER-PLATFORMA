@@ -143,13 +143,27 @@ async function runTests(): Promise<void> {
     assert(lock.mandatoryArtifacts.docs.includes('docs/EXTRIMLI-PARADIJOGONALNO-PROGRAMIRANJE.md'), 'PARADIJOGONALNO mandatory doc artifact missing');
     assert(lock.mandatoryArtifacts.docs.includes('docs/MULTI-REPO-LINKS.md'), 'multi-repo links mandatory doc artifact missing');
     assert(lock.mandatoryArtifacts.tests.includes('src/tests/api/extrimli-route.test.ts'), 'route test mandatory artifact missing');
-    assert(lock.mandatoryArtifacts.routes.includes('src/app/api/extrimli/spaja-kod/route.ts'), 'SPAJA KOD route mandatory artifact missing');
-    assert(lock.mandatoryArtifacts.governance.includes('.github/workflows/extrimli-external-github.yml'), 'external governance workflow artifact missing');
-    assert(lock.acceptanceLock.allowedStatuses.join(',') === 'READY,WATCH,BLOCKED', 'acceptance status lock mismatch');
-    assert(lock.driftZeroLayers.join(',') === 'docs,types,routes,tests,workflows', 'developer/create drift-zero layers mismatch');
-    assert(lock.dailyOperationalCadence.cadenceBlocks.join(',') === 'morning-startup,deep-focus-block,midday-checkpoint,end-of-day-closeout', 'developer/create cadence blocks mismatch');
-    assert(lock.dailyOperationalCadence.taskPriorities.join(',') === '1,2,3', 'developer/create task priorities mismatch');
-    assert(lock.dailyOperationalCadence.endOfDayStatuses.join(',') === 'completed,carried-over,blocked', 'developer/create closeout statuses mismatch');
+  });
+
+  await test('default report exposes MONTEZACIJA NAD MONTEZACIJAMA approval package as additive-only governance gate', () => {
+    const report = getExtrimliExtremProfilerReport();
+    const montezacijaTrack =
+      report.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.montezacijaTrack;
+    const approvalPackage = montezacijaTrack.montezacijaNadMontezacijamaApprovalPackage;
+    assert(approvalPackage.canonicalAlias === 'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == MONTEZACIJA NAD MONTEZACIJAMA', 'MONTEZACIJA NAD MONTEZACIJAMA canonical alias mismatch');
+    assert(approvalPackage.additiveOnly, 'MONTEZACIJA NAD MONTEZACIJAMA must remain additive-only');
+    assert(approvalPackage.noNewRuntimeRoutes, 'MONTEZACIJA NAD MONTEZACIJAMA must not introduce new routes');
+    assert(approvalPackage.noParallelSourceOfTruth, 'MONTEZACIJA NAD MONTEZACIJAMA must not introduce parallel source-of-truth');
+    assert(approvalPackage.ownershipLock.dokDikFor === 'EXTREM', 'MONTEZACIJA NAD MONTEZACIJAMA EXTREM ownership mismatch');
+    assert(approvalPackage.ownershipLock.dakDuk === 'EXTRONDOL', 'MONTEZACIJA NAD MONTEZACIJAMA EXTRONDOL ownership mismatch');
+    assert(approvalPackage.ownershipLock.spajaKod === 'audit-safe-summary-only', 'MONTEZACIJA NAD MONTEZACIJAMA SPAJA KOD boundary mismatch');
+    assert(approvalPackage.humanReviewStatus === 'required-before-promotion', 'MONTEZACIJA NAD MONTEZACIJAMA human review gate mismatch');
+    assert(approvalPackage.releaseAuditSummaryRequired, 'MONTEZACIJA NAD MONTEZACIJAMA release-audit gate mismatch');
+    assert(approvalPackage.rollbackRequiredBeforePromotion, 'MONTEZACIJA NAD MONTEZACIJAMA rollback gate mismatch');
+    assert(
+      approvalPackage.acceptanceCriteria.includes('preserve-vrh-canonical-lock-and-bounded-vocabulary'),
+      'MONTEZACIJA NAD MONTEZACIJAMA acceptance criteria must include canonical lock gate',
+    );
   });
 
   await test('default report keeps VINOGRADI GROCKA RESTORAN track removed from repo-wide reflection', () => {

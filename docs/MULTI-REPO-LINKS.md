@@ -2017,8 +2017,10 @@ Koristiti format `AI-IQ-SUPER-PLATFORMA#VPOREKLO-2026-09 -> IO-OPENUI-AO#123` gd
 ## Developer/Create MONTEZACIJA downstream reference
 
 - Scope lock: `DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == MONTEZACIJA`.
+- Supplemental lock: `DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == MONTEZACIJA NAD MONTEZACIJAMA` (interpretative approval package over MONTEZACIJA track).
 - Linked repo: `spaja86/IO-OPENUI-AO` — Follow-up only / audit-safe summary sync.
 - Sync only audit-safe outputs (`developerAndCreateRepoWideReflection.montezacijaTrack`, `releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.montezacijaTrack`, `spajaKod.publicSignals.montezacijaStatus`, `spajaKod.developerAndCreateImplementationPackage.montezacijaSummary`) covering readiness status, blocker/watch posture, review posture, and downstream reference.
+- Approval-package sync ostaje summary-only (`canonicalAlias`, `status`, `reviewPosture`, `humanReviewStatus`, `releaseAuditSummaryRequired`, `rollbackRequiredBeforePromotion`, `downstreamReference`) bez internih formula.
 - Raw EXTREM/EXTRONDOL internals, token internals, and governance formulas remain repo-local.
 - Ownership lock remains unchanged: `DOK/DIK/FOR -> EXTREM`, `DAK/DUK -> EXTRONDOL`, `SPAJA KOD -> summary-only`.
 

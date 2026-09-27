@@ -41,8 +41,12 @@ import {
   DEVELOPER_CREATE_MONTEZACIJA_SCOPE_STATEMENT,
   DEVELOPER_CREATE_MONTEZACIJA_ROLE_CLASSIFICATION,
   DEVELOPER_CREATE_MONTEZACIJA_FALLBACK_INPUTS,
+  DEVELOPER_CREATE_MONTEZACIJA_NAD_MONTEZACIJAMA_APPROVAL_ACCEPTANCE_CRITERIA,
+  DEVELOPER_CREATE_MONTEZACIJA_NAD_MONTEZACIJAMA_APPROVAL_SUMMARY_SAFE_FIELDS,
+  DEVELOPER_CREATE_MONTEZACIJA_NAD_MONTEZACIJAMA_CANONICAL_ALIAS,
   DEVELOPER_CREATE_MONTEZACIJA_SUMMARY_SAFE_FIELDS,
   DEVELOPER_CREATE_VRH_INTERPRETATION_ALIASES,
+  DEVELOPER_CREATE_VRH_MONTEZACIJA_NAD_MONTEZACIJAMA_ALIAS,
   DEVELOPER_CREATE_VRH_NAVIGACIONI_SISTEM_SA_TREKEROM_ALIAS,
 } from '../../lib/extrimli/developer-create-vrh-ekviladenta-contract';
 
@@ -406,8 +410,44 @@ async function runTests(): Promise<void> {
     );
     assertArrayEquals(
       DEVELOPER_CREATE_MONTEZACIJA_SUMMARY_SAFE_FIELDS,
-      ['canonicalAlias', 'status', 'blockerReason', 'watchReasons', 'reviewPosture', 'downstreamReference', 'montezacijaSummary'],
+      ['canonicalAlias', 'status', 'blockerReason', 'watchReasons', 'reviewPosture', 'downstreamReference', 'montezacijaSummary', 'montezacijaNadMontezacijamaApprovalPackage'],
       'unexpected MONTEZACIJA summary-safe fields',
+    );
+    assert(
+      DEVELOPER_CREATE_VRH_INTERPRETATION_ALIASES.includes(
+        DEVELOPER_CREATE_VRH_MONTEZACIJA_NAD_MONTEZACIJAMA_ALIAS,
+      ),
+      'MONTEZACIJA NAD MONTEZACIJAMA alias must remain part of the VRH interpretation aliases',
+    );
+    assert(
+      DEVELOPER_CREATE_MONTEZACIJA_NAD_MONTEZACIJAMA_CANONICAL_ALIAS
+        === DEVELOPER_CREATE_VRH_MONTEZACIJA_NAD_MONTEZACIJAMA_ALIAS,
+      'MONTEZACIJA NAD MONTEZACIJAMA canonical alias mismatch',
+    );
+    assertArrayEquals(
+      DEVELOPER_CREATE_MONTEZACIJA_NAD_MONTEZACIJAMA_APPROVAL_ACCEPTANCE_CRITERIA,
+      [
+        'preserve-vrh-canonical-lock-and-bounded-vocabulary',
+        'keep-alias-additive-only-no-new-routes-and-no-parallel-source-of-truth',
+        'preserve-ownership-split-dok-dik-for-extrem-dak-duk-extrondol-spaja-kod-summary-only',
+        'require-measurable-status-blocker-review-rollout-rollback-downstream-reference',
+        'require-human-review-and-release-audit-summary-before-promotion',
+        'require-rollback-readiness-before-promotion',
+      ],
+      'unexpected MONTEZACIJA NAD MONTEZACIJAMA approval acceptance criteria',
+    );
+    assertArrayEquals(
+      DEVELOPER_CREATE_MONTEZACIJA_NAD_MONTEZACIJAMA_APPROVAL_SUMMARY_SAFE_FIELDS,
+      [
+        'canonicalAlias',
+        'status',
+        'reviewPosture',
+        'humanReviewStatus',
+        'releaseAuditSummaryRequired',
+        'rollbackRequiredBeforePromotion',
+        'downstreamReference',
+      ],
+      'unexpected MONTEZACIJA NAD MONTEZACIJAMA approval summary-safe fields',
     );
   });
 
