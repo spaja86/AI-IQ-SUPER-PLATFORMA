@@ -12717,10 +12717,19 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
     : 'BLOCKED';
   const ispitivanjeSvegaStoJeFunkcionalnoExtendolAcceptanceCriteria =
     DEVELOPER_CREATE_ISPITIVANJE_SVEGA_STO_JE_FUNKCIONALNO_EXTENDOL_ACCEPTANCE_CRITERIA_IDS.map(
-      (criterionId) => ispitivanjeSvegaStoJeFunkcionalnoExtendolAcceptanceCriteriaSource.find((criterion) => criterion.id === criterionId) ?? {
-        id: criterionId,
-        description: 'missing-bounded-extendol-criterion',
-        passed: false,
+      (criterionId) => {
+        const criterion =
+          ispitivanjeSvegaStoJeFunkcionalnoExtendolAcceptanceCriteriaSource.find(
+            (candidate) => candidate.id === criterionId,
+          );
+        return criterion
+          ? { ...criterion, exists: true as const }
+          : {
+            id: criterionId,
+            description: 'missing-bounded-extendol-criterion',
+            passed: false,
+            exists: false as const,
+          };
       },
     );
   const ispitivanjeSvegaStoJeFunkcionalnoExtendolFailedAcceptanceCriteria =
@@ -12730,7 +12739,7 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
       ? 'READY'
       : extendolReport.degraded
           && ispitivanjeSvegaStoJeFunkcionalnoExtendolFailedAcceptanceCriteria.every(
-            (criterion) => criterion.id === 'kpi-targets',
+          (criterion) => criterion.id === 'kpi-targets' && criterion.exists,
           )
         ? 'WATCH'
         : 'BLOCKED';
