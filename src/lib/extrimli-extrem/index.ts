@@ -13384,6 +13384,7 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
     && identityVerificationSource.aliasCoverageScore >= 100
       ? 'CONFIRMED'
       : identityVerificationSource.canonicalIdentityConfirmed
+        && identityVerificationSource.currentOperatingNameConfirmed
         ? 'REVIEW_REQUIRED'
         : 'UNCONFIRMED';
   const elektronskiPotpisReviewPosture =
