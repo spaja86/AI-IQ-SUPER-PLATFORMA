@@ -204,6 +204,15 @@ Prioritet realizacije ostaje zaključan:
 - Status model ostaje zaključan na `READY | WATCH | BLOCKED` sa blocker/watch razlogom i deterministic fallback ulazima (`NaN`, `Infinity`, `empty`, `conflict`, `unknown-token`).
 - Downstream prema `spaja86/IO-OPENUI-AO` ostaje isključivo summary-only (`status`, `blocker/watch`, `reviewPosture`, `downstreamReference`, `montezacijaSummary`).
 
+### 2.2.4.2) MONTEZACIJA NAD MONTEZACIJAMA approval paket
+
+- Novi kanonski interpretativni alias je zaključan: `DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == MONTEZACIJA NAD MONTEZACIJAMA`.
+- Alias ostaje additive-only nad postojećom `MONTEZACIJA` trakom: nema novih ruta, nema novog runtime engine-a i nema paralelnog source-of-truth sistema.
+- Ownership split ostaje nepromenjen: `DOK/DIK/FOR -> EXTREM`, `DAK/DUK -> EXTRONDOL`, `SPAJA KOD -> summary-only`.
+- Approval paket je validan samo uz merljive izlaze: `status`, `blockerReason`, `reviewPosture`, `rolloutPlan`, `rollbackPlan`, `downstreamReference`.
+- Governance gate je obavezan pre promocije: `humanReviewStatus = required-before-promotion`, `releaseAuditSummaryRequired = true`, `rollbackRequiredBeforePromotion = true`.
+- Odluka o odobrenju je dozvoljena samo ako lock kriterijumi i audit kriterijumi ostanu netaknuti.
+
 ### 2.2.5) NAVIGACIONI SISTEM SA TREKEROM bounded alias paket
 
 - Kanonski alias ostaje zaključan: `DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == NAVIGACIONI SISTEM SA TREKEROM`.

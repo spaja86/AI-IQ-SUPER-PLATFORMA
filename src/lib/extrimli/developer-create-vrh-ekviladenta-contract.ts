@@ -71,6 +71,9 @@ export const DEVELOPER_CREATE_VRH_POSLOVNA_PONUDA_ZELEZARA_DOO_ALIAS =
 export const DEVELOPER_CREATE_VRH_MONTEZACIJA_ALIAS =
   'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == MONTEZACIJA' as const;
 
+export const DEVELOPER_CREATE_VRH_MONTEZACIJA_NAD_MONTEZACIJAMA_ALIAS =
+  'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == MONTEZACIJA NAD MONTEZACIJAMA' as const;
+
 export const DEVELOPER_CREATE_VRH_INTERPRETATION_ALIASES = [
   'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == RADNI TAKT MOZGA (MISLILAC)',
   'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == MAPE UMA',
@@ -88,6 +91,7 @@ export const DEVELOPER_CREATE_VRH_INTERPRETATION_ALIASES = [
   'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == POSLOVNA PONUDA',
   'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == POSLOVNA PONUDA / PRETPLATA',
   DEVELOPER_CREATE_VRH_MONTEZACIJA_ALIAS,
+  DEVELOPER_CREATE_VRH_MONTEZACIJA_NAD_MONTEZACIJAMA_ALIAS,
   'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == KRALJEVSKI POKLONI ZA SVAČIJI ROĐENDAN',
   DEVELOPER_CREATE_VRH_KRALJEVSKI_SAT_ALIAS,
   DEVELOPER_CREATE_VRH_KRALJEVSKI_RAD_ALIAS,
@@ -697,11 +701,20 @@ export const DEVELOPER_CREATE_RADNI_PROSTOR_NORMALIZATION_RULES = {
 export const DEVELOPER_CREATE_MONTEZACIJA_CANONICAL_ALIAS =
   DEVELOPER_CREATE_VRH_MONTEZACIJA_ALIAS;
 
+export const DEVELOPER_CREATE_MONTEZACIJA_NAD_MONTEZACIJAMA_CANONICAL_ALIAS =
+  DEVELOPER_CREATE_VRH_MONTEZACIJA_NAD_MONTEZACIJAMA_ALIAS;
+
 export const DEVELOPER_CREATE_MONTEZACIJA_SCOPE_STATEMENT =
   'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == MONTEZACIJA == additive-only bounded alias bez novih runtime ruta i bez paralelnog source-of-truth sloja' as const;
 
+export const DEVELOPER_CREATE_MONTEZACIJA_NAD_MONTEZACIJAMA_SCOPE_STATEMENT =
+  'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == MONTEZACIJA NAD MONTEZACIJAMA == additive-only interpretativni alias nad MONTEZACIJA trakom bez novih runtime ruta i bez paralelnog source-of-truth sloja' as const;
+
 export const DEVELOPER_CREATE_MONTEZACIJA_ROLE_CLASSIFICATION =
   'additive-only-bounded-montezacija-alias-track' as const;
+
+export const DEVELOPER_CREATE_MONTEZACIJA_NAD_MONTEZACIJAMA_ROLE_CLASSIFICATION =
+  'additive-only-bounded-montezacija-nad-montezacijama-alias-track' as const;
 
 export const DEVELOPER_CREATE_MONTEZACIJA_FALLBACK_INPUTS = [
   'NaN',
@@ -709,6 +722,34 @@ export const DEVELOPER_CREATE_MONTEZACIJA_FALLBACK_INPUTS = [
   'empty',
   'conflict',
   'unknown-token',
+] as const;
+
+export const DEVELOPER_CREATE_MONTEZACIJA_NAD_MONTEZACIJAMA_APPROVAL_ACCEPTANCE_CRITERIA = [
+  'preserve-vrh-canonical-lock-and-bounded-vocabulary',
+  'keep-alias-additive-only-no-new-routes-and-no-parallel-source-of-truth',
+  'preserve-ownership-split-dok-dik-for-extrem-dak-duk-extrondol-spaja-kod-summary-only',
+  'require-measurable-status-blocker-review-rollout-rollback-downstream-reference',
+  'require-human-review-and-release-audit-summary-before-promotion',
+  'require-rollback-readiness-before-promotion',
+] as const;
+
+export const DEVELOPER_CREATE_MONTEZACIJA_NAD_MONTEZACIJAMA_APPROVAL_MEASURABLE_OUTPUTS = [
+  'status',
+  'blockerReason',
+  'reviewPosture',
+  'rolloutPlan',
+  'rollbackPlan',
+  'downstreamReference',
+] as const;
+
+export const DEVELOPER_CREATE_MONTEZACIJA_NAD_MONTEZACIJAMA_APPROVAL_SUMMARY_SAFE_FIELDS = [
+  'canonicalAlias',
+  'status',
+  'reviewPosture',
+  'humanReviewStatus',
+  'releaseAuditSummaryRequired',
+  'rollbackRequiredBeforePromotion',
+  'downstreamReference',
 ] as const;
 
 export const DEVELOPER_CREATE_MONTEZACIJA_SUMMARY_SAFE_FIELDS = [
@@ -719,6 +760,7 @@ export const DEVELOPER_CREATE_MONTEZACIJA_SUMMARY_SAFE_FIELDS = [
   'reviewPosture',
   'downstreamReference',
   'montezacijaSummary',
+  'montezacijaNadMontezacijamaApprovalPackage',
 ] as const;
 
 export const DEVELOPER_CREATE_NAVIGACIONI_SISTEM_SA_TREKEROM_CANONICAL_ALIAS =

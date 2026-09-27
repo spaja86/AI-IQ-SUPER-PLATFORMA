@@ -4071,6 +4071,19 @@ function buildSpajaKodFacade(params: {
         publicBoundary: 'audit-safe-summary-only',
         montezacijaSummary:
           params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.montezacijaTrack.montezacijaSummary,
+        montezacijaNadMontezacijamaApprovalPackage: {
+          canonicalAlias:
+            params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.montezacijaTrack.montezacijaNadMontezacijamaApprovalPackage.canonicalAlias,
+          status:
+            params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.montezacijaTrack.montezacijaNadMontezacijamaApprovalPackage.status,
+          reviewPosture:
+            params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.montezacijaTrack.montezacijaNadMontezacijamaApprovalPackage.reviewPosture,
+          humanReviewStatus: 'required-before-promotion',
+          releaseAuditSummaryRequired: true,
+          rollbackRequiredBeforePromotion: true,
+          downstreamReference:
+            params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.montezacijaTrack.downstreamReference,
+        },
       },
       aiIqLaboratorijaSummary: {
         canonicalAlias:
@@ -9224,6 +9237,19 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
         rollbackPlan:
           'Freeze promotion and revert to the previously verified Developer/Create package if MONTEZACIJA readiness, review posture, or downstream summary alignment drifts.',
         humanReviewStatus: 'required-before-promotion',
+        montezacijaNadMontezacijamaApprovalPackage: {
+          canonicalAlias:
+            extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.montezacijaTrack.montezacijaNadMontezacijamaApprovalPackage.canonicalAlias,
+          status:
+            extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.montezacijaTrack.montezacijaNadMontezacijamaApprovalPackage.status,
+          reviewPosture:
+            extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.montezacijaTrack.montezacijaNadMontezacijamaApprovalPackage.reviewPosture,
+          releaseAuditSummaryRequired: true,
+          rollbackRequiredBeforePromotion: true,
+          humanReviewStatus: 'required-before-promotion',
+          downstreamReference:
+            extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.montezacijaTrack.downstreamReference,
+        },
         acceptanceEvidence: [
           'developerAndCreateRepoWideReflection.montezacijaTrack',
           'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.montezacijaTrack',

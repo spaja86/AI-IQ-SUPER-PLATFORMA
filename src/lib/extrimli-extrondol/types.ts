@@ -1266,6 +1266,15 @@ export interface ExtrimliExtrondolDeveloperAndCreateRepoWideReflectionGovernance
     rolloutPlan: string;
     rollbackPlan: string;
     humanReviewStatus: 'required-before-promotion';
+    montezacijaNadMontezacijamaApprovalPackage: {
+      canonicalAlias: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['montezacijaTrack']['montezacijaNadMontezacijamaApprovalPackage']['canonicalAlias'];
+      status: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['montezacijaTrack']['montezacijaNadMontezacijamaApprovalPackage']['status'];
+      reviewPosture: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['montezacijaTrack']['montezacijaNadMontezacijamaApprovalPackage']['reviewPosture'];
+      releaseAuditSummaryRequired: true;
+      rollbackRequiredBeforePromotion: true;
+      humanReviewStatus: 'required-before-promotion';
+      downstreamReference: 'docs/MULTI-REPO-LINKS.md -> spaja86/IO-OPENUI-AO (summary-only)';
+    };
     acceptanceEvidence: readonly [
       'developerAndCreateRepoWideReflection.montezacijaTrack',
       'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.montezacijaTrack',
@@ -3487,6 +3496,15 @@ export interface ExtrimliSpajaKodPublicFacade {
       downstreamReference: 'docs/MULTI-REPO-LINKS.md -> spaja86/IO-OPENUI-AO (summary-only)';
       publicBoundary: 'audit-safe-summary-only';
       montezacijaSummary: string;
+      montezacijaNadMontezacijamaApprovalPackage: {
+        canonicalAlias: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['montezacijaTrack']['montezacijaNadMontezacijamaApprovalPackage']['canonicalAlias'];
+        status: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['montezacijaTrack']['montezacijaNadMontezacijamaApprovalPackage']['status'];
+        reviewPosture: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['montezacijaTrack']['montezacijaNadMontezacijamaApprovalPackage']['reviewPosture'];
+        humanReviewStatus: 'required-before-promotion';
+        releaseAuditSummaryRequired: true;
+        rollbackRequiredBeforePromotion: true;
+        downstreamReference: 'docs/MULTI-REPO-LINKS.md -> spaja86/IO-OPENUI-AO (summary-only)';
+      };
     };
     aiIqLaboratorijaSummary: {
       canonicalAlias: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['aiIqLaboratorijaTrack']['canonicalAlias'];

@@ -138,6 +138,12 @@ import {
   DEVELOPER_CREATE_REPO_WIDE_RADNI_TAKT_SUPPLEMENTAL_THEMATIC_SIGNALS,
   DEVELOPER_CREATE_MONTEZACIJA_CANONICAL_ALIAS,
   DEVELOPER_CREATE_MONTEZACIJA_FALLBACK_INPUTS,
+  DEVELOPER_CREATE_MONTEZACIJA_NAD_MONTEZACIJAMA_APPROVAL_ACCEPTANCE_CRITERIA,
+  DEVELOPER_CREATE_MONTEZACIJA_NAD_MONTEZACIJAMA_APPROVAL_MEASURABLE_OUTPUTS,
+  DEVELOPER_CREATE_MONTEZACIJA_NAD_MONTEZACIJAMA_APPROVAL_SUMMARY_SAFE_FIELDS,
+  DEVELOPER_CREATE_MONTEZACIJA_NAD_MONTEZACIJAMA_CANONICAL_ALIAS,
+  DEVELOPER_CREATE_MONTEZACIJA_NAD_MONTEZACIJAMA_ROLE_CLASSIFICATION,
+  DEVELOPER_CREATE_MONTEZACIJA_NAD_MONTEZACIJAMA_SCOPE_STATEMENT,
   DEVELOPER_CREATE_MONTEZACIJA_ROLE_CLASSIFICATION,
   DEVELOPER_CREATE_MONTEZACIJA_SCOPE_STATEMENT,
   DEVELOPER_CREATE_MONTEZACIJA_SUMMARY_SAFE_FIELDS,
@@ -7553,6 +7559,33 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
         watchReasons: [],
         reviewPosture: 'REVIEW_REQUIRED',
         montezacijaSummary: '',
+        montezacijaNadMontezacijamaApprovalPackage: {
+          canonicalAlias: DEVELOPER_CREATE_MONTEZACIJA_NAD_MONTEZACIJAMA_CANONICAL_ALIAS,
+          status: 'BLOCKED',
+          blockerReason:
+            'MONTEZACIJA NAD MONTEZACIJAMA approval remains blocked until additive-only lock and existing EXTREM/EXTRONDOL evidence gates are satisfied.',
+          reviewPosture: 'REVIEW_REQUIRED',
+          scopeStatement: DEVELOPER_CREATE_MONTEZACIJA_NAD_MONTEZACIJAMA_SCOPE_STATEMENT,
+          roleClassification: DEVELOPER_CREATE_MONTEZACIJA_NAD_MONTEZACIJAMA_ROLE_CLASSIFICATION,
+          additiveOnly: true,
+          noNewRuntimeRoutes: true,
+          noParallelSourceOfTruth: true,
+          ownershipLock: {
+            dokDikFor: 'EXTREM',
+            dakDuk: 'EXTRONDOL',
+            spajaKod: 'audit-safe-summary-only',
+          },
+          measurableOutputs: DEVELOPER_CREATE_MONTEZACIJA_NAD_MONTEZACIJAMA_APPROVAL_MEASURABLE_OUTPUTS,
+          acceptanceCriteria: DEVELOPER_CREATE_MONTEZACIJA_NAD_MONTEZACIJAMA_APPROVAL_ACCEPTANCE_CRITERIA,
+          summarySafeFields: DEVELOPER_CREATE_MONTEZACIJA_NAD_MONTEZACIJAMA_APPROVAL_SUMMARY_SAFE_FIELDS,
+          rolloutPlan:
+            'Promote MONTEZACIJA NAD MONTEZACIJAMA only as additive interpretation over MONTEZACIJA with existing EXTREM/EXTRONDOL/SPAJA KOD boundaries and measurable governance outputs.',
+          rollbackPlan:
+            'Freeze promotion and revert to previously verified MONTEZACIJA package if approval gates, ownership lock, or downstream summary alignment drifts.',
+          humanReviewStatus: 'required-before-promotion',
+          releaseAuditSummaryRequired: true,
+          rollbackRequiredBeforePromotion: true,
+        },
         acceptanceEvidence: [
           'developerAndCreateRepoWideReflection.montezacijaTrack',
           'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.montezacijaTrack',
@@ -12969,7 +13002,34 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
         ? 'WATCH'
         : 'REVIEW_REQUIRED';
   montezacijaTrack.montezacijaSummary =
-    'MONTEZACIJA ostaje additive-only bounded alias: EXTREM vodi DOK/DIK/FOR readiness signal, EXTRONDOL vodi DAK/DUK governance odluke, a SPAJA KOD izlaže samo audit-safe status i downstream referencu.';
+    'MONTEZACIJA i MONTEZACIJA NAD MONTEZACIJAMA ostaju additive-only bounded aliasi: EXTREM vodi DOK/DIK/FOR readiness signal, EXTRONDOL vodi DAK/DUK governance odluke, a SPAJA KOD izlaže samo audit-safe status i downstream referencu.';
+  const montezacijaNadMontezacijamaApprovalReady =
+    montezacijaStatus === 'READY'
+    && montezacijaFallbackInputStatus === 'READY'
+    && montezacijaTrack.reviewPosture === 'ALIGNED';
+  const montezacijaNadMontezacijamaApprovalBlocked =
+    montezacijaStatus === 'BLOCKED' || montezacijaFallbackInputStatus === 'BLOCKED';
+  montezacijaTrack.montezacijaNadMontezacijamaApprovalPackage.status = montezacijaNadMontezacijamaApprovalReady
+    ? 'READY'
+    : montezacijaNadMontezacijamaApprovalBlocked
+      ? 'BLOCKED'
+      : 'WATCH';
+  montezacijaTrack.montezacijaNadMontezacijamaApprovalPackage.blockerReason = montezacijaNadMontezacijamaApprovalBlocked
+    ? 'MONTEZACIJA NAD MONTEZACIJAMA promotion stays blocked while fallback conflicts or readiness blockers remain unresolved.'
+    : null;
+  montezacijaTrack.montezacijaNadMontezacijamaApprovalPackage.reviewPosture = montezacijaNadMontezacijamaApprovalReady
+    ? 'ALIGNED'
+    : montezacijaNadMontezacijamaApprovalBlocked
+      ? 'REVIEW_REQUIRED'
+      : 'WATCH';
+  montezacijaTrack.montezacijaNadMontezacijamaApprovalPackage.rolloutPlan =
+    montezacijaNadMontezacijamaApprovalReady
+      ? 'Approve MONTEZACIJA NAD MONTEZACIJAMA for promotion only while lock, ownership split, and governance evidence remain aligned.'
+      : montezacijaNadMontezacijamaApprovalBlocked
+        ? 'Keep MONTEZACIJA NAD MONTEZACIJAMA promotion BLOCKED until fallback conflict and readiness blockers are resolved and governance evidence is re-validated.'
+        : 'Keep MONTEZACIJA NAD MONTEZACIJAMA in controlled rollout mode until status, blocker posture, and review posture return to READY alignment.';
+  montezacijaTrack.montezacijaNadMontezacijamaApprovalPackage.rollbackPlan =
+    'If lock drift, blocker escalation, or review regression occurs, freeze promotion and rollback to the last verified MONTEZACIJA additive package.';
   const aiIqLaboratorijaTrack =
     dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.aiIqLaboratorijaTrack;
   const aiIqLaboratorijaExpectedTokens = [
