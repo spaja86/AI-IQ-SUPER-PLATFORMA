@@ -831,6 +831,9 @@ export const DEVELOPER_CREATE_PILOT_GOVERNANCE_REQUIRED_OUTPUTS = [
   'downstreamReference',
 ] as const;
 
+export const DEVELOPER_CREATE_PILOT_RELEASE_AUDIT_SUMMARY_SIGNAL =
+  'releaseAuditSummary' as const;
+
 export const DEVELOPER_CREATE_MONTEZACIJA_NAD_MONTEZACIJAMA_APPROVAL_ACCEPTANCE_CRITERIA = [
   'preserve-vrh-canonical-lock-and-bounded-vocabulary',
   'keep-alias-additive-only-no-new-routes-and-no-parallel-source-of-truth',
