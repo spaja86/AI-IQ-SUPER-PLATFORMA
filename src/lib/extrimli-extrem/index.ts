@@ -12696,13 +12696,17 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
     dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.implementationPackage.smartProgramskiJezikPackage.technicalProfile.status;
   const ispitivanjeSvegaStoJeFunkcionalnoRepoWideReflectionStatus =
     dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.status;
+  const ispitivanjeSvegaStoJeFunkcionalnoExtendolCoverage =
+    extendolReport.coverage ?? {} as typeof extendolReport.coverage;
+  const ispitivanjeSvegaStoJeFunkcionalnoExtendolAcceptanceCriteriaSource =
+    extendolReport.acceptanceCriteria ?? [];
   const ispitivanjeSvegaStoJeFunkcionalnoMissingExtendolCoverageFields =
     DEVELOPER_CREATE_ISPITIVANJE_SVEGA_STO_JE_FUNKCIONALNO_EXTENDOL_COVERAGE_FIELDS.filter(
-      (field) => !Object.prototype.hasOwnProperty.call(extendolReport.coverage, field),
+      (field) => !Object.prototype.hasOwnProperty.call(ispitivanjeSvegaStoJeFunkcionalnoExtendolCoverage, field),
     );
   const ispitivanjeSvegaStoJeFunkcionalnoExtendolCoverageValues =
     DEVELOPER_CREATE_ISPITIVANJE_SVEGA_STO_JE_FUNKCIONALNO_EXTENDOL_COVERAGE_FIELDS.map(
-      (field) => extendolReport.coverage[field] === true,
+      (field) => ispitivanjeSvegaStoJeFunkcionalnoExtendolCoverage[field] === true,
     );
   const ispitivanjeSvegaStoJeFunkcionalnoExtendolCoverageStatus =
     ispitivanjeSvegaStoJeFunkcionalnoMissingExtendolCoverageFields.length === 0
@@ -12713,7 +12717,7 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
     : 'BLOCKED';
   const ispitivanjeSvegaStoJeFunkcionalnoExtendolAcceptanceCriteria =
     DEVELOPER_CREATE_ISPITIVANJE_SVEGA_STO_JE_FUNKCIONALNO_EXTENDOL_ACCEPTANCE_CRITERIA_IDS.map(
-      (criterionId) => extendolReport.acceptanceCriteria.find((criterion) => criterion.id === criterionId) ?? {
+      (criterionId) => ispitivanjeSvegaStoJeFunkcionalnoExtendolAcceptanceCriteriaSource.find((criterion) => criterion.id === criterionId) ?? {
         id: criterionId,
         description: 'missing-bounded-extendol-criterion',
         passed: false,
