@@ -293,9 +293,10 @@ Prioritet realizacije ostaje zaključan:
 ### 2.2.6.a) PADEŽI bounded jezički paket
 
 - Kanonski alias ostaje zaključan: `DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == PADEŽI`.
-- Paket ostaje additive-only: nema novih source-of-truth površina, nema paralelnog runtime sistema i bounded fraza ostaje `EXTRIMLI EXTRONDOL EXTREM DOK DUK DAK DIK FOR`.
+- Paket ostaje additive-only: nema novih runtime source-of-truth površina, nema paralelnog runtime sistema i bounded fraza ostaje `EXTRIMLI EXTRONDOL EXTREM DOK DUK DAK DIK FOR`.
 - Ownership split ostaje nepromenjen: `DOK + DIK + FOR -> EXTREM`, `DAK + DUK -> EXTRONDOL`, `SPAJA KOD -> summary-only`.
 - Paket se naslanja na postojeće UI/routing module za `NOMINATIV`, `GENITIV`, `DATIV` i `AKUZATIV`, a isti obrazac se proširuje na `VOKATIV`, `INSTRUMENTAL` i `LOKATIV`.
+- Nove rute su dozvoljene samo kroz postojeći padežni UI/routing obrazac; ne uvode se nove API source-of-truth površine.
 - Kanonski spisak padeža je normalizovan na: `NOMINATIV, GENITIV, DATIV, AKUZATIV, VOKATIV, INSTRUMENTAL, LOKATIV`; dupli `LOKATIV` iz početnog zahteva ne ostaje dupliran.
 - Zaključani output model ostaje: `readinessStatus`, `blockerReason`, `watchReasons`, `humanReviewStatus`, `rolloutPlan`, `rollbackPlan`, `releaseAuditSummary`, `downstreamReference`.
 - Downstream prema `spaja86/IO-OPENUI-AO` ostaje strogo summary-only.

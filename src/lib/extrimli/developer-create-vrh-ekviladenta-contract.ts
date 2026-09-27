@@ -1240,7 +1240,7 @@ export const DEVELOPER_CREATE_PADEZI_CANONICAL_ALIAS =
   DEVELOPER_CREATE_VRH_PADEZI_ALIAS;
 
 export const DEVELOPER_CREATE_PADEZI_SCOPE_STATEMENT =
-  'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == PADEŽI == additive-only bounded jezički paket bez novih runtime ruta i bez paralelnog source-of-truth sistema; koristi postojeći EXTRIMLI EXTRONDOL EXTREM DOK DUK DAK DIK FOR ownership split i postojeće UI/routing module za padeže' as const;
+  'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == PADEŽI == additive-only bounded jezički paket bez novih runtime source-of-truth površina i bez paralelnog source-of-truth sistema; nove rute su dozvoljene samo kroz postojeći padežni UI/routing obrazac uz ownership split EXTRIMLI EXTRONDOL EXTREM DOK DUK DAK DIK FOR' as const;
 
 export const DEVELOPER_CREATE_PADEZI_ROLE_CLASSIFICATION =
   'additive-only-bounded-padezi-alias-track' as const;
