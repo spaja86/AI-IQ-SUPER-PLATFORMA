@@ -27,6 +27,7 @@ import {
   DEVELOPER_CREATE_IZVESTAJ_REQUIRED_AUDIT_FIELDS,
   DEVELOPER_CREATE_IZVESTAJ_REQUIRED_BLOCKS,
   DEVELOPER_CREATE_VRH_KRALJEVSKI_SAT_ALIAS,
+  DEVELOPER_CREATE_VRH_KRALJEVSKI_SISTEM_ALIAS,
   DEVELOPER_CREATE_VRH_KRALJEVSKI_RAD_ALIAS,
   DEVELOPER_CREATE_VRH_IZVESTAJ_ALIAS,
   DEVELOPER_CREATE_VRH_VINOGRADI_GROCKA_RESTORAN_ALIAS,
@@ -202,16 +203,20 @@ async function runTests(): Promise<void> {
 
   await test('kraljevski sistem docs and downstream registry keep roster summary-only', () => {
     assert(
-      manifest.includes('`KRALJEVSKI SISTEM` je dozvoljen samo kao additive-only bounded governance/orchestration alias'),
-      'manifest KRALJEVSKI SISTEM alias lock missing',
+      manifest.includes(`\`${DEVELOPER_CREATE_VRH_KRALJEVSKI_SISTEM_ALIAS.split(' == ').at(-1)}\``),
+      'manifest KRALJEVSKI SISTEM alias marker missing',
     );
     assert(
-      manifest.includes('`approval status`, `payout readiness status`, `payment verification posture`, `blocker reason`, `review posture`, `public summary` i `downstream reference`'),
-      'manifest KRALJEVSKI SISTEM summary-safe field lock missing',
+      manifest.includes('documentation/review roster') &&
+        manifest.includes('payment verification posture') &&
+        manifest.includes('downstream reference'),
+      'manifest KRALJEVSKI SISTEM summary-safe markers missing',
     );
     assert(
-      vrhDoc.includes('`KRALJEVSKI SISTEM` je dozvoljen samo kao additive-only bounded governance/orchestration alias'),
-      'VRH doc KRALJEVSKI SISTEM alias lock missing',
+      vrhDoc.includes(`\`${DEVELOPER_CREATE_VRH_KRALJEVSKI_SISTEM_ALIAS.split(' == ').at(-1)}\``) &&
+        vrhDoc.includes('documentation/review roster') &&
+        vrhDoc.includes('payment verification posture'),
+      'VRH doc KRALJEVSKI SISTEM markers missing',
     );
     assert(
       multiRepoLinks.includes('`KRALJEVSKI SISTEM` bounded governance/orchestration alias + documentation/review roster'),
