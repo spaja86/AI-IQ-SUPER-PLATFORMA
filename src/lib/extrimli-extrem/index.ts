@@ -13291,11 +13291,15 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
           'PILOT ostaje u WATCH režimu dok fallback ulaz i review posture zahtevaju dodatnu proveru pre governance promocije.',
         ]
       : [];
+  const pilotRequiresHumanReview =
+    pilotTrack.humanReviewStatus === 'required-before-promotion';
   pilotTrack.reviewPosture =
     pilotStatus === 'READY'
       ? 'ALIGNED'
       : pilotStatus === 'WATCH'
-        ? 'WATCH'
+        ? pilotRequiresHumanReview
+          ? 'REVIEW_REQUIRED'
+          : 'WATCH'
         : 'REVIEW_REQUIRED';
   pilotTrack.releaseAuditSummary = DEVELOPER_CREATE_PILOT_RELEASE_AUDIT_SUMMARY_SIGNAL;
   pilotTrack.rolloutPlan = pilotStatus === 'READY'
