@@ -177,6 +177,14 @@ import type {
   DEVELOPER_CREATE_RADNI_PROSTOR_NORMALIZATION_RULES,
   DEVELOPER_CREATE_RADNI_PROSTOR_ROLE_CLASSIFICATION,
   DEVELOPER_CREATE_RADNI_PROSTOR_SCOPE_STATEMENT,
+  DEVELOPER_CREATE_ALATI_RADIONICA_BOUNDED_TOKEN_SEQUENCE,
+  DEVELOPER_CREATE_ALATI_RADIONICA_CANONICAL_ALIAS,
+  DEVELOPER_CREATE_ALATI_RADIONICA_FALLBACK_INPUTS,
+  DEVELOPER_CREATE_ALATI_RADIONICA_NORMALIZATION_RULES,
+  DEVELOPER_CREATE_ALATI_RADIONICA_ROLE_CLASSIFICATION,
+  DEVELOPER_CREATE_ALATI_RADIONICA_SCOPE_STATEMENT,
+  DEVELOPER_CREATE_ALATI_RADIONICA_SUMMARY_SAFE_FIELDS,
+  DEVELOPER_CREATE_ALATI_RADIONICA_TOKEN_POLICY,
   DEVELOPER_CREATE_VRH_CANONICAL_TOKEN_VOCABULARY,
   DEVELOPER_CREATE_VRH_DOWNSTREAM_SUMMARY_POLICY,
   DEVELOPER_CREATE_VRH_FOUR_PERMANENT_LAYERS,
@@ -3329,6 +3337,50 @@ export interface ExtrimliDokDikDakDukConsistencyHealth {
       };
       downstreamReference: 'docs/MULTI-REPO-LINKS.md -> spaja86/IO-OPENUI-AO (summary-only)';
     };
+    alatiRadionicaTrack: {
+      canonicalAlias: typeof DEVELOPER_CREATE_ALATI_RADIONICA_CANONICAL_ALIAS;
+      scopeStatement: typeof DEVELOPER_CREATE_ALATI_RADIONICA_SCOPE_STATEMENT;
+      roleClassification: typeof DEVELOPER_CREATE_ALATI_RADIONICA_ROLE_CLASSIFICATION;
+      boundedTokenSequence: typeof DEVELOPER_CREATE_ALATI_RADIONICA_BOUNDED_TOKEN_SEQUENCE;
+      normalizationRules: typeof DEVELOPER_CREATE_ALATI_RADIONICA_NORMALIZATION_RULES;
+      boundedVocabularyPhrase: 'EXTRIMLI EXTRONDOL EXTREM DOK DUK DAK DIK FOR';
+      additiveOnly: true;
+      noNewRuntimeEngine: true;
+      noNewRuntimeRoutes: true;
+      noParallelSourceOfTruth: true;
+      sourceOfTruthRoutes: readonly ['/api/extrimli/extrem', '/api/extrimli/extrondol', '/api/extrimli/spaja-kod'];
+      ownershipLock: {
+        dokDikFor: 'EXTREM';
+        dakDuk: 'EXTRONDOL';
+        spajaKod: 'audit-safe-summary-only';
+      };
+      summarySafePublicFields: typeof DEVELOPER_CREATE_ALATI_RADIONICA_SUMMARY_SAFE_FIELDS;
+      tokenPolicy: typeof DEVELOPER_CREATE_ALATI_RADIONICA_TOKEN_POLICY;
+      readinessSignal: {
+        status: 'READY' | 'WATCH' | 'BLOCKED';
+        readinessScore: number;
+        tokenOrderStatus: 'READY' | 'WATCH' | 'BLOCKED';
+        duplicateRuleStatus: 'READY' | 'WATCH' | 'BLOCKED';
+        fallbackInputStatus: 'READY' | 'WATCH' | 'BLOCKED';
+        tokenCoveragePercent: number;
+        normalizedInputCount: number;
+        deterministicFallbackRequired: boolean;
+        fallbackInputs: typeof DEVELOPER_CREATE_ALATI_RADIONICA_FALLBACK_INPUTS;
+        driver: 'developerAndCreateRepoWideReflection.readiness + developerAndCreateRepoWideReflection.technicalReadinessProfile.consolidatedRhythmStatus + runtimeAlatiRadionicaTokenInput';
+      };
+      blockerReason: string | null;
+      watchReasons: string[];
+      reviewPosture: 'ALIGNED' | 'WATCH' | 'REVIEW_REQUIRED';
+      sequenceValidationSummary: string;
+      randomSelectionScopeStatement: typeof import('../extrimli/developer-create-vrh-ekviladenta-contract').DEVELOPER_CREATE_RANDOM_SELECTION_SCOPE_STATEMENT;
+      acceptanceEvidence: readonly [
+        'developerAndCreateRepoWideReflection.alatiRadionicaTrack',
+        'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.alatiRadionicaTrack',
+        'spajaKod.publicSignals.alatiRadionicaStatus',
+        'spajaKod.developerAndCreateImplementationPackage.alatiRadionicaSummary',
+      ];
+      downstreamReference: 'docs/MULTI-REPO-LINKS.md -> spaja86/IO-OPENUI-AO (summary-only)';
+    };
     montezacijaTrack: {
       canonicalAlias: typeof DEVELOPER_CREATE_MONTEZACIJA_CANONICAL_ALIAS;
       scopeStatement: typeof DEVELOPER_CREATE_MONTEZACIJA_SCOPE_STATEMENT;
@@ -5017,6 +5069,7 @@ export interface ExtrimliDokDikDakDukConsistencyHealth {
         'dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.aiPlateOffer',
         'dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.leksikonTrack',
         'dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.radniProstorTrack',
+        'dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.alatiRadionicaTrack',
         'dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.kraljevskiRadTrack',
         'spajaKod.publicSignals.developerAndCreateStatus',
         'radniTaktMozgaMislilac.readiness',
@@ -5452,6 +5505,21 @@ export interface ExtrimliDokDikDakDukConsistencyHealth {
         extrondolPublishes: 'wawe-freeze-promotion-review-rollback-audit-summary-only';
         spajaKodPublishes: 'status-blocker-review-downstream-and-token-sequence-lock-summary-only';
         technicalBinding: 'developerAndCreateRepoWideReflection.radniProstorTrack';
+        noNewRuntimeEngine: true;
+        noNewRuntimeRoutes: true;
+        noParallelSourceOfTruth: true;
+        rawInternalsExposed: false;
+      };
+      alatiRadionicaBoundary: {
+        trackRole: 'bounded-alati-radionica-sequence-track';
+        parentTrack: 'VRH PROGRAMSKOG EKVILADENTA';
+        canonicalAlias: typeof DEVELOPER_CREATE_ALATI_RADIONICA_CANONICAL_ALIAS;
+        roleClassification: typeof DEVELOPER_CREATE_ALATI_RADIONICA_ROLE_CLASSIFICATION;
+        extremPublishes: 'status-token-coverage-order-duplicate-and-deterministic-fallback-signal-only';
+        extrondolPublishes: 'wawe-freeze-promotion-review-rollback-audit-summary-only';
+        spajaKodPublishes: 'status-blocker-review-downstream-and-sequence-summary-only';
+        technicalBinding: 'developerAndCreateRepoWideReflection.alatiRadionicaTrack';
+        randomSelectionBinding: 'developerAndCreateRepoWideReflection.napoleonDiskaveriSelectionTrack';
         noNewRuntimeEngine: true;
         noNewRuntimeRoutes: true;
         noParallelSourceOfTruth: true;

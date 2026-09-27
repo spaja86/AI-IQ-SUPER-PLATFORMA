@@ -17,6 +17,11 @@ import {
   DEVELOPER_CREATE_KRALJEVSKI_RAD_BOUNDED_TOKEN_SEQUENCE,
   DEVELOPER_CREATE_KRALJEVSKI_RAD_FALLBACK_INPUTS,
   DEVELOPER_CREATE_KRALJEVSKI_RAD_SUMMARY_SAFE_FIELDS,
+  DEVELOPER_CREATE_ALATI_RADIONICA_BOUNDED_TOKEN_SEQUENCE,
+  DEVELOPER_CREATE_ALATI_RADIONICA_FALLBACK_INPUTS,
+  DEVELOPER_CREATE_ALATI_RADIONICA_SUMMARY_SAFE_FIELDS,
+  DEVELOPER_CREATE_ALATI_RADIONICA_TOKEN_POLICY,
+  DEVELOPER_CREATE_VRH_ALATI_RADIONICA_ALIAS,
   DEVELOPER_CREATE_KRALJEVSKI_SAT_SUMMARY_SAFE_FIELDS,
   DEVELOPER_CREATE_SARADNJA_READY_BOUNDED_VOCABULARY,
   DEVELOPER_CREATE_SARADNJA_READY_AUTOMATIC_SUBSCRIPTION_GATES,
@@ -900,6 +905,49 @@ async function runTests(): Promise<void> {
       DEVELOPER_CREATE_POSLOVNA_PONUDA_ZELEZARA_DOO_FALLBACK_INPUTS,
       ['NaN', 'Infinity', 'empty', 'conflict'],
       'unexpected POSLOVNA PONUDA / ŽELEZARA D.O.O. SMEDEREVO fallback inputs',
+    );
+  });
+
+  await test('ALATI / RADIONICA alias stays additive-only and keeps Napoleon-bound RANDOM posture', () => {
+    assert(
+      DEVELOPER_CREATE_VRH_INTERPRETATION_ALIASES.includes(DEVELOPER_CREATE_VRH_ALATI_RADIONICA_ALIAS),
+      'ALATI / RADIONICA alias must remain part of the VRH interpretation aliases',
+    );
+    assertArrayEquals(
+      DEVELOPER_CREATE_ALATI_RADIONICA_BOUNDED_TOKEN_SEQUENCE,
+      ['RIN', 'KUR', 'ZUR', 'ENDER', 'ĐUKAR', 'ZINDAR', 'ONDOR', 'DOKER', 'VIGAR', 'DOBER', 'ZUMBUR', 'ZAKAL', 'DOMBAR', 'ĐUKAR 2', 'OKAR', 'OMBER', 'KSION', 'DIPET', 'OPAL', 'DUET-KALER', 'ZIDION'],
+      'unexpected ALATI / RADIONICA token sequence',
+    );
+    assertArrayEquals(
+      DEVELOPER_CREATE_ALATI_RADIONICA_FALLBACK_INPUTS,
+      ['NaN', 'Infinity', 'empty', 'conflict', 'unknown-token'],
+      'unexpected ALATI / RADIONICA fallback inputs',
+    );
+    assertArrayEquals(
+      DEVELOPER_CREATE_ALATI_RADIONICA_SUMMARY_SAFE_FIELDS,
+      ['canonicalAlias', 'status', 'blockerReason', 'watchReasons', 'reviewPosture', 'downstreamReference', 'sequenceValidationSummary', 'tokenOrderStatus', 'duplicateRuleStatus', 'fallbackInputStatus', 'randomSelectionScopeStatement'],
+      'unexpected ALATI / RADIONICA summary-safe fields',
+    );
+    assert(DEVELOPER_CREATE_ALATI_RADIONICA_TOKEN_POLICY.ondorIsCanonical, 'ALATI / RADIONICA must keep ONDOR canonical');
+    assert(
+      DEVELOPER_CREATE_ALATI_RADIONICA_TOKEN_POLICY.djukarVariantMode === 'ĐUKAR and ĐUKAR 2 are distinct canonical singletons',
+      'ALATI / RADIONICA must keep distinct ĐUKAR variant policy',
+    );
+    assert(
+      manifest.includes('ALATI / RADIONICA') && manifest.includes('Napoleon Diskaveri bounded-selection kanal'),
+      'Developer/Create manifest must document ALATI / RADIONICA and Napoleon-bound RANDOM posture',
+    );
+    assert(
+      vrhDoc.includes('ALATI / RADIONICA') && vrhDoc.includes('RANDOM selekcija svega'),
+      'VRH doc must document ALATI / RADIONICA and RANDOM linkage',
+    );
+    assert(
+      extrimliDoc.includes('ALATI / RADIONICA') && extrimliDoc.includes('ONDOR'),
+      'EXTRIMLI doc must document ALATI / RADIONICA bounded token policy',
+    );
+    assert(
+      multiRepoLinks.includes('Developer/Create `ALATI / RADIONICA` bounded package'),
+      'multi-repo links must include ALATI / RADIONICA downstream row',
     );
   });
 
