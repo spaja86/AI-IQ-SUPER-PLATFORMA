@@ -223,7 +223,11 @@ async function runTests(): Promise<void> {
     assert(body.vercel.billingGovernance.publicAnnouncement.blockers.includes('Javno ozvaničenje je blokirano dok faktura nije plaćena ili korekcija nije rešena.'));
     assert(body['sledećiKoraci'].includes(`⬜ Platiti fakturu ${EXPECTED_INVOICE_NUMBER} ($${EXPECTED_INVOICE_AMOUNT}) ili otvoriti support correction`));
     assert(body['sledećiKoraci'].includes('⬜ Sačuvati invoice PDF + payment dokaz + timestamp + odgovorno lice'));
-    assert(body['sledećiKoraci'].includes('📉 Mapirati preview churn, duple GitHub/Vercel buildove, cron usage, add-on usage, bandwidth/image/function usage i retention/caching hotspotove'));
+    assert(
+      body['sledećiKoraci'].includes(
+        `📉 Mapirati EXTREM cost hotspotove: ${DEVELOPER_CREATE_SARADNJA_READY_EXTREM_COST_HOTSPOTS.join(', ')}`,
+      ),
+    );
   });
 
   await test('ownership route exposes deploy governance source-of-truth and trigger order', async () => {
