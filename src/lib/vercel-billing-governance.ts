@@ -48,6 +48,12 @@ export interface VercelCostGovernancePackage {
   finalAuditPackageContents: typeof DEVELOPER_CREATE_SARADNJA_READY_FINAL_AUDIT_PACKAGE_CONTENTS;
 }
 
+export interface VercelCostGovernanceGuidance {
+  reviewHotspots: string;
+  prepareNegotiationPackage: string;
+  activateAutopayOnlyAfterGates: string;
+}
+
 export function normalizePaymentReferenceClassification(value: string | null | undefined): string {
   const normalized = (value ?? '').trim().toLowerCase();
   return [
@@ -157,5 +163,15 @@ export function buildVercelCostGovernancePackage(): VercelCostGovernancePackage 
       noSkippedWawePhases: DEVELOPER_CREATE_SARADNJA_READY_AUTOMATIC_SUBSCRIPTION_GATES.noSkippedWawePhases,
     },
     finalAuditPackageContents: [...DEVELOPER_CREATE_SARADNJA_READY_FINAL_AUDIT_PACKAGE_CONTENTS],
+  };
+}
+
+export function buildVercelCostGovernanceGuidance(): VercelCostGovernanceGuidance {
+  return {
+    reviewHotspots: 'Pregledati EXTREM cost hotspotove kroz billingGovernance.costGovernancePackage.',
+    prepareNegotiationPackage:
+      'Pripremiti EXTRONDOL pregovarački paket kroz billingGovernance.costGovernancePackage.',
+    activateAutopayOnlyAfterGates:
+      'Automatsku pretplatu aktivirati tek nakon potvrđenih gate-ova iz billingGovernance.costGovernancePackage.',
   };
 }

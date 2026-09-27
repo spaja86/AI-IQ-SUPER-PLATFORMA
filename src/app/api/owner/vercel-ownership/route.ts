@@ -24,6 +24,7 @@ import {
   EXPECTED_VERCEL_INVOICE_NUMBER,
   PAYMENT_REFERENCE_CLASSIFICATION_INTERNAL_ONLY,
   PAYMENT_REFERENCE_CLASSIFICATION_PUBLIC_SAFE,
+  buildVercelCostGovernanceGuidance,
   buildVercelCostGovernancePackage,
   buildVercelPublicAnnouncementState,
   isVercelInvoiceResolved,
@@ -224,6 +225,7 @@ export async function GET() {
   const publicAnnouncement = buildVercelPublicAnnouncementState(billing);
   const invoiceResolved = isVercelInvoiceResolved(billing);
   const costGovernancePackage = buildVercelCostGovernancePackage();
+  const costGovernanceGuidance = buildVercelCostGovernanceGuidance();
   const blockers = buildVercelOwnershipBlockers({
     phoneVerified: checklist.phoneVerified,
     billingOwnerLocked: billing.billingOwnerLocked,
@@ -323,8 +325,8 @@ export async function GET() {
           billing.autopayCorporateOnly ? '✅ Autopay ograničen na korporativni metod plaćanja' : '⬜ Uključiti autopay samo na Digitalna Industrija korporativni metod',
           billing.financeChannelConfigured ? '✅ Invoice notifikacije na finansijskom kanalu' : '⬜ Postaviti invoice delivery/notifikacije na finansijski kanal Digitalna Industrija',
           billing.finopsThresholdsEnabled ? '✅ FinOps pragovi 50/75/90/100 aktivni' : '⬜ Aktivirati FinOps pragove 50/75/90/100',
-          `📉 Mapirati EXTREM cost hotspotove: ${costGovernancePackage.extremCostHotspots.join(', ')}`,
-          `💬 Pripremiti EXTRONDOL pregovarački paket kroz pitanja: ${costGovernancePackage.extrondolNegotiationQuestions.join(', ')}`,
+          `📉 ${costGovernanceGuidance.reviewHotspots}`,
+          `💬 ${costGovernanceGuidance.prepareNegotiationPackage}`,
           '📧 Pratiti email: ' + identity.vercel.accountEmail,
         ]
       : [
