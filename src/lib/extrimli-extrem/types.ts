@@ -134,6 +134,12 @@ import type {
   DEVELOPER_CREATE_MONTEZACIJA_NAD_MONTEZACIJAMA_CANONICAL_ALIAS,
   DEVELOPER_CREATE_MONTEZACIJA_NAD_MONTEZACIJAMA_ROLE_CLASSIFICATION,
   DEVELOPER_CREATE_MONTEZACIJA_NAD_MONTEZACIJAMA_SCOPE_STATEMENT,
+  DEVELOPER_CREATE_KRALJEVSKA_MONTEZACIJA_APPROVAL_ACCEPTANCE_CRITERIA,
+  DEVELOPER_CREATE_KRALJEVSKA_MONTEZACIJA_APPROVAL_MEASURABLE_OUTPUTS,
+  DEVELOPER_CREATE_KRALJEVSKA_MONTEZACIJA_APPROVAL_SUMMARY_SAFE_FIELDS,
+  DEVELOPER_CREATE_KRALJEVSKA_MONTEZACIJA_CANONICAL_ALIAS,
+  DEVELOPER_CREATE_KRALJEVSKA_MONTEZACIJA_ROLE_CLASSIFICATION,
+  DEVELOPER_CREATE_KRALJEVSKA_MONTEZACIJA_SCOPE_STATEMENT,
   DEVELOPER_CREATE_MONTEZACIJA_ROLE_CLASSIFICATION,
   DEVELOPER_CREATE_MONTEZACIJA_SCOPE_STATEMENT,
   DEVELOPER_CREATE_MONTEZACIJA_SUMMARY_SAFE_FIELDS,
@@ -3306,9 +3312,34 @@ export interface ExtrimliDokDikDakDukConsistencyHealth {
         releaseAuditSummaryRequired: true;
         rollbackRequiredBeforePromotion: true;
       };
+      kraljevskaMontezacijaApprovalPackage: {
+        canonicalAlias: typeof DEVELOPER_CREATE_KRALJEVSKA_MONTEZACIJA_CANONICAL_ALIAS;
+        scopeStatement: typeof DEVELOPER_CREATE_KRALJEVSKA_MONTEZACIJA_SCOPE_STATEMENT;
+        roleClassification: typeof DEVELOPER_CREATE_KRALJEVSKA_MONTEZACIJA_ROLE_CLASSIFICATION;
+        status: 'READY' | 'WATCH' | 'BLOCKED';
+        blockerReason: string | null;
+        reviewPosture: 'ALIGNED' | 'WATCH' | 'REVIEW_REQUIRED';
+        additiveOnly: true;
+        noNewRuntimeRoutes: true;
+        noParallelSourceOfTruth: true;
+        ownershipLock: {
+          dokDikFor: 'EXTREM';
+          dakDuk: 'EXTRONDOL';
+          spajaKod: 'audit-safe-summary-only';
+        };
+        measurableOutputs: typeof DEVELOPER_CREATE_KRALJEVSKA_MONTEZACIJA_APPROVAL_MEASURABLE_OUTPUTS;
+        acceptanceCriteria: typeof DEVELOPER_CREATE_KRALJEVSKA_MONTEZACIJA_APPROVAL_ACCEPTANCE_CRITERIA;
+        summarySafeFields: typeof DEVELOPER_CREATE_KRALJEVSKA_MONTEZACIJA_APPROVAL_SUMMARY_SAFE_FIELDS;
+        rolloutPlan: string;
+        rollbackPlan: string;
+        humanReviewStatus: 'required-before-promotion';
+        releaseAuditSummaryRequired: true;
+        rollbackRequiredBeforePromotion: true;
+      };
       acceptanceEvidence: readonly [
         'developerAndCreateRepoWideReflection.montezacijaTrack',
         'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.montezacijaTrack',
+        'spajaKod.publicSignals.kraljevskaMontezacijaStatus',
         'spajaKod.publicSignals.montezacijaStatus',
         'spajaKod.developerAndCreateImplementationPackage.montezacijaSummary'
       ];
@@ -5308,7 +5339,7 @@ export interface ExtrimliDokDikDakDukConsistencyHealth {
         roleClassification: typeof DEVELOPER_CREATE_MONTEZACIJA_ROLE_CLASSIFICATION;
         extremPublishes: 'status-readiness-fallback-and-deterministic-signal-only';
         extrondolPublishes: 'wawe-freeze-promotion-review-rollback-audit-summary-only';
-        spajaKodPublishes: 'status-blocker-review-downstream-montezacija-summary-and-approval-package-summary-only';
+        spajaKodPublishes: 'status-blocker-review-downstream-montezacija-summary-kraljevska-montezacija-status-and-approval-package-summary-only';
         technicalBinding: 'developerAndCreateRepoWideReflection.montezacijaTrack';
         noNewRuntimeEngine: true;
         noNewRuntimeRoutes: true;

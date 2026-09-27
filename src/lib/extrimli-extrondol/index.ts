@@ -267,6 +267,7 @@ const DEVELOPER_CREATE_ROADMAP_ACCEPTANCE_EVIDENCE_BASE = [
   'spajaKod.publicSignals.promocijeTiketiBonusiPropusniceAdministrativniBonusiStatus',
   'spajaKod.publicSignals.radniProstorStatus',
   'spajaKod.publicSignals.kraljevskiRadStatus',
+  'spajaKod.publicSignals.kraljevskaMontezacijaStatus',
   'spajaKod.publicSignals.montezacijaStatus',
   'spajaKod.publicSignals.aiIqLaboratorijaStatus',
   'spajaKod.publicSignals.konstrukcijeIProjektovanjeStatus',
@@ -319,6 +320,7 @@ const DEVELOPER_CREATE_GOVERNANCE_ACCEPTANCE_EVIDENCE: ExtrimliExtrondolReport['
   'spajaKod.publicSignals.leksikonStatus',
   'spajaKod.publicSignals.radniProstorStatus',
   'spajaKod.publicSignals.kraljevskiRadStatus',
+  'spajaKod.publicSignals.kraljevskaMontezacijaStatus',
   'spajaKod.publicSignals.montezacijaStatus',
   'spajaKod.publicSignals.aiIqLaboratorijaStatus',
   'spajaKod.publicSignals.konstrukcijeIProjektovanjeStatus',
@@ -3451,6 +3453,7 @@ function buildSpajaKodFacade(params: {
   kraljevskiPokloniZaSvacijiRodjendanStatus: ExtrimliExtrondolReport['extremProfiler']['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['kraljevskiPokloniZaSvacijiRodjendanTrack']['readinessSignal']['status'];
   kraljevskiRadStatus: ExtrimliExtrondolReport['extremProfiler']['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['kraljevskiRadTrack']['readinessSignal']['status'];
   radniProstorStatus: ExtrimliExtrondolReport['extremProfiler']['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['radniProstorTrack']['readinessSignal']['status'];
+  kraljevskaMontezacijaStatus: ExtrimliExtrondolReport['extremProfiler']['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['montezacijaTrack']['kraljevskaMontezacijaApprovalPackage']['status'];
   montezacijaStatus: ExtrimliExtrondolReport['extremProfiler']['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['montezacijaTrack']['readinessSignal']['status'];
   aiIqLaboratorijaStatus: ExtrimliExtrondolReport['extremProfiler']['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['aiIqLaboratorijaTrack']['readinessSignal']['status'];
   konstrukcijeIProjektovanjeStatus: ExtrimliExtrondolReport['extremProfiler']['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['konstrukcijeIProjektovanjeTrack']['readinessSignal']['status'];
@@ -3597,6 +3600,7 @@ function buildSpajaKodFacade(params: {
       kraljevskiPokloniZaSvacijiRodjendanStatus: params.kraljevskiPokloniZaSvacijiRodjendanStatus,
       kraljevskiRadStatus: params.kraljevskiRadStatus,
       radniProstorStatus: params.radniProstorStatus,
+      kraljevskaMontezacijaStatus: params.kraljevskaMontezacijaStatus,
       montezacijaStatus: params.montezacijaStatus,
       aiIqLaboratorijaStatus: params.aiIqLaboratorijaStatus,
       konstrukcijeIProjektovanjeStatus: params.konstrukcijeIProjektovanjeStatus,
@@ -3716,6 +3720,7 @@ function buildSpajaKodFacade(params: {
         'publicSignals.kraljevskiPokloniZaSvacijiRodjendanStatus',
         'publicSignals.kraljevskiRadStatus',
         'publicSignals.radniProstorStatus',
+        'publicSignals.kraljevskaMontezacijaStatus',
         'publicSignals.montezacijaStatus',
         'publicSignals.aiIqLaboratorijaStatus',
         'publicSignals.konstrukcijeIProjektovanjeStatus',
@@ -3751,6 +3756,7 @@ function buildSpajaKodFacade(params: {
         'developerAndCreateImplementationPackage.kraljevskiPokloniZaSvacijiRodjendanSummary',
         'developerAndCreateImplementationPackage.kraljevskiRadSummary',
         'developerAndCreateImplementationPackage.radniProstorSummary',
+        'developerAndCreateImplementationPackage.montezacijaSummary.kraljevskaMontezacijaApprovalPackage',
         'developerAndCreateImplementationPackage.montezacijaSummary',
         'developerAndCreateImplementationPackage.aiIqLaboratorijaSummary',
         'developerAndCreateImplementationPackage.konstrukcijeIProjektovanjeSummary',
@@ -4078,6 +4084,21 @@ function buildSpajaKodFacade(params: {
             params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.montezacijaTrack.montezacijaNadMontezacijamaApprovalPackage.status,
           reviewPosture:
             params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.montezacijaTrack.montezacijaNadMontezacijamaApprovalPackage.reviewPosture,
+          humanReviewStatus: 'required-before-promotion',
+          releaseAuditSummaryRequired: true,
+          rollbackRequiredBeforePromotion: true,
+          downstreamReference:
+            params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.montezacijaTrack.downstreamReference,
+        },
+        kraljevskaMontezacijaApprovalPackage: {
+          canonicalAlias:
+            params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.montezacijaTrack.kraljevskaMontezacijaApprovalPackage.canonicalAlias,
+          status:
+            params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.montezacijaTrack.kraljevskaMontezacijaApprovalPackage.status,
+          blockerReason:
+            params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.montezacijaTrack.kraljevskaMontezacijaApprovalPackage.blockerReason,
+          reviewPosture:
+            params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.montezacijaTrack.kraljevskaMontezacijaApprovalPackage.reviewPosture,
           humanReviewStatus: 'required-before-promotion',
           releaseAuditSummaryRequired: true,
           rollbackRequiredBeforePromotion: true,
@@ -7020,6 +7041,8 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
       extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.kraljevskiRadTrack.readinessSignal.status,
     radniProstorStatus:
       extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.radniProstorTrack.readinessSignal.status,
+    kraljevskaMontezacijaStatus:
+      extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.montezacijaTrack.kraljevskaMontezacijaApprovalPackage.status,
     montezacijaStatus:
       extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.montezacijaTrack.readinessSignal.status,
     aiIqLaboratorijaStatus:
@@ -9250,9 +9273,25 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
           downstreamReference:
             extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.montezacijaTrack.downstreamReference,
         },
+        kraljevskaMontezacijaApprovalPackage: {
+          canonicalAlias:
+            extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.montezacijaTrack.kraljevskaMontezacijaApprovalPackage.canonicalAlias,
+          status:
+            extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.montezacijaTrack.kraljevskaMontezacijaApprovalPackage.status,
+          blockerReason:
+            extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.montezacijaTrack.kraljevskaMontezacijaApprovalPackage.blockerReason,
+          reviewPosture:
+            extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.montezacijaTrack.kraljevskaMontezacijaApprovalPackage.reviewPosture,
+          releaseAuditSummaryRequired: true,
+          rollbackRequiredBeforePromotion: true,
+          humanReviewStatus: 'required-before-promotion',
+          downstreamReference:
+            extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.montezacijaTrack.downstreamReference,
+        },
         acceptanceEvidence: [
           'developerAndCreateRepoWideReflection.montezacijaTrack',
           'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.montezacijaTrack',
+          'spajaKod.publicSignals.kraljevskaMontezacijaStatus',
           'spajaKod.publicSignals.montezacijaStatus',
           'spajaKod.developerAndCreateImplementationPackage.montezacijaSummary',
         ],

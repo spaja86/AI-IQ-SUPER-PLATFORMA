@@ -43,9 +43,13 @@ import {
   DEVELOPER_CREATE_MONTEZACIJA_FALLBACK_INPUTS,
   DEVELOPER_CREATE_MONTEZACIJA_NAD_MONTEZACIJAMA_APPROVAL_ACCEPTANCE_CRITERIA,
   DEVELOPER_CREATE_MONTEZACIJA_NAD_MONTEZACIJAMA_APPROVAL_SUMMARY_SAFE_FIELDS,
+  DEVELOPER_CREATE_KRALJEVSKA_MONTEZACIJA_APPROVAL_ACCEPTANCE_CRITERIA,
+  DEVELOPER_CREATE_KRALJEVSKA_MONTEZACIJA_APPROVAL_SUMMARY_SAFE_FIELDS,
+  DEVELOPER_CREATE_KRALJEVSKA_MONTEZACIJA_CANONICAL_ALIAS,
   DEVELOPER_CREATE_MONTEZACIJA_NAD_MONTEZACIJAMA_CANONICAL_ALIAS,
   DEVELOPER_CREATE_MONTEZACIJA_SUMMARY_SAFE_FIELDS,
   DEVELOPER_CREATE_VRH_INTERPRETATION_ALIASES,
+  DEVELOPER_CREATE_VRH_KRALJEVSKA_MONTEZACIJA_ALIAS,
   DEVELOPER_CREATE_VRH_MONTEZACIJA_NAD_MONTEZACIJAMA_ALIAS,
   DEVELOPER_CREATE_VRH_NAVIGACIONI_SISTEM_SA_TREKEROM_ALIAS,
 } from '../../lib/extrimli/developer-create-vrh-ekviladenta-contract';
@@ -410,7 +414,7 @@ async function runTests(): Promise<void> {
     );
     assertArrayEquals(
       DEVELOPER_CREATE_MONTEZACIJA_SUMMARY_SAFE_FIELDS,
-      ['canonicalAlias', 'status', 'blockerReason', 'watchReasons', 'reviewPosture', 'downstreamReference', 'montezacijaSummary', 'montezacijaNadMontezacijamaApprovalPackage'],
+      ['canonicalAlias', 'status', 'blockerReason', 'watchReasons', 'reviewPosture', 'downstreamReference', 'montezacijaSummary', 'montezacijaNadMontezacijamaApprovalPackage', 'kraljevskaMontezacijaApprovalPackage'],
       'unexpected MONTEZACIJA summary-safe fields',
     );
     assert(
@@ -448,6 +452,40 @@ async function runTests(): Promise<void> {
         'downstreamReference',
       ],
       'unexpected MONTEZACIJA NAD MONTEZACIJAMA approval summary-safe fields',
+    );
+    assert(
+      DEVELOPER_CREATE_VRH_INTERPRETATION_ALIASES.includes(DEVELOPER_CREATE_VRH_KRALJEVSKA_MONTEZACIJA_ALIAS),
+      'KRALJEVSKA MONTEZACIJA alias must remain part of the VRH interpretation aliases',
+    );
+    assert(
+      DEVELOPER_CREATE_KRALJEVSKA_MONTEZACIJA_CANONICAL_ALIAS
+        === DEVELOPER_CREATE_VRH_KRALJEVSKA_MONTEZACIJA_ALIAS,
+      'KRALJEVSKA MONTEZACIJA canonical alias mismatch',
+    );
+    assertArrayEquals(
+      DEVELOPER_CREATE_KRALJEVSKA_MONTEZACIJA_APPROVAL_ACCEPTANCE_CRITERIA,
+      [
+        'preserve-vrh-canonical-lock-and-bounded-vocabulary',
+        'confirm-kraljevska-montezacija-as-additive-meta-layer-over-montezacija-chain',
+        'keep-alias-additive-only-no-new-routes-and-no-parallel-source-of-truth',
+        'preserve-ownership-split-dok-dik-for-extrem-dak-duk-extrondol-spaja-kod-summary-only',
+        'require-human-review-release-audit-rollout-rollback-and-downstream-reference-before-promotion',
+      ],
+      'unexpected KRALJEVSKA MONTEZACIJA approval acceptance criteria',
+    );
+    assertArrayEquals(
+      DEVELOPER_CREATE_KRALJEVSKA_MONTEZACIJA_APPROVAL_SUMMARY_SAFE_FIELDS,
+      [
+        'canonicalAlias',
+        'status',
+        'blockerReason',
+        'reviewPosture',
+        'humanReviewStatus',
+        'releaseAuditSummaryRequired',
+        'rollbackRequiredBeforePromotion',
+        'downstreamReference',
+      ],
+      'unexpected KRALJEVSKA MONTEZACIJA approval summary-safe fields',
     );
   });
 
