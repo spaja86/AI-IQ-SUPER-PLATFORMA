@@ -128,6 +128,15 @@ async function runTests(): Promise<void> {
             boundedVocabularyPhrase: string;
             governanceBlockers: string[];
             dualCostTargets: { primary: string; fallback: string };
+            extremCostHotspots: string[];
+            extrondolNegotiationQuestions: string[];
+            costToZeroFallbackPlan: string[];
+            automaticSubscriptionGates: {
+              activationCriteria: string[];
+              mandatoryWaweOrder: string[];
+              noSkippedWawePhases: boolean;
+            };
+            finalAuditPackageContents: string[];
           };
         };
       };
@@ -148,6 +157,17 @@ async function runTests(): Promise<void> {
       body.vercel.billingGovernance.costGovernancePackage.dualCostTargets.primary,
       'drive-real-vercel-cost-as-close-to-zero-as-possible',
     );
+    assert.strictEqual(
+      body.vercel.billingGovernance.costGovernancePackage.dualCostTargets.fallback,
+      'if-zero-is-not-possible-use-controlled-enterprise-autopay-with-hard-guardrails',
+    );
+    assert.strictEqual(body.vercel.billingGovernance.costGovernancePackage.extremCostHotspots.length, 7);
+    assert.strictEqual(body.vercel.billingGovernance.costGovernancePackage.extrondolNegotiationQuestions.length, 14);
+    assert.strictEqual(body.vercel.billingGovernance.costGovernancePackage.costToZeroFallbackPlan.length, 6);
+    assert.strictEqual(body.vercel.billingGovernance.costGovernancePackage.automaticSubscriptionGates.activationCriteria.length, 5);
+    assert.strictEqual(body.vercel.billingGovernance.costGovernancePackage.automaticSubscriptionGates.mandatoryWaweOrder.length, 5);
+    assert.strictEqual(body.vercel.billingGovernance.costGovernancePackage.automaticSubscriptionGates.noSkippedWawePhases, true);
+    assert.strictEqual(body.vercel.billingGovernance.costGovernancePackage.finalAuditPackageContents.length, 7);
     assert(body.vercel.billingGovernance.publicAnnouncement.blockers.includes('Javno ozvaničenje je blokirano dok faktura nije plaćena ili korekcija nije rešena.'));
     assert(body['sledećiKoraci'].includes(`⬜ Platiti fakturu ${EXPECTED_INVOICE_NUMBER} ($${EXPECTED_INVOICE_AMOUNT}) ili otvoriti support correction`));
     assert(body['sledećiKoraci'].includes('⬜ Sačuvati invoice PDF + payment dokaz + timestamp + odgovorno lice'));

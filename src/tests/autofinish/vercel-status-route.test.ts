@@ -41,6 +41,7 @@ async function testRouteResponse() {
         costGovernancePackage?: {
           boundedVocabularyPhrase?: string;
           governanceBlockers?: string[];
+          dualCostTargets?: { primary?: string; fallback?: string };
           extremCostHotspots?: string[];
           extrondolNegotiationQuestions?: string[];
           costToZeroFallbackPlan?: string[];
@@ -64,6 +65,14 @@ async function testRouteResponse() {
     'EXTRIMLI EXTRONDOL EXTREM DOK DUK DAK DIK FOR',
   );
   assert.strictEqual(json.pretplataVercel?.billingGovernance?.costGovernancePackage?.governanceBlockers?.length, 8);
+  assert.strictEqual(
+    json.pretplataVercel?.billingGovernance?.costGovernancePackage?.dualCostTargets?.primary,
+    'drive-real-vercel-cost-as-close-to-zero-as-possible',
+  );
+  assert.strictEqual(
+    json.pretplataVercel?.billingGovernance?.costGovernancePackage?.dualCostTargets?.fallback,
+    'if-zero-is-not-possible-use-controlled-enterprise-autopay-with-hard-guardrails',
+  );
   assert.strictEqual(json.pretplataVercel?.billingGovernance?.costGovernancePackage?.extremCostHotspots?.length, 7);
   assert.strictEqual(json.pretplataVercel?.billingGovernance?.costGovernancePackage?.extrondolNegotiationQuestions?.length, 14);
   assert.strictEqual(json.pretplataVercel?.billingGovernance?.costGovernancePackage?.costToZeroFallbackPlan?.length, 6);
