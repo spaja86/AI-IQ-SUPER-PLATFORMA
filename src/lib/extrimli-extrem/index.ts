@@ -12712,7 +12712,8 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
     ispitivanjeSvegaStoJeFunkcionalnoMissingExtendolCoverageFields.length === 0
       && ispitivanjeSvegaStoJeFunkcionalnoExtendolCoverageValues.every(Boolean)
     ? 'READY'
-    : ispitivanjeSvegaStoJeFunkcionalnoExtendolCoverageValues.some(Boolean)
+    : ispitivanjeSvegaStoJeFunkcionalnoMissingExtendolCoverageFields.length === 0
+        && ispitivanjeSvegaStoJeFunkcionalnoExtendolCoverageValues.some(Boolean)
       ? 'WATCH'
     : 'BLOCKED';
   const ispitivanjeSvegaStoJeFunkcionalnoExtendolAcceptanceCriteria =
