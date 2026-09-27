@@ -233,9 +233,9 @@ export function buildVercelPretplataStatus(
       'POST /api/owner/vercel-ownership { "akcija": "set-finops-thresholds-enabled" }',
       'POST /api/owner/vercel-ownership { "akcija": "set-monthly-reconciliation-enabled" }',
       'POST /api/owner/vercel-ownership { "akcija": "set-quarterly-vendor-review-enabled" }',
-      'Mapirati EXTREM cost hotspotove kroz structured billingGovernance.costGovernancePackage payload.',
-      'Pripremiti EXTRONDOL pregovarački paket kroz structured billingGovernance.costGovernancePackage payload.',
-      'Automatsku pretplatu aktivirati tek nakon structured gate potvrda iz billingGovernance.costGovernancePackage payload-a.',
+      `Pregledati ${costGovernancePackage.extremCostHotspots.length} EXTREM cost hotspotova kroz billingGovernance.costGovernancePackage.extremCostHotspots.`,
+      `Pripremiti svih ${costGovernancePackage.extrondolNegotiationQuestions.length} EXTRONDOL pregovaračkih pitanja kroz billingGovernance.costGovernancePackage.extrondolNegotiationQuestions.`,
+      `Automatsku pretplatu aktivirati tek nakon ${costGovernancePackage.automaticSubscriptionGates.activationCriteria.length} gate potvrda i ${costGovernancePackage.automaticSubscriptionGates.mandatoryWaweOrder.length} WAWE faza iz billingGovernance.costGovernancePackage.`,
     ],
   };
 }
