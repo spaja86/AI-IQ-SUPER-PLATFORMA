@@ -204,7 +204,7 @@ Prioritet realizacije ostaje zaključan:
 - Status model ostaje zaključan na `READY | WATCH | BLOCKED` sa blocker/watch razlogom i deterministic fallback ulazima (`NaN`, `Infinity`, `empty`, `conflict`, `unknown-token`).
 - Downstream prema `spaja86/IO-OPENUI-AO` ostaje isključivo summary-only (`status`, `blocker/watch`, `reviewPosture`, `downstreamReference`, `montezacijaSummary`).
 
-### 2.2.4.2) MONTEZACIJA NAD MONTEZACIJAMA approval paket
+### 2.2.4.2) MONTEZACIJA NAD MONTEZACIJAMA i KRALJEVSKA MONTEZACIJA approval paketi
 
 - Novi kanonski interpretativni alias je zaključan: `DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == MONTEZACIJA NAD MONTEZACIJAMA`.
 - Novi kanonski approval/meta alias je zaključan: `DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == KRALJEVSKA MONTEZACIJA`.
