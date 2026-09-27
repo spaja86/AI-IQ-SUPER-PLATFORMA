@@ -210,6 +210,7 @@ import {
   DEVELOPER_CREATE_VRH_MAPE_UMA_SCOPE_LOCK,
   DEVELOPER_CREATE_VRH_MAPE_UMA_THEMATIC_SIGNALS,
 } from '../developer-create-vrh-mape-uma-contract';
+import { buildVercelCostGovernancePackage } from '../vercel-billing-governance';
 import { buildExtrimliInnovationRegistry } from '../extrimli-innovation-registry';
 import {
   runDikPetlja,
@@ -7313,15 +7314,7 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
         finalPackageLock: DEVELOPER_CREATE_SARADNJA_READY_FINAL_PACKAGE_LOCK,
         qualityGates: DEVELOPER_CREATE_SARADNJA_READY_QUALITY_GATES,
         packageContract: DEVELOPER_CREATE_SARADNJA_READY_PACKAGE,
-        vercelCostGovernance: {
-          governanceBlockers: DEVELOPER_CREATE_SARADNJA_READY_VERCEL_GOVERNANCE_BLOCKERS,
-          dualCostTargets: DEVELOPER_CREATE_SARADNJA_READY_VERCEL_COST_TARGETS,
-          extremCostHotspots: DEVELOPER_CREATE_SARADNJA_READY_EXTREM_COST_HOTSPOTS,
-          extrondolNegotiationQuestions: DEVELOPER_CREATE_SARADNJA_READY_EXTRONDOL_NEGOTIATION_QUESTIONS,
-          costToZeroFallbackPlan: DEVELOPER_CREATE_SARADNJA_READY_COST_TO_ZERO_FALLBACK_PLAN,
-          automaticSubscriptionGates: DEVELOPER_CREATE_SARADNJA_READY_AUTOMATIC_SUBSCRIPTION_GATES,
-          finalAuditPackageContents: DEVELOPER_CREATE_SARADNJA_READY_FINAL_AUDIT_PACKAGE_CONTENTS,
-        },
+        vercelCostGovernance: buildVercelCostGovernancePackage(),
         productDisposition: DEVELOPER_CREATE_SARADNJA_READY_PRODUCT_DISPOSITION,
         recommendationLevel: DEVELOPER_CREATE_SARADNJA_READY_RECOMMENDATION_LEVEL,
         additiveOnly: true,
