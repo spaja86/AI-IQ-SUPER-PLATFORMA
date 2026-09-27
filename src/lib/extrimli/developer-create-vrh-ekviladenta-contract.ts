@@ -803,7 +803,7 @@ export const DEVELOPER_CREATE_PILOT_SCOPE_STATEMENT =
   'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == PILOT == additive-only bounded pilot alias bez novih runtime ruta i bez paralelnog source-of-truth sloja; koristi isključivo /api/extrimli/extrem, /api/extrimli/extrondol i /api/extrimli/spaja-kod' as const;
 
 export const DEVELOPER_CREATE_ELEKTRONSKI_POTPIS_SCOPE_STATEMENT =
-  'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == ELEKTRONSKI POTPIS == additive-only bounded elektronski-potpis alias bez novih runtime ruta i bez paralelnog source-of-truth sloja; koristi isključivo /api/extrimli/extrem, /api/extrimli/extrondol i /api/extrimli/spaja-kod' as const;
+  'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == ELEKTRONSKI POTPIS == additive-only bounded elektronski-potpis alias sa obaveznom potvrdom identiteta, bez novih runtime ruta i bez paralelnog source-of-truth sloja; koristi isključivo /api/extrimli/extrem, /api/extrimli/extrondol i /api/extrimli/spaja-kod' as const;
 
 export const DEVELOPER_CREATE_MONTEZACIJA_ROLE_CLASSIFICATION =
   'additive-only-bounded-montezacija-alias-track' as const;
@@ -854,10 +854,10 @@ export const DEVELOPER_CREATE_PILOT_GOVERNANCE_REQUIRED_OUTPUTS = [
 ] as const;
 
 export const DEVELOPER_CREATE_ELEKTRONSKI_POTPIS_GOVERNANCE_REQUIRED_OUTPUTS = [
-  'rolloutPlan',
-  'rollbackPlan',
   'humanReviewStatus',
   'releaseAuditSummary',
+  'rolloutPlan',
+  'rollbackPlan',
   'downstreamReference',
 ] as const;
 
@@ -953,12 +953,8 @@ export const DEVELOPER_CREATE_PILOT_SUMMARY_SAFE_FIELDS = [
 
 export const DEVELOPER_CREATE_ELEKTRONSKI_POTPIS_SUMMARY_SAFE_FIELDS = [
   'canonicalAlias',
-  'publicBoundary',
   'status',
-  'blockerReason',
-  'watchReasons',
   'reviewPosture',
-  'humanReviewStatus',
   'identityConfirmationStatus',
   'signatureDisplaySummary',
   'downstreamReference',
