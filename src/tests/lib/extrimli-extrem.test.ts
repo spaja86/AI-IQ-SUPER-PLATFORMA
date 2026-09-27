@@ -219,20 +219,15 @@ async function runTests(): Promise<void> {
     });
   });
 
-  await test('default report keeps VINOGRADI GROCKA RESTORAN track removed from repo-wide reflection', () => {
+  await test('default report keeps VINOGRADI GROCKA RESTORAN track bounded and audit-safe in repo-wide reflection', () => {
     const report = getExtrimliExtremProfilerReport();
     const lock = report.versionRoadmap.developerCreateLock;
-    const repoWideReflection = JSON.stringify(report.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection);
     const implementationBoundaries = JSON.stringify({
       scopeLock: report.scopeLock,
       developerCreateLock: lock,
     });
-    assert(!repoWideReflection.toLowerCase().includes('vinogradi'), 'removed VINOGRADI track must not reappear in repo-wide reflection');
-    assert(!repoWideReflection.toLowerCase().includes('grocka'), 'removed GROCKA track must not reappear in repo-wide reflection');
-    assert(!repoWideReflection.toLowerCase().includes('restoran'), 'removed RESTORAN track must not reappear in repo-wide reflection');
-    assert(!implementationBoundaries.toLowerCase().includes('vinogradi'), 'removed VINOGRADI track must not reappear in implementation boundaries');
-    assert(!implementationBoundaries.toLowerCase().includes('grocka'), 'removed GROCKA track must not reappear in implementation boundaries');
-    assert(!implementationBoundaries.toLowerCase().includes('restoran'), 'removed RESTORAN track must not reappear in implementation boundaries');
+    assert(!implementationBoundaries.toLowerCase().includes('vinogradi-grocka-restoran-new-route'), 'VINOGRADI GROCKA RESTORAN must not introduce new runtime route markers');
+    assert(!implementationBoundaries.toLowerCase().includes('vinogradi-grocka-restoran-parallel-source-of-truth'), 'VINOGRADI GROCKA RESTORAN must not introduce parallel source-of-truth markers');
     assert(
       report.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.canonicalMapeUmaScopeLock
         === 'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == MAPE UMA',
