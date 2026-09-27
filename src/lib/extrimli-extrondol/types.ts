@@ -1053,6 +1053,27 @@ export interface ExtrimliExtrondolDeveloperAndCreateRepoWideReflectionGovernance
     ];
     downstreamReference: 'docs/MULTI-REPO-LINKS.md -> spaja86/IO-OPENUI-AO (summary-only)';
   };
+  ispitivanjeSvegaStoJeFunkcionalnoTrack: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['ispitivanjeSvegaStoJeFunkcionalnoTrack'] & {
+    sourceOfTruth: '/api/extrimli/extrem';
+    governanceSource: '/api/extrimli/extrondol';
+    publicBoundary: '/api/extrimli/spaja-kod';
+    evidenceInputRoute: '/api/extrimli/extendol';
+    currentWawe: ExtrimliExtrondolWaweStage;
+    eligibleNextWawe: ExtrimliExtrondolWaweStage;
+    promotionFreeze: boolean;
+    reviewRequiredBeforeWideRollout: boolean;
+    reviewPosture: 'ALIGNED' | 'WATCH' | 'REVIEW_REQUIRED';
+    rolloutPlan: string;
+    rollbackPlan: string;
+    humanReviewStatus: 'required-before-promotion';
+    acceptanceEvidence: readonly [
+      'developerAndCreateRepoWideReflection.ispitivanjeSvegaStoJeFunkcionalnoTrack',
+      'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.ispitivanjeSvegaStoJeFunkcionalnoTrack',
+      'spajaKod.publicSignals.ispitivanjeSvegaStoJeFunkcionalnoStatus',
+      'spajaKod.developerAndCreateImplementationPackage.ispitivanjeSvegaStoJeFunkcionalnoSummary'
+    ];
+    downstreamReference: 'docs/MULTI-REPO-LINKS.md -> spaja86/IO-OPENUI-AO (summary-only)';
+  };
   sarkazamPrivrednaGranaDigitalizmaTrack: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['sarkazamPrivrednaGranaDigitalizmaTrack'] & {
     sourceOfTruth: '/api/extrimli/extrem';
     governanceSource: '/api/extrimli/extrondol';
@@ -3218,6 +3239,7 @@ export interface ExtrimliSpajaKodPublicFacade {
     smartProgramskiJezikStatus: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['implementationPackage']['smartProgramskiJezikPackage']['technicalProfile']['status'];
     immersiveVisualization3dStatus: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['technicalReadinessProfile']['immersiveVisualization3dTrack']['status'];
     eksperimentProgramskiJezikStatus: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['eksperimentProgramskiJezikTrack']['readinessSignal']['status'];
+    ispitivanjeSvegaStoJeFunkcionalnoStatus: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['ispitivanjeSvegaStoJeFunkcionalnoTrack']['readinessSignal']['status'];
     sarkazamPrivrednaGranaDigitalizmaStatus: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['sarkazamPrivrednaGranaDigitalizmaTrack']['reflectionSignal']['status'];
     notes1450Status: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['notes1450Track']['readinessSignal']['status'];
     saradnjaReadyStatus: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['saradnjaReadyPackage']['readinessSignal']['status'];
@@ -3353,6 +3375,7 @@ export interface ExtrimliSpajaKodPublicFacade {
       'publicSignals.smartProgramskiJezikStatus',
       'publicSignals.immersiveVisualization3dStatus',
       'publicSignals.eksperimentProgramskiJezikStatus',
+      'publicSignals.ispitivanjeSvegaStoJeFunkcionalnoStatus',
       'publicSignals.sarkazamPrivrednaGranaDigitalizmaStatus',
       'publicSignals.notes1450Status',
       'publicSignals.leksikonStatus',
@@ -3393,6 +3416,7 @@ export interface ExtrimliSpajaKodPublicFacade {
       'developerAndCreateImplementationPackage.kraljevskiAktBezbednostiSummary',
       'developerAndCreateImplementationPackage.smartProgramskiJezikSummary',
       'developerAndCreateImplementationPackage.eksperimentProgramskiJezikSummary',
+      'developerAndCreateImplementationPackage.ispitivanjeSvegaStoJeFunkcionalnoSummary',
       'developerAndCreateImplementationPackage.sarkazamPrivrednaGranaDigitalizmaSummary',
       'developerAndCreateImplementationPackage.notes1450Summary',
       'developerAndCreateImplementationPackage.saradnjaReadySummary',
@@ -3822,6 +3846,19 @@ export interface ExtrimliSpajaKodPublicFacade {
       humanReviewPosture: 'ALIGNED' | 'WATCH' | 'REVIEW_REQUIRED';
       downstreamReference: 'docs/MULTI-REPO-LINKS.md -> spaja86/IO-OPENUI-AO (summary-only)';
       publicBoundary: 'audit-safe-summary-only';
+    };
+    ispitivanjeSvegaStoJeFunkcionalnoSummary: {
+      canonicalAlias: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['ispitivanjeSvegaStoJeFunkcionalnoTrack']['canonicalAlias'];
+      roleClassification: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['ispitivanjeSvegaStoJeFunkcionalnoTrack']['roleClassification'];
+      status: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['ispitivanjeSvegaStoJeFunkcionalnoTrack']['readinessSignal']['status'];
+      blockerReason: string | null;
+      watchReasons: string[];
+      reviewPosture: 'ALIGNED' | 'WATCH' | 'REVIEW_REQUIRED';
+      downstreamReference: 'docs/MULTI-REPO-LINKS.md -> spaja86/IO-OPENUI-AO (summary-only)';
+      publicBoundary: 'audit-safe-summary-only';
+      coverageAreas: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['ispitivanjeSvegaStoJeFunkcionalnoTrack']['coverageAreas'];
+      extendolEvidenceMode: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['ispitivanjeSvegaStoJeFunkcionalnoTrack']['extendolEvidenceMode'];
+      explicitCoverageClaim: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['ispitivanjeSvegaStoJeFunkcionalnoTrack']['functionalCoverageSummary']['explicitCoverageClaim'];
     };
     napoleonDiskaveriSummary: {
       canonicalAlias: typeof DEVELOPER_CREATE_NAPOLEON_DISKAVERI_CANONICAL_ALIAS;

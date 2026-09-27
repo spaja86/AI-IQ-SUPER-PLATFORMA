@@ -10,6 +10,7 @@ import {
   readinessStatusScore,
 } from '../extrimli-readiness';
 import { buildDokerKuratIzekDokarExtremTrack } from '../extrimli-doker-kurat-izek-dokar-track';
+import { getExtrimliExtendolReport } from '../extrimli-extendol';
 import {
   DEVELOPER_CREATE_AUDIO_VISUAL_BOUNDED_SIGNAL_VOCABULARY,
   DEVELOPER_CREATE_AUDIO_VISUAL_KONTRABAS_CANONICAL_NAME,
@@ -179,6 +180,13 @@ import {
   DEVELOPER_CREATE_PILOT_ROLE_CLASSIFICATION,
   DEVELOPER_CREATE_PILOT_SCOPE_STATEMENT,
   DEVELOPER_CREATE_PILOT_SUMMARY_SAFE_FIELDS,
+  DEVELOPER_CREATE_ISPITIVANJE_SVEGA_STO_JE_FUNKCIONALNO_CANONICAL_ALIAS,
+  DEVELOPER_CREATE_ISPITIVANJE_SVEGA_STO_JE_FUNKCIONALNO_COVERAGE_AREAS,
+  DEVELOPER_CREATE_ISPITIVANJE_SVEGA_STO_JE_FUNKCIONALNO_EXTENDOL_EVIDENCE_MODE,
+  DEVELOPER_CREATE_ISPITIVANJE_SVEGA_STO_JE_FUNKCIONALNO_FALLBACK_INPUTS,
+  DEVELOPER_CREATE_ISPITIVANJE_SVEGA_STO_JE_FUNKCIONALNO_ROLE_CLASSIFICATION,
+  DEVELOPER_CREATE_ISPITIVANJE_SVEGA_STO_JE_FUNKCIONALNO_SCOPE_STATEMENT,
+  DEVELOPER_CREATE_ISPITIVANJE_SVEGA_STO_JE_FUNKCIONALNO_SUMMARY_SAFE_FIELDS,
   DEVELOPER_CREATE_RADNI_PROSTOR_BOUNDED_TOKEN_SEQUENCE,
   DEVELOPER_CREATE_RADNI_PROSTOR_CANONICAL_ALIAS,
   DEVELOPER_CREATE_RADNI_PROSTOR_FALLBACK_INPUTS,
@@ -6327,6 +6335,7 @@ function buildZelezaraPretplataIdentityTrack(): ExtrimliExtremZelezaraPretplataI
 
 export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport {
   const innovationRegistry13k = buildExtrimliInnovationRegistry();
+  const extendolReport = getExtrimliExtendolReport();
   const versionRoadmap = getExtrimliVersionRoadmap();
   const activeRoadmapStages = versionRoadmap.versions.filter(
     (stage) => stage.status === 'ACTIVE-BASELINE' || stage.status === 'ACTIVE-EXPANSION',
@@ -7201,6 +7210,57 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
         blockerReasons: [],
         watchReasons: [],
         humanReviewPosture: 'REVIEW_REQUIRED',
+        downstreamReference: 'docs/MULTI-REPO-LINKS.md -> spaja86/IO-OPENUI-AO (summary-only)',
+      },
+      ispitivanjeSvegaStoJeFunkcionalnoTrack: {
+        canonicalAlias:
+          DEVELOPER_CREATE_ISPITIVANJE_SVEGA_STO_JE_FUNKCIONALNO_CANONICAL_ALIAS,
+        scopeStatement:
+          DEVELOPER_CREATE_ISPITIVANJE_SVEGA_STO_JE_FUNKCIONALNO_SCOPE_STATEMENT,
+        roleClassification:
+          DEVELOPER_CREATE_ISPITIVANJE_SVEGA_STO_JE_FUNKCIONALNO_ROLE_CLASSIFICATION,
+        coverageAreas:
+          DEVELOPER_CREATE_ISPITIVANJE_SVEGA_STO_JE_FUNKCIONALNO_COVERAGE_AREAS,
+        boundedVocabularyPhrase: DEVELOPER_CREATE_REPO_WIDE_BOUNDED_VOCABULARY_PHRASE,
+        additiveOnly: true,
+        noNewRuntimeEngine: true,
+        noNewRuntimeRoutes: true,
+        noParallelSourceOfTruth: true,
+        noNewApexSurface: true,
+        sourceOfTruthRoutes: ['/api/extrimli/extrem', '/api/extrimli/extrondol', '/api/extrimli/spaja-kod'],
+        evidenceInputRoute: '/api/extrimli/extendol',
+        extendolEvidenceMode:
+          DEVELOPER_CREATE_ISPITIVANJE_SVEGA_STO_JE_FUNKCIONALNO_EXTENDOL_EVIDENCE_MODE,
+        ownershipLock: {
+          dokDikFor: 'EXTREM',
+          dakDuk: 'EXTRONDOL',
+          spajaKod: 'audit-safe-summary-only',
+        },
+        summarySafePublicFields:
+          DEVELOPER_CREATE_ISPITIVANJE_SVEGA_STO_JE_FUNKCIONALNO_SUMMARY_SAFE_FIELDS,
+        readinessSignal: {
+          status: 'BLOCKED',
+          readinessScore: 0,
+          functionalThoughtFlowsStatus: 'BLOCKED',
+          smartProgramskiJezikStatus: 'BLOCKED',
+          repoWideReflectionStatus: 'BLOCKED',
+          extendolCoverageStatus: 'BLOCKED',
+          extendolAcceptanceStatus: 'BLOCKED',
+          deterministicFallbackRequired: true,
+          fallbackInputs:
+            DEVELOPER_CREATE_ISPITIVANJE_SVEGA_STO_JE_FUNKCIONALNO_FALLBACK_INPUTS,
+          driver:
+            'existing-functional-thought-flows + smart-programski-jezik + developer-create-repo-wide-reflection + extendol-unified-functionality-coverage',
+        },
+        blockerReason: 'bounded-functional-coverage-awaits-existing-readiness-and-extendol-evidence-alignment',
+        watchReasons: [],
+        reviewPosture: 'REVIEW_REQUIRED',
+        functionalCoverageSummary: {
+          explicitCoverageClaim: 'key-functional-areas-only',
+          auditedScopeIsNotWholeRepository: true,
+          extendolEvidenceInputOnly: true,
+          degradedNo500Model: true,
+        },
         downstreamReference: 'docs/MULTI-REPO-LINKS.md -> spaja86/IO-OPENUI-AO (summary-only)',
       },
       sarkazamPrivrednaGranaDigitalizmaTrack: {
@@ -12621,6 +12681,81 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
     eksperimentProgramskiJezikStatus === 'READY'
       ? 'ALIGNED'
       : eksperimentProgramskiJezikStatus === 'WATCH'
+        ? 'WATCH'
+        : 'REVIEW_REQUIRED';
+  const ispitivanjeSvegaStoJeFunkcionalnoFunctionalThoughtFlowsStatus = aggregateReadinessStatus([
+    funkcinalnoProgramiranjeEnergetskogMisaonogToka.readiness.status,
+    funkcionalnoProgramiranjeUzvisenogMisanogToka.readiness.status,
+    funkcionalnoProgramiranjeEksplicitnogMisaonogToka.readiness.status,
+    funkcionalnoProgramiranjePravednogMisaonogToka.readiness.status,
+    funkionalnoProgramiranjePravnogMisaonogToka.readiness.status,
+  ]);
+  const ispitivanjeSvegaStoJeFunkcionalnoSmartProgramskiJezikStatus =
+    dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.implementationPackage.smartProgramskiJezikPackage.technicalProfile.status;
+  const ispitivanjeSvegaStoJeFunkcionalnoRepoWideReflectionStatus =
+    dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.status;
+  const ispitivanjeSvegaStoJeFunkcionalnoExtendolCoverageStatus = Object.values(extendolReport.coverage).every(Boolean)
+    ? 'READY'
+    : 'BLOCKED';
+  const ispitivanjeSvegaStoJeFunkcionalnoExtendolAcceptanceStatus = extendolReport.acceptanceCriteria.every(
+    (criterion) => criterion.passed,
+  )
+    ? 'READY'
+    : extendolReport.degraded
+      ? 'WATCH'
+      : 'BLOCKED';
+  const ispitivanjeSvegaStoJeFunkcionalnoSignalStatuses = [
+    ispitivanjeSvegaStoJeFunkcionalnoFunctionalThoughtFlowsStatus,
+    ispitivanjeSvegaStoJeFunkcionalnoSmartProgramskiJezikStatus,
+    ispitivanjeSvegaStoJeFunkcionalnoRepoWideReflectionStatus,
+    ispitivanjeSvegaStoJeFunkcionalnoExtendolCoverageStatus,
+    ispitivanjeSvegaStoJeFunkcionalnoExtendolAcceptanceStatus,
+  ] as const;
+  const ispitivanjeSvegaStoJeFunkcionalnoStatus = aggregateReadinessStatus([
+    ...ispitivanjeSvegaStoJeFunkcionalnoSignalStatuses,
+  ]);
+  const ispitivanjeSvegaStoJeFunkcionalnoReadinessScore = round(
+    (
+      readinessStatusScore(ispitivanjeSvegaStoJeFunkcionalnoFunctionalThoughtFlowsStatus)
+      + readinessStatusScore(ispitivanjeSvegaStoJeFunkcionalnoSmartProgramskiJezikStatus)
+      + readinessStatusScore(ispitivanjeSvegaStoJeFunkcionalnoRepoWideReflectionStatus)
+      + readinessStatusScore(ispitivanjeSvegaStoJeFunkcionalnoExtendolCoverageStatus)
+      + readinessStatusScore(ispitivanjeSvegaStoJeFunkcionalnoExtendolAcceptanceStatus)
+    ) / 5,
+    2,
+  );
+  const ispitivanjeSvegaStoJeFunkcionalnoDeterministicFallbackRequired =
+    ispitivanjeSvegaStoJeFunkcionalnoStatus !== 'READY' || extendolReport.degraded;
+  dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.ispitivanjeSvegaStoJeFunkcionalnoTrack.readinessSignal.status =
+    ispitivanjeSvegaStoJeFunkcionalnoStatus;
+  dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.ispitivanjeSvegaStoJeFunkcionalnoTrack.readinessSignal.readinessScore =
+    ispitivanjeSvegaStoJeFunkcionalnoReadinessScore;
+  dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.ispitivanjeSvegaStoJeFunkcionalnoTrack.readinessSignal.functionalThoughtFlowsStatus =
+    ispitivanjeSvegaStoJeFunkcionalnoFunctionalThoughtFlowsStatus;
+  dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.ispitivanjeSvegaStoJeFunkcionalnoTrack.readinessSignal.smartProgramskiJezikStatus =
+    ispitivanjeSvegaStoJeFunkcionalnoSmartProgramskiJezikStatus;
+  dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.ispitivanjeSvegaStoJeFunkcionalnoTrack.readinessSignal.repoWideReflectionStatus =
+    ispitivanjeSvegaStoJeFunkcionalnoRepoWideReflectionStatus;
+  dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.ispitivanjeSvegaStoJeFunkcionalnoTrack.readinessSignal.extendolCoverageStatus =
+    ispitivanjeSvegaStoJeFunkcionalnoExtendolCoverageStatus;
+  dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.ispitivanjeSvegaStoJeFunkcionalnoTrack.readinessSignal.extendolAcceptanceStatus =
+    ispitivanjeSvegaStoJeFunkcionalnoExtendolAcceptanceStatus;
+  dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.ispitivanjeSvegaStoJeFunkcionalnoTrack.readinessSignal.deterministicFallbackRequired =
+    ispitivanjeSvegaStoJeFunkcionalnoDeterministicFallbackRequired;
+  dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.ispitivanjeSvegaStoJeFunkcionalnoTrack.blockerReason =
+    ispitivanjeSvegaStoJeFunkcionalnoStatus === 'BLOCKED'
+      ? 'ISPITIVANJE SVEGA ŠTO JE FUNKCIONALNO ostaje BLOCKED dok funkcionalni misaoni tokovi, Smart Programski Jezik, repo-wide reflection i Extendol evidence nisu poravnati unutar postojećih source-of-truth ruta.'
+      : null;
+  dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.ispitivanjeSvegaStoJeFunkcionalnoTrack.watchReasons =
+    ispitivanjeSvegaStoJeFunkcionalnoStatus === 'WATCH'
+      ? [
+        'ISPITIVANJE SVEGA ŠTO JE FUNKCIONALNO ostaje u WATCH režimu dok Extendol acceptance ili degraded/no-500 fallback i dalje zahtevaju dodatni human review.',
+      ]
+      : [];
+  dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.ispitivanjeSvegaStoJeFunkcionalnoTrack.reviewPosture =
+    ispitivanjeSvegaStoJeFunkcionalnoStatus === 'READY'
+      ? 'ALIGNED'
+      : ispitivanjeSvegaStoJeFunkcionalnoStatus === 'WATCH'
         ? 'WATCH'
         : 'REVIEW_REQUIRED';
   const sarkazamPrivrednaGranaDigitalizmaReflection =

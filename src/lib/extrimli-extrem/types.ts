@@ -116,6 +116,7 @@ import type {
   DEVELOPER_CREATE_PROMOCIJE_TIKETI_BONUSI_PROPUSNICE_ADMINISTRATIVNI_BONUSI_SUBTRACKS,
   DEVELOPER_CREATE_PROMOCIJE_TIKETI_BONUSI_PROPUSNICE_ADMINISTRATIVNI_BONUSI_SUMMARY_SAFE_FIELDS,
   DEVELOPER_CREATE_RANDOM_SELECTION_SCOPE_STATEMENT,
+  DEVELOPER_CREATE_REPO_WIDE_BOUNDED_VOCABULARY_PHRASE,
   DEVELOPER_CREATE_RADIO_CANONICAL_ALIAS,
   DEVELOPER_CREATE_RADIO_DOWNSTREAM_POLICY,
   DEVELOPER_CREATE_RADIO_FALLBACK_INPUTS,
@@ -161,6 +162,13 @@ import type {
   DEVELOPER_CREATE_ELEKTRONSKI_POTPIS_ROLE_CLASSIFICATION,
   DEVELOPER_CREATE_ELEKTRONSKI_POTPIS_SCOPE_STATEMENT,
   DEVELOPER_CREATE_ELEKTRONSKI_POTPIS_SUMMARY_SAFE_FIELDS,
+  DEVELOPER_CREATE_ISPITIVANJE_SVEGA_STO_JE_FUNKCIONALNO_CANONICAL_ALIAS,
+  DEVELOPER_CREATE_ISPITIVANJE_SVEGA_STO_JE_FUNKCIONALNO_COVERAGE_AREAS,
+  DEVELOPER_CREATE_ISPITIVANJE_SVEGA_STO_JE_FUNKCIONALNO_EXTENDOL_EVIDENCE_MODE,
+  DEVELOPER_CREATE_ISPITIVANJE_SVEGA_STO_JE_FUNKCIONALNO_FALLBACK_INPUTS,
+  DEVELOPER_CREATE_ISPITIVANJE_SVEGA_STO_JE_FUNKCIONALNO_ROLE_CLASSIFICATION,
+  DEVELOPER_CREATE_ISPITIVANJE_SVEGA_STO_JE_FUNKCIONALNO_SCOPE_STATEMENT,
+  DEVELOPER_CREATE_ISPITIVANJE_SVEGA_STO_JE_FUNKCIONALNO_SUMMARY_SAFE_FIELDS,
   DEVELOPER_CREATE_PILOT_CANONICAL_ALIAS,
   DEVELOPER_CREATE_PILOT_FALLBACK_INPUTS,
   DEVELOPER_CREATE_PILOT_ROLE_CLASSIFICATION,
@@ -2865,6 +2873,49 @@ export interface ExtrimliDokDikDakDukConsistencyHealth {
       blockerReasons: string[];
       watchReasons: string[];
       humanReviewPosture: 'ALIGNED' | 'WATCH' | 'REVIEW_REQUIRED';
+      downstreamReference: 'docs/MULTI-REPO-LINKS.md -> spaja86/IO-OPENUI-AO (summary-only)';
+    };
+    ispitivanjeSvegaStoJeFunkcionalnoTrack: {
+      canonicalAlias: typeof DEVELOPER_CREATE_ISPITIVANJE_SVEGA_STO_JE_FUNKCIONALNO_CANONICAL_ALIAS;
+      scopeStatement: typeof DEVELOPER_CREATE_ISPITIVANJE_SVEGA_STO_JE_FUNKCIONALNO_SCOPE_STATEMENT;
+      roleClassification: typeof DEVELOPER_CREATE_ISPITIVANJE_SVEGA_STO_JE_FUNKCIONALNO_ROLE_CLASSIFICATION;
+      coverageAreas: typeof DEVELOPER_CREATE_ISPITIVANJE_SVEGA_STO_JE_FUNKCIONALNO_COVERAGE_AREAS;
+      boundedVocabularyPhrase: typeof DEVELOPER_CREATE_REPO_WIDE_BOUNDED_VOCABULARY_PHRASE;
+      additiveOnly: true;
+      noNewRuntimeEngine: true;
+      noNewRuntimeRoutes: true;
+      noParallelSourceOfTruth: true;
+      noNewApexSurface: true;
+      sourceOfTruthRoutes: readonly ['/api/extrimli/extrem', '/api/extrimli/extrondol', '/api/extrimli/spaja-kod'];
+      evidenceInputRoute: '/api/extrimli/extendol';
+      extendolEvidenceMode: typeof DEVELOPER_CREATE_ISPITIVANJE_SVEGA_STO_JE_FUNKCIONALNO_EXTENDOL_EVIDENCE_MODE;
+      ownershipLock: {
+        dokDikFor: 'EXTREM';
+        dakDuk: 'EXTRONDOL';
+        spajaKod: 'audit-safe-summary-only';
+      };
+      summarySafePublicFields: typeof DEVELOPER_CREATE_ISPITIVANJE_SVEGA_STO_JE_FUNKCIONALNO_SUMMARY_SAFE_FIELDS;
+      readinessSignal: {
+        status: 'READY' | 'WATCH' | 'BLOCKED';
+        readinessScore: number;
+        functionalThoughtFlowsStatus: 'READY' | 'WATCH' | 'BLOCKED';
+        smartProgramskiJezikStatus: 'READY' | 'WATCH' | 'BLOCKED';
+        repoWideReflectionStatus: 'READY' | 'WATCH' | 'BLOCKED';
+        extendolCoverageStatus: 'READY' | 'WATCH' | 'BLOCKED';
+        extendolAcceptanceStatus: 'READY' | 'WATCH' | 'BLOCKED';
+        deterministicFallbackRequired: boolean;
+        fallbackInputs: typeof DEVELOPER_CREATE_ISPITIVANJE_SVEGA_STO_JE_FUNKCIONALNO_FALLBACK_INPUTS;
+        driver: 'existing-functional-thought-flows + smart-programski-jezik + developer-create-repo-wide-reflection + extendol-unified-functionality-coverage';
+      };
+      blockerReason: string | null;
+      watchReasons: string[];
+      reviewPosture: 'ALIGNED' | 'WATCH' | 'REVIEW_REQUIRED';
+      functionalCoverageSummary: {
+        explicitCoverageClaim: 'key-functional-areas-only';
+        auditedScopeIsNotWholeRepository: true;
+        extendolEvidenceInputOnly: true;
+        degradedNo500Model: true;
+      };
       downstreamReference: 'docs/MULTI-REPO-LINKS.md -> spaja86/IO-OPENUI-AO (summary-only)';
     };
     sarkazamPrivrednaGranaDigitalizmaTrack: {

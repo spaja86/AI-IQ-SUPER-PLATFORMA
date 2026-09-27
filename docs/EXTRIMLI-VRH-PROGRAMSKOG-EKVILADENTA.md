@@ -30,6 +30,7 @@ Bounded vokabular ostaje zaključan na `EXTRIMLI EXTRONDOL EXTREM DOK DUK DAK DI
 - `DAK + DUK` → EXTRONDOL governance / WAWE / audit / rollback
 - `SPAJA KOD` → samo audit-safe javni rezime
 - `DIJALIZA POGONSKOG OMOTAČA` → isključivo dokumentacioni/interpretativni alias unutar istog lock-a (bez novih runtime ruta i bez promene governance strukture)
+- `ISPITIVANJE SVEGA ŠTO JE FUNKCIONALNO` → additive-only bounded functional-coverage alias unutar istog lock-a; `DOK/DIK/FOR` ostaju EXTREM tehnički signal, `DAK/DUK` ostaju EXTRONDOL governance/WAWE/review/rollout/rollback ogledalo, `SPAJA KOD` ostaje audit-safe summary-only boundary, a `/api/extrimli/extendol` može služiti samo kao agregatni evidence input za coverage bez novog vršnog centra
 - `MONTEZACIJA` → additive-only bounded alias istog lock-a; `DOK/DIK/FOR` ostaju EXTREM tehnički readiness signal, `DAK/DUK` ostaju EXTRONDOL governance signal, a `SPAJA KOD` ostaje audit-safe summary-only izlaz bez sirovih formula i bez internog token modela
 - `PILOT` → additive-only bounded alias istog lock-a; nema novih runtime ruta i nema paralelnog source-of-truth sistema, ownership split ostaje isti (`DOK/DIK/FOR -> EXTREM`, `DAK/DUK -> EXTRONDOL`, `SPAJA KOD -> summary-only`), status jezik ostaje `READY | WATCH | BLOCKED` sa obaveznim blocker/watch razlozima, a obavezni governance izlaz ostaje `rolloutPlan`, `rollbackPlan`, `humanReviewStatus`, `releaseAuditSummary`, `downstreamReference`
 - `MONTEZACIJA NAD MONTEZACIJAMA` → additive-only interpretativni approval paket nad `MONTEZACIJA` trakom; nema novih ruta i nema paralelnog source-of-truth sistema, ownership split ostaje isti (`DOK/DIK/FOR -> EXTREM`, `DAK/DUK -> EXTRONDOL`, `SPAJA KOD -> summary-only`), a promocija je dozvoljena samo uz human-review, release-audit summary i rollback readiness gate
@@ -60,6 +61,7 @@ Bounded vokabular ostaje zaključan na `EXTRIMLI EXTRONDOL EXTREM DOK DUK DAK DI
 - nema novih runtime ruta
 - nema paralelnog source-of-truth sistema
 - oslonac ostaju `/api/extrimli/extrem`, `/api/extrimli/extrondol` i `/api/extrimli/spaja-kod`
+- `/api/extrimli/extendol` može se koristiti samo kao auditabilni aggregate evidence input za bounded coverage, nikad kao novi vršni source-of-truth
 
 ## Parent relation
 
