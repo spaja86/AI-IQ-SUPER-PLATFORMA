@@ -13271,7 +13271,7 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
     dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.technicalReadinessProfile
       .consolidatedRhythmStatus,
   ] as const;
-  const pilotStatus = aggregateSignalReadinessStatus([...pilotSignalStatuses]);
+  const pilotStatus = aggregateReadinessStatus([...pilotSignalStatuses]);
   const pilotFallbackInputStatus: ExtrimliExtremReadinessStatus = pilotStatus;
   pilotTrack.readinessSignal.status = pilotStatus;
   pilotTrack.readinessSignal.readinessScore = round(
