@@ -4095,6 +4095,8 @@ function buildSpajaKodFacade(params: {
             params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.montezacijaTrack.kraljevskaMontezacijaApprovalPackage.canonicalAlias,
           status:
             params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.montezacijaTrack.kraljevskaMontezacijaApprovalPackage.status,
+          blockerReason:
+            params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.montezacijaTrack.kraljevskaMontezacijaApprovalPackage.blockerReason,
           reviewPosture:
             params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.montezacijaTrack.kraljevskaMontezacijaApprovalPackage.reviewPosture,
           humanReviewStatus: 'required-before-promotion',
@@ -9276,6 +9278,8 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
             extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.montezacijaTrack.kraljevskaMontezacijaApprovalPackage.canonicalAlias,
           status:
             extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.montezacijaTrack.kraljevskaMontezacijaApprovalPackage.status,
+          blockerReason:
+            extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.montezacijaTrack.kraljevskaMontezacijaApprovalPackage.blockerReason,
           reviewPosture:
             extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.montezacijaTrack.kraljevskaMontezacijaApprovalPackage.reviewPosture,
           releaseAuditSummaryRequired: true,

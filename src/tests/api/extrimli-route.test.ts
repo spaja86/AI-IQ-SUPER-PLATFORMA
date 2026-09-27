@@ -1034,6 +1034,7 @@ async function runTests(): Promise<void> {
           notes1450Status: string;
           promocijeTiketiBonusiPropusniceAdministrativniBonusiStatus: string;
           radniProstorStatus: string;
+          kraljevskaMontezacijaStatus: string;
           montezacijaStatus: string;
           aiIqLaboratorijaStatus: string;
           konstrukcijeIProjektovanjeStatus: string;

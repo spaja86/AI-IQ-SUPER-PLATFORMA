@@ -1278,6 +1278,7 @@ export interface ExtrimliExtrondolDeveloperAndCreateRepoWideReflectionGovernance
     kraljevskaMontezacijaApprovalPackage: {
       canonicalAlias: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['montezacijaTrack']['kraljevskaMontezacijaApprovalPackage']['canonicalAlias'];
       status: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['montezacijaTrack']['kraljevskaMontezacijaApprovalPackage']['status'];
+      blockerReason: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['montezacijaTrack']['kraljevskaMontezacijaApprovalPackage']['blockerReason'];
       reviewPosture: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['montezacijaTrack']['kraljevskaMontezacijaApprovalPackage']['reviewPosture'];
       releaseAuditSummaryRequired: true;
       rollbackRequiredBeforePromotion: true;
@@ -3522,6 +3523,7 @@ export interface ExtrimliSpajaKodPublicFacade {
       kraljevskaMontezacijaApprovalPackage: {
         canonicalAlias: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['montezacijaTrack']['kraljevskaMontezacijaApprovalPackage']['canonicalAlias'];
         status: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['montezacijaTrack']['kraljevskaMontezacijaApprovalPackage']['status'];
+        blockerReason: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['montezacijaTrack']['kraljevskaMontezacijaApprovalPackage']['blockerReason'];
         reviewPosture: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['montezacijaTrack']['kraljevskaMontezacijaApprovalPackage']['reviewPosture'];
         humanReviewStatus: 'required-before-promotion';
         releaseAuditSummaryRequired: true;
