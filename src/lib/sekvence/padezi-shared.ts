@@ -89,17 +89,23 @@ export function getPadezMeta(id: PadezId): PadezMeta {
 }
 
 export function buildPadezNavigationButtons(
-  currentId: PadezId,
-  options: { includeOverview?: boolean } = {},
+  currentId: PadezId | null,
+  options: { includeOverview?: boolean; includeCurrent?: boolean; primaryId?: PadezId } = {},
 ) {
-  const { includeOverview = true } = options;
+  const { includeOverview = true, includeCurrent = false, primaryId } = options;
+  const orderedMeta = [
+    ...(primaryId ? PADEZI_META.filter((item) => item.id === primaryId) : []),
+    ...PADEZI_META.filter((item) => item.id !== primaryId),
+  ];
 
   return [
-    ...PADEZI_META.filter((item) => item.id !== currentId).map((item) => ({
+    ...orderedMeta
+      .filter((item) => includeCurrent || item.id !== currentId)
+      .map((item) => ({
       tekst: item.naziv,
       href: item.href,
       stil: 'sekundarno' as const,
-    })),
+      })),
     ...(includeOverview ? [{ tekst: 'Pregled PADEŽI', href: '/padezi', stil: 'sekundarno' as const }] : []),
   ];
 }

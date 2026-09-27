@@ -3,7 +3,7 @@ import {
   DEVELOPER_CREATE_PADEZI_CANONICAL_CASE_SEQUENCE,
   DEVELOPER_CREATE_PADEZI_CANONICAL_ALIAS,
 } from '@/lib/extrimli/developer-create-vrh-ekviladenta-contract';
-import { padeziMeta } from './padezi-shared';
+import { buildPadezNavigationButtons, padeziMeta } from './padezi-shared';
 
 export const padeziSekvence: Sekvenca[] = [
   {
@@ -16,10 +16,13 @@ export const padeziSekvence: Sekvenca[] = [
       opis:
         `${DEVELOPER_CREATE_PADEZI_CANONICAL_ALIAS} ostaje interpretativni paket bez novog source-of-truth sistema. ` +
         'Postojeći moduli za nominativ, genitiv, dativ i akuzativ zadržavaju obrazac, a isti UI/routing model se proširuje na vokativ, instrumental i lokativ.',
-      dugmad: padeziMeta.map((item) => ({
-        tekst: item.naziv,
-        href: item.href,
-        stil: item.id === 'nominativ' ? undefined : ('sekundarno' as const),
+      dugmad: buildPadezNavigationButtons(null, {
+        includeCurrent: true,
+        includeOverview: false,
+        primaryId: 'akuzativ',
+      }).map((button, index) => ({
+        ...button,
+        stil: index === 0 ? undefined : button.stil,
       })),
     },
   },
@@ -68,10 +71,13 @@ export const padeziSekvence: Sekvenca[] = [
     podaci: {
       opis:
         'PADEŽI paket ostaje summary-only downstream prema spaja86/IO-OPENUI-AO i ne uvodi paralelni runtime sistem.',
-      dugmad: padeziMeta.map((item) => ({
-        tekst: item.naziv,
-        href: item.href,
-        stil: item.id === 'nominativ' ? undefined : ('sekundarno' as const),
+      dugmad: buildPadezNavigationButtons(null, {
+        includeCurrent: true,
+        includeOverview: false,
+        primaryId: 'akuzativ',
+      }).map((button, index) => ({
+        ...button,
+        stil: index === 0 ? undefined : button.stil,
       })),
     },
   },
