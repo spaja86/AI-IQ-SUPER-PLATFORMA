@@ -233,9 +233,9 @@ export function buildVercelPretplataStatus(
       'POST /api/owner/vercel-ownership { "akcija": "set-finops-thresholds-enabled" }',
       'POST /api/owner/vercel-ownership { "akcija": "set-monthly-reconciliation-enabled" }',
       'POST /api/owner/vercel-ownership { "akcija": "set-quarterly-vendor-review-enabled" }',
-      'Mapirati preview churn, duple GitHub/Vercel buildove, cron usage, add-on usage, bandwidth/image/function usage i retention/caching hotspotove.',
-      'Pripremiti Vercel pregovarački paket za credits, discounts, spending cap, overage protection i SLA/support bundle bez dodatnih varijabilnih troškova.',
-      'Automatsku pretplatu aktivirati tek posle contract approval + compliance review + human review + payment verification + downstream reference + WAWE 1-5 redosleda.',
+      `Mapirati EXTREM cost hotspotove: ${costGovernancePackage.extremCostHotspots.join(', ')}.`,
+      `Pripremiti EXTRONDOL pregovarački paket kroz pitanja: ${costGovernancePackage.extrondolNegotiationQuestions.slice(0, 5).join(', ')}…`,
+      `Automatsku pretplatu aktivirati tek posle: ${costGovernancePackage.automaticSubscriptionGates.activationCriteria.join(' + ')} + ${costGovernancePackage.automaticSubscriptionGates.mandatoryWaweOrder.join(' → ')}.`,
     ],
   };
 }
