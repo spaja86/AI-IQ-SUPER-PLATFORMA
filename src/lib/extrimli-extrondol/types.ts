@@ -1275,9 +1275,19 @@ export interface ExtrimliExtrondolDeveloperAndCreateRepoWideReflectionGovernance
       humanReviewStatus: 'required-before-promotion';
       downstreamReference: 'docs/MULTI-REPO-LINKS.md -> spaja86/IO-OPENUI-AO (summary-only)';
     };
+    kraljevskaMontezacijaApprovalPackage: {
+      canonicalAlias: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['montezacijaTrack']['kraljevskaMontezacijaApprovalPackage']['canonicalAlias'];
+      status: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['montezacijaTrack']['kraljevskaMontezacijaApprovalPackage']['status'];
+      reviewPosture: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['montezacijaTrack']['kraljevskaMontezacijaApprovalPackage']['reviewPosture'];
+      releaseAuditSummaryRequired: true;
+      rollbackRequiredBeforePromotion: true;
+      humanReviewStatus: 'required-before-promotion';
+      downstreamReference: 'docs/MULTI-REPO-LINKS.md -> spaja86/IO-OPENUI-AO (summary-only)';
+    };
     acceptanceEvidence: readonly [
       'developerAndCreateRepoWideReflection.montezacijaTrack',
       'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.montezacijaTrack',
+      'spajaKod.publicSignals.kraljevskaMontezacijaStatus',
       'spajaKod.publicSignals.montezacijaStatus',
       'spajaKod.developerAndCreateImplementationPackage.montezacijaSummary'
     ];
@@ -1484,6 +1494,7 @@ export interface ExtrimliExtrondolDeveloperAndCreateRepoWideReflectionGovernance
       'spajaKod.publicSignals.leksikonStatus',
       'spajaKod.publicSignals.radniProstorStatus',
       'spajaKod.publicSignals.kraljevskiRadStatus',
+      'spajaKod.publicSignals.kraljevskaMontezacijaStatus',
       'spajaKod.publicSignals.montezacijaStatus',
       'spajaKod.publicSignals.konstrukcijeIProjektovanjeStatus',
       'spajaKod.publicSignals.aiIqKonferencijaZaStampuStatus',
@@ -3124,6 +3135,7 @@ export interface ExtrimliSpajaKodPublicFacade {
     kraljevskiRadStatus: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['kraljevskiRadTrack']['readinessSignal']['status'];
     radniProstorStatus: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['radniProstorTrack']['readinessSignal']['status'];
     montezacijaStatus: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['montezacijaTrack']['readinessSignal']['status'];
+    kraljevskaMontezacijaStatus: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['montezacijaTrack']['kraljevskaMontezacijaApprovalPackage']['status'];
     aiIqLaboratorijaStatus: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['aiIqLaboratorijaTrack']['readinessSignal']['status'];
     konstrukcijeIProjektovanjeStatus: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['konstrukcijeIProjektovanjeTrack']['readinessSignal']['status'];
     vinogradiGrockaRestoranStatus: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['vinogradiGrockaRestoranTrack']['readinessSignal']['status'];
@@ -3252,6 +3264,7 @@ export interface ExtrimliSpajaKodPublicFacade {
       'publicSignals.kraljevskiPokloniZaSvacijiRodjendanStatus',
       'publicSignals.kraljevskiRadStatus',
       'publicSignals.radniProstorStatus',
+      'publicSignals.kraljevskaMontezacijaStatus',
       'publicSignals.montezacijaStatus',
       'publicSignals.aiIqLaboratorijaStatus',
       'publicSignals.konstrukcijeIProjektovanjeStatus',
@@ -3288,6 +3301,7 @@ export interface ExtrimliSpajaKodPublicFacade {
       'developerAndCreateImplementationPackage.kraljevskiPokloniZaSvacijiRodjendanSummary',
       'developerAndCreateImplementationPackage.kraljevskiRadSummary',
       'developerAndCreateImplementationPackage.radniProstorSummary',
+      'developerAndCreateImplementationPackage.montezacijaSummary.kraljevskaMontezacijaApprovalPackage',
       'developerAndCreateImplementationPackage.montezacijaSummary',
       'developerAndCreateImplementationPackage.aiIqLaboratorijaSummary',
       'developerAndCreateImplementationPackage.konstrukcijeIProjektovanjeSummary',
@@ -3500,6 +3514,15 @@ export interface ExtrimliSpajaKodPublicFacade {
         canonicalAlias: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['montezacijaTrack']['montezacijaNadMontezacijamaApprovalPackage']['canonicalAlias'];
         status: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['montezacijaTrack']['montezacijaNadMontezacijamaApprovalPackage']['status'];
         reviewPosture: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['montezacijaTrack']['montezacijaNadMontezacijamaApprovalPackage']['reviewPosture'];
+        humanReviewStatus: 'required-before-promotion';
+        releaseAuditSummaryRequired: true;
+        rollbackRequiredBeforePromotion: true;
+        downstreamReference: 'docs/MULTI-REPO-LINKS.md -> spaja86/IO-OPENUI-AO (summary-only)';
+      };
+      kraljevskaMontezacijaApprovalPackage: {
+        canonicalAlias: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['montezacijaTrack']['kraljevskaMontezacijaApprovalPackage']['canonicalAlias'];
+        status: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['montezacijaTrack']['kraljevskaMontezacijaApprovalPackage']['status'];
+        reviewPosture: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['montezacijaTrack']['kraljevskaMontezacijaApprovalPackage']['reviewPosture'];
         humanReviewStatus: 'required-before-promotion';
         releaseAuditSummaryRequired: true;
         rollbackRequiredBeforePromotion: true;

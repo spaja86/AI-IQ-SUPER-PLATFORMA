@@ -74,6 +74,9 @@ export const DEVELOPER_CREATE_VRH_MONTEZACIJA_ALIAS =
 export const DEVELOPER_CREATE_VRH_MONTEZACIJA_NAD_MONTEZACIJAMA_ALIAS =
   'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == MONTEZACIJA NAD MONTEZACIJAMA' as const;
 
+export const DEVELOPER_CREATE_VRH_KRALJEVSKA_MONTEZACIJA_ALIAS =
+  'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == KRALJEVSKA MONTEZACIJA' as const;
+
 export const DEVELOPER_CREATE_VRH_INTERPRETATION_ALIASES = [
   'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == RADNI TAKT MOZGA (MISLILAC)',
   'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == MAPE UMA',
@@ -92,6 +95,7 @@ export const DEVELOPER_CREATE_VRH_INTERPRETATION_ALIASES = [
   'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == POSLOVNA PONUDA / PRETPLATA',
   DEVELOPER_CREATE_VRH_MONTEZACIJA_ALIAS,
   DEVELOPER_CREATE_VRH_MONTEZACIJA_NAD_MONTEZACIJAMA_ALIAS,
+  DEVELOPER_CREATE_VRH_KRALJEVSKA_MONTEZACIJA_ALIAS,
   'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == KRALJEVSKI POKLONI ZA SVAČIJI ROĐENDAN',
   DEVELOPER_CREATE_VRH_KRALJEVSKI_SAT_ALIAS,
   DEVELOPER_CREATE_VRH_KRALJEVSKI_RAD_ALIAS,
@@ -704,17 +708,26 @@ export const DEVELOPER_CREATE_MONTEZACIJA_CANONICAL_ALIAS =
 export const DEVELOPER_CREATE_MONTEZACIJA_NAD_MONTEZACIJAMA_CANONICAL_ALIAS =
   DEVELOPER_CREATE_VRH_MONTEZACIJA_NAD_MONTEZACIJAMA_ALIAS;
 
+export const DEVELOPER_CREATE_KRALJEVSKA_MONTEZACIJA_CANONICAL_ALIAS =
+  DEVELOPER_CREATE_VRH_KRALJEVSKA_MONTEZACIJA_ALIAS;
+
 export const DEVELOPER_CREATE_MONTEZACIJA_SCOPE_STATEMENT =
   'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == MONTEZACIJA == additive-only bounded alias bez novih runtime ruta i bez paralelnog source-of-truth sloja' as const;
 
 export const DEVELOPER_CREATE_MONTEZACIJA_NAD_MONTEZACIJAMA_SCOPE_STATEMENT =
   'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == MONTEZACIJA NAD MONTEZACIJAMA == additive-only interpretativni alias nad MONTEZACIJA trakom bez novih runtime ruta i bez paralelnog source-of-truth sloja' as const;
 
+export const DEVELOPER_CREATE_KRALJEVSKA_MONTEZACIJA_SCOPE_STATEMENT =
+  'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == KRALJEVSKA MONTEZACIJA == additive-only approval/meta alias nad MONTEZACIJA i MONTEZACIJA NAD MONTEZACIJAMA trakom bez novih runtime ruta i bez paralelnog source-of-truth sloja' as const;
+
 export const DEVELOPER_CREATE_MONTEZACIJA_ROLE_CLASSIFICATION =
   'additive-only-bounded-montezacija-alias-track' as const;
 
 export const DEVELOPER_CREATE_MONTEZACIJA_NAD_MONTEZACIJAMA_ROLE_CLASSIFICATION =
   'additive-only-bounded-montezacija-nad-montezacijama-alias-track' as const;
+
+export const DEVELOPER_CREATE_KRALJEVSKA_MONTEZACIJA_ROLE_CLASSIFICATION =
+  'additive-only-bounded-kraljevska-montezacija-meta-approval-track' as const;
 
 export const DEVELOPER_CREATE_MONTEZACIJA_FALLBACK_INPUTS = [
   'NaN',
@@ -752,6 +765,36 @@ export const DEVELOPER_CREATE_MONTEZACIJA_NAD_MONTEZACIJAMA_APPROVAL_SUMMARY_SAF
   'downstreamReference',
 ] as const;
 
+export const DEVELOPER_CREATE_KRALJEVSKA_MONTEZACIJA_APPROVAL_MEASURABLE_OUTPUTS = [
+  'status',
+  'blockerReason',
+  'reviewPosture',
+  'humanReviewStatus',
+  'releaseAuditSummaryRequired',
+  'rolloutPlan',
+  'rollbackPlan',
+  'downstreamReference',
+] as const;
+
+export const DEVELOPER_CREATE_KRALJEVSKA_MONTEZACIJA_APPROVAL_ACCEPTANCE_CRITERIA = [
+  'preserve-vrh-canonical-lock-and-bounded-vocabulary',
+  'confirm-kraljevska-montezacija-as-additive-meta-layer-over-montezacija-chain',
+  'keep-alias-additive-only-no-new-routes-and-no-parallel-source-of-truth',
+  'preserve-ownership-split-dok-dik-for-extrem-dak-duk-extrondol-spaja-kod-summary-only',
+  'require-human-review-release-audit-rollout-rollback-and-downstream-reference-before-promotion',
+] as const;
+
+export const DEVELOPER_CREATE_KRALJEVSKA_MONTEZACIJA_APPROVAL_SUMMARY_SAFE_FIELDS = [
+  'canonicalAlias',
+  'status',
+  'blockerReason',
+  'reviewPosture',
+  'humanReviewStatus',
+  'releaseAuditSummaryRequired',
+  'rollbackRequiredBeforePromotion',
+  'downstreamReference',
+] as const;
+
 export const DEVELOPER_CREATE_MONTEZACIJA_SUMMARY_SAFE_FIELDS = [
   'canonicalAlias',
   'status',
@@ -761,6 +804,7 @@ export const DEVELOPER_CREATE_MONTEZACIJA_SUMMARY_SAFE_FIELDS = [
   'downstreamReference',
   'montezacijaSummary',
   'montezacijaNadMontezacijamaApprovalPackage',
+  'kraljevskaMontezacijaApprovalPackage',
 ] as const;
 
 export const DEVELOPER_CREATE_NAVIGACIONI_SISTEM_SA_TREKEROM_CANONICAL_ALIAS =

@@ -207,10 +207,14 @@ Prioritet realizacije ostaje zaključan:
 ### 2.2.4.2) MONTEZACIJA NAD MONTEZACIJAMA approval paket
 
 - Novi kanonski interpretativni alias je zaključan: `DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == MONTEZACIJA NAD MONTEZACIJAMA`.
+- Novi kanonski approval/meta alias je zaključan: `DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == KRALJEVSKA MONTEZACIJA`.
 - Alias ostaje additive-only nad postojećom `MONTEZACIJA` trakom: nema novih ruta, nema novog runtime engine-a i nema paralelnog source-of-truth sistema.
+- `KRALJEVSKA MONTEZACIJA` ostaje additive-only meta sloj nad lancem `MONTEZACIJA -> MONTEZACIJA NAD MONTEZACIJAMA`: nema novih ruta, nema novog runtime engine-a i nema paralelnog source-of-truth sistema.
 - Ownership split ostaje nepromenjen: `DOK/DIK/FOR -> EXTREM`, `DAK/DUK -> EXTRONDOL`, `SPAJA KOD -> summary-only`.
 - Approval paket je validan samo uz merljive izlaze: `status`, `blockerReason`, `reviewPosture`, `rolloutPlan`, `rollbackPlan`, `downstreamReference`.
+- `KRALJEVSKA MONTEZACIJA` promotion paket je validan samo uz merljive izlaze: `status`, `blockerReason`, `reviewPosture`, `humanReviewStatus`, `releaseAuditSummaryRequired`, `rolloutPlan`, `rollbackPlan`, `downstreamReference`.
 - Governance gate je obavezan pre promocije: `humanReviewStatus = required-before-promotion`, `releaseAuditSummaryRequired = true`, `rollbackRequiredBeforePromotion = true`.
+- `KRALJEVSKA MONTEZACIJA` governance gate je obavezan pre promocije: `humanReviewStatus = required-before-promotion`, `releaseAuditSummaryRequired = true`, `rollbackRequiredBeforePromotion = true`.
 - Odluka o odobrenju je dozvoljena samo ako lock kriterijumi i audit kriterijumi ostanu netaknuti.
 
 ### 2.2.5) NAVIGACIONI SISTEM SA TREKEROM bounded alias paket

@@ -144,6 +144,12 @@ import {
   DEVELOPER_CREATE_MONTEZACIJA_NAD_MONTEZACIJAMA_CANONICAL_ALIAS,
   DEVELOPER_CREATE_MONTEZACIJA_NAD_MONTEZACIJAMA_ROLE_CLASSIFICATION,
   DEVELOPER_CREATE_MONTEZACIJA_NAD_MONTEZACIJAMA_SCOPE_STATEMENT,
+  DEVELOPER_CREATE_KRALJEVSKA_MONTEZACIJA_APPROVAL_ACCEPTANCE_CRITERIA,
+  DEVELOPER_CREATE_KRALJEVSKA_MONTEZACIJA_APPROVAL_MEASURABLE_OUTPUTS,
+  DEVELOPER_CREATE_KRALJEVSKA_MONTEZACIJA_APPROVAL_SUMMARY_SAFE_FIELDS,
+  DEVELOPER_CREATE_KRALJEVSKA_MONTEZACIJA_CANONICAL_ALIAS,
+  DEVELOPER_CREATE_KRALJEVSKA_MONTEZACIJA_ROLE_CLASSIFICATION,
+  DEVELOPER_CREATE_KRALJEVSKA_MONTEZACIJA_SCOPE_STATEMENT,
   DEVELOPER_CREATE_MONTEZACIJA_ROLE_CLASSIFICATION,
   DEVELOPER_CREATE_MONTEZACIJA_SCOPE_STATEMENT,
   DEVELOPER_CREATE_MONTEZACIJA_SUMMARY_SAFE_FIELDS,
@@ -7586,9 +7592,37 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
           releaseAuditSummaryRequired: true,
           rollbackRequiredBeforePromotion: true,
         },
+        kraljevskaMontezacijaApprovalPackage: {
+          canonicalAlias: DEVELOPER_CREATE_KRALJEVSKA_MONTEZACIJA_CANONICAL_ALIAS,
+          scopeStatement: DEVELOPER_CREATE_KRALJEVSKA_MONTEZACIJA_SCOPE_STATEMENT,
+          roleClassification: DEVELOPER_CREATE_KRALJEVSKA_MONTEZACIJA_ROLE_CLASSIFICATION,
+          status: 'BLOCKED',
+          blockerReason:
+            'KRALJEVSKA MONTEZACIJA approval remains blocked until MONTEZACIJA and MONTEZACIJA NAD MONTEZACIJAMA stay aligned with additive-only lock and governance gates.',
+          reviewPosture: 'REVIEW_REQUIRED',
+          additiveOnly: true,
+          noNewRuntimeRoutes: true,
+          noParallelSourceOfTruth: true,
+          ownershipLock: {
+            dokDikFor: 'EXTREM',
+            dakDuk: 'EXTRONDOL',
+            spajaKod: 'audit-safe-summary-only',
+          },
+          measurableOutputs: DEVELOPER_CREATE_KRALJEVSKA_MONTEZACIJA_APPROVAL_MEASURABLE_OUTPUTS,
+          acceptanceCriteria: DEVELOPER_CREATE_KRALJEVSKA_MONTEZACIJA_APPROVAL_ACCEPTANCE_CRITERIA,
+          summarySafeFields: DEVELOPER_CREATE_KRALJEVSKA_MONTEZACIJA_APPROVAL_SUMMARY_SAFE_FIELDS,
+          rolloutPlan:
+            'Promote KRALJEVSKA MONTEZACIJA only as additive meta-approval over MONTEZACIJA chain with required human review, release-audit summary, rollout/rollback posture, and downstream reference.',
+          rollbackPlan:
+            'If KRALJEVSKA MONTEZACIJA lock drift, blocker escalation, or review regression appears, freeze promotion and rollback to the last verified MONTEZACIJA NAD MONTEZACIJAMA package.',
+          humanReviewStatus: 'required-before-promotion',
+          releaseAuditSummaryRequired: true,
+          rollbackRequiredBeforePromotion: true,
+        },
         acceptanceEvidence: [
           'developerAndCreateRepoWideReflection.montezacijaTrack',
           'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.montezacijaTrack',
+          'spajaKod.publicSignals.kraljevskaMontezacijaStatus',
           'spajaKod.publicSignals.montezacijaStatus',
           'spajaKod.developerAndCreateImplementationPackage.montezacijaSummary',
         ],
@@ -13030,6 +13064,33 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
         : 'Keep MONTEZACIJA NAD MONTEZACIJAMA in controlled rollout mode until status, blocker posture, and review posture return to READY alignment.';
   montezacijaTrack.montezacijaNadMontezacijamaApprovalPackage.rollbackPlan =
     'If lock drift, blocker escalation, or review regression occurs, freeze promotion and rollback to the last verified MONTEZACIJA additive package.';
+  const kraljevskaMontezacijaReady =
+    montezacijaTrack.montezacijaNadMontezacijamaApprovalPackage.status === 'READY'
+    && montezacijaTrack.reviewPosture === 'ALIGNED'
+    && montezacijaFallbackInputStatus === 'READY';
+  const kraljevskaMontezacijaBlocked =
+    montezacijaTrack.montezacijaNadMontezacijamaApprovalPackage.status === 'BLOCKED'
+    || montezacijaStatus === 'BLOCKED';
+  montezacijaTrack.kraljevskaMontezacijaApprovalPackage.status = kraljevskaMontezacijaReady
+    ? 'READY'
+    : kraljevskaMontezacijaBlocked
+      ? 'BLOCKED'
+      : 'WATCH';
+  montezacijaTrack.kraljevskaMontezacijaApprovalPackage.blockerReason = kraljevskaMontezacijaBlocked
+    ? 'KRALJEVSKA MONTEZACIJA promotion remains blocked while MONTEZACIJA chain has unresolved blockers or governance misalignment.'
+    : null;
+  montezacijaTrack.kraljevskaMontezacijaApprovalPackage.reviewPosture = kraljevskaMontezacijaReady
+    ? 'ALIGNED'
+    : kraljevskaMontezacijaBlocked
+      ? 'REVIEW_REQUIRED'
+      : 'WATCH';
+  montezacijaTrack.kraljevskaMontezacijaApprovalPackage.rolloutPlan = kraljevskaMontezacijaReady
+    ? 'Promote KRALJEVSKA MONTEZACIJA only as additive meta-approval over MONTEZACIJA NAD MONTEZACIJAMA with human-review and release-audit gates preserved.'
+    : kraljevskaMontezacijaBlocked
+      ? 'Keep KRALJEVSKA MONTEZACIJA BLOCKED until MONTEZACIJA chain blockers clear and release-audit readiness is re-validated.'
+      : 'Keep KRALJEVSKA MONTEZACIJA in controlled WATCH mode until readiness, review posture, and governance gates return to READY alignment.';
+  montezacijaTrack.kraljevskaMontezacijaApprovalPackage.rollbackPlan =
+    'If KRALJEVSKA MONTEZACIJA governance drifts, freeze promotion and rollback to the previously verified MONTEZACIJA NAD MONTEZACIJAMA package.';
   const aiIqLaboratorijaTrack =
     dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.aiIqLaboratorijaTrack;
   const aiIqLaboratorijaExpectedTokens = [

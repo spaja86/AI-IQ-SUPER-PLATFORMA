@@ -170,6 +170,16 @@ async function runTests(): Promise<void> {
       approvalPackage.rolloutPlan.includes('Approve MONTEZACIJA NAD MONTEZACIJAMA for promotion'),
       'MONTEZACIJA NAD MONTEZACIJAMA READY rollout message mismatch',
     );
+    const kraljevskaPackage = montezacijaTrack.kraljevskaMontezacijaApprovalPackage;
+    assert(kraljevskaPackage.canonicalAlias === 'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == KRALJEVSKA MONTEZACIJA', 'KRALJEVSKA MONTEZACIJA canonical alias mismatch');
+    assert(kraljevskaPackage.additiveOnly, 'KRALJEVSKA MONTEZACIJA must remain additive-only');
+    assert(kraljevskaPackage.noNewRuntimeRoutes, 'KRALJEVSKA MONTEZACIJA must not introduce new routes');
+    assert(kraljevskaPackage.noParallelSourceOfTruth, 'KRALJEVSKA MONTEZACIJA must not introduce parallel source-of-truth');
+    assert(kraljevskaPackage.humanReviewStatus === 'required-before-promotion', 'KRALJEVSKA MONTEZACIJA human review gate mismatch');
+    assert(kraljevskaPackage.releaseAuditSummaryRequired, 'KRALJEVSKA MONTEZACIJA release-audit gate mismatch');
+    assert(kraljevskaPackage.rollbackRequiredBeforePromotion, 'KRALJEVSKA MONTEZACIJA rollback gate mismatch');
+    assert(kraljevskaPackage.status === 'READY', 'KRALJEVSKA MONTEZACIJA READY status mismatch');
+    assert(kraljevskaPackage.reviewPosture === 'ALIGNED', 'KRALJEVSKA MONTEZACIJA READY review posture mismatch');
   });
 
   await test('MONTEZACIJA NAD MONTEZACIJAMA approval package switches to controlled rollout when fallback is degraded', async () => {
@@ -184,6 +194,11 @@ async function runTests(): Promise<void> {
       );
       assert(approvalPackage.status === 'BLOCKED', 'MONTEZACIJA NAD MONTEZACIJAMA degraded status must be BLOCKED');
       assert(approvalPackage.reviewPosture === 'REVIEW_REQUIRED', 'MONTEZACIJA NAD MONTEZACIJAMA degraded review posture mismatch');
+      const kraljevskaPackage =
+        report.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.montezacijaTrack
+          .kraljevskaMontezacijaApprovalPackage;
+      assert(kraljevskaPackage.status === 'BLOCKED', 'KRALJEVSKA MONTEZACIJA degraded status must be BLOCKED');
+      assert(kraljevskaPackage.reviewPosture === 'REVIEW_REQUIRED', 'KRALJEVSKA MONTEZACIJA degraded review posture mismatch');
     });
   });
 
