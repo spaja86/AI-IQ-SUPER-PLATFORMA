@@ -13456,6 +13456,7 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
     && identityVerificationSource.omegaDidFingerprintPresent
     && identityVerificationSource.publicKeyReferenceRedacted
     && identityVerificationSource.signatureDisplayObjectReady
+    && identityVerificationSource.degradedSources.length === 0
     && identityVerificationSource.aliasCoverageScore >= 100
       ? 'CONFIRMED'
       : identityVerificationSource.canonicalIdentityConfirmed
@@ -13463,6 +13464,7 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
         && identityVerificationSource.omegaDidFingerprintPresent
         && identityVerificationSource.publicKeyReferenceRedacted
         && identityVerificationSource.signatureDisplayObjectReady
+        && identityVerificationSource.degradedSources.length === 0
         ? 'REVIEW_REQUIRED'
         : 'UNCONFIRMED';
   const elektronskiPotpisSignatureDisplayStatus: ExtrimliExtremReadinessStatus =
