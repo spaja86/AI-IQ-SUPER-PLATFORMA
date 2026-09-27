@@ -903,6 +903,7 @@ export const DEVELOPER_CREATE_MONTEZACIJA_SUMMARY_SAFE_FIELDS = [
 
 export const DEVELOPER_CREATE_PILOT_SUMMARY_SAFE_FIELDS = [
   'canonicalAlias',
+  'publicBoundary',
   'status',
   'blockerReason',
   'watchReasons',
