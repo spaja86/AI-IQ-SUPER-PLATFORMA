@@ -12702,7 +12702,7 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
     );
   const ispitivanjeSvegaStoJeFunkcionalnoExtendolCoverageStatus = ispitivanjeSvegaStoJeFunkcionalnoExtendolCoverageValues.every(Boolean)
     ? 'READY'
-    : extendolReport.degraded && ispitivanjeSvegaStoJeFunkcionalnoExtendolCoverageValues.some(Boolean)
+    : ispitivanjeSvegaStoJeFunkcionalnoExtendolCoverageValues.some(Boolean)
       ? 'WATCH'
     : 'BLOCKED';
   const ispitivanjeSvegaStoJeFunkcionalnoExtendolFailedAcceptanceCriteria = extendolReport.acceptanceCriteria.filter(
