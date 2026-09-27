@@ -93,19 +93,18 @@ export function buildPadezNavigationButtons(
   options: { includeOverview?: boolean; includeCurrent?: boolean; primaryId?: PadezId } = {},
 ) {
   const { includeOverview = true, includeCurrent = false, primaryId } = options;
+  const visibleMeta = PADEZI_META.filter((item) => includeCurrent || item.id !== currentId);
   const orderedMeta = [
-    ...(primaryId ? PADEZI_META.filter((item) => item.id === primaryId) : []),
-    ...PADEZI_META.filter((item) => item.id !== primaryId),
+    ...(primaryId ? visibleMeta.filter((item) => item.id === primaryId) : []),
+    ...visibleMeta.filter((item) => item.id !== primaryId),
   ];
 
   return [
-    ...orderedMeta
-      .filter((item) => includeCurrent || item.id !== currentId)
-      .map((item) => ({
+    ...orderedMeta.map((item) => ({
       tekst: item.naziv,
       href: item.href,
       stil: 'sekundarno' as const,
-      })),
+    })),
     ...(includeOverview ? [{ tekst: 'Pregled PADEŽI', href: '/padezi', stil: 'sekundarno' as const }] : []),
   ];
 }
