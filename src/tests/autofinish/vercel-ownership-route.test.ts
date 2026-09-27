@@ -225,7 +225,7 @@ async function runTests(): Promise<void> {
     assert(body['sledećiKoraci'].includes('⬜ Sačuvati invoice PDF + payment dokaz + timestamp + odgovorno lice'));
     assert(
       body['sledećiKoraci'].includes(
-        `📉 Mapirati EXTREM cost hotspotove: ${DEVELOPER_CREATE_SARADNJA_READY_EXTREM_COST_HOTSPOTS.join(', ')}`,
+        '📉 Pregledati EXTREM cost hotspotove kroz billingGovernance.costGovernancePackage.',
       ),
     );
   });

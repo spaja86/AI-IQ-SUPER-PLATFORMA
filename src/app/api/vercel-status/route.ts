@@ -28,6 +28,7 @@ import {
   EXPECTED_VERCEL_BILLING_OWNER,
   EXPECTED_VERCEL_INVOICE_AMOUNT,
   EXPECTED_VERCEL_INVOICE_NUMBER,
+  buildVercelCostGovernanceGuidance,
   buildVercelCostGovernancePackage,
   buildVercelPublicAnnouncementState,
   isVercelInvoiceResolved,
@@ -136,6 +137,7 @@ export function buildVercelPretplataStatus(
   const monthlyReconciliationEnabled = boolFlag(env.SPAJA_VERCEL_MONTHLY_RECONCILIATION_ENABLED);
   const quarterlyVendorReviewEnabled = boolFlag(env.SPAJA_VERCEL_QUARTERLY_VENDOR_REVIEW_ENABLED);
   const costGovernancePackage = buildVercelCostGovernancePackage();
+  const costGovernanceGuidance = buildVercelCostGovernanceGuidance();
   const teamConfigured =
     Boolean(env.VERCEL_TEAM_ID?.trim())
     || Boolean(env.VERCEL_ORG_ID?.trim());
@@ -233,9 +235,9 @@ export function buildVercelPretplataStatus(
       'POST /api/owner/vercel-ownership { "akcija": "set-finops-thresholds-enabled" }',
       'POST /api/owner/vercel-ownership { "akcija": "set-monthly-reconciliation-enabled" }',
       'POST /api/owner/vercel-ownership { "akcija": "set-quarterly-vendor-review-enabled" }',
-      `Pregledati ${costGovernancePackage.extremCostHotspots.length} EXTREM cost hotspotova kroz billingGovernance.costGovernancePackage.extremCostHotspots.`,
-      `Pripremiti svih ${costGovernancePackage.extrondolNegotiationQuestions.length} EXTRONDOL pregovaračkih pitanja kroz billingGovernance.costGovernancePackage.extrondolNegotiationQuestions.`,
-      `Automatsku pretplatu aktivirati tek nakon ${costGovernancePackage.automaticSubscriptionGates.activationCriteria.length} gate potvrda i ${costGovernancePackage.automaticSubscriptionGates.mandatoryWaweOrder.length} WAWE faza iz billingGovernance.costGovernancePackage.`,
+      costGovernanceGuidance.reviewHotspots,
+      costGovernanceGuidance.prepareNegotiationPackage,
+      costGovernanceGuidance.activateAutopayOnlyAfterGates,
     ],
   };
 }
