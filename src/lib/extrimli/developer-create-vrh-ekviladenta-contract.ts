@@ -56,6 +56,9 @@ export const DEVELOPER_CREATE_VRH_NAVIGACIONI_SISTEM_SA_TREKEROM_ALIAS =
 export const DEVELOPER_CREATE_VRH_KRALJEVSKI_SAT_ALIAS =
   'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == KRALJEVSKI SAT' as const;
 
+export const DEVELOPER_CREATE_VRH_MEDALJE_SRBSKE_ALIAS =
+  'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == MEDALJE SRBSKE' as const;
+
 export const DEVELOPER_CREATE_VRH_KRALJEVSKI_RAD_ALIAS =
   'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == KRALJEVSKI RAD' as const;
 
@@ -101,6 +104,7 @@ export const DEVELOPER_CREATE_VRH_INTERPRETATION_ALIASES = [
   DEVELOPER_CREATE_VRH_KRALJEVSKA_MONTEZACIJA_ALIAS,
   'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == KRALJEVSKI POKLONI ZA SVAČIJI ROĐENDAN',
   DEVELOPER_CREATE_VRH_KRALJEVSKI_SAT_ALIAS,
+  DEVELOPER_CREATE_VRH_MEDALJE_SRBSKE_ALIAS,
   DEVELOPER_CREATE_VRH_KRALJEVSKI_RAD_ALIAS,
   DEVELOPER_CREATE_VRH_KRALJEVSKI_SISTEM_ALIAS,
   DEVELOPER_CREATE_VRH_IZVESTAJ_ALIAS,
@@ -647,6 +651,64 @@ export const DEVELOPER_CREATE_KRALJEVSKI_SAT_SUMMARY_SAFE_FIELDS = [
 ] as const;
 
 export const DEVELOPER_CREATE_KRALJEVSKI_SAT_DOWNSTREAM_POLICY = {
+  linkedRepo: 'spaja86/IO-OPENUI-AO',
+  syncMode: 'summary-only',
+  rawTokenInternalsStayRepoLocal: true,
+  rawExtremFormulasStayRepoLocal: true,
+  rawExtrondolGovernanceFormulasStayRepoLocal: true,
+} as const;
+
+export const DEVELOPER_CREATE_MEDALJE_SRBSKE_CANONICAL_ALIAS =
+  DEVELOPER_CREATE_VRH_MEDALJE_SRBSKE_ALIAS;
+
+export const DEVELOPER_CREATE_MEDALJE_SRBSKE_SCOPE_STATEMENT =
+  'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == MEDALJE SRBSKE == additive-only bounded traka bez novih runtime ruta i bez paralelnog source-of-truth modela; ownership ostaje zaključan na DOK/DIK/FOR -> EXTREM (tehnički readiness signal), DAK/DUK -> EXTRONDOL (governance/WAWE/freeze/promotion/rollback/release-audit), SPAJA KOD -> audit-safe summary-only.' as const;
+
+export const DEVELOPER_CREATE_MEDALJE_SRBSKE_ROLE_CLASSIFICATION =
+  'additive-only-bounded-medalje-srbske-track' as const;
+
+export const DEVELOPER_CREATE_MEDALJE_SRBSKE_LAYER_OWNERSHIP_LOCK = {
+  dokDikFor: 'EXTREM',
+  dakDuk: 'EXTRONDOL',
+  spajaKod: 'audit-safe-summary-only',
+} as const;
+
+export const DEVELOPER_CREATE_MEDALJE_SRBSKE_READINESS_LANGUAGE = [
+  'READY',
+  'WATCH',
+  'BLOCKED',
+] as const;
+
+export const DEVELOPER_CREATE_MEDALJE_SRBSKE_FALLBACK_INPUTS = [
+  'NaN',
+  'Infinity',
+  'empty',
+  'conflict',
+] as const;
+
+export const DEVELOPER_CREATE_MEDALJE_SRBSKE_ACCEPTANCE_CRITERIA = [
+  'preserve-vrh-canonical-lock-and-bounded-vocabulary',
+  'keep-track-additive-only-no-new-routes-and-no-parallel-source-of-truth',
+  'preserve-ownership-split-dok-dik-for-extrem-dak-duk-extrondol-spaja-kod-summary-only',
+  'require-ready-watch-blocked-with-deterministic-fallback-input-boundaries',
+  'require-human-review-release-audit-summary-and-rollback-readiness-before-promotion',
+  'require-downstream-reference-docs-multi-repo-links-summary-only',
+] as const;
+
+export const DEVELOPER_CREATE_MEDALJE_SRBSKE_SUMMARY_SAFE_FIELDS = [
+  'canonicalAlias',
+  'status',
+  'blockerReason',
+  'watchReasons',
+  'reviewPosture',
+  'humanReviewStatus',
+  'releaseAuditSummaryRequired',
+  'rollbackRequiredBeforePromotion',
+  'downstreamReference',
+  'fallbackInputStatus',
+] as const;
+
+export const DEVELOPER_CREATE_MEDALJE_SRBSKE_DOWNSTREAM_POLICY = {
   linkedRepo: 'spaja86/IO-OPENUI-AO',
   syncMode: 'summary-only',
   rawTokenInternalsStayRepoLocal: true,

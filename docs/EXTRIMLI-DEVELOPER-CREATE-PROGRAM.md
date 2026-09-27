@@ -1057,3 +1057,14 @@ Neproverene oblasti (u ovom ciklusu):
 - Ownership split ostaje nepromenjen: EXTREM vodi tehnički readiness signal nad `DIP, KAR, DUR, CUR, RET, DOK, OKOT`, EXTRONDOL vodi governance/freeze/promotion/rollback/release-audit, a SPAJA KOD ostaje audit-safe summary-only.
 - Status jezik ostaje zaključan na `READY | WATCH | BLOCKED`, sa obaveznim blocker/watch razlozima i deterministic fallback ulazima (`NaN`, `Infinity`, `empty`, `conflict`).
 - Summary-safe izlaz ostaje ograničen na `canonicalAlias`, `status`, `blockerReason`, `watchReasons`, `reviewPosture`, `downstreamReference`, `kraljevskiSatTokenSummary`, `fallbackInputStatus`; downstream sync prema `spaja86/IO-OPENUI-AO` ostaje striktno summary-only.
+
+### 2.2.16) MEDALJE SRBSKE bounded traka
+
+- Alias ostaje zaključan na `DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == MEDALJE SRBSKE`.
+- Traka je additive-only i ostaje unutar postojećih `/api/extrimli/extrem`, `/api/extrimli/extrondol` i `/api/extrimli/spaja-kod` granica (bez novih runtime ruta i bez paralelnog source-of-truth modela).
+- Repo-wide bounded vokabular ostaje nepromenjen: `EXTRIMLI EXTRONDOL EXTREM DOK DUK DAK DIK FOR`.
+- Ownership split ostaje zaključan: `DOK + DIK + FOR -> EXTREM` (tehnički readiness signal), `DAK + DUK -> EXTRONDOL` (governance, WAWE, freeze/promotion/rollback, release-audit), `SPAJA KOD -> audit-safe summary-only`.
+- Status jezik ostaje zaključan na `READY | WATCH | BLOCKED`, sa obaveznim blocker/watch razlozima i deterministic fallback ulazima (`NaN`, `Infinity`, `empty`, `conflict`).
+- Audit zahtevi ostaju obavezni: `human-review`, `release-audit summary`, `rollback readiness` i `downstream reference` pre promocije.
+- Summary-safe izlaz ostaje ograničen na `canonicalAlias`, `status`, `blockerReason`, `watchReasons`, `reviewPosture`, `humanReviewStatus`, `releaseAuditSummaryRequired`, `rollbackRequiredBeforePromotion`, `downstreamReference`, `fallbackInputStatus`.
+- Downstream sync prema `spaja86/IO-OPENUI-AO` ostaje striktno summary-only i referencira `docs/MULTI-REPO-LINKS.md`.
