@@ -1,4 +1,11 @@
+import fs from 'node:fs/promises';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
 import {
+  DEVELOPER_CREATE_KRALJEVSKI_SISTEM_REVIEW_ROSTER,
+  DEVELOPER_CREATE_KRALJEVSKI_SISTEM_REVIEW_ROSTER_POLICY,
+  DEVELOPER_CREATE_KRALJEVSKI_SISTEM_SCOPE_LOCK,
+  DEVELOPER_CREATE_KRALJEVSKI_SISTEM_SUMMARY_SAFE_FIELDS,
   DEVELOPER_CREATE_KRALJEVSKI_SAT_BOUNDED_TOKEN_SET,
   DEVELOPER_CREATE_KRALJEVSKI_SAT_READINESS_LANGUAGE,
   DEVELOPER_CREATE_KRALJEVSKI_RAD_BOUNDED_TOKEN_SEQUENCE,
@@ -85,6 +92,11 @@ function assertArrayEquals(actual: readonly string[], expected: readonly string[
 
 async function runTests(): Promise<void> {
   console.log('\n🔗 [developer-create-vrh-contract] tests\n');
+  const filePath = fileURLToPath(import.meta.url);
+  const root = path.resolve(path.dirname(filePath), '../../..');
+  const manifest = await fs.readFile(path.join(root, 'docs/EXTRIMLI-DEVELOPER-CREATE-PROGRAM.md'), 'utf8');
+  const vrhDoc = await fs.readFile(path.join(root, 'docs/EXTRIMLI-VRH-PROGRAMSKOG-EKVILADENTA.md'), 'utf8');
+  const multiRepoLinks = await fs.readFile(path.join(root, 'docs/MULTI-REPO-LINKS.md'), 'utf8');
 
   await test('navigacioni alias is registered in interpretation aliases', () => {
     assert(
@@ -138,6 +150,85 @@ async function runTests(): Promise<void> {
         'boundedThematicLabels',
       ],
       'unexpected repo-wide RADNI TAKT supplemental downstream fields',
+    );
+  });
+
+  await test('kraljevski sistem stays additive-only, summary-safe and documentation-only', () => {
+    assert(
+      DEVELOPER_CREATE_VRH_INTERPRETATION_ALIASES.includes('DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == KRALJEVSKI SISTEM'),
+      'KRALJEVSKI SISTEM alias must be present in interpretation aliases',
+    );
+    assert(
+      DEVELOPER_CREATE_KRALJEVSKI_SISTEM_SCOPE_LOCK.includes('additive-only bounded governance/orchestration alias'),
+      'KRALJEVSKI SISTEM scope lock must preserve additive-only alias wording',
+    );
+    assert(
+      DEVELOPER_CREATE_KRALJEVSKI_SISTEM_SCOPE_LOCK.includes('bez novih runtime ruta'),
+      'KRALJEVSKI SISTEM scope lock must forbid new runtime routes',
+    );
+    assert(
+      DEVELOPER_CREATE_KRALJEVSKI_SISTEM_SCOPE_LOCK.includes('bez novog source-of-truth sistema'),
+      'KRALJEVSKI SISTEM scope lock must forbid new source-of-truth systems',
+    );
+    assertArrayEquals(
+      DEVELOPER_CREATE_KRALJEVSKI_SISTEM_SUMMARY_SAFE_FIELDS,
+      [
+        'canonicalAlias',
+        'kraljevstvoScope',
+        'approvalStatus',
+        'payoutReadinessStatus',
+        'paymentVerificationPosture',
+        'blockerReason',
+        'reviewPosture',
+        'publicSummary',
+        'downstreamReference',
+        'boundedRosterRoles',
+      ],
+      'unexpected KRALJEVSKI SISTEM summary-safe fields',
+    );
+    assert(
+      DEVELOPER_CREATE_KRALJEVSKI_SISTEM_REVIEW_ROSTER.length === 5,
+      'KRALJEVSKI SISTEM review roster length mismatch',
+    );
+    assert(
+      DEVELOPER_CREATE_KRALJEVSKI_SISTEM_REVIEW_ROSTER_POLICY.namesStayDocumentationOnly,
+      'KRALJEVSKI SISTEM roster names must stay documentation-only',
+    );
+    assert(
+      DEVELOPER_CREATE_KRALJEVSKI_SISTEM_REVIEW_ROSTER_POLICY.noOperationalIdentityUsage,
+      'KRALJEVSKI SISTEM roster must reject operational identity usage',
+    );
+    assert(
+      DEVELOPER_CREATE_KRALJEVSKI_SISTEM_REVIEW_ROSTER_POLICY.noPayrollOwnershipUsage,
+      'KRALJEVSKI SISTEM roster must reject payroll ownership usage',
+    );
+  });
+
+  await test('kraljevski sistem docs and downstream registry keep roster summary-only', () => {
+    assert(
+      manifest.includes('`KRALJEVSKI SISTEM` je dozvoljen samo kao additive-only bounded governance/orchestration alias'),
+      'manifest KRALJEVSKI SISTEM alias lock missing',
+    );
+    assert(
+      manifest.includes('`approval status`, `payout readiness status`, `payment verification posture`, `blocker reason`, `review posture`, `public summary` i `downstream reference`'),
+      'manifest KRALJEVSKI SISTEM summary-safe field lock missing',
+    );
+    assert(
+      vrhDoc.includes('`KRALJEVSKI SISTEM` je dozvoljen samo kao additive-only bounded governance/orchestration alias'),
+      'VRH doc KRALJEVSKI SISTEM alias lock missing',
+    );
+    assert(
+      multiRepoLinks.includes('`KRALJEVSKI SISTEM` bounded governance/orchestration alias + documentation/review roster'),
+      'multi-repo KRALJEVSKI SISTEM row missing',
+    );
+    for (const entry of DEVELOPER_CREATE_KRALJEVSKI_SISTEM_REVIEW_ROSTER) {
+      assert(manifest.includes(entry.name), `manifest roster member missing: ${entry.name}`);
+      assert(vrhDoc.includes(entry.name), `VRH doc roster member missing: ${entry.name}`);
+      assert(multiRepoLinks.includes(entry.name), `multi-repo roster member missing: ${entry.name}`);
+    }
+    assert(
+      multiRepoLinks.includes('never sync personal contacts, payroll/bank/KYC data, security roles, operational identities or raw governance formulas'),
+      'multi-repo roster privacy boundary missing',
     );
   });
 
