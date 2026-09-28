@@ -13525,14 +13525,18 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
     && automatskaPopravkaSvegaRuntimeInput.trim() === '';
   const normalizedAutomatskaPopravkaSvegaTrimmedInput =
     automatskaPopravkaSvegaRuntimeInput?.trim() ?? null;
-  const normalizedAutomatskaPopravkaSvegaRuntimeInput =
+  const normalizedAutomatskaPopravkaSvegaCanonicalizedInput =
     normalizedAutomatskaPopravkaSvegaTrimmedInput
-      ? normalizedAutomatskaPopravkaSvegaTrimmedInput.replace(/\s+/g, ' ').toUpperCase()
+      ? normalizedAutomatskaPopravkaSvegaTrimmedInput.replace(/\s+/g, ' ')
+      : null;
+  const normalizedAutomatskaPopravkaSvegaRuntimeInput =
+    normalizedAutomatskaPopravkaSvegaCanonicalizedInput
+      ? normalizedAutomatskaPopravkaSvegaCanonicalizedInput.toUpperCase()
       : null;
   const normalizedAutomatskaPopravkaSvegaFallbackLower =
     automatskaPopravkaSvegaHasWhitespaceOnlyInput
       ? 'empty'
-      : normalizedAutomatskaPopravkaSvegaTrimmedInput?.toLowerCase() ?? null;
+      : normalizedAutomatskaPopravkaSvegaCanonicalizedInput?.toLowerCase() ?? null;
   const automatskaPopravkaSvegaUsesCanonicalAlias =
     normalizedAutomatskaPopravkaSvegaRuntimeInput
     === DEVELOPER_CREATE_AUTOMATSKA_POPRAVKA_SVEGA_CANONICAL_ALIAS_UPPERCASE;
