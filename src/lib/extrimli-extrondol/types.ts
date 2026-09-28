@@ -1571,6 +1571,27 @@ export interface ExtrimliExtrondolDeveloperAndCreateRepoWideReflectionGovernance
       'spajaKod.developerAndCreateImplementationPackage.biznisSummary'
     ];
     downstreamReference: 'docs/MULTI-REPO-LINKS.md -> spaja86/IO-OPENUI-AO (summary-only)';
+    potraznjaSveStoNamTreba: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['biznisTrack']['potraznjaSveStoNamTreba'] & {
+      sourceOfTruth: '/api/extrimli/extrem';
+      governanceSource: '/api/extrimli/extrondol';
+      publicBoundary: '/api/extrimli/spaja-kod';
+      currentWave: ExtrimliExtrondolWaweStage;
+      eligibleNextWave: ExtrimliExtrondolWaweStage;
+      promotionFreeze: boolean;
+      reviewRequiredBeforeWideRollout: boolean;
+      reviewPosture: 'ALIGNED' | 'WATCH' | 'REVIEW_REQUIRED';
+      rolloutPlan: string;
+      rollbackPlan: string;
+      humanReviewStatus: 'required-before-promotion';
+      releaseAuditSummaryRequired: true;
+      acceptanceEvidence: readonly [
+        'developerAndCreateRepoWideReflection.biznisTrack.potraznjaSveStoNamTreba',
+        'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.biznisTrack.potraznjaSveStoNamTreba',
+        'spajaKod.publicSignals.biznisStatus',
+        'spajaKod.developerAndCreateImplementationPackage.biznisSummary.potraznjaSveStoNamTreba'
+      ];
+      downstreamReference: 'docs/MULTI-REPO-LINKS.md -> spaja86/IO-OPENUI-AO (summary-only)';
+    };
   };
   aiIqKonferencijaZaStampuTrack: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['aiIqKonferencijaZaStampuTrack'] & {
     sourceOfTruth: '/api/extrimli/extrem';
@@ -3952,6 +3973,20 @@ export interface ExtrimliSpajaKodPublicFacade {
       fallbackInputStatus: 'READY' | 'WATCH' | 'BLOCKED';
       legalComplianceReviewStatus: 'required-before-promotion';
       enterpriseDetailsRedacted: true;
+      potraznjaSveStoNamTreba: {
+        canonicalAlias: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['biznisTrack']['potraznjaSveStoNamTreba']['canonicalAlias'];
+        roleClassification: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['biznisTrack']['potraznjaSveStoNamTreba']['roleClassification'];
+        status: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['biznisTrack']['potraznjaSveStoNamTreba']['readinessSignal']['status'];
+        blockerReason: string | null;
+        watchReasons: string[];
+        reviewPosture: 'ALIGNED' | 'WATCH' | 'REVIEW_REQUIRED';
+        downstreamReference: 'docs/MULTI-REPO-LINKS.md -> spaja86/IO-OPENUI-AO (summary-only)';
+        demandSummary: string;
+        demandCoverageStatus: 'READY' | 'WATCH' | 'BLOCKED';
+        ecosystemCoverageStatus: 'READY' | 'WATCH' | 'BLOCKED';
+        resourcePartnerCapacityStatus: 'READY' | 'WATCH' | 'BLOCKED';
+        fallbackInputStatus: 'READY' | 'WATCH' | 'BLOCKED';
+      };
     };
     aiIqKonferencijaZaStampuSummary: {
       canonicalAlias: typeof DEVELOPER_CREATE_AI_IQ_KONFERENCIJA_ZA_STAMPU_CANONICAL_ALIAS;

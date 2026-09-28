@@ -195,6 +195,21 @@ async function runTests(): Promise<void> {
     assert(lock.mandatoryArtifacts.tests.includes('src/tests/api/extrimli-route.test.ts'), 'route test mandatory artifact missing');
   });
 
+
+  await test('BIZNIS demand track applies deterministic fallback without adding routes or a new source-of-truth', async () => {
+    await withEnv({ EXTRIMLI_BIZNIS_FALLBACK_INPUT: 'conflict' }, () => {
+      const report = getExtrimliExtremProfilerReport();
+      const demandTrack =
+        report.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.biznisTrack.potraznjaSveStoNamTreba;
+      assert(demandTrack.readinessSignal.status === 'BLOCKED', 'developer/create demand conflict fallback must block the track');
+      assert(demandTrack.readinessSignal.fallbackInputStatus === 'BLOCKED', 'developer/create demand conflict fallback status mismatch');
+      assert(demandTrack.reviewPosture === 'REVIEW_REQUIRED', 'developer/create demand conflict review posture mismatch');
+      assert(demandTrack.blockerReason !== null, 'developer/create demand conflict blocker reason must be exposed');
+      assert(demandTrack.noNewRuntimeRoutes, 'developer/create demand conflict must preserve route boundary');
+      assert(demandTrack.noParallelSourceOfTruth, 'developer/create demand conflict must preserve source-of-truth boundary');
+    });
+  });
+
   await test('default report exposes MONTEZACIJA NAD MONTEZACIJAMA approval package as additive-only governance gate', () => {
     const report = getExtrimliExtremProfilerReport();
     const montezacijaTrack =
@@ -561,9 +576,16 @@ async function runTests(): Promise<void> {
     assert(implementationPackage.poslovnaPonudaZelezaraDooBoundary.spajaKodPublishes === 'status-blocker-review-downstream-and-urgent-meeting-summary-only', 'developer/create implementation package POSLOVNA PONUDA / ŽELEZARA D.O.O. SMEDEREVO public boundary mismatch');
     assert(biznisTrack.canonicalAlias === 'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == REFERENTNA LISTA == EKOSISTEMA == BIZNIS', 'developer/create BIZNIS canonical alias mismatch');
     assert(biznisTrack.roleClassification === 'additive-only-bounded-ekosistem-business-reference-track', 'developer/create BIZNIS role classification mismatch');
-    assert(biznisTrack.summarySafePublicFields.join(',') === 'canonicalAlias,status,blockerReason,watchReasons,reviewPosture,downstreamReference,businessSummary,referenceListStatus,ecosystemConsistencyStatus,enterpriseMappingStatus,fallbackInputStatus', 'developer/create BIZNIS summary-safe fields mismatch');
+    assert(biznisTrack.summarySafePublicFields.join(',') === 'canonicalAlias,status,blockerReason,watchReasons,reviewPosture,downstreamReference,businessSummary,referenceListStatus,ecosystemConsistencyStatus,enterpriseMappingStatus,fallbackInputStatus,potraznjaSveStoNamTreba', 'developer/create BIZNIS summary-safe fields mismatch');
     assert(['READY', 'WATCH', 'BLOCKED'].includes(biznisTrack.readinessSignal.status), 'developer/create BIZNIS readiness status mismatch');
     assert(biznisTrack.acceptanceEvidence.join(',') === 'developerAndCreateRepoWideReflection.biznisTrack,releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.biznisTrack,spajaKod.publicSignals.biznisStatus,spajaKod.developerAndCreateImplementationPackage.biznisSummary', 'developer/create BIZNIS acceptance evidence mismatch');
+    assert(biznisTrack.potraznjaSveStoNamTreba.canonicalAlias === 'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == REFERENTNA LISTA == EKOSISTEMA == BIZNIS == POTRAŽNJA SVE ŠTO NAM TREBA', 'developer/create demand canonical alias mismatch');
+    assert(biznisTrack.potraznjaSveStoNamTreba.roleClassification === 'additive-only-bounded-demand-reference-track', 'developer/create demand role classification mismatch');
+    assert(biznisTrack.potraznjaSveStoNamTreba.boundedVocabularyPhrase === 'EXTRIMLI EXTRONDOL EXTREM DOK DUK DAK DIK FOR', 'developer/create demand bounded vocabulary mismatch');
+    assert(biznisTrack.potraznjaSveStoNamTreba.summarySafePublicFields.join(',') === 'canonicalAlias,status,blockerReason,watchReasons,reviewPosture,downstreamReference,demandSummary,demandCoverageStatus,ecosystemCoverageStatus,resourcePartnerCapacityStatus,fallbackInputStatus', 'developer/create demand summary-safe fields mismatch');
+    assert(biznisTrack.potraznjaSveStoNamTreba.noNewRuntimeRoutes, 'developer/create demand track must forbid new runtime routes');
+    assert(biznisTrack.potraznjaSveStoNamTreba.noParallelSourceOfTruth, 'developer/create demand track must forbid parallel source-of-truth');
+    assert(['READY', 'WATCH', 'BLOCKED'].includes(biznisTrack.potraznjaSveStoNamTreba.readinessSignal.status), 'developer/create demand readiness status mismatch');
     assert(implementationPackage.biznisBoundary.trackRole === 'bounded-ekosistem-business-reference-track', 'developer/create implementation package BIZNIS boundary role mismatch');
     assert(implementationPackage.biznisBoundary.spajaKodPublishes === 'status-blocker-review-downstream-and-business-summary-only', 'developer/create implementation package BIZNIS public boundary mismatch');
     assert(report.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.fourTrackProgramPackage.businessTrack.boundedAliases.join(',') === 'POSLOVNA PONUDA,POSLOVNA PONUDA / ŽELEZARA D.O.O. SMEDEREVO,REFERENTNA LISTA == EKOSISTEMA == BIZNIS', 'developer/create business bounded aliases mismatch');

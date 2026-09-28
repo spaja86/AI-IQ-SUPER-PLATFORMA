@@ -4588,6 +4588,33 @@ function buildSpajaKodFacade(params: {
           params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.biznisTrack.readinessSignal.fallbackInputStatus,
         legalComplianceReviewStatus: 'required-before-promotion',
         enterpriseDetailsRedacted: true,
+        potraznjaSveStoNamTreba: {
+          canonicalAlias:
+            params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.biznisTrack.potraznjaSveStoNamTreba.canonicalAlias,
+          roleClassification:
+            params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.biznisTrack.potraznjaSveStoNamTreba.roleClassification,
+          status:
+            params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.biznisTrack.potraznjaSveStoNamTreba.readinessSignal.status,
+          blockerReason:
+            params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.biznisTrack.potraznjaSveStoNamTreba.blockerReason,
+          watchReasons: [
+            ...params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.biznisTrack.potraznjaSveStoNamTreba.watchReasons,
+          ],
+          reviewPosture:
+            params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.biznisTrack.potraznjaSveStoNamTreba.reviewPosture,
+          downstreamReference:
+            params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.biznisTrack.potraznjaSveStoNamTreba.downstreamReference,
+          demandSummary:
+            params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.biznisTrack.potraznjaSveStoNamTreba.demandSummary,
+          demandCoverageStatus:
+            params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.biznisTrack.potraznjaSveStoNamTreba.readinessSignal.demandCoverageStatus,
+          ecosystemCoverageStatus:
+            params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.biznisTrack.potraznjaSveStoNamTreba.readinessSignal.ecosystemCoverageStatus,
+          resourcePartnerCapacityStatus:
+            params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.biznisTrack.potraznjaSveStoNamTreba.readinessSignal.resourcePartnerCapacityStatus,
+          fallbackInputStatus:
+            params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.biznisTrack.potraznjaSveStoNamTreba.readinessSignal.fallbackInputStatus,
+        },
       },
       aiIqKonferencijaZaStampuSummary: {
         canonicalAlias: DEVELOPER_CREATE_AI_IQ_KONFERENCIJA_ZA_STAMPU_CANONICAL_ALIAS,
@@ -10231,6 +10258,35 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
           'spajaKod.developerAndCreateImplementationPackage.biznisSummary',
         ],
         downstreamReference: 'docs/MULTI-REPO-LINKS.md -> spaja86/IO-OPENUI-AO (summary-only)',
+        potraznjaSveStoNamTreba: {
+          ...extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.biznisTrack.potraznjaSveStoNamTreba,
+          sourceOfTruth: '/api/extrimli/extrem',
+          governanceSource: '/api/extrimli/extrondol',
+          publicBoundary: '/api/extrimli/spaja-kod',
+          currentWave: currentWawe,
+          eligibleNextWave: eligibleNextWave,
+          promotionFreeze:
+            promotionFreeze
+            || extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.biznisTrack.potraznjaSveStoNamTreba.readinessSignal.status !== 'READY',
+          reviewRequiredBeforeWideRollout:
+            extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.biznisTrack.potraznjaSveStoNamTreba.readinessSignal.status !== 'READY'
+            || extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.biznisTrack.potraznjaSveStoNamTreba.reviewPosture === 'REVIEW_REQUIRED',
+          reviewPosture:
+            extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.biznisTrack.potraznjaSveStoNamTreba.reviewPosture,
+          rolloutPlan:
+            'Advance POTRAŽNJA SVE ŠTO NAM TREBA only as an additive-only summary-safe demand/reference package through existing EXTREM readiness signals, EXTRONDOL WAWE governance, and the existing BIZNIS downstream boundary.',
+          rollbackPlan:
+            'Freeze promotion and roll back to the previously verified demand/reference snapshot if needs coverage, partner/resource capacity, fallback posture, or summary-only downstream boundaries drift.',
+          humanReviewStatus: 'required-before-promotion',
+          releaseAuditSummaryRequired: true,
+          acceptanceEvidence: [
+            'developerAndCreateRepoWideReflection.biznisTrack.potraznjaSveStoNamTreba',
+            'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.biznisTrack.potraznjaSveStoNamTreba',
+            'spajaKod.publicSignals.biznisStatus',
+            'spajaKod.developerAndCreateImplementationPackage.biznisSummary.potraznjaSveStoNamTreba',
+          ],
+          downstreamReference: 'docs/MULTI-REPO-LINKS.md -> spaja86/IO-OPENUI-AO (summary-only)',
+        },
       },
       aiIqKonferencijaZaStampuTrack: {
         ...extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.aiIqKonferencijaZaStampuTrack,
