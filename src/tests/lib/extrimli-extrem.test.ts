@@ -2405,6 +2405,23 @@ async function runTests(): Promise<void> {
       });
     });
 
+    await test('AUTOMATSKA POPRAVKA SVEGA blocks undocumented fallback inputs', async () => {
+      await withEnv({
+        NODE_ENV: 'test',
+        EXTRIMLI_AUTOMATSKA_POPRAVKA_SVEGA_INPUT: 'totally-unknown-repair-alias',
+      }, () => {
+        const track =
+          getExtrimliExtremProfilerReport()
+            .dokDikDakDukConsistencyHealth
+            .developerAndCreateRepoWideReflection
+            .automatskaPopravkaSvegaTrack;
+
+        assert(track.readinessSignal.fallbackInputStatus === 'BLOCKED', 'automatska popravka svega undocumented fallback input must map to BLOCKED');
+        assert(track.readinessSignal.status === 'BLOCKED', 'automatska popravka svega undocumented fallback input must block readiness');
+        assert(track.blockerReason?.includes('dokumentovanog fallback skupa') ?? false, 'automatska popravka svega blocker reason must mention documented fallback set');
+      });
+    });
+
     await test('KRALJEVSKI RAD keeps READY status for canonical sequence', async () => {
       await withEnv({
         NODE_ENV: 'test',

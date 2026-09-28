@@ -13534,7 +13534,7 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
             && !DEVELOPER_CREATE_AUTOMATSKA_POPRAVKA_SVEGA_INPUT_NORMALIZATION_ALIASES_UPPERCASE.includes(
               normalizedAutomatskaPopravkaSvegaRuntimeInput,
             )
-          ? 'WATCH'
+          ? 'BLOCKED'
           : 'READY';
   const automatskaPopravkaSvegaSignalStatuses = [
     automatskaPopravkaSvegaFallbackInputStatus,
@@ -13557,7 +13557,13 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
     || dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.deterministicFallbackRequired;
   automatskaPopravkaSvegaTrack.blockerReason =
     automatskaPopravkaSvegaStatus === 'BLOCKED'
-      ? 'AUTOMATSKA POPRAVKA SVEGA ostaje BLOCKED dok bounded repair-summary, deterministic fallback disciplina i governance gate ne ostanu usklađeni bez novog runtime engine-a.'
+      ? normalizedAutomatskaPopravkaSvegaRuntimeInput
+          && !automatskaPopravkaSvegaUsesRawAlias
+          && !DEVELOPER_CREATE_AUTOMATSKA_POPRAVKA_SVEGA_INPUT_NORMALIZATION_ALIASES_UPPERCASE.includes(
+            normalizedAutomatskaPopravkaSvegaRuntimeInput,
+          )
+        ? 'AUTOMATSKA POPRAVKA SVEGA ostaje BLOCKED kada nekanonski ulaz izlazi van dokumentovanog fallback skupa; samo kanonski alias, raw `ATOMATSKA...` normalization alias i eksplicitni fallback ulazi ostaju dozvoljeni.'
+        : 'AUTOMATSKA POPRAVKA SVEGA ostaje BLOCKED dok bounded repair-summary, deterministic fallback disciplina i governance gate ne ostanu usklađeni bez novog runtime engine-a.'
       : null;
   automatskaPopravkaSvegaTrack.watchReasons =
     automatskaPopravkaSvegaStatus === 'WATCH'
