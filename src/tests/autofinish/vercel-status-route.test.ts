@@ -160,7 +160,7 @@ async function testRouteResponse() {
     'WATCH',
   );
   assert.strictEqual(
-    json.deployReadinessPlan?.steps?.find((step) => step.id === 'wawe3-release-gate')?.status,
+    json.deployReadinessPlan?.steps?.find((step) => step.id === 'wave3-release-gate')?.status,
     'WATCH',
   );
 }

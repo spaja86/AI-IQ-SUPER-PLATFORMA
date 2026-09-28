@@ -23,8 +23,8 @@ export interface VercelDeployReadinessPlanStep {
     | 'finops-gate'
     | 'deploy-infra-gate'
     | 'domain-gate'
-    | 'wawe3-release-gate'
-    | 'wawe4-wawe5-promotion';
+    | 'wave3-release-gate'
+    | 'wave4-wave5-promotion';
   title: string;
   status: VercelDeployReadinessPlanStatus;
   blockers: string[];
@@ -250,7 +250,7 @@ export function buildVercelDeployReadinessPlan(
 
   const wawe3ReleaseStep: VercelDeployReadinessPlanStep = {
     order: 8,
-    id: 'wawe3-release-gate',
+    id: 'wave3-release-gate',
     title: 'Zatvoriti WAWE 3 / release gate',
     status: 'WATCH',
     blockers: [],
@@ -289,7 +289,7 @@ export function buildVercelDeployReadinessPlan(
 
   const promotionStep: VercelDeployReadinessPlanStep = {
     order: 9,
-    id: 'wawe4-wawe5-promotion',
+    id: 'wave4-wave5-promotion',
     title: 'Pustiti WAWE 4 promociju i WAWE 5 audit tek nakon zatvaranja svih gate-ova',
     status: resolveStepStatus(promotionBlockers, promotionWatchItems),
     blockers: promotionBlockers,
