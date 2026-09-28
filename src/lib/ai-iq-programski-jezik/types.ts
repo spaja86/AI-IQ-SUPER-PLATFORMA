@@ -94,6 +94,12 @@ export interface AiiqLanguageExtrimliIntegrationProfile {
       group: readonly ['PROGRAMSKI JEZIK SPECIJALIZOVAN ZA IGRICE'];
       role: 'gaming-runtime-orchestration-profile';
     };
+    AUTOMATIZACIJA_PROGRAMSKOG_JEZIKA: {
+      technicalSource: '/api/extrimli/extrem';
+      governanceSource: '/api/extrimli/extrondol';
+      group: readonly ['DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == AUTOMATIZACIJA PROGRAMSKOG JEZIKA (SPROVOĐENJE AUTOMATSKOG RADA PROGRAMSKOG JEZIKA)'];
+      role: 'bounded-automation-language-track';
+    };
   };
   layerResponsibilities: {
     extrem: 'technical-signal-engine-readiness-conflict-profiling';
@@ -110,6 +116,7 @@ export interface AiiqLanguageExtrimliIntegrationProfile {
     prosparitetDeklasiraneMatriceEkstaza: AiiqIntegrationSignalStatus;
     programskiJezikDekoracijeObjektnihPrimesa: AiiqIntegrationSignalStatus;
     programskiJezikSpecijalizovanZaIgrice: AiiqIntegrationSignalStatus;
+    automatizacijaProgramskogJezika: AiiqIntegrationSignalStatus;
     sinemetricko: AiiqIntegrationSignalStatus;
     overall: AiiqIntegrationSignalStatus;
   };
@@ -298,6 +305,35 @@ export interface AiiqLanguageExtrimliIntegrationProfile {
       };
       reasons: string[];
     };
+    programskiJezikAutomatizacijaProgramskogJezika: {
+      canonicalName: 'PROGRAMSKI JEZIK AUTOMATIZACIJA PROGRAMSKOG JEZIKA';
+      additiveOnlyProfile: 'EXTRIMLI-EXTRONDOL-EXTREM';
+      dslProfile: 'bounded-automation-language-sibling-track';
+      sourceOfTruthRoutes: readonly ['/api/extrimli/extrem', '/api/extrimli/extrondol'];
+      ownershipSplit: {
+        dokDikFor: 'EXTREM';
+        dakDuk: 'EXTRONDOL';
+        spajaKod: 'audit-safe-summary-only';
+      };
+      unifiedStatus: AiiqIntegrationSignalStatus;
+      deterministicFallbackRequired: boolean;
+      summarySafeOutputs: readonly [
+        'canonicalAlias',
+        'status',
+        'blockerReason',
+        'watchReasons',
+        'reviewPosture',
+        'humanReviewStatus',
+        'rolloutPlan',
+        'rollbackPlan',
+        'releaseAuditSummary',
+        'downstreamReference',
+        'automationSummary',
+        'fallbackInputStatus',
+      ];
+      automationSummary: string;
+      reasons: string[];
+    };
     programskiJezikApstrakcija: {
       canonicalName: 'PROGRAMSKI JEZIK APSTRAKCIJA';
       additiveOnly: true;
@@ -383,6 +419,7 @@ export interface AiiqLanguageExtrimliIntegrationProfile {
     informacioniTokoviAdditiveInput: true;
     pretpostavkaAdditiveInput: true;
     dekoracijeObjektnihPrimesaAdditiveInput: true;
+    automatizacijaProgramskogJezikaAdditiveInput: true;
     sinemetrickoAdditiveInput: true;
     performanceWithinTargets: boolean;
     securityBoundariesPreserved: boolean;

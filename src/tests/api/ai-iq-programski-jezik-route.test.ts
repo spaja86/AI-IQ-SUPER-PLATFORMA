@@ -99,6 +99,7 @@ async function runTests(): Promise<void> {
             sinemetricko: string;
             forInformacioniTokovi: string;
             programskiJezikDekoracijeObjektnihPrimesa: string;
+            automatizacijaProgramskogJezika: string;
           };
           dokDikDakDukConsistencyHealth: {
             sourceOfTruth: string;
@@ -111,38 +112,47 @@ async function runTests(): Promise<void> {
                 canonicalName: string;
                 meaning: string;
               };
-              programskiJezikInformacionihTokova: {
-                canonicalName: string;
-                dslProfile: string;
+            };
+            programskiJezikInformacionihTokova: {
+              canonicalName: string;
+              dslProfile: string;
+            };
+            programskiJezikPretpostavka: {
+              canonicalName: string;
+              dslProfile: string;
+            };
+            programskiJezikDekoracijeObjektnihPrimesa: {
+              canonicalName: string;
+              ownershipSplit: {
+                dokDikFor: string;
+                dakDuk: string;
               };
-              programskiJezikPretpostavka: {
-                canonicalName: string;
-                dslProfile: string;
+            };
+            programskiJezikSpecijalizovanZaIgrice: {
+              canonicalName: string;
+              dslProfile: string;
+              gamingDomain: {
+                consumerAnchors: string[];
               };
-              programskiJezikDekoracijeObjektnihPrimesa: {
-                canonicalName: string;
-                ownershipSplit: {
-                  dokDikFor: string;
-                  dakDuk: string;
-                };
+            };
+            programskiJezikAutomatizacijaProgramskogJezika: {
+              canonicalName: string;
+              dslProfile: string;
+              ownershipSplit: {
+                dokDikFor: string;
+                dakDuk: string;
               };
-              programskiJezikSpecijalizovanZaIgrice: {
-                canonicalName: string;
-                dslProfile: string;
-                gamingDomain: {
-                  consumerAnchors: string[];
-                };
+              automationSummary: string;
+            };
+            programskiJezikApstrakcija: {
+              canonicalName: string;
+              additiveOnly: boolean;
+              governanceQualityGate: {
+                sequence: string[];
               };
-              programskiJezikApstrakcija: {
-                canonicalName: string;
-                additiveOnly: boolean;
-                governanceQualityGate: {
-                  sequence: string[];
-                };
-                rolloutPlan: {
-                  phase1: string;
-                  phase4: string;
-                };
+              rolloutPlan: {
+                phase1: string;
+                phase4: string;
               };
             };
           };
@@ -152,6 +162,7 @@ async function runTests(): Promise<void> {
             informacioniTokoviAdditiveInput: boolean;
             pretpostavkaAdditiveInput: boolean;
             dekoracijeObjektnihPrimesaAdditiveInput: boolean;
+            automatizacijaProgramskogJezikaAdditiveInput: boolean;
           };
           governanceLink: {
             rolloutSnapshot: { promotionFreeze: boolean };
@@ -171,6 +182,7 @@ async function runTests(): Promise<void> {
     assert(['READY', 'WATCH', 'BLOCKED'].includes(body.data.integrationProfile.unifiedSignalStatus.pretpostavka), 'invalid pretpostavka status');
     assert(['READY', 'WATCH', 'BLOCKED'].includes(body.data.integrationProfile.unifiedSignalStatus.programskiJezikDekoracijeObjektnihPrimesa), 'invalid dekoracije-objektnih-primesa status');
     assert(['READY', 'WATCH', 'BLOCKED'].includes(body.data.integrationProfile.unifiedSignalStatus.programskiJezikSpecijalizovanZaIgrice), 'invalid gaming DSL status');
+    assert(['READY', 'WATCH', 'BLOCKED'].includes(body.data.integrationProfile.unifiedSignalStatus.automatizacijaProgramskogJezika), 'invalid automation-language status');
     assert(body.data.integrationProfile.dokDikDakDukConsistencyHealth.sourceOfTruth === '/api/extrimli/extrondol', 'consistency source mismatch');
     assert(['READY', 'WATCH', 'BLOCKED'].includes(body.data.integrationProfile.dokDikDakDukConsistencyHealth.escalationStatus), 'invalid escalation consistency status');
     assert(body.data.integrationProfile.dokDikDakDukConsistencyHealth.escalationScore >= 0 && body.data.integrationProfile.dokDikDakDukConsistencyHealth.escalationScore <= 100, 'invalid escalation consistency score');
@@ -188,6 +200,11 @@ async function runTests(): Promise<void> {
     assert(body.data.integrationProfile.dokDikDakDukConsistencyHealth.programskiJezikSpecijalizovanZaIgrice.canonicalName === 'PROGRAMSKI JEZIK SPECIJALIZOVAN ZA IGRICE', 'missing gaming DSL profile');
     assert(body.data.integrationProfile.dokDikDakDukConsistencyHealth.programskiJezikSpecijalizovanZaIgrice.dslProfile === 'gaming-specijalizovani-dsl', 'gaming DSL profile mismatch');
     assert(body.data.integrationProfile.dokDikDakDukConsistencyHealth.programskiJezikSpecijalizovanZaIgrice.gamingDomain.consumerAnchors.join(',') === 'src/lib/igrice.ts,src/lib/gaming-endzin.ts', 'gaming DSL anchor mismatch');
+    assert(body.data.integrationProfile.dokDikDakDukConsistencyHealth.programskiJezikAutomatizacijaProgramskogJezika.canonicalName === 'PROGRAMSKI JEZIK AUTOMATIZACIJA PROGRAMSKOG JEZIKA', 'missing automation-language profile');
+    assert(body.data.integrationProfile.dokDikDakDukConsistencyHealth.programskiJezikAutomatizacijaProgramskogJezika.dslProfile === 'bounded-automation-language-sibling-track', 'automation-language DSL profile mismatch');
+    assert(body.data.integrationProfile.dokDikDakDukConsistencyHealth.programskiJezikAutomatizacijaProgramskogJezika.ownershipSplit.dokDikFor === 'EXTREM', 'automation-language EXTREM ownership mismatch');
+    assert(body.data.integrationProfile.dokDikDakDukConsistencyHealth.programskiJezikAutomatizacijaProgramskogJezika.ownershipSplit.dakDuk === 'EXTRONDOL', 'automation-language EXTRONDOL ownership mismatch');
+    assert(body.data.integrationProfile.dokDikDakDukConsistencyHealth.programskiJezikAutomatizacijaProgramskogJezika.automationSummary.length > 0, 'automation-language summary missing');
     assert(body.data.integrationProfile.dokDikDakDukConsistencyHealth.programskiJezikApstrakcija.canonicalName === 'PROGRAMSKI JEZIK APSTRAKCIJA', 'missing apstrakcija profile');
     assert(body.data.integrationProfile.dokDikDakDukConsistencyHealth.programskiJezikApstrakcija.additiveOnly, 'apstrakcija profile must stay additive-only');
     assert(body.data.integrationProfile.dokDikDakDukConsistencyHealth.programskiJezikApstrakcija.governanceQualityGate.sequence.join(',') === 'lint,test,smoke,predeploy,security,human-review,audit-log', 'apstrakcija gate sequence mismatch');
@@ -198,6 +215,7 @@ async function runTests(): Promise<void> {
     assert(body.data.integrationProfile.acceptanceCriteria.informacioniTokoviAdditiveInput, 'informational-flow additive lock must be enabled');
     assert(body.data.integrationProfile.acceptanceCriteria.pretpostavkaAdditiveInput, 'pretpostavka additive lock must be enabled');
     assert(body.data.integrationProfile.acceptanceCriteria.dekoracijeObjektnihPrimesaAdditiveInput, 'dekoracije-objektnih-primesa additive lock must be enabled');
+    assert(body.data.integrationProfile.acceptanceCriteria.automatizacijaProgramskogJezikaAdditiveInput, 'automation-language additive lock must be enabled');
     assert(body.data.integrationProfile.governanceLink.downstreamReference.linkedRepo === 'spaja86/IO-OPENUI-AO', 'missing downstream linked repo');
     assert(body.data.integrationProfile.governanceLink.rolloutSnapshot.promotionFreeze === false, 'valid route payload should not be frozen');
   });

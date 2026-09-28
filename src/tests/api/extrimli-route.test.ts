@@ -1038,6 +1038,7 @@ async function runTests(): Promise<void> {
           notes1450Status: string;
           promocijeTiketiBonusiPropusniceAdministrativniBonusiStatus: string;
           medaljeSrbskeStatus: string;
+          automatizacijaProgramskogJezikaStatus: string;
           radniProstorStatus: string;
           alatiRadionicaStatus: string;
           kraljevskaMontezacijaStatus: string;
@@ -1103,6 +1104,7 @@ async function runTests(): Promise<void> {
             | 'publicSignals.kraljevskoTakmicenjeStatus'
             | 'publicSignals.kraljevskiPokloniZaSvacijiRodjendanStatus'
             | 'publicSignals.medaljeSrbskeStatus'
+            | 'publicSignals.automatizacijaProgramskogJezikaStatus'
             | 'publicSignals.kraljevskiRadStatus'
             | 'publicSignals.radniProstorStatus'
             | 'publicSignals.alatiRadionicaStatus'
@@ -1145,6 +1147,7 @@ async function runTests(): Promise<void> {
             | 'developerAndCreateImplementationPackage.kraljevskoTakmicenjeSummary'
             | 'developerAndCreateImplementationPackage.kraljevskiPokloniZaSvacijiRodjendanSummary'
             | 'developerAndCreateImplementationPackage.medaljeSrbskeSummary'
+            | 'developerAndCreateImplementationPackage.automatizacijaProgramskogJezikaSummary'
             | 'developerAndCreateImplementationPackage.kraljevskiRadSummary'
             | 'developerAndCreateImplementationPackage.radniProstorSummary'
             | 'developerAndCreateImplementationPackage.alatiRadionicaSummary'
@@ -1230,6 +1233,7 @@ async function runTests(): Promise<void> {
     assert(['READY', 'WATCH', 'BLOCKED'].includes(body.data.publicSignals.sarkazamPrivrednaGranaDigitalizmaStatus), 'unexpected SPAJA KOD Sarkazam summary status');
     assert(['READY', 'WATCH', 'BLOCKED'].includes(body.data.publicSignals.notes1450Status), 'unexpected SPAJA KOD NOTES 1450 summary status');
     assert(['READY', 'WATCH', 'BLOCKED'].includes(body.data.publicSignals.promocijeTiketiBonusiPropusniceAdministrativniBonusiStatus), 'unexpected SPAJA KOD promotions package summary status');
+    assert(['READY', 'WATCH', 'BLOCKED'].includes(body.data.publicSignals.automatizacijaProgramskogJezikaStatus), 'unexpected SPAJA KOD AUTOMATIZACIJA PROGRAMSKOG JEZIKA summary status');
     assert(['READY', 'WATCH', 'BLOCKED'].includes(body.data.publicSignals.radniProstorStatus), 'unexpected SPAJA KOD RADNI PROSTOR summary status');
     assert(['READY', 'WATCH', 'BLOCKED'].includes(body.data.publicSignals.alatiRadionicaStatus), 'unexpected SPAJA KOD ALATI / RADIONICA summary status');
     assert(['READY', 'WATCH', 'BLOCKED'].includes(body.data.publicSignals.kraljevskaMontezacijaStatus), 'unexpected SPAJA KOD KRALJEVSKA MONTEZACIJA summary status');
