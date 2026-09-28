@@ -13519,10 +13519,16 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
     dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.automatskaPopravkaSvegaTrack;
   const automatskaPopravkaSvegaRuntimeInput =
     process.env.EXTRIMLI_AUTOMATSKA_POPRAVKA_SVEGA_INPUT;
+  const normalizedAutomatskaPopravkaSvegaTrimmedInput =
+    automatskaPopravkaSvegaRuntimeInput?.trim() ?? null;
   const normalizedAutomatskaPopravkaSvegaRuntimeInput =
-    automatskaPopravkaSvegaRuntimeInput?.trim().replace(/\s+/g, ' ').toUpperCase() ?? null;
+    normalizedAutomatskaPopravkaSvegaTrimmedInput
+      ? normalizedAutomatskaPopravkaSvegaTrimmedInput.replace(/\s+/g, ' ').toUpperCase()
+      : null;
   const normalizedAutomatskaPopravkaSvegaFallbackLower =
-    automatskaPopravkaSvegaRuntimeInput?.trim().toLowerCase() ?? null;
+    normalizedAutomatskaPopravkaSvegaTrimmedInput === ''
+      ? 'empty'
+      : normalizedAutomatskaPopravkaSvegaTrimmedInput?.toLowerCase() ?? null;
   const automatskaPopravkaSvegaUsesCanonicalAlias =
     normalizedAutomatskaPopravkaSvegaRuntimeInput
     === DEVELOPER_CREATE_AUTOMATSKA_POPRAVKA_SVEGA_CANONICAL_ALIAS_UPPERCASE;

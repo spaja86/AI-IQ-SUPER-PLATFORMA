@@ -2440,6 +2440,22 @@ async function runTests(): Promise<void> {
       });
     });
 
+    await test('AUTOMATSKA POPRAVKA SVEGA treats whitespace-only runtime input as empty fallback', async () => {
+      await withEnv({
+        NODE_ENV: 'test',
+        EXTRIMLI_AUTOMATSKA_POPRAVKA_SVEGA_INPUT: '   ',
+      }, () => {
+        const track =
+          getExtrimliExtremProfilerReport()
+            .dokDikDakDukConsistencyHealth
+            .developerAndCreateRepoWideReflection
+            .automatskaPopravkaSvegaTrack;
+
+        assert(track.readinessSignal.fallbackInputStatus === 'WATCH', 'automatska popravka svega whitespace-only runtime input must map to WATCH');
+        assert(track.readinessSignal.status === 'WATCH', 'automatska popravka svega whitespace-only runtime input must keep WATCH posture');
+      });
+    });
+
     await test('KRALJEVSKI RAD keeps READY status for canonical sequence', async () => {
       await withEnv({
         NODE_ENV: 'test',
