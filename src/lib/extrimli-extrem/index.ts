@@ -6369,11 +6369,7 @@ function buildZelezaraPretplataIdentityTrack(): ExtrimliExtremZelezaraPretplataI
   };
 }
 
-export function getExtrimliExtremProfilerReport(options?: {
-  paymentGate?: {
-    currentInvoicePaid?: boolean;
-  };
-}): ExtrimliExtremProfilerReport {
+export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport {
   const innovationRegistry13k = buildExtrimliInnovationRegistry();
   const extendolReport = getExtrimliExtendolReport();
   const versionRoadmap = getExtrimliVersionRoadmap();
@@ -12958,20 +12954,13 @@ export function getExtrimliExtremProfilerReport(options?: {
     'INOVACE is normalized into bounded innovation context until deterministic fallback is verified.',
     'SPAJICNIKOLA is normalized to SpajaNikOpenEvolution scope until ownership lock evidence is complete.',
   ];
-  const cliPaymentGateConfirmed = options?.paymentGate?.currentInvoicePaid === true;
-  cliFunctionBackdownTrack.paymentGateStatus = cliPaymentGateConfirmed ? 'PAID_CONFIRMED' : 'PAID_REQUIRED';
-  cliFunctionBackdownTrack.status =
-    cliFunctionBackdownTrack.paymentGateStatus === 'PAID_CONFIRMED'
-      ? spajaNikOpenEvolutionFunctionBackupStatus
-      : 'BLOCKED';
+  cliFunctionBackdownTrack.status = spajaNikOpenEvolutionFunctionBackupStatus;
   cliFunctionBackdownTrack.blockerReason =
-    cliFunctionBackdownTrack.paymentGateStatus !== 'PAID_CONFIRMED'
-      ? 'FUNCTION BACKDOWN stays payment-gated in EXTREM until EXTRONDOL confirms PAID governance evidence.'
-      : spajaNikOpenEvolutionFunctionBackupStatus === 'BLOCKED'
-        ? spajaNikOpenEvolutionFunctionBackupOperation
-          ? 'FUNCTION BACKDOWN remains blocked until normalized FUNCTION BACKUP reaches canonical PETLJE readiness.'
-          : 'FUNCTION BACKDOWN cannot be promoted because normalized FUNCTION BACKUP is missing from FUNCTION REGISTRY operations.'
-        : null;
+    spajaNikOpenEvolutionFunctionBackupStatus === 'BLOCKED'
+      ? spajaNikOpenEvolutionFunctionBackupOperation
+        ? 'FUNCTION BACKDOWN remains blocked until normalized FUNCTION BACKUP reaches canonical PETLJE readiness.'
+        : 'FUNCTION BACKDOWN cannot be promoted because normalized FUNCTION BACKUP is missing from FUNCTION REGISTRY operations.'
+      : null;
   cliFunctionBackdownTrack.watchReasons =
     cliFunctionBackdownTrack.status === 'WATCH'
       ? [

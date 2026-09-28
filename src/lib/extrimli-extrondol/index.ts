@@ -4870,11 +4870,7 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
   const extendol = getExtrimliExtendolReport();
   const koron = getExtrimliKoronHealthReport();
   const paymentVerification = buildPaymentVerification();
-  const extremProfiler = getExtrimliExtremProfilerReport({
-    paymentGate: {
-      currentInvoicePaid: paymentVerification.evidence.currentInvoicePaid,
-    },
-  });
+  const extremProfiler = getExtrimliExtremProfilerReport();
   const mobilnaLinija = buildMobilnaLinijaReadiness(extremProfiler);
   const domainStrategy = validateDomainStrategy();
   const governanceEvidence = resolveGovernanceEvidence(evidence);
