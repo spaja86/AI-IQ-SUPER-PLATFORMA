@@ -948,13 +948,13 @@ async function runTests(): Promise<void> {
     assert(
       manifest.includes('### 2.2.17) AUTOMATSKA POPRAVKA SVEGA bounded traka') &&
         manifest.includes('`DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == AUTOMATSKA POPRAVKA SVEGA`') &&
-        manifest.includes('`ATOMATSKA POPRAVKA SVEGA` ostaje samo supplemental/input-normalization alias'),
+        manifest.includes('sirovi unos `DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == ATOMATSKA POPRAVKA SVEGA` ostaje samo supplemental/input-normalization alias'),
       'manifest AUTOMATSKA POPRAVKA SVEGA bounded-track markers missing',
     );
     assert(
       vrhDoc.includes('## AUTOMATSKA POPRAVKA SVEGA (bounded extension)') &&
         vrhDoc.includes('`DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == AUTOMATSKA POPRAVKA SVEGA`') &&
-        vrhDoc.includes('`ATOMATSKA...` input remains only a supplemental normalization alias'),
+        vrhDoc.includes('Sirovi unos `DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == ATOMATSKA POPRAVKA SVEGA` ostaje samo supplemental/input-normalization alias'),
       'VRH doc AUTOMATSKA POPRAVKA SVEGA markers missing',
     );
     assert(

@@ -13537,12 +13537,9 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
           ? 'WATCH'
           : 'READY';
   const automatskaPopravkaSvegaSignalStatuses = [
-    dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.status,
-    dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.technicalReadinessProfile
-      .consolidatedRhythmStatus,
     automatskaPopravkaSvegaFallbackInputStatus,
   ] as const;
-  const automatskaPopravkaSvegaStatus = aggregateSignalReadinessStatus([
+  const automatskaPopravkaSvegaStatus = aggregateReadinessStatus([
     ...automatskaPopravkaSvegaSignalStatuses,
   ]);
   automatskaPopravkaSvegaTrack.readinessSignal.status = automatskaPopravkaSvegaStatus;
