@@ -268,6 +268,34 @@ async function runTests(): Promise<void> {
     );
   });
 
+  await test('requested enterprise state counts as started in readiness plan', async () => {
+    await resetState();
+    const phone = nextScenarioOwnerPhone();
+    ensureVerifiedOwnerPhone(phone);
+    const originalRequested = process.env.SPAJA_VERCEL_ENTERPRISE_REQUESTED;
+    try {
+      process.env.SPAJA_VERCEL_ENTERPRISE_REQUESTED = 'true';
+      const response = await GET();
+      assert.strictEqual(response.status, 200);
+      const body = await response.json() as {
+        deployReadinessPlan: {
+          steps: Array<{ id: string; blockers: string[] }>;
+        };
+      };
+      const ownershipStep = body.deployReadinessPlan.steps.find((step) => step.id === 'ownership-gate');
+      assert.ok(ownershipStep, 'ownership gate step must be present');
+      assert.ok(
+        !(ownershipStep?.blockers ?? []).includes('Enterprise zahtev mora biti pokrenut (requested/submitted).'),
+      );
+    } finally {
+      if (originalRequested === undefined) {
+        delete process.env.SPAJA_VERCEL_ENTERPRISE_REQUESTED;
+      } else {
+        process.env.SPAJA_VERCEL_ENTERPRISE_REQUESTED = originalRequested;
+      }
+    }
+  });
+
   await test('corrected invoice resolve requires prior correction request', async () => {
     await seedApprovedOpenInvoiceState();
     const response = await postAction('set-corrected-invoice-resolved');

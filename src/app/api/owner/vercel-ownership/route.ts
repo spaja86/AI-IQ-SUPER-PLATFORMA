@@ -218,6 +218,9 @@ export async function GET() {
     enterpriseRequestSpreman: ready || identity.vercel.checklist.enterpriseRequestSpreman,
     enterpriseRequestPoslato: submitted || identity.vercel.checklist.enterpriseRequestPoslato,
   };
+  const enterpriseRequestRequested = /^(1|true|yes)$/i.test(
+    runtimeEnv.SPAJA_VERCEL_ENTERPRISE_REQUESTED ?? '',
+  );
 
   const vercelStatus = submitted
     ? 'u-procesu'
@@ -255,7 +258,7 @@ export async function GET() {
     mirroredEndpoint: deployGovernance.blockerSourceOfTruth.mirroredEndpoint,
     phoneVerified: checklist.phoneVerified,
     enterpriseRequestReady: checklist.enterpriseRequestSpreman,
-    enterpriseRequestStarted: checklist.enterpriseRequestSpreman || checklist.enterpriseRequestPoslato,
+    enterpriseRequestStarted: enterpriseRequestRequested || checklist.enterpriseRequestPoslato,
     enterpriseRequestSubmitted: checklist.enterpriseRequestPoslato,
     billingOwnerLocked: billing.billingOwnerLocked,
     billingOwner: billing.billingOwner,
