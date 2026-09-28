@@ -28,6 +28,12 @@ import {
   DEVELOPER_CREATE_AI_IQ_LABORATORIJA_NORMALIZATION_RULES,
   DEVELOPER_CREATE_AI_IQ_LABORATORIJA_ROLE_CLASSIFICATION,
   DEVELOPER_CREATE_AI_IQ_LABORATORIJA_SCOPE_STATEMENT,
+  DEVELOPER_CREATE_DE_VINCI_KOD_BOUNDED_SIGNALS,
+  DEVELOPER_CREATE_DE_VINCI_KOD_CANONICAL_ALIAS,
+  DEVELOPER_CREATE_DE_VINCI_KOD_FALLBACK_INPUTS,
+  DEVELOPER_CREATE_DE_VINCI_KOD_ROLE_CLASSIFICATION,
+  DEVELOPER_CREATE_DE_VINCI_KOD_SCOPE_STATEMENT,
+  DEVELOPER_CREATE_DE_VINCI_KOD_SUMMARY_SAFE_FIELDS,
   DEVELOPER_CREATE_KONSTRUKCIJE_I_PROJEKTOVANJE_BOUNDED_TOKEN_SEQUENCE,
   DEVELOPER_CREATE_KONSTRUKCIJE_I_PROJEKTOVANJE_BLOCKED_FALLBACK_INPUTS,
   DEVELOPER_CREATE_KONSTRUKCIJE_I_PROJEKTOVANJE_CANONICAL_ALIAS,
@@ -8335,6 +8341,49 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
         downstreamReference: 'docs/MULTI-REPO-LINKS.md -> spaja86/IO-OPENUI-AO (summary-only)',
       },
       aiIqLaboratorijaTrack: buildDefaultAiIqLaboratorijaTrack(),
+      deVinciKodTrack: {
+        canonicalAlias: DEVELOPER_CREATE_DE_VINCI_KOD_CANONICAL_ALIAS,
+        scopeStatement: DEVELOPER_CREATE_DE_VINCI_KOD_SCOPE_STATEMENT,
+        roleClassification: DEVELOPER_CREATE_DE_VINCI_KOD_ROLE_CLASSIFICATION,
+        boundedSignals: DEVELOPER_CREATE_DE_VINCI_KOD_BOUNDED_SIGNALS,
+        boundedVocabularyPhrase: DEVELOPER_CREATE_REPO_WIDE_BOUNDED_VOCABULARY_PHRASE,
+        additiveOnly: true,
+        noNewRuntimeEngine: true,
+        noNewRuntimeRoutes: true,
+        noParallelSourceOfTruth: true,
+        sourceOfTruthRoutes: ['/api/extrimli/extrem', '/api/extrimli/extrondol', '/api/extrimli/spaja-kod'],
+        ownershipLock: {
+          dokDikFor: 'EXTREM',
+          dakDuk: 'EXTRONDOL',
+          spajaKod: 'audit-safe-summary-only',
+        },
+        summarySafePublicFields: DEVELOPER_CREATE_DE_VINCI_KOD_SUMMARY_SAFE_FIELDS,
+        readinessSignal: {
+          status: 'BLOCKED',
+          readinessScore: 0,
+          katetaStatus: 'BLOCKED',
+          hipotenuzaStatus: 'BLOCKED',
+          viskoznostStatus: 'BLOCKED',
+          tokenCoveragePercent: 0,
+          normalizedInputCount: 0,
+          deterministicFallbackRequired: true,
+          fallbackInputs: DEVELOPER_CREATE_DE_VINCI_KOD_FALLBACK_INPUTS,
+          driver:
+            'developerAndCreateRepoWideReflection.proporcionalnoProgramiranje + developerAndCreateRepoWideReflection.readiness + developerAndCreateRepoWideReflection.technicalReadinessProfile.consolidatedRhythmStatus',
+        },
+        blockerReason:
+          'de-vinci-kod-track-awaits-kateta-hipotenuza-viskoznost-signal-alignment-without-new-runtime-surfaces',
+        watchReasons: [],
+        reviewPosture: 'REVIEW_REQUIRED',
+        geometrijskoFizickiSummary: '',
+        acceptanceEvidence: [
+          'developerAndCreateRepoWideReflection.deVinciKodTrack',
+          'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.deVinciKodTrack',
+          'spajaKod.publicSignals.deVinciKodStatus',
+          'spajaKod.developerAndCreateImplementationPackage.deVinciKodSummary',
+        ],
+        downstreamReference: 'docs/MULTI-REPO-LINKS.md -> spaja86/IO-OPENUI-AO (summary-only)',
+      },
       konstrukcijeIProjektovanjeTrack: {
         canonicalAlias: DEVELOPER_CREATE_KONSTRUKCIJE_I_PROJEKTOVANJE_CANONICAL_ALIAS,
         scopeStatement: DEVELOPER_CREATE_KONSTRUKCIJE_I_PROJEKTOVANJE_SCOPE_STATEMENT,
@@ -14988,6 +15037,76 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
         : 'REVIEW_REQUIRED';
   aiIqLaboratorijaTrack.nalazSummary =
     'AI IQ LABORATORIJA ostaje additive-only bounded laboratorijski sloj: AI IQ LABORATORIJA je krovni audit/evidence kontekst, FAUNA I FLORA i GRAĐEVINSKI MATERIJAL ostaju bounded evidencioni domeni, a SPAJA KOD vidi samo summary-safe readiness, blocker/watch razlog i downstream referencu.';
+  const deVinciKodTrack =
+    dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.deVinciKodTrack;
+  const deVinciKodObservedSignals = [...DEVELOPER_CREATE_DE_VINCI_KOD_BOUNDED_SIGNALS];
+  const deVinciKodMatchedSignalCount = DEVELOPER_CREATE_DE_VINCI_KOD_BOUNDED_SIGNALS.reduce(
+    (count, token, index) => count + (deVinciKodObservedSignals[index] === token ? 1 : 0),
+    0,
+  );
+  const deVinciKodTokenCoveragePercent = round(
+    (deVinciKodMatchedSignalCount / (DEVELOPER_CREATE_DE_VINCI_KOD_BOUNDED_SIGNALS.length || 1)) * 100,
+    2,
+  );
+  const deVinciKodRuntimeFallbackInput = process.env.EXTRIMLI_DE_VINCI_KOD_FALLBACK_INPUT?.trim().toLowerCase() ?? null;
+  const deVinciKodFallbackStatus: ExtrimliExtremReadinessStatus =
+    deVinciKodRuntimeFallbackInput === 'conflict'
+      ? 'BLOCKED'
+      : deVinciKodRuntimeFallbackInput
+        && deVinciKodRuntimeFallbackInput !== 'conflict'
+        && deVinciKodRuntimeFallbackInput !== ''
+        ? 'WATCH'
+        : 'READY';
+  const deVinciKatetaStatus = proporcionalnoProgramiranje.readiness.status;
+  const deVinciHipotenuzaStatus =
+    dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.technicalReadinessProfile
+      .consolidatedRhythmStatus;
+  const deVinciViskoznostStatus = aggregateReadinessStatus([
+    dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.status,
+    deVinciKatetaStatus,
+    deVinciHipotenuzaStatus,
+  ]);
+  const deVinciKodSignalStatuses = [
+    dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.status,
+    deVinciKatetaStatus,
+    deVinciHipotenuzaStatus,
+    deVinciViskoznostStatus,
+    deVinciKodFallbackStatus,
+  ] as const;
+  const deVinciKodStatus = aggregateReadinessStatus([...deVinciKodSignalStatuses]);
+  deVinciKodTrack.readinessSignal.status = deVinciKodStatus;
+  deVinciKodTrack.readinessSignal.readinessScore = round(
+    deVinciKodSignalStatuses.reduce((sum, status) => sum + readinessStatusScore(status), 0)
+      / deVinciKodSignalStatuses.length,
+    2,
+  );
+  deVinciKodTrack.readinessSignal.katetaStatus = deVinciKatetaStatus;
+  deVinciKodTrack.readinessSignal.hipotenuzaStatus = deVinciHipotenuzaStatus;
+  deVinciKodTrack.readinessSignal.viskoznostStatus = deVinciViskoznostStatus;
+  deVinciKodTrack.readinessSignal.tokenCoveragePercent = deVinciKodTokenCoveragePercent;
+  deVinciKodTrack.readinessSignal.normalizedInputCount = deVinciKodObservedSignals.length;
+  deVinciKodTrack.readinessSignal.deterministicFallbackRequired =
+    deVinciKodStatus !== 'READY'
+    || deVinciKodFallbackStatus !== 'READY'
+    || dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.deterministicFallbackRequired;
+  deVinciKodTrack.blockerReason =
+    deVinciKodStatus === 'BLOCKED'
+      ? 'DE VINČI KOD ostaje BLOCKED dok kateta–hipotenuza–viskoznost signal ne dostigne stabilan READY profil bez conflict fallback unosa.'
+      : null;
+  deVinciKodTrack.watchReasons =
+    deVinciKodStatus === 'WATCH'
+      ? [
+        'DE VINČI KOD je u WATCH režimu dok geometrijsko/fizički narativ ostaje bounded i čeka dodatni review pre promotion odluke.',
+      ]
+      : [];
+  deVinciKodTrack.reviewPosture =
+    deVinciKodStatus === 'READY'
+      ? 'ALIGNED'
+      : deVinciKodStatus === 'WATCH'
+        ? 'WATCH'
+        : 'REVIEW_REQUIRED';
+  deVinciKodTrack.geometrijskoFizickiSummary =
+    'DE VINČI KOD ostaje additive-only bounded traka: proporcionalna kateta i hipotenuza u okvirnom ambijentu sa muskulatornim skeletonom grade viskoznost-signale za readiness, dok EXTREM zadržava DOK/DIK/FOR ownership bez novih runtime ruta i bez paralelnog source-of-truth sloja.';
   const normalizedKonstrukcijeIProjektovanjeTokens =
     konstrukcijeIProjektovanjeObservedTokens.map(normalizeKonstrukcijeIProjektovanjeToken);
   const normalizedExpectedKonstrukcijeIProjektovanjeTokens =

@@ -31,6 +31,12 @@ import type {
   DEVELOPER_CREATE_AI_IQ_LABORATORIJA_NORMALIZATION_RULES,
   DEVELOPER_CREATE_AI_IQ_LABORATORIJA_ROLE_CLASSIFICATION,
   DEVELOPER_CREATE_AI_IQ_LABORATORIJA_SCOPE_STATEMENT,
+  DEVELOPER_CREATE_DE_VINCI_KOD_BOUNDED_SIGNALS,
+  DEVELOPER_CREATE_DE_VINCI_KOD_CANONICAL_ALIAS,
+  DEVELOPER_CREATE_DE_VINCI_KOD_FALLBACK_INPUTS,
+  DEVELOPER_CREATE_DE_VINCI_KOD_ROLE_CLASSIFICATION,
+  DEVELOPER_CREATE_DE_VINCI_KOD_SCOPE_STATEMENT,
+  DEVELOPER_CREATE_DE_VINCI_KOD_SUMMARY_SAFE_FIELDS,
   DEVELOPER_CREATE_KONSTRUKCIJE_I_PROJEKTOVANJE_BOUNDED_TOKEN_SEQUENCE,
   DEVELOPER_CREATE_KONSTRUKCIJE_I_PROJEKTOVANJE_CANONICAL_ALIAS,
   DEVELOPER_CREATE_KONSTRUKCIJE_I_PROJEKTOVANJE_FALLBACK_INPUTS,
@@ -3822,6 +3828,47 @@ export interface ExtrimliDokDikDakDukConsistencyHealth {
       downstreamReference: 'docs/MULTI-REPO-LINKS.md -> spaja86/IO-OPENUI-AO (summary-only)';
     };
     aiIqLaboratorijaTrack: ExtrimliDeveloperCreateAiIqLaboratorijaTrack;
+    deVinciKodTrack: {
+      canonicalAlias: typeof DEVELOPER_CREATE_DE_VINCI_KOD_CANONICAL_ALIAS;
+      scopeStatement: typeof DEVELOPER_CREATE_DE_VINCI_KOD_SCOPE_STATEMENT;
+      roleClassification: typeof DEVELOPER_CREATE_DE_VINCI_KOD_ROLE_CLASSIFICATION;
+      boundedSignals: typeof DEVELOPER_CREATE_DE_VINCI_KOD_BOUNDED_SIGNALS;
+      boundedVocabularyPhrase: 'EXTRIMLI EXTRONDOL EXTREM DOK DUK DAK DIK FOR';
+      additiveOnly: true;
+      noNewRuntimeEngine: true;
+      noNewRuntimeRoutes: true;
+      noParallelSourceOfTruth: true;
+      sourceOfTruthRoutes: readonly ['/api/extrimli/extrem', '/api/extrimli/extrondol', '/api/extrimli/spaja-kod'];
+      ownershipLock: {
+        dokDikFor: 'EXTREM';
+        dakDuk: 'EXTRONDOL';
+        spajaKod: 'audit-safe-summary-only';
+      };
+      summarySafePublicFields: typeof DEVELOPER_CREATE_DE_VINCI_KOD_SUMMARY_SAFE_FIELDS;
+      readinessSignal: {
+        status: 'READY' | 'WATCH' | 'BLOCKED';
+        readinessScore: number;
+        katetaStatus: 'READY' | 'WATCH' | 'BLOCKED';
+        hipotenuzaStatus: 'READY' | 'WATCH' | 'BLOCKED';
+        viskoznostStatus: 'READY' | 'WATCH' | 'BLOCKED';
+        tokenCoveragePercent: number;
+        normalizedInputCount: number;
+        deterministicFallbackRequired: boolean;
+        fallbackInputs: typeof DEVELOPER_CREATE_DE_VINCI_KOD_FALLBACK_INPUTS;
+        driver: 'developerAndCreateRepoWideReflection.proporcionalnoProgramiranje + developerAndCreateRepoWideReflection.readiness + developerAndCreateRepoWideReflection.technicalReadinessProfile.consolidatedRhythmStatus';
+      };
+      blockerReason: string | null;
+      watchReasons: string[];
+      reviewPosture: 'ALIGNED' | 'WATCH' | 'REVIEW_REQUIRED';
+      geometrijskoFizickiSummary: string;
+      acceptanceEvidence: readonly [
+        'developerAndCreateRepoWideReflection.deVinciKodTrack',
+        'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.deVinciKodTrack',
+        'spajaKod.publicSignals.deVinciKodStatus',
+        'spajaKod.developerAndCreateImplementationPackage.deVinciKodSummary'
+      ];
+      downstreamReference: 'docs/MULTI-REPO-LINKS.md -> spaja86/IO-OPENUI-AO (summary-only)';
+    };
     konstrukcijeIProjektovanjeTrack: {
       canonicalAlias: typeof DEVELOPER_CREATE_KONSTRUKCIJE_I_PROJEKTOVANJE_CANONICAL_ALIAS;
       scopeStatement: typeof DEVELOPER_CREATE_KONSTRUKCIJE_I_PROJEKTOVANJE_SCOPE_STATEMENT;
