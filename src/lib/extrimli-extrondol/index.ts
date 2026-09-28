@@ -268,6 +268,7 @@ const DEVELOPER_CREATE_ROADMAP_ACCEPTANCE_EVIDENCE_BASE = [
   'spajaKod.publicSignals.sarkazamPrivrednaGranaDigitalizmaStatus',
   'spajaKod.publicSignals.notes1450Status',
   'spajaKod.publicSignals.functionRegistryStatus',
+  'spajaKod.publicSignals.spajaNikOpenEvolutionFunctionBackupStatus',
   'spajaKod.publicSignals.saradnjaReadyStatus',
   'spajaKod.publicSignals.leksikonStatus',
   'spajaKod.publicSignals.promocijeTiketiBonusiPropusniceAdministrativniBonusiStatus',
@@ -331,6 +332,7 @@ const DEVELOPER_CREATE_GOVERNANCE_ACCEPTANCE_EVIDENCE: ExtrimliExtrondolReport['
   'spajaKod.publicSignals.sarkazamPrivrednaGranaDigitalizmaStatus',
   'spajaKod.publicSignals.notes1450Status',
   'spajaKod.publicSignals.functionRegistryStatus',
+  'spajaKod.publicSignals.spajaNikOpenEvolutionFunctionBackupStatus',
   'spajaKod.publicSignals.saradnjaReadyStatus',
   'spajaKod.publicSignals.leksikonStatus',
   'spajaKod.publicSignals.radniProstorStatus',
@@ -3753,6 +3755,7 @@ function buildSpajaKodFacade(params: {
         'publicSignals.sarkazamPrivrednaGranaDigitalizmaStatus',
         'publicSignals.notes1450Status',
         'publicSignals.functionRegistryStatus',
+        'publicSignals.spajaNikOpenEvolutionFunctionBackupStatus',
         'publicSignals.leksikonStatus',
         'publicSignals.promocijeTiketiBonusiPropusniceAdministrativniBonusiStatus',
         'publicSignals.kraljevskoTakmicenjeStatus',
@@ -3975,6 +3978,17 @@ function buildSpajaKodFacade(params: {
           params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.functionRegistryTrack.controlPatterns.returnToStart.status,
         repeatStatus:
           params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.functionRegistryTrack.controlPatterns.repeat.status,
+        spajaNikOpenEvolutionFunctionBackupScopeLock:
+          params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.functionRegistryTrack.spajaNikOpenEvolutionFunctionBackup.scopeLock,
+        spajaNikOpenEvolutionFunctionBackupStatus:
+          params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.functionRegistryTrack.spajaNikOpenEvolutionFunctionBackup.status,
+        spajaNikOpenEvolutionFunctionBackupBlockerReason:
+          params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.functionRegistryTrack.spajaNikOpenEvolutionFunctionBackup.blockerReason,
+        spajaNikOpenEvolutionFunctionBackupWatchReasons: [
+          ...params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.functionRegistryTrack.spajaNikOpenEvolutionFunctionBackup.watchReasons,
+        ],
+        spajaNikOpenEvolutionFunctionBackupFallbackPosture:
+          params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.functionRegistryTrack.spajaNikOpenEvolutionFunctionBackup.fallbackPosture,
         reviewPosture:
           params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.functionRegistryTrack.readiness.status === 'READY'
             ? 'ALIGNED'
@@ -6114,6 +6128,7 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
             'developerAndCreateRepoWideReflection.functionRegistryTrack',
             'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.functionRegistryTrack',
             'spajaKod.publicSignals.functionRegistryStatus',
+  'spajaKod.publicSignals.spajaNikOpenEvolutionFunctionBackupStatus',
             'spajaKod.developerAndCreateImplementationPackage.functionRegistrySummary',
           ],
           downstreamReference:
@@ -7320,6 +7335,8 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
       extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.notes1450Track.readinessSignal.status,
     functionRegistryStatus:
       extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.functionRegistryTrack.readiness.status,
+    spajaNikOpenEvolutionFunctionBackupStatus:
+      extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.functionRegistryTrack.spajaNikOpenEvolutionFunctionBackup.status,
     saradnjaReadyStatus:
       extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.saradnjaReadyPackage.readinessSignal.status,
     leksikonStatus:
@@ -8297,6 +8314,7 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
               'developerAndCreateRepoWideReflection.functionRegistryTrack',
               'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.functionRegistryTrack',
               'spajaKod.publicSignals.functionRegistryStatus',
+  'spajaKod.publicSignals.spajaNikOpenEvolutionFunctionBackupStatus',
               'spajaKod.developerAndCreateImplementationPackage.functionRegistrySummary',
             ],
             downstreamReference:
@@ -9445,6 +9463,7 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
           'developerAndCreateRepoWideReflection.functionRegistryTrack',
           'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.functionRegistryTrack',
           'spajaKod.publicSignals.functionRegistryStatus',
+  'spajaKod.publicSignals.spajaNikOpenEvolutionFunctionBackupStatus',
           'spajaKod.developerAndCreateImplementationPackage.functionRegistrySummary',
         ],
         downstreamReference:
