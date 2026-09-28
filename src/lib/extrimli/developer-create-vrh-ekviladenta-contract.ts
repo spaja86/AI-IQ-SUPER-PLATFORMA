@@ -113,6 +113,12 @@ export const DEVELOPER_CREATE_VRH_KRALJEVSKI_SAT_ALIAS =
 export const DEVELOPER_CREATE_VRH_MEDALJE_SRBSKE_ALIAS =
   'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == MEDALJE SRBSKE' as const;
 
+export const DEVELOPER_CREATE_VRH_AUTOMATSKA_POPRAVKA_SVEGA_ALIAS =
+  'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == AUTOMATSKA POPRAVKA SVEGA' as const;
+
+export const DEVELOPER_CREATE_VRH_ATOMATSKA_POPRAVKA_SVEGA_RAW_ALIAS =
+  'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == ATOMATSKA POPRAVKA SVEGA' as const;
+
 export const DEVELOPER_CREATE_VRH_KRALJEVSKI_RAD_ALIAS =
   'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == KRALJEVSKI RAD' as const;
 
@@ -176,6 +182,8 @@ export const DEVELOPER_CREATE_VRH_INTERPRETATION_ALIASES = [
   'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == KRALJEVSKI POKLONI ZA SVAČIJI ROĐENDAN',
   DEVELOPER_CREATE_VRH_KRALJEVSKI_SAT_ALIAS,
   DEVELOPER_CREATE_VRH_MEDALJE_SRBSKE_ALIAS,
+  DEVELOPER_CREATE_VRH_AUTOMATSKA_POPRAVKA_SVEGA_ALIAS,
+  DEVELOPER_CREATE_VRH_ATOMATSKA_POPRAVKA_SVEGA_RAW_ALIAS,
   DEVELOPER_CREATE_VRH_KRALJEVSKI_RAD_ALIAS,
   DEVELOPER_CREATE_VRH_KRALJEVSKI_SISTEM_ALIAS,
   DEVELOPER_CREATE_VRH_IZVESTAJ_ALIAS,
@@ -2271,6 +2279,69 @@ export const DEVELOPER_CREATE_MEDALJE_SRBSKE_DOWNSTREAM_POLICY = {
   linkedRepo: 'spaja86/IO-OPENUI-AO',
   syncMode: 'summary-only',
   rawTokenInternalsStayRepoLocal: true,
+  rawExtremFormulasStayRepoLocal: true,
+  rawExtrondolGovernanceFormulasStayRepoLocal: true,
+} as const;
+
+export const DEVELOPER_CREATE_AUTOMATSKA_POPRAVKA_SVEGA_CANONICAL_ALIAS =
+  DEVELOPER_CREATE_VRH_AUTOMATSKA_POPRAVKA_SVEGA_ALIAS;
+
+export const DEVELOPER_CREATE_AUTOMATSKA_POPRAVKA_SVEGA_RAW_INPUT_ALIAS =
+  DEVELOPER_CREATE_VRH_ATOMATSKA_POPRAVKA_SVEGA_RAW_ALIAS;
+
+export const DEVELOPER_CREATE_AUTOMATSKA_POPRAVKA_SVEGA_INPUT_NORMALIZATION_ALIASES = [
+  DEVELOPER_CREATE_AUTOMATSKA_POPRAVKA_SVEGA_RAW_INPUT_ALIAS,
+] as const;
+
+export const DEVELOPER_CREATE_AUTOMATSKA_POPRAVKA_SVEGA_SCOPE_STATEMENT =
+  'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == AUTOMATSKA POPRAVKA SVEGA == additive-only bounded repair/governance traka bez novog runtime engine-a, bez novih runtime ruta i bez paralelnog source-of-truth modela; sirovi ulaz `ATOMATSKA POPRAVKA SVEGA` ostaje samo supplemental/input-normalization alias, dok ownership ostaje zaključan na DOK/DIK/FOR -> EXTREM (bounded readiness + repair-summary), DAK/DUK -> EXTRONDOL (human review + WAWE/freeze/promotion/rollback/release-audit), SPAJA KOD -> audit-safe summary-only.' as const;
+
+export const DEVELOPER_CREATE_AUTOMATSKA_POPRAVKA_SVEGA_ROLE_CLASSIFICATION =
+  'additive-only-bounded-automatska-popravka-svega-track' as const;
+
+export const DEVELOPER_CREATE_AUTOMATSKA_POPRAVKA_SVEGA_READINESS_LANGUAGE = [
+  'READY',
+  'WATCH',
+  'BLOCKED',
+] as const;
+
+export const DEVELOPER_CREATE_AUTOMATSKA_POPRAVKA_SVEGA_FALLBACK_INPUTS = [
+  'NaN',
+  'Infinity',
+  'empty',
+  'conflict',
+  DEVELOPER_CREATE_AUTOMATSKA_POPRAVKA_SVEGA_RAW_INPUT_ALIAS,
+] as const;
+
+export const DEVELOPER_CREATE_AUTOMATSKA_POPRAVKA_SVEGA_ACCEPTANCE_CRITERIA = [
+  'preserve-vrh-canonical-lock-and-bounded-vocabulary',
+  'normalize-atomatska-input-to-automatska-canonical-alias-without-new-runtime-engine',
+  'keep-track-additive-only-no-new-routes-and-no-parallel-source-of-truth',
+  'preserve-ownership-split-dok-dik-for-extrem-dak-duk-extrondol-spaja-kod-summary-only',
+  'require-ready-watch-blocked-repair-summary-and-deterministic-fallback-boundaries',
+  'require-human-review-wawe-freeze-rollout-rollback-and-release-audit-before-promotion',
+  'require-summary-only-downstream-reference-docs-multi-repo-links-for-io-openui-ao',
+] as const;
+
+export const DEVELOPER_CREATE_AUTOMATSKA_POPRAVKA_SVEGA_SUMMARY_SAFE_FIELDS = [
+  'canonicalAlias',
+  'status',
+  'blockerReason',
+  'watchReasons',
+  'reviewPosture',
+  'humanReviewStatus',
+  'rolloutPlan',
+  'rollbackPlan',
+  'releaseAuditSummary',
+  'downstreamReference',
+  'repairSummary',
+  'fallbackInputStatus',
+] as const;
+
+export const DEVELOPER_CREATE_AUTOMATSKA_POPRAVKA_SVEGA_DOWNSTREAM_POLICY = {
+  linkedRepo: 'spaja86/IO-OPENUI-AO',
+  syncMode: 'summary-only',
+  rawRepairInternalsStayRepoLocal: true,
   rawExtremFormulasStayRepoLocal: true,
   rawExtrondolGovernanceFormulasStayRepoLocal: true,
 } as const;

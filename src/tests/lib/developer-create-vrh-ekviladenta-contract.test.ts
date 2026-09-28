@@ -9,6 +9,11 @@ import {
   DEVELOPER_CREATE_KRALJEVSKI_SAT_BOUNDED_TOKEN_SET,
   DEVELOPER_CREATE_KRALJEVSKI_SAT_READINESS_LANGUAGE,
   DEVELOPER_CREATE_MEDALJE_SRBSKE_ACCEPTANCE_CRITERIA,
+  DEVELOPER_CREATE_AUTOMATSKA_POPRAVKA_SVEGA_ACCEPTANCE_CRITERIA,
+  DEVELOPER_CREATE_AUTOMATSKA_POPRAVKA_SVEGA_FALLBACK_INPUTS,
+  DEVELOPER_CREATE_AUTOMATSKA_POPRAVKA_SVEGA_INPUT_NORMALIZATION_ALIASES,
+  DEVELOPER_CREATE_AUTOMATSKA_POPRAVKA_SVEGA_SCOPE_STATEMENT,
+  DEVELOPER_CREATE_AUTOMATSKA_POPRAVKA_SVEGA_SUMMARY_SAFE_FIELDS,
   DEVELOPER_CREATE_MEDALJE_SRBSKE_FALLBACK_INPUTS,
   DEVELOPER_CREATE_MEDALJE_SRBSKE_LAYER_OWNERSHIP_LOCK,
   DEVELOPER_CREATE_MEDALJE_SRBSKE_READINESS_LANGUAGE,
@@ -47,6 +52,8 @@ import {
   DEVELOPER_CREATE_VRH_KRALJEVSKI_SAT_ALIAS,
   DEVELOPER_CREATE_VRH_KRALJEVSKI_SISTEM_ALIAS,
   DEVELOPER_CREATE_VRH_KRALJEVSKI_RAD_ALIAS,
+  DEVELOPER_CREATE_VRH_AUTOMATSKA_POPRAVKA_SVEGA_ALIAS,
+  DEVELOPER_CREATE_VRH_ATOMATSKA_POPRAVKA_SVEGA_RAW_ALIAS,
   DEVELOPER_CREATE_VRH_MEDALJE_SRBSKE_ALIAS,
   DEVELOPER_CREATE_VRH_IZVESTAJ_ALIAS,
   DEVELOPER_CREATE_VRH_VINOGRADI_GROCKA_RESTORAN_ALIAS,
@@ -858,6 +865,102 @@ async function runTests(): Promise<void> {
         multiRepoLinks.includes('do not promise dedicated `medaljeSrbskeTrack` runtime surfaces') &&
         multiRepoLinks.includes('`DAK/DUK=EXTRONDOL`'),
       'multi-repo links MEDALJE SRBSKE row missing',
+    );
+  });
+
+  await test('automatska popravka svega track remains additive-only, normalized, and summary-safe', () => {
+    assert(
+      DEVELOPER_CREATE_VRH_INTERPRETATION_ALIASES.includes(
+        DEVELOPER_CREATE_VRH_AUTOMATSKA_POPRAVKA_SVEGA_ALIAS,
+      ),
+      'AUTOMATSKA POPRAVKA SVEGA canonical alias must remain part of the VRH interpretation aliases',
+    );
+    assert(
+      DEVELOPER_CREATE_VRH_INTERPRETATION_ALIASES.includes(
+        DEVELOPER_CREATE_VRH_ATOMATSKA_POPRAVKA_SVEGA_RAW_ALIAS,
+      ),
+      'ATOMATSKA POPRAVKA SVEGA raw alias must remain part of the VRH interpretation aliases as supplemental normalization input',
+    );
+    assert(
+      DEVELOPER_CREATE_AUTOMATSKA_POPRAVKA_SVEGA_SCOPE_STATEMENT.includes('additive-only bounded repair/governance traka'),
+      'AUTOMATSKA POPRAVKA SVEGA scope statement must preserve additive-only repair/governance wording',
+    );
+    assert(
+      DEVELOPER_CREATE_AUTOMATSKA_POPRAVKA_SVEGA_SCOPE_STATEMENT.includes('bez novog runtime engine-a'),
+      'AUTOMATSKA POPRAVKA SVEGA scope statement must forbid a new runtime engine',
+    );
+    assert(
+      DEVELOPER_CREATE_AUTOMATSKA_POPRAVKA_SVEGA_SCOPE_STATEMENT.includes(
+        'ATOMATSKA POPRAVKA SVEGA',
+      ),
+      'AUTOMATSKA POPRAVKA SVEGA scope statement must document raw typo alias normalization',
+    );
+    assertArrayEquals(
+      DEVELOPER_CREATE_AUTOMATSKA_POPRAVKA_SVEGA_INPUT_NORMALIZATION_ALIASES,
+      [
+        DEVELOPER_CREATE_VRH_ATOMATSKA_POPRAVKA_SVEGA_RAW_ALIAS,
+      ],
+      'unexpected AUTOMATSKA POPRAVKA SVEGA normalization aliases',
+    );
+    assertArrayEquals(
+      DEVELOPER_CREATE_AUTOMATSKA_POPRAVKA_SVEGA_FALLBACK_INPUTS,
+      [
+        'NaN',
+        'Infinity',
+        'empty',
+        'conflict',
+        'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == ATOMATSKA POPRAVKA SVEGA',
+      ],
+      'unexpected AUTOMATSKA POPRAVKA SVEGA fallback inputs',
+    );
+    assertArrayEquals(
+      DEVELOPER_CREATE_AUTOMATSKA_POPRAVKA_SVEGA_ACCEPTANCE_CRITERIA,
+      [
+        'preserve-vrh-canonical-lock-and-bounded-vocabulary',
+        'normalize-atomatska-input-to-automatska-canonical-alias-without-new-runtime-engine',
+        'keep-track-additive-only-no-new-routes-and-no-parallel-source-of-truth',
+        'preserve-ownership-split-dok-dik-for-extrem-dak-duk-extrondol-spaja-kod-summary-only',
+        'require-ready-watch-blocked-repair-summary-and-deterministic-fallback-boundaries',
+        'require-human-review-wawe-freeze-rollout-rollback-and-release-audit-before-promotion',
+        'require-summary-only-downstream-reference-docs-multi-repo-links-for-io-openui-ao',
+      ],
+      'unexpected AUTOMATSKA POPRAVKA SVEGA acceptance criteria',
+    );
+    assertArrayEquals(
+      DEVELOPER_CREATE_AUTOMATSKA_POPRAVKA_SVEGA_SUMMARY_SAFE_FIELDS,
+      [
+        'canonicalAlias',
+        'status',
+        'blockerReason',
+        'watchReasons',
+        'reviewPosture',
+        'humanReviewStatus',
+        'rolloutPlan',
+        'rollbackPlan',
+        'releaseAuditSummary',
+        'downstreamReference',
+        'repairSummary',
+        'fallbackInputStatus',
+      ],
+      'unexpected AUTOMATSKA POPRAVKA SVEGA summary-safe fields',
+    );
+    assert(
+      manifest.includes('### 2.2.17) AUTOMATSKA POPRAVKA SVEGA bounded traka') &&
+        manifest.includes('`DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == AUTOMATSKA POPRAVKA SVEGA`') &&
+        manifest.includes('sirovi unos `DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == ATOMATSKA POPRAVKA SVEGA` ostaje samo supplemental/input-normalization alias'),
+      'manifest AUTOMATSKA POPRAVKA SVEGA bounded-track markers missing',
+    );
+    assert(
+      vrhDoc.includes('## AUTOMATSKA POPRAVKA SVEGA (bounded extension)') &&
+        vrhDoc.includes('`DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == AUTOMATSKA POPRAVKA SVEGA`') &&
+        vrhDoc.includes('Sirovi unos `DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == ATOMATSKA POPRAVKA SVEGA` ostaje samo supplemental/input-normalization alias'),
+      'VRH doc AUTOMATSKA POPRAVKA SVEGA markers missing',
+    );
+    assert(
+      multiRepoLinks.includes('Developer/Create `AUTOMATSKA POPRAVKA SVEGA` bounded track') &&
+        multiRepoLinks.includes('spajaKod.publicSignals.automatskaPopravkaSvegaStatus') &&
+        multiRepoLinks.includes('treat raw `ATOMATSKA...` only as supplemental normalization input'),
+      'multi-repo links AUTOMATSKA POPRAVKA SVEGA row missing',
     );
   });
 

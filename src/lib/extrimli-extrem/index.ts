@@ -69,6 +69,13 @@ import {
   DEVELOPER_CREATE_MEDALJE_SRBSKE_ROLE_CLASSIFICATION,
   DEVELOPER_CREATE_MEDALJE_SRBSKE_SCOPE_STATEMENT,
   DEVELOPER_CREATE_MEDALJE_SRBSKE_SUMMARY_SAFE_FIELDS,
+  DEVELOPER_CREATE_AUTOMATSKA_POPRAVKA_SVEGA_CANONICAL_ALIAS,
+  DEVELOPER_CREATE_AUTOMATSKA_POPRAVKA_SVEGA_FALLBACK_INPUTS,
+  DEVELOPER_CREATE_AUTOMATSKA_POPRAVKA_SVEGA_INPUT_NORMALIZATION_ALIASES,
+  DEVELOPER_CREATE_AUTOMATSKA_POPRAVKA_SVEGA_RAW_INPUT_ALIAS,
+  DEVELOPER_CREATE_AUTOMATSKA_POPRAVKA_SVEGA_ROLE_CLASSIFICATION,
+  DEVELOPER_CREATE_AUTOMATSKA_POPRAVKA_SVEGA_SCOPE_STATEMENT,
+  DEVELOPER_CREATE_AUTOMATSKA_POPRAVKA_SVEGA_SUMMARY_SAFE_FIELDS,
   DEVELOPER_CREATE_KRALJEVSKI_RAD_BOUNDED_TOKEN_SEQUENCE,
   DEVELOPER_CREATE_KRALJEVSKI_RAD_CANONICAL_ALIAS,
   DEVELOPER_CREATE_KRALJEVSKI_RAD_FALLBACK_INPUTS,
@@ -360,6 +367,14 @@ import type {
 
 const DEVELOPER_CREATE_MEDALJE_SRBSKE_FALLBACK_INPUTS_LOWERCASE =
   DEVELOPER_CREATE_MEDALJE_SRBSKE_FALLBACK_INPUTS.map((item) => item.toLowerCase());
+const DEVELOPER_CREATE_AUTOMATSKA_POPRAVKA_SVEGA_FALLBACK_INPUTS_LOWERCASE =
+  DEVELOPER_CREATE_AUTOMATSKA_POPRAVKA_SVEGA_FALLBACK_INPUTS.map((item) => item.toLowerCase());
+const DEVELOPER_CREATE_AUTOMATSKA_POPRAVKA_SVEGA_INPUT_NORMALIZATION_ALIASES_UPPERCASE =
+  DEVELOPER_CREATE_AUTOMATSKA_POPRAVKA_SVEGA_INPUT_NORMALIZATION_ALIASES.map((item) => item.toUpperCase());
+const DEVELOPER_CREATE_AUTOMATSKA_POPRAVKA_SVEGA_CANONICAL_ALIAS_UPPERCASE =
+  DEVELOPER_CREATE_AUTOMATSKA_POPRAVKA_SVEGA_CANONICAL_ALIAS.toUpperCase();
+const DEVELOPER_CREATE_AUTOMATSKA_POPRAVKA_SVEGA_RAW_INPUT_ALIAS_UPPERCASE =
+  DEVELOPER_CREATE_AUTOMATSKA_POPRAVKA_SVEGA_RAW_INPUT_ALIAS.toUpperCase();
 import {
   EXTRIMLI_EXTREM_PROFILER_API_MAX_MS,
   EXTRIMLI_EXTREM_PROFILER_CONTRACT_VERSION,
@@ -7730,6 +7745,44 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
         ],
         downstreamReference: 'docs/MULTI-REPO-LINKS.md -> spaja86/IO-OPENUI-AO (summary-only)',
       },
+      automatskaPopravkaSvegaTrack: {
+        canonicalAlias: DEVELOPER_CREATE_AUTOMATSKA_POPRAVKA_SVEGA_CANONICAL_ALIAS,
+        scopeStatement: DEVELOPER_CREATE_AUTOMATSKA_POPRAVKA_SVEGA_SCOPE_STATEMENT,
+        roleClassification: DEVELOPER_CREATE_AUTOMATSKA_POPRAVKA_SVEGA_ROLE_CLASSIFICATION,
+        boundedVocabularyPhrase: DEVELOPER_CREATE_REPO_WIDE_BOUNDED_VOCABULARY_PHRASE,
+        additiveOnly: true,
+        noNewRuntimeEngine: true,
+        noNewRuntimeRoutes: true,
+        noParallelSourceOfTruth: true,
+        sourceOfTruthRoutes: ['/api/extrimli/extrem', '/api/extrimli/extrondol', '/api/extrimli/spaja-kod'],
+        ownershipLock: {
+          dokDikFor: 'EXTREM',
+          dakDuk: 'EXTRONDOL',
+          spajaKod: 'audit-safe-summary-only',
+        },
+        summarySafePublicFields: DEVELOPER_CREATE_AUTOMATSKA_POPRAVKA_SVEGA_SUMMARY_SAFE_FIELDS,
+        readinessSignal: {
+          status: 'BLOCKED',
+          readinessScore: 0,
+          fallbackInputStatus: 'BLOCKED',
+          deterministicFallbackRequired: true,
+          fallbackInputs: DEVELOPER_CREATE_AUTOMATSKA_POPRAVKA_SVEGA_FALLBACK_INPUTS,
+          driver:
+            'developerAndCreateRepoWideReflection.readiness + developerAndCreateRepoWideReflection.technicalReadinessProfile.consolidatedRhythmStatus + runtimeAutomatskaPopravkaSvegaInput',
+        },
+        blockerReason:
+          'automatska-popravka-svega-track-awaits-bounded-readiness-repair-summary-and-governance-alignment-without-new-runtime-surfaces',
+        watchReasons: [],
+        reviewPosture: 'REVIEW_REQUIRED',
+        repairSummary: '',
+        acceptanceEvidence: [
+          'developerAndCreateRepoWideReflection.automatskaPopravkaSvegaTrack',
+          'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.automatskaPopravkaSvegaTrack',
+          'spajaKod.publicSignals.automatskaPopravkaSvegaStatus',
+          'spajaKod.developerAndCreateImplementationPackage.automatskaPopravkaSvegaSummary',
+        ],
+        downstreamReference: 'docs/MULTI-REPO-LINKS.md -> spaja86/IO-OPENUI-AO (summary-only)',
+      },
       kraljevskiRadTrack: {
         canonicalAlias: DEVELOPER_CREATE_KRALJEVSKI_RAD_CANONICAL_ALIAS,
         scopeStatement: DEVELOPER_CREATE_KRALJEVSKI_RAD_SCOPE_STATEMENT,
@@ -13462,6 +13515,108 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
       : medaljeSrbskeStatus === 'WATCH'
         ? 'WATCH'
         : 'REVIEW_REQUIRED';
+  const automatskaPopravkaSvegaTrack =
+    dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.automatskaPopravkaSvegaTrack;
+  const automatskaPopravkaSvegaRuntimeInput =
+    process.env.EXTRIMLI_AUTOMATSKA_POPRAVKA_SVEGA_INPUT;
+  const automatskaPopravkaSvegaHasWhitespaceOnlyInput =
+    typeof automatskaPopravkaSvegaRuntimeInput === 'string'
+    && automatskaPopravkaSvegaRuntimeInput.length > 0
+    && automatskaPopravkaSvegaRuntimeInput.trim() === '';
+  const normalizedAutomatskaPopravkaSvegaTrimmedInput =
+    automatskaPopravkaSvegaRuntimeInput?.trim() ?? null;
+  const normalizedAutomatskaPopravkaSvegaCanonicalizedInput =
+    normalizedAutomatskaPopravkaSvegaTrimmedInput
+      ? normalizedAutomatskaPopravkaSvegaTrimmedInput.replace(/\s+/g, ' ')
+      : null;
+  const normalizedAutomatskaPopravkaSvegaRuntimeInput =
+    normalizedAutomatskaPopravkaSvegaCanonicalizedInput
+      ? normalizedAutomatskaPopravkaSvegaCanonicalizedInput.toUpperCase()
+      : null;
+  const normalizedAutomatskaPopravkaSvegaFallbackLower =
+    automatskaPopravkaSvegaHasWhitespaceOnlyInput
+      ? 'empty'
+      : normalizedAutomatskaPopravkaSvegaCanonicalizedInput?.toLowerCase() ?? null;
+  const automatskaPopravkaSvegaUsesCanonicalAlias =
+    normalizedAutomatskaPopravkaSvegaRuntimeInput
+    === DEVELOPER_CREATE_AUTOMATSKA_POPRAVKA_SVEGA_CANONICAL_ALIAS_UPPERCASE;
+  const automatskaPopravkaSvegaUsesRawAlias =
+    normalizedAutomatskaPopravkaSvegaRuntimeInput
+    === DEVELOPER_CREATE_AUTOMATSKA_POPRAVKA_SVEGA_RAW_INPUT_ALIAS_UPPERCASE;
+  const automatskaPopravkaSvegaUsesDocumentedFallbackInput =
+    normalizedAutomatskaPopravkaSvegaFallbackLower
+      ? DEVELOPER_CREATE_AUTOMATSKA_POPRAVKA_SVEGA_FALLBACK_INPUTS_LOWERCASE.includes(
+        normalizedAutomatskaPopravkaSvegaFallbackLower,
+      )
+      : false;
+  const automatskaPopravkaSvegaFallbackInputStatus: ExtrimliExtremReadinessStatus =
+    normalizedAutomatskaPopravkaSvegaFallbackLower === 'conflict'
+      ? 'BLOCKED'
+      : normalizedAutomatskaPopravkaSvegaRuntimeInput === null
+        ? 'WATCH'
+      : automatskaPopravkaSvegaUsesCanonicalAlias
+        ? 'READY'
+      : automatskaPopravkaSvegaUsesDocumentedFallbackInput
+        ? 'WATCH'
+        : normalizedAutomatskaPopravkaSvegaRuntimeInput
+            && !DEVELOPER_CREATE_AUTOMATSKA_POPRAVKA_SVEGA_INPUT_NORMALIZATION_ALIASES_UPPERCASE.includes(
+              normalizedAutomatskaPopravkaSvegaRuntimeInput,
+            )
+          ? 'BLOCKED'
+          : 'READY';
+  const automatskaPopravkaSvegaSignalStatuses = [
+    automatskaPopravkaSvegaFallbackInputStatus,
+  ] as const;
+  const automatskaPopravkaSvegaStatus = aggregateReadinessStatus([
+    ...automatskaPopravkaSvegaSignalStatuses,
+  ]);
+  automatskaPopravkaSvegaTrack.readinessSignal.status = automatskaPopravkaSvegaStatus;
+  automatskaPopravkaSvegaTrack.readinessSignal.readinessScore = round(
+    automatskaPopravkaSvegaSignalStatuses.reduce(
+      (sum, signalStatus) => sum + readinessStatusScore(signalStatus),
+      0,
+    ) / automatskaPopravkaSvegaSignalStatuses.length,
+    2,
+  );
+  automatskaPopravkaSvegaTrack.readinessSignal.fallbackInputStatus =
+    automatskaPopravkaSvegaFallbackInputStatus;
+  automatskaPopravkaSvegaTrack.readinessSignal.deterministicFallbackRequired =
+    automatskaPopravkaSvegaStatus !== 'READY'
+    || dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.deterministicFallbackRequired;
+  automatskaPopravkaSvegaTrack.blockerReason =
+    automatskaPopravkaSvegaStatus === 'BLOCKED'
+      ? normalizedAutomatskaPopravkaSvegaRuntimeInput
+          && !automatskaPopravkaSvegaUsesRawAlias
+          && !automatskaPopravkaSvegaUsesCanonicalAlias
+          && !DEVELOPER_CREATE_AUTOMATSKA_POPRAVKA_SVEGA_INPUT_NORMALIZATION_ALIASES_UPPERCASE.includes(
+            normalizedAutomatskaPopravkaSvegaRuntimeInput,
+          )
+        ? 'AUTOMATSKA POPRAVKA SVEGA ostaje BLOCKED kada nekanonski ulaz izlazi van dokumentovanog fallback skupa; samo raw `ATOMATSKA...` normalization alias i eksplicitni fallback ulazi ostaju dozvoljeni runtime signali.'
+        : 'AUTOMATSKA POPRAVKA SVEGA ostaje BLOCKED dok bounded repair-summary, deterministic fallback disciplina i governance gate ne ostanu usklađeni bez novog runtime engine-a.'
+      : null;
+  automatskaPopravkaSvegaTrack.watchReasons =
+    automatskaPopravkaSvegaStatus === 'WATCH'
+      ? [
+          normalizedAutomatskaPopravkaSvegaRuntimeInput === null
+            ? 'Bez eksplicitnog runtime unosa AUTOMATSKA POPRAVKA SVEGA ostaje u bounded WATCH režimu dok kanonski alias ili dokumentovani fallback signal ne budu eksplicitno potvrđeni.'
+            :
+          automatskaPopravkaSvegaUsesRawAlias
+            ? 'Sirovi ulaz `ATOMATSKA POPRAVKA SVEGA` je prepoznat samo kao supplemental alias i zahteva human/governance proveru pre promocije.'
+            : 'AUTOMATSKA POPRAVKA SVEGA ostaje u WATCH režimu dok bounded fallback ulaz ili nekanonski unos traži dodatni human/governance review pre promocije.',
+        ]
+      : [];
+  automatskaPopravkaSvegaTrack.reviewPosture =
+    automatskaPopravkaSvegaStatus === 'READY'
+      ? 'ALIGNED'
+      : automatskaPopravkaSvegaStatus === 'WATCH'
+        ? 'WATCH'
+        : 'REVIEW_REQUIRED';
+  automatskaPopravkaSvegaTrack.repairSummary =
+    automatskaPopravkaSvegaStatus === 'READY'
+      ? 'AUTOMATSKA POPRAVKA SVEGA ostaje bounded interpretativni repair-summary preko postojećeg EXTREM readiness signala bez novog runtime engine-a i bez paralelnog source-of-truth sistema.'
+      : automatskaPopravkaSvegaStatus === 'WATCH'
+        ? 'AUTOMATSKA POPRAVKA SVEGA ostaje bounded interpretativni repair-summary u WATCH režimu: EXTREM objavljuje samo readiness/fallback signal, a EXTRONDOL zadržava promotivnu odluku dok supplemental/raw alias ili fallback ulaz ne budu audit-safe potvrđeni.'
+        : 'AUTOMATSKA POPRAVKA SVEGA ostaje bounded repair-summary u BLOCKED režimu dok readiness/fallback signal i governance evidencija ne ostanu deterministički usklađeni.';
   const kraljevskiRadTrack =
     dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.kraljevskiRadTrack;
   const kraljevskiRadRuntimeTokenInput = process.env.EXTRIMLI_KRALJEVSKI_RAD_TOKEN_INPUT;
