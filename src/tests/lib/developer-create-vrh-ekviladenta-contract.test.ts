@@ -909,7 +909,6 @@ async function runTests(): Promise<void> {
         'NaN',
         'Infinity',
         'empty',
-        'conflict',
         'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == ATOMATSKA POPRAVKA SVEGA',
       ],
       'unexpected AUTOMATSKA POPRAVKA SVEGA fallback inputs',

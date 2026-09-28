@@ -592,7 +592,7 @@ Implementacioni redosled ostaje zaključan:
 - `DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == AUTOMATSKA POPRAVKA SVEGA` je additive-only bounded extension postojećeg VRH modela.
 - Sirovi unos `DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == ATOMATSKA POPRAVKA SVEGA` ostaje samo supplemental/input-normalization alias; ne uvodi novi runtime identitet, novi engine ni novi source-of-truth sloj.
 - Ownership split ostaje zaključan: `DOK + DIK + FOR` ostaju EXTREM bounded readiness + repair-summary signal, `DAK + DUK` ostaju EXTRONDOL governance (WAWE/freeze/promotion/rollback/release-audit), a SPAJA KOD ostaje audit-safe summary-only.
-- Status jezik ostaje zaključan na `READY | WATCH | BLOCKED`, sa deterministic fallback ulazima (`NaN`, `Infinity`, `empty`, `conflict`, raw `ATOMATSKA...` alias) i obaveznim blocker/watch razlozima.
+- Status jezik ostaje zaključan na `READY | WATCH | BLOCKED`, sa deterministic fallback ulazima (`NaN`, `Infinity`, `empty`, raw `ATOMATSKA...` alias), dok `conflict` ostaje eksplicitni blocking input; obavezni blocker/watch razlozi ostaju bounded i audit-safe.
 - Javna summary površina ostaje ograničena na audit-safe status, repair-summary, review posture, rollout/rollback, release-audit summary i downstream reference bez sirovih formula ili internih repair internala.
 
 ## ELEKTRONSKI POTPIS (bounded extension)
