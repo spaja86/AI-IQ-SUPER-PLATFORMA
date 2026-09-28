@@ -11729,10 +11729,12 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
   const kraljevskaPlataStartApprovalStatus = resolveDeveloperCreateExtensionStatus(
     kraljevskaDopunaReadinessScore,
   );
+  const kraljevskaPlataStartPaymentVerificationGateStatus: 'WATCH' = 'WATCH';
   const kraljevskaPlataStartWeeklyReadinessStatus = aggregateReadinessStatus([
     kraljevskaPlataStartApprovalStatus,
     kraljevskiAktBezbednostiReadinessStatus,
     dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.status,
+    kraljevskaPlataStartPaymentVerificationGateStatus,
   ]);
   const kraljevskaPlataStartBlockerReason =
     kraljevskaPlataStartApprovalStatus === 'BLOCKED'
