@@ -15226,10 +15226,8 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
         / biznisDemandSignalStatuses.length,
       2,
     ),
-    deterministicFallbackRequired: false,
+    deterministicFallbackRequired: true,
   };
-  biznisDemandReadiness.deterministicFallbackRequired =
-    biznisDemandReadiness.status !== 'READY' || biznisDemandReadiness.fallbackInputStatus !== 'READY';
   Object.assign(potraznjaSveStoNamTrebaTrack.readinessSignal, biznisDemandReadiness);
   potraznjaSveStoNamTrebaTrack.demandSummary =
     'POTRAŽNJA SVE ŠTO NAM TREBA ostaje additive-only summary-safe demand/reference podtraka za potrebe, kapacitete, partnere i resurse unutar Kompanija SPAJA / Digitalna Industrija, bez novog business engine-a i bez execution layer-a.';
@@ -15264,10 +15262,10 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
       / biznisSignalStatuses.length,
     2,
   );
-  biznisTrack.readinessSignal.referenceListStatus = biznisDemandReadiness.demandCoverageStatus;
-  biznisTrack.readinessSignal.ecosystemConsistencyStatus = biznisDemandReadiness.ecosystemCoverageStatus;
-  biznisTrack.readinessSignal.enterpriseMappingStatus = biznisDemandReadiness.resourcePartnerCapacityStatus;
-  biznisTrack.readinessSignal.fallbackInputStatus = biznisDemandReadiness.fallbackInputStatus;
+  biznisTrack.readinessSignal.referenceListStatus = biznisReferenceListStatus;
+  biznisTrack.readinessSignal.ecosystemConsistencyStatus = biznisEcosystemConsistencyStatus;
+  biznisTrack.readinessSignal.enterpriseMappingStatus = biznisEnterpriseMappingStatus;
+  biznisTrack.readinessSignal.fallbackInputStatus = biznisFallbackInputStatus;
   biznisTrack.readinessSignal.deterministicFallbackRequired =
     biznisStatus !== 'READY' || biznisDemandReadiness.fallbackInputStatus !== 'READY';
   biznisTrack.businessSummary =
