@@ -13552,6 +13552,8 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
   const automatskaPopravkaSvegaFallbackInputStatus: ExtrimliExtremReadinessStatus =
     normalizedAutomatskaPopravkaSvegaFallbackLower === 'conflict'
       ? 'BLOCKED'
+      : normalizedAutomatskaPopravkaSvegaRuntimeInput === null
+        ? 'WATCH'
       : automatskaPopravkaSvegaUsesCanonicalAlias
         ? 'READY'
       : automatskaPopravkaSvegaUsesDocumentedFallbackInput
@@ -13595,6 +13597,9 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
   automatskaPopravkaSvegaTrack.watchReasons =
     automatskaPopravkaSvegaStatus === 'WATCH'
       ? [
+          normalizedAutomatskaPopravkaSvegaRuntimeInput === null
+            ? 'Bez eksplicitnog runtime unosa AUTOMATSKA POPRAVKA SVEGA ostaje u bounded WATCH režimu dok kanonski alias ili dokumentovani fallback signal ne budu eksplicitno potvrđeni.'
+            :
           automatskaPopravkaSvegaUsesRawAlias
             ? 'Sirovi ulaz `ATOMATSKA POPRAVKA SVEGA` je prepoznat samo kao supplemental alias i zahteva human/governance proveru pre promocije.'
             : 'AUTOMATSKA POPRAVKA SVEGA ostaje u WATCH režimu dok bounded fallback ulaz ili nekanonski unos traži dodatni human/governance review pre promocije.',
@@ -13610,7 +13615,7 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
     automatskaPopravkaSvegaStatus === 'READY'
       ? 'AUTOMATSKA POPRAVKA SVEGA ostaje bounded interpretativni repair-summary preko postojećeg EXTREM readiness signala bez novog runtime engine-a i bez paralelnog source-of-truth sistema.'
       : automatskaPopravkaSvegaStatus === 'WATCH'
-        ? 'AUTOMATSKA POPRAVKA SVEGA ostaje bounded repair-summary u WATCH režimu: EXTREM objavljuje samo readiness/fallback signal, a EXTRONDOL zadržava promotivnu odluku dok supplemental/raw alias ili fallback ulaz ne budu audit-safe potvrđeni.'
+        ? 'AUTOMATSKA POPRAVKA SVEGA ostaje bounded interpretativni repair-summary u WATCH režimu: EXTREM objavljuje samo readiness/fallback signal, a EXTRONDOL zadržava promotivnu odluku dok supplemental/raw alias ili fallback ulaz ne budu audit-safe potvrđeni.'
         : 'AUTOMATSKA POPRAVKA SVEGA ostaje bounded repair-summary u BLOCKED režimu dok readiness/fallback signal i governance evidencija ne ostanu deterministički usklađeni.';
   const kraljevskiRadTrack =
     dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.kraljevskiRadTrack;
