@@ -3546,6 +3546,7 @@ function buildSpajaKodFacade(params: {
   kraljevskiPokloniZaSvacijiRodjendanStatus: ExtrimliExtrondolReport['extremProfiler']['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['kraljevskiPokloniZaSvacijiRodjendanTrack']['readinessSignal']['status'];
   medaljeSrbskeStatus: ExtrimliExtrondolReport['extremProfiler']['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['medaljeSrbskeTrack']['readinessSignal']['status'];
   automatskaPopravkaSvegaStatus: ExtrimliExtrondolReport['extremProfiler']['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['automatskaPopravkaSvegaTrack']['readinessSignal']['status'];
+  automatizacijaProgramskogJezikaStatus: ExtrimliExtrondolReport['extremProfiler']['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['automatizacijaProgramskogJezikaTrack']['readinessSignal']['status'];
   kraljevskiRadStatus: ExtrimliExtrondolReport['extremProfiler']['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['kraljevskiRadTrack']['readinessSignal']['status'];
   radniProstorStatus: ExtrimliExtrondolReport['extremProfiler']['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['radniProstorTrack']['readinessSignal']['status'];
   alatiRadionicaStatus: ExtrimliExtrondolReport['extremProfiler']['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['alatiRadionicaTrack']['readinessSignal']['status'];
@@ -3706,6 +3707,7 @@ function buildSpajaKodFacade(params: {
       kraljevskiPokloniZaSvacijiRodjendanStatus: params.kraljevskiPokloniZaSvacijiRodjendanStatus,
       medaljeSrbskeStatus: params.medaljeSrbskeStatus,
       automatskaPopravkaSvegaStatus: params.automatskaPopravkaSvegaStatus,
+      automatizacijaProgramskogJezikaStatus: params.automatizacijaProgramskogJezikaStatus,
       kraljevskiRadStatus: params.kraljevskiRadStatus,
       radniProstorStatus: params.radniProstorStatus,
       alatiRadionicaStatus: params.alatiRadionicaStatus,
@@ -3841,6 +3843,7 @@ function buildSpajaKodFacade(params: {
         'publicSignals.kraljevskiPokloniZaSvacijiRodjendanStatus',
         'publicSignals.medaljeSrbskeStatus',
         'publicSignals.automatskaPopravkaSvegaStatus',
+        'publicSignals.automatizacijaProgramskogJezikaStatus',
         'publicSignals.kraljevskiRadStatus',
         'publicSignals.radniProstorStatus',
         'publicSignals.alatiRadionicaStatus',
@@ -3889,6 +3892,7 @@ function buildSpajaKodFacade(params: {
         'developerAndCreateImplementationPackage.kraljevskiPokloniZaSvacijiRodjendanSummary',
         'developerAndCreateImplementationPackage.medaljeSrbskeSummary',
         'developerAndCreateImplementationPackage.automatskaPopravkaSvegaSummary',
+        'developerAndCreateImplementationPackage.automatizacijaProgramskogJezikaSummary',
         'developerAndCreateImplementationPackage.kraljevskiRadSummary',
         'developerAndCreateImplementationPackage.radniProstorSummary',
         'developerAndCreateImplementationPackage.alatiRadionicaSummary',
@@ -4290,6 +4294,33 @@ function buildSpajaKodFacade(params: {
           params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.automatskaPopravkaSvegaTrack.repairSummary,
         fallbackInputStatus:
           params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.automatskaPopravkaSvegaTrack.readinessSignal.fallbackInputStatus,
+      },
+      automatizacijaProgramskogJezikaSummary: {
+        canonicalAlias:
+          params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.automatizacijaProgramskogJezikaTrack.canonicalAlias,
+        status:
+          params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.automatizacijaProgramskogJezikaTrack.readinessSignal.status,
+        blockerReason:
+          params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.automatizacijaProgramskogJezikaTrack.blockerReason,
+        watchReasons: [
+          ...params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.automatizacijaProgramskogJezikaTrack.watchReasons,
+        ],
+        reviewPosture:
+          params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.automatizacijaProgramskogJezikaTrack.reviewPosture,
+        humanReviewStatus: 'required-before-promotion',
+        rolloutPlan:
+          'Advance AUTOMATIZACIJA PROGRAMSKOG JEZIKA only as an additive-only bounded automation-language track through existing EXTREM readiness signals, EXTRONDOL WAWE freeze/promotion governance, and SPAJA KOD audit-safe summaries.',
+        rollbackPlan:
+          'Freeze promotion and revert to the previously verified Developer/Create package if AUTOMATIZACIJA PROGRAMSKOG JEZIKA automation-summary, fallback discipline, or downstream summary alignment drifts from bounded policy.',
+        releaseAuditSummary:
+          'AUTOMATIZACIJA PROGRAMSKOG JEZIKA release-audit summary requires bounded automation summary, human-review confirmation, WAWE/freeze posture, rollback readiness, and downstream summary-only evidence before promotion.',
+        downstreamReference:
+          params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.automatizacijaProgramskogJezikaTrack.downstreamReference,
+        publicBoundary: 'audit-safe-summary-only',
+        automationSummary:
+          params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.automatizacijaProgramskogJezikaTrack.automationSummary,
+        fallbackInputStatus:
+          params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.automatizacijaProgramskogJezikaTrack.readinessSignal.fallbackInputStatus,
       },
       kraljevskiRadSummary: {
         canonicalAlias:
@@ -7589,6 +7620,8 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
       extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.medaljeSrbskeTrack.readinessSignal.status,
     automatskaPopravkaSvegaStatus:
       extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.automatskaPopravkaSvegaTrack.readinessSignal.status,
+    automatizacijaProgramskogJezikaStatus:
+      extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.automatizacijaProgramskogJezikaTrack.readinessSignal.status,
     kraljevskiRadStatus:
       extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.kraljevskiRadTrack.readinessSignal.status,
     radniProstorStatus:
@@ -9996,6 +10029,36 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
           'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.automatskaPopravkaSvegaTrack',
           'spajaKod.publicSignals.automatskaPopravkaSvegaStatus',
           'spajaKod.developerAndCreateImplementationPackage.automatskaPopravkaSvegaSummary',
+        ],
+        downstreamReference: 'docs/MULTI-REPO-LINKS.md -> spaja86/IO-OPENUI-AO (summary-only)',
+      },
+      automatizacijaProgramskogJezikaTrack: {
+        ...extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.automatizacijaProgramskogJezikaTrack,
+        sourceOfTruth: '/api/extrimli/extrem',
+        governanceSource: '/api/extrimli/extrondol',
+        publicBoundary: '/api/extrimli/spaja-kod',
+        currentWave: currentWawe,
+        eligibleNextWave: eligibleNextWave,
+        promotionFreeze:
+          promotionFreeze
+          || extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.automatizacijaProgramskogJezikaTrack.readinessSignal.status !== 'READY',
+        reviewRequiredBeforeWideRollout:
+          extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.automatizacijaProgramskogJezikaTrack.readinessSignal.status !== 'READY'
+          || extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.automatizacijaProgramskogJezikaTrack.reviewPosture === 'REVIEW_REQUIRED',
+        reviewPosture:
+          extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.automatizacijaProgramskogJezikaTrack.reviewPosture,
+        rolloutPlan:
+          'Advance AUTOMATIZACIJA PROGRAMSKOG JEZIKA only as an additive-only bounded automation-language track through existing EXTREM readiness signals, EXTRONDOL WAWE freeze/promotion governance, and SPAJA KOD audit-safe summaries.',
+        rollbackPlan:
+          'Freeze promotion and revert to the previously verified Developer/Create package if AUTOMATIZACIJA PROGRAMSKOG JEZIKA automation-summary, fallback discipline, or downstream summary alignment drifts from bounded policy.',
+        humanReviewStatus: 'required-before-promotion',
+        releaseAuditSummary:
+          'AUTOMATIZACIJA PROGRAMSKOG JEZIKA release-audit summary requires bounded automation summary, human-review confirmation, WAWE/freeze posture, rollback readiness, and downstream summary-only evidence before promotion.',
+        acceptanceEvidence: [
+          'developerAndCreateRepoWideReflection.automatizacijaProgramskogJezikaTrack',
+          'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.automatizacijaProgramskogJezikaTrack',
+          'spajaKod.publicSignals.automatizacijaProgramskogJezikaStatus',
+          'spajaKod.developerAndCreateImplementationPackage.automatizacijaProgramskogJezikaSummary',
         ],
         downstreamReference: 'docs/MULTI-REPO-LINKS.md -> spaja86/IO-OPENUI-AO (summary-only)',
       },

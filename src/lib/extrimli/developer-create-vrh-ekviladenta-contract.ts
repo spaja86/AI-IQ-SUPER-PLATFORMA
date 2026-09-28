@@ -164,6 +164,9 @@ export const DEVELOPER_CREATE_VRH_AUTOMATSKA_POPRAVKA_SVEGA_ALIAS =
 export const DEVELOPER_CREATE_VRH_ATOMATSKA_POPRAVKA_SVEGA_RAW_ALIAS =
   'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == ATOMATSKA POPRAVKA SVEGA' as const;
 
+export const DEVELOPER_CREATE_VRH_AUTOMATIZACIJA_PROGRAMSKOG_JEZIKA_ALIAS =
+  'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == AUTOMATIZACIJA PROGRAMSKOG JEZIKA (SPROVOĐENJE AUTOMATSKOG RADA PROGRAMSKOG JEZIKA)' as const;
+
 export const DEVELOPER_CREATE_VRH_EKSPIRIJANS_PROGRAMSKOG_JEZIKA_ALIAS =
   'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == EKSPIRIJANS PROGRAMSKOG JEZIKA' as const;
 
@@ -253,6 +256,7 @@ export const DEVELOPER_CREATE_VRH_INTERPRETATION_ALIASES = [
   DEVELOPER_CREATE_VRH_MEDALJE_SRBSKE_ALIAS,
   DEVELOPER_CREATE_VRH_AUTOMATSKA_POPRAVKA_SVEGA_ALIAS,
   DEVELOPER_CREATE_VRH_ATOMATSKA_POPRAVKA_SVEGA_RAW_ALIAS,
+  DEVELOPER_CREATE_VRH_AUTOMATIZACIJA_PROGRAMSKOG_JEZIKA_ALIAS,
   DEVELOPER_CREATE_VRH_KRALJEVSKI_RAD_ALIAS,
   DEVELOPER_CREATE_VRH_KRALJEVSKI_SISTEM_ALIAS,
   DEVELOPER_CREATE_VRH_KRALJEVSKA_PLATA_START_SADA_NA_NEDELJU_DANA_ALIAS,
@@ -2671,6 +2675,61 @@ export const DEVELOPER_CREATE_AUTOMATSKA_POPRAVKA_SVEGA_DOWNSTREAM_POLICY = {
   linkedRepo: 'spaja86/IO-OPENUI-AO',
   syncMode: 'summary-only',
   rawRepairInternalsStayRepoLocal: true,
+  rawExtremFormulasStayRepoLocal: true,
+  rawExtrondolGovernanceFormulasStayRepoLocal: true,
+} as const;
+
+export const DEVELOPER_CREATE_AUTOMATIZACIJA_PROGRAMSKOG_JEZIKA_CANONICAL_ALIAS =
+  DEVELOPER_CREATE_VRH_AUTOMATIZACIJA_PROGRAMSKOG_JEZIKA_ALIAS;
+
+export const DEVELOPER_CREATE_AUTOMATIZACIJA_PROGRAMSKOG_JEZIKA_SCOPE_STATEMENT =
+  'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == AUTOMATIZACIJA PROGRAMSKOG JEZIKA (SPROVOĐENJE AUTOMATSKOG RADA PROGRAMSKOG JEZIKA) == additive-only bounded automation-language traka bez novih runtime ruta, bez novog runtime engine-a, bez novog source-of-truth sloja i bez izvoza sirovih internih formula; ownership ostaje zaključan na DOK/DIK/FOR -> EXTREM (technical readiness + automation summary), DAK/DUK -> EXTRONDOL (WAWE/freeze/promotion/rollback/release-audit), SPAJA KOD -> audit-safe summary-only.' as const;
+
+export const DEVELOPER_CREATE_AUTOMATIZACIJA_PROGRAMSKOG_JEZIKA_ROLE_CLASSIFICATION =
+  'additive-only-bounded-automation-language-track' as const;
+
+export const DEVELOPER_CREATE_AUTOMATIZACIJA_PROGRAMSKOG_JEZIKA_READINESS_LANGUAGE = [
+  'READY',
+  'WATCH',
+  'BLOCKED',
+] as const;
+
+export const DEVELOPER_CREATE_AUTOMATIZACIJA_PROGRAMSKOG_JEZIKA_FALLBACK_INPUTS = [
+  'NaN',
+  'Infinity',
+  'empty',
+  'conflict',
+] as const;
+
+export const DEVELOPER_CREATE_AUTOMATIZACIJA_PROGRAMSKOG_JEZIKA_ACCEPTANCE_CRITERIA = [
+  'preserve-vrh-canonical-lock-and-bounded-vocabulary',
+  'keep-track-additive-only-no-new-routes-and-no-parallel-source-of-truth',
+  'preserve-ownership-split-dok-dik-for-extrem-dak-duk-extrondol-spaja-kod-summary-only',
+  'require-ready-watch-blocked-automation-summary-and-deterministic-fallback-boundaries',
+  'require-human-review-wawe-freeze-rollout-rollback-and-release-audit-before-promotion',
+  'require-summary-only-downstream-reference-docs-multi-repo-links-for-io-openui-ao',
+  'allow-ai-iq-sibling-visibility-only-as-summary-safe-additive-interpretation',
+] as const;
+
+export const DEVELOPER_CREATE_AUTOMATIZACIJA_PROGRAMSKOG_JEZIKA_SUMMARY_SAFE_FIELDS = [
+  'canonicalAlias',
+  'status',
+  'blockerReason',
+  'watchReasons',
+  'reviewPosture',
+  'humanReviewStatus',
+  'rolloutPlan',
+  'rollbackPlan',
+  'releaseAuditSummary',
+  'downstreamReference',
+  'automationSummary',
+  'fallbackInputStatus',
+] as const;
+
+export const DEVELOPER_CREATE_AUTOMATIZACIJA_PROGRAMSKOG_JEZIKA_DOWNSTREAM_POLICY = {
+  linkedRepo: 'spaja86/IO-OPENUI-AO',
+  syncMode: 'summary-only',
+  rawAutomationInternalsStayRepoLocal: true,
   rawExtremFormulasStayRepoLocal: true,
   rawExtrondolGovernanceFormulasStayRepoLocal: true,
 } as const;

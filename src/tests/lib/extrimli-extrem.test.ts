@@ -350,6 +350,8 @@ async function runTests(): Promise<void> {
       report.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.medaljeSrbskeTrack;
     const automatskaPopravkaSvegaTrack =
       report.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.automatskaPopravkaSvegaTrack;
+    const automatizacijaProgramskogJezikaTrack =
+      report.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.automatizacijaProgramskogJezikaTrack;
     const kraljevskiRadTrack =
       report.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.kraljevskiRadTrack;
     const radniProstorTrack =
@@ -529,6 +531,13 @@ async function runTests(): Promise<void> {
     assert(automatskaPopravkaSvegaTrack.readinessSignal.fallbackInputs.join(',') === 'NaN,Infinity,empty,conflict,DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == ATOMATSKA POPRAVKA SVEGA', 'developer/create AUTOMATSKA POPRAVKA SVEGA fallback inputs mismatch for raw typo alias coverage');
     assert(automatskaPopravkaSvegaTrack.acceptanceEvidence.join(',') === 'developerAndCreateRepoWideReflection.automatskaPopravkaSvegaTrack,releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.automatskaPopravkaSvegaTrack,spajaKod.publicSignals.automatskaPopravkaSvegaStatus,spajaKod.developerAndCreateImplementationPackage.automatskaPopravkaSvegaSummary', 'developer/create AUTOMATSKA POPRAVKA SVEGA acceptance evidence mismatch');
     assert(automatskaPopravkaSvegaTrack.repairSummary.includes('bounded interpretativni repair-summary'), 'developer/create AUTOMATSKA POPRAVKA SVEGA repair summary mismatch');
+    assert(automatizacijaProgramskogJezikaTrack.canonicalAlias === 'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == AUTOMATIZACIJA PROGRAMSKOG JEZIKA (SPROVOĐENJE AUTOMATSKOG RADA PROGRAMSKOG JEZIKA)', 'developer/create AUTOMATIZACIJA PROGRAMSKOG JEZIKA canonical alias mismatch');
+    assert(automatizacijaProgramskogJezikaTrack.roleClassification === 'additive-only-bounded-automation-language-track', 'developer/create AUTOMATIZACIJA PROGRAMSKOG JEZIKA role classification mismatch');
+    assert(automatizacijaProgramskogJezikaTrack.summarySafePublicFields.join(',') === 'canonicalAlias,status,blockerReason,watchReasons,reviewPosture,humanReviewStatus,rolloutPlan,rollbackPlan,releaseAuditSummary,downstreamReference,automationSummary,fallbackInputStatus', 'developer/create AUTOMATIZACIJA PROGRAMSKOG JEZIKA summary-safe fields mismatch');
+    assert(['READY', 'WATCH', 'BLOCKED'].includes(automatizacijaProgramskogJezikaTrack.readinessSignal.status), 'developer/create AUTOMATIZACIJA PROGRAMSKOG JEZIKA status mismatch');
+    assert(automatizacijaProgramskogJezikaTrack.readinessSignal.fallbackInputs.join(',') === 'NaN,Infinity,empty,conflict', 'developer/create AUTOMATIZACIJA PROGRAMSKOG JEZIKA fallback inputs mismatch');
+    assert(automatizacijaProgramskogJezikaTrack.acceptanceEvidence.join(',') === 'developerAndCreateRepoWideReflection.automatizacijaProgramskogJezikaTrack,releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.automatizacijaProgramskogJezikaTrack,spajaKod.publicSignals.automatizacijaProgramskogJezikaStatus,spajaKod.developerAndCreateImplementationPackage.automatizacijaProgramskogJezikaSummary', 'developer/create AUTOMATIZACIJA PROGRAMSKOG JEZIKA acceptance evidence mismatch');
+    assert(automatizacijaProgramskogJezikaTrack.automationSummary.includes('bounded automation-summary'), 'developer/create AUTOMATIZACIJA PROGRAMSKOG JEZIKA automation summary mismatch');
     assert(kraljevskiRadTrack.canonicalAlias === 'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == KRALJEVSKI RAD', 'developer/create kraljevski rad canonical alias mismatch');
     assert(kraljevskiRadTrack.roleClassification === 'additive-only-bounded-kraljevski-rad-track', 'developer/create kraljevski rad role classification mismatch');
     assert(kraljevskiRadTrack.boundedTokenSequence.join(',') === 'DIR,DUR,DAR,RER,DIK,DUR,DAR,DJOMPA,DOKAT,KRUNA,ZOMBAT,DUKUS,NIKSON,KITAN,DIKAT,KVATRO,KALIMERO', 'developer/create kraljevski rad token sequence mismatch');
@@ -2557,6 +2566,41 @@ async function runTests(): Promise<void> {
 
         assert(track.readinessSignal.fallbackInputStatus === 'WATCH', 'automatska popravka svega whitespace-only runtime input must map to WATCH');
         assert(track.readinessSignal.status === 'WATCH', 'automatska popravka svega whitespace-only runtime input must keep WATCH posture');
+      });
+    });
+
+    await test('AUTOMATIZACIJA PROGRAMSKOG JEZIKA accepts canonical alias as READY runtime input', async () => {
+      await withEnv({
+        NODE_ENV: 'test',
+        EXTRIMLI_AUTOMATIZACIJA_PROGRAMSKOG_JEZIKA_INPUT:
+          'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == AUTOMATIZACIJA PROGRAMSKOG JEZIKA (SPROVOĐENJE AUTOMATSKOG RADA PROGRAMSKOG JEZIKA)',
+      }, () => {
+        const track =
+          getExtrimliExtremProfilerReport()
+            .dokDikDakDukConsistencyHealth
+            .developerAndCreateRepoWideReflection
+            .automatizacijaProgramskogJezikaTrack;
+
+        assert(track.readinessSignal.fallbackInputStatus === 'READY', 'automatizacija programskog jezika canonical alias runtime input must map to READY');
+        assert(track.readinessSignal.status === 'READY', 'automatizacija programskog jezika canonical alias runtime input must keep READY posture');
+        assert(track.blockerReason === null, 'automatizacija programskog jezika canonical alias runtime input must not emit blocker reason');
+      });
+    });
+
+    await test('AUTOMATIZACIJA PROGRAMSKOG JEZIKA blocks undocumented fallback inputs', async () => {
+      await withEnv({
+        NODE_ENV: 'test',
+        EXTRIMLI_AUTOMATIZACIJA_PROGRAMSKOG_JEZIKA_INPUT: 'totally-unknown-automation-alias',
+      }, () => {
+        const track =
+          getExtrimliExtremProfilerReport()
+            .dokDikDakDukConsistencyHealth
+            .developerAndCreateRepoWideReflection
+            .automatizacijaProgramskogJezikaTrack;
+
+        assert(track.readinessSignal.fallbackInputStatus === 'BLOCKED', 'automatizacija programskog jezika undocumented fallback input must map to BLOCKED');
+        assert(track.readinessSignal.status === 'BLOCKED', 'automatizacija programskog jezika undocumented fallback input must block readiness');
+        assert(track.blockerReason?.includes('dokumentovanog fallback skupa') ?? false, 'automatizacija programskog jezika blocker reason must mention documented fallback set');
       });
     });
 

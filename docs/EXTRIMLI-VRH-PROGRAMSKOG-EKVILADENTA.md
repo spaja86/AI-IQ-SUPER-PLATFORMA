@@ -611,6 +611,14 @@ Implementacioni redosled ostaje zaključan:
 - Status jezik ostaje zaključan na `READY | WATCH | BLOCKED`, sa deterministic fallback ulazima (`NaN`, `Infinity`, `empty`, `conflict`, raw `ATOMATSKA...` alias); `conflict` ostaje eksplicitni blocking fallback input, dok ostali fallback ulazi ostaju WATCH-only. Obavezni blocker/watch razlozi ostaju bounded i audit-safe.
 - Javna summary površina ostaje ograničena na audit-safe status, repair-summary, review posture, rollout/rollback, release-audit summary i downstream reference bez sirovih formula ili internih repair internala.
 
+## AUTOMATIZACIJA PROGRAMSKOG JEZIKA (bounded extension)
+
+- `DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == AUTOMATIZACIJA PROGRAMSKOG JEZIKA (SPROVOĐENJE AUTOMATSKOG RADA PROGRAMSKOG JEZIKA)` je additive-only bounded extension postojećeg VRH modela.
+- Bounded vokabular ostaje nepromenjen: `EXTRIMLI EXTRONDOL EXTREM DOK DUK DAK DIK FOR`.
+- Ownership split ostaje zaključan: `DOK + DIK + FOR` ostaju EXTREM bounded readiness + automation-summary signal, `DAK + DUK` ostaju EXTRONDOL governance (WAWE/freeze/promotion/rollback/release-audit), a SPAJA KOD ostaje audit-safe summary-only.
+- Status jezik ostaje zaključan na `READY | WATCH | BLOCKED`, sa deterministic fallback ulazima (`NaN`, `Infinity`, `empty`, `conflict`) i summary-safe blocker/watch razlozima.
+- Javna summary površina ostaje ograničena na audit-safe status, automation-summary, review posture, rollout/rollback, release-audit summary i downstream reference bez sirovih formula ili interne automatizacione logike.
+
 ## ELEKTRONSKI POTPIS (bounded extension)
 
 - `DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == ELEKTRONSKI POTPIS` je additive-only bounded extension postojećeg VRH modela.

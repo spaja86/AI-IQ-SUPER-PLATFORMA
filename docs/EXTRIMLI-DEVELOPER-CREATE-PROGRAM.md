@@ -1205,3 +1205,14 @@ Neproverene oblasti (u ovom ciklusu):
 - EXTREM objavljuje samo bounded `repairSummary`, readiness signal, blocker/watch razloge i fallbackInputStatus; EXTRONDOL je jedino promotivno/gate mesto za rollout/rollback/release-audit odluku.
 - Summary-safe izlaz ostaje ograničen na `canonicalAlias`, `status`, `blockerReason`, `watchReasons`, `reviewPosture`, `humanReviewStatus`, `rolloutPlan`, `rollbackPlan`, `releaseAuditSummary`, `downstreamReference`, `repairSummary`, `fallbackInputStatus`.
 - Downstream sync prema `spaja86/IO-OPENUI-AO` ostaje striktno summary-only i ne sme izvoziti sirove EXTREM/EXTRONDOL formule, interne repair logike ili supplemental raw alias internale.
+
+### 2.2.18) AUTOMATIZACIJA PROGRAMSKOG JEZIKA bounded traka
+
+- Kanonski alias ostaje zaključan na `DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == AUTOMATIZACIJA PROGRAMSKOG JEZIKA (SPROVOĐENJE AUTOMATSKOG RADA PROGRAMSKOG JEZIKA)` uz isti repo-wide bounded vokabular `EXTRIMLI EXTRONDOL EXTREM DOK DUK DAK DIK FOR`.
+- Traka je additive-only i ostaje unutar postojećih `/api/extrimli/extrem`, `/api/extrimli/extrondol` i `/api/extrimli/spaja-kod` granica (bez novog runtime engine-a, bez novih runtime ruta i bez paralelnog source-of-truth modela).
+- Ownership split ostaje zaključan: `DOK + DIK + FOR -> EXTREM` (samo bounded readiness + `automationSummary` signal), `DAK + DUK -> EXTRONDOL` (human-review, WAWE/freeze/promotion/rollback i release-audit odluka), `SPAJA KOD -> audit-safe summary-only`.
+- Status jezik ostaje zaključan na `READY | WATCH | BLOCKED`, sa deterministic fallback ulazima (`NaN`, `Infinity`, `empty`, `conflict`); obavezni blocker/watch razlozi ostaju javni samo kroz bounded summary.
+- EXTREM objavljuje samo bounded `automationSummary`, readiness signal, blocker/watch razloge i fallbackInputStatus; EXTRONDOL je jedino promotivno/gate mesto za rollout/rollback/release-audit odluku.
+- Summary-safe izlaz ostaje ograničen na `canonicalAlias`, `status`, `blockerReason`, `watchReasons`, `reviewPosture`, `humanReviewStatus`, `rolloutPlan`, `rollbackPlan`, `releaseAuditSummary`, `downstreamReference`, `automationSummary`, `fallbackInputStatus`.
+- AI IQ sme da vidi traku samo kao summary-safe sibling interpretaciju postojećih `PROGRAMSKI JEZIK ...` profila bez izvoza sirovih EXTREM/EXTRONDOL formula.
+- Downstream sync prema `spaja86/IO-OPENUI-AO` ostaje striktno summary-only i ne sme izvoziti sirove EXTREM/EXTRONDOL formule, internu automatizacionu logiku ili paralelni source-of-truth.

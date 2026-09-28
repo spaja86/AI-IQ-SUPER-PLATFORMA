@@ -101,6 +101,11 @@ import {
   DEVELOPER_CREATE_AUTOMATSKA_POPRAVKA_SVEGA_ROLE_CLASSIFICATION,
   DEVELOPER_CREATE_AUTOMATSKA_POPRAVKA_SVEGA_SCOPE_STATEMENT,
   DEVELOPER_CREATE_AUTOMATSKA_POPRAVKA_SVEGA_SUMMARY_SAFE_FIELDS,
+  DEVELOPER_CREATE_AUTOMATIZACIJA_PROGRAMSKOG_JEZIKA_CANONICAL_ALIAS,
+  DEVELOPER_CREATE_AUTOMATIZACIJA_PROGRAMSKOG_JEZIKA_FALLBACK_INPUTS,
+  DEVELOPER_CREATE_AUTOMATIZACIJA_PROGRAMSKOG_JEZIKA_ROLE_CLASSIFICATION,
+  DEVELOPER_CREATE_AUTOMATIZACIJA_PROGRAMSKOG_JEZIKA_SCOPE_STATEMENT,
+  DEVELOPER_CREATE_AUTOMATIZACIJA_PROGRAMSKOG_JEZIKA_SUMMARY_SAFE_FIELDS,
   DEVELOPER_CREATE_KRALJEVSKI_RAD_BOUNDED_TOKEN_SEQUENCE,
   DEVELOPER_CREATE_KRALJEVSKI_RAD_CANONICAL_ALIAS,
   DEVELOPER_CREATE_KRALJEVSKI_RAD_FALLBACK_INPUTS,
@@ -417,16 +422,6 @@ import type {
   ExtrimliSpajaKodPublicStatus,
 } from './types';
 
-const DEVELOPER_CREATE_MEDALJE_SRBSKE_FALLBACK_INPUTS_LOWERCASE =
-  DEVELOPER_CREATE_MEDALJE_SRBSKE_FALLBACK_INPUTS.map((item) => item.toLowerCase());
-const DEVELOPER_CREATE_AUTOMATSKA_POPRAVKA_SVEGA_FALLBACK_INPUTS_LOWERCASE =
-  DEVELOPER_CREATE_AUTOMATSKA_POPRAVKA_SVEGA_FALLBACK_INPUTS.map((item) => item.toLowerCase());
-const DEVELOPER_CREATE_AUTOMATSKA_POPRAVKA_SVEGA_INPUT_NORMALIZATION_ALIASES_UPPERCASE =
-  DEVELOPER_CREATE_AUTOMATSKA_POPRAVKA_SVEGA_INPUT_NORMALIZATION_ALIASES.map((item) => item.toUpperCase());
-const DEVELOPER_CREATE_AUTOMATSKA_POPRAVKA_SVEGA_CANONICAL_ALIAS_UPPERCASE =
-  DEVELOPER_CREATE_AUTOMATSKA_POPRAVKA_SVEGA_CANONICAL_ALIAS.toUpperCase();
-const DEVELOPER_CREATE_AUTOMATSKA_POPRAVKA_SVEGA_RAW_INPUT_ALIAS_UPPERCASE =
-  DEVELOPER_CREATE_AUTOMATSKA_POPRAVKA_SVEGA_RAW_INPUT_ALIAS.toUpperCase();
 import {
   EXTRIMLI_EXTREM_PROFILER_API_MAX_MS,
   EXTRIMLI_EXTREM_PROFILER_CONTRACT_VERSION,
@@ -524,6 +519,21 @@ import {
   getExtrimliVersionRoadmap,
   isExtrimliDeveloperCreateLockAligned,
 } from '../extrimli-version-roadmap';
+
+const DEVELOPER_CREATE_MEDALJE_SRBSKE_FALLBACK_INPUTS_LOWERCASE =
+  DEVELOPER_CREATE_MEDALJE_SRBSKE_FALLBACK_INPUTS.map((item) => item.toLowerCase());
+const DEVELOPER_CREATE_AUTOMATSKA_POPRAVKA_SVEGA_FALLBACK_INPUTS_LOWERCASE =
+  DEVELOPER_CREATE_AUTOMATSKA_POPRAVKA_SVEGA_FALLBACK_INPUTS.map((item) => item.toLowerCase());
+const DEVELOPER_CREATE_AUTOMATSKA_POPRAVKA_SVEGA_INPUT_NORMALIZATION_ALIASES_UPPERCASE =
+  DEVELOPER_CREATE_AUTOMATSKA_POPRAVKA_SVEGA_INPUT_NORMALIZATION_ALIASES.map((item) => item.toUpperCase());
+const DEVELOPER_CREATE_AUTOMATSKA_POPRAVKA_SVEGA_CANONICAL_ALIAS_UPPERCASE =
+  DEVELOPER_CREATE_AUTOMATSKA_POPRAVKA_SVEGA_CANONICAL_ALIAS.toUpperCase();
+const DEVELOPER_CREATE_AUTOMATSKA_POPRAVKA_SVEGA_RAW_INPUT_ALIAS_UPPERCASE =
+  DEVELOPER_CREATE_AUTOMATSKA_POPRAVKA_SVEGA_RAW_INPUT_ALIAS.toUpperCase();
+const DEVELOPER_CREATE_AUTOMATIZACIJA_PROGRAMSKOG_JEZIKA_FALLBACK_INPUTS_LOWERCASE =
+  DEVELOPER_CREATE_AUTOMATIZACIJA_PROGRAMSKOG_JEZIKA_FALLBACK_INPUTS.map((item) => item.toLowerCase());
+const DEVELOPER_CREATE_AUTOMATIZACIJA_PROGRAMSKOG_JEZIKA_CANONICAL_ALIAS_UPPERCASE =
+  DEVELOPER_CREATE_AUTOMATIZACIJA_PROGRAMSKOG_JEZIKA_CANONICAL_ALIAS.toUpperCase();
 
 const EXTRIMLI_EXTREM_PROPORCIONALNO_PROGRAMIRANJE_FUNCTIONAL_SOURCE_TRACKS = [
   'FUNKCINALNO PROGRAMIRANJE ENERGETSKOG MISAONOG TOKA',
@@ -7974,6 +7984,47 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
         ],
         downstreamReference: 'docs/MULTI-REPO-LINKS.md -> spaja86/IO-OPENUI-AO (summary-only)',
       },
+      automatizacijaProgramskogJezikaTrack: {
+        canonicalAlias: DEVELOPER_CREATE_AUTOMATIZACIJA_PROGRAMSKOG_JEZIKA_CANONICAL_ALIAS,
+        scopeStatement: DEVELOPER_CREATE_AUTOMATIZACIJA_PROGRAMSKOG_JEZIKA_SCOPE_STATEMENT,
+        roleClassification: DEVELOPER_CREATE_AUTOMATIZACIJA_PROGRAMSKOG_JEZIKA_ROLE_CLASSIFICATION,
+        boundedVocabularyPhrase: DEVELOPER_CREATE_REPO_WIDE_BOUNDED_VOCABULARY_PHRASE,
+        additiveOnly: true,
+        noNewRuntimeEngine: true,
+        noNewRuntimeRoutes: true,
+        noParallelSourceOfTruth: true,
+        sourceOfTruthRoutes: ['/api/extrimli/extrem', '/api/extrimli/extrondol', '/api/extrimli/spaja-kod'],
+        ownershipLock: {
+          dokDikFor: 'EXTREM',
+          dakDuk: 'EXTRONDOL',
+          spajaKod: 'audit-safe-summary-only',
+        },
+        summarySafePublicFields: DEVELOPER_CREATE_AUTOMATIZACIJA_PROGRAMSKOG_JEZIKA_SUMMARY_SAFE_FIELDS,
+        readinessSignal: {
+          status: 'BLOCKED',
+          readinessScore: 0,
+          fallbackInputStatus: 'BLOCKED',
+          deterministicFallbackRequired: true,
+          fallbackInputs: DEVELOPER_CREATE_AUTOMATIZACIJA_PROGRAMSKOG_JEZIKA_FALLBACK_INPUTS,
+          driver:
+            'developerAndCreateRepoWideReflection.readiness + developerAndCreateRepoWideReflection.technicalReadinessProfile.consolidatedRhythmStatus + runtimeAutomatizacijaProgramskogJezikaInput',
+        },
+        blockerReason:
+          'automatizacija-programskog-jezika-track-awaits-bounded-readiness-automation-summary-and-governance-alignment-without-new-runtime-surfaces',
+        watchReasons: [],
+        reviewPosture: 'REVIEW_REQUIRED',
+        humanReviewStatus: 'required-before-promotion',
+        rolloutPosture: 'EXTREM-readiness-only',
+        rollbackPosture: 'EXTRONDOL-governance-required',
+        automationSummary: '',
+        acceptanceEvidence: [
+          'developerAndCreateRepoWideReflection.automatizacijaProgramskogJezikaTrack',
+          'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.automatizacijaProgramskogJezikaTrack',
+          'spajaKod.publicSignals.automatizacijaProgramskogJezikaStatus',
+          'spajaKod.developerAndCreateImplementationPackage.automatizacijaProgramskogJezikaSummary',
+        ],
+        downstreamReference: 'docs/MULTI-REPO-LINKS.md -> spaja86/IO-OPENUI-AO (summary-only)',
+      },
       kraljevskiRadTrack: {
         canonicalAlias: DEVELOPER_CREATE_KRALJEVSKI_RAD_CANONICAL_ALIAS,
         scopeStatement: DEVELOPER_CREATE_KRALJEVSKI_RAD_SCOPE_STATEMENT,
@@ -14200,6 +14251,94 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
       : automatskaPopravkaSvegaStatus === 'WATCH'
         ? 'AUTOMATSKA POPRAVKA SVEGA ostaje bounded interpretativni repair-summary u WATCH režimu: EXTREM objavljuje samo readiness/fallback signal, a EXTRONDOL zadržava promotivnu odluku dok supplemental/raw alias ili fallback ulaz ne budu audit-safe potvrđeni.'
         : 'AUTOMATSKA POPRAVKA SVEGA ostaje bounded repair-summary u BLOCKED režimu dok readiness/fallback signal i governance evidencija ne ostanu deterministički usklađeni.';
+  const automatizacijaProgramskogJezikaTrack =
+    dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.automatizacijaProgramskogJezikaTrack;
+  const automatizacijaProgramskogJezikaRuntimeInput =
+    process.env.EXTRIMLI_AUTOMATIZACIJA_PROGRAMSKOG_JEZIKA_INPUT;
+  const automatizacijaProgramskogJezikaHasWhitespaceOnlyInput =
+    typeof automatizacijaProgramskogJezikaRuntimeInput === 'string'
+    && automatizacijaProgramskogJezikaRuntimeInput.length > 0
+    && automatizacijaProgramskogJezikaRuntimeInput.trim() === '';
+  const normalizedAutomatizacijaProgramskogJezikaTrimmedInput =
+    automatizacijaProgramskogJezikaRuntimeInput?.trim() ?? null;
+  const normalizedAutomatizacijaProgramskogJezikaCanonicalizedInput =
+    normalizedAutomatizacijaProgramskogJezikaTrimmedInput
+      ? normalizedAutomatizacijaProgramskogJezikaTrimmedInput.replace(/\s+/g, ' ')
+      : null;
+  const normalizedAutomatizacijaProgramskogJezikaRuntimeInput =
+    normalizedAutomatizacijaProgramskogJezikaCanonicalizedInput
+      ? normalizedAutomatizacijaProgramskogJezikaCanonicalizedInput.toUpperCase()
+      : null;
+  const normalizedAutomatizacijaProgramskogJezikaFallbackLower =
+    automatizacijaProgramskogJezikaHasWhitespaceOnlyInput
+      ? 'empty'
+      : normalizedAutomatizacijaProgramskogJezikaCanonicalizedInput?.toLowerCase() ?? null;
+  const automatizacijaProgramskogJezikaUsesCanonicalAlias =
+    normalizedAutomatizacijaProgramskogJezikaRuntimeInput
+    === DEVELOPER_CREATE_AUTOMATIZACIJA_PROGRAMSKOG_JEZIKA_CANONICAL_ALIAS_UPPERCASE;
+  const automatizacijaProgramskogJezikaUsesDocumentedFallbackInput =
+    normalizedAutomatizacijaProgramskogJezikaFallbackLower
+      ? DEVELOPER_CREATE_AUTOMATIZACIJA_PROGRAMSKOG_JEZIKA_FALLBACK_INPUTS_LOWERCASE.includes(
+        normalizedAutomatizacijaProgramskogJezikaFallbackLower,
+      )
+      : false;
+  const automatizacijaProgramskogJezikaFallbackInputStatus: ExtrimliExtremReadinessStatus =
+    normalizedAutomatizacijaProgramskogJezikaFallbackLower === 'conflict'
+      ? 'BLOCKED'
+      : normalizedAutomatizacijaProgramskogJezikaRuntimeInput === null
+        ? 'WATCH'
+      : automatizacijaProgramskogJezikaUsesCanonicalAlias
+        ? 'READY'
+      : automatizacijaProgramskogJezikaUsesDocumentedFallbackInput
+        ? 'WATCH'
+        : normalizedAutomatizacijaProgramskogJezikaRuntimeInput
+          ? 'BLOCKED'
+          : 'READY';
+  const automatizacijaProgramskogJezikaSignalStatuses = [
+    automatizacijaProgramskogJezikaFallbackInputStatus,
+  ] as const;
+  const automatizacijaProgramskogJezikaStatus = aggregateReadinessStatus([
+    ...automatizacijaProgramskogJezikaSignalStatuses,
+  ]);
+  automatizacijaProgramskogJezikaTrack.readinessSignal.status = automatizacijaProgramskogJezikaStatus;
+  automatizacijaProgramskogJezikaTrack.readinessSignal.readinessScore = round(
+    automatizacijaProgramskogJezikaSignalStatuses.reduce(
+      (sum, signalStatus) => sum + readinessStatusScore(signalStatus),
+      0,
+    ) / automatizacijaProgramskogJezikaSignalStatuses.length,
+    2,
+  );
+  automatizacijaProgramskogJezikaTrack.readinessSignal.fallbackInputStatus =
+    automatizacijaProgramskogJezikaFallbackInputStatus;
+  automatizacijaProgramskogJezikaTrack.readinessSignal.deterministicFallbackRequired =
+    automatizacijaProgramskogJezikaStatus !== 'READY'
+    || dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.deterministicFallbackRequired;
+  automatizacijaProgramskogJezikaTrack.blockerReason =
+    automatizacijaProgramskogJezikaStatus === 'BLOCKED'
+      ? normalizedAutomatizacijaProgramskogJezikaRuntimeInput
+        ? 'AUTOMATIZACIJA PROGRAMSKOG JEZIKA ostaje BLOCKED kada runtime unos izlazi van kanonskog aliasa i dokumentovanog fallback skupa; automation traka ostaje bounded interpretacija bez nove API rute ili zasebnog automation engine-a.'
+        : 'AUTOMATIZACIJA PROGRAMSKOG JEZIKA ostaje BLOCKED dok readiness/fallback signal i governance evidencija ne ostanu deterministički usklađeni.'
+      : null;
+  automatizacijaProgramskogJezikaTrack.watchReasons =
+    automatizacijaProgramskogJezikaStatus === 'WATCH'
+      ? [
+          normalizedAutomatizacijaProgramskogJezikaRuntimeInput === null
+            ? 'Bez eksplicitnog runtime unosa AUTOMATIZACIJA PROGRAMSKOG JEZIKA ostaje u bounded WATCH režimu dok kanonski alias ili dokumentovani fallback signal ne budu eksplicitno potvrđeni.'
+            : 'AUTOMATIZACIJA PROGRAMSKOG JEZIKA ostaje u WATCH režimu dok fallback ulaz zahteva dodatni human/governance review pre promocije.',
+        ]
+      : [];
+  automatizacijaProgramskogJezikaTrack.reviewPosture =
+    automatizacijaProgramskogJezikaStatus === 'READY'
+      ? 'ALIGNED'
+      : automatizacijaProgramskogJezikaStatus === 'WATCH'
+        ? 'WATCH'
+        : 'REVIEW_REQUIRED';
+  automatizacijaProgramskogJezikaTrack.automationSummary =
+    automatizacijaProgramskogJezikaStatus === 'READY'
+      ? 'AUTOMATIZACIJA PROGRAMSKOG JEZIKA ostaje bounded automation-summary preko postojećeg EXTREM readiness signala bez novog runtime engine-a i bez paralelnog source-of-truth sistema.'
+      : automatizacijaProgramskogJezikaStatus === 'WATCH'
+        ? 'AUTOMATIZACIJA PROGRAMSKOG JEZIKA ostaje bounded automation-summary u WATCH režimu: EXTREM objavljuje samo readiness/fallback signal, a EXTRONDOL zadržava promotivnu odluku dok summary-safe automatizacija ne bude audit-ready potvrđena.'
+        : 'AUTOMATIZACIJA PROGRAMSKOG JEZIKA ostaje bounded automation-summary u BLOCKED režimu dok readiness/fallback signal i governance evidencija ne ostanu deterministički usklađeni.';
   const kraljevskiRadTrack =
     dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.kraljevskiRadTrack;
   const kraljevskiRadRuntimeTokenInput = process.env.EXTRIMLI_KRALJEVSKI_RAD_TOKEN_INPUT;

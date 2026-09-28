@@ -211,6 +211,8 @@ function buildIntegrationProfile(params: {
   gamingDslSignalStatus: AiiqIntegrationSignalStatus;
   gamingDslReadinessScore: number;
   gamingDslSignals: ExtremGamingDslSignal['gamingDomainCoverage'];
+  automatizacijaProgramskogJezikaSignalStatus: AiiqIntegrationSignalStatus;
+  automatizacijaProgramskogJezikaSummary: string;
 }): AiiqLanguageExtrimliIntegrationProfile {
   const sinemetricko = resolveSinemetrickoSignalStatus({
     dom: params.dom,
@@ -229,6 +231,7 @@ function buildIntegrationProfile(params: {
   const dekoracijeObjektnihPrimesa = params.dekoracijeObjektnihPrimesaSignalStatus;
   const gamingDslScore = round2(clamp(params.gamingDslReadinessScore, 0, 100));
   const gamingDsl = params.gamingDslSignalStatus;
+  const automatizacijaProgramskogJezika = params.automatizacijaProgramskogJezikaSignalStatus;
   const overall = mergeSignalStatus(
     params.dokStatus,
     params.dom,
@@ -321,6 +324,12 @@ function buildIntegrationProfile(params: {
         group: ['PROGRAMSKI JEZIK SPECIJALIZOVAN ZA IGRICE'] as const,
         role: 'gaming-runtime-orchestration-profile',
       },
+      AUTOMATIZACIJA_PROGRAMSKOG_JEZIKA: {
+        technicalSource: '/api/extrimli/extrem',
+        governanceSource: '/api/extrimli/extrondol',
+        group: ['DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == AUTOMATIZACIJA PROGRAMSKOG JEZIKA (SPROVOĐENJE AUTOMATSKOG RADA PROGRAMSKOG JEZIKA)'] as const,
+        role: 'bounded-automation-language-track',
+      },
     },
     layerResponsibilities: {
       extrem: 'technical-signal-engine-readiness-conflict-profiling',
@@ -337,6 +346,7 @@ function buildIntegrationProfile(params: {
       prosparitetDeklasiraneMatriceEkstaza,
       programskiJezikDekoracijeObjektnihPrimesa: dekoracijeObjektnihPrimesa,
       programskiJezikSpecijalizovanZaIgrice: gamingDsl,
+      automatizacijaProgramskogJezika,
       sinemetricko,
       overall,
     },
@@ -566,6 +576,41 @@ function buildIntegrationProfile(params: {
             : []),
         ],
       },
+      programskiJezikAutomatizacijaProgramskogJezika: {
+        canonicalName: 'PROGRAMSKI JEZIK AUTOMATIZACIJA PROGRAMSKOG JEZIKA',
+        additiveOnlyProfile: 'EXTRIMLI-EXTRONDOL-EXTREM',
+        dslProfile: 'bounded-automation-language-sibling-track',
+        sourceOfTruthRoutes: ['/api/extrimli/extrem', '/api/extrimli/extrondol'],
+        ownershipSplit: {
+          dokDikFor: 'EXTREM',
+          dakDuk: 'EXTRONDOL',
+          spajaKod: 'audit-safe-summary-only',
+        },
+        unifiedStatus: automatizacijaProgramskogJezika,
+        deterministicFallbackRequired: automatizacijaProgramskogJezika !== 'READY',
+        summarySafeOutputs: [
+          'canonicalAlias',
+          'status',
+          'blockerReason',
+          'watchReasons',
+          'reviewPosture',
+          'humanReviewStatus',
+          'rolloutPlan',
+          'rollbackPlan',
+          'releaseAuditSummary',
+          'downstreamReference',
+          'automationSummary',
+          'fallbackInputStatus',
+        ],
+        automationSummary: params.automatizacijaProgramskogJezikaSummary,
+        reasons: [
+          'Track ostaje additive-only sibling postojećim AI IQ programskim jezik interpretacijama bez nove runtime rute ili paralelnog source-of-truth sistema.',
+          'DOK + DIK + FOR ostaju EXTREM tehnički signal, DAK + DUK ostaju EXTRONDOL governance odluka, a SPAJA KOD ostaje audit-safe summary-only boundary.',
+          ...(automatizacijaProgramskogJezika !== 'READY'
+            ? ['AUTOMATIZACIJA PROGRAMSKOG JEZIKA nije READY; deterministički fallback i human-review ostaju aktivni.']
+            : []),
+        ],
+      },
       programskiJezikApstrakcija: {
         canonicalName: 'PROGRAMSKI JEZIK APSTRAKCIJA',
         additiveOnly: true,
@@ -636,6 +681,7 @@ function buildIntegrationProfile(params: {
         'PROGRAMSKI JEZIK INFORMACIONIH TOKOVA koristi isti DSL explainability, guardrail i deterministic fallback model bez novog runtime sloja.',
         'PROGRAMSKI JEZIK PRETPOSTAVKA ostaje additive FOR/DOK/DIK interpretacioni track sa DAK/DUK governance zaključavanjem.',
         'PROGRAMSKI JEZIK DEKORACIJE OBJEKTNIH PRIMESA mapira DOK/DIK/DAK/DUK/FOR signal uz explainability razlog i bez curenja internih tehničkih detalja u public sloj.',
+        'PROGRAMSKI JEZIK AUTOMATIZACIJA PROGRAMSKOG JEZIKA ostaje summary-safe sibling bounded traka vezana za isti EXTREM/EXTRONDOL ownership model.',
         ...(consistencyEscalationStatus === 'BLOCKED'
           ? ['Eskalacioni status je BLOCKED; deterministički fallback ostaje obavezan.']
           : []),
@@ -663,6 +709,7 @@ function buildIntegrationProfile(params: {
       informacioniTokoviAdditiveInput: true,
       pretpostavkaAdditiveInput: true,
       dekoracijeObjektnihPrimesaAdditiveInput: true,
+      automatizacijaProgramskogJezikaAdditiveInput: true,
       sinemetrickoAdditiveInput: true,
       performanceWithinTargets: params.performanceWithinTargets,
       securityBoundariesPreserved: params.securityBoundariesPreserved,
@@ -723,6 +770,10 @@ function invalidEvaluateResult(
       gamingDslSignalStatus: extremGamingDsl.readiness.status,
       gamingDslReadinessScore: extremGamingDsl.readiness.score,
       gamingDslSignals: extremGamingDsl.gamingDomainCoverage,
+      automatizacijaProgramskogJezikaSignalStatus:
+        getExtrimliExtremProfilerReport().dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.automatizacijaProgramskogJezikaTrack.readinessSignal.status,
+      automatizacijaProgramskogJezikaSummary:
+        getExtrimliExtremProfilerReport().dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.automatizacijaProgramskogJezikaTrack.automationSummary,
     }),
     disclaimer: AIIQ_LANG_DISCLAIMER,
     valid: false,
@@ -782,6 +833,10 @@ function invalidCompileResult(
       gamingDslSignalStatus: extremGamingDsl.readiness.status,
       gamingDslReadinessScore: extremGamingDsl.readiness.score,
       gamingDslSignals: extremGamingDsl.gamingDomainCoverage,
+      automatizacijaProgramskogJezikaSignalStatus:
+        getExtrimliExtremProfilerReport().dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.automatizacijaProgramskogJezikaTrack.readinessSignal.status,
+      automatizacijaProgramskogJezikaSummary:
+        getExtrimliExtremProfilerReport().dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.automatizacijaProgramskogJezikaTrack.automationSummary,
     }),
     disclaimer: AIIQ_LANG_DISCLAIMER,
     valid: false,
@@ -849,6 +904,8 @@ export function evaluateAiiqLanguage(input: AiiqLanguageEvaluateInput): AiiqLang
   const extremProsparitetDeklasiraneMatriceEkstaza = extremReport.programskiJezikPoProsparitetuDeklasiraneMatriceUEkstazi;
   const extremDekoracijeObjektnihPrimesa = extremReport.programskiJezikDekoracijeObjektnihPrimesa;
   const extremGamingDsl = extremReport.programskiJezikSpecijalizovanZaIgrice;
+  const extremAutomatizacijaProgramskogJezika =
+    extremReport.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.automatizacijaProgramskogJezikaTrack;
 
   if (!input || typeof input !== 'object') {
     return invalidEvaluateResult(undefined, undefined, 'input must be an object', start, extremInformationalFlow, extremPretpostavka, extremProsparitetDeklasiraneMatriceEkstaza, extremDekoracijeObjektnihPrimesa, extremGamingDsl);
@@ -987,6 +1044,10 @@ export function evaluateAiiqLanguage(input: AiiqLanguageEvaluateInput): AiiqLang
     gamingDslSignalStatus: extremGamingDsl.readiness.status,
     gamingDslReadinessScore: extremGamingDsl.readiness.score,
     gamingDslSignals: extremGamingDsl.gamingDomainCoverage,
+    automatizacijaProgramskogJezikaSignalStatus:
+      extremAutomatizacijaProgramskogJezika.readinessSignal.status,
+    automatizacijaProgramskogJezikaSummary:
+      extremAutomatizacijaProgramskogJezika.automationSummary,
   });
   const recommendedAction = integrationProfile.dokDikDakDukConsistencyHealth.deterministicFallbackRequired
     ? (status === 'BLOCKED' ? 'HARDEN_GUARDS' : 'RUN_SHADOW_MODE')
@@ -1025,6 +1086,8 @@ export function compileAiiqLanguage(input: AiiqLanguageCompileInput): AiiqLangua
   const extremProsparitetDeklasiraneMatriceEkstaza = extremReport.programskiJezikPoProsparitetuDeklasiraneMatriceUEkstazi;
   const extremDekoracijeObjektnihPrimesa = extremReport.programskiJezikDekoracijeObjektnihPrimesa;
   const extremGamingDsl = extremReport.programskiJezikSpecijalizovanZaIgrice;
+  const extremAutomatizacijaProgramskogJezika =
+    extremReport.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.automatizacijaProgramskogJezikaTrack;
 
   if (!input || typeof input !== 'object') {
     return invalidCompileResult(undefined, 'input must be an object', start, extremInformationalFlow, extremPretpostavka, extremProsparitetDeklasiraneMatriceEkstaza, extremDekoracijeObjektnihPrimesa, extremGamingDsl);
@@ -1167,6 +1230,10 @@ export function compileAiiqLanguage(input: AiiqLanguageCompileInput): AiiqLangua
     gamingDslSignalStatus: extremGamingDsl.readiness.status,
     gamingDslReadinessScore: extremGamingDsl.readiness.score,
     gamingDslSignals: extremGamingDsl.gamingDomainCoverage,
+    automatizacijaProgramskogJezikaSignalStatus:
+      extremAutomatizacijaProgramskogJezika.readinessSignal.status,
+    automatizacijaProgramskogJezikaSummary:
+      extremAutomatizacijaProgramskogJezika.automationSummary,
   });
   const executionMode: AiiqLanguageMode = integrationProfile.dokDikDakDukConsistencyHealth.deterministicFallbackRequired
     ? 'DETERMINISTIC_ONLY'
