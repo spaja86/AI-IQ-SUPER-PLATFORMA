@@ -15195,35 +15195,38 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
     biznisEnterpriseMappingStatus,
     biznisFallbackInputStatus,
   ] as const;
-  const biznisDemandStatus = aggregateReadinessStatus(biznisDemandSignalStatuses);
-  potraznjaSveStoNamTrebaTrack.readinessSignal.status = biznisDemandStatus;
-  potraznjaSveStoNamTrebaTrack.readinessSignal.readinessScore = round(
-    biznisDemandSignalStatuses.reduce((sum, status) => sum + readinessStatusScore(status), 0)
-      / biznisDemandSignalStatuses.length,
-    2,
-  );
-  potraznjaSveStoNamTrebaTrack.readinessSignal.demandCoverageStatus = biznisReferenceListStatus;
-  potraznjaSveStoNamTrebaTrack.readinessSignal.ecosystemCoverageStatus = biznisEcosystemConsistencyStatus;
-  potraznjaSveStoNamTrebaTrack.readinessSignal.resourcePartnerCapacityStatus = biznisEnterpriseMappingStatus;
-  potraznjaSveStoNamTrebaTrack.readinessSignal.fallbackInputStatus = biznisFallbackInputStatus;
-  potraznjaSveStoNamTrebaTrack.readinessSignal.deterministicFallbackRequired =
-    biznisDemandStatus !== 'READY' || biznisFallbackInputStatus !== 'READY';
+  const biznisDemandReadiness = {
+    demandCoverageStatus: biznisReferenceListStatus,
+    ecosystemCoverageStatus: biznisEcosystemConsistencyStatus,
+    resourcePartnerCapacityStatus: biznisEnterpriseMappingStatus,
+    fallbackInputStatus: biznisFallbackInputStatus,
+    status: aggregateReadinessStatus(biznisDemandSignalStatuses),
+    readinessScore: round(
+      biznisDemandSignalStatuses.reduce((sum, status) => sum + readinessStatusScore(status), 0)
+        / biznisDemandSignalStatuses.length,
+      2,
+    ),
+    deterministicFallbackRequired: false,
+  };
+  biznisDemandReadiness.deterministicFallbackRequired =
+    biznisDemandReadiness.status !== 'READY' || biznisDemandReadiness.fallbackInputStatus !== 'READY';
+  Object.assign(potraznjaSveStoNamTrebaTrack.readinessSignal, biznisDemandReadiness);
   potraznjaSveStoNamTrebaTrack.demandSummary =
     'POTRAŽNJA SVE ŠTO NAM TREBA ostaje additive-only summary-safe demand/reference podtraka za potrebe, kapacitete, partnere i resurse unutar Kompanija SPAJA / Digitalna Industrija, bez novog business engine-a i bez execution layer-a.';
   potraznjaSveStoNamTrebaTrack.blockerReason =
-    biznisDemandStatus === 'BLOCKED'
+    biznisDemandReadiness.status === 'BLOCKED'
       ? 'POTRAŽNJA SVE ŠTO NAM TREBA ostaje BLOCKED dok demand/reference pokrivenost, partner-resurs kapaciteti ili fallback unos nisu poravnati kroz postojeći summary-only governance model.'
       : null;
   potraznjaSveStoNamTrebaTrack.watchReasons =
-    biznisDemandStatus === 'WATCH'
+    biznisDemandReadiness.status === 'WATCH'
       ? [
           'POTRAŽNJA SVE ŠTO NAM TREBA ostaje u WATCH režimu dok summary-safe mapa potreba i pokrivenosti zahteva dodatni governance review pre promotion odluke.',
         ]
       : [];
   potraznjaSveStoNamTrebaTrack.reviewPosture =
-    biznisDemandStatus === 'READY'
+    biznisDemandReadiness.status === 'READY'
       ? 'ALIGNED'
-      : biznisDemandStatus === 'WATCH'
+      : biznisDemandReadiness.status === 'WATCH'
         ? 'WATCH'
         : 'REVIEW_REQUIRED';
   const biznisSignalStatuses = [
@@ -15239,12 +15242,12 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
       / biznisSignalStatuses.length,
     2,
   );
-  biznisTrack.readinessSignal.referenceListStatus = biznisReferenceListStatus;
-  biznisTrack.readinessSignal.ecosystemConsistencyStatus = biznisEcosystemConsistencyStatus;
-  biznisTrack.readinessSignal.enterpriseMappingStatus = biznisEnterpriseMappingStatus;
-  biznisTrack.readinessSignal.fallbackInputStatus = biznisFallbackInputStatus;
+  biznisTrack.readinessSignal.referenceListStatus = biznisDemandReadiness.demandCoverageStatus;
+  biznisTrack.readinessSignal.ecosystemConsistencyStatus = biznisDemandReadiness.ecosystemCoverageStatus;
+  biznisTrack.readinessSignal.enterpriseMappingStatus = biznisDemandReadiness.resourcePartnerCapacityStatus;
+  biznisTrack.readinessSignal.fallbackInputStatus = biznisDemandReadiness.fallbackInputStatus;
   biznisTrack.readinessSignal.deterministicFallbackRequired =
-    biznisStatus !== 'READY' || biznisFallbackInputStatus !== 'READY';
+    biznisStatus !== 'READY' || biznisDemandReadiness.fallbackInputStatus !== 'READY';
   biznisTrack.businessSummary =
     'BIZNIS ostaje additive-only bounded paket za ekosistemsku referentnu listu poslovnih kapaciteta, partnerstava i enterprise mapiranja unutar Kompanija SPAJA / Digitalna Industrija, a podtraka POTRAŽNJA SVE ŠTO NAM TREBA vodi summary-safe stanje potreba i pokrivenosti bez novih finansijskih formula i bez operativnog execution engine-a.';
   biznisTrack.governanceReadinessSummary =
