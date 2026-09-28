@@ -1031,6 +1031,7 @@ async function runTests(): Promise<void> {
           developerAndCreateStatus: string;
           developerAndCreateImplementationStatus: string;
           smartProgramskiJezikStatus: string;
+          ekspirijansProgramskogJezikaStatus: string;
           ispitivanjeSvegaStoJeFunkcionalnoStatus: string;
           napoleonDiskaveriStatus: string;
           sarkazamPrivrednaGranaDigitalizmaStatus: string;
@@ -1092,6 +1093,7 @@ async function runTests(): Promise<void> {
             | 'publicSignals.developerAndCreateAudioVisualStatus'
             | 'publicSignals.smartProgramskiJezikStatus'
             | 'publicSignals.immersiveVisualization3dStatus'
+            | 'publicSignals.ekspirijansProgramskogJezikaStatus'
             | 'publicSignals.eksperimentProgramskiJezikStatus'
             | 'publicSignals.ispitivanjeSvegaStoJeFunkcionalnoStatus'
             | 'publicSignals.sarkazamPrivrednaGranaDigitalizmaStatus'
@@ -1133,6 +1135,7 @@ async function runTests(): Promise<void> {
             | 'developerAndCreateImplementationPackage.kraljevskiDrustveniPoredakSummary'
             | 'developerAndCreateImplementationPackage.kraljevskiAktBezbednostiSummary'
             | 'developerAndCreateImplementationPackage.smartProgramskiJezikSummary'
+            | 'developerAndCreateImplementationPackage.ekspirijansProgramskogJezikaSummary'
             | 'developerAndCreateImplementationPackage.eksperimentProgramskiJezikSummary'
             | 'developerAndCreateImplementationPackage.ispitivanjeSvegaStoJeFunkcionalnoSummary'
             | 'developerAndCreateImplementationPackage.sarkazamPrivrednaGranaDigitalizmaSummary'
@@ -1170,6 +1173,7 @@ async function runTests(): Promise<void> {
           };
           downstreamAuditFields: string[];
           smartProgramskiJezikSummary: { canonicalName: string; readinessStatus: string; blockerReasons: string[]; watchReasons: string[]; reviewPosture: string; downstreamReference: string; publicBoundary: string };
+          ekspirijansProgramskogJezikaSummary: { canonicalAlias: string; meaningLock: string; status: string; blockerReasons: string[]; watchReasons: string[]; humanReviewPosture: string; downstreamReference: string; publicBoundary: string };
           napoleonDiskaveriSummary: { canonicalAlias: string; status: string; blockerReasons: string[]; watchReasons: string[]; humanReviewPosture: string; downstreamReference: string; randomSelectionScopeStatement: string; randomSelectionPosture: { requestAlias: string; selectionChannel: string; status: string; blockerReason: string | null; watchReasons: string[]; reviewPosture: string; downstreamReference: string } };
           eksperimentProgramskiJezikSummary: { canonicalAlias: string; status: string; blockerReasons: string[]; watchReasons: string[]; humanReviewPosture: string; downstreamReference: string; publicBoundary: string };
           ispitivanjeSvegaStoJeFunkcionalnoSummary: { canonicalAlias: string; roleClassification: string; status: string; blockerReason: string | null; watchReasons: string[]; reviewPosture: string; downstreamReference: string; publicBoundary: string; coverageAreas: string[]; extendolEvidenceMode: string; explicitCoverageClaim: string };
@@ -1360,6 +1364,9 @@ async function runTests(): Promise<void> {
     assert(body.data.developerAndCreateImplementationPackage.smartProgramskiJezikSummary.readinessStatus === body.data.publicSignals.smartProgramskiJezikStatus, 'unexpected SPAJA KOD smart language summary/status mismatch');
     assert(body.data.developerAndCreateImplementationPackage.smartProgramskiJezikSummary.immersiveVisualizationStatus === body.data.publicSignals.immersiveVisualization3dStatus, 'unexpected SPAJA KOD smart language immersive summary/status mismatch');
     assert(body.data.developerAndCreateImplementationPackage.smartProgramskiJezikSummary.publicBoundary === 'audit-safe-summary-only', 'unexpected SPAJA KOD smart language public boundary');
+    assert(body.data.developerAndCreateImplementationPackage.ekspirijansProgramskogJezikaSummary.status === body.data.publicSignals.ekspirijansProgramskogJezikaStatus, 'unexpected SPAJA KOD Ekspirijans Programskog Jezika summary/status mismatch');
+    assert(body.data.developerAndCreateImplementationPackage.ekspirijansProgramskogJezikaSummary.canonicalAlias === 'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == EKSPIRIJANS PROGRAMSKOG JEZIKA', 'unexpected SPAJA KOD Ekspirijans Programskog Jezika alias');
+    assert(body.data.developerAndCreateImplementationPackage.ekspirijansProgramskogJezikaSummary.publicBoundary === 'audit-safe-summary-only', 'unexpected SPAJA KOD Ekspirijans Programskog Jezika public boundary');
     assert(body.data.developerAndCreateImplementationPackage.eksperimentProgramskiJezikSummary.status === body.data.publicSignals.eksperimentProgramskiJezikStatus, 'unexpected SPAJA KOD Eksperiment Programski Jezik summary/status mismatch');
     assert(body.data.developerAndCreateImplementationPackage.eksperimentProgramskiJezikSummary.immersiveVisualizationStatus === body.data.publicSignals.immersiveVisualization3dStatus, 'unexpected SPAJA KOD Eksperiment Programski Jezik immersive summary/status mismatch');
     assert(body.data.developerAndCreateImplementationPackage.eksperimentProgramskiJezikSummary.publicBoundary === 'audit-safe-summary-only', 'unexpected SPAJA KOD Eksperiment Programski Jezik public boundary');
@@ -1381,6 +1388,8 @@ async function runTests(): Promise<void> {
     const routeSummaryFields = body.data.developerAndCreateImplementationPackage.routeSummaryFields;
     assert(routeSummaryFields.includes('publicSignals.promocijeTiketiBonusiPropusniceAdministrativniBonusiStatus'), 'unexpected SPAJA KOD promotions package public route summary field');
     assert(routeSummaryFields.includes('developerAndCreateImplementationPackage.promocijeTiketiBonusiPropusniceAdministrativniBonusiSummary'), 'unexpected SPAJA KOD promotions package summary route field');
+    assert(routeSummaryFields.includes('publicSignals.ekspirijansProgramskogJezikaStatus'), 'unexpected SPAJA KOD Ekspirijans Programskog Jezika public route summary field');
+    assert(routeSummaryFields.includes('developerAndCreateImplementationPackage.ekspirijansProgramskogJezikaSummary'), 'unexpected SPAJA KOD Ekspirijans Programskog Jezika summary route field');
     assert(routeSummaryFields.includes('publicSignals.kraljevskoTakmicenjeStatus'), 'unexpected SPAJA KOD kraljevsko takmicenje public route summary field');
     assert(routeSummaryFields.includes('developerAndCreateImplementationPackage.kraljevskoTakmicenjeSummary'), 'unexpected SPAJA KOD kraljevsko takmicenje summary route field');
     assert(routeSummaryFields.includes('publicSignals.kraljevskiPokloniZaSvacijiRodjendanStatus'), 'unexpected SPAJA KOD kraljevski pokloni public route summary field');
