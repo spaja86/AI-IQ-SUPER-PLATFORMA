@@ -15184,8 +15184,6 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
     dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.fourTrackProgramPackage.businessTrack.boundedAliases.includes(
       'REFERENTNA LISTA == EKOSISTEMA == BIZNIS'
     )
-      && dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.fourTrackProgramPackage.businessTrack.canonicalName
-        === 'Kompanija SPAJA / Digitalna Industrija'
       ? 'READY'
       : 'BLOCKED';
   const potraznjaSveStoNamTrebaTrack = biznisTrack.potraznjaSveStoNamTreba;
