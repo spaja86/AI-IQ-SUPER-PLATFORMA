@@ -118,10 +118,13 @@ Repo-wide reflection sada obavezno uključuje i dnevni operativni cadence: `morn
 
 `DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == SMART PROGRAMSKI JEZIK` ostaje additive-only vršni interpretativni sloj bez novih ruta: EXTREM planira tehnički profil (`funkcionalni tok`, `objektna struktura`, `proporcionalna ravnoteža`, `deterministički fallback`, `konflikt/degradacija`, `READY | WATCH | BLOCKED`), EXTRONDOL objavljuje governance ogledalo (`WAWE`, `human review`, `promotion freeze`, `rollback`, `release audit summary`, downstream reference), a SPAJA KOD samo summary-safe status + razloge + review posture + downstream reference.
 
+`DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == EKSPIRIJANS PROGRAMSKOG JEZIKA` ostaje additive-only bounded alias bez novih ruta: značenje je zaključano na iskustvo programskog jezika kroz učenje u radu, ponavljanje rada i operativno usvajanje, EXTREM drži experiential-language readiness signal, EXTRONDOL drži governance ogledalo, a SPAJA KOD samo audit-safe summary status.
+
 `DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == EKSPERIMENT PROGRAMSKI JEZIK (PRODUKCIJA FILMSKOG I AUDIO REPERTOARA)` ostaje additive-only vršni alias bez novih ruta: EXTREM drži DOK/DIK/FOR tehnički readiness/blocker/watch/fallback signal, EXTRONDOL drži DAK/DUK WAWE/review/freeze/promotion/rollback/release-audit ogledalo, a SPAJA KOD objavljuje samo audit-safe summary status.
 
 - Nema novih runtime ruta, nema paralelnog source-of-truth sistema i nema novog DSP/muzičkog engine-a.
 - Ownership split ostaje isti: `DOK + DIK + FOR` ostaju EXTREM tehnički signal, `DAK + DUK` ostaju EXTRONDOL governance/WAWE odluke, a SPAJA KOD objavljuje samo audit-safe summary status.
+- `EKSPIRIJANS PROGRAMSKOG JEZIKA` ostaje interpretativno-produkcioni sloj između `SMART PROGRAMSKI JEZIK` i `EKSPERIMENT PROGRAMSKI JEZIK`, nikad novi centralni sistem ili novi apex runtime.
 - Zaključano mapiranje traka ostaje: vokal/narativ -> `SINEMETRIČKO PROGRAMIRANJE`, reprodukcioni sloj -> `OBJEKTNO ORIJENTISANA REPRODUKCIJA`, tonalne proporcije -> `PROPORCIONALNO PROGRAMIRANJE`, ritam/duracije/ciklus -> `METRIČKO PROGRAMIRANJE`, montažno-orkestracioni tok -> `PARADIJOGONALNO PROGRAMIRANJE`.
 - Zaključana immersivna dimenziona progresija ostaje `360D, 720D, 1440D, 2880D, 5760D`: EXTREM vodi readiness/fallback signale za 3D + prostorni zvuk, EXTRONDOL vodi freeze/review/rollback governance, a SPAJA KOD objavljuje samo summary-safe status i razloge.
 - `regtonske proporcije`, `vuferske/kontrabasovne promene` i `tonski aspekt u revolucionom smislu kontrabasa` ostaju bounded signalni rečnik za audio dramaturgiju i dinamički balans.

@@ -89,6 +89,12 @@ import type {
   DEVELOPER_CREATE_KRALJEVSKI_RAD_ROLE_CLASSIFICATION,
   DEVELOPER_CREATE_KRALJEVSKI_RAD_SCOPE_STATEMENT,
   DEVELOPER_CREATE_KRALJEVSKI_RAD_SUMMARY_SAFE_FIELDS,
+  DEVELOPER_CREATE_EKSPIRIJANS_PROGRAMSKOG_JEZIKA_BOUNDED_SIGNALS,
+  DEVELOPER_CREATE_EKSPIRIJANS_PROGRAMSKOG_JEZIKA_CANONICAL_ALIAS,
+  DEVELOPER_CREATE_EKSPIRIJANS_PROGRAMSKOG_JEZIKA_MEANING_LOCK,
+  DEVELOPER_CREATE_EKSPIRIJANS_PROGRAMSKOG_JEZIKA_ROLE_CLASSIFICATION,
+  DEVELOPER_CREATE_EKSPIRIJANS_PROGRAMSKOG_JEZIKA_SCOPE_STATEMENT,
+  DEVELOPER_CREATE_EKSPIRIJANS_PROGRAMSKOG_JEZIKA_SUMMARY_SAFE_FIELDS,
   DEVELOPER_CREATE_LEKSIKON_BOUNDED_SIGNALS,
   DEVELOPER_CREATE_LEKSIKON_CANONICAL_ALIAS,
   DEVELOPER_CREATE_LEKSIKON_DOWNSTREAM_POLICY,
@@ -2985,6 +2991,41 @@ export interface ExtrimliDokDikDakDukConsistencyHealth {
       humanReviewPosture: 'ALIGNED' | 'WATCH' | 'REVIEW_REQUIRED';
       downstreamReference: 'docs/MULTI-REPO-LINKS.md -> spaja86/IO-OPENUI-AO (summary-only)';
     };
+    ekspirijansProgramskogJezikaTrack: {
+      canonicalAlias: typeof DEVELOPER_CREATE_EKSPIRIJANS_PROGRAMSKOG_JEZIKA_CANONICAL_ALIAS;
+      scopeStatement: typeof DEVELOPER_CREATE_EKSPIRIJANS_PROGRAMSKOG_JEZIKA_SCOPE_STATEMENT;
+      roleClassification: typeof DEVELOPER_CREATE_EKSPIRIJANS_PROGRAMSKOG_JEZIKA_ROLE_CLASSIFICATION;
+      meaningLock: typeof DEVELOPER_CREATE_EKSPIRIJANS_PROGRAMSKOG_JEZIKA_MEANING_LOCK;
+      boundedSignals: typeof DEVELOPER_CREATE_EKSPIRIJANS_PROGRAMSKOG_JEZIKA_BOUNDED_SIGNALS;
+      boundedVocabularyPhrase: 'EXTRIMLI EXTRONDOL EXTREM DOK DUK DAK DIK FOR';
+      additiveOnly: true;
+      noNewRuntimeEngine: true;
+      noNewRuntimeRoutes: true;
+      noParallelSourceOfTruth: true;
+      sourceOfTruthRoutes: readonly ['/api/extrimli/extrem', '/api/extrimli/extrondol', '/api/extrimli/spaja-kod'];
+      ownershipLock: {
+        dokDikFor: 'EXTREM';
+        dakDuk: 'EXTRONDOL';
+        spajaKod: 'audit-safe-summary-only';
+      };
+      layeredBetween: {
+        smartProgramskiJezikPackage: 'developerAndCreateRepoWideReflection.implementationPackage.smartProgramskiJezikPackage';
+        eksperimentProgramskiJezikTrack: 'developerAndCreateRepoWideReflection.eksperimentProgramskiJezikTrack';
+      };
+      summarySafePublicFields: typeof DEVELOPER_CREATE_EKSPIRIJANS_PROGRAMSKOG_JEZIKA_SUMMARY_SAFE_FIELDS;
+      technicalProfile: {
+        learningInWorkReadinessPercent: number;
+        repetitionStabilityPercent: number;
+        functionalObjectClarityPercent: number;
+        deterministicFallbackRequired: boolean;
+        status: 'READY' | 'WATCH' | 'BLOCKED';
+      };
+      readinessScore: number;
+      blockerReasons: string[];
+      watchReasons: string[];
+      humanReviewPosture: 'ALIGNED' | 'WATCH' | 'REVIEW_REQUIRED';
+      downstreamReference: 'docs/MULTI-REPO-LINKS.md -> spaja86/IO-OPENUI-AO (summary-only)';
+    };
     ispitivanjeSvegaStoJeFunkcionalnoTrack: {
       canonicalAlias: typeof DEVELOPER_CREATE_ISPITIVANJE_SVEGA_STO_JE_FUNKCIONALNO_CANONICAL_ALIAS;
       scopeStatement: typeof DEVELOPER_CREATE_ISPITIVANJE_SVEGA_STO_JE_FUNKCIONALNO_SCOPE_STATEMENT;
@@ -5775,6 +5816,23 @@ export interface ExtrimliDokDikDakDukConsistencyHealth {
         spajaKodPublishes: 'status-blocker-watch-review-and-downstream-reference-only';
         technicalBinding: 'developerAndCreateRepoWideReflection.eksperimentProgramskiJezikTrack';
         immersiveScenesGovernedBy: 'developerAndCreateRepoWideReflection.technicalReadinessProfile.immersiveVisualization3dTrack';
+        noNewRuntimeEngine: true;
+        noNewRuntimeRoutes: true;
+        noParallelSourceOfTruth: true;
+        rawInternalsExposed: false;
+      };
+      ekspirijansProgramskogJezikaBoundary: {
+        trackRole: 'bounded-experiential-language-alias-track';
+        parentTrack: 'VRH PROGRAMSKOG EKVILADENTA';
+        canonicalAlias: typeof DEVELOPER_CREATE_EKSPIRIJANS_PROGRAMSKOG_JEZIKA_CANONICAL_ALIAS;
+        scopeStatement: typeof DEVELOPER_CREATE_EKSPIRIJANS_PROGRAMSKOG_JEZIKA_SCOPE_STATEMENT;
+        roleClassification: typeof DEVELOPER_CREATE_EKSPIRIJANS_PROGRAMSKOG_JEZIKA_ROLE_CLASSIFICATION;
+        meaningLock: typeof DEVELOPER_CREATE_EKSPIRIJANS_PROGRAMSKOG_JEZIKA_MEANING_LOCK;
+        extremPublishes: 'learning-in-work-repetition-and-functional-object-clarity-signal-only';
+        extrondolPublishes: 'wawe-freeze-promotion-review-rollback-audit-summary-only';
+        spajaKodPublishes: 'status-blocker-watch-review-and-downstream-reference-only';
+        technicalBinding: 'developerAndCreateRepoWideReflection.ekspirijansProgramskogJezikaTrack';
+        layeredBetween: 'developerAndCreateRepoWideReflection.implementationPackage.smartProgramskiJezikPackage + developerAndCreateRepoWideReflection.eksperimentProgramskiJezikTrack';
         noNewRuntimeEngine: true;
         noNewRuntimeRoutes: true;
         noParallelSourceOfTruth: true;

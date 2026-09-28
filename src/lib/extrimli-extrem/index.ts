@@ -101,6 +101,12 @@ import {
   DEVELOPER_CREATE_KRALJEVSKI_RAD_ROLE_CLASSIFICATION,
   DEVELOPER_CREATE_KRALJEVSKI_RAD_SCOPE_STATEMENT,
   DEVELOPER_CREATE_KRALJEVSKI_RAD_SUMMARY_SAFE_FIELDS,
+  DEVELOPER_CREATE_EKSPIRIJANS_PROGRAMSKOG_JEZIKA_BOUNDED_SIGNALS,
+  DEVELOPER_CREATE_EKSPIRIJANS_PROGRAMSKOG_JEZIKA_CANONICAL_ALIAS,
+  DEVELOPER_CREATE_EKSPIRIJANS_PROGRAMSKOG_JEZIKA_MEANING_LOCK,
+  DEVELOPER_CREATE_EKSPIRIJANS_PROGRAMSKOG_JEZIKA_ROLE_CLASSIFICATION,
+  DEVELOPER_CREATE_EKSPIRIJANS_PROGRAMSKOG_JEZIKA_SCOPE_STATEMENT,
+  DEVELOPER_CREATE_EKSPIRIJANS_PROGRAMSKOG_JEZIKA_SUMMARY_SAFE_FIELDS,
   DEVELOPER_CREATE_LEKSIKON_BOUNDED_SIGNALS,
   DEVELOPER_CREATE_LEKSIKON_CANONICAL_ALIAS,
   DEVELOPER_CREATE_LEKSIKON_DOWNSTREAM_POLICY,
@@ -7444,6 +7450,44 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
         humanReviewPosture: 'REVIEW_REQUIRED',
         downstreamReference: 'docs/MULTI-REPO-LINKS.md -> spaja86/IO-OPENUI-AO (summary-only)',
       },
+      ekspirijansProgramskogJezikaTrack: {
+        canonicalAlias: DEVELOPER_CREATE_EKSPIRIJANS_PROGRAMSKOG_JEZIKA_CANONICAL_ALIAS,
+        scopeStatement: DEVELOPER_CREATE_EKSPIRIJANS_PROGRAMSKOG_JEZIKA_SCOPE_STATEMENT,
+        roleClassification: DEVELOPER_CREATE_EKSPIRIJANS_PROGRAMSKOG_JEZIKA_ROLE_CLASSIFICATION,
+        meaningLock: DEVELOPER_CREATE_EKSPIRIJANS_PROGRAMSKOG_JEZIKA_MEANING_LOCK,
+        boundedSignals: DEVELOPER_CREATE_EKSPIRIJANS_PROGRAMSKOG_JEZIKA_BOUNDED_SIGNALS,
+        boundedVocabularyPhrase: DEVELOPER_CREATE_REPO_WIDE_BOUNDED_VOCABULARY_PHRASE,
+        additiveOnly: true,
+        noNewRuntimeEngine: true,
+        noNewRuntimeRoutes: true,
+        noParallelSourceOfTruth: true,
+        sourceOfTruthRoutes: ['/api/extrimli/extrem', '/api/extrimli/extrondol', '/api/extrimli/spaja-kod'],
+        ownershipLock: {
+          dokDikFor: 'EXTREM',
+          dakDuk: 'EXTRONDOL',
+          spajaKod: 'audit-safe-summary-only',
+        },
+        layeredBetween: {
+          smartProgramskiJezikPackage:
+            'developerAndCreateRepoWideReflection.implementationPackage.smartProgramskiJezikPackage',
+          eksperimentProgramskiJezikTrack:
+            'developerAndCreateRepoWideReflection.eksperimentProgramskiJezikTrack',
+        },
+        summarySafePublicFields:
+          DEVELOPER_CREATE_EKSPIRIJANS_PROGRAMSKOG_JEZIKA_SUMMARY_SAFE_FIELDS,
+        technicalProfile: {
+          learningInWorkReadinessPercent: 0,
+          repetitionStabilityPercent: 0,
+          functionalObjectClarityPercent: 0,
+          deterministicFallbackRequired: true,
+          status: 'BLOCKED',
+        },
+        readinessScore: 0,
+        blockerReasons: [],
+        watchReasons: [],
+        humanReviewPosture: 'REVIEW_REQUIRED',
+        downstreamReference: 'docs/MULTI-REPO-LINKS.md -> spaja86/IO-OPENUI-AO (summary-only)',
+      },
       ispitivanjeSvegaStoJeFunkcionalnoTrack: {
         canonicalAlias:
           DEVELOPER_CREATE_ISPITIVANJE_SVEGA_STO_JE_FUNKCIONALNO_CANONICAL_ALIAS,
@@ -12759,6 +12803,24 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
       noParallelSourceOfTruth: true,
       rawInternalsExposed: false,
     },
+    ekspirijansProgramskogJezikaBoundary: {
+      trackRole: 'bounded-experiential-language-alias-track',
+      parentTrack: 'VRH PROGRAMSKOG EKVILADENTA',
+      canonicalAlias: DEVELOPER_CREATE_EKSPIRIJANS_PROGRAMSKOG_JEZIKA_CANONICAL_ALIAS,
+      scopeStatement: DEVELOPER_CREATE_EKSPIRIJANS_PROGRAMSKOG_JEZIKA_SCOPE_STATEMENT,
+      roleClassification: DEVELOPER_CREATE_EKSPIRIJANS_PROGRAMSKOG_JEZIKA_ROLE_CLASSIFICATION,
+      meaningLock: DEVELOPER_CREATE_EKSPIRIJANS_PROGRAMSKOG_JEZIKA_MEANING_LOCK,
+      extremPublishes: 'learning-in-work-repetition-and-functional-object-clarity-signal-only',
+      extrondolPublishes: 'wawe-freeze-promotion-review-rollback-audit-summary-only',
+      spajaKodPublishes: 'status-blocker-watch-review-and-downstream-reference-only',
+      technicalBinding: 'developerAndCreateRepoWideReflection.ekspirijansProgramskogJezikaTrack',
+      layeredBetween:
+        'developerAndCreateRepoWideReflection.implementationPackage.smartProgramskiJezikPackage + developerAndCreateRepoWideReflection.eksperimentProgramskiJezikTrack',
+      noNewRuntimeEngine: true,
+      noNewRuntimeRoutes: true,
+      noParallelSourceOfTruth: true,
+      rawInternalsExposed: false,
+    },
     sarkazamPrivrednaGranaDigitalizmaBoundary: {
       trackRole: 'bounded-sarkazam-digitalizam-alias-track',
       parentTrack: 'VRH PROGRAMSKOG EKVILADENTA',
@@ -13258,6 +13320,87 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
     eksperimentProgramskiJezikStatus === 'READY'
       ? 'ALIGNED'
       : eksperimentProgramskiJezikStatus === 'WATCH'
+        ? 'WATCH'
+        : 'REVIEW_REQUIRED';
+  const ekspirijansProgramskogJezikaLearningInWorkReadinessPercent = round(
+    clamp(
+      (
+        dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.implementationPackage.smartProgramskiJezikPackage.readinessScore
+        + eksperimentProgramskiJezikReadinessScore
+      ) / 2,
+      0,
+      100,
+    ),
+    2,
+  );
+  const ekspirijansProgramskogJezikaRepetitionStabilityPercent = round(
+    clamp(
+      (
+        dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.implementationPackage.smartProgramskiJezikPackage.technicalProfile.proportionalBalancePercent
+        + (100
+          - dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.implementationPackage.smartProgramskiJezikPackage.technicalProfile.conflictPressurePercent)
+      ) / 2,
+      0,
+      100,
+    ),
+    2,
+  );
+  const ekspirijansProgramskogJezikaFunctionalObjectClarityPercent = round(
+    clamp(
+      (
+        dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.implementationPackage.smartProgramskiJezikPackage.technicalProfile.functionalFlowPercent
+        + dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.implementationPackage.smartProgramskiJezikPackage.technicalProfile.objectStructurePercent
+      ) / 2,
+      0,
+      100,
+    ),
+    2,
+  );
+  const ekspirijansProgramskogJezikaReadinessScore = round(
+    (
+      ekspirijansProgramskogJezikaLearningInWorkReadinessPercent
+      + ekspirijansProgramskogJezikaRepetitionStabilityPercent
+      + ekspirijansProgramskogJezikaFunctionalObjectClarityPercent
+    ) / 3,
+    2,
+  );
+  const ekspirijansProgramskogJezikaStatus = aggregateReadinessStatus([
+    dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.implementationPackage.smartProgramskiJezikPackage.technicalProfile.status,
+    dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.eksperimentProgramskiJezikTrack.readinessSignal.status,
+  ]);
+  const ekspirijansProgramskogJezikaDeterministicFallbackRequired =
+    dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.implementationPackage.smartProgramskiJezikPackage.technicalProfile.deterministicFallbackRequired
+    || eksperimentProgramskiJezikDeterministicFallbackRequired;
+  dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.ekspirijansProgramskogJezikaTrack.technicalProfile =
+    {
+      learningInWorkReadinessPercent:
+        ekspirijansProgramskogJezikaLearningInWorkReadinessPercent,
+      repetitionStabilityPercent:
+        ekspirijansProgramskogJezikaRepetitionStabilityPercent,
+      functionalObjectClarityPercent:
+        ekspirijansProgramskogJezikaFunctionalObjectClarityPercent,
+      deterministicFallbackRequired:
+        ekspirijansProgramskogJezikaDeterministicFallbackRequired,
+      status: ekspirijansProgramskogJezikaStatus,
+    };
+  dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.ekspirijansProgramskogJezikaTrack.readinessScore =
+    ekspirijansProgramskogJezikaReadinessScore;
+  dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.ekspirijansProgramskogJezikaTrack.blockerReasons =
+    ekspirijansProgramskogJezikaStatus === 'BLOCKED'
+      ? [
+        'EKSPIRIJANS PROGRAMSKOG JEZIKA ostaje BLOCKED dok Smart Programski Jezik i Eksperiment Programski Jezik ne potvrde iskustveno učenje kroz rad, ponavljanje i operativno usvajanje u istom EXTREM profilu.',
+      ]
+      : [];
+  dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.ekspirijansProgramskogJezikaTrack.watchReasons =
+    ekspirijansProgramskogJezikaStatus === 'WATCH'
+      ? [
+        'EKSPIRIJANS PROGRAMSKOG JEZIKA ostaje u WATCH režimu dok iskustveno učenje kroz rad i ponavljanje još zahteva dodatni review u postojećem additive-only okviru.',
+      ]
+      : [];
+  dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.ekspirijansProgramskogJezikaTrack.humanReviewPosture =
+    ekspirijansProgramskogJezikaStatus === 'READY'
+      ? 'ALIGNED'
+      : ekspirijansProgramskogJezikaStatus === 'WATCH'
         ? 'WATCH'
         : 'REVIEW_REQUIRED';
   const ispitivanjeSvegaStoJeFunkcionalnoFunctionalThoughtFlowsStatus = aggregateReadinessStatus([
