@@ -11726,6 +11726,19 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
   const kraljevskaVojnaPolicijskaLifecycleStatus = kraljevskiAktBezbednostiGovernanceBlocked
     ? 'BLOCKED'
     : resolveDeveloperCreateExtensionStatus(kraljevskaVojnaPolicijskaLifecycleScore);
+  const kraljevskaPlataStartApprovalStatus = resolveDeveloperCreateExtensionStatus(
+    kraljevskaDopunaReadinessScore,
+  );
+  const kraljevskaPlataStartBlockerReason =
+    kraljevskaPlataStartApprovalStatus === 'BLOCKED'
+      ? 'approval-status-blocked'
+      : kraljevskaPlataStartApprovalStatus === 'WATCH'
+        ? 'approval-status-watch'
+        : privredniAktQuarterlyMarketInput.status === 'BLOCKED'
+          ? 'payout-readiness-blocked'
+          : privredniAktQuarterlyMarketInput.status === 'WATCH'
+            ? 'payout-readiness-watch'
+            : null;
   dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.kraljevskiDrustveniPoredak = {
     canonicalName: 'KRALJEVSKI DRUŠTVENI POREDAK',
     additiveOnly: true,
@@ -11929,19 +11942,10 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
           scopeStatement: DEVELOPER_CREATE_KRALJEVSKA_PLATA_START_SCOPE_STATEMENT,
           roleClassification: DEVELOPER_CREATE_KRALJEVSKA_PLATA_START_ROLE_CLASSIFICATION,
           boundedVocabularyPhrase: DEVELOPER_CREATE_REPO_WIDE_BOUNDED_VOCABULARY_PHRASE,
-          approvalStatus: resolveDeveloperCreateExtensionStatus(kraljevskaDopunaReadinessScore),
+          approvalStatus: kraljevskaPlataStartApprovalStatus,
           payoutReadinessStatus: privredniAktQuarterlyMarketInput.status,
           paymentVerificationPosture: 'required-governance-gate',
-          blockerReason:
-            resolveDeveloperCreateExtensionStatus(kraljevskaDopunaReadinessScore) === 'BLOCKED'
-              ? 'approval-status-blocked'
-              : resolveDeveloperCreateExtensionStatus(kraljevskaDopunaReadinessScore) === 'WATCH'
-                ? 'approval-status-watch'
-                : privredniAktQuarterlyMarketInput.status === 'BLOCKED'
-              ? 'payment verification i downstream sync ostaju obavezni pre bilo kakvog governance-only payout signala.'
-              : privredniAktQuarterlyMarketInput.status === 'WATCH'
-                ? 'payout-readiness-watch'
-              : null,
+          blockerReason: kraljevskaPlataStartBlockerReason,
           reviewPosture: 'human-review-required',
           downstreamReference: 'spaja86/IO-OPENUI-AO (summary-only)',
           summarySafeFields: DEVELOPER_CREATE_KRALJEVSKA_PLATA_START_SUMMARY_SAFE_FIELDS,
