@@ -896,7 +896,7 @@ function mapKraljevskaPlataPaymentVerificationPosture(
 function buildKraljevskaPlataSummary(
   kraljevskaPlataPolicy: ExtrimliExtrondolReport['extremProfiler']['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['kraljevskiDrustveniPoredak']['kraljevskiAktBezbednosti']['kraljevskaPlataPolicy'],
   paymentVerification: ExtrimliExtrondolReport['paymentVerification'],
-) {
+): ExtrimliExtrondolReport['spajaKod']['developerAndCreateImplementationPackage']['kraljevskiAktBezbednostiSummary']['kraljevskaPlataSummary'] {
   const paymentVerificationPosture = mapKraljevskaPlataPaymentVerificationPosture(
     paymentVerification.status,
   );
@@ -929,7 +929,7 @@ function buildKraljevskaPlataSummary(
 function buildKraljevskaPlataStartPackageSummary(
   startPackage: ExtrimliExtrondolReport['extremProfiler']['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['kraljevskiDrustveniPoredak']['kraljevskiAktBezbednosti']['kraljevskaPlataPolicy']['startPackage'],
   paymentVerification: ExtrimliExtrondolReport['paymentVerification'],
-) {
+): ExtrimliExtrondolReport['spajaKod']['developerAndCreateImplementationPackage']['kraljevskiAktBezbednostiSummary']['kraljevskaPlataStartPackageSummary'] {
   const paymentVerificationPosture = mapKraljevskaPlataPaymentVerificationPosture(
     paymentVerification.status,
   );
