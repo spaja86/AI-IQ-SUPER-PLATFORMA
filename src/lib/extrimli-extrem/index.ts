@@ -15253,6 +15253,7 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
     biznisReferenceListStatus,
     biznisEcosystemConsistencyStatus,
     biznisEnterpriseMappingStatus,
+    potraznjaSveStoNamTrebaTrack.readinessSignal.status,
     biznisFallbackInputStatus,
   ] as const;
   const biznisStatus = aggregateReadinessStatus(biznisSignalStatuses);
