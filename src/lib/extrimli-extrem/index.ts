@@ -14979,7 +14979,9 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
   const biznisNormalizedFallbackInputs = DEVELOPER_CREATE_BIZNIS_FALLBACK_INPUTS.map((token) =>
     token.toLowerCase()
   );
-  const biznisResolvedFallbackInput = biznisRuntimeFallbackInput?.trim().toLowerCase() ?? null;
+  const biznisTrimmedFallbackInput = biznisRuntimeFallbackInput?.trim().toLowerCase() ?? null;
+  const biznisResolvedFallbackInput =
+    biznisTrimmedFallbackInput === '' ? 'empty' : biznisTrimmedFallbackInput;
   const biznisFallbackInputStatus: ExtrimliExtremReadinessStatus =
     biznisResolvedFallbackInput === 'conflict'
       ? 'BLOCKED'
