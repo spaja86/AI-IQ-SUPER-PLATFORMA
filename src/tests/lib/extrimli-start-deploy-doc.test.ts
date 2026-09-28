@@ -52,6 +52,13 @@ async function run(): Promise<void> {
     assert(startDeployDoc.includes('| Rollback path validated |'), 'rollback evidence row missing');
   });
 
+  await test('START deploy doc references the deploy readiness plan route pair', () => {
+    assert(startDeployDoc.includes('## Source-of-truth closure order'), 'source-of-truth closure order heading missing');
+    assert(startDeployDoc.includes('`/api/vercel-status`'), 'vercel-status route reference missing');
+    assert(startDeployDoc.includes('`/api/owner/vercel-ownership`'), 'vercel-ownership route reference missing');
+    assert(startDeployDoc.includes('`deployReadinessPlan`'), 'deployReadinessPlan reference missing');
+  });
+
   await test('downstream doc and workflow preserve START deploy governance evidence', () => {
     assert(multiRepoLinksDoc.includes('<!-- START_DEPLOY_MULTI_REPO_SECTION -->'), 'multi-repo section marker missing');
     assert(multiRepoLinksDoc.includes('<!-- START_DEPLOY_WAWE3_EVIDENCE -->'), 'WAWE 3 evidence marker missing');

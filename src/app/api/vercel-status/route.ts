@@ -34,6 +34,7 @@ import {
   isVercelInvoiceResolved,
   normalizePaymentReferenceClassification,
 } from '@/lib/vercel-billing-governance';
+import { buildVercelDeployReadinessPlan } from '@/lib/vercel-deploy-readiness-plan';
 export {
   KV_VERCEL_AUTOPAY_CORPORATE_ONLY_KEY,
   KV_VERCEL_BANK_STATEMENT_CAPTURED_KEY,
@@ -315,6 +316,45 @@ export async function GET() {
    teamOrOrgConfigured: infrastructure.teamOrOrgConfigured,
    deployHookConfigured: infrastructure.deployHookConfigured,
   });
+  const deployReadinessPlan = buildVercelDeployReadinessPlan({
+   primaryEndpoint: VERCEL_STATUS_ROUTE_PATH,
+   mirroredEndpoint: deployGovernance.blockerSourceOfTruth.mirroredEndpoint,
+   phoneVerified,
+   enterpriseRequestReady: pretplataVercel.ownership.enterpriseRequestReady,
+   enterpriseRequestStarted:
+     pretplataVercel.ownership.enterpriseRequestReady
+     || pretplataVercel.ownership.enterpriseRequestRequested
+     || pretplataVercel.ownership.enterpriseRequestSubmitted,
+   enterpriseRequestSubmitted: pretplataVercel.ownership.enterpriseRequestSubmitted,
+   billingOwnerLocked: pretplataVercel.billingGovernance.billingOwnerLocked,
+   billingOwner: pretplataVercel.billingGovernance.billingOwner,
+   legalIntakeComplete: pretplataVercel.billingGovernance.legalIntakeComplete,
+   enterpriseGovernedModel: pretplataVercel.billingGovernance.enterpriseGovernedModel,
+   currentInvoiceNumber: pretplataVercel.billingGovernance.currentInvoice.number,
+   currentInvoiceAmount: pretplataVercel.billingGovernance.currentInvoice.amountUsd,
+   currentInvoicePaid: pretplataVercel.billingGovernance.currentInvoice.paid,
+   correctedInvoiceResolved: pretplataVercel.billingGovernance.currentInvoice.correctedInvoiceResolved,
+   invoiceRequested: pretplataVercel.billingGovernance.currentInvoice.requested,
+   currentInvoiceEvidenceCaptured: pretplataVercel.billingGovernance.currentInvoice.evidenceCaptured,
+   bankStatementCaptured: pretplataVercel.billingGovernance.currentInvoice.bankStatementCaptured,
+   paymentReferenceCaptured: pretplataVercel.billingGovernance.currentInvoice.paymentReferenceCaptured,
+   paymentReferenceClassification:
+     pretplataVercel.billingGovernance.currentInvoice.paymentReferenceClassification === 'unclassified'
+       ? ''
+       : pretplataVercel.billingGovernance.currentInvoice.paymentReferenceClassification,
+   paymentReferencePublicSafeApproved: pretplataVercel.billingGovernance.currentInvoice.paymentReferencePublicSafeApproved,
+   publicAnnouncementRedacted: pretplataVercel.billingGovernance.publicAnnouncement.redacted,
+   publicAnnouncementPublished: pretplataVercel.billingGovernance.publicAnnouncement.published,
+   autopayCorporateOnly: pretplataVercel.billingGovernance.futurePayments.autopayCorporateOnly,
+   financeChannelConfigured: pretplataVercel.billingGovernance.futurePayments.financeChannelConfigured,
+   finopsThresholdsEnabled: pretplataVercel.billingGovernance.futurePayments.finopsThresholdsEnabled,
+   monthlyReconciliationEnabled: pretplataVercel.billingGovernance.futurePayments.monthlyReconciliationEnabled,
+   quarterlyVendorReviewEnabled: pretplataVercel.billingGovernance.futurePayments.quarterlyVendorReviewEnabled,
+   tokenConfigured: infrastructure.tokenConfigured,
+   projectIdConfigured: infrastructure.projectIdConfigured,
+   teamOrOrgConfigured: infrastructure.teamOrOrgConfigured,
+   deployHookConfigured: infrastructure.deployHookConfigured,
+  });
 
   // Analytics event (pasivno — ne blokira odgovor)
   const eventTip = health.vercelPriključeno
@@ -342,6 +382,7 @@ export async function GET() {
       : null,
     pretplataVercel,
     deployGovernance,
+    deployReadinessPlan,
     uputstvo: {
       korak1: 'Kreirati Personal Access Token na Vercel → Account Settings → Tokens',
       korak2: 'Dodati VERCEL_TOKEN u Vercel → Project → Settings → Environment Variables',

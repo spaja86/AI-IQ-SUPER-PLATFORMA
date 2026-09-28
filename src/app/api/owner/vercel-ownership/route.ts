@@ -35,6 +35,7 @@ import {
   buildVercelOwnershipBlockers,
   buildVercelDeployGovernanceSummary,
 } from '@/lib/vercel-deploy-governance';
+import { buildVercelDeployReadinessPlan } from '@/lib/vercel-deploy-readiness-plan';
 import {
   getVercelDeployInfrastructureState,
   resolveVercelBillingGovernanceEnv,
@@ -217,6 +218,9 @@ export async function GET() {
     enterpriseRequestSpreman: ready || identity.vercel.checklist.enterpriseRequestSpreman,
     enterpriseRequestPoslato: submitted || identity.vercel.checklist.enterpriseRequestPoslato,
   };
+  const enterpriseRequestRequested = /^(1|true|yes)$/i.test(
+    runtimeEnv.SPAJA_VERCEL_ENTERPRISE_REQUESTED ?? '',
+  );
 
   const vercelStatus = submitted
     ? 'u-procesu'
@@ -249,11 +253,48 @@ export async function GET() {
     teamOrOrgConfigured: infrastructure.teamOrOrgConfigured,
     deployHookConfigured: infrastructure.deployHookConfigured,
   });
+  const deployReadinessPlan = buildVercelDeployReadinessPlan({
+    primaryEndpoint: VERCEL_OWNERSHIP_ROUTE_PATH,
+    mirroredEndpoint: deployGovernance.blockerSourceOfTruth.mirroredEndpoint,
+    phoneVerified: checklist.phoneVerified,
+    enterpriseRequestReady: checklist.enterpriseRequestSpreman,
+    enterpriseRequestStarted:
+      enterpriseRequestRequested
+      || checklist.enterpriseRequestSpreman
+      || checklist.enterpriseRequestPoslato,
+    enterpriseRequestSubmitted: checklist.enterpriseRequestPoslato,
+    billingOwnerLocked: billing.billingOwnerLocked,
+    billingOwner: billing.billingOwner,
+    legalIntakeComplete: billing.legalIntakeComplete,
+    enterpriseGovernedModel: billing.enterpriseGovernedModel,
+    currentInvoiceNumber: billing.currentInvoiceNumber,
+    currentInvoiceAmount: billing.currentInvoiceAmount,
+    currentInvoicePaid: billing.currentInvoicePaid,
+    correctedInvoiceResolved: billing.correctedInvoiceResolved,
+    invoiceRequested: billing.invoiceRequested,
+    currentInvoiceEvidenceCaptured: billing.currentInvoiceEvidenceCaptured,
+    bankStatementCaptured: billing.bankStatementCaptured,
+    paymentReferenceCaptured: billing.paymentReferenceCaptured,
+    paymentReferenceClassification: publicAnnouncement.paymentReferenceClassification,
+    paymentReferencePublicSafeApproved: billing.paymentReferencePublicSafeApproved,
+    publicAnnouncementRedacted: billing.publicAnnouncementRedacted,
+    publicAnnouncementPublished: billing.publicAnnouncementPublished,
+    autopayCorporateOnly: billing.autopayCorporateOnly,
+    financeChannelConfigured: billing.financeChannelConfigured,
+    finopsThresholdsEnabled: billing.finopsThresholdsEnabled,
+    monthlyReconciliationEnabled: billing.monthlyReconciliationEnabled,
+    quarterlyVendorReviewEnabled: billing.quarterlyVendorReviewEnabled,
+    tokenConfigured: infrastructure.tokenConfigured,
+    projectIdConfigured: infrastructure.projectIdConfigured,
+    teamOrOrgConfigured: infrastructure.teamOrOrgConfigured,
+    deployHookConfigured: infrastructure.deployHookConfigured,
+  });
 
   return NextResponse.json({
     sistem: 'Vercel Ownership — Kompanija SPAJA',
     verzija: APP_VERSION,
     izvor: KOMPANIJA,
+    deployReadinessPlan,
     vercel: {
       accountEmail: identity.vercel.accountEmail,
       billingKontakt: identity.vercel.billingKontakt,

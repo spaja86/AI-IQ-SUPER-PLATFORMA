@@ -77,6 +77,10 @@ async function testRouteResponse() {
       recommendedNextAction?: string;
       wavePhases?: Array<{ id?: string; status?: string }>;
     };
+    deployReadinessPlan?: {
+      summary?: { total?: number };
+      steps?: Array<{ id?: string; status?: string }>;
+    };
   };
   assert.ok(typeof json.status === 'string' && json.status.length > 0);
   assert.ok(json.pretplataVercel, 'pretplataVercel mora biti prisutan');
@@ -148,6 +152,17 @@ async function testRouteResponse() {
   assert.strictEqual(json.deployGovernance?.wavePhases?.length, 5);
   assert.strictEqual(json.deployGovernance?.wavePhases?.[0]?.id, 'WAVE 1');
   assert.ok((json.deployGovernance?.wavePhases ?? []).every((phase) => ['BLOCKED', 'PENDING', 'READY'].includes(phase.status ?? '')));
+  assert.strictEqual(json.deployReadinessPlan?.summary?.total, 9);
+  assert.strictEqual(json.deployReadinessPlan?.steps?.[0]?.id, 'source-of-truth');
+  assert.strictEqual(json.deployReadinessPlan?.steps?.[0]?.status, 'READY');
+  assert.strictEqual(
+    json.deployReadinessPlan?.steps?.find((step) => step.id === 'domain-gate')?.status,
+    'WATCH',
+  );
+  assert.strictEqual(
+    json.deployReadinessPlan?.steps?.find((step) => step.id === 'wave3-release-gate')?.status,
+    'WATCH',
+  );
 }
 
 async function testRouteResponseUsesKvGovernanceFlags() {
