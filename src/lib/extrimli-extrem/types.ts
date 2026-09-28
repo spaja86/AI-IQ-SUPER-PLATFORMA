@@ -48,6 +48,11 @@ import type {
   DEVELOPER_CREATE_POSLOVNA_PONUDA_ZELEZARA_DOO_ROLE_CLASSIFICATION,
   DEVELOPER_CREATE_POSLOVNA_PONUDA_ZELEZARA_DOO_URGENT_MEETING_INTAKE_PACKAGE,
   DEVELOPER_CREATE_POSLOVNA_PONUDA_ZELEZARA_DOO_FALLBACK_INPUTS,
+  DEVELOPER_CREATE_BIZNIS_CANONICAL_ALIAS,
+  DEVELOPER_CREATE_BIZNIS_SCOPE_STATEMENT,
+  DEVELOPER_CREATE_BIZNIS_ROLE_CLASSIFICATION,
+  DEVELOPER_CREATE_BIZNIS_REFERENCE_PACKAGE,
+  DEVELOPER_CREATE_BIZNIS_FALLBACK_INPUTS,
   DEVELOPER_CREATE_KRALJEVSKO_TAKMICENJE_AUTHENTICITY_RULES,
   DEVELOPER_CREATE_KRALJEVSKO_TAKMICENJE_CANONICAL_ALIAS,
   DEVELOPER_CREATE_KRALJEVSKO_TAKMICENJE_EVALUATION_CRITERIA,
@@ -3925,6 +3930,59 @@ export interface ExtrimliDokDikDakDukConsistencyHealth {
       ];
       downstreamReference: 'docs/MULTI-REPO-LINKS.md -> spaja86/IO-OPENUI-AO (summary-only)';
     };
+    biznisTrack: {
+      canonicalAlias: typeof DEVELOPER_CREATE_BIZNIS_CANONICAL_ALIAS;
+      scopeStatement: typeof DEVELOPER_CREATE_BIZNIS_SCOPE_STATEMENT;
+      roleClassification: typeof DEVELOPER_CREATE_BIZNIS_ROLE_CLASSIFICATION;
+      boundedVocabularyPhrase: 'EXTRIMLI EXTRONDOL EXTREM DOK DUK DAK DIK FOR';
+      additiveOnly: true;
+      noNewRuntimeEngine: true;
+      noNewRuntimeRoutes: true;
+      noParallelSourceOfTruth: true;
+      sourceOfTruthRoutes: readonly ['/api/extrimli/extrem', '/api/extrimli/extrondol', '/api/extrimli/spaja-kod'];
+      ownershipLock: {
+        dokDikFor: 'EXTREM';
+        dakDuk: 'EXTRONDOL';
+        spajaKod: 'audit-safe-summary-only';
+      };
+      summarySafePublicFields: readonly [
+        'canonicalAlias',
+        'status',
+        'blockerReason',
+        'watchReasons',
+        'reviewPosture',
+        'downstreamReference',
+        'businessSummary',
+        'referenceListStatus',
+        'ecosystemConsistencyStatus',
+        'enterpriseMappingStatus',
+        'fallbackInputStatus'
+      ];
+      referencePackage: typeof DEVELOPER_CREATE_BIZNIS_REFERENCE_PACKAGE;
+      readinessSignal: {
+        status: 'READY' | 'WATCH' | 'BLOCKED';
+        readinessScore: number;
+        referenceListStatus: 'READY' | 'WATCH' | 'BLOCKED';
+        ecosystemConsistencyStatus: 'READY' | 'WATCH' | 'BLOCKED';
+        enterpriseMappingStatus: 'READY' | 'WATCH' | 'BLOCKED';
+        fallbackInputStatus: 'READY' | 'WATCH' | 'BLOCKED';
+        deterministicFallbackRequired: boolean;
+        fallbackInputs: typeof DEVELOPER_CREATE_BIZNIS_FALLBACK_INPUTS;
+        driver: 'developerAndCreateRepoWideReflection.readiness + technicalReadinessProfile.consolidatedRhythmStatus + fourTrackProgramPackage.businessTrack';
+      };
+      blockerReason: string | null;
+      watchReasons: string[];
+      reviewPosture: 'ALIGNED' | 'WATCH' | 'REVIEW_REQUIRED';
+      businessSummary: string;
+      governanceReadinessSummary: string;
+      acceptanceEvidence: readonly [
+        'developerAndCreateRepoWideReflection.biznisTrack',
+        'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.biznisTrack',
+        'spajaKod.publicSignals.biznisStatus',
+        'spajaKod.developerAndCreateImplementationPackage.biznisSummary'
+      ];
+      downstreamReference: 'docs/MULTI-REPO-LINKS.md -> spaja86/IO-OPENUI-AO (summary-only)';
+    };
     aiIqKonferencijaZaStampuTrack: {
       canonicalAlias: typeof DEVELOPER_CREATE_AI_IQ_KONFERENCIJA_ZA_STAMPU_CANONICAL_ALIAS;
       scopeStatement: typeof DEVELOPER_CREATE_AI_IQ_KONFERENCIJA_ZA_STAMPU_SCOPE_STATEMENT;
@@ -4126,6 +4184,7 @@ export interface ExtrimliDokDikDakDukConsistencyHealth {
       puteviIstinskePravde: 'PUTEVI ISTINSKE PRAVDE';
       kraljevskiBastaUneverzite: 'KRALJEVSKI BAŠTA UNEVERZITE';
       kompanijaSpajaDigitalnaIndustrija: 'Kompanija SPAJA / Digitalna Industrija';
+      biznisEkosistemskaReferentnaLista: 'REFERENTNA LISTA == EKOSISTEMA == BIZNIS';
       sarkazamPrivrednaGranaDigitalizma: 'SARKAZAM / PRIVREDNA GRANA DIGITALIZMA / PROJEKTI ENTUZIJAZMA PO ČINU OBLASTIMA';
       kraljevskoTakmicenje: 'KRALJEVSKO TAKMIČENJE';
       kraljevskiPokloniZaSvacijiRodjendan: 'KRALJEVSKI POKLONI ZA SVAČIJI ROĐENDAN';
@@ -4358,6 +4417,11 @@ export interface ExtrimliDokDikDakDukConsistencyHealth {
         readinessStatus: 'READY' | 'WATCH' | 'BLOCKED';
         mappingMode: 'bounded-enterprise-interpretation';
         umbrellaModel: 'DIGITALNA INDUSTRIJA';
+        boundedAliases: readonly [
+          'POSLOVNA PONUDA',
+          'POSLOVNA PONUDA / ŽELEZARA D.O.O. SMEDEREVO',
+          'REFERENTNA LISTA == EKOSISTEMA == BIZNIS'
+        ];
         noNewFinancialRuntimeFormulas: true;
         noOperationalExecutionEngine: true;
         publicBoundary: 'summary-only';
@@ -5854,6 +5918,20 @@ export interface ExtrimliDokDikDakDukConsistencyHealth {
         extrondolPublishes: 'wawe-freeze-promotion-review-rollback-kpi-audit-summary-only';
         spajaKodPublishes: 'status-blocker-review-downstream-and-urgent-meeting-summary-only';
         technicalBinding: 'developerAndCreateRepoWideReflection.poslovnaPonudaZelezaraDooTrack';
+        noNewRuntimeEngine: true;
+        noNewRuntimeRoutes: true;
+        noParallelSourceOfTruth: true;
+        rawInternalsExposed: false;
+      };
+      biznisBoundary: {
+        trackRole: 'bounded-ekosistem-business-reference-track';
+        parentTrack: 'VRH PROGRAMSKOG EKVILADENTA';
+        canonicalAlias: typeof DEVELOPER_CREATE_BIZNIS_CANONICAL_ALIAS;
+        roleClassification: typeof DEVELOPER_CREATE_BIZNIS_ROLE_CLASSIFICATION;
+        extremPublishes: 'status-reference-consistency-enterprise-mapping-and-deterministic-fallback-signal-only';
+        extrondolPublishes: 'wawe-freeze-promotion-review-rollback-kpi-audit-summary-only';
+        spajaKodPublishes: 'status-blocker-review-downstream-and-business-summary-only';
+        technicalBinding: 'developerAndCreateRepoWideReflection.biznisTrack';
         noNewRuntimeEngine: true;
         noNewRuntimeRoutes: true;
         noParallelSourceOfTruth: true;
