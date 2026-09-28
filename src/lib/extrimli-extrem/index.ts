@@ -12949,6 +12949,25 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
   functionRegistryTrack.spajaNikOpenEvolutionFunctionBackup.fallbackPosture =
     spajaNikOpenEvolutionFunctionBackupOperation?.fallbackRule
     ?? DEVELOPER_CREATE_FUNCTION_REGISTRY_FALLBACK_RULES.missingInputContract;
+  const cliFunctionBackdownTrack = functionRegistryTrack.cliFunctionBackdownInovacePaidSpajicnikola;
+  const cliFunctionBackdownBaseWatchReasons = [
+    'INOVACE is normalized into bounded innovation context until deterministic fallback is verified.',
+    'SPAJICNIKOLA is normalized to SpajaNikOpenEvolution scope until ownership lock evidence is complete.',
+  ];
+  cliFunctionBackdownTrack.status = spajaNikOpenEvolutionFunctionBackupStatus;
+  cliFunctionBackdownTrack.blockerReason =
+    spajaNikOpenEvolutionFunctionBackupStatus === 'BLOCKED'
+      ? spajaNikOpenEvolutionFunctionBackupOperation
+        ? 'FUNCTION BACKDOWN remains blocked until normalized FUNCTION BACKUP reaches canonical PETLJE readiness.'
+        : 'FUNCTION BACKDOWN cannot be promoted because normalized FUNCTION BACKUP is missing from FUNCTION REGISTRY operations.'
+      : null;
+  cliFunctionBackdownTrack.watchReasons =
+    spajaNikOpenEvolutionFunctionBackupStatus === 'WATCH'
+      ? [
+        ...cliFunctionBackdownBaseWatchReasons,
+        'FUNCTION BACKDOWN stays in WATCH while normalized FUNCTION BACKUP fallback confirmation is active.',
+      ]
+      : cliFunctionBackdownBaseWatchReasons;
   const eksperimentProgramskiJezikSignalStatuses = [
     dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.audioVisualKontrabasPackage.readinessStatus,
     dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.implementationPackage.smartProgramskiJezikPackage.technicalProfile.status,
