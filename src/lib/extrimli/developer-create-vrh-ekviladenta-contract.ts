@@ -196,7 +196,7 @@ export const DEVELOPER_CREATE_VRH_INTERPRETATION_ALIASES = [
   DEVELOPER_CREATE_VRH_IZVESTAJ_ALIAS,
 ] as const;
 
-export const DEVELOPER_CREATE_VRH_DIJALIZA_POGONSKOG_OMOTACA_ALIAS_BOUNDARY = {
+const DEVELOPER_CREATE_VRH_INTERPRETATIVE_ALIAS_BOUNDARY_BASE = {
   classification: 'documentation-and-interpretative-alias-only',
   noNewRuntimeModule: true,
   noParallelSourceOfTruth: true,
@@ -207,16 +207,13 @@ export const DEVELOPER_CREATE_VRH_DIJALIZA_POGONSKOG_OMOTACA_ALIAS_BOUNDARY = {
   },
 } as const;
 
+export const DEVELOPER_CREATE_VRH_DIJALIZA_POGONSKOG_OMOTACA_ALIAS_BOUNDARY = {
+  ...DEVELOPER_CREATE_VRH_INTERPRETATIVE_ALIAS_BOUNDARY_BASE,
+} as const;
+
 export const DEVELOPER_CREATE_VRH_ZALAN_ALIAS_BOUNDARY = {
-  classification: 'documentation-and-interpretative-alias-only',
-  noNewRuntimeModule: true,
-  noParallelSourceOfTruth: true,
+  ...DEVELOPER_CREATE_VRH_INTERPRETATIVE_ALIAS_BOUNDARY_BASE,
   governanceMirror: 'EXTRONDOL-WAWE-review-rollout-rollback-release-audit',
-  ownershipSplit: {
-    dokDikFor: 'EXTREM',
-    dakDuk: 'EXTRONDOL',
-    spajaKod: 'audit-safe-summary-only',
-  },
 } as const;
 
 export const DEVELOPER_CREATE_VRH_FOUR_PERMANENT_LAYERS = {
