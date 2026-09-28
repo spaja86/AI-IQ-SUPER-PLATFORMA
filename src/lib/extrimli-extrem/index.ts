@@ -15232,8 +15232,11 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
   const biznisSignalStatuses = [
     dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.status,
     dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.technicalReadinessProfile.consolidatedRhythmStatus,
+    biznisDemandReadiness.demandCoverageStatus,
+    biznisDemandReadiness.ecosystemCoverageStatus,
+    biznisDemandReadiness.resourcePartnerCapacityStatus,
     potraznjaSveStoNamTrebaTrack.readinessSignal.status,
-    biznisFallbackInputStatus,
+    biznisDemandReadiness.fallbackInputStatus,
   ] as const;
   const biznisStatus = aggregateReadinessStatus(biznisSignalStatuses);
   biznisTrack.readinessSignal.status = biznisStatus;
