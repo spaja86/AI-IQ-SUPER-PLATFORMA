@@ -360,6 +360,8 @@ async function runTests(): Promise<void> {
       report.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.alatiRadionicaTrack;
     const aiIqLaboratorijaTrack =
       report.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.aiIqLaboratorijaTrack;
+    const deVinciKodTrack =
+      report.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.deVinciKodTrack;
     const konstrukcijeIProjektovanjeTrack =
       report.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.konstrukcijeIProjektovanjeTrack;
     const vinogradiGrockaRestoranTrack =
@@ -563,6 +565,14 @@ async function runTests(): Promise<void> {
     assert(aiIqLaboratorijaTrack.summarySafePublicFields.join(',') === 'canonicalAlias,status,blockerReason,watchReasons,reviewPosture,downstreamReference,nalazSummary', 'developer/create AI IQ LABORATORIJA summary-safe fields mismatch');
     assert(implementationPackage.aiIqLaboratorijaBoundary.trackRole === 'bounded-ai-iq-laboratorija-evidence-track', 'developer/create implementation package AI IQ LABORATORIJA boundary role mismatch');
     assert(implementationPackage.aiIqLaboratorijaBoundary.noNewRuntimeRoutes, 'developer/create implementation package AI IQ LABORATORIJA boundary must forbid new runtime routes');
+    assert(deVinciKodTrack.canonicalAlias === 'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == DE VINČI KOD', 'developer/create DE VINČI KOD canonical alias mismatch');
+    assert(deVinciKodTrack.roleClassification === 'additive-only-bounded-de-vinci-kod-geometrijsko-fizicki-alias-track', 'developer/create DE VINČI KOD role classification mismatch');
+    assert(deVinciKodTrack.boundedSignals.join(',') === 'de-vinci-kod,proporcionalna-kateta,hipotenuza-okvirni-ambijent,muskulatorni-skeleton,viskoznost-ljudskog-bica', 'developer/create DE VINČI KOD bounded signals mismatch');
+    assert(['READY', 'WATCH', 'BLOCKED'].includes(deVinciKodTrack.readinessSignal.status), 'developer/create DE VINČI KOD readiness status mismatch');
+    assert(['READY', 'WATCH', 'BLOCKED'].includes(deVinciKodTrack.readinessSignal.katetaStatus), 'developer/create DE VINČI KOD kateta status mismatch');
+    assert(['READY', 'WATCH', 'BLOCKED'].includes(deVinciKodTrack.readinessSignal.hipotenuzaStatus), 'developer/create DE VINČI KOD hipotenuza status mismatch');
+    assert(['READY', 'WATCH', 'BLOCKED'].includes(deVinciKodTrack.readinessSignal.viskoznostStatus), 'developer/create DE VINČI KOD viskoznost status mismatch');
+    assert(deVinciKodTrack.acceptanceEvidence.join(',') === 'developerAndCreateRepoWideReflection.deVinciKodTrack,releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.deVinciKodTrack,spajaKod.publicSignals.deVinciKodStatus,spajaKod.developerAndCreateImplementationPackage.deVinciKodSummary', 'developer/create DE VINČI KOD acceptance evidence mismatch');
     assert(konstrukcijeIProjektovanjeTrack.canonicalAlias === 'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == KONSTRUKCIJE I PROJEKTOVANJE', 'developer/create KONSTRUKCIJE I PROJEKTOVANJE canonical alias mismatch');
     assert(konstrukcijeIProjektovanjeTrack.roleClassification === 'additive-only-bounded-construction-design-alias-track', 'developer/create KONSTRUKCIJE I PROJEKTOVANJE role classification mismatch');
     assert(konstrukcijeIProjektovanjeTrack.boundedTokenSequence.join(',') === 'DUR,DJON,TUR,ZIM,UBAR,DOKOR,SINGAR,UKOR,IOP,TUR,UBAR,SINGOF,SIGRAD,OKDEN,UMAR', 'developer/create KONSTRUKCIJE I PROJEKTOVANJE token sequence mismatch');

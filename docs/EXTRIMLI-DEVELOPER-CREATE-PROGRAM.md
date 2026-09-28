@@ -345,6 +345,15 @@ Prioritet realizacije ostaje zaključan:
 - Kanonski spisak padeža je normalizovan na: `NOMINATIV, GENITIV, DATIV, AKUZATIV, VOKATIV, INSTRUMENTAL, LOKATIV`; dupli `LOKATIV` iz početnog zahteva ne ostaje dupliran.
 - Zaključani output model ostaje: `readinessStatus`, `blockerReason`, `watchReasons`, `humanReviewStatus`, `rolloutPlan`, `rollbackPlan`, `releaseAuditSummary`, `downstreamReference`.
 - Downstream prema `spaja86/IO-OPENUI-AO` ostaje strogo summary-only.
+
+### 2.2.6.b) DE VINČI KOD bounded geometrijsko-fizički paket
+
+- Kanonski alias ostaje zaključan: `DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == DE VINČI KOD`.
+- Scope zaključavanje ostaje additive-only u okviru postojećeg lock-a `DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA` sa bounded rečnikom `EXTRIMLI EXTRONDOL EXTREM DOK DUK DAK DIK FOR`.
+- Traka ostaje interpretativno-tehnički paket za narativ `proporcionalna kateta ↔ hipotenuza ↔ okvirni ambijent sa muskulatornim skeletonom (viskoznost ljudskog bića prema fizičkom poretku)`, bez novih runtime ruta i bez paralelnog source-of-truth sloja.
+- Ownership split ostaje nepromenjen: `DOK/DIK/FOR -> EXTREM` (readiness signal `READY | WATCH | BLOCKED` + bounded indikatori `katetaStatus`, `hipotenuzaStatus`, `viskoznostStatus`), `DAK/DUK -> EXTRONDOL` (WAWE/freeze/promotion/rollback/human-review/release-audit ogledalo), `SPAJA KOD -> audit-safe summary-only`.
+- Zaključani acceptance trag ostaje: `developerAndCreateRepoWideReflection.deVinciKodTrack`, `releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.deVinciKodTrack`, `spajaKod.publicSignals.deVinciKodStatus`, `spajaKod.developerAndCreateImplementationPackage.deVinciKodSummary`.
+- Bounded fallback ulazi (`missing-scope-lock`, `missing-role-classification`, `missing-bounded-signal-coverage`) ostaju pod postojećim deterministic fallback pravilom i obaveznim human-review pre promocije.
 ### 2.2.7) KONSTRUKCIJE I PROJEKTOVANJE bounded alias
 
 - Kanonski alias ostaje zaključan: `DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == KONSTRUKCIJE I PROJEKTOVANJE`.

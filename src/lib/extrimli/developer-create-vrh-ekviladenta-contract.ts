@@ -218,6 +218,9 @@ export const DEVELOPER_CREATE_VRH_PADEZI_ALIAS =
 export const DEVELOPER_CREATE_VRH_MARKAN_ALIAS =
   'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == MARKAN' as const;
 
+export const DEVELOPER_CREATE_VRH_DE_VINCI_KOD_ALIAS =
+  'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == DE VINČI KOD' as const;
+
 export const DEVELOPER_CREATE_VRH_INTERPRETATION_ALIASES = [
   'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == RADNI TAKT MOZGA (MISLILAC)',
   'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == MAPE UMA',
@@ -237,6 +240,7 @@ export const DEVELOPER_CREATE_VRH_INTERPRETATION_ALIASES = [
   'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == RADIO',
   'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == MUZIČKA KUTIJA',
   'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == AI IQ LABORATORIJA == LABORATORIJSKI NALAZI FAUNE I FLORE I GRAĐEVINSKOG MATERIJALA',
+  DEVELOPER_CREATE_VRH_DE_VINCI_KOD_ALIAS,
   'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == POSLOVNA PONUDA',
   'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == POSLOVNA PONUDA / PRETPLATA',
   DEVELOPER_CREATE_VRH_BIZNIS_ALIAS,
@@ -1629,6 +1633,43 @@ export const DEVELOPER_CREATE_KONSTRUKCIJE_I_PROJEKTOVANJE_NORMALIZATION_RULES =
   unknownTokenHandling: 'map-to-watch-and-require-review',
   conflictHandling: 'map-to-blocked-and-require-review',
 } as const;
+
+export const DEVELOPER_CREATE_DE_VINCI_KOD_CANONICAL_ALIAS =
+  DEVELOPER_CREATE_VRH_DE_VINCI_KOD_ALIAS;
+
+export const DEVELOPER_CREATE_DE_VINCI_KOD_SCOPE_STATEMENT =
+  'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == DE VINČI KOD == additive-only bounded geometrijsko-fizička traka (proporcionalna kateta nad hipotenuzom u okvirnom ambijentu sa muskulatornim skeletonom) bez novih runtime ruta i bez paralelnog source-of-truth sistema' as const;
+
+export const DEVELOPER_CREATE_DE_VINCI_KOD_ROLE_CLASSIFICATION =
+  'additive-only-bounded-de-vinci-kod-geometrijsko-fizicki-alias-track' as const;
+
+export const DEVELOPER_CREATE_DE_VINCI_KOD_BOUNDED_SIGNALS = [
+  'de-vinci-kod',
+  'proporcionalna-kateta',
+  'hipotenuza-okvirni-ambijent',
+  'muskulatorni-skeleton',
+  'viskoznost-ljudskog-bica',
+] as const;
+
+export const DEVELOPER_CREATE_DE_VINCI_KOD_SUMMARY_SAFE_FIELDS = [
+  'canonicalAlias',
+  'status',
+  'blockerReason',
+  'watchReasons',
+  'reviewPosture',
+  'downstreamReference',
+  'geometrijskoFizickiSummary',
+  'katetaStatus',
+  'hipotenuzaStatus',
+  'viskoznostStatus',
+] as const;
+
+export const DEVELOPER_CREATE_DE_VINCI_KOD_FALLBACK_INPUTS = [
+  'NaN',
+  'Infinity',
+  'empty',
+  'conflict',
+] as const;
 
 export const DEVELOPER_CREATE_VINOGRADI_GROCKA_RESTORAN_CANONICAL_ALIAS =
   DEVELOPER_CREATE_VRH_VINOGRADI_GROCKA_RESTORAN_ALIAS;
