@@ -1203,6 +1203,9 @@ async function runTests(): Promise<void> {
       DEVELOPER_CREATE_MARKAN_SUMMARY_SAFE_FIELDS,
       ['canonicalAlias', 'readinessStatus', 'blockerReason', 'watchReasons', 'humanReviewStatus', 'rolloutPlan', 'rollbackPlan', 'releaseAuditSummary', 'downstreamReference'],
       'unexpected MARKAN summary-safe fields',
+    );
+  });
+
   await test('devastator alias remains additive-only, governance-ready, and summary-safe', () => {
     assert(
       DEVELOPER_CREATE_VRH_INTERPRETATION_ALIASES.includes(DEVELOPER_CREATE_VRH_DEVASTATOR_ALIAS),
