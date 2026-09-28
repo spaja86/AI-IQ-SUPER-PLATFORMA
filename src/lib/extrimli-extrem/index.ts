@@ -12911,11 +12911,13 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
   const spajaNikOpenEvolutionFunctionBackupOperation =
     functionRegistryTrack.operations.find((operation) => operation.key === 'FUNCTION BACKUP');
   const spajaNikOpenEvolutionFunctionBackupStatus =
-    spajaNikOpenEvolutionFunctionBackupOperation?.status ?? functionRegistryTrack.readiness.status;
+    spajaNikOpenEvolutionFunctionBackupOperation?.status ?? 'BLOCKED';
   functionRegistryTrack.spajaNikOpenEvolutionFunctionBackup.status = spajaNikOpenEvolutionFunctionBackupStatus;
   functionRegistryTrack.spajaNikOpenEvolutionFunctionBackup.blockerReason =
     spajaNikOpenEvolutionFunctionBackupStatus === 'BLOCKED'
-      ? 'SpajaNikOpenEvolution FUNCTION BACKUP remains blocked until canonical EXTREM backup readiness and PETLJE mapping are aligned.'
+      ? spajaNikOpenEvolutionFunctionBackupOperation
+        ? 'SpajaNikOpenEvolution FUNCTION BACKUP remains blocked until canonical EXTREM backup readiness and PETLJE mapping are aligned.'
+        : 'SpajaNikOpenEvolution FUNCTION BACKUP operation is missing from FUNCTION REGISTRY and must be restored before readiness can be promoted.'
       : null;
   functionRegistryTrack.spajaNikOpenEvolutionFunctionBackup.watchReasons =
     spajaNikOpenEvolutionFunctionBackupStatus === 'WATCH'
