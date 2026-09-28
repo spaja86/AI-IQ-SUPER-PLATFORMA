@@ -12960,7 +12960,9 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
       ? spajaNikOpenEvolutionFunctionBackupOperation
         ? 'FUNCTION BACKDOWN remains blocked until normalized FUNCTION BACKUP reaches canonical PETLJE readiness.'
         : 'FUNCTION BACKDOWN cannot be promoted because normalized FUNCTION BACKUP is missing from FUNCTION REGISTRY operations.'
-      : null;
+      : cliFunctionBackdownTrack.paymentGateStatus !== 'PAID_CONFIRMED'
+        ? 'FUNCTION BACKDOWN stays payment-gated in EXTREM until EXTRONDOL confirms PAID governance evidence.'
+        : null;
   cliFunctionBackdownTrack.watchReasons =
     spajaNikOpenEvolutionFunctionBackupStatus === 'WATCH'
       ? [
