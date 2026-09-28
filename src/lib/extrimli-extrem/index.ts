@@ -15189,16 +15189,36 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
       ? 'READY'
       : 'BLOCKED';
   const potraznjaSveStoNamTrebaTrack = biznisTrack.potraznjaSveStoNamTreba;
+  const potraznjaDemandSummarySurfaceReady =
+    potraznjaSveStoNamTrebaTrack.summarySafePublicFields.includes('demandSummary')
+    && potraznjaSveStoNamTrebaTrack.summarySafePublicFields.includes('demandCoverageStatus')
+    && potraznjaSveStoNamTrebaTrack.summarySafePublicFields.includes('fallbackInputStatus');
+  const potraznjaEcosystemBoundaryReady =
+    potraznjaSveStoNamTrebaTrack.scopeStatement.includes('kapacitete, partnere i resurse')
+    && potraznjaSveStoNamTrebaTrack.boundedVocabularyPhrase === 'EXTRIMLI EXTRONDOL EXTREM DOK DUK DAK DIK FOR'
+    && potraznjaSveStoNamTrebaTrack.downstreamReference === 'docs/MULTI-REPO-LINKS.md -> spaja86/IO-OPENUI-AO (summary-only)';
+  const potraznjaResourcePartnerCapacityReady =
+    potraznjaSveStoNamTrebaTrack.noNewRuntimeRoutes
+    && potraznjaSveStoNamTrebaTrack.noParallelSourceOfTruth
+    && potraznjaSveStoNamTrebaTrack.noNewRuntimeEngine
+    && potraznjaSveStoNamTrebaTrack.ownershipLock.dokDikFor === 'EXTREM'
+    && potraznjaSveStoNamTrebaTrack.ownershipLock.dakDuk === 'EXTRONDOL';
+  const potraznjaDemandCoverageStatus: ExtrimliExtremReadinessStatus =
+    potraznjaDemandSummarySurfaceReady ? 'READY' : 'BLOCKED';
+  const potraznjaEcosystemCoverageStatus: ExtrimliExtremReadinessStatus =
+    potraznjaEcosystemBoundaryReady ? 'READY' : 'BLOCKED';
+  const potraznjaResourcePartnerCapacityStatus: ExtrimliExtremReadinessStatus =
+    potraznjaResourcePartnerCapacityReady ? 'READY' : 'BLOCKED';
   const biznisDemandSignalStatuses = [
-    biznisReferenceListStatus,
-    biznisEcosystemConsistencyStatus,
-    biznisEnterpriseMappingStatus,
+    potraznjaDemandCoverageStatus,
+    potraznjaEcosystemCoverageStatus,
+    potraznjaResourcePartnerCapacityStatus,
     biznisFallbackInputStatus,
   ] as const;
   const biznisDemandReadiness = {
-    demandCoverageStatus: biznisReferenceListStatus,
-    ecosystemCoverageStatus: biznisEcosystemConsistencyStatus,
-    resourcePartnerCapacityStatus: biznisEnterpriseMappingStatus,
+    demandCoverageStatus: potraznjaDemandCoverageStatus,
+    ecosystemCoverageStatus: potraznjaEcosystemCoverageStatus,
+    resourcePartnerCapacityStatus: potraznjaResourcePartnerCapacityStatus,
     fallbackInputStatus: biznisFallbackInputStatus,
     status: aggregateReadinessStatus(biznisDemandSignalStatuses),
     readinessScore: round(
