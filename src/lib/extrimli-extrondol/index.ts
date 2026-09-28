@@ -243,6 +243,7 @@ const DEVELOPER_CREATE_ROADMAP_ACCEPTANCE_EVIDENCE_BASE = [
   'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.eksperimentProgramskiJezikTrack',
   'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.sarkazamPrivrednaGranaDigitalizmaTrack',
   'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.notes1450Track',
+  'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.functionRegistryTrack',
   'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.saradnjaReadyPackage',
   'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.leksikonTrack',
   'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.promocijeTiketiBonusiPropusniceAdministrativniBonusiTrack',
@@ -264,6 +265,7 @@ const DEVELOPER_CREATE_ROADMAP_ACCEPTANCE_EVIDENCE_BASE = [
   'spajaKod.publicSignals.eksperimentProgramskiJezikStatus',
   'spajaKod.publicSignals.sarkazamPrivrednaGranaDigitalizmaStatus',
   'spajaKod.publicSignals.notes1450Status',
+  'spajaKod.publicSignals.functionRegistryStatus',
   'spajaKod.publicSignals.saradnjaReadyStatus',
   'spajaKod.publicSignals.leksikonStatus',
   'spajaKod.publicSignals.promocijeTiketiBonusiPropusniceAdministrativniBonusiStatus',
@@ -301,6 +303,7 @@ const DEVELOPER_CREATE_GOVERNANCE_ACCEPTANCE_EVIDENCE: ExtrimliExtrondolReport['
   'developerAndCreateRepoWideReflection.eksperimentProgramskiJezikTrack',
   'developerAndCreateRepoWideReflection.sarkazamPrivrednaGranaDigitalizmaTrack',
   'developerAndCreateRepoWideReflection.notes1450Track',
+  'developerAndCreateRepoWideReflection.functionRegistryTrack',
   'developerAndCreateRepoWideReflection.saradnjaReadyPackage',
   'developerAndCreateRepoWideReflection.leksikonTrack',
   'developerAndCreateRepoWideReflection.promocijeTiketiBonusiPropusniceAdministrativniBonusiTrack',
@@ -322,6 +325,7 @@ const DEVELOPER_CREATE_GOVERNANCE_ACCEPTANCE_EVIDENCE: ExtrimliExtrondolReport['
   'spajaKod.publicSignals.eksperimentProgramskiJezikStatus',
   'spajaKod.publicSignals.sarkazamPrivrednaGranaDigitalizmaStatus',
   'spajaKod.publicSignals.notes1450Status',
+  'spajaKod.publicSignals.functionRegistryStatus',
   'spajaKod.publicSignals.saradnjaReadyStatus',
   'spajaKod.publicSignals.leksikonStatus',
   'spajaKod.publicSignals.radniProstorStatus',
@@ -3455,6 +3459,7 @@ function buildSpajaKodFacade(params: {
   ispitivanjeSvegaStoJeFunkcionalnoStatus: ExtrimliExtrondolReport['extremProfiler']['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['ispitivanjeSvegaStoJeFunkcionalnoTrack']['readinessSignal']['status'];
   sarkazamPrivrednaGranaDigitalizmaStatus: ExtrimliExtrondolReport['extremProfiler']['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['sarkazamPrivrednaGranaDigitalizmaTrack']['reflectionSignal']['status'];
   notes1450Status: ExtrimliExtrondolReport['extremProfiler']['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['notes1450Track']['readinessSignal']['status'];
+  functionRegistryStatus: ExtrimliExtrondolReport['extremProfiler']['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['functionRegistryTrack']['readiness']['status'];
   saradnjaReadyStatus: ExtrimliExtrondolReport['extremProfiler']['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['saradnjaReadyPackage']['readinessSignal']['status'];
   leksikonStatus: ExtrimliExtrondolReport['extremProfiler']['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['leksikonTrack']['readinessSignal']['status'];
   promocijeTiketiBonusiPropusniceAdministrativniBonusiStatus: ExtrimliExtrondolReport['extremProfiler']['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['promocijeTiketiBonusiPropusniceAdministrativniBonusiTrack']['readinessSignal']['status'];
@@ -3606,6 +3611,7 @@ function buildSpajaKodFacade(params: {
       ispitivanjeSvegaStoJeFunkcionalnoStatus: params.ispitivanjeSvegaStoJeFunkcionalnoStatus,
       sarkazamPrivrednaGranaDigitalizmaStatus: params.sarkazamPrivrednaGranaDigitalizmaStatus,
       notes1450Status: params.notes1450Status,
+      functionRegistryStatus: params.functionRegistryStatus,
       saradnjaReadyStatus: params.saradnjaReadyStatus,
       leksikonStatus: params.leksikonStatus,
       promocijeTiketiBonusiPropusniceAdministrativniBonusiStatus:
@@ -3733,6 +3739,7 @@ function buildSpajaKodFacade(params: {
         'publicSignals.ispitivanjeSvegaStoJeFunkcionalnoStatus',
         'publicSignals.sarkazamPrivrednaGranaDigitalizmaStatus',
         'publicSignals.notes1450Status',
+        'publicSignals.functionRegistryStatus',
         'publicSignals.leksikonStatus',
         'publicSignals.promocijeTiketiBonusiPropusniceAdministrativniBonusiStatus',
         'publicSignals.kraljevskoTakmicenjeStatus',
@@ -3774,6 +3781,7 @@ function buildSpajaKodFacade(params: {
         'developerAndCreateImplementationPackage.ispitivanjeSvegaStoJeFunkcionalnoSummary',
         'developerAndCreateImplementationPackage.sarkazamPrivrednaGranaDigitalizmaSummary',
         'developerAndCreateImplementationPackage.notes1450Summary',
+        'developerAndCreateImplementationPackage.functionRegistrySummary',
         'developerAndCreateImplementationPackage.leksikonSummary',
         'developerAndCreateImplementationPackage.promocijeTiketiBonusiPropusniceAdministrativniBonusiSummary',
         'developerAndCreateImplementationPackage.kraljevskoTakmicenjeSummary',
@@ -3935,6 +3943,30 @@ function buildSpajaKodFacade(params: {
         publicBoundary: 'audit-safe-summary-only',
         businessValueSummary:
           params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.notes1450Track.businessValueSummary,
+      },
+      functionRegistrySummary: {
+        canonicalAlias:
+          params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.functionRegistryTrack.canonicalAlias,
+        status:
+          params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.functionRegistryTrack.readiness.status,
+        blockerReason:
+          params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.functionRegistryTrack.readiness.blockerReason,
+        watchReasons: [
+          ...params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.functionRegistryTrack.readiness.watchReasons,
+        ],
+        returnToStartStatus:
+          params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.functionRegistryTrack.controlPatterns.returnToStart.status,
+        repeatStatus:
+          params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.functionRegistryTrack.controlPatterns.repeat.status,
+        reviewPosture:
+          params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.functionRegistryTrack.readiness.status === 'READY'
+            ? 'ALIGNED'
+            : params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.functionRegistryTrack.readiness.status === 'WATCH'
+              ? 'WATCH'
+              : 'REVIEW_REQUIRED',
+        downstreamReference:
+          params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.functionRegistryTrack.readiness.downstreamReference,
+        publicBoundary: 'audit-safe-summary-only',
       },
       saradnjaReadySummary: {
         canonicalAlias:
@@ -5984,6 +6016,38 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
           ],
           downstreamReference: 'docs/MULTI-REPO-LINKS.md -> spaja86/IO-OPENUI-AO (summary-only)',
         },
+        functionRegistryTrack: {
+          ...extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.functionRegistryTrack,
+          sourceOfTruth: '/api/extrimli/extrem',
+          governanceSource: '/api/extrimli/extrondol',
+          publicBoundary: '/api/extrimli/spaja-kod',
+          currentWave: currentWawe,
+          eligibleNextWave,
+          promotionFreeze:
+            promotionFreeze
+            || extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.functionRegistryTrack.readiness.status !== 'READY',
+          reviewRequiredBeforeWideRollout:
+            extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.functionRegistryTrack.readiness.status !== 'READY',
+          reviewPosture:
+            extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.functionRegistryTrack.readiness.status === 'READY'
+              ? 'ALIGNED'
+              : extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.functionRegistryTrack.readiness.status === 'WATCH'
+                ? 'WATCH'
+                : 'REVIEW_REQUIRED',
+          rolloutPlan:
+            extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.functionRegistryTrack.readiness.rolloutPlan,
+          rollbackPlan:
+            extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.functionRegistryTrack.readiness.rollbackPlan,
+          humanReviewStatus: 'required-before-promotion',
+          acceptanceEvidence: [
+            'developerAndCreateRepoWideReflection.functionRegistryTrack',
+            'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.functionRegistryTrack',
+            'spajaKod.publicSignals.functionRegistryStatus',
+            'spajaKod.developerAndCreateImplementationPackage.functionRegistrySummary',
+          ],
+          downstreamReference:
+            extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.functionRegistryTrack.readiness.downstreamReference,
+        },
         saradnjaReadyPackage: {
           ...extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.saradnjaReadyPackage,
           sourceOfTruth: '/api/extrimli/extrem',
@@ -7182,6 +7246,8 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
       extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.sarkazamPrivrednaGranaDigitalizmaTrack.reflectionSignal.status,
     notes1450Status:
       extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.notes1450Track.readinessSignal.status,
+    functionRegistryStatus:
+      extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.functionRegistryTrack.readiness.status,
     saradnjaReadyStatus:
       extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.saradnjaReadyPackage.readinessSignal.status,
     leksikonStatus:
@@ -8124,6 +8190,38 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
               'spajaKod.developerAndCreateImplementationPackage.notes1450Summary',
             ],
             downstreamReference: 'docs/MULTI-REPO-LINKS.md -> spaja86/IO-OPENUI-AO (summary-only)',
+          },
+          functionRegistryTrack: {
+            ...extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.functionRegistryTrack,
+            sourceOfTruth: '/api/extrimli/extrem',
+            governanceSource: '/api/extrimli/extrondol',
+            publicBoundary: '/api/extrimli/spaja-kod',
+            currentWave: currentWawe,
+            eligibleNextWave,
+            promotionFreeze:
+              promotionFreeze
+              || extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.functionRegistryTrack.readiness.status !== 'READY',
+            reviewRequiredBeforeWideRollout:
+              extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.functionRegistryTrack.readiness.status !== 'READY',
+            reviewPosture:
+              extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.functionRegistryTrack.readiness.status === 'READY'
+                ? 'ALIGNED'
+                : extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.functionRegistryTrack.readiness.status === 'WATCH'
+                  ? 'WATCH'
+                  : 'REVIEW_REQUIRED',
+            rolloutPlan:
+              extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.functionRegistryTrack.readiness.rolloutPlan,
+            rollbackPlan:
+              extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.functionRegistryTrack.readiness.rollbackPlan,
+            humanReviewStatus: 'required-before-promotion',
+            acceptanceEvidence: [
+              'developerAndCreateRepoWideReflection.functionRegistryTrack',
+              'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.functionRegistryTrack',
+              'spajaKod.publicSignals.functionRegistryStatus',
+              'spajaKod.developerAndCreateImplementationPackage.functionRegistrySummary',
+            ],
+            downstreamReference:
+              extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.functionRegistryTrack.readiness.downstreamReference,
           },
           saradnjaReadyPackage: {
             ...extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.saradnjaReadyPackage,
@@ -9238,6 +9336,38 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
           'spajaKod.developerAndCreateImplementationPackage.notes1450Summary',
         ],
         downstreamReference: 'docs/MULTI-REPO-LINKS.md -> spaja86/IO-OPENUI-AO (summary-only)',
+      },
+      functionRegistryTrack: {
+        ...extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.functionRegistryTrack,
+        sourceOfTruth: '/api/extrimli/extrem',
+        governanceSource: '/api/extrimli/extrondol',
+        publicBoundary: '/api/extrimli/spaja-kod',
+        currentWave: currentWawe,
+        eligibleNextWave,
+        promotionFreeze:
+          promotionFreeze
+          || extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.functionRegistryTrack.readiness.status !== 'READY',
+        reviewRequiredBeforeWideRollout:
+          extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.functionRegistryTrack.readiness.status !== 'READY',
+        reviewPosture:
+          extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.functionRegistryTrack.readiness.status === 'READY'
+            ? 'ALIGNED'
+            : extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.functionRegistryTrack.readiness.status === 'WATCH'
+              ? 'WATCH'
+              : 'REVIEW_REQUIRED',
+        rolloutPlan:
+          extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.functionRegistryTrack.readiness.rolloutPlan,
+        rollbackPlan:
+          extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.functionRegistryTrack.readiness.rollbackPlan,
+        humanReviewStatus: 'required-before-promotion',
+        acceptanceEvidence: [
+          'developerAndCreateRepoWideReflection.functionRegistryTrack',
+          'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.functionRegistryTrack',
+          'spajaKod.publicSignals.functionRegistryStatus',
+          'spajaKod.developerAndCreateImplementationPackage.functionRegistrySummary',
+        ],
+        downstreamReference:
+          extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.functionRegistryTrack.readiness.downstreamReference,
       },
       saradnjaReadyPackage: {
         ...extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.saradnjaReadyPackage,

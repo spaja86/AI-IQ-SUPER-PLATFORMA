@@ -54,6 +54,12 @@ import {
   DEVELOPER_CREATE_NAVIGACIONI_SISTEM_SA_TREKEROM_TRACKER_CONTRACT,
   DEVELOPER_CREATE_REPO_WIDE_BOUNDED_VOCABULARY,
   DEVELOPER_CREATE_REPO_WIDE_BOUNDED_VOCABULARY_PHRASE,
+  DEVELOPER_CREATE_FUNCTION_REGISTRY_SCOPE_STATEMENT,
+  DEVELOPER_CREATE_FUNCTION_REGISTRY_OPERATION_KEYS,
+  DEVELOPER_CREATE_FUNCTION_REGISTRY_EXTENSIBLE_ALIAS_SET,
+  DEVELOPER_CREATE_FUNCTION_REGISTRY_SUMMARY_SAFE_FIELDS,
+  DEVELOPER_CREATE_FUNCTION_REGISTRY_FALLBACK_RULES,
+  DEVELOPER_CREATE_FUNCTION_REGISTRY_GOVERNANCE_REQUIRED_OUTPUTS,
   DEVELOPER_CREATE_REPO_WIDE_RADNI_TAKT_SUPPLEMENTAL_AUDIT_ROLE,
   DEVELOPER_CREATE_REPO_WIDE_RADNI_TAKT_SUPPLEMENTAL_DOWNSTREAM_FIELDS,
   DEVELOPER_CREATE_REPO_WIDE_RADNI_TAKT_SUPPLEMENTAL_SCOPE_LOCK,
@@ -329,6 +335,50 @@ async function runTests(): Promise<void> {
         'boundedThematicLabels',
       ],
       'unexpected repo-wide RADNI TAKT supplemental downstream fields',
+    );
+  });
+
+  await test('function registry lock stays additive-only and bounded to existing routes', () => {
+    assert(
+      DEVELOPER_CREATE_FUNCTION_REGISTRY_SCOPE_STATEMENT.includes('bez novih runtime ruta'),
+      'FUNCTION REGISTRY scope statement must keep route lock',
+    );
+    assertArrayEquals(
+      DEVELOPER_CREATE_FUNCTION_REGISTRY_OPERATION_KEYS,
+      [
+        'FUNCTION PETLJE',
+        'FUNCTION RETURN_TO_START',
+        'FUNCTION DIREKT',
+        'FUNCTION INDIREKT',
+        'FUNCTION THIS',
+        'FUNCTION CREATE',
+        'FUNCTION DELETE',
+        'FUNCTION REPEAT',
+        'FUNCTION IN',
+        'FUNCTION BACKUP',
+        'FUNCTION ENTER',
+      ],
+      'unexpected FUNCTION REGISTRY operation keys',
+    );
+    assertArrayEquals(
+      DEVELOPER_CREATE_FUNCTION_REGISTRY_EXTENSIBLE_ALIAS_SET,
+      ['i tako dalje', 'FUNCTION CREAT', 'FUNCTION DELET', 'FUNCTION REAPIT', 'FUNCTION INDRIEKT'],
+      'unexpected FUNCTION REGISTRY extensible alias set',
+    );
+    assertArrayEquals(
+      DEVELOPER_CREATE_FUNCTION_REGISTRY_SUMMARY_SAFE_FIELDS,
+      ['status', 'readiness', 'blockerReason', 'humanReviewStatus', 'rolloutPlan', 'rollbackPlan', 'downstreamReference'],
+      'unexpected FUNCTION REGISTRY summary-safe fields',
+    );
+    assertArrayEquals(
+      DEVELOPER_CREATE_FUNCTION_REGISTRY_GOVERNANCE_REQUIRED_OUTPUTS,
+      ['readiness', 'blockerReason', 'humanReviewStatus', 'rolloutPlan', 'rollbackPlan', 'downstreamReference'],
+      'unexpected FUNCTION REGISTRY governance outputs',
+    );
+    assert(
+      DEVELOPER_CREATE_FUNCTION_REGISTRY_FALLBACK_RULES.routeBoundaryViolation
+        === 'set-BLOCKED-and-keep-existing-route-boundary',
+      'FUNCTION REGISTRY route-boundary fallback mismatch',
     );
   });
 

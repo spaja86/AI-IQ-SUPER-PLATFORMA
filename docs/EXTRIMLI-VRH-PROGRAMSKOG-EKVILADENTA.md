@@ -59,6 +59,14 @@ Bounded vokabular ostaje zaključan na `EXTRIMLI EXTRONDOL EXTREM DOK DUK DAK DI
 - Ownership split za `RADNI PROSTOR`, `KONSTRUKCIJE I PROJEKTOVANJE`, `VINOGRADI GROCKA, RESTORAN`, `RADIO`, `MUZIČKA KUTIJA`, `TELEVIZIJA` i `POSLOVNA PONUDA` ostaje zaključan: `DOK/DIK/FOR -> EXTREM`, `DAK/DUK -> EXTRONDOL`, `SPAJA KOD -> summary-only`.
 - Ownership split za `ALATI / RADIONICA` ostaje isti kao za `RADNI PROSTOR`: `DOK/DIK/FOR -> EXTREM`, `DAK/DUK -> EXTRONDOL`, `SPAJA KOD -> summary-only`.
 
+### FUNCTION REGISTRY additive-only map
+
+- `DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == FUNCTION REGISTRY` ostaje bounded alias unutar istog lock-a.
+- Ne uvodi nove runtime rute i ne uvodi paralelni source-of-truth sloj.
+- Operacije (`FUNCTION PETLJE`, `RETURN_TO_START`, `DIREKT`, `INDIREKT`, `THIS`, `CREATE`, `DELETE`, `REPEAT`, `IN`, `BACKUP`, `ENTER`) ostaju mapirane na postojeći PETLJE ugovor.
+- `RETURN_TO_START` i `REPEAT` ostaju kontrolni obrasci nad postojećim loop mehanizmima (`DOK PETLJA` + `UMBREL PETLJA`) uz deterministic fallback.
+- Governance zaključavanje ostaje isto: readiness `READY/WATCH/BLOCKED`, blocker reason, human-review status, rollout/rollback plan, downstream summary-only referenca.
+
 ## Canonical implementation lock (Plan 1–6)
 
 - Jedini scope centar ostaje: `DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA`.
