@@ -170,6 +170,9 @@ export const DEVELOPER_CREATE_VRH_KRALJEVSKI_RAD_ALIAS =
 export const DEVELOPER_CREATE_VRH_KRALJEVSKI_SISTEM_ALIAS =
   'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == KRALJEVSKI SISTEM' as const;
 
+export const DEVELOPER_CREATE_VRH_KRALJEVSKA_PLATA_START_SADA_NA_NEDELJU_DANA_ALIAS =
+  'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == KRALJEVSKA PLATA-START SADA, NA NEDELJU DANA' as const;
+
 export const DEVELOPER_CREATE_VRH_IZVESTAJ_ALIAS =
   'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == IZVEŠTAJ' as const;
 
@@ -240,6 +243,7 @@ export const DEVELOPER_CREATE_VRH_INTERPRETATION_ALIASES = [
   DEVELOPER_CREATE_VRH_ATOMATSKA_POPRAVKA_SVEGA_RAW_ALIAS,
   DEVELOPER_CREATE_VRH_KRALJEVSKI_RAD_ALIAS,
   DEVELOPER_CREATE_VRH_KRALJEVSKI_SISTEM_ALIAS,
+  DEVELOPER_CREATE_VRH_KRALJEVSKA_PLATA_START_SADA_NA_NEDELJU_DANA_ALIAS,
   DEVELOPER_CREATE_VRH_IZVESTAJ_ALIAS,
   DEVELOPER_CREATE_VRH_VINOGRADI_GROCKA_RESTORAN_ALIAS,
   DEVELOPER_CREATE_VRH_POSLOVNA_PONUDA_ZELEZARA_DOO_ALIAS,
@@ -467,6 +471,40 @@ export const DEVELOPER_CREATE_KRALJEVSKI_SISTEM_REVIEW_ROSTER_POLICY = {
   noPayrollOwnershipUsage: true,
   publicOutputsStayAuditSafe: true,
   summaryOnlyRoleFields: ['rosterSlot', 'publicRole', 'responsibility'],
+} as const;
+
+export const DEVELOPER_CREATE_KRALJEVSKA_PLATA_START_CANONICAL_ALIAS =
+  DEVELOPER_CREATE_VRH_KRALJEVSKA_PLATA_START_SADA_NA_NEDELJU_DANA_ALIAS;
+
+export const DEVELOPER_CREATE_KRALJEVSKA_PLATA_START_SCOPE_STATEMENT =
+  'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == KRALJEVSKA PLATA-START SADA, NA NEDELJU DANA == additive-only bounded start paket za governance-only payout policy bez novih runtime ruta, bez paralelnog source-of-truth sistema i bez odstupanja od ownership split-a DOK/DIK/FOR -> EXTREM, DAK/DUK -> EXTRONDOL, SPAJA KOD -> audit-safe summary-only.' as const;
+
+export const DEVELOPER_CREATE_KRALJEVSKA_PLATA_START_ROLE_CLASSIFICATION =
+  'additive-only-bounded-kraljevska-plata-start-package' as const;
+
+export const DEVELOPER_CREATE_KRALJEVSKA_PLATA_START_SUMMARY_SAFE_FIELDS = [
+  'canonicalAlias',
+  'approvalStatus',
+  'payoutReadinessStatus',
+  'paymentVerificationPosture',
+  'blockerReason',
+  'reviewPosture',
+  'downstreamReference',
+  'cadenceBinding',
+  'businessTargetPolicy',
+] as const;
+
+export const DEVELOPER_CREATE_KRALJEVSKA_PLATA_START_WEEKLY_GOVERNANCE_CYCLE = [
+  'wave-prioritization',
+  'blocker-closure',
+] as const;
+
+export const DEVELOPER_CREATE_KRALJEVSKA_PLATA_START_BUSINESS_TARGET_POLICY = {
+  weeklyTargetEur: 12000,
+  cadence: 'weekly',
+  classification: 'business-finops-target-only',
+  masterBillingCycle: 'monthly-or-annual',
+  noParallelBillingSourceOfTruth: true,
 } as const;
 
 export type DeveloperCreateSurfaceStatus = 'READY' | 'WATCH' | 'BLOCKED';

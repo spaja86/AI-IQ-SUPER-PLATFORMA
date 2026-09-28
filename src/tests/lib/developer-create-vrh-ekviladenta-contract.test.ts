@@ -6,6 +6,12 @@ import {
   DEVELOPER_CREATE_KRALJEVSKI_SISTEM_REVIEW_ROSTER_POLICY,
   DEVELOPER_CREATE_KRALJEVSKI_SISTEM_SCOPE_LOCK,
   DEVELOPER_CREATE_KRALJEVSKI_SISTEM_SUMMARY_SAFE_FIELDS,
+  DEVELOPER_CREATE_KRALJEVSKA_PLATA_START_BUSINESS_TARGET_POLICY,
+  DEVELOPER_CREATE_KRALJEVSKA_PLATA_START_CANONICAL_ALIAS,
+  DEVELOPER_CREATE_KRALJEVSKA_PLATA_START_ROLE_CLASSIFICATION,
+  DEVELOPER_CREATE_KRALJEVSKA_PLATA_START_SCOPE_STATEMENT,
+  DEVELOPER_CREATE_KRALJEVSKA_PLATA_START_SUMMARY_SAFE_FIELDS,
+  DEVELOPER_CREATE_KRALJEVSKA_PLATA_START_WEEKLY_GOVERNANCE_CYCLE,
   DEVELOPER_CREATE_KRALJEVSKI_SAT_BOUNDED_TOKEN_SET,
   DEVELOPER_CREATE_KRALJEVSKI_SAT_READINESS_LANGUAGE,
   DEVELOPER_CREATE_MEDALJE_SRBSKE_ACCEPTANCE_CRITERIA,
@@ -50,6 +56,7 @@ import {
   DEVELOPER_CREATE_IZVESTAJ_REQUIRED_AUDIT_FIELDS,
   DEVELOPER_CREATE_IZVESTAJ_REQUIRED_BLOCKS,
   DEVELOPER_CREATE_VRH_KRALJEVSKI_SAT_ALIAS,
+  DEVELOPER_CREATE_VRH_KRALJEVSKA_PLATA_START_SADA_NA_NEDELJU_DANA_ALIAS,
   DEVELOPER_CREATE_VRH_KRALJEVSKI_SISTEM_ALIAS,
   DEVELOPER_CREATE_VRH_KRALJEVSKI_RAD_ALIAS,
   DEVELOPER_CREATE_VRH_AUTOMATSKA_POPRAVKA_SVEGA_ALIAS,
@@ -569,6 +576,82 @@ async function runTests(): Promise<void> {
       multiRepoLinks.includes('`rosterSlot`, `publicRole` i `responsibility`') &&
         multiRepoLinks.includes('never sync personal contacts, payroll/bank/KYC data, security roles, operational identities or raw governance formulas'),
       'multi-repo roster privacy boundary missing',
+    );
+  });
+
+  await test('kraljevska plata start package stays additive-only and summary-safe', () => {
+    assert(
+      DEVELOPER_CREATE_VRH_INTERPRETATION_ALIASES.includes(
+        DEVELOPER_CREATE_VRH_KRALJEVSKA_PLATA_START_SADA_NA_NEDELJU_DANA_ALIAS,
+      ),
+      'KRALJEVSKA PLATA START alias must be present in interpretation aliases',
+    );
+    assert(
+      DEVELOPER_CREATE_KRALJEVSKA_PLATA_START_CANONICAL_ALIAS
+        === DEVELOPER_CREATE_VRH_KRALJEVSKA_PLATA_START_SADA_NA_NEDELJU_DANA_ALIAS,
+      'KRALJEVSKA PLATA START canonical alias mismatch',
+    );
+    assert(
+      DEVELOPER_CREATE_KRALJEVSKA_PLATA_START_SCOPE_STATEMENT.includes('additive-only bounded start paket')
+        && DEVELOPER_CREATE_KRALJEVSKA_PLATA_START_SCOPE_STATEMENT.includes('bez novih runtime ruta')
+        && DEVELOPER_CREATE_KRALJEVSKA_PLATA_START_SCOPE_STATEMENT.includes('bez paralelnog source-of-truth sistema'),
+      'KRALJEVSKA PLATA START scope statement must preserve bounded governance-only posture',
+    );
+    assert(
+      DEVELOPER_CREATE_KRALJEVSKA_PLATA_START_ROLE_CLASSIFICATION
+        === 'additive-only-bounded-kraljevska-plata-start-package',
+      'KRALJEVSKA PLATA START role classification mismatch',
+    );
+    assertArrayEquals(
+      DEVELOPER_CREATE_KRALJEVSKA_PLATA_START_SUMMARY_SAFE_FIELDS,
+      [
+        'canonicalAlias',
+        'approvalStatus',
+        'payoutReadinessStatus',
+        'paymentVerificationPosture',
+        'blockerReason',
+        'reviewPosture',
+        'downstreamReference',
+        'cadenceBinding',
+        'businessTargetPolicy',
+      ],
+      'unexpected KRALJEVSKA PLATA START summary-safe fields',
+    );
+    assertArrayEquals(
+      DEVELOPER_CREATE_KRALJEVSKA_PLATA_START_WEEKLY_GOVERNANCE_CYCLE,
+      ['wave-prioritization', 'blocker-closure'],
+      'unexpected KRALJEVSKA PLATA START weekly governance cycle',
+    );
+    assert(
+      DEVELOPER_CREATE_KRALJEVSKA_PLATA_START_BUSINESS_TARGET_POLICY.weeklyTargetEur === 12000
+        && DEVELOPER_CREATE_KRALJEVSKA_PLATA_START_BUSINESS_TARGET_POLICY.classification === 'business-finops-target-only'
+        && DEVELOPER_CREATE_KRALJEVSKA_PLATA_START_BUSINESS_TARGET_POLICY.masterBillingCycle === 'monthly-or-annual',
+      'KRALJEVSKA PLATA START business target policy mismatch',
+    );
+  });
+
+  await test('kraljevska plata start docs and downstream registry stay summary-only', () => {
+    assert(
+      manifest.includes('`DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == KRALJEVSKA PLATA-START SADA, NA NEDELJU DANA`'),
+      'manifest KRALJEVSKA PLATA START alias mention missing',
+    );
+    assert(
+      manifest.includes('cadence binding') && manifest.includes('business-finops-target-only'),
+      'manifest KRALJEVSKA PLATA START summary markers missing',
+    );
+    assert(
+      vrhDoc.includes('`DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == KRALJEVSKA PLATA-START SADA, NA NEDELJU DANA`')
+        && vrhDoc.includes('weekly governance ciklus'),
+      'VRH doc KRALJEVSKA PLATA START markers missing',
+    );
+    assert(
+      extrimliDoc.includes('KRALJEVSKA PLATA-START SADA, NA NEDELJU DANA'),
+      'EXTRIMLI doc KRALJEVSKA PLATA START marker missing',
+    );
+    assert(
+      multiRepoLinks.includes('KRALJEVSKA PLATA-START SADA, NA NEDELJU DANA')
+        && multiRepoLinks.includes('kraljevskaPlataStartPackageSummary'),
+      'multi-repo links KRALJEVSKA PLATA START downstream row missing',
     );
   });
 

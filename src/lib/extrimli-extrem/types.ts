@@ -5101,6 +5101,53 @@ export interface ExtrimliDokDikDakDukConsistencyHealth {
             'downstream-sync'
           ];
           noAutomaticPayout: true;
+          startPackage: {
+            canonicalAlias: 'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == KRALJEVSKA PLATA-START SADA, NA NEDELJU DANA';
+            scopeStatement: string;
+            roleClassification: 'additive-only-bounded-kraljevska-plata-start-package';
+            boundedVocabularyPhrase: 'EXTRIMLI EXTRONDOL EXTREM DOK DUK DAK DIK FOR';
+            approvalStatus: 'READY' | 'WATCH' | 'BLOCKED';
+            payoutReadinessStatus: 'READY' | 'WATCH' | 'BLOCKED';
+            paymentVerificationPosture: 'required-governance-gate';
+            blockerReason: string | null;
+            reviewPosture: 'human-review-required';
+            downstreamReference: 'spaja86/IO-OPENUI-AO (summary-only)';
+            summarySafeFields: readonly [
+              'canonicalAlias',
+              'approvalStatus',
+              'payoutReadinessStatus',
+              'paymentVerificationPosture',
+              'blockerReason',
+              'reviewPosture',
+              'downstreamReference',
+              'cadenceBinding',
+              'businessTargetPolicy'
+            ];
+            cadenceBinding: {
+              startNow: {
+                source: 'developerAndCreateRepoWideReflection.dailyOperationalCadence';
+                cadence: 'daily';
+                requiredBlocks: readonly ['morning-startup', 'deep-focus-block', 'midday-checkpoint', 'end-of-day-closeout'];
+              };
+              naNedeljuDana: {
+                source: 'existing-weekly-governance-cycle';
+                cadence: 'weekly';
+                requiredLoops: readonly ['wave-prioritization', 'blocker-closure'];
+              };
+            };
+            businessTargetPolicy: {
+              weeklyTargetEur: 12000;
+              cadence: 'weekly';
+              classification: 'business-finops-target-only';
+              masterBillingCycle: 'monthly-or-annual';
+              noParallelBillingSourceOfTruth: true;
+            };
+            noNewRuntimeRoutes: true;
+            noParallelSourceOfTruth: true;
+            noSensitiveFinancialDataInGit: true;
+            startProjectBinding: 'existing-startProject-release-audit-model';
+            summary: string;
+          };
           summary: string;
         };
         readiness: {

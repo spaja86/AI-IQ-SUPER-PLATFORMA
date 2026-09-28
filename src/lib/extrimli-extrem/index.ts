@@ -36,6 +36,12 @@ import {
   DEVELOPER_CREATE_KONSTRUKCIJE_I_PROJEKTOVANJE_ROLE_CLASSIFICATION,
   DEVELOPER_CREATE_KONSTRUKCIJE_I_PROJEKTOVANJE_SCOPE_STATEMENT,
   DEVELOPER_CREATE_KONSTRUKCIJE_I_PROJEKTOVANJE_WATCH_FALLBACK_INPUTS,
+  DEVELOPER_CREATE_KRALJEVSKA_PLATA_START_BUSINESS_TARGET_POLICY,
+  DEVELOPER_CREATE_KRALJEVSKA_PLATA_START_CANONICAL_ALIAS,
+  DEVELOPER_CREATE_KRALJEVSKA_PLATA_START_ROLE_CLASSIFICATION,
+  DEVELOPER_CREATE_KRALJEVSKA_PLATA_START_SCOPE_STATEMENT,
+  DEVELOPER_CREATE_KRALJEVSKA_PLATA_START_SUMMARY_SAFE_FIELDS,
+  DEVELOPER_CREATE_KRALJEVSKA_PLATA_START_WEEKLY_GOVERNANCE_CYCLE,
   DEVELOPER_CREATE_VINOGRADI_GROCKA_RESTORAN_CANONICAL_ALIAS,
   DEVELOPER_CREATE_VINOGRADI_GROCKA_RESTORAN_SCOPE_STATEMENT,
   DEVELOPER_CREATE_VINOGRADI_GROCKA_RESTORAN_ROLE_CLASSIFICATION,
@@ -11918,6 +11924,41 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
         forbiddenArtifacts: ['bank-account-number', 'kyc-document', 'payroll-secret', 'operational-financial-data'],
         requiredGovernanceGates: ['human-review', 'compliance-review', 'payment-verification', 'audit-trail', 'rollback-plan', 'downstream-sync'],
         noAutomaticPayout: true,
+        startPackage: {
+          canonicalAlias: DEVELOPER_CREATE_KRALJEVSKA_PLATA_START_CANONICAL_ALIAS,
+          scopeStatement: DEVELOPER_CREATE_KRALJEVSKA_PLATA_START_SCOPE_STATEMENT,
+          roleClassification: DEVELOPER_CREATE_KRALJEVSKA_PLATA_START_ROLE_CLASSIFICATION,
+          boundedVocabularyPhrase: DEVELOPER_CREATE_REPO_WIDE_BOUNDED_VOCABULARY_PHRASE,
+          approvalStatus: resolveDeveloperCreateExtensionStatus(kraljevskaDopunaReadinessScore),
+          payoutReadinessStatus: privredniAktQuarterlyMarketInput.status,
+          paymentVerificationPosture: 'required-governance-gate',
+          blockerReason:
+            privredniAktQuarterlyMarketInput.status === 'BLOCKED'
+              ? 'payment verification i downstream sync ostaju obavezni pre bilo kakvog governance-only payout signala.'
+              : null,
+          reviewPosture: 'human-review-required',
+          downstreamReference: 'spaja86/IO-OPENUI-AO (summary-only)',
+          summarySafeFields: DEVELOPER_CREATE_KRALJEVSKA_PLATA_START_SUMMARY_SAFE_FIELDS,
+          cadenceBinding: {
+            startNow: {
+              source: 'developerAndCreateRepoWideReflection.dailyOperationalCadence',
+              cadence: 'daily',
+              requiredBlocks: ['morning-startup', 'deep-focus-block', 'midday-checkpoint', 'end-of-day-closeout'],
+            },
+            naNedeljuDana: {
+              source: 'existing-weekly-governance-cycle',
+              cadence: 'weekly',
+              requiredLoops: DEVELOPER_CREATE_KRALJEVSKA_PLATA_START_WEEKLY_GOVERNANCE_CYCLE,
+            },
+          },
+          businessTargetPolicy: DEVELOPER_CREATE_KRALJEVSKA_PLATA_START_BUSINESS_TARGET_POLICY,
+          noNewRuntimeRoutes: true,
+          noParallelSourceOfTruth: true,
+          noSensitiveFinancialDataInGit: true,
+          startProjectBinding: 'existing-startProject-release-audit-model',
+          summary:
+            'KRALJEVSKA PLATA-START SADA, NA NEDELJU DANA ostaje additive-only bounded start paket unutar postojeće KRALJEVSKA PLATA governance politike: daily cadence vodi start sada signal, weekly governance ciklus vodi na nedelju dana signal, a payment verification, human review i downstream sync ostaju obavezni summary-safe gate-ovi bez novog billing engine-a ili osetljivih finansijskih podataka u Git-u.',
+        },
         summary:
           'KRALJEVSKA PLATA ostaje governance-only payout policy za najviši čin plate: approval, payout readiness, payment verification i audit evidence su dozvoljeni, dok payroll/KYC/bank detalji i automatska isplata ostaju zabranjeni u Git-u.',
       },

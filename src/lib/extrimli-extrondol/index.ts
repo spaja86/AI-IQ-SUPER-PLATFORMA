@@ -926,6 +926,41 @@ function buildKraljevskaPlataSummary(
   };
 }
 
+function buildKraljevskaPlataStartPackageSummary(
+  startPackage: ExtrimliExtrondolReport['extremProfiler']['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['kraljevskiDrustveniPoredak']['kraljevskiAktBezbednosti']['kraljevskaPlataPolicy']['startPackage'],
+  paymentVerification: ExtrimliExtrondolReport['paymentVerification'],
+) {
+  const paymentVerificationPosture = mapKraljevskaPlataPaymentVerificationPosture(
+    paymentVerification.status,
+  );
+  const blockerReason =
+    startPackage.approvalStatus === 'BLOCKED'
+      ? 'approval-status-blocked'
+      : startPackage.payoutReadinessStatus === 'BLOCKED'
+        ? 'payout-readiness-blocked'
+        : paymentVerificationPosture === 'BLOCKED'
+          ? paymentVerification.blockers[0] ?? 'payment-verification-required'
+          : startPackage.approvalStatus === 'WATCH'
+            ? 'approval-status-watch'
+            : startPackage.payoutReadinessStatus === 'WATCH'
+              ? 'payout-readiness-watch'
+              : startPackage.blockerReason;
+
+  return {
+    canonicalAlias: startPackage.canonicalAlias,
+    approvalStatus: startPackage.approvalStatus,
+    payoutReadinessStatus: startPackage.payoutReadinessStatus,
+    paymentVerificationPosture,
+    blockerReason,
+    reviewPosture: startPackage.reviewPosture,
+    downstreamReference: startPackage.downstreamReference,
+    cadenceBinding: startPackage.cadenceBinding,
+    publicBoundary: 'audit-safe-summary-only' as const,
+    publicSummary:
+      'KRALJEVSKA PLATA-START SADA, NA NEDELJU DANA javno ostaje summary-only governance paket: approval, payout readiness, payment verification posture, blocker, review posture, cadence binding i downstream reference bez pricing formula, payroll, KYC ili bank podataka.',
+  };
+}
+
 function buildMobilnaLinijaReadiness(
   extremProfiler: ExtrimliExtrondolReport['extremProfiler'],
 ): ExtrimliExtrondolReport['mobilnaLinija'] {
@@ -3802,6 +3837,7 @@ function buildSpajaKodFacade(params: {
         'developerAndCreateImplementationPackage.branchReport',
         'developerAndCreateImplementationPackage.kraljevskiDrustveniPoredakSummary',
         'developerAndCreateImplementationPackage.kraljevskiAktBezbednostiSummary',
+        'developerAndCreateImplementationPackage.kraljevskiAktBezbednostiSummary.kraljevskaPlataStartPackageSummary',
         'developerAndCreateImplementationPackage.smartProgramskiJezikSummary',
         'developerAndCreateImplementationPackage.eksperimentProgramskiJezikSummary',
         'developerAndCreateImplementationPackage.ispitivanjeSvegaStoJeFunkcionalnoSummary',
@@ -4671,6 +4707,10 @@ function buildSpajaKodFacade(params: {
           params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.kraljevskiDrustveniPoredak.kraljevskiAktBezbednosti.kraljevskaPlataPolicy,
           params.paymentVerification,
         ),
+        kraljevskaPlataStartPackageSummary: buildKraljevskaPlataStartPackageSummary(
+          params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.kraljevskiDrustveniPoredak.kraljevskiAktBezbednosti.kraljevskaPlataPolicy.startPackage,
+          params.paymentVerification,
+        ),
         kraljevskaVojnaIPolicijskaOpremaSummary: {
           canonicalName:
             params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.kraljevskiDrustveniPoredak.kraljevskiAktBezbednosti.kraljevskaVojnaIPolicijskaOprema.canonicalName,
@@ -5051,6 +5091,8 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
       'governanceConformance',
       'releaseAuditSummary.aiPlateEnterprisePackageGovernance',
       'spajaKod.publicSignals.aiPlateEnterprisePackageStatus',
+      'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.kraljevskiDrustveniPoredak.kraljevskiAktBezbednosti.kraljevskaPlataPolicy.startPackage',
+      'spajaKod.developerAndCreateImplementationPackage.kraljevskiAktBezbednostiSummary.kraljevskaPlataStartPackageSummary',
     ],
     downstreamSync: {
       linkedRepo: 'spaja86/IO-OPENUI-AO',
@@ -5137,6 +5179,8 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
         'governanceConformance',
         'releaseAuditSummary.aiPlateEnterprisePackageGovernance',
         'spajaKod.publicSignals.aiPlateEnterprisePackageStatus',
+        'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.kraljevskiDrustveniPoredak.kraljevskiAktBezbednosti.kraljevskaPlataPolicy.startPackage',
+        'spajaKod.developerAndCreateImplementationPackage.kraljevskiAktBezbednostiSummary.kraljevskaPlataStartPackageSummary',
       ],
     },
     qualityGates: {
