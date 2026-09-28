@@ -2422,6 +2422,24 @@ async function runTests(): Promise<void> {
       });
     });
 
+    await test('AUTOMATSKA POPRAVKA SVEGA blocks canonical alias as runtime input', async () => {
+      await withEnv({
+        NODE_ENV: 'test',
+        EXTRIMLI_AUTOMATSKA_POPRAVKA_SVEGA_INPUT:
+          'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == AUTOMATSKA POPRAVKA SVEGA',
+      }, () => {
+        const track =
+          getExtrimliExtremProfilerReport()
+            .dokDikDakDukConsistencyHealth
+            .developerAndCreateRepoWideReflection
+            .automatskaPopravkaSvegaTrack;
+
+        assert(track.readinessSignal.fallbackInputStatus === 'BLOCKED', 'automatska popravka svega canonical alias runtime input must map to BLOCKED');
+        assert(track.readinessSignal.status === 'BLOCKED', 'automatska popravka svega canonical alias runtime input must block readiness');
+        assert(track.blockerReason?.includes('kanonski alias koristi kao runtime ulaz') ?? false, 'automatska popravka svega blocker reason must mention canonical runtime input misuse');
+      });
+    });
+
     await test('KRALJEVSKI RAD keeps READY status for canonical sequence', async () => {
       await withEnv({
         NODE_ENV: 'test',

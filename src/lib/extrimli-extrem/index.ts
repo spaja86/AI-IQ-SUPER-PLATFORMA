@@ -13518,12 +13518,17 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
     automatskaPopravkaSvegaRuntimeInput?.trim().replace(/\s+/g, ' ').toUpperCase() ?? null;
   const normalizedAutomatskaPopravkaSvegaFallbackLower =
     automatskaPopravkaSvegaRuntimeInput?.trim().toLowerCase() ?? null;
+  const automatskaPopravkaSvegaUsesCanonicalAlias =
+    normalizedAutomatskaPopravkaSvegaRuntimeInput
+    === DEVELOPER_CREATE_AUTOMATSKA_POPRAVKA_SVEGA_INPUT_NORMALIZATION_ALIASES_UPPERCASE[0];
   const automatskaPopravkaSvegaUsesRawAlias =
     normalizedAutomatskaPopravkaSvegaRuntimeInput
     === DEVELOPER_CREATE_AUTOMATSKA_POPRAVKA_SVEGA_FALLBACK_INPUTS_UPPERCASE[4];
   const automatskaPopravkaSvegaFallbackInputStatus: ExtrimliExtremReadinessStatus =
     normalizedAutomatskaPopravkaSvegaFallbackLower === 'conflict'
       ? 'BLOCKED'
+      : automatskaPopravkaSvegaUsesCanonicalAlias
+        ? 'BLOCKED'
       : normalizedAutomatskaPopravkaSvegaRuntimeInput
           && (automatskaPopravkaSvegaUsesRawAlias
             || normalizedAutomatskaPopravkaSvegaFallbackLower === 'nan'
@@ -13562,7 +13567,9 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
           && !DEVELOPER_CREATE_AUTOMATSKA_POPRAVKA_SVEGA_INPUT_NORMALIZATION_ALIASES_UPPERCASE.includes(
             normalizedAutomatskaPopravkaSvegaRuntimeInput,
           )
-        ? 'AUTOMATSKA POPRAVKA SVEGA ostaje BLOCKED kada nekanonski ulaz izlazi van dokumentovanog fallback skupa; samo kanonski alias, raw `ATOMATSKA...` normalization alias i eksplicitni fallback ulazi ostaju dozvoljeni.'
+        ? 'AUTOMATSKA POPRAVKA SVEGA ostaje BLOCKED kada nekanonski ulaz izlazi van dokumentovanog fallback skupa; samo raw `ATOMATSKA...` normalization alias i eksplicitni fallback ulazi ostaju dozvoljeni runtime signali.'
+        : automatskaPopravkaSvegaUsesCanonicalAlias
+          ? 'AUTOMATSKA POPRAVKA SVEGA ostaje BLOCKED kada se kanonski alias koristi kao runtime ulaz; kanonski naziv ostaje dokumentacioni lock, dok su raw `ATOMATSKA...` normalization alias i eksplicitni fallback ulazi jedini dozvoljeni runtime signali.'
         : 'AUTOMATSKA POPRAVKA SVEGA ostaje BLOCKED dok bounded repair-summary, deterministic fallback disciplina i governance gate ne ostanu usklađeni bez novog runtime engine-a.'
       : null;
   automatskaPopravkaSvegaTrack.watchReasons =
