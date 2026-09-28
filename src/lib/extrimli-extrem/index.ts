@@ -36,6 +36,12 @@ import {
   DEVELOPER_CREATE_KONSTRUKCIJE_I_PROJEKTOVANJE_ROLE_CLASSIFICATION,
   DEVELOPER_CREATE_KONSTRUKCIJE_I_PROJEKTOVANJE_SCOPE_STATEMENT,
   DEVELOPER_CREATE_KONSTRUKCIJE_I_PROJEKTOVANJE_WATCH_FALLBACK_INPUTS,
+  DEVELOPER_CREATE_KRALJEVSKA_PLATA_START_BUSINESS_TARGET_POLICY,
+  DEVELOPER_CREATE_KRALJEVSKA_PLATA_START_CANONICAL_ALIAS,
+  DEVELOPER_CREATE_KRALJEVSKA_PLATA_START_ROLE_CLASSIFICATION,
+  DEVELOPER_CREATE_KRALJEVSKA_PLATA_START_SCOPE_STATEMENT,
+  DEVELOPER_CREATE_KRALJEVSKA_PLATA_START_SUMMARY_SAFE_FIELDS,
+  DEVELOPER_CREATE_KRALJEVSKA_PLATA_START_WEEKLY_GOVERNANCE_CYCLE,
   DEVELOPER_CREATE_VINOGRADI_GROCKA_RESTORAN_CANONICAL_ALIAS,
   DEVELOPER_CREATE_VINOGRADI_GROCKA_RESTORAN_SCOPE_STATEMENT,
   DEVELOPER_CREATE_VINOGRADI_GROCKA_RESTORAN_ROLE_CLASSIFICATION,
@@ -262,7 +268,15 @@ import {
   DEVELOPER_CREATE_VRH_MAPE_UMA_SCOPE_LOCK,
   DEVELOPER_CREATE_VRH_MAPE_UMA_THEMATIC_SIGNALS,
 } from '../developer-create-vrh-mape-uma-contract';
-import { buildVercelCostGovernancePackage } from '../vercel-billing-governance';
+import {
+  buildVercelCostGovernancePackage,
+  buildVercelPublicAnnouncementState,
+  EXPECTED_VERCEL_BILLING_OWNER,
+  EXPECTED_VERCEL_INVOICE_AMOUNT,
+  EXPECTED_VERCEL_INVOICE_NUMBER,
+  isVercelInvoiceResolved,
+  normalizePaymentReferenceClassification,
+} from '../vercel-billing-governance';
 import { buildExtrimliInnovationRegistry } from '../extrimli-innovation-registry';
 import {
   runDikPetlja,
@@ -1226,6 +1240,74 @@ function parseBooleanEnv(name: string, fallback: boolean, degradedSources: strin
   if (['0', 'false', 'no'].includes(normalized)) return false;
   degradedSources.push(`invalid-boolean:${name}`);
   return fallback;
+}
+
+function resolveKraljevskaPlataStartPaymentVerificationGateStatus(): 'READY' | 'BLOCKED' {
+  const degradedSources: string[] = [];
+  const currentInvoiceNumber = (process.env.SPAJA_VERCEL_CURRENT_INVOICE_NUMBER ?? '').trim();
+  const currentInvoiceAmount = (process.env.SPAJA_VERCEL_CURRENT_INVOICE_AMOUNT ?? '').trim();
+  const billingOwner = (process.env.SPAJA_VERCEL_BILLING_OWNER ?? '').trim();
+  const invoiceRequested = parseBooleanEnv('SPAJA_VERCEL_INVOICE_REQUESTED', false, degradedSources);
+  const currentInvoicePaid = parseBooleanEnv('SPAJA_VERCEL_CURRENT_INVOICE_PAID', false, degradedSources);
+  const invoiceCorrectionRequested = parseBooleanEnv('SPAJA_VERCEL_INVOICE_CORRECTION_REQUESTED', false, degradedSources);
+  const correctedInvoiceResolved = parseBooleanEnv('SPAJA_VERCEL_CORRECTED_INVOICE_RESOLVED', false, degradedSources);
+  const currentInvoiceEvidenceCaptured = parseBooleanEnv('SPAJA_VERCEL_CURRENT_INVOICE_EVIDENCE_CAPTURED', false, degradedSources);
+  const bankStatementCaptured = parseBooleanEnv('SPAJA_VERCEL_BANK_STATEMENT_CAPTURED', false, degradedSources);
+  const paymentReferenceCaptured = parseBooleanEnv('SPAJA_VERCEL_PAYMENT_REFERENCE_CAPTURED', false, degradedSources);
+  const paymentReferencePublicSafeApproved = parseBooleanEnv('SPAJA_VERCEL_PAYMENT_REFERENCE_PUBLIC_SAFE_APPROVED', false, degradedSources);
+  const publicAnnouncementRedacted = parseBooleanEnv('SPAJA_VERCEL_PUBLIC_ANNOUNCEMENT_REDACTED', false, degradedSources);
+  const publicAnnouncementPublished = parseBooleanEnv('SPAJA_VERCEL_PUBLIC_ANNOUNCEMENT_PUBLISHED', false, degradedSources);
+  const billingOwnerLocked = parseBooleanEnv('SPAJA_VERCEL_BILLING_OWNER_LOCKED', false, degradedSources);
+  const paymentReferenceClassificationRaw = normalizePaymentReferenceClassification(
+    process.env.SPAJA_VERCEL_PAYMENT_REFERENCE_CLASSIFICATION,
+  );
+  const paymentReferenceClassification = paymentReferenceClassificationRaw.length > 0
+    ? paymentReferenceClassificationRaw
+    : 'unclassified';
+
+  const invoiceMatchesExpected = currentInvoiceNumber === EXPECTED_VERCEL_INVOICE_NUMBER
+    && currentInvoiceAmount === EXPECTED_VERCEL_INVOICE_AMOUNT;
+  const invoiceResolved = isVercelInvoiceResolved({
+    currentInvoiceNumber,
+    currentInvoiceAmount,
+    currentInvoicePaid,
+    invoiceCorrectionRequested,
+    correctedInvoiceResolved,
+  });
+  const publicAnnouncementState = buildVercelPublicAnnouncementState({
+    invoiceRequested,
+    currentInvoiceNumber,
+    currentInvoiceAmount,
+    currentInvoicePaid,
+    invoiceCorrectionRequested,
+    correctedInvoiceResolved,
+    currentInvoiceEvidenceCaptured,
+    bankStatementCaptured,
+    paymentReferenceCaptured,
+    paymentReferenceClassification,
+    paymentReferencePublicSafeApproved,
+    publicAnnouncementRedacted,
+    publicAnnouncementPublished,
+  });
+
+  const blockers = [
+    ...(billingOwnerLocked && billingOwner === EXPECTED_VERCEL_BILLING_OWNER ? [] : ['billing-owner-lock-required']),
+    ...(invoiceMatchesExpected ? [] : [`invoice-mismatch:${EXPECTED_VERCEL_INVOICE_NUMBER}:${EXPECTED_VERCEL_INVOICE_AMOUNT}`]),
+    ...(invoiceRequested ? [] : ['invoice-requested-required']),
+    ...(invoiceResolved ? [] : ['invoice-resolution-required']),
+    ...(currentInvoiceEvidenceCaptured ? [] : ['payment-evidence-required']),
+    ...(bankStatementCaptured ? [] : ['bank-statement-required']),
+    ...(paymentReferenceCaptured ? [] : ['payment-reference-required']),
+    ...(paymentReferenceClassification !== 'unclassified' ? [] : ['payment-reference-classification-required']),
+    ...(paymentReferenceClassification !== 'public-safe' || paymentReferencePublicSafeApproved
+      ? []
+      : ['payment-reference-public-safe-approval-required']),
+    ...(publicAnnouncementRedacted ? [] : ['public-announcement-redaction-required']),
+    ...publicAnnouncementState.blockers.map((blocker) => `public-announcement:${blocker}`),
+    ...degradedSources.map((reason) => `env:${reason}`),
+  ];
+
+  return blockers.length === 0 ? 'READY' : 'BLOCKED';
 }
 
 function buildElektronskiPotpisIdentityVerificationSource() {
@@ -11776,6 +11858,29 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
   const kraljevskaVojnaPolicijskaLifecycleStatus = kraljevskiAktBezbednostiGovernanceBlocked
     ? 'BLOCKED'
     : resolveDeveloperCreateExtensionStatus(kraljevskaVojnaPolicijskaLifecycleScore);
+  const kraljevskaPlataStartApprovalStatus = resolveDeveloperCreateExtensionStatus(
+    kraljevskaDopunaReadinessScore,
+  );
+  const kraljevskaPlataStartPaymentVerificationGateStatus =
+    resolveKraljevskaPlataStartPaymentVerificationGateStatus();
+  const kraljevskaPlataStartWeeklyReadinessStatus = aggregateReadinessStatus([
+    kraljevskaPlataStartApprovalStatus,
+    kraljevskiAktBezbednostiReadinessStatus,
+    dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.status,
+    kraljevskaPlataStartPaymentVerificationGateStatus,
+  ]);
+  const kraljevskaPlataStartBlockerReason =
+    kraljevskaPlataStartApprovalStatus === 'BLOCKED'
+      ? 'approval-status-blocked'
+      : kraljevskaPlataStartApprovalStatus === 'WATCH'
+        ? 'approval-status-watch'
+          : kraljevskaPlataStartPaymentVerificationGateStatus === 'BLOCKED'
+            ? 'payment-verification-required'
+          : kraljevskaPlataStartWeeklyReadinessStatus === 'BLOCKED'
+            ? 'payout-readiness-blocked'
+          : kraljevskaPlataStartWeeklyReadinessStatus === 'WATCH'
+            ? 'payout-readiness-watch'
+            : null;
   dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.kraljevskiDrustveniPoredak = {
     canonicalName: 'KRALJEVSKI DRUŠTVENI POREDAK',
     additiveOnly: true,
@@ -11974,6 +12079,38 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
         forbiddenArtifacts: ['bank-account-number', 'kyc-document', 'payroll-secret', 'operational-financial-data'],
         requiredGovernanceGates: ['human-review', 'compliance-review', 'payment-verification', 'audit-trail', 'rollback-plan', 'downstream-sync'],
         noAutomaticPayout: true,
+        startPackage: {
+          canonicalAlias: DEVELOPER_CREATE_KRALJEVSKA_PLATA_START_CANONICAL_ALIAS,
+          scopeStatement: DEVELOPER_CREATE_KRALJEVSKA_PLATA_START_SCOPE_STATEMENT,
+          roleClassification: DEVELOPER_CREATE_KRALJEVSKA_PLATA_START_ROLE_CLASSIFICATION,
+          boundedVocabularyPhrase: DEVELOPER_CREATE_REPO_WIDE_BOUNDED_VOCABULARY_PHRASE,
+          approvalStatus: kraljevskaPlataStartApprovalStatus,
+          payoutReadinessStatus: kraljevskaPlataStartWeeklyReadinessStatus,
+          paymentVerificationPosture: 'required-governance-gate',
+          blockerReason: kraljevskaPlataStartBlockerReason,
+          reviewPosture: 'human-review-required',
+          downstreamReference: 'spaja86/IO-OPENUI-AO (summary-only)',
+          summarySafeFields: DEVELOPER_CREATE_KRALJEVSKA_PLATA_START_SUMMARY_SAFE_FIELDS,
+          cadenceBinding: {
+            startNow: {
+              source: 'developerAndCreateRepoWideReflection.dailyOperationalCadence',
+              cadence: 'daily',
+              requiredBlocks: ['morning-startup', 'deep-focus-block', 'midday-checkpoint', 'end-of-day-closeout'],
+            },
+            naNedeljuDana: {
+              source: 'existing-weekly-governance-cycle',
+              cadence: 'weekly',
+              requiredLoops: DEVELOPER_CREATE_KRALJEVSKA_PLATA_START_WEEKLY_GOVERNANCE_CYCLE,
+            },
+          },
+          businessTargetPolicy: DEVELOPER_CREATE_KRALJEVSKA_PLATA_START_BUSINESS_TARGET_POLICY,
+          noNewRuntimeRoutes: true,
+          noParallelSourceOfTruth: true,
+          noSensitiveFinancialDataInGit: true,
+          startProjectBinding: 'existing-startProject-release-audit-model',
+          summary:
+            'KRALJEVSKA PLATA-START SADA, NA NEDELJU DANA ostaje additive-only bounded start paket unutar postojeće KRALJEVSKA PLATA governance politike: daily cadence vodi start sada signal, weekly governance ciklus vodi na nedelju dana signal, a payment verification, human review i downstream sync ostaju obavezni summary-safe gate-ovi bez novog billing engine-a ili osetljivih finansijskih podataka u Git-u.',
+        },
         summary:
           'KRALJEVSKA PLATA ostaje governance-only payout policy za najviši čin plate: approval, payout readiness, payment verification i audit evidence su dozvoljeni, dok payroll/KYC/bank detalji i automatska isplata ostaju zabranjeni u Git-u.',
       },

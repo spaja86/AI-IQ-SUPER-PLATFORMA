@@ -3120,7 +3120,9 @@ export interface ExtrimliExtrondolStartProject {
     'contractDriftReport',
     'governanceConformance',
     'releaseAuditSummary.aiPlateEnterprisePackageGovernance',
-    'spajaKod.publicSignals.aiPlateEnterprisePackageStatus'
+    'spajaKod.publicSignals.aiPlateEnterprisePackageStatus',
+    'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.kraljevskiDrustveniPoredak.kraljevskiAktBezbednosti.kraljevskaPlataPolicy.startPackage',
+    'spajaKod.developerAndCreateImplementationPackage.kraljevskiAktBezbednostiSummary.kraljevskaPlataStartPackageSummary'
   ];
   downstreamSync: {
     linkedRepo: 'spaja86/IO-OPENUI-AO';
@@ -3194,7 +3196,9 @@ export interface ExtrimliExtrondolStartProject {
       'contractDriftReport',
       'governanceConformance',
       'releaseAuditSummary.aiPlateEnterprisePackageGovernance',
-      'spajaKod.publicSignals.aiPlateEnterprisePackageStatus'
+      'spajaKod.publicSignals.aiPlateEnterprisePackageStatus',
+      'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.kraljevskiDrustveniPoredak.kraljevskiAktBezbednosti.kraljevskaPlataPolicy.startPackage',
+      'spajaKod.developerAndCreateImplementationPackage.kraljevskiAktBezbednostiSummary.kraljevskaPlataStartPackageSummary'
     ];
   };
   qualityGates: {
@@ -3516,6 +3520,7 @@ export interface ExtrimliSpajaKodPublicFacade {
       'developerAndCreateImplementationPackage.branchReport',
       'developerAndCreateImplementationPackage.kraljevskiDrustveniPoredakSummary',
       'developerAndCreateImplementationPackage.kraljevskiAktBezbednostiSummary',
+      'developerAndCreateImplementationPackage.kraljevskiAktBezbednostiSummary.kraljevskaPlataStartPackageSummary',
       'developerAndCreateImplementationPackage.smartProgramskiJezikSummary',
       'developerAndCreateImplementationPackage.eksperimentProgramskiJezikSummary',
       'developerAndCreateImplementationPackage.ispitivanjeSvegaStoJeFunkcionalnoSummary',
@@ -4105,6 +4110,19 @@ export interface ExtrimliSpajaKodPublicFacade {
         paymentVerificationRequired: true;
         paymentVerificationStatus: ExtrimliExtrondolPaymentVerification['status'];
         blockerReason: string | null;
+        publicBoundary: 'audit-safe-summary-only';
+        publicSummary: string;
+      };
+      kraljevskaPlataStartPackageSummary: {
+        canonicalAlias: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['kraljevskiDrustveniPoredak']['kraljevskiAktBezbednosti']['kraljevskaPlataPolicy']['startPackage']['canonicalAlias'];
+        approvalStatus: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['kraljevskiDrustveniPoredak']['kraljevskiAktBezbednosti']['kraljevskaPlataPolicy']['startPackage']['approvalStatus'];
+        payoutReadinessStatus: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['kraljevskiDrustveniPoredak']['kraljevskiAktBezbednosti']['kraljevskaPlataPolicy']['startPackage']['payoutReadinessStatus'];
+        paymentVerificationPosture: ExtrimliExtrondolPaymentVerification['status'];
+        blockerReason: string | null;
+        reviewPosture: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['kraljevskiDrustveniPoredak']['kraljevskiAktBezbednosti']['kraljevskaPlataPolicy']['startPackage']['reviewPosture'];
+        downstreamReference: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['kraljevskiDrustveniPoredak']['kraljevskiAktBezbednosti']['kraljevskaPlataPolicy']['startPackage']['downstreamReference'];
+        cadenceBinding: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['kraljevskiDrustveniPoredak']['kraljevskiAktBezbednosti']['kraljevskaPlataPolicy']['startPackage']['cadenceBinding'];
+        businessTargetPolicy: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['kraljevskiDrustveniPoredak']['kraljevskiAktBezbednosti']['kraljevskaPlataPolicy']['startPackage']['businessTargetPolicy'];
         publicBoundary: 'audit-safe-summary-only';
         publicSummary: string;
       };
