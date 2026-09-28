@@ -11933,8 +11933,14 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
           payoutReadinessStatus: privredniAktQuarterlyMarketInput.status,
           paymentVerificationPosture: 'required-governance-gate',
           blockerReason:
-            privredniAktQuarterlyMarketInput.status === 'BLOCKED'
+            resolveDeveloperCreateExtensionStatus(kraljevskaDopunaReadinessScore) === 'BLOCKED'
+              ? 'approval-status-blocked'
+              : resolveDeveloperCreateExtensionStatus(kraljevskaDopunaReadinessScore) === 'WATCH'
+                ? 'approval-status-watch'
+                : privredniAktQuarterlyMarketInput.status === 'BLOCKED'
               ? 'payment verification i downstream sync ostaju obavezni pre bilo kakvog governance-only payout signala.'
+              : privredniAktQuarterlyMarketInput.status === 'WATCH'
+                ? 'payout-readiness-watch'
               : null,
           reviewPosture: 'human-review-required',
           downstreamReference: 'spaja86/IO-OPENUI-AO (summary-only)',
