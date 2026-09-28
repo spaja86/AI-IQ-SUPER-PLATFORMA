@@ -15153,16 +15153,30 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
         : 'REVIEW_REQUIRED';
   const biznisTrack = dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.biznisTrack;
   const biznisRuntimeFallbackInput = process.env.EXTRIMLI_BIZNIS_FALLBACK_INPUT;
+  const potraznjaRuntimeFallbackInput =
+    process.env.EXTRIMLI_BIZNIS_POTRAZNJA_SVE_STO_NAM_TREBA_FALLBACK_INPUT
+    ?? biznisRuntimeFallbackInput;
   const biznisNormalizedFallbackInputs = DEVELOPER_CREATE_BIZNIS_FALLBACK_INPUTS.map((token) =>
     token.toLowerCase()
   );
+  const potraznjaNormalizedFallbackInputs =
+    DEVELOPER_CREATE_BIZNIS_POTRAZNJA_SVE_STO_NAM_TREBA_FALLBACK_INPUTS.map((token) => token.toLowerCase());
   const biznisTrimmedFallbackInput = biznisRuntimeFallbackInput?.trim().toLowerCase() ?? null;
+  const potraznjaTrimmedFallbackInput = potraznjaRuntimeFallbackInput?.trim().toLowerCase() ?? null;
   const biznisResolvedFallbackInput =
     biznisTrimmedFallbackInput === '' ? 'empty' : biznisTrimmedFallbackInput;
+  const potraznjaResolvedFallbackInput =
+    potraznjaTrimmedFallbackInput === '' ? 'empty' : potraznjaTrimmedFallbackInput;
   const biznisFallbackInputStatus: ExtrimliExtremReadinessStatus =
     biznisResolvedFallbackInput === 'conflict'
       ? 'BLOCKED'
       : biznisResolvedFallbackInput && biznisNormalizedFallbackInputs.includes(biznisResolvedFallbackInput)
+        ? 'WATCH'
+        : 'READY';
+  const potraznjaFallbackInputStatus: ExtrimliExtremReadinessStatus =
+    potraznjaResolvedFallbackInput === 'conflict'
+      ? 'BLOCKED'
+      : potraznjaResolvedFallbackInput && potraznjaNormalizedFallbackInputs.includes(potraznjaResolvedFallbackInput)
         ? 'WATCH'
         : 'READY';
   const biznisReferenceListStatus: ExtrimliExtremReadinessStatus =
@@ -15211,13 +15225,13 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
     potraznjaDemandCoverageStatus,
     potraznjaEcosystemCoverageStatus,
     potraznjaResourcePartnerCapacityStatus,
-    biznisFallbackInputStatus,
+    potraznjaFallbackInputStatus,
   ] as const;
   const biznisDemandReadiness = {
     demandCoverageStatus: potraznjaDemandCoverageStatus,
     ecosystemCoverageStatus: potraznjaEcosystemCoverageStatus,
     resourcePartnerCapacityStatus: potraznjaResourcePartnerCapacityStatus,
-    fallbackInputStatus: biznisFallbackInputStatus,
+    fallbackInputStatus: potraznjaFallbackInputStatus,
     status: aggregateReadinessStatus(biznisDemandSignalStatuses),
     readinessScore: round(
       biznisDemandSignalStatuses.reduce((sum, status) => sum + readinessStatusScore(status), 0)
