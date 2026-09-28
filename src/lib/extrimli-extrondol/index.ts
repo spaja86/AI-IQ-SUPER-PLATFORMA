@@ -4869,11 +4869,15 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
   const extrondend = getExtrimliExtrondendReport();
   const extendol = getExtrimliExtendolReport();
   const koron = getExtrimliKoronHealthReport();
-  const extremProfiler = getExtrimliExtremProfilerReport();
+  const paymentVerification = buildPaymentVerification();
+  const extremProfiler = getExtrimliExtremProfilerReport({
+    paymentGate: {
+      currentInvoicePaid: paymentVerification.evidence.currentInvoicePaid,
+    },
+  });
   const mobilnaLinija = buildMobilnaLinijaReadiness(extremProfiler);
   const domainStrategy = validateDomainStrategy();
   const governanceEvidence = resolveGovernanceEvidence(evidence);
-  const paymentVerification = buildPaymentVerification();
 
   const duetInput = {
     referenceId: 'extrimli-extrondol:nivo-duet',
