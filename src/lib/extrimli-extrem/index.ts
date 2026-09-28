@@ -12954,6 +12954,10 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
     'INOVACE is normalized into bounded innovation context until deterministic fallback is verified.',
     'SPAJICNIKOLA is normalized to SpajaNikOpenEvolution scope until ownership lock evidence is complete.',
   ];
+  const cliPaymentGateConfirmed = ['1', 'true', 'yes', 'on', 'paid', 'verified'].includes(
+    (process.env.SPAJA_VERCEL_CURRENT_INVOICE_PAID ?? '').trim().toLowerCase(),
+  );
+  cliFunctionBackdownTrack.paymentGateStatus = cliPaymentGateConfirmed ? 'PAID_CONFIRMED' : 'PAID_REQUIRED';
   cliFunctionBackdownTrack.status =
     cliFunctionBackdownTrack.paymentGateStatus === 'PAID_CONFIRMED'
       ? spajaNikOpenEvolutionFunctionBackupStatus
