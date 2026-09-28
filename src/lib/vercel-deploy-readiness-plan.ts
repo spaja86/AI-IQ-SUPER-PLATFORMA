@@ -238,8 +238,8 @@ export function buildVercelDeployReadinessPlan(
       'DNS/TLS aktivacija za apex i wildcard ostaje spoljašnja operativna potvrda.',
     ],
     sourceOfTruth: [
-      '/home/runner/work/AI-IQ-SUPER-PLATFORMA/AI-IQ-SUPER-PLATFORMA/docs/EXTRIMLI-START-DEPLOY.md',
-      '/home/runner/work/AI-IQ-SUPER-PLATFORMA/AI-IQ-SUPER-PLATFORMA/.github/workflows/extrimli-spaja-deploy.yml',
+      'docs/EXTRIMLI-START-DEPLOY.md',
+      '.github/workflows/extrimli-spaja-deploy.yml',
     ],
     nextActions: [
       `Potvrditi apex domen ${VERCEL_CANONICAL_APEX_DOMAIN}.`,
@@ -260,9 +260,9 @@ export function buildVercelDeployReadinessPlan(
       'Human review ostaje obavezan pre WAWE 4 promocije.',
     ],
     sourceOfTruth: [
-      '/home/runner/work/AI-IQ-SUPER-PLATFORMA/AI-IQ-SUPER-PLATFORMA/docs/MULTI-REPO-LINKS.md',
-      '/home/runner/work/AI-IQ-SUPER-PLATFORMA/AI-IQ-SUPER-PLATFORMA/.github/workflows/extrimli-spaja-deploy.yml',
-      '/home/runner/work/AI-IQ-SUPER-PLATFORMA/AI-IQ-SUPER-PLATFORMA/AGENTS.md',
+      'docs/MULTI-REPO-LINKS.md',
+      '.github/workflows/extrimli-spaja-deploy.yml',
+      'AGENTS.md',
     ],
     nextActions: [
       'Dodati konkretan downstream sync evidence reference.',
@@ -295,8 +295,8 @@ export function buildVercelDeployReadinessPlan(
     blockers: promotionBlockers,
     watchItems: promotionWatchItems,
     sourceOfTruth: [
-      '/home/runner/work/AI-IQ-SUPER-PLATFORMA/AI-IQ-SUPER-PLATFORMA/docs/EXTRIMLI-START-DEPLOY.md',
-      '/home/runner/work/AI-IQ-SUPER-PLATFORMA/AI-IQ-SUPER-PLATFORMA/.github/workflows/extrimli-spaja-deploy.yml',
+      'docs/EXTRIMLI-START-DEPLOY.md',
+      '.github/workflows/extrimli-spaja-deploy.yml',
     ],
     nextActions: [
       'Pustiti WAWE 4 tek kada billing, evidence, ownership, FinOps, infra, domain i downstream gates više nemaju blokere.',
