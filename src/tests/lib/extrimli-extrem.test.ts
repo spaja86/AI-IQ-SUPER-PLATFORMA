@@ -2422,7 +2422,7 @@ async function runTests(): Promise<void> {
       });
     });
 
-    await test('AUTOMATSKA POPRAVKA SVEGA blocks canonical alias as runtime input', async () => {
+    await test('AUTOMATSKA POPRAVKA SVEGA accepts canonical alias as READY runtime input', async () => {
       await withEnv({
         NODE_ENV: 'test',
         EXTRIMLI_AUTOMATSKA_POPRAVKA_SVEGA_INPUT:
@@ -2434,9 +2434,9 @@ async function runTests(): Promise<void> {
             .developerAndCreateRepoWideReflection
             .automatskaPopravkaSvegaTrack;
 
-        assert(track.readinessSignal.fallbackInputStatus === 'BLOCKED', 'automatska popravka svega canonical alias runtime input must map to BLOCKED');
-        assert(track.readinessSignal.status === 'BLOCKED', 'automatska popravka svega canonical alias runtime input must block readiness');
-        assert(track.blockerReason?.includes('kanonski alias koristi kao runtime ulaz') ?? false, 'automatska popravka svega blocker reason must mention canonical runtime input misuse');
+        assert(track.readinessSignal.fallbackInputStatus === 'READY', 'automatska popravka svega canonical alias runtime input must map to READY');
+        assert(track.readinessSignal.status === 'READY', 'automatska popravka svega canonical alias runtime input must keep bounded READY posture');
+        assert(track.blockerReason === null, 'automatska popravka svega canonical alias runtime input must not emit blocker reason');
       });
     });
 

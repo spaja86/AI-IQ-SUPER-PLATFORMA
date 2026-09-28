@@ -13553,7 +13553,7 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
     normalizedAutomatskaPopravkaSvegaFallbackLower === 'conflict'
       ? 'BLOCKED'
       : automatskaPopravkaSvegaUsesCanonicalAlias
-        ? 'BLOCKED'
+        ? 'READY'
       : automatskaPopravkaSvegaUsesDocumentedFallbackInput
         ? 'WATCH'
         : normalizedAutomatskaPopravkaSvegaRuntimeInput
@@ -13583,10 +13583,9 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
     || dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.deterministicFallbackRequired;
   automatskaPopravkaSvegaTrack.blockerReason =
     automatskaPopravkaSvegaStatus === 'BLOCKED'
-      ? automatskaPopravkaSvegaUsesCanonicalAlias
-        ? 'AUTOMATSKA POPRAVKA SVEGA ostaje BLOCKED kada se kanonski alias koristi kao runtime ulaz; kanonski naziv ostaje dokumentacioni lock, dok su raw `ATOMATSKA...` normalization alias i eksplicitni fallback ulazi jedini dozvoljeni runtime signali.'
-        : normalizedAutomatskaPopravkaSvegaRuntimeInput
+      ? normalizedAutomatskaPopravkaSvegaRuntimeInput
           && !automatskaPopravkaSvegaUsesRawAlias
+          && !automatskaPopravkaSvegaUsesCanonicalAlias
           && !DEVELOPER_CREATE_AUTOMATSKA_POPRAVKA_SVEGA_INPUT_NORMALIZATION_ALIASES_UPPERCASE.includes(
             normalizedAutomatskaPopravkaSvegaRuntimeInput,
           )
