@@ -7124,6 +7124,7 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
       equalityLock: DEVELOPER_CREATE_VRH_INTERPRETATION_ALIASES[0],
       canonicalMapeUmaScopeLock: DEVELOPER_CREATE_VRH_MAPE_UMA_SCOPE_LOCK,
       interpretationAliases: DEVELOPER_CREATE_VRH_INTERPRETATION_ALIASES,
+      markanStatus: 'BLOCKED',
       scope: 'repo-wide-rhythm-readiness-guidance',
       additiveOnlyProfile: 'EXTRIMLI-EXTRONDOL-EXTREM',
       sourceOfTruthRoutes: ['/api/extrimli/extrem', '/api/extrimli/extrondol', '/api/extrimli/spaja-kod'],
@@ -10465,6 +10466,8 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
         || dokDikDakDukConsistencyHealth.status === 'WATCH'
         ? 'WATCH'
         : 'READY';
+  dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.markanStatus =
+    dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.status;
   dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.deterministicFallbackRequired =
     radniTaktMozgaMislilac.readiness.degraded
     || metrikoProgramiranje.readiness.deterministicFallbackRequired

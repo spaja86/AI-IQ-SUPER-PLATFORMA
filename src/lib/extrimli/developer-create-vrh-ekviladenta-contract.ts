@@ -155,6 +155,9 @@ export const DEVELOPER_CREATE_VRH_ALATI_RADIONICA_ALIAS =
 export const DEVELOPER_CREATE_VRH_PADEZI_ALIAS =
   'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == PADEŽI' as const;
 
+export const DEVELOPER_CREATE_VRH_MARKAN_ALIAS =
+  'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == MARKAN' as const;
+
 export const DEVELOPER_CREATE_VRH_INTERPRETATION_ALIASES = [
   'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == RADNI TAKT MOZGA (MISLILAC)',
   'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == MAPE UMA',
@@ -177,6 +180,7 @@ export const DEVELOPER_CREATE_VRH_INTERPRETATION_ALIASES = [
   DEVELOPER_CREATE_VRH_MONTEZACIJA_ALIAS,
   DEVELOPER_CREATE_VRH_MONTEZACIJA_NAD_MONTEZACIJAMA_ALIAS,
   DEVELOPER_CREATE_VRH_KRALJEVSKA_MONTEZACIJA_ALIAS,
+  DEVELOPER_CREATE_VRH_MARKAN_ALIAS,
   DEVELOPER_CREATE_VRH_PILOT_ALIAS,
   DEVELOPER_CREATE_VRH_ELEKTRONSKI_POTPIS_ALIAS,
   'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == KRALJEVSKI POKLONI ZA SVAČIJI ROĐENDAN',
@@ -1034,6 +1038,9 @@ export const DEVELOPER_CREATE_MONTEZACIJA_NAD_MONTEZACIJAMA_CANONICAL_ALIAS =
 export const DEVELOPER_CREATE_KRALJEVSKA_MONTEZACIJA_CANONICAL_ALIAS =
   DEVELOPER_CREATE_VRH_KRALJEVSKA_MONTEZACIJA_ALIAS;
 
+export const DEVELOPER_CREATE_MARKAN_CANONICAL_ALIAS =
+  DEVELOPER_CREATE_VRH_MARKAN_ALIAS;
+
 export const DEVELOPER_CREATE_PILOT_CANONICAL_ALIAS =
   DEVELOPER_CREATE_VRH_PILOT_ALIAS;
 
@@ -1049,6 +1056,9 @@ export const DEVELOPER_CREATE_MONTEZACIJA_NAD_MONTEZACIJAMA_SCOPE_STATEMENT =
 export const DEVELOPER_CREATE_KRALJEVSKA_MONTEZACIJA_SCOPE_STATEMENT =
   'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == KRALJEVSKA MONTEZACIJA == additive-only approval/meta alias nad MONTEZACIJA i MONTEZACIJA NAD MONTEZACIJAMA trakom bez novih runtime ruta i bez paralelnog source-of-truth sloja' as const;
 
+export const DEVELOPER_CREATE_MARKAN_SCOPE_STATEMENT =
+  'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == MARKAN == additive-only bounded interpretativni alias bez novih runtime ruta i bez paralelnog source-of-truth sloja; ownership ostaje zaključan na DOK/DIK/FOR -> EXTREM, DAK/DUK -> EXTRONDOL, SPAJA KOD -> audit-safe summary-only.' as const;
+
 export const DEVELOPER_CREATE_PILOT_SCOPE_STATEMENT =
   'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == PILOT == additive-only bounded pilot alias bez novih runtime ruta i bez paralelnog source-of-truth sloja; koristi isključivo /api/extrimli/extrem, /api/extrimli/extrondol i /api/extrimli/spaja-kod' as const;
 
@@ -1063,6 +1073,9 @@ export const DEVELOPER_CREATE_MONTEZACIJA_NAD_MONTEZACIJAMA_ROLE_CLASSIFICATION 
 
 export const DEVELOPER_CREATE_KRALJEVSKA_MONTEZACIJA_ROLE_CLASSIFICATION =
   'additive-only-bounded-kraljevska-montezacija-meta-approval-track' as const;
+
+export const DEVELOPER_CREATE_MARKAN_ROLE_CLASSIFICATION =
+  'additive-only-bounded-markan-alias-track' as const;
 
 export const DEVELOPER_CREATE_PILOT_ROLE_CLASSIFICATION =
   'additive-only-bounded-pilot-alias-track' as const;
@@ -1108,6 +1121,17 @@ export const DEVELOPER_CREATE_ELEKTRONSKI_POTPIS_GOVERNANCE_REQUIRED_OUTPUTS = [
   'releaseAuditSummary',
   'rolloutPlan',
   'rollbackPlan',
+  'downstreamReference',
+] as const;
+
+export const DEVELOPER_CREATE_MARKAN_GOVERNANCE_REQUIRED_OUTPUTS = [
+  'readinessStatus',
+  'blockerReason',
+  'watchReasons',
+  'humanReviewStatus',
+  'rolloutPlan',
+  'rollbackPlan',
+  'releaseAuditSummary',
   'downstreamReference',
 ] as const;
 
@@ -1172,6 +1196,18 @@ export const DEVELOPER_CREATE_KRALJEVSKA_MONTEZACIJA_APPROVAL_SUMMARY_SAFE_FIELD
   'humanReviewStatus',
   'releaseAuditSummaryRequired',
   'rollbackRequiredBeforePromotion',
+  'downstreamReference',
+] as const;
+
+export const DEVELOPER_CREATE_MARKAN_SUMMARY_SAFE_FIELDS = [
+  'canonicalAlias',
+  'readinessStatus',
+  'blockerReason',
+  'watchReasons',
+  'humanReviewStatus',
+  'rolloutPlan',
+  'rollbackPlan',
+  'releaseAuditSummary',
   'downstreamReference',
 ] as const;
 

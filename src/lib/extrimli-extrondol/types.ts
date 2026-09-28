@@ -848,6 +848,7 @@ export interface ExtrimliExtrondolDeveloperAndCreateRepoWideReflectionGovernance
   additiveOnly: true;
   governanceVisibility: 'audit-safe-readiness-only';
   status: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['readiness']['status'];
+  markanStatus: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['markanStatus'];
   readinessScore: number;
   deterministicFallbackRequired: boolean;
   ownershipModel: {
@@ -1638,6 +1639,7 @@ export interface ExtrimliExtrondolDeveloperAndCreateRepoWideReflectionGovernance
       'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.konstrukcijeIProjektovanjeTrack',
       'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.aiIqKonferencijaZaStampuTrack',
       'spajaKod.publicSignals.developerAndCreateStatus',
+      'spajaKod.publicSignals.markanStatus',
       'spajaKod.publicSignals.developerAndCreateAudioVisualStatus',
       'spajaKod.publicSignals.developerAndCreateImplementationStatus',
       'spajaKod.publicSignals.napoleonDiskaveriStatus',
@@ -2850,6 +2852,7 @@ export interface ExtrimliExtrondolDeveloperAndCreateRepoWideReflection
       'developerAndCreateRepoWideReflection.napoleonDiskaveriSelectionTrack',
       'developerAndCreateRepoWideReflection.eksperimentProgramskiJezikTrack',
       'spajaKod.publicSignals.developerAndCreateStatus',
+      'spajaKod.publicSignals.markanStatus',
       'spajaKod.publicSignals.napoleonDiskaveriStatus',
       'spajaKod.publicSignals.eksperimentProgramskiJezikStatus',
       'spajaKod.publicSignals.developerAndCreateAudioVisualStatus',
@@ -3306,6 +3309,7 @@ export interface ExtrimliSpajaKodPublicFacade {
     radioStatus: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['radioTrack']['readinessSignal']['status'];
     muzickaKutijaStatus: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['muzickaKutijaTrack']['readinessSignal']['status'];
     developerAndCreateStatus: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['readiness']['status'];
+    markanStatus: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['markanStatus'];
     developerAndCreateImplementationStatus: ExtrimliSpajaKodPublicStatus;
     developerAndCreateAudioVisualStatus: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['audioVisualKontrabasPackage']['readinessStatus'];
     napoleonDiskaveriStatus: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['napoleonDiskaveriSelectionTrack']['discoverySelectionSignal']['selectionStatus'];
@@ -3413,6 +3417,7 @@ export interface ExtrimliSpajaKodPublicFacade {
     canonicalScopeLock: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['canonicalScopeLock'];
     routeSummaryFields: readonly [
       'publicSignals.developerAndCreateStatus',
+      'publicSignals.markanStatus',
       'publicSignals.developerAndCreateImplementationStatus',
       'publicSignals.developerAndCreateAudioVisualStatus',
       'publicSignals.smartProgramskiJezikStatus',

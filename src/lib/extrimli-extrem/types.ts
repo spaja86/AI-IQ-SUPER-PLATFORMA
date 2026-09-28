@@ -2766,6 +2766,7 @@ export interface ExtrimliDokDikDakDukConsistencyHealth {
     equalityLock: typeof DEVELOPER_CREATE_VRH_INTERPRETATION_ALIASES[0];
     canonicalMapeUmaScopeLock: 'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == MAPE UMA';
     interpretationAliases: typeof DEVELOPER_CREATE_VRH_INTERPRETATION_ALIASES;
+    markanStatus: 'READY' | 'WATCH' | 'BLOCKED';
     scope: 'repo-wide-rhythm-readiness-guidance';
     additiveOnlyProfile: 'EXTRIMLI-EXTRONDOL-EXTREM';
     sourceOfTruthRoutes: readonly ['/api/extrimli/extrem', '/api/extrimli/extrondol', '/api/extrimli/spaja-kod'];
