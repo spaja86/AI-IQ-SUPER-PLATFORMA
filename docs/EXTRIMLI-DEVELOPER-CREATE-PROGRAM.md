@@ -281,7 +281,17 @@ Prioritet realizacije ostaje zaključan:
 - Obavezni governance izlazi ostaju: `rolloutPlan`, `rollbackPlan`, `humanReviewStatus`, `releaseAuditSummary`, `downstreamReference`.
 - Odluka o odobrenju je dozvoljena samo ako lock kriterijumi i audit kriterijumi ostanu netaknuti.
 
-### 2.2.4.4) ELEKTRONSKI POTPIS bounded alias
+### 2.2.4.4) DEVASTATOR bounded alias
+
+- Kanonski alias ostaje zaključan: `DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == DEVASTATOR`.
+- Alias ostaje additive-only nad postojećim lock-om: nema novih ruta, nema novog runtime engine-a i nema paralelnog source-of-truth sistema.
+- Bounded vokabular ostaje isti: `EXTRIMLI EXTRONDOL EXTREM DOK DUK DAK DIK FOR`.
+- Ownership split ostaje nepromenjen: `DOK + DIK + FOR -> EXTREM`, `DAK + DUK -> EXTRONDOL`, `SPAJA KOD -> audit-safe summary-only`.
+- Status jezik ostaje zaključan na `READY | WATCH | BLOCKED` sa obaveznim blocker/watch razlozima i deterministic fallback posture.
+- Obavezni governance izlazi ostaju: `rolloutPlan`, `rollbackPlan`, `humanReviewStatus`, `releaseAuditSummary`, `downstreamReference`.
+- Downstream prema `spaja86/IO-OPENUI-AO` ostaje isključivo summary-only (`status`, `reviewPosture`, `humanReviewStatus`, `downstreamReference`, `devastatorSummary`).
+
+### 2.2.4.5) ELEKTRONSKI POTPIS bounded alias
 
 - Kanonski alias ostaje zaključan: `DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == ELEKTRONSKI POTPIS`.
 - Alias ostaje additive-only nad postojećim lock-om: nema novih ruta, nema novog runtime engine-a i nema paralelnog source-of-truth sistema.

@@ -251,6 +251,7 @@ const DEVELOPER_CREATE_ROADMAP_ACCEPTANCE_EVIDENCE_BASE = [
   'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.kraljevskiRadTrack',
   'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.montezacijaTrack',
   'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.pilotTrack',
+  'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.devastatorTrack',
   'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.elektronskiPotpisTrack',
   'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.aiIqLaboratorijaTrack',
   'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.konstrukcijeIProjektovanjeTrack',
@@ -274,6 +275,7 @@ const DEVELOPER_CREATE_ROADMAP_ACCEPTANCE_EVIDENCE_BASE = [
   'spajaKod.publicSignals.kraljevskaMontezacijaStatus',
   'spajaKod.publicSignals.montezacijaStatus',
   'spajaKod.publicSignals.pilotStatus',
+  'spajaKod.publicSignals.devastatorStatus',
   'spajaKod.publicSignals.elektronskiPotpisStatus',
   'spajaKod.publicSignals.aiIqLaboratorijaStatus',
   'spajaKod.publicSignals.konstrukcijeIProjektovanjeStatus',
@@ -311,6 +313,7 @@ const DEVELOPER_CREATE_GOVERNANCE_ACCEPTANCE_EVIDENCE: ExtrimliExtrondolReport['
   'developerAndCreateRepoWideReflection.kraljevskiRadTrack',
   'developerAndCreateRepoWideReflection.montezacijaTrack',
   'developerAndCreateRepoWideReflection.pilotTrack',
+  'developerAndCreateRepoWideReflection.devastatorTrack',
   'developerAndCreateRepoWideReflection.elektronskiPotpisTrack',
   'developerAndCreateRepoWideReflection.aiIqLaboratorijaTrack',
   'developerAndCreateRepoWideReflection.konstrukcijeIProjektovanjeTrack',
@@ -333,6 +336,7 @@ const DEVELOPER_CREATE_GOVERNANCE_ACCEPTANCE_EVIDENCE: ExtrimliExtrondolReport['
   'spajaKod.publicSignals.kraljevskaMontezacijaStatus',
   'spajaKod.publicSignals.montezacijaStatus',
   'spajaKod.publicSignals.pilotStatus',
+  'spajaKod.publicSignals.devastatorStatus',
   'spajaKod.publicSignals.elektronskiPotpisStatus',
   'spajaKod.publicSignals.aiIqLaboratorijaStatus',
   'spajaKod.publicSignals.konstrukcijeIProjektovanjeStatus',
@@ -3473,6 +3477,7 @@ function buildSpajaKodFacade(params: {
   kraljevskaMontezacijaStatus: ExtrimliExtrondolReport['extremProfiler']['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['montezacijaTrack']['kraljevskaMontezacijaApprovalPackage']['status'];
   montezacijaStatus: ExtrimliExtrondolReport['extremProfiler']['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['montezacijaTrack']['readinessSignal']['status'];
   pilotStatus: ExtrimliExtrondolReport['extremProfiler']['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['pilotTrack']['readinessSignal']['status'];
+  devastatorStatus: ExtrimliExtrondolReport['extremProfiler']['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['devastatorTrack']['readinessSignal']['status'];
   elektronskiPotpisStatus: ExtrimliExtrondolReport['extremProfiler']['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['elektronskiPotpisTrack']['readinessSignal']['status'];
   aiIqLaboratorijaStatus: ExtrimliExtrondolReport['extremProfiler']['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['aiIqLaboratorijaTrack']['readinessSignal']['status'];
   konstrukcijeIProjektovanjeStatus: ExtrimliExtrondolReport['extremProfiler']['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['konstrukcijeIProjektovanjeTrack']['readinessSignal']['status'];
@@ -3627,6 +3632,7 @@ function buildSpajaKodFacade(params: {
       kraljevskaMontezacijaStatus: params.kraljevskaMontezacijaStatus,
       montezacijaStatus: params.montezacijaStatus,
       pilotStatus: params.pilotStatus,
+      devastatorStatus: params.devastatorStatus,
       elektronskiPotpisStatus: params.elektronskiPotpisStatus,
       aiIqLaboratorijaStatus: params.aiIqLaboratorijaStatus,
       konstrukcijeIProjektovanjeStatus: params.konstrukcijeIProjektovanjeStatus,
@@ -3754,6 +3760,7 @@ function buildSpajaKodFacade(params: {
         'publicSignals.kraljevskaMontezacijaStatus',
         'publicSignals.montezacijaStatus',
         'publicSignals.pilotStatus',
+        'publicSignals.devastatorStatus',
         'publicSignals.elektronskiPotpisStatus',
         'publicSignals.aiIqLaboratorijaStatus',
         'publicSignals.konstrukcijeIProjektovanjeStatus',
@@ -3797,6 +3804,7 @@ function buildSpajaKodFacade(params: {
         'developerAndCreateImplementationPackage.montezacijaSummary.kraljevskaMontezacijaApprovalPackage',
         'developerAndCreateImplementationPackage.montezacijaSummary',
         'developerAndCreateImplementationPackage.pilotSummary',
+        'developerAndCreateImplementationPackage.devastatorSummary',
         'developerAndCreateImplementationPackage.elektronskiPotpisSummary',
         'developerAndCreateImplementationPackage.aiIqLaboratorijaSummary',
         'developerAndCreateImplementationPackage.konstrukcijeIProjektovanjeSummary',
@@ -4303,6 +4311,31 @@ function buildSpajaKodFacade(params: {
           params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.pilotTrack.releaseAuditSummary,
         downstreamReference:
           params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.pilotTrack.downstreamReference,
+        publicBoundary: 'audit-safe-summary-only',
+      },
+      devastatorSummary: {
+        canonicalAlias:
+          params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.devastatorTrack.canonicalAlias,
+        roleClassification:
+          params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.devastatorTrack.roleClassification,
+        status:
+          params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.devastatorTrack.readinessSignal.status,
+        blockerReason:
+          params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.devastatorTrack.blockerReason,
+        watchReasons: [
+          ...params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.devastatorTrack.watchReasons,
+        ],
+        reviewPosture:
+          params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.devastatorTrack.reviewPosture,
+        rolloutPlan:
+          params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.devastatorTrack.rolloutPlan,
+        rollbackPlan:
+          params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.devastatorTrack.rollbackPlan,
+        humanReviewStatus: 'required-before-promotion',
+        releaseAuditSummary:
+          params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.devastatorTrack.releaseAuditSummary,
+        downstreamReference:
+          params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.devastatorTrack.downstreamReference,
         publicBoundary: 'audit-safe-summary-only',
       },
       elektronskiPotpisSummary: {
@@ -7305,6 +7338,8 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
       extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.montezacijaTrack.readinessSignal.status,
     pilotStatus:
       extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.pilotTrack.readinessSignal.status,
+    devastatorStatus:
+      extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.devastatorTrack.readinessSignal.status,
     elektronskiPotpisStatus:
       extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.elektronskiPotpisTrack.readinessSignal.status,
     aiIqLaboratorijaStatus:
@@ -9766,6 +9801,34 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
           'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.pilotTrack',
           'spajaKod.publicSignals.pilotStatus',
           'spajaKod.developerAndCreateImplementationPackage.pilotSummary',
+        ],
+        downstreamReference: 'docs/MULTI-REPO-LINKS.md -> spaja86/IO-OPENUI-AO (summary-only)',
+      },
+      devastatorTrack: {
+        ...extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.devastatorTrack,
+        sourceOfTruth: '/api/extrimli/extrem',
+        governanceSource: '/api/extrimli/extrondol',
+        publicBoundary: '/api/extrimli/spaja-kod',
+        currentWave: currentWawe,
+        eligibleNextWave: eligibleNextWave,
+        promotionFreeze:
+          promotionFreeze
+          || extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.devastatorTrack.readinessSignal.status !== 'READY',
+        reviewRequiredBeforeWideRollout:
+          extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.devastatorTrack.readinessSignal.status !== 'READY'
+          || extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.devastatorTrack.reviewPosture === 'REVIEW_REQUIRED',
+        reviewPosture:
+          extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.devastatorTrack.reviewPosture,
+        rolloutPlan:
+          'Advance DEVASTATOR only as an additive-only bounded alias through existing EXTREM readiness signals, EXTRONDOL WAWE governance, and SPAJA KOD summary-safe outputs.',
+        rollbackPlan:
+          'Freeze promotion and revert to the previously verified Developer/Create package if DEVASTATOR readiness, review posture, or downstream summary alignment drifts.',
+        humanReviewStatus: 'required-before-promotion',
+        acceptanceEvidence: [
+          'developerAndCreateRepoWideReflection.devastatorTrack',
+          'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.devastatorTrack',
+          'spajaKod.publicSignals.devastatorStatus',
+          'spajaKod.developerAndCreateImplementationPackage.devastatorSummary',
         ],
         downstreamReference: 'docs/MULTI-REPO-LINKS.md -> spaja86/IO-OPENUI-AO (summary-only)',
       },

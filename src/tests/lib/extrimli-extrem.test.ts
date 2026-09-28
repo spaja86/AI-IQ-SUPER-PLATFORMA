@@ -242,6 +242,18 @@ async function runTests(): Promise<void> {
       scopeLock: report.scopeLock,
       developerCreateLock: lock,
     });
+
+    const devastatorTrack =
+      report.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.devastatorTrack;
+    assert(devastatorTrack.canonicalAlias === 'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == DEVASTATOR', 'DEVASTATOR canonical alias mismatch');
+    assert(devastatorTrack.additiveOnly, 'DEVASTATOR must remain additive-only');
+    assert(devastatorTrack.noNewRuntimeRoutes, 'DEVASTATOR must not introduce new routes');
+    assert(devastatorTrack.noParallelSourceOfTruth, 'DEVASTATOR must not introduce a parallel source-of-truth');
+    assert(devastatorTrack.boundedVocabularyPhrase === 'EXTRIMLI EXTRONDOL EXTREM DOK DUK DAK DIK FOR', 'DEVASTATOR bounded vocabulary phrase mismatch');
+    assert(['READY', 'WATCH', 'BLOCKED'].includes(devastatorTrack.readinessSignal.status), 'DEVASTATOR readiness signal status must stay canonical');
+    assert(devastatorTrack.summarySafePublicFields.join(',') === 'canonicalAlias,publicBoundary,status,blockerReason,watchReasons,reviewPosture,humanReviewStatus,rolloutPlan,rollbackPlan,releaseAuditSummary,downstreamReference', 'DEVASTATOR summary-safe field contract mismatch');
+    assert(devastatorTrack.humanReviewStatus === 'required-before-promotion', 'DEVASTATOR human review status mismatch');
+    assert(devastatorTrack.releaseAuditSummary.length > 0, 'DEVASTATOR release-audit summary must be present');
     assert(!implementationBoundaries.toLowerCase().includes('vinogradi-grocka-restoran-new-route'), 'VINOGRADI GROCKA RESTORAN must not introduce new runtime route markers');
     assert(!implementationBoundaries.toLowerCase().includes('vinogradi-grocka-restoran-parallel-source-of-truth'), 'VINOGRADI GROCKA RESTORAN must not introduce parallel source-of-truth markers');
     assert(
