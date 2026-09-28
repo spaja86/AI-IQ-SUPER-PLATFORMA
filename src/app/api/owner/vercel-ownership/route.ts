@@ -258,7 +258,10 @@ export async function GET() {
     mirroredEndpoint: deployGovernance.blockerSourceOfTruth.mirroredEndpoint,
     phoneVerified: checklist.phoneVerified,
     enterpriseRequestReady: checklist.enterpriseRequestSpreman,
-    enterpriseRequestStarted: enterpriseRequestRequested || checklist.enterpriseRequestPoslato,
+    enterpriseRequestStarted:
+      enterpriseRequestRequested
+      || checklist.enterpriseRequestSpreman
+      || checklist.enterpriseRequestPoslato,
     enterpriseRequestSubmitted: checklist.enterpriseRequestPoslato,
     billingOwnerLocked: billing.billingOwnerLocked,
     billingOwner: billing.billingOwner,

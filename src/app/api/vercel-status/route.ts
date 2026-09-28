@@ -321,7 +321,10 @@ export async function GET() {
    mirroredEndpoint: deployGovernance.blockerSourceOfTruth.mirroredEndpoint,
    phoneVerified,
    enterpriseRequestReady: pretplataVercel.ownership.enterpriseRequestReady,
-   enterpriseRequestStarted: pretplataVercel.ownership.enterpriseRequestRequested || pretplataVercel.ownership.enterpriseRequestSubmitted,
+   enterpriseRequestStarted:
+     pretplataVercel.ownership.enterpriseRequestReady
+     || pretplataVercel.ownership.enterpriseRequestRequested
+     || pretplataVercel.ownership.enterpriseRequestSubmitted,
    enterpriseRequestSubmitted: pretplataVercel.ownership.enterpriseRequestSubmitted,
    billingOwnerLocked: pretplataVercel.billingGovernance.billingOwnerLocked,
    billingOwner: pretplataVercel.billingGovernance.billingOwner,
