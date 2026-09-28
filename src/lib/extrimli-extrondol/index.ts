@@ -955,6 +955,7 @@ function buildKraljevskaPlataStartPackageSummary(
     reviewPosture: startPackage.reviewPosture,
     downstreamReference: startPackage.downstreamReference,
     cadenceBinding: startPackage.cadenceBinding,
+    businessTargetPolicy: startPackage.businessTargetPolicy,
     publicBoundary: 'audit-safe-summary-only' as const,
     publicSummary:
       'KRALJEVSKA PLATA-START SADA, NA NEDELJU DANA javno ostaje summary-only governance paket: approval, payout readiness, payment verification posture, blocker, review posture, cadence binding i downstream reference bez pricing formula, payroll, KYC ili bank podataka.',
