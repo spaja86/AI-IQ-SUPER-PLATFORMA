@@ -14986,8 +14986,8 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
     biznisResolvedFallbackInput === 'conflict'
       ? 'BLOCKED'
       : biznisResolvedFallbackInput && biznisNormalizedFallbackInputs.includes(biznisResolvedFallbackInput)
-        ? 'READY'
-        : 'WATCH';
+        ? 'WATCH'
+        : 'READY';
   const biznisReferenceListStatus: ExtrimliExtremReadinessStatus =
     biznisTrack.referencePackage.publicBoundary === 'summary-only'
       && biznisTrack.referencePackage.referenceListModel
