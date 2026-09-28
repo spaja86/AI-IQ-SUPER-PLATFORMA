@@ -58,6 +58,7 @@ import {
   DEVELOPER_CREATE_VRH_IZVESTAJ_ALIAS,
   DEVELOPER_CREATE_VRH_VINOGRADI_GROCKA_RESTORAN_ALIAS,
   DEVELOPER_CREATE_VRH_POSLOVNA_PONUDA_ZELEZARA_DOO_ALIAS,
+  DEVELOPER_CREATE_VRH_BIZNIS_ALIAS,
   DEVELOPER_CREATE_NAVIGACIONI_SISTEM_SA_TREKEROM_TRACKER_CONTRACT,
   DEVELOPER_CREATE_REPO_WIDE_BOUNDED_VOCABULARY,
   DEVELOPER_CREATE_REPO_WIDE_BOUNDED_VOCABULARY_PHRASE,
@@ -79,6 +80,9 @@ import {
   DEVELOPER_CREATE_POSLOVNA_PONUDA_ZELEZARA_DOO_URGENT_MEETING_INTAKE_PACKAGE,
   DEVELOPER_CREATE_POSLOVNA_PONUDA_ZELEZARA_DOO_SUMMARY_SAFE_FIELDS,
   DEVELOPER_CREATE_POSLOVNA_PONUDA_ZELEZARA_DOO_FALLBACK_INPUTS,
+  DEVELOPER_CREATE_BIZNIS_REFERENCE_PACKAGE,
+  DEVELOPER_CREATE_BIZNIS_SUMMARY_SAFE_FIELDS,
+  DEVELOPER_CREATE_BIZNIS_FALLBACK_INPUTS,
   DEVELOPER_CREATE_PADEZI_ACCEPTANCE_CRITERIA,
   DEVELOPER_CREATE_PADEZI_CANONICAL_ALIAS,
   DEVELOPER_CREATE_PADEZI_CANONICAL_CASE_SEQUENCE,
@@ -1373,6 +1377,43 @@ async function runTests(): Promise<void> {
       DEVELOPER_CREATE_POSLOVNA_PONUDA_ZELEZARA_DOO_FALLBACK_INPUTS,
       ['NaN', 'Infinity', 'empty', 'conflict'],
       'unexpected POSLOVNA PONUDA / ŽELEZARA D.O.O. SMEDEREVO fallback inputs',
+    );
+  });
+
+  await test('biznis alias remains additive-only, enterprise-bounded, and summary-safe', () => {
+    assert(
+      DEVELOPER_CREATE_VRH_INTERPRETATION_ALIASES.includes(DEVELOPER_CREATE_VRH_BIZNIS_ALIAS),
+      'BIZNIS alias must remain part of the VRH interpretation aliases',
+    );
+    assert(
+      DEVELOPER_CREATE_BIZNIS_REFERENCE_PACKAGE.canonicalBusinessTrack === 'Kompanija SPAJA / Digitalna Industrija',
+      'BIZNIS canonical business track mismatch',
+    );
+    assert(
+      DEVELOPER_CREATE_BIZNIS_REFERENCE_PACKAGE.noOperationalExecutionEngine,
+      'BIZNIS must not introduce an operational execution engine',
+    );
+    assertArrayEquals(
+      DEVELOPER_CREATE_BIZNIS_SUMMARY_SAFE_FIELDS,
+      [
+        'canonicalAlias',
+        'status',
+        'blockerReason',
+        'watchReasons',
+        'reviewPosture',
+        'downstreamReference',
+        'businessSummary',
+        'referenceListStatus',
+        'ecosystemConsistencyStatus',
+        'enterpriseMappingStatus',
+        'fallbackInputStatus',
+      ],
+      'unexpected BIZNIS summary-safe fields',
+    );
+    assertArrayEquals(
+      DEVELOPER_CREATE_BIZNIS_FALLBACK_INPUTS,
+      ['NaN', 'Infinity', 'empty', 'conflict'],
+      'unexpected BIZNIS fallback inputs',
     );
   });
 
