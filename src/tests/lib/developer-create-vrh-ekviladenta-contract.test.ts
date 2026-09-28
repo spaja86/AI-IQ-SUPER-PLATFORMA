@@ -105,6 +105,8 @@ import {
   DEVELOPER_CREATE_ELEKTRONSKI_POTPIS_SCOPE_STATEMENT,
   DEVELOPER_CREATE_ELEKTRONSKI_POTPIS_SUMMARY_SAFE_FIELDS,
   DEVELOPER_CREATE_VRH_INTERPRETATION_ALIASES,
+  DEVELOPER_CREATE_VRH_ZALAN_ALIAS,
+  DEVELOPER_CREATE_VRH_ZALAN_ALIAS_BOUNDARY,
   DEVELOPER_CREATE_VRH_ELEKTRONSKI_POTPIS_ALIAS,
   DEVELOPER_CREATE_VRH_KRALJEVSKA_MONTEZACIJA_ALIAS,
   DEVELOPER_CREATE_VRH_MONTEZACIJA_NAD_MONTEZACIJAMA_ALIAS,
@@ -161,6 +163,44 @@ async function runTests(): Promise<void> {
         DEVELOPER_CREATE_VRH_NAVIGACIONI_SISTEM_SA_TREKEROM_ALIAS,
       ),
       'NAVIGACIONI SISTEM SA TREKEROM alias must be present in interpretation aliases',
+    );
+  });
+
+  await test('zalan alias stays additive-only and summary-safe', () => {
+    assert(
+      DEVELOPER_CREATE_VRH_INTERPRETATION_ALIASES.includes(DEVELOPER_CREATE_VRH_ZALAN_ALIAS),
+      'ZALAN alias must be present in interpretation aliases',
+    );
+    assert(
+      DEVELOPER_CREATE_VRH_ZALAN_ALIAS_BOUNDARY.classification === 'documentation-and-interpretative-alias-only',
+      'ZALAN alias classification must stay documentation/interpretative only',
+    );
+    assert(
+      DEVELOPER_CREATE_VRH_ZALAN_ALIAS_BOUNDARY.noNewRuntimeModule
+        && DEVELOPER_CREATE_VRH_ZALAN_ALIAS_BOUNDARY.noParallelSourceOfTruth,
+      'ZALAN alias must not introduce runtime modules or parallel source-of-truth',
+    );
+    assert(
+      DEVELOPER_CREATE_VRH_ZALAN_ALIAS_BOUNDARY.ownershipSplit.dokDikFor === 'EXTREM'
+        && DEVELOPER_CREATE_VRH_ZALAN_ALIAS_BOUNDARY.ownershipSplit.dakDuk === 'EXTRONDOL'
+        && DEVELOPER_CREATE_VRH_ZALAN_ALIAS_BOUNDARY.ownershipSplit.spajaKod === 'audit-safe-summary-only',
+      'ZALAN alias ownership split must stay unchanged',
+    );
+    assert(
+      DEVELOPER_CREATE_VRH_ZALAN_ALIAS_BOUNDARY.governanceMirror === 'EXTRONDOL-WAWE-review-rollout-rollback-release-audit',
+      'ZALAN alias governance mirror must stay on EXTRONDOL WAWE/review/rollout/rollback/release-audit flow',
+    );
+    assert(
+      manifest.includes('`DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == ZALAN`'),
+      'manifest ZALAN alias mention missing',
+    );
+    assert(
+      vrhDoc.includes('`ZALAN`'),
+      'VRH extension doc ZALAN alias mention missing',
+    );
+    assert(
+      multiRepoLinks.includes('Developer/Create `ZALAN` interpretativni alias'),
+      'multi-repo links ZALAN downstream entry missing',
     );
   });
 
