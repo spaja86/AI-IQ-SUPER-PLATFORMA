@@ -181,6 +181,7 @@ import {
   DEVELOPER_CREATE_MONTEZACIJA_SCOPE_STATEMENT,
   DEVELOPER_CREATE_MONTEZACIJA_SUMMARY_SAFE_FIELDS,
   DEVELOPER_CREATE_PILOT_CANONICAL_ALIAS,
+  DEVELOPER_CREATE_DEVASTATOR_CANONICAL_ALIAS,
   DEVELOPER_CREATE_ELEKTRONSKI_POTPIS_CANONICAL_ALIAS,
   DEVELOPER_CREATE_ELEKTRONSKI_POTPIS_FALLBACK_INPUTS,
   DEVELOPER_CREATE_ELEKTRONSKI_POTPIS_RELEASE_AUDIT_SUMMARY_SIGNAL,
@@ -193,6 +194,12 @@ import {
   DEVELOPER_CREATE_PILOT_ROLE_CLASSIFICATION,
   DEVELOPER_CREATE_PILOT_SCOPE_STATEMENT,
   DEVELOPER_CREATE_PILOT_SUMMARY_SAFE_FIELDS,
+  DEVELOPER_CREATE_DEVASTATOR_FALLBACK_INPUTS,
+  DEVELOPER_CREATE_DEVASTATOR_GOVERNANCE_REQUIRED_OUTPUTS,
+  DEVELOPER_CREATE_DEVASTATOR_RELEASE_AUDIT_SUMMARY_SIGNAL,
+  DEVELOPER_CREATE_DEVASTATOR_ROLE_CLASSIFICATION,
+  DEVELOPER_CREATE_DEVASTATOR_SCOPE_STATEMENT,
+  DEVELOPER_CREATE_DEVASTATOR_SUMMARY_SAFE_FIELDS,
   DEVELOPER_CREATE_ISPITIVANJE_SVEGA_STO_JE_FUNKCIONALNO_CANONICAL_ALIAS,
   DEVELOPER_CREATE_ISPITIVANJE_SVEGA_STO_JE_FUNKCIONALNO_COVERAGE_AREAS,
   DEVELOPER_CREATE_ISPITIVANJE_SVEGA_STO_JE_FUNKCIONALNO_EXTENDOL_ACCEPTANCE_CRITERIA_IDS,
@@ -8056,6 +8063,49 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
         ],
         downstreamReference: 'docs/MULTI-REPO-LINKS.md -> spaja86/IO-OPENUI-AO (summary-only)',
       },
+      devastatorTrack: {
+        canonicalAlias: DEVELOPER_CREATE_DEVASTATOR_CANONICAL_ALIAS,
+        scopeStatement: DEVELOPER_CREATE_DEVASTATOR_SCOPE_STATEMENT,
+        roleClassification: DEVELOPER_CREATE_DEVASTATOR_ROLE_CLASSIFICATION,
+        boundedVocabularyPhrase: DEVELOPER_CREATE_REPO_WIDE_BOUNDED_VOCABULARY_PHRASE,
+        additiveOnly: true,
+        noNewRuntimeEngine: true,
+        noNewRuntimeRoutes: true,
+        noParallelSourceOfTruth: true,
+        sourceOfTruthRoutes: ['/api/extrimli/extrem', '/api/extrimli/extrondol', '/api/extrimli/spaja-kod'],
+        ownershipLock: {
+          dokDikFor: 'EXTREM',
+          dakDuk: 'EXTRONDOL',
+          spajaKod: 'audit-safe-summary-only',
+        },
+        summarySafePublicFields: DEVELOPER_CREATE_DEVASTATOR_SUMMARY_SAFE_FIELDS,
+        readinessSignal: {
+          status: 'BLOCKED',
+          readinessScore: 0,
+          fallbackInputStatus: 'BLOCKED',
+          deterministicFallbackRequired: true,
+          fallbackInputs: DEVELOPER_CREATE_DEVASTATOR_FALLBACK_INPUTS,
+          driver:
+            'developerAndCreateRepoWideReflection.readiness + developerAndCreateRepoWideReflection.technicalReadinessProfile.consolidatedRhythmStatus',
+        },
+        blockerReason:
+          'devastator-track-awaits-existing-extrem-readiness-and-governance-alignment-without-new-runtime-surfaces',
+        watchReasons: [],
+        reviewPosture: 'REVIEW_REQUIRED',
+        humanReviewStatus: 'required-before-promotion',
+        rolloutPlan:
+          'Promote DEVASTATOR only after EXTREM readiness signal, EXTRONDOL governance evidence, and SPAJA KOD summary-safe outputs stay aligned under existing source-of-truth routes.',
+        rollbackPlan:
+          'Freeze promotion and revert to the previously verified Developer/Create package if DEVASTATOR readiness, review posture, or governance evidence drifts.',
+        releaseAuditSummary: DEVELOPER_CREATE_DEVASTATOR_RELEASE_AUDIT_SUMMARY_SIGNAL,
+        acceptanceEvidence: [
+          'developerAndCreateRepoWideReflection.devastatorTrack',
+          'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.devastatorTrack',
+          'spajaKod.publicSignals.devastatorStatus',
+          'spajaKod.developerAndCreateImplementationPackage.devastatorSummary',
+        ],
+        downstreamReference: 'docs/MULTI-REPO-LINKS.md -> spaja86/IO-OPENUI-AO (summary-only)',
+      },
       elektronskiPotpisTrack: {
         canonicalAlias: DEVELOPER_CREATE_ELEKTRONSKI_POTPIS_CANONICAL_ALIAS,
         scopeStatement: DEVELOPER_CREATE_ELEKTRONSKI_POTPIS_SCOPE_STATEMENT,
@@ -12601,6 +12651,20 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
       noParallelSourceOfTruth: true,
       rawInternalsExposed: false,
     },
+    devastatorBoundary: {
+      trackRole: 'bounded-devastator-alias-track',
+      parentTrack: 'VRH PROGRAMSKOG EKVILADENTA',
+      canonicalAlias: DEVELOPER_CREATE_DEVASTATOR_CANONICAL_ALIAS,
+      roleClassification: DEVELOPER_CREATE_DEVASTATOR_ROLE_CLASSIFICATION,
+      extremPublishes: 'status-readiness-fallback-and-deterministic-signal-only',
+      extrondolPublishes: 'wawe-freeze-promotion-review-rollback-audit-summary-only',
+      spajaKodPublishes: 'status-blocker-review-downstream-and-devastator-summary-only',
+      technicalBinding: 'developerAndCreateRepoWideReflection.devastatorTrack',
+      noNewRuntimeEngine: true,
+      noNewRuntimeRoutes: true,
+      noParallelSourceOfTruth: true,
+      rawInternalsExposed: false,
+    },
     radioBoundary: {
       trackRole: 'bounded-radio-media-distribution-audio-alias-track',
       parentTrack: 'VRH PROGRAMSKOG EKVILADENTA',
@@ -14143,6 +14207,51 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
       : 'Keep PILOT in WATCH mode until readiness signal, review posture, and fallback handling return to READY alignment.';
   pilotTrack.rollbackPlan =
     'If PILOT drift appears, freeze promotion and rollback to the previously verified Developer/Create package while preserving summary-only downstream sync.';
+  const devastatorTrack =
+    dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.devastatorTrack;
+  const devastatorSignalStatuses = [
+    dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.status,
+    dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.technicalReadinessProfile
+      .consolidatedRhythmStatus,
+  ] as const;
+  const devastatorStatus = aggregateSignalReadinessStatus([...devastatorSignalStatuses]);
+  const devastatorFallbackInputStatus: ExtrimliExtremReadinessStatus = devastatorStatus;
+  devastatorTrack.readinessSignal.status = devastatorStatus;
+  devastatorTrack.readinessSignal.readinessScore = round(
+    devastatorSignalStatuses.reduce((sum, signalStatus) => sum + readinessStatusScore(signalStatus), 0)
+      / devastatorSignalStatuses.length,
+    2,
+  );
+  devastatorTrack.readinessSignal.fallbackInputStatus = devastatorFallbackInputStatus;
+  devastatorTrack.readinessSignal.deterministicFallbackRequired = devastatorStatus !== 'READY';
+  devastatorTrack.blockerReason =
+    devastatorStatus === 'BLOCKED'
+      ? 'DEVASTATOR ostaje BLOCKED dok postojeći EXTREM readiness signal i governance dokaz ne ostanu poravnati sa ownership split pravilom bez novih ruta.'
+      : null;
+  devastatorTrack.watchReasons =
+    devastatorStatus === 'WATCH'
+      ? [
+          'DEVASTATOR ostaje u WATCH režimu dok fallback ulaz i review posture zahtevaju dodatnu proveru pre governance promocije.',
+        ]
+      : [];
+  const devastatorRequiresHumanReview =
+    devastatorTrack.humanReviewStatus === 'required-before-promotion';
+  devastatorTrack.reviewPosture =
+    devastatorStatus === 'READY'
+      ? 'ALIGNED'
+      : devastatorStatus === 'WATCH'
+        ? devastatorRequiresHumanReview
+          ? 'REVIEW_REQUIRED'
+          : 'WATCH'
+        : 'REVIEW_REQUIRED';
+  devastatorTrack.releaseAuditSummary = DEVELOPER_CREATE_DEVASTATOR_RELEASE_AUDIT_SUMMARY_SIGNAL;
+  devastatorTrack.rolloutPlan = devastatorStatus === 'READY'
+    ? 'Promote DEVASTATOR by preserving additive-only lock, existing EXTREM/EXTRONDOL/SPAJA KOD source-of-truth routes, and audit-safe summary boundary.'
+    : devastatorStatus === 'BLOCKED'
+      ? 'Keep DEVASTATOR BLOCKED until readiness blockers clear, then rerun governance alignment over existing source-of-truth routes.'
+      : 'Keep DEVASTATOR in WATCH mode until readiness signal, review posture, and fallback handling return to READY alignment.';
+  devastatorTrack.rollbackPlan =
+    'If DEVASTATOR drift appears, freeze promotion and rollback to the previously verified Developer/Create package while preserving summary-only downstream sync.';
   const elektronskiPotpisTrack =
     dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.elektronskiPotpisTrack;
   const elektronskiPotpisSignalStatuses = [

@@ -95,6 +95,9 @@ export const DEVELOPER_CREATE_REPO_WIDE_RADNI_TAKT_SUPPLEMENTAL_DOWNSTREAM_FIELD
 export const DEVELOPER_CREATE_VRH_DIJALIZA_POGONSKOG_OMOTACA_ALIAS =
   'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == DIJALIZA POGONSKOG OMOTAČA' as const;
 
+export const DEVELOPER_CREATE_VRH_ZALAN_ALIAS =
+  'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == ZALAN' as const;
+
 export const DEVELOPER_CREATE_VRH_ISPITIVANJE_SVEGA_STO_JE_FUNKCIONALNO_ALIAS =
   'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == ISPITIVANJE SVEGA ŠTO JE FUNKCIONALNO' as const;
 
@@ -146,6 +149,9 @@ export const DEVELOPER_CREATE_VRH_KRALJEVSKA_MONTEZACIJA_ALIAS =
 export const DEVELOPER_CREATE_VRH_PILOT_ALIAS =
   'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == PILOT' as const;
 
+export const DEVELOPER_CREATE_VRH_DEVASTATOR_ALIAS =
+  'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == DEVASTATOR' as const;
+
 export const DEVELOPER_CREATE_VRH_ELEKTRONSKI_POTPIS_ALIAS =
   'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == ELEKTRONSKI POTPIS' as const;
 
@@ -164,6 +170,7 @@ export const DEVELOPER_CREATE_VRH_INTERPRETATION_ALIASES = [
   DEVELOPER_CREATE_VRH_MAPA_UMA_ALIAS,
   DEVELOPER_CREATE_VRH_ZIVOPIS_U_DIGITALIZMU_ALIAS,
   DEVELOPER_CREATE_VRH_DIJALIZA_POGONSKOG_OMOTACA_ALIAS,
+  DEVELOPER_CREATE_VRH_ZALAN_ALIAS,
   DEVELOPER_CREATE_VRH_ISPITIVANJE_SVEGA_STO_JE_FUNKCIONALNO_ALIAS,
   'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == LEKSIKON',
   'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == RADNI PROSTOR',
@@ -182,6 +189,7 @@ export const DEVELOPER_CREATE_VRH_INTERPRETATION_ALIASES = [
   DEVELOPER_CREATE_VRH_KRALJEVSKA_MONTEZACIJA_ALIAS,
   DEVELOPER_CREATE_VRH_MARKAN_ALIAS,
   DEVELOPER_CREATE_VRH_PILOT_ALIAS,
+  DEVELOPER_CREATE_VRH_DEVASTATOR_ALIAS,
   DEVELOPER_CREATE_VRH_ELEKTRONSKI_POTPIS_ALIAS,
   'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == KRALJEVSKI POKLONI ZA SVAČIJI ROĐENDAN',
   DEVELOPER_CREATE_VRH_KRALJEVSKI_SAT_ALIAS,
@@ -196,7 +204,7 @@ export const DEVELOPER_CREATE_VRH_INTERPRETATION_ALIASES = [
   DEVELOPER_CREATE_VRH_IZVESTAJ_ALIAS,
 ] as const;
 
-export const DEVELOPER_CREATE_VRH_DIJALIZA_POGONSKOG_OMOTACA_ALIAS_BOUNDARY = {
+const DEVELOPER_CREATE_VRH_INTERPRETATIVE_ALIAS_BOUNDARY_BASE = {
   classification: 'documentation-and-interpretative-alias-only',
   noNewRuntimeModule: true,
   noParallelSourceOfTruth: true,
@@ -205,6 +213,15 @@ export const DEVELOPER_CREATE_VRH_DIJALIZA_POGONSKOG_OMOTACA_ALIAS_BOUNDARY = {
     dakDuk: 'EXTRONDOL',
     spajaKod: 'audit-safe-summary-only',
   },
+} as const;
+
+export const DEVELOPER_CREATE_VRH_DIJALIZA_POGONSKOG_OMOTACA_ALIAS_BOUNDARY = {
+  ...DEVELOPER_CREATE_VRH_INTERPRETATIVE_ALIAS_BOUNDARY_BASE,
+} as const;
+
+export const DEVELOPER_CREATE_VRH_ZALAN_ALIAS_BOUNDARY = {
+  ...DEVELOPER_CREATE_VRH_INTERPRETATIVE_ALIAS_BOUNDARY_BASE,
+  governanceMirror: 'EXTRONDOL-WAWE-review-rollout-rollback-release-audit',
 } as const;
 
 export const DEVELOPER_CREATE_VRH_FOUR_PERMANENT_LAYERS = {
@@ -1044,6 +1061,9 @@ export const DEVELOPER_CREATE_MARKAN_CANONICAL_ALIAS =
 export const DEVELOPER_CREATE_PILOT_CANONICAL_ALIAS =
   DEVELOPER_CREATE_VRH_PILOT_ALIAS;
 
+export const DEVELOPER_CREATE_DEVASTATOR_CANONICAL_ALIAS =
+  DEVELOPER_CREATE_VRH_DEVASTATOR_ALIAS;
+
 export const DEVELOPER_CREATE_ELEKTRONSKI_POTPIS_CANONICAL_ALIAS =
   DEVELOPER_CREATE_VRH_ELEKTRONSKI_POTPIS_ALIAS;
 
@@ -1062,6 +1082,9 @@ export const DEVELOPER_CREATE_MARKAN_SCOPE_STATEMENT =
 export const DEVELOPER_CREATE_PILOT_SCOPE_STATEMENT =
   'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == PILOT == additive-only bounded pilot alias bez novih runtime ruta i bez paralelnog source-of-truth sloja; koristi isključivo /api/extrimli/extrem, /api/extrimli/extrondol i /api/extrimli/spaja-kod' as const;
 
+export const DEVELOPER_CREATE_DEVASTATOR_SCOPE_STATEMENT =
+  'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == DEVASTATOR == additive-only bounded devastator alias bez novih runtime ruta i bez paralelnog source-of-truth sloja; koristi isključivo /api/extrimli/extrem, /api/extrimli/extrondol i /api/extrimli/spaja-kod' as const;
+
 export const DEVELOPER_CREATE_ELEKTRONSKI_POTPIS_SCOPE_STATEMENT =
   'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == ELEKTRONSKI POTPIS == additive-only bounded elektronski-potpis alias sa obaveznom potvrdom identiteta, bez novih runtime ruta i bez paralelnog source-of-truth sloja; koristi isključivo /api/extrimli/extrem, /api/extrimli/extrondol i /api/extrimli/spaja-kod' as const;
 
@@ -1079,6 +1102,9 @@ export const DEVELOPER_CREATE_MARKAN_ROLE_CLASSIFICATION =
 
 export const DEVELOPER_CREATE_PILOT_ROLE_CLASSIFICATION =
   'additive-only-bounded-pilot-alias-track' as const;
+
+export const DEVELOPER_CREATE_DEVASTATOR_ROLE_CLASSIFICATION =
+  'additive-only-bounded-devastator-alias-track' as const;
 
 export const DEVELOPER_CREATE_ELEKTRONSKI_POTPIS_ROLE_CLASSIFICATION =
   'additive-only-bounded-elektronski-potpis-alias-track' as const;
@@ -1099,6 +1125,14 @@ export const DEVELOPER_CREATE_PILOT_FALLBACK_INPUTS = [
   'unknown-token',
 ] as const;
 
+export const DEVELOPER_CREATE_DEVASTATOR_FALLBACK_INPUTS = [
+  'NaN',
+  'Infinity',
+  'empty',
+  'conflict',
+  'unknown-token',
+] as const;
+
 export const DEVELOPER_CREATE_ELEKTRONSKI_POTPIS_FALLBACK_INPUTS = [
   'NaN',
   'Infinity',
@@ -1109,6 +1143,14 @@ export const DEVELOPER_CREATE_ELEKTRONSKI_POTPIS_FALLBACK_INPUTS = [
 ] as const;
 
 export const DEVELOPER_CREATE_PILOT_GOVERNANCE_REQUIRED_OUTPUTS = [
+  'rolloutPlan',
+  'rollbackPlan',
+  'humanReviewStatus',
+  'releaseAuditSummary',
+  'downstreamReference',
+] as const;
+
+export const DEVELOPER_CREATE_DEVASTATOR_GOVERNANCE_REQUIRED_OUTPUTS = [
   'rolloutPlan',
   'rollbackPlan',
   'humanReviewStatus',
@@ -1136,6 +1178,9 @@ export const DEVELOPER_CREATE_MARKAN_GOVERNANCE_REQUIRED_OUTPUTS = [
 ] as const;
 
 export const DEVELOPER_CREATE_PILOT_RELEASE_AUDIT_SUMMARY_SIGNAL =
+  'releaseAuditSummary' as const;
+
+export const DEVELOPER_CREATE_DEVASTATOR_RELEASE_AUDIT_SUMMARY_SIGNAL =
   'releaseAuditSummary' as const;
 
 export const DEVELOPER_CREATE_ELEKTRONSKI_POTPIS_RELEASE_AUDIT_SUMMARY_SIGNAL =
@@ -1224,6 +1269,20 @@ export const DEVELOPER_CREATE_MONTEZACIJA_SUMMARY_SAFE_FIELDS = [
 ] as const;
 
 export const DEVELOPER_CREATE_PILOT_SUMMARY_SAFE_FIELDS = [
+  'canonicalAlias',
+  'publicBoundary',
+  'status',
+  'blockerReason',
+  'watchReasons',
+  'reviewPosture',
+  'humanReviewStatus',
+  'rolloutPlan',
+  'rollbackPlan',
+  'releaseAuditSummary',
+  'downstreamReference',
+] as const;
+
+export const DEVELOPER_CREATE_DEVASTATOR_SUMMARY_SAFE_FIELDS = [
   'canonicalAlias',
   'publicBoundary',
   'status',

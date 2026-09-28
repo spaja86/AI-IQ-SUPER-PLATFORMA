@@ -97,6 +97,13 @@ import {
   DEVELOPER_CREATE_KRALJEVSKA_MONTEZACIJA_CANONICAL_ALIAS,
   DEVELOPER_CREATE_MONTEZACIJA_NAD_MONTEZACIJAMA_CANONICAL_ALIAS,
   DEVELOPER_CREATE_MONTEZACIJA_SUMMARY_SAFE_FIELDS,
+  DEVELOPER_CREATE_DEVASTATOR_CANONICAL_ALIAS,
+  DEVELOPER_CREATE_DEVASTATOR_FALLBACK_INPUTS,
+  DEVELOPER_CREATE_DEVASTATOR_GOVERNANCE_REQUIRED_OUTPUTS,
+  DEVELOPER_CREATE_DEVASTATOR_RELEASE_AUDIT_SUMMARY_SIGNAL,
+  DEVELOPER_CREATE_DEVASTATOR_ROLE_CLASSIFICATION,
+  DEVELOPER_CREATE_DEVASTATOR_SCOPE_STATEMENT,
+  DEVELOPER_CREATE_DEVASTATOR_SUMMARY_SAFE_FIELDS,
   DEVELOPER_CREATE_ELEKTRONSKI_POTPIS_CANONICAL_ALIAS,
   DEVELOPER_CREATE_ELEKTRONSKI_POTPIS_FALLBACK_INPUTS,
   DEVELOPER_CREATE_ELEKTRONSKI_POTPIS_GOVERNANCE_REQUIRED_OUTPUTS,
@@ -105,8 +112,11 @@ import {
   DEVELOPER_CREATE_ELEKTRONSKI_POTPIS_SCOPE_STATEMENT,
   DEVELOPER_CREATE_ELEKTRONSKI_POTPIS_SUMMARY_SAFE_FIELDS,
   DEVELOPER_CREATE_VRH_INTERPRETATION_ALIASES,
+  DEVELOPER_CREATE_VRH_ZALAN_ALIAS,
+  DEVELOPER_CREATE_VRH_ZALAN_ALIAS_BOUNDARY,
   DEVELOPER_CREATE_VRH_ELEKTRONSKI_POTPIS_ALIAS,
   DEVELOPER_CREATE_VRH_MARKAN_ALIAS,
+  DEVELOPER_CREATE_VRH_DEVASTATOR_ALIAS,
   DEVELOPER_CREATE_VRH_KRALJEVSKA_MONTEZACIJA_ALIAS,
   DEVELOPER_CREATE_MARKAN_CANONICAL_ALIAS,
   DEVELOPER_CREATE_MARKAN_SCOPE_STATEMENT,
@@ -167,6 +177,44 @@ async function runTests(): Promise<void> {
         DEVELOPER_CREATE_VRH_NAVIGACIONI_SISTEM_SA_TREKEROM_ALIAS,
       ),
       'NAVIGACIONI SISTEM SA TREKEROM alias must be present in interpretation aliases',
+    );
+  });
+
+  await test('zalan alias stays additive-only and summary-safe', () => {
+    assert(
+      DEVELOPER_CREATE_VRH_INTERPRETATION_ALIASES.includes(DEVELOPER_CREATE_VRH_ZALAN_ALIAS),
+      'ZALAN alias must be present in interpretation aliases',
+    );
+    assert(
+      DEVELOPER_CREATE_VRH_ZALAN_ALIAS_BOUNDARY.classification === 'documentation-and-interpretative-alias-only',
+      'ZALAN alias classification must stay documentation/interpretative only',
+    );
+    assert(
+      DEVELOPER_CREATE_VRH_ZALAN_ALIAS_BOUNDARY.noNewRuntimeModule
+        && DEVELOPER_CREATE_VRH_ZALAN_ALIAS_BOUNDARY.noParallelSourceOfTruth,
+      'ZALAN alias must not introduce runtime modules or parallel source-of-truth',
+    );
+    assert(
+      DEVELOPER_CREATE_VRH_ZALAN_ALIAS_BOUNDARY.ownershipSplit.dokDikFor === 'EXTREM'
+        && DEVELOPER_CREATE_VRH_ZALAN_ALIAS_BOUNDARY.ownershipSplit.dakDuk === 'EXTRONDOL'
+        && DEVELOPER_CREATE_VRH_ZALAN_ALIAS_BOUNDARY.ownershipSplit.spajaKod === 'audit-safe-summary-only',
+      'ZALAN alias ownership split must stay unchanged',
+    );
+    assert(
+      DEVELOPER_CREATE_VRH_ZALAN_ALIAS_BOUNDARY.governanceMirror === 'EXTRONDOL-WAWE-review-rollout-rollback-release-audit',
+      'ZALAN alias governance mirror must stay on EXTRONDOL WAWE/review/rollout/rollback/release-audit flow',
+    );
+    assert(
+      manifest.includes('`DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == ZALAN`'),
+      'manifest ZALAN alias mention missing',
+    );
+    assert(
+      vrhDoc.includes('`ZALAN`'),
+      'VRH extension doc ZALAN alias mention missing',
+    );
+    assert(
+      multiRepoLinks.includes('Developer/Create `ZALAN` interpretativni alias'),
+      'multi-repo links ZALAN downstream entry missing',
     );
   });
 
@@ -1155,6 +1203,53 @@ async function runTests(): Promise<void> {
       DEVELOPER_CREATE_MARKAN_SUMMARY_SAFE_FIELDS,
       ['canonicalAlias', 'readinessStatus', 'blockerReason', 'watchReasons', 'humanReviewStatus', 'rolloutPlan', 'rollbackPlan', 'releaseAuditSummary', 'downstreamReference'],
       'unexpected MARKAN summary-safe fields',
+  await test('devastator alias remains additive-only, governance-ready, and summary-safe', () => {
+    assert(
+      DEVELOPER_CREATE_VRH_INTERPRETATION_ALIASES.includes(DEVELOPER_CREATE_VRH_DEVASTATOR_ALIAS),
+      'DEVASTATOR alias must remain part of the VRH interpretation aliases',
+    );
+    assert(
+      DEVELOPER_CREATE_DEVASTATOR_CANONICAL_ALIAS === DEVELOPER_CREATE_VRH_DEVASTATOR_ALIAS,
+      'DEVASTATOR canonical alias mismatch',
+    );
+    assert(
+      DEVELOPER_CREATE_DEVASTATOR_SCOPE_STATEMENT.includes('additive-only bounded devastator alias'),
+      'DEVASTATOR scope statement must preserve additive-only bounded boundary',
+    );
+    assert(
+      DEVELOPER_CREATE_DEVASTATOR_ROLE_CLASSIFICATION === 'additive-only-bounded-devastator-alias-track',
+      'DEVASTATOR role classification mismatch',
+    );
+    assertArrayEquals(
+      DEVELOPER_CREATE_DEVASTATOR_FALLBACK_INPUTS,
+      ['NaN', 'Infinity', 'empty', 'conflict', 'unknown-token'],
+      'unexpected DEVASTATOR fallback inputs',
+    );
+    assertArrayEquals(
+      DEVELOPER_CREATE_DEVASTATOR_GOVERNANCE_REQUIRED_OUTPUTS,
+      ['rolloutPlan', 'rollbackPlan', 'humanReviewStatus', 'releaseAuditSummary', 'downstreamReference'],
+      'unexpected DEVASTATOR governance outputs',
+    );
+    assert(
+      DEVELOPER_CREATE_DEVASTATOR_RELEASE_AUDIT_SUMMARY_SIGNAL === 'releaseAuditSummary',
+      'DEVASTATOR release audit summary signal mismatch',
+    );
+    assertArrayEquals(
+      DEVELOPER_CREATE_DEVASTATOR_SUMMARY_SAFE_FIELDS,
+      [
+        'canonicalAlias',
+        'publicBoundary',
+        'status',
+        'blockerReason',
+        'watchReasons',
+        'reviewPosture',
+        'humanReviewStatus',
+        'rolloutPlan',
+        'rollbackPlan',
+        'releaseAuditSummary',
+        'downstreamReference',
+      ],
+      'unexpected DEVASTATOR summary-safe fields',
     );
   });
 
