@@ -1173,8 +1173,8 @@ async function runTests(): Promise<void> {
         'preserve-ownership-split-dok-dik-for-extrem-dak-duk-extrondol-spaja-kod-summary-only',
         'require-ready-watch-blocked-automation-summary-and-deterministic-fallback-boundaries',
         'require-human-review-wawe-freeze-rollout-rollback-and-release-audit-before-promotion',
-        'allow-ai-iq-sibling-visibility-without-new-source-of-truth',
         'require-summary-only-downstream-reference-docs-multi-repo-links-for-io-openui-ao',
+        'allow-ai-iq-sibling-visibility-only-as-summary-safe-additive-interpretation',
       ],
       'unexpected AUTOMATIZACIJA PROGRAMSKOG JEZIKA acceptance criteria',
     );

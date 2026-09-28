@@ -2642,10 +2642,10 @@ export const DEVELOPER_CREATE_AUTOMATIZACIJA_PROGRAMSKOG_JEZIKA_CANONICAL_ALIAS 
   DEVELOPER_CREATE_VRH_AUTOMATIZACIJA_PROGRAMSKOG_JEZIKA_ALIAS;
 
 export const DEVELOPER_CREATE_AUTOMATIZACIJA_PROGRAMSKOG_JEZIKA_SCOPE_STATEMENT =
-  'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == AUTOMATIZACIJA PROGRAMSKOG JEZIKA (SPROVOĐENJE AUTOMATSKOG RADA PROGRAMSKOG JEZIKA) == additive-only bounded automation-language traka bez novih runtime ruta, bez novog source-of-truth sloja i bez izvoza sirovih internih formula; ownership ostaje zaključan na DOK/DIK/FOR -> EXTREM (technical readiness + automation summary), DAK/DUK -> EXTRONDOL (WAWE/freeze/promotion/rollback/release-audit), SPAJA KOD -> audit-safe summary-only.' as const;
+  'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == AUTOMATIZACIJA PROGRAMSKOG JEZIKA (SPROVOĐENJE AUTOMATSKOG RADA PROGRAMSKOG JEZIKA) == additive-only bounded automation-language traka bez novih runtime ruta, bez novog runtime engine-a, bez novog source-of-truth sloja i bez izvoza sirovih internih formula; ownership ostaje zaključan na DOK/DIK/FOR -> EXTREM (technical readiness + automation summary), DAK/DUK -> EXTRONDOL (WAWE/freeze/promotion/rollback/release-audit), SPAJA KOD -> audit-safe summary-only.' as const;
 
 export const DEVELOPER_CREATE_AUTOMATIZACIJA_PROGRAMSKOG_JEZIKA_ROLE_CLASSIFICATION =
-  'additive-only-bounded-automatizacija-programskog-jezika-track' as const;
+  'additive-only-bounded-automation-language-track' as const;
 
 export const DEVELOPER_CREATE_AUTOMATIZACIJA_PROGRAMSKOG_JEZIKA_READINESS_LANGUAGE = [
   'READY',

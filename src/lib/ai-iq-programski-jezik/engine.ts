@@ -243,7 +243,6 @@ function buildIntegrationProfile(params: {
     prosparitetDeklasiraneMatriceEkstaza,
     dekoracijeObjektnihPrimesa,
     gamingDsl,
-    automatizacijaProgramskogJezika,
     sinemetricko,
   );
   const consistencyEscalationScore = round2(
