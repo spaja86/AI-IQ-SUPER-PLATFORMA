@@ -898,12 +898,7 @@ function deriveKraljevskaPlataBlockerReason(
   payoutReadinessStatus: 'READY' | 'WATCH' | 'BLOCKED',
   paymentVerificationPosture: ExtrimliExtrondolReport['paymentVerification']['status'],
   paymentVerification: ExtrimliExtrondolReport['paymentVerification'],
-  sourceBlockerReason: string | null = null,
 ): string | null {
-  if (sourceBlockerReason) {
-    return sourceBlockerReason;
-  }
-
   if (approvalStatus === 'BLOCKED') {
     return 'approval-status-blocked';
   }
@@ -966,7 +961,6 @@ function buildKraljevskaPlataStartPackageSummary(
     startPackage.payoutReadinessStatus,
     paymentVerificationPosture,
     paymentVerification,
-    startPackage.blockerReason,
   );
 
   return {
