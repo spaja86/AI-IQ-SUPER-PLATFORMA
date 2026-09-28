@@ -128,6 +128,9 @@ import type {
   DEVELOPER_CREATE_FUNCTION_REGISTRY_SUMMARY_SAFE_FIELDS,
   DEVELOPER_CREATE_FUNCTION_REGISTRY_FALLBACK_RULES,
   DEVELOPER_CREATE_FUNCTION_REGISTRY_GOVERNANCE_REQUIRED_OUTPUTS,
+  DEVELOPER_CREATE_SPAJANIKOPENEVOLUTION_FUNCTION_BACKUP_SCOPE_LOCK,
+  DEVELOPER_CREATE_SPAJANIKOPENEVOLUTION_FUNCTION_BACKUP_OWNERSHIP_SPLIT,
+  DEVELOPER_CREATE_SPAJANIKOPENEVOLUTION_FUNCTION_BACKUP_SUMMARY_SAFE_FIELDS,
   DEVELOPER_CREATE_RADIO_CANONICAL_ALIAS,
   DEVELOPER_CREATE_RADIO_DOWNSTREAM_POLICY,
   DEVELOPER_CREATE_RADIO_FALLBACK_INPUTS,
@@ -2855,6 +2858,16 @@ export interface ExtrimliDokDikDakDukConsistencyHealth {
         humanReviewStatus: 'required-before-promotion';
         rolloutPlan: string;
         rollbackPlan: string;
+        downstreamReference: 'docs/MULTI-REPO-LINKS.md -> spaja86/IO-OPENUI-AO (summary-only)';
+      };
+      spajaNikOpenEvolutionFunctionBackup: {
+        scopeLock: typeof DEVELOPER_CREATE_SPAJANIKOPENEVOLUTION_FUNCTION_BACKUP_SCOPE_LOCK;
+        ownershipSplit: typeof DEVELOPER_CREATE_SPAJANIKOPENEVOLUTION_FUNCTION_BACKUP_OWNERSHIP_SPLIT;
+        summarySafeFields: typeof DEVELOPER_CREATE_SPAJANIKOPENEVOLUTION_FUNCTION_BACKUP_SUMMARY_SAFE_FIELDS;
+        status: 'READY' | 'WATCH' | 'BLOCKED';
+        blockerReason: string | null;
+        watchReasons: string[];
+        fallbackPosture: string;
         downstreamReference: 'docs/MULTI-REPO-LINKS.md -> spaja86/IO-OPENUI-AO (summary-only)';
       };
     };

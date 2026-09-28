@@ -67,6 +67,9 @@ import {
   DEVELOPER_CREATE_FUNCTION_REGISTRY_SUMMARY_SAFE_FIELDS,
   DEVELOPER_CREATE_FUNCTION_REGISTRY_FALLBACK_RULES,
   DEVELOPER_CREATE_FUNCTION_REGISTRY_GOVERNANCE_REQUIRED_OUTPUTS,
+  DEVELOPER_CREATE_SPAJANIKOPENEVOLUTION_FUNCTION_BACKUP_SCOPE_LOCK,
+  DEVELOPER_CREATE_SPAJANIKOPENEVOLUTION_FUNCTION_BACKUP_OWNERSHIP_SPLIT,
+  DEVELOPER_CREATE_SPAJANIKOPENEVOLUTION_FUNCTION_BACKUP_SUMMARY_SAFE_FIELDS,
   DEVELOPER_CREATE_REPO_WIDE_RADNI_TAKT_SUPPLEMENTAL_AUDIT_ROLE,
   DEVELOPER_CREATE_REPO_WIDE_RADNI_TAKT_SUPPLEMENTAL_DOWNSTREAM_FIELDS,
   DEVELOPER_CREATE_REPO_WIDE_RADNI_TAKT_SUPPLEMENTAL_SCOPE_LOCK,
@@ -440,6 +443,34 @@ async function runTests(): Promise<void> {
       DEVELOPER_CREATE_FUNCTION_REGISTRY_FALLBACK_RULES.routeBoundaryViolation
         === 'set-BLOCKED-and-keep-existing-route-boundary',
       'FUNCTION REGISTRY route-boundary fallback mismatch',
+    );
+    assert(
+      DEVELOPER_CREATE_SPAJANIKOPENEVOLUTION_FUNCTION_BACKUP_SCOPE_LOCK
+        === 'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == SpajaNikOpenEvolution == FUNCTION BACKUP',
+      'SpajaNikOpenEvolution FUNCTION BACKUP scope lock mismatch',
+    );
+    assert(
+      DEVELOPER_CREATE_SPAJANIKOPENEVOLUTION_FUNCTION_BACKUP_OWNERSHIP_SPLIT.dokDikFor === 'EXTREM'
+        && DEVELOPER_CREATE_SPAJANIKOPENEVOLUTION_FUNCTION_BACKUP_OWNERSHIP_SPLIT.dakDuk === 'EXTRONDOL'
+        && DEVELOPER_CREATE_SPAJANIKOPENEVOLUTION_FUNCTION_BACKUP_OWNERSHIP_SPLIT.spajaKod === 'audit-safe-summary-only',
+      'SpajaNikOpenEvolution FUNCTION BACKUP ownership split must remain unchanged',
+    );
+    assertArrayEquals(
+      DEVELOPER_CREATE_SPAJANIKOPENEVOLUTION_FUNCTION_BACKUP_SUMMARY_SAFE_FIELDS,
+      ['status', 'blockerReason', 'watchReasons', 'reviewPosture', 'downstreamReference', 'fallbackPosture'],
+      'unexpected SpajaNikOpenEvolution FUNCTION BACKUP summary-safe fields',
+    );
+    assert(
+      manifest.includes('SpajaNikOpenEvolution == FUNCTION BACKUP'),
+      'manifest SpajaNikOpenEvolution FUNCTION BACKUP mention missing',
+    );
+    assert(
+      vrhDoc.includes('SpajaNikOpenEvolution == FUNCTION BACKUP'),
+      'VRH extension SpajaNikOpenEvolution FUNCTION BACKUP mention missing',
+    );
+    assert(
+      multiRepoLinks.includes('spajaKod.publicSignals.spajaNikOpenEvolutionFunctionBackupStatus'),
+      'multi-repo links SpajaNikOpenEvolution FUNCTION BACKUP downstream entry missing',
     );
   });
 

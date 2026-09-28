@@ -160,6 +160,9 @@ import {
   DEVELOPER_CREATE_FUNCTION_REGISTRY_SUMMARY_SAFE_FIELDS,
   DEVELOPER_CREATE_FUNCTION_REGISTRY_FALLBACK_RULES,
   DEVELOPER_CREATE_FUNCTION_REGISTRY_GOVERNANCE_REQUIRED_OUTPUTS,
+  DEVELOPER_CREATE_SPAJANIKOPENEVOLUTION_FUNCTION_BACKUP_SCOPE_LOCK,
+  DEVELOPER_CREATE_SPAJANIKOPENEVOLUTION_FUNCTION_BACKUP_OWNERSHIP_SPLIT,
+  DEVELOPER_CREATE_SPAJANIKOPENEVOLUTION_FUNCTION_BACKUP_SUMMARY_SAFE_FIELDS,
   DEVELOPER_CREATE_REPO_WIDE_RADNI_TAKT_SUPPLEMENTAL_AUDIT_ROLE,
   DEVELOPER_CREATE_REPO_WIDE_RADNI_TAKT_SUPPLEMENTAL_SCOPE_LOCK,
   DEVELOPER_CREATE_REPO_WIDE_RADNI_TAKT_SUPPLEMENTAL_THEMATIC_SIGNALS,
@@ -7224,6 +7227,16 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
             'Rollback to canonical PETLJE mapping by preserving existing loop runners and summary-only boundary.',
           downstreamReference: 'docs/MULTI-REPO-LINKS.md -> spaja86/IO-OPENUI-AO (summary-only)',
         },
+        spajaNikOpenEvolutionFunctionBackup: {
+          scopeLock: DEVELOPER_CREATE_SPAJANIKOPENEVOLUTION_FUNCTION_BACKUP_SCOPE_LOCK,
+          ownershipSplit: DEVELOPER_CREATE_SPAJANIKOPENEVOLUTION_FUNCTION_BACKUP_OWNERSHIP_SPLIT,
+          summarySafeFields: DEVELOPER_CREATE_SPAJANIKOPENEVOLUTION_FUNCTION_BACKUP_SUMMARY_SAFE_FIELDS,
+          status: 'BLOCKED',
+          blockerReason: 'FUNCTION BACKUP remains blocked until canonical PETLJE readiness is synchronized.',
+          watchReasons: [],
+          fallbackPosture: DEVELOPER_CREATE_FUNCTION_REGISTRY_FALLBACK_RULES.missingInputContract,
+          downstreamReference: 'docs/MULTI-REPO-LINKS.md -> spaja86/IO-OPENUI-AO (summary-only)',
+        },
       },
       napoleonDiskaveriSelectionTrack: {
         canonicalAlias: DEVELOPER_CREATE_NAPOLEON_DISKAVERI_CANONICAL_ALIAS,
@@ -12895,6 +12908,22 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
         'Function registry remains in WATCH while one or more operations still depend on deterministic fallback confirmation.',
       ]
       : [];
+  const spajaNikOpenEvolutionFunctionBackupOperation =
+    functionRegistryTrack.operations.find((operation) => operation.key === 'FUNCTION BACKUP');
+  const spajaNikOpenEvolutionFunctionBackupStatus =
+    spajaNikOpenEvolutionFunctionBackupOperation?.status ?? functionRegistryTrack.readiness.status;
+  functionRegistryTrack.spajaNikOpenEvolutionFunctionBackup.status = spajaNikOpenEvolutionFunctionBackupStatus;
+  functionRegistryTrack.spajaNikOpenEvolutionFunctionBackup.blockerReason =
+    spajaNikOpenEvolutionFunctionBackupStatus === 'BLOCKED'
+      ? 'SpajaNikOpenEvolution FUNCTION BACKUP remains blocked until canonical EXTREM backup readiness and PETLJE mapping are aligned.'
+      : null;
+  functionRegistryTrack.spajaNikOpenEvolutionFunctionBackup.watchReasons =
+    spajaNikOpenEvolutionFunctionBackupStatus === 'WATCH'
+      ? ['SpajaNikOpenEvolution FUNCTION BACKUP stays in WATCH while deterministic fallback confirmation is active.']
+      : [];
+  functionRegistryTrack.spajaNikOpenEvolutionFunctionBackup.fallbackPosture =
+    spajaNikOpenEvolutionFunctionBackupOperation?.fallbackRule
+    ?? DEVELOPER_CREATE_FUNCTION_REGISTRY_FALLBACK_RULES.missingInputContract;
   const eksperimentProgramskiJezikSignalStatuses = [
     dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.audioVisualKontrabasPackage.readinessStatus,
     dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.implementationPackage.smartProgramskiJezikPackage.technicalProfile.status,
