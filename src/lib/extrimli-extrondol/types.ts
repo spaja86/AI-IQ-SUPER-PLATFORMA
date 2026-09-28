@@ -1114,6 +1114,26 @@ export interface ExtrimliExtrondolDeveloperAndCreateRepoWideReflectionGovernance
     ];
     downstreamReference: 'docs/MULTI-REPO-LINKS.md -> spaja86/IO-OPENUI-AO (summary-only)';
   };
+  functionRegistryTrack: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['functionRegistryTrack'] & {
+    sourceOfTruth: '/api/extrimli/extrem';
+    governanceSource: '/api/extrimli/extrondol';
+    publicBoundary: '/api/extrimli/spaja-kod';
+    currentWave: ExtrimliExtrondolWaweStage;
+    eligibleNextWave: ExtrimliExtrondolWaweStage;
+    promotionFreeze: boolean;
+    reviewRequiredBeforeWideRollout: boolean;
+    reviewPosture: 'ALIGNED' | 'WATCH' | 'REVIEW_REQUIRED';
+    rolloutPlan: string;
+    rollbackPlan: string;
+    humanReviewStatus: 'required-before-promotion';
+    acceptanceEvidence: readonly [
+      'developerAndCreateRepoWideReflection.functionRegistryTrack',
+      'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.functionRegistryTrack',
+      'spajaKod.publicSignals.functionRegistryStatus',
+      'spajaKod.developerAndCreateImplementationPackage.functionRegistrySummary'
+    ];
+    downstreamReference: 'docs/MULTI-REPO-LINKS.md -> spaja86/IO-OPENUI-AO (summary-only)';
+  };
   saradnjaReadyPackage: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['saradnjaReadyPackage'] & {
     sourceOfTruth: '/api/extrimli/extrem';
     governanceSource: '/api/extrimli/extrondol';
@@ -3242,6 +3262,7 @@ export interface ExtrimliSpajaKodPublicFacade {
     ispitivanjeSvegaStoJeFunkcionalnoStatus: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['ispitivanjeSvegaStoJeFunkcionalnoTrack']['readinessSignal']['status'];
     sarkazamPrivrednaGranaDigitalizmaStatus: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['sarkazamPrivrednaGranaDigitalizmaTrack']['reflectionSignal']['status'];
     notes1450Status: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['notes1450Track']['readinessSignal']['status'];
+    functionRegistryStatus: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['functionRegistryTrack']['readiness']['status'];
     saradnjaReadyStatus: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['saradnjaReadyPackage']['readinessSignal']['status'];
     leksikonStatus: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['leksikonTrack']['readinessSignal']['status'];
     promocijeTiketiBonusiPropusniceAdministrativniBonusiStatus: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['promocijeTiketiBonusiPropusniceAdministrativniBonusiTrack']['readinessSignal']['status'];
@@ -3378,6 +3399,7 @@ export interface ExtrimliSpajaKodPublicFacade {
       'publicSignals.ispitivanjeSvegaStoJeFunkcionalnoStatus',
       'publicSignals.sarkazamPrivrednaGranaDigitalizmaStatus',
       'publicSignals.notes1450Status',
+      'publicSignals.functionRegistryStatus',
       'publicSignals.leksikonStatus',
       'publicSignals.promocijeTiketiBonusiPropusniceAdministrativniBonusiStatus',
       'publicSignals.kraljevskoTakmicenjeStatus',
@@ -3419,6 +3441,7 @@ export interface ExtrimliSpajaKodPublicFacade {
       'developerAndCreateImplementationPackage.ispitivanjeSvegaStoJeFunkcionalnoSummary',
       'developerAndCreateImplementationPackage.sarkazamPrivrednaGranaDigitalizmaSummary',
       'developerAndCreateImplementationPackage.notes1450Summary',
+      'developerAndCreateImplementationPackage.functionRegistrySummary',
       'developerAndCreateImplementationPackage.saradnjaReadySummary',
       'developerAndCreateImplementationPackage.leksikonSummary',
       'developerAndCreateImplementationPackage.promocijeTiketiBonusiPropusniceAdministrativniBonusiSummary',
@@ -3517,6 +3540,17 @@ export interface ExtrimliSpajaKodPublicFacade {
       downstreamReference: 'docs/MULTI-REPO-LINKS.md -> spaja86/IO-OPENUI-AO (summary-only)';
       publicBoundary: 'audit-safe-summary-only';
       businessValueSummary: string;
+    };
+    functionRegistrySummary: {
+      canonicalAlias: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['functionRegistryTrack']['canonicalAlias'];
+      status: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['functionRegistryTrack']['readiness']['status'];
+      blockerReason: string | null;
+      watchReasons: string[];
+      returnToStartStatus: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['functionRegistryTrack']['controlPatterns']['returnToStart']['status'];
+      repeatStatus: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['functionRegistryTrack']['controlPatterns']['repeat']['status'];
+      reviewPosture: 'ALIGNED' | 'WATCH' | 'REVIEW_REQUIRED';
+      downstreamReference: 'docs/MULTI-REPO-LINKS.md -> spaja86/IO-OPENUI-AO (summary-only)';
+      publicBoundary: 'audit-safe-summary-only';
     };
     saradnjaReadySummary: {
       canonicalAlias: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['saradnjaReadyPackage']['canonicalAlias'];

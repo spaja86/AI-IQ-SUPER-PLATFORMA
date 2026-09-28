@@ -18,6 +18,57 @@ export const DEVELOPER_CREATE_REPO_WIDE_BOUNDED_VOCABULARY = [
 export const DEVELOPER_CREATE_REPO_WIDE_BOUNDED_VOCABULARY_PHRASE =
   'EXTRIMLI EXTRONDOL EXTREM DOK DUK DAK DIK FOR' as const;
 
+export const DEVELOPER_CREATE_FUNCTION_REGISTRY_SCOPE_STATEMENT =
+  'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == FUNCTION REGISTRY == additive-only bounded function map over existing EXTREM/EXTRONDOL/SPAJA KOD layers, bez novih runtime ruta i bez paralelnog source-of-truth sloja' as const;
+
+export const DEVELOPER_CREATE_FUNCTION_REGISTRY_OPERATION_KEYS = [
+  'FUNCTION PETLJE',
+  'FUNCTION RETURN_TO_START',
+  'FUNCTION DIREKT',
+  'FUNCTION INDIREKT',
+  'FUNCTION THIS',
+  'FUNCTION CREATE',
+  'FUNCTION DELETE',
+  'FUNCTION REPEAT',
+  'FUNCTION IN',
+  'FUNCTION BACKUP',
+  'FUNCTION ENTER',
+] as const;
+
+export const DEVELOPER_CREATE_FUNCTION_REGISTRY_EXTENSIBLE_ALIAS_SET = [
+  'i tako dalje',
+  'FUNCTION CREAT',
+  'FUNCTION DELET',
+  'FUNCTION REAPIT',
+  'FUNCTION INDRIEKT',
+] as const;
+
+export const DEVELOPER_CREATE_FUNCTION_REGISTRY_SUMMARY_SAFE_FIELDS = [
+  'status',
+  'readiness',
+  'blockerReason',
+  'humanReviewStatus',
+  'rolloutPlan',
+  'rollbackPlan',
+  'downstreamReference',
+] as const;
+
+export const DEVELOPER_CREATE_FUNCTION_REGISTRY_FALLBACK_RULES = {
+  unknownFunctionAlias: 'fallback-to-FUNCTION-PETLJE-with-WATCH',
+  missingInputContract: 'fallback-to-existing-canonical-petlja-input-with-WATCH',
+  nonDeterministicState: 'set-BLOCKED-and-require-human-review',
+  routeBoundaryViolation: 'set-BLOCKED-and-keep-existing-route-boundary',
+} as const;
+
+export const DEVELOPER_CREATE_FUNCTION_REGISTRY_GOVERNANCE_REQUIRED_OUTPUTS = [
+  'readiness',
+  'blockerReason',
+  'humanReviewStatus',
+  'rolloutPlan',
+  'rollbackPlan',
+  'downstreamReference',
+] as const;
+
 export const DEVELOPER_CREATE_REPO_WIDE_RADNI_TAKT_SUPPLEMENTAL_SCOPE_LOCK =
   'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == RADNI TAKT DA SE ODRAZI NA SVEMU U REPOZITORIJUMU' as const;
 

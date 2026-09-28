@@ -138,6 +138,22 @@ async function runTests(): Promise<void> {
     assert(lock.ownershipBoundary.dok === 'EXTREM' && lock.ownershipBoundary.for === 'EXTREM' && lock.ownershipBoundary.dak === 'EXTRONDOL', 'DOK/FOR/DAK ownership split mismatch');
     assert(lock.mandatoryArtifacts.docs.includes('docs/AI-IQ-PROGRAMSKI-JEZIK.md'), 'AI IQ mandatory doc artifact missing');
     assert(lock.mandatoryArtifacts.docs.includes('docs/EXTRIMLI-VRH-PROGRAMSKOG-EKVILADENTA.md'), 'VRH mandatory doc artifact missing');
+  });
+
+  await test('default report maps Function Registry track into EXTREM readiness ownership', () => {
+    const report = getExtrimliExtremProfilerReport();
+    const lock = report.versionRoadmap.developerCreateLock;
+    const track = report.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.functionRegistryTrack;
+
+    assert(track.additiveOnly, 'function registry must remain additive-only');
+    assert(track.noNewRuntimeRoutes, 'function registry must not add runtime routes');
+    assert(track.noParallelSourceOfTruth, 'function registry must not create parallel source-of-truth');
+    assert(track.boundedVocabularyPhrase === 'EXTRIMLI EXTRONDOL EXTREM DOK DUK DAK DIK FOR', 'function registry bounded phrase mismatch');
+    assert(track.sourceOfTruthRoutes.join(',') === '/api/extrimli/extrem,/api/extrimli/extrondol,/api/extrimli/spaja-kod', 'function registry source-of-truth routes mismatch');
+    assert(track.readiness.status === 'READY' || track.readiness.status === 'WATCH' || track.readiness.status === 'BLOCKED', 'function registry readiness status must be canonical');
+    assert(track.operations.length === 11, 'function registry must expose 11 canonical operations');
+    assert(track.operations.some((item) => item.key === 'FUNCTION RETURN_TO_START'), 'function registry return-to-start operation missing');
+    assert(track.operations.some((item) => item.key === 'FUNCTION REPEAT'), 'function registry repeat operation missing');
     assert(lock.mandatoryArtifacts.docs.includes('docs/EXTRIMLI-METRICKO-PROGRAMIRANJE.md'), 'METRIČKO mandatory doc artifact missing');
     assert(lock.mandatoryArtifacts.docs.includes('docs/EXTRIMLI-SINEMETRICKO-PROGRAMIRANJE.md'), 'SINEMETRIČKO mandatory doc artifact missing');
     assert(lock.mandatoryArtifacts.docs.includes('docs/EXTRIMLI-PARADIJOGONALNO-PROGRAMIRANJE.md'), 'PARADIJOGONALNO mandatory doc artifact missing');

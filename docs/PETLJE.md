@@ -51,6 +51,24 @@ Dozvoljeni alias-i ulaza:
 - `AKTIVEJT` → `ACTIVATED`
 - `DED` → `DEAD`
 
+## Function Registry map (Developer/Create bounded layer)
+
+Sledeće bounded funkcije ostaju mapirane na postojeći PETLJE kontrakt (additive-only, bez novih runtime ruta):
+
+- `FUNCTION PETLJE` → `UMBREL PETLJA` (kanonski orkestrator)
+- `FUNCTION RETURN_TO_START` → `DOK PETLJA` (reset na start boundary)
+- `FUNCTION DIREKT` → `DIREKT PETLJA`
+- `FUNCTION INDIREKT` → `INDIREKT PETLJA`
+- `FUNCTION THIS` → `DIK PETLJA` fallback kontrola
+- `FUNCTION CREATE` → `DOK PETLJA` bounded input/output režim
+- `FUNCTION DELETE` → `DOK PETLJA` bounded input/output režim
+- `FUNCTION REPEAT` → `UMBREL PETLJA` (ponavljanje kroz postojeću koordinaciju)
+- `FUNCTION IN` → `DIK PETLJA` bounded ulazni režim
+- `FUNCTION BACKUP` → `DOK PETLJA` fallback zaštita
+- `FUNCTION ENTER` → `DOK PETLJA` ulazni trigger
+
+Proširivi alias set (`i tako dalje`) mora ostati bounded i ulazi kroz fallback pravila (`unknown/missing/non-deterministic` → `WATCH` ili `BLOCKED`), bez menjanja kanonskih petlji i bez novog source-of-truth sloja.
+
 ## Značenje i cilj
 
 1. **FOR PETLJA**

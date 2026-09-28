@@ -37,6 +37,28 @@ Ovaj program standardizuje **developer/create** rad nad EXTRIMLI + EXTRONDOL + E
 - Downstream prema `spaja86/IO-OPENUI-AO` ostaje isključivo summary-safe.
 - Uspešna naracija znači da ista priča ostaje prepoznatljiva kroz `docs + types + routes + tests + workflows`; ako zahteva novo objašnjenje u svakom fajlu, naracija nije stabilizovana.
 
+## 1.1.1) Function Registry (additive-only bounded map)
+
+- `DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == FUNCTION REGISTRY` je additive-only bounded funkcionalna mapa, bez novih runtime ruta i bez paralelnog source-of-truth sloja.
+- Zaključane operacije su:
+  - `FUNCTION PETLJE`
+  - `FUNCTION RETURN_TO_START`
+  - `FUNCTION DIREKT`
+  - `FUNCTION INDIREKT`
+  - `FUNCTION THIS`
+  - `FUNCTION CREATE`
+  - `FUNCTION DELETE`
+  - `FUNCTION REPEAT`
+  - `FUNCTION IN`
+  - `FUNCTION BACKUP`
+  - `FUNCTION ENTER`
+- Proširivi alias set (`i tako dalje`) ostaje bounded i fallback-orijentisan (npr. `FUNCTION CREAT`, `FUNCTION DELET`, `FUNCTION REAPIT`, `FUNCTION INDRIEKT`).
+- Ownership split ostaje zaključan:
+  - `DOK + DIK + FOR` → `EXTREM` (tehnički readiness signali i mapiranje na PETLJE),
+  - `DAK + DUK` → `EXTRONDOL` (governance, human-review, rollout/rollback, release audit),
+  - `SPAJA KOD` → samo audit-safe summary.
+- Obavezni governance izlazi po funkciji ostaju: `readiness`, `blockerReason`, `humanReviewStatus`, `rolloutPlan`, `rollbackPlan`, `downstreamReference`.
+
 ## 1.2) Canonical implementation lock (Plan 1–6)
 
 - Scope lock ostaje jedini centar: `DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA`, uz bounded frazu `EXTRIMLI EXTRONDOL EXTREM DOK DUK DAK DIK FOR`.

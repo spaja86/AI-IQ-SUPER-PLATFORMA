@@ -117,6 +117,12 @@ import type {
   DEVELOPER_CREATE_PROMOCIJE_TIKETI_BONUSI_PROPUSNICE_ADMINISTRATIVNI_BONUSI_SUMMARY_SAFE_FIELDS,
   DEVELOPER_CREATE_RANDOM_SELECTION_SCOPE_STATEMENT,
   DEVELOPER_CREATE_REPO_WIDE_BOUNDED_VOCABULARY_PHRASE,
+  DEVELOPER_CREATE_FUNCTION_REGISTRY_SCOPE_STATEMENT,
+  DEVELOPER_CREATE_FUNCTION_REGISTRY_OPERATION_KEYS,
+  DEVELOPER_CREATE_FUNCTION_REGISTRY_EXTENSIBLE_ALIAS_SET,
+  DEVELOPER_CREATE_FUNCTION_REGISTRY_SUMMARY_SAFE_FIELDS,
+  DEVELOPER_CREATE_FUNCTION_REGISTRY_FALLBACK_RULES,
+  DEVELOPER_CREATE_FUNCTION_REGISTRY_GOVERNANCE_REQUIRED_OUTPUTS,
   DEVELOPER_CREATE_RADIO_CANONICAL_ALIAS,
   DEVELOPER_CREATE_RADIO_DOWNSTREAM_POLICY,
   DEVELOPER_CREATE_RADIO_FALLBACK_INPUTS,
@@ -2789,6 +2795,56 @@ export interface ExtrimliDokDikDakDukConsistencyHealth {
         dokDikFor: 'EXTREM';
         dakDuk: 'EXTRONDOL';
         spajaKod: 'audit-safe-summary-only';
+      };
+    };
+    functionRegistryTrack: {
+      canonicalAlias: 'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == FUNCTION REGISTRY';
+      scopeStatement: typeof DEVELOPER_CREATE_FUNCTION_REGISTRY_SCOPE_STATEMENT;
+      boundedVocabularyPhrase: typeof DEVELOPER_CREATE_REPO_WIDE_BOUNDED_VOCABULARY_PHRASE;
+      operationKeys: typeof DEVELOPER_CREATE_FUNCTION_REGISTRY_OPERATION_KEYS;
+      extensibleAliasSet: typeof DEVELOPER_CREATE_FUNCTION_REGISTRY_EXTENSIBLE_ALIAS_SET;
+      summarySafeFields: typeof DEVELOPER_CREATE_FUNCTION_REGISTRY_SUMMARY_SAFE_FIELDS;
+      governanceRequiredOutputs: typeof DEVELOPER_CREATE_FUNCTION_REGISTRY_GOVERNANCE_REQUIRED_OUTPUTS;
+      fallbackRules: typeof DEVELOPER_CREATE_FUNCTION_REGISTRY_FALLBACK_RULES;
+      additiveOnly: true;
+      noNewRuntimeRoutes: true;
+      noParallelSourceOfTruth: true;
+      sourceOfTruthRoutes: readonly ['/api/extrimli/extrem', '/api/extrimli/extrondol', '/api/extrimli/spaja-kod'];
+      ownershipLock: {
+        dokDikFor: 'EXTREM';
+        dakDuk: 'EXTRONDOL';
+        spajaKod: 'audit-safe-summary-only';
+      };
+      operations: Array<{
+        key: typeof DEVELOPER_CREATE_FUNCTION_REGISTRY_OPERATION_KEYS[number];
+        mappedPetljaKind: ExtrimliExtremPetljaSignalName | 'UMBREL PETLJA' | 'NO_DIRECT_PETLJA_BINDING';
+        status: 'READY' | 'WATCH' | 'BLOCKED';
+        inputContract: string;
+        outputContract: string;
+        fallbackRule: string;
+      }>;
+      controlPatterns: {
+        returnToStart: {
+          pattern: 'reset-loop-input-to-start-boundary';
+          status: 'READY' | 'WATCH' | 'BLOCKED';
+          mappedPetljaKind: 'DOK PETLJA';
+          rule: string;
+        };
+        repeat: {
+          pattern: 'repeat-last-valid-loop-under-existing-umbrel-coordination';
+          status: 'READY' | 'WATCH' | 'BLOCKED';
+          mappedPetljaKind: 'UMBREL PETLJA';
+          rule: string;
+        };
+      };
+      readiness: {
+        status: 'READY' | 'WATCH' | 'BLOCKED';
+        blockerReason: string | null;
+        watchReasons: string[];
+        humanReviewStatus: 'required-before-promotion';
+        rolloutPlan: string;
+        rollbackPlan: string;
+        downstreamReference: 'docs/MULTI-REPO-LINKS.md -> spaja86/IO-OPENUI-AO (summary-only)';
       };
     };
     napoleonDiskaveriSelectionTrack: {

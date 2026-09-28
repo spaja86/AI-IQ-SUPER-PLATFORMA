@@ -147,6 +147,12 @@ import {
   DEVELOPER_CREATE_GAP_REGISTRY_ROADMAP_STAGE_IDS,
   DEVELOPER_CREATE_RANDOM_SELECTION_SCOPE_STATEMENT,
   DEVELOPER_CREATE_REPO_WIDE_BOUNDED_VOCABULARY_PHRASE,
+  DEVELOPER_CREATE_FUNCTION_REGISTRY_SCOPE_STATEMENT,
+  DEVELOPER_CREATE_FUNCTION_REGISTRY_OPERATION_KEYS,
+  DEVELOPER_CREATE_FUNCTION_REGISTRY_EXTENSIBLE_ALIAS_SET,
+  DEVELOPER_CREATE_FUNCTION_REGISTRY_SUMMARY_SAFE_FIELDS,
+  DEVELOPER_CREATE_FUNCTION_REGISTRY_FALLBACK_RULES,
+  DEVELOPER_CREATE_FUNCTION_REGISTRY_GOVERNANCE_REQUIRED_OUTPUTS,
   DEVELOPER_CREATE_REPO_WIDE_RADNI_TAKT_SUPPLEMENTAL_AUDIT_ROLE,
   DEVELOPER_CREATE_REPO_WIDE_RADNI_TAKT_SUPPLEMENTAL_SCOPE_LOCK,
   DEVELOPER_CREATE_REPO_WIDE_RADNI_TAKT_SUPPLEMENTAL_THEMATIC_SIGNALS,
@@ -7126,6 +7132,74 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
         noNewRuntimeRoutes: true,
         ownershipLock: DEVELOPER_CREATE_VRH_MAPE_UMA_OWNERSHIP_LOCK,
       },
+      functionRegistryTrack: {
+        canonicalAlias: 'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == FUNCTION REGISTRY',
+        scopeStatement: DEVELOPER_CREATE_FUNCTION_REGISTRY_SCOPE_STATEMENT,
+        boundedVocabularyPhrase: DEVELOPER_CREATE_REPO_WIDE_BOUNDED_VOCABULARY_PHRASE,
+        operationKeys: DEVELOPER_CREATE_FUNCTION_REGISTRY_OPERATION_KEYS,
+        extensibleAliasSet: DEVELOPER_CREATE_FUNCTION_REGISTRY_EXTENSIBLE_ALIAS_SET,
+        summarySafeFields: DEVELOPER_CREATE_FUNCTION_REGISTRY_SUMMARY_SAFE_FIELDS,
+        governanceRequiredOutputs: DEVELOPER_CREATE_FUNCTION_REGISTRY_GOVERNANCE_REQUIRED_OUTPUTS,
+        fallbackRules: DEVELOPER_CREATE_FUNCTION_REGISTRY_FALLBACK_RULES,
+        additiveOnly: true,
+        noNewRuntimeRoutes: true,
+        noParallelSourceOfTruth: true,
+        sourceOfTruthRoutes: ['/api/extrimli/extrem', '/api/extrimli/extrondol', '/api/extrimli/spaja-kod'],
+        ownershipLock: {
+          dokDikFor: 'EXTREM',
+          dakDuk: 'EXTRONDOL',
+          spajaKod: 'audit-safe-summary-only',
+        },
+        operations: DEVELOPER_CREATE_FUNCTION_REGISTRY_OPERATION_KEYS.map((key) => ({
+          key,
+          mappedPetljaKind:
+            key === 'FUNCTION PETLJE'
+            || key === 'FUNCTION RETURN_TO_START'
+            || key === 'FUNCTION THIS'
+            || key === 'FUNCTION CREATE'
+            || key === 'FUNCTION DELETE'
+            || key === 'FUNCTION IN'
+            || key === 'FUNCTION BACKUP'
+            || key === 'FUNCTION ENTER'
+              ? 'DOK PETLJA'
+              : key === 'FUNCTION REPEAT'
+                ? 'UMBREL PETLJA'
+              : key === 'FUNCTION DIREKT'
+                ? 'DIREKT PETLJA'
+                : key === 'FUNCTION INDIREKT'
+                  ? 'INDIREKT PETLJA'
+                  : 'NO_DIRECT_PETLJA_BINDING',
+          status: 'BLOCKED' as const,
+          inputContract: 'canonical-petlja-input',
+          outputContract: 'ready-watch-blocked-summary',
+          fallbackRule: DEVELOPER_CREATE_FUNCTION_REGISTRY_FALLBACK_RULES.unknownFunctionAlias,
+        })),
+        controlPatterns: {
+          returnToStart: {
+            pattern: 'reset-loop-input-to-start-boundary',
+            status: 'BLOCKED',
+            mappedPetljaKind: 'DOK PETLJA',
+            rule: 'Reset to canonical start input when FUNCTION RETURN_TO_START is requested.',
+          },
+          repeat: {
+            pattern: 'repeat-last-valid-loop-under-existing-umbrel-coordination',
+            status: 'BLOCKED',
+            mappedPetljaKind: 'UMBREL PETLJA',
+            rule: 'Repeat only through existing UMBREL coordination and deterministic fallback.',
+          },
+        },
+        readiness: {
+          status: 'BLOCKED',
+          blockerReason: 'Function registry status remains blocked until PETLJE signal readiness is synchronized.',
+          watchReasons: [],
+          humanReviewStatus: 'required-before-promotion',
+          rolloutPlan:
+            'Promote function registry through existing EXTRONDOL WAWE phases after READY/WATCH/BLOCKED mapping is verified.',
+          rollbackPlan:
+            'Rollback to canonical PETLJE mapping by preserving existing loop runners and summary-only boundary.',
+          downstreamReference: 'docs/MULTI-REPO-LINKS.md -> spaja86/IO-OPENUI-AO (summary-only)',
+        },
+      },
       napoleonDiskaveriSelectionTrack: {
         canonicalAlias: DEVELOPER_CREATE_NAPOLEON_DISKAVERI_CANONICAL_ALIAS,
         scopeStatement: DEVELOPER_CREATE_NAPOLEON_DISKAVERI_SCOPE_STATEMENT,
@@ -12642,6 +12716,63 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
       : [];
   dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.napoleonDiskaveriSelectionTrack.randomSelectionPosture.reviewPosture =
     dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.napoleonDiskaveriSelectionTrack.humanReviewPosture;
+  const functionRegistrySignalStatusMap = new Map(
+    petljeSignals.signals.map((signal) => [signal.kind, signal.status] as const),
+  );
+  const functionRegistrySignalStatusByKind = (
+    kind: 'DOK PETLJA' | 'DIK PETLJA' | 'DIREKT PETLJA' | 'INDIREKT PETLJA' | 'UMBREL PETLJA',
+  ): 'READY' | 'WATCH' | 'BLOCKED' =>
+    functionRegistrySignalStatusMap.get(kind) ?? 'WATCH';
+  const functionRegistryDokStatus = functionRegistrySignalStatusByKind('DOK PETLJA');
+  const functionRegistryDikStatus = functionRegistrySignalStatusByKind('DIK PETLJA');
+  const functionRegistryDirektStatus = functionRegistrySignalStatusByKind('DIREKT PETLJA');
+  const functionRegistryIndirektStatus = functionRegistrySignalStatusByKind('INDIREKT PETLJA');
+  const functionRegistryUmbrelSignalStatus = functionRegistrySignalStatusByKind('UMBREL PETLJA');
+  const functionRegistryUmbrelStatus = aggregateReadinessStatus([
+    functionRegistryUmbrelSignalStatus,
+    functionRegistryDokStatus,
+    functionRegistryDikStatus,
+    functionRegistryDirektStatus,
+    functionRegistryIndirektStatus,
+  ]);
+  const functionRegistryTrack =
+    dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.functionRegistryTrack;
+  functionRegistryTrack.operations = functionRegistryTrack.operations.map((operation) => ({
+    ...operation,
+    status:
+      operation.key === 'FUNCTION DIREKT'
+        ? functionRegistryDirektStatus
+        : operation.key === 'FUNCTION INDIREKT'
+          ? functionRegistryIndirektStatus
+          : operation.key === 'FUNCTION RETURN_TO_START'
+            ? functionRegistryDokStatus
+            : operation.key === 'FUNCTION REPEAT'
+              ? functionRegistryUmbrelStatus
+              : operation.key === 'FUNCTION PETLJE'
+                ? functionRegistryUmbrelStatus
+                : functionRegistryDikStatus,
+    fallbackRule:
+      operation.key === 'FUNCTION RETURN_TO_START'
+        ? 'fallback-to-canonical-start-boundary-on-DOK'
+        : operation.key === 'FUNCTION REPEAT'
+          ? 'fallback-to-UMBREL-coordination-and-last-valid-output'
+          : DEVELOPER_CREATE_FUNCTION_REGISTRY_FALLBACK_RULES.missingInputContract,
+  }));
+  functionRegistryTrack.controlPatterns.returnToStart.status = functionRegistryDokStatus;
+  functionRegistryTrack.controlPatterns.repeat.status = functionRegistryUmbrelStatus;
+  functionRegistryTrack.readiness.status = aggregateReadinessStatus(
+    functionRegistryTrack.operations.map((operation) => operation.status),
+  );
+  functionRegistryTrack.readiness.blockerReason =
+    functionRegistryTrack.readiness.status === 'BLOCKED'
+      ? 'At least one function registry operation is BLOCKED under current canonical PETLJE readiness.'
+      : null;
+  functionRegistryTrack.readiness.watchReasons =
+    functionRegistryTrack.readiness.status === 'WATCH'
+      ? [
+        'Function registry remains in WATCH while one or more operations still depend on deterministic fallback confirmation.',
+      ]
+      : [];
   const eksperimentProgramskiJezikSignalStatuses = [
     dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.audioVisualKontrabasPackage.readinessStatus,
     dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.implementationPackage.smartProgramskiJezikPackage.technicalProfile.status,
