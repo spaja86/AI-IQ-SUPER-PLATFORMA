@@ -15206,9 +15206,11 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
     && potraznjaSveStoNamTrebaTrack.summarySafePublicFields.includes('demandCoverageStatus')
     && potraznjaSveStoNamTrebaTrack.summarySafePublicFields.includes('fallbackInputStatus');
   const potraznjaEcosystemBoundaryReady =
-    potraznjaSveStoNamTrebaTrack.scopeStatement.includes('kapacitete, partnere i resurse')
-    && potraznjaSveStoNamTrebaTrack.boundedVocabularyPhrase === 'EXTRIMLI EXTRONDOL EXTREM DOK DUK DAK DIK FOR'
-    && potraznjaSveStoNamTrebaTrack.downstreamReference === 'docs/MULTI-REPO-LINKS.md -> spaja86/IO-OPENUI-AO (summary-only)';
+    potraznjaSveStoNamTrebaTrack.scopeStatement
+      === DEVELOPER_CREATE_BIZNIS_POTRAZNJA_SVE_STO_NAM_TREBA_SCOPE_STATEMENT
+    && potraznjaSveStoNamTrebaTrack.boundedVocabularyPhrase
+      === DEVELOPER_CREATE_BIZNIS_POTRAZNJA_SVE_STO_NAM_TREBA_BOUNDED_VOCABULARY_PHRASE
+    && potraznjaSveStoNamTrebaTrack.downstreamReference === biznisTrack.downstreamReference;
   const potraznjaResourcePartnerCapacityReady =
     potraznjaSveStoNamTrebaTrack.noNewRuntimeRoutes
     && potraznjaSveStoNamTrebaTrack.noParallelSourceOfTruth
