@@ -12954,14 +12954,17 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
     'INOVACE is normalized into bounded innovation context until deterministic fallback is verified.',
     'SPAJICNIKOLA is normalized to SpajaNikOpenEvolution scope until ownership lock evidence is complete.',
   ];
-  cliFunctionBackdownTrack.status = spajaNikOpenEvolutionFunctionBackupStatus;
+  cliFunctionBackdownTrack.status =
+    cliFunctionBackdownTrack.paymentGateStatus === 'PAID_CONFIRMED'
+      ? spajaNikOpenEvolutionFunctionBackupStatus
+      : 'BLOCKED';
   cliFunctionBackdownTrack.blockerReason =
-    spajaNikOpenEvolutionFunctionBackupStatus === 'BLOCKED'
-      ? spajaNikOpenEvolutionFunctionBackupOperation
-        ? 'FUNCTION BACKDOWN remains blocked until normalized FUNCTION BACKUP reaches canonical PETLJE readiness.'
-        : 'FUNCTION BACKDOWN cannot be promoted because normalized FUNCTION BACKUP is missing from FUNCTION REGISTRY operations.'
-      : cliFunctionBackdownTrack.paymentGateStatus !== 'PAID_CONFIRMED'
-        ? 'FUNCTION BACKDOWN stays payment-gated in EXTREM until EXTRONDOL confirms PAID governance evidence.'
+    cliFunctionBackdownTrack.paymentGateStatus !== 'PAID_CONFIRMED'
+      ? 'FUNCTION BACKDOWN stays payment-gated in EXTREM until EXTRONDOL confirms PAID governance evidence.'
+      : spajaNikOpenEvolutionFunctionBackupStatus === 'BLOCKED'
+        ? spajaNikOpenEvolutionFunctionBackupOperation
+          ? 'FUNCTION BACKDOWN remains blocked until normalized FUNCTION BACKUP reaches canonical PETLJE readiness.'
+          : 'FUNCTION BACKDOWN cannot be promoted because normalized FUNCTION BACKUP is missing from FUNCTION REGISTRY operations.'
         : null;
   cliFunctionBackdownTrack.watchReasons =
     spajaNikOpenEvolutionFunctionBackupStatus === 'WATCH'
