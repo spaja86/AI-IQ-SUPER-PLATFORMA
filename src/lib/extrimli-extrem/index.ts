@@ -107,6 +107,8 @@ import {
   DEVELOPER_CREATE_EKSPIRIJANS_PROGRAMSKOG_JEZIKA_ROLE_CLASSIFICATION,
   DEVELOPER_CREATE_EKSPIRIJANS_PROGRAMSKOG_JEZIKA_SCOPE_STATEMENT,
   DEVELOPER_CREATE_EKSPIRIJANS_PROGRAMSKOG_JEZIKA_SUMMARY_SAFE_FIELDS,
+  DEVELOPER_CREATE_VRH_BERMUDSKI_TROUGAO_LICNO_ISKUSTVO_FOTOMORGANE_ALIAS,
+  DEVELOPER_CREATE_VRH_BERMUDSKI_TROUGAO_LICNO_ISKUSTVO_FOTOMORGANE_THEMATIC_SIGNALS,
   DEVELOPER_CREATE_LEKSIKON_BOUNDED_SIGNALS,
   DEVELOPER_CREATE_LEKSIKON_CANONICAL_ALIAS,
   DEVELOPER_CREATE_LEKSIKON_DOWNSTREAM_POLICY,
@@ -875,6 +877,14 @@ const EXTRIMLI_EXTREM_DEVELOPER_CREATE_NARASTAJ_U_PRIRODNOM_CVATU_COVECANSTVO_SC
   'covecanstvo-narastaj-u-prirodnom-cvatu-epilog-blagodarim-developer-create' as const;
 const EXTRIMLI_EXTREM_DEVELOPER_CREATE_NARASTAJ_U_PRIRODNOM_CVATU_COVECANSTVO_CITATION =
   'ČOVEČANSTVO — NARAŠTAJ U PRIRODNOM CVATU ostaje additive-only supplemental audit/reference vizuel: seme, uslovi, rast, procvat, prilika i blagodarnost mapiraju se isključivo kao bounded documentation/evidence sloj unutar postojećeg Developer/Create ⇄ VRH ⇄ Radni Takt modela, bez novih ruta, novih formula ili promene ownership split-a.' as const;
+const EXTRIMLI_EXTREM_DEVELOPER_CREATE_BERMUDSKI_TROUGAO_FOTOMORGANE_VISUAL_REFERENCE =
+  'documentation-only://bermudski-trougao-licno-iskustvo-fotomorgane-prirodni-morski-epilog' as const;
+const EXTRIMLI_EXTREM_DEVELOPER_CREATE_BERMUDSKI_TROUGAO_FOTOMORGANE_CANONICAL_NARRATIVE_ID =
+  'bermudski-trougao-licno-iskustvo-fotomorgane-developer-create' as const;
+const EXTRIMLI_EXTREM_DEVELOPER_CREATE_BERMUDSKI_TROUGAO_FOTOMORGANE_SCENARIO_ID =
+  'bermudski-trougao-more-oseka-vedro-nebo-fotomorgane-developer-create' as const;
+const EXTRIMLI_EXTREM_DEVELOPER_CREATE_BERMUDSKI_TROUGAO_FOTOMORGANE_CITATION =
+  'BERMUDSKI TROUGAO / LIČNO ISKUSTVO / FOTOMORGANE ostaje additive-only supplemental audit/reference narativ: topologija prirodnog naraštaja mora sa preklapanjem okeanske oseke pod vedrim nebom, vizuelni trag nepostojanja objekta i lično iskustvo mapiraju se isključivo kao bounded documentation/evidence sloj unutar postojećeg Developer/Create ⇄ VRH ⇄ Radni Takt modela; fotomorgane ostaju samo narativno/vizuelno objašnjenje na ovoj lokaciji, ne novi physics engine, ne medicinska tvrdnja i ne nova domen-specifična formula.' as const;
 const EXTRIMLI_EXTREM_DEVELOPER_CREATE_SEME_COVECANSTVO_VISUAL_REFERENCE =
   'https://github.com/user-attachments/assets/9267f560-0b94-4911-9ac4-783c7c7deb3f' as const;
 const EXTRIMLI_EXTREM_DEVELOPER_CREATE_SEME_COVECANSTVO_CANONICAL_NARRATIVE_ID =
@@ -9603,6 +9613,39 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
               'gratitude',
               'epilog',
             ],
+            auditRole: 'additive-audit-reference-only',
+          },
+          {
+            title: 'ČOVEČANSTVO — BERMUDSKI TROUGAO / LIČNO ISKUSTVO / FOTOMORGANE',
+            canonicalNarrativeId:
+              EXTRIMLI_EXTREM_DEVELOPER_CREATE_BERMUDSKI_TROUGAO_FOTOMORGANE_CANONICAL_NARRATIVE_ID,
+            citation: EXTRIMLI_EXTREM_DEVELOPER_CREATE_BERMUDSKI_TROUGAO_FOTOMORGANE_CITATION,
+            visualReference:
+              EXTRIMLI_EXTREM_DEVELOPER_CREATE_BERMUDSKI_TROUGAO_FOTOMORGANE_VISUAL_REFERENCE,
+            interpretation:
+              'Documentation-only bermudski-trougao / lično-iskustvo / fotomorgane package remains additive-only supplemental audit/reference evidence over sea, low-tide, clear-sky, and visual-trace themes; raw interpretation stays repo-local and does not introduce a new physics, medical, or source-of-truth runtime layer.',
+            sourceStatement:
+              DEVELOPER_CREATE_VRH_BERMUDSKI_TROUGAO_LICNO_ISKUSTVO_FOTOMORGANE_ALIAS,
+            imageToSignalProfile: {
+              scenarioId:
+                EXTRIMLI_EXTREM_DEVELOPER_CREATE_BERMUDSKI_TROUGAO_FOTOMORGANE_SCENARIO_ID,
+              theme: 'ČOVEČANSTVO — FOTOMORGANE',
+              narrativeInput:
+                EXTRIMLI_EXTREM_DEVELOPER_CREATE_BERMUDSKI_TROUGAO_FOTOMORGANE_CITATION,
+              ownershipLock: {
+                dokDikFor: 'EXTREM',
+                dakDuk: 'EXTRONDOL',
+                spajaKod: 'audit-safe-summary-only',
+              },
+              signalOutputs: {
+                readinessScore: 0,
+                readinessStatus: 'BLOCKED',
+                conflictPressurePercent: 100,
+                deterministicFallbackRequired: true,
+              },
+            },
+            thematicSignals:
+              [...DEVELOPER_CREATE_VRH_BERMUDSKI_TROUGAO_LICNO_ISKUSTVO_FOTOMORGANE_THEMATIC_SIGNALS],
             auditRole: 'additive-audit-reference-only',
           },
           {
