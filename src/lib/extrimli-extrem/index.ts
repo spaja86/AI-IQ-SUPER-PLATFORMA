@@ -15282,7 +15282,9 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
   biznisTrack.readinessSignal.enterpriseMappingStatus = biznisEnterpriseMappingStatus;
   biznisTrack.readinessSignal.fallbackInputStatus = biznisFallbackInputStatus;
   biznisTrack.readinessSignal.deterministicFallbackRequired =
-    biznisStatus !== 'READY' || biznisDemandReadiness.fallbackInputStatus !== 'READY';
+    biznisStatus !== 'READY'
+    || biznisFallbackInputStatus !== 'READY'
+    || biznisDemandReadiness.fallbackInputStatus !== 'READY';
   biznisTrack.businessSummary =
     'BIZNIS ostaje additive-only bounded paket za ekosistemsku referentnu listu poslovnih kapaciteta, partnerstava i enterprise mapiranja unutar Kompanija SPAJA / Digitalna Industrija, a podtraka POTRAŽNJA SVE ŠTO NAM TREBA vodi summary-safe stanje potreba i pokrivenosti bez novih finansijskih formula i bez operativnog execution engine-a.';
   biznisTrack.governanceReadinessSummary =
