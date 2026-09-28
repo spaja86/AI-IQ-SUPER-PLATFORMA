@@ -56,6 +56,7 @@ Ovaj program standardizuje **developer/create** rad nad EXTRIMLI + EXTRONDOL + E
   - `FUNCTION ENTER`
 - Proširivi alias set (`i tako dalje`) ostaje bounded i fallback-orijentisan (npr. `FUNCTION CREAT`, `FUNCTION DELET`, `FUNCTION REAPIT`, `FUNCTION INDRIEKT`).
 - `DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == SpajaNikOpenEvolution == FUNCTION BACKUP` ostaje additive-only bounded podtraka postojećeg FUNCTION REGISTRY lock-a: bez novih runtime ruta, bez paralelnog source-of-truth sloja i sa nepromenjenim ownership split-om (`DOK/DIK/FOR -> EXTREM`, `DAK/DUK -> EXTRONDOL`, `SPAJA KOD -> summary-only`).
+- `DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == CLI == FUNCTION BACKDOWN.INOVACE.PAID.SPAJICNIKOLA` ulazi kao additive-only bounded CLI podtraka: normalizacija je zaključana (`BACKDOWN -> BACKUP`, `INOVACE -> INNOVATION_CONTEXT`, `SPAJICNIKOLA -> SpajaNikOpenEvolution`), ownership split ostaje isti (`DOK/DIK/FOR -> EXTREM`, `DAK/DUK -> EXTRONDOL`, `SPAJA KOD -> summary-only`), a promocija ostaje blokirana dok `PAID` governance gate nije potvrđen kroz postojeći EXTRONDOL payment-verification dokazni tok.
 - Ownership split ostaje zaključan:
   - `DOK + DIK + FOR` → `EXTREM` (tehnički readiness signali i mapiranje na PETLJE),
   - `DAK + DUK` → `EXTRONDOL` (governance, human-review, rollout/rollback, release audit),

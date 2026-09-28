@@ -131,6 +131,9 @@ import type {
   DEVELOPER_CREATE_SPAJANIKOPENEVOLUTION_FUNCTION_BACKUP_SCOPE_LOCK,
   DEVELOPER_CREATE_SPAJANIKOPENEVOLUTION_FUNCTION_BACKUP_OWNERSHIP_SPLIT,
   DEVELOPER_CREATE_SPAJANIKOPENEVOLUTION_FUNCTION_BACKUP_SUMMARY_SAFE_FIELDS,
+  DEVELOPER_CREATE_CLI_BACKDOWN_INOVACE_PAID_SPAJICNIKOLA_SCOPE_LOCK,
+  DEVELOPER_CREATE_CLI_BACKDOWN_INOVACE_PAID_SPAJICNIKOLA_NORMALIZATION,
+  DEVELOPER_CREATE_CLI_BACKDOWN_INOVACE_PAID_SPAJICNIKOLA_SUMMARY_SAFE_FIELDS,
   DEVELOPER_CREATE_RADIO_CANONICAL_ALIAS,
   DEVELOPER_CREATE_RADIO_DOWNSTREAM_POLICY,
   DEVELOPER_CREATE_RADIO_FALLBACK_INPUTS,
@@ -2867,6 +2870,22 @@ export interface ExtrimliDokDikDakDukConsistencyHealth {
         status: 'READY' | 'WATCH' | 'BLOCKED';
         blockerReason: string | null;
         watchReasons: string[];
+        fallbackPosture: string;
+        downstreamReference: 'docs/MULTI-REPO-LINKS.md -> spaja86/IO-OPENUI-AO (summary-only)';
+      };
+      cliFunctionBackdownInovacePaidSpajicnikola: {
+        scopeLock: typeof DEVELOPER_CREATE_CLI_BACKDOWN_INOVACE_PAID_SPAJICNIKOLA_SCOPE_LOCK;
+        normalization: typeof DEVELOPER_CREATE_CLI_BACKDOWN_INOVACE_PAID_SPAJICNIKOLA_NORMALIZATION;
+        ownershipSplit: typeof DEVELOPER_CREATE_SPAJANIKOPENEVOLUTION_FUNCTION_BACKUP_OWNERSHIP_SPLIT;
+        summarySafeFields: typeof DEVELOPER_CREATE_CLI_BACKDOWN_INOVACE_PAID_SPAJICNIKOLA_SUMMARY_SAFE_FIELDS;
+        additiveOnly: true;
+        noNewRuntimeRoutes: true;
+        noParallelSourceOfTruth: true;
+        status: 'READY' | 'WATCH' | 'BLOCKED';
+        blockerReason: string | null;
+        watchReasons: string[];
+        humanReviewStatus: 'required-before-promotion';
+        paymentGateStatus: 'PAID_REQUIRED' | 'PAID_PENDING' | 'PAID_CONFIRMED';
         fallbackPosture: string;
         downstreamReference: 'docs/MULTI-REPO-LINKS.md -> spaja86/IO-OPENUI-AO (summary-only)';
       };

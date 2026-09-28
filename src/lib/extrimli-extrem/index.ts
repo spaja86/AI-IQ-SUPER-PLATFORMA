@@ -163,6 +163,9 @@ import {
   DEVELOPER_CREATE_SPAJANIKOPENEVOLUTION_FUNCTION_BACKUP_SCOPE_LOCK,
   DEVELOPER_CREATE_SPAJANIKOPENEVOLUTION_FUNCTION_BACKUP_OWNERSHIP_SPLIT,
   DEVELOPER_CREATE_SPAJANIKOPENEVOLUTION_FUNCTION_BACKUP_SUMMARY_SAFE_FIELDS,
+  DEVELOPER_CREATE_CLI_BACKDOWN_INOVACE_PAID_SPAJICNIKOLA_SCOPE_LOCK,
+  DEVELOPER_CREATE_CLI_BACKDOWN_INOVACE_PAID_SPAJICNIKOLA_NORMALIZATION,
+  DEVELOPER_CREATE_CLI_BACKDOWN_INOVACE_PAID_SPAJICNIKOLA_SUMMARY_SAFE_FIELDS,
   DEVELOPER_CREATE_REPO_WIDE_RADNI_TAKT_SUPPLEMENTAL_AUDIT_ROLE,
   DEVELOPER_CREATE_REPO_WIDE_RADNI_TAKT_SUPPLEMENTAL_SCOPE_LOCK,
   DEVELOPER_CREATE_REPO_WIDE_RADNI_TAKT_SUPPLEMENTAL_THEMATIC_SIGNALS,
@@ -7237,6 +7240,26 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
           fallbackPosture: DEVELOPER_CREATE_FUNCTION_REGISTRY_FALLBACK_RULES.missingInputContract,
           downstreamReference: 'docs/MULTI-REPO-LINKS.md -> spaja86/IO-OPENUI-AO (summary-only)',
         },
+        cliFunctionBackdownInovacePaidSpajicnikola: {
+          scopeLock: DEVELOPER_CREATE_CLI_BACKDOWN_INOVACE_PAID_SPAJICNIKOLA_SCOPE_LOCK,
+          normalization: DEVELOPER_CREATE_CLI_BACKDOWN_INOVACE_PAID_SPAJICNIKOLA_NORMALIZATION,
+          ownershipSplit: DEVELOPER_CREATE_SPAJANIKOPENEVOLUTION_FUNCTION_BACKUP_OWNERSHIP_SPLIT,
+          summarySafeFields: DEVELOPER_CREATE_CLI_BACKDOWN_INOVACE_PAID_SPAJICNIKOLA_SUMMARY_SAFE_FIELDS,
+          additiveOnly: true,
+          noNewRuntimeRoutes: true,
+          noParallelSourceOfTruth: true,
+          status: 'BLOCKED',
+          blockerReason:
+            'FUNCTION BACKDOWN is normalized to FUNCTION BACKUP and remains blocked until canonical PETLJE readiness and PAID governance evidence are synchronized.',
+          watchReasons: [
+            'INOVACE is normalized into bounded innovation context until deterministic fallback is verified.',
+            'SPAJICNIKOLA is normalized to SpajaNikOpenEvolution scope until ownership lock evidence is complete.',
+          ],
+          humanReviewStatus: 'required-before-promotion',
+          paymentGateStatus: 'PAID_REQUIRED',
+          fallbackPosture: DEVELOPER_CREATE_FUNCTION_REGISTRY_FALLBACK_RULES.unknownFunctionAlias,
+          downstreamReference: 'docs/MULTI-REPO-LINKS.md -> spaja86/IO-OPENUI-AO (summary-only)',
+        },
       },
       napoleonDiskaveriSelectionTrack: {
         canonicalAlias: DEVELOPER_CREATE_NAPOLEON_DISKAVERI_CANONICAL_ALIAS,
@@ -12926,6 +12949,27 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
   functionRegistryTrack.spajaNikOpenEvolutionFunctionBackup.fallbackPosture =
     spajaNikOpenEvolutionFunctionBackupOperation?.fallbackRule
     ?? DEVELOPER_CREATE_FUNCTION_REGISTRY_FALLBACK_RULES.missingInputContract;
+  const cliFunctionBackdownTrack = functionRegistryTrack.cliFunctionBackdownInovacePaidSpajicnikola;
+  const cliFunctionBackdownBaseWatchReasons = [
+    'INOVACE is normalized into bounded innovation context until deterministic fallback is verified.',
+    'SPAJICNIKOLA is normalized to SpajaNikOpenEvolution scope until ownership lock evidence is complete.',
+  ];
+  cliFunctionBackdownTrack.status = spajaNikOpenEvolutionFunctionBackupStatus;
+  cliFunctionBackdownTrack.blockerReason =
+    spajaNikOpenEvolutionFunctionBackupStatus === 'BLOCKED'
+      ? spajaNikOpenEvolutionFunctionBackupOperation
+        ? 'FUNCTION BACKDOWN remains blocked until normalized FUNCTION BACKUP reaches canonical PETLJE readiness.'
+        : 'FUNCTION BACKDOWN cannot be promoted because normalized FUNCTION BACKUP is missing from FUNCTION REGISTRY operations.'
+      : null;
+  cliFunctionBackdownTrack.watchReasons =
+    cliFunctionBackdownTrack.status === 'WATCH'
+      ? [
+        ...cliFunctionBackdownBaseWatchReasons,
+        'FUNCTION BACKDOWN stays in WATCH while normalized FUNCTION BACKUP fallback confirmation is active.',
+      ]
+      : cliFunctionBackdownTrack.status === 'READY' || cliFunctionBackdownTrack.status === 'BLOCKED'
+        ? [...cliFunctionBackdownBaseWatchReasons]
+        : [];
   const eksperimentProgramskiJezikSignalStatuses = [
     dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.audioVisualKontrabasPackage.readinessStatus,
     dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.implementationPackage.smartProgramskiJezikPackage.technicalProfile.status,

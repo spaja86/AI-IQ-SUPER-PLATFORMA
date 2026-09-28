@@ -167,6 +167,27 @@ async function runTests(): Promise<void> {
     assert(track.operations.length === 11, 'function registry must expose 11 canonical operations');
     assert(track.operations.some((item) => item.key === 'FUNCTION RETURN_TO_START'), 'function registry return-to-start operation missing');
     assert(track.operations.some((item) => item.key === 'FUNCTION REPEAT'), 'function registry repeat operation missing');
+    assert(
+      track.cliFunctionBackdownInovacePaidSpajicnikola.scopeLock
+        === 'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == CLI == FUNCTION BACKDOWN.INOVACE.PAID.SPAJICNIKOLA',
+      'CLI function scope lock mismatch',
+    );
+    assert(
+      track.cliFunctionBackdownInovacePaidSpajicnikola.normalization.segmentNormalization.BACKDOWN === 'BACKUP',
+      'CLI function BACKDOWN normalization mismatch',
+    );
+    assert(
+      track.cliFunctionBackdownInovacePaidSpajicnikola.normalization.segmentNormalization.INOVACE === 'INNOVATION_CONTEXT',
+      'CLI function INOVACE normalization mismatch',
+    );
+    assert(
+      track.cliFunctionBackdownInovacePaidSpajicnikola.normalization.segmentNormalization.SPAJICNIKOLA === 'SpajaNikOpenEvolution',
+      'CLI function SPAJICNIKOLA normalization mismatch',
+    );
+    assert(
+      track.cliFunctionBackdownInovacePaidSpajicnikola.paymentGateStatus === 'PAID_REQUIRED',
+      'CLI function payment gate baseline must start in PAID_REQUIRED',
+    );
     assert(lock.mandatoryArtifacts.docs.includes('docs/EXTRIMLI-METRICKO-PROGRAMIRANJE.md'), 'METRIČKO mandatory doc artifact missing');
     assert(lock.mandatoryArtifacts.docs.includes('docs/EXTRIMLI-SINEMETRICKO-PROGRAMIRANJE.md'), 'SINEMETRIČKO mandatory doc artifact missing');
     assert(lock.mandatoryArtifacts.docs.includes('docs/EXTRIMLI-PARADIJOGONALNO-PROGRAMIRANJE.md'), 'PARADIJOGONALNO mandatory doc artifact missing');
