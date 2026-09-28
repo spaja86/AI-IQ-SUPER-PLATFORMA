@@ -11729,14 +11729,19 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
   const kraljevskaPlataStartApprovalStatus = resolveDeveloperCreateExtensionStatus(
     kraljevskaDopunaReadinessScore,
   );
+  const kraljevskaPlataStartWeeklyReadinessStatus = aggregateReadinessStatus([
+    kraljevskaPlataStartApprovalStatus,
+    kraljevskiAktBezbednostiReadinessStatus,
+    dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.status,
+  ]);
   const kraljevskaPlataStartBlockerReason =
     kraljevskaPlataStartApprovalStatus === 'BLOCKED'
       ? 'approval-status-blocked'
       : kraljevskaPlataStartApprovalStatus === 'WATCH'
         ? 'approval-status-watch'
-        : privredniAktQuarterlyMarketInput.status === 'BLOCKED'
+        : kraljevskaPlataStartWeeklyReadinessStatus === 'BLOCKED'
           ? 'payout-readiness-blocked'
-          : privredniAktQuarterlyMarketInput.status === 'WATCH'
+          : kraljevskaPlataStartWeeklyReadinessStatus === 'WATCH'
             ? 'payout-readiness-watch'
             : null;
   dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.kraljevskiDrustveniPoredak = {
@@ -11943,7 +11948,7 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
           roleClassification: DEVELOPER_CREATE_KRALJEVSKA_PLATA_START_ROLE_CLASSIFICATION,
           boundedVocabularyPhrase: DEVELOPER_CREATE_REPO_WIDE_BOUNDED_VOCABULARY_PHRASE,
           approvalStatus: kraljevskaPlataStartApprovalStatus,
-          payoutReadinessStatus: privredniAktQuarterlyMarketInput.status,
+          payoutReadinessStatus: kraljevskaPlataStartWeeklyReadinessStatus,
           paymentVerificationPosture: 'required-governance-gate',
           blockerReason: kraljevskaPlataStartBlockerReason,
           reviewPosture: 'human-review-required',
