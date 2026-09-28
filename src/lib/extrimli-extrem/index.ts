@@ -13567,14 +13567,14 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
     || dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.deterministicFallbackRequired;
   automatskaPopravkaSvegaTrack.blockerReason =
     automatskaPopravkaSvegaStatus === 'BLOCKED'
-      ? normalizedAutomatskaPopravkaSvegaRuntimeInput
+      ? automatskaPopravkaSvegaUsesCanonicalAlias
+        ? 'AUTOMATSKA POPRAVKA SVEGA ostaje BLOCKED kada se kanonski alias koristi kao runtime ulaz; kanonski naziv ostaje dokumentacioni lock, dok su raw `ATOMATSKA...` normalization alias i eksplicitni fallback ulazi jedini dozvoljeni runtime signali.'
+        : normalizedAutomatskaPopravkaSvegaRuntimeInput
           && !automatskaPopravkaSvegaUsesRawAlias
           && !DEVELOPER_CREATE_AUTOMATSKA_POPRAVKA_SVEGA_INPUT_NORMALIZATION_ALIASES_UPPERCASE.includes(
             normalizedAutomatskaPopravkaSvegaRuntimeInput,
           )
         ? 'AUTOMATSKA POPRAVKA SVEGA ostaje BLOCKED kada nekanonski ulaz izlazi van dokumentovanog fallback skupa; samo raw `ATOMATSKA...` normalization alias i eksplicitni fallback ulazi ostaju dozvoljeni runtime signali.'
-        : automatskaPopravkaSvegaUsesCanonicalAlias
-          ? 'AUTOMATSKA POPRAVKA SVEGA ostaje BLOCKED kada se kanonski alias koristi kao runtime ulaz; kanonski naziv ostaje dokumentacioni lock, dok su raw `ATOMATSKA...` normalization alias i eksplicitni fallback ulazi jedini dozvoljeni runtime signali.'
         : 'AUTOMATSKA POPRAVKA SVEGA ostaje BLOCKED dok bounded repair-summary, deterministic fallback disciplina i governance gate ne ostanu usklađeni bez novog runtime engine-a.'
       : null;
   automatskaPopravkaSvegaTrack.watchReasons =
