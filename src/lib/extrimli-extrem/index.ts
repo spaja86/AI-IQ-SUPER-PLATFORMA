@@ -14986,7 +14986,14 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
       : biznisResolvedFallbackInput && biznisNormalizedFallbackInputs.includes(biznisResolvedFallbackInput)
         ? 'WATCH'
         : 'READY';
-  const biznisReferenceListStatus: ExtrimliExtremReadinessStatus = 'WATCH';
+  const biznisReferenceListStatus: ExtrimliExtremReadinessStatus =
+    biznisTrack.referencePackage.publicBoundary === 'summary-only'
+      && biznisTrack.referencePackage.referenceListModel
+        === 'ekosistemski-poslovni-kapaciteti-partnerstva-enterprise-mapiranje'
+      && biznisTrack.referencePackage.noNewFinancialRuntimeFormulas
+      && biznisTrack.referencePackage.noOperationalExecutionEngine
+      ? 'READY'
+      : 'BLOCKED';
   const biznisEcosystemConsistencyStatus: ExtrimliExtremReadinessStatus =
     biznisTrack.referencePackage.canonicalBusinessTrack
         === dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.fourTrackProgramPackage.businessTrack.canonicalName
