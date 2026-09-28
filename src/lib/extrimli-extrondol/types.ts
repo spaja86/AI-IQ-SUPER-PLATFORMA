@@ -3495,6 +3495,7 @@ export interface ExtrimliSpajaKodPublicFacade {
       'developerAndCreateImplementationPackage.branchReport',
       'developerAndCreateImplementationPackage.kraljevskiDrustveniPoredakSummary',
       'developerAndCreateImplementationPackage.kraljevskiAktBezbednostiSummary',
+      'developerAndCreateImplementationPackage.kraljevskiAktBezbednostiSummary.kraljevskaPlataStartPackageSummary',
       'developerAndCreateImplementationPackage.smartProgramskiJezikSummary',
       'developerAndCreateImplementationPackage.eksperimentProgramskiJezikSummary',
       'developerAndCreateImplementationPackage.ispitivanjeSvegaStoJeFunkcionalnoSummary',
