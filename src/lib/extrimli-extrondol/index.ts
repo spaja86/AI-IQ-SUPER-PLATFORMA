@@ -893,6 +893,40 @@ function mapKraljevskaPlataPaymentVerificationPosture(
   }
 }
 
+function deriveKraljevskaPlataBlockerReason(
+  approvalStatus: 'READY' | 'WATCH' | 'BLOCKED',
+  payoutReadinessStatus: 'READY' | 'WATCH' | 'BLOCKED',
+  paymentVerificationPosture: ExtrimliExtrondolReport['paymentVerification']['status'],
+  paymentVerification: ExtrimliExtrondolReport['paymentVerification'],
+  sourceBlockerReason: string | null = null,
+): string | null {
+  if (sourceBlockerReason) {
+    return sourceBlockerReason;
+  }
+
+  if (approvalStatus === 'BLOCKED') {
+    return 'approval-status-blocked';
+  }
+
+  if (payoutReadinessStatus === 'BLOCKED') {
+    return 'payout-readiness-blocked';
+  }
+
+  if (paymentVerificationPosture === 'BLOCKED') {
+    return paymentVerification.blockers[0] ?? 'payment-verification-required';
+  }
+
+  if (approvalStatus === 'WATCH') {
+    return 'approval-status-watch';
+  }
+
+  if (payoutReadinessStatus === 'WATCH') {
+    return 'payout-readiness-watch';
+  }
+
+  return null;
+}
+
 function buildKraljevskaPlataSummary(
   kraljevskaPlataPolicy: ExtrimliExtrondolReport['extremProfiler']['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['kraljevskiDrustveniPoredak']['kraljevskiAktBezbednosti']['kraljevskaPlataPolicy'],
   paymentVerification: ExtrimliExtrondolReport['paymentVerification'],
@@ -900,18 +934,12 @@ function buildKraljevskaPlataSummary(
   const paymentVerificationPosture = mapKraljevskaPlataPaymentVerificationPosture(
     paymentVerification.status,
   );
-  const blockerReason =
-    kraljevskaPlataPolicy.approvalStatus === 'BLOCKED'
-      ? 'approval-status-blocked'
-      : kraljevskaPlataPolicy.payoutReadinessStatus === 'BLOCKED'
-        ? 'payout-readiness-blocked'
-        : paymentVerificationPosture === 'BLOCKED'
-          ? paymentVerification.blockers[0] ?? 'payment-verification-required'
-          : kraljevskaPlataPolicy.approvalStatus === 'WATCH'
-            ? 'approval-status-watch'
-            : kraljevskaPlataPolicy.payoutReadinessStatus === 'WATCH'
-              ? 'payout-readiness-watch'
-              : null;
+  const blockerReason = deriveKraljevskaPlataBlockerReason(
+    kraljevskaPlataPolicy.approvalStatus,
+    kraljevskaPlataPolicy.payoutReadinessStatus,
+    paymentVerificationPosture,
+    paymentVerification,
+  );
 
   return {
     canonicalName: kraljevskaPlataPolicy.canonicalName,
@@ -933,19 +961,13 @@ function buildKraljevskaPlataStartPackageSummary(
   const paymentVerificationPosture = mapKraljevskaPlataPaymentVerificationPosture(
     paymentVerification.status,
   );
-  const blockerReason =
-    startPackage.blockerReason
-      ?? (startPackage.approvalStatus === 'BLOCKED'
-      ? 'approval-status-blocked'
-      : startPackage.payoutReadinessStatus === 'BLOCKED'
-        ? 'payout-readiness-blocked'
-        : paymentVerificationPosture === 'BLOCKED'
-          ? paymentVerification.blockers[0] ?? 'payment-verification-required'
-          : startPackage.approvalStatus === 'WATCH'
-            ? 'approval-status-watch'
-            : startPackage.payoutReadinessStatus === 'WATCH'
-              ? 'payout-readiness-watch'
-              : null);
+  const blockerReason = deriveKraljevskaPlataBlockerReason(
+    startPackage.approvalStatus,
+    startPackage.payoutReadinessStatus,
+    paymentVerificationPosture,
+    paymentVerification,
+    startPackage.blockerReason,
+  );
 
   return {
     canonicalAlias: startPackage.canonicalAlias,
