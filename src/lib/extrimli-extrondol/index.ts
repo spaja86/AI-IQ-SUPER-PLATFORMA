@@ -3466,6 +3466,7 @@ function buildSpajaKodFacade(params: {
   kraljevskoTakmicenjeStatus: ExtrimliExtrondolReport['extremProfiler']['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['kraljevskoTakmicenjeTrack']['readinessSignal']['status'];
   kraljevskiPokloniZaSvacijiRodjendanStatus: ExtrimliExtrondolReport['extremProfiler']['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['kraljevskiPokloniZaSvacijiRodjendanTrack']['readinessSignal']['status'];
   medaljeSrbskeStatus: ExtrimliExtrondolReport['extremProfiler']['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['medaljeSrbskeTrack']['readinessSignal']['status'];
+  automatskaPopravkaSvegaStatus: ExtrimliExtrondolReport['extremProfiler']['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['automatskaPopravkaSvegaTrack']['readinessSignal']['status'];
   kraljevskiRadStatus: ExtrimliExtrondolReport['extremProfiler']['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['kraljevskiRadTrack']['readinessSignal']['status'];
   radniProstorStatus: ExtrimliExtrondolReport['extremProfiler']['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['radniProstorTrack']['readinessSignal']['status'];
   alatiRadionicaStatus: ExtrimliExtrondolReport['extremProfiler']['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['alatiRadionicaTrack']['readinessSignal']['status'];
@@ -3619,6 +3620,7 @@ function buildSpajaKodFacade(params: {
       kraljevskoTakmicenjeStatus: params.kraljevskoTakmicenjeStatus,
       kraljevskiPokloniZaSvacijiRodjendanStatus: params.kraljevskiPokloniZaSvacijiRodjendanStatus,
       medaljeSrbskeStatus: params.medaljeSrbskeStatus,
+      automatskaPopravkaSvegaStatus: params.automatskaPopravkaSvegaStatus,
       kraljevskiRadStatus: params.kraljevskiRadStatus,
       radniProstorStatus: params.radniProstorStatus,
       alatiRadionicaStatus: params.alatiRadionicaStatus,
@@ -3745,6 +3747,7 @@ function buildSpajaKodFacade(params: {
         'publicSignals.kraljevskoTakmicenjeStatus',
         'publicSignals.kraljevskiPokloniZaSvacijiRodjendanStatus',
         'publicSignals.medaljeSrbskeStatus',
+        'publicSignals.automatskaPopravkaSvegaStatus',
         'publicSignals.kraljevskiRadStatus',
         'publicSignals.radniProstorStatus',
         'publicSignals.alatiRadionicaStatus',
@@ -3787,6 +3790,7 @@ function buildSpajaKodFacade(params: {
         'developerAndCreateImplementationPackage.kraljevskoTakmicenjeSummary',
         'developerAndCreateImplementationPackage.kraljevskiPokloniZaSvacijiRodjendanSummary',
         'developerAndCreateImplementationPackage.medaljeSrbskeSummary',
+        'developerAndCreateImplementationPackage.automatskaPopravkaSvegaSummary',
         'developerAndCreateImplementationPackage.kraljevskiRadSummary',
         'developerAndCreateImplementationPackage.radniProstorSummary',
         'developerAndCreateImplementationPackage.alatiRadionicaSummary',
@@ -4114,6 +4118,33 @@ function buildSpajaKodFacade(params: {
         fallbackInputStatus:
           params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.medaljeSrbskeTrack.readinessSignal.fallbackInputStatus,
         publicBoundary: 'audit-safe-summary-only',
+      },
+      automatskaPopravkaSvegaSummary: {
+        canonicalAlias:
+          params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.automatskaPopravkaSvegaTrack.canonicalAlias,
+        status:
+          params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.automatskaPopravkaSvegaTrack.readinessSignal.status,
+        blockerReason:
+          params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.automatskaPopravkaSvegaTrack.blockerReason,
+        watchReasons: [
+          ...params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.automatskaPopravkaSvegaTrack.watchReasons,
+        ],
+        reviewPosture:
+          params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.automatskaPopravkaSvegaTrack.reviewPosture,
+        humanReviewStatus: 'required-before-promotion',
+        rolloutPlan:
+          'Advance AUTOMATSKA POPRAVKA SVEGA only as an additive-only bounded repair/governance track through existing EXTREM readiness signals, EXTRONDOL WAWE freeze/promotion governance, and SPAJA KOD audit-safe summaries.',
+        rollbackPlan:
+          'Freeze promotion and revert to the previously verified Developer/Create package if AUTOMATSKA POPRAVKA SVEGA repair-summary, fallback discipline, or downstream summary alignment drifts from bounded policy.',
+        releaseAuditSummary:
+          'AUTOMATSKA POPRAVKA SVEGA release-audit summary requires bounded repair-summary, human-review confirmation, WAWE/freeze posture, rollback readiness, and downstream summary-only evidence before promotion.',
+        downstreamReference:
+          params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.automatskaPopravkaSvegaTrack.downstreamReference,
+        publicBoundary: 'audit-safe-summary-only',
+        repairSummary:
+          params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.automatskaPopravkaSvegaTrack.repairSummary,
+        fallbackInputStatus:
+          params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.automatskaPopravkaSvegaTrack.readinessSignal.fallbackInputStatus,
       },
       kraljevskiRadSummary: {
         canonicalAlias:
@@ -7260,6 +7291,8 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
       extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.kraljevskiPokloniZaSvacijiRodjendanTrack.readinessSignal.status,
     medaljeSrbskeStatus:
       extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.medaljeSrbskeTrack.readinessSignal.status,
+    automatskaPopravkaSvegaStatus:
+      extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.automatskaPopravkaSvegaTrack.readinessSignal.status,
     kraljevskiRadStatus:
       extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.kraljevskiRadTrack.readinessSignal.status,
     radniProstorStatus:
@@ -9557,6 +9590,36 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
           'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.medaljeSrbskeTrack',
           'spajaKod.publicSignals.medaljeSrbskeStatus',
           'spajaKod.developerAndCreateImplementationPackage.medaljeSrbskeSummary',
+        ],
+        downstreamReference: 'docs/MULTI-REPO-LINKS.md -> spaja86/IO-OPENUI-AO (summary-only)',
+      },
+      automatskaPopravkaSvegaTrack: {
+        ...extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.automatskaPopravkaSvegaTrack,
+        sourceOfTruth: '/api/extrimli/extrem',
+        governanceSource: '/api/extrimli/extrondol',
+        publicBoundary: '/api/extrimli/spaja-kod',
+        currentWave: currentWawe,
+        eligibleNextWave: eligibleNextWave,
+        promotionFreeze:
+          promotionFreeze
+          || extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.automatskaPopravkaSvegaTrack.readinessSignal.status !== 'READY',
+        reviewRequiredBeforeWideRollout:
+          extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.automatskaPopravkaSvegaTrack.readinessSignal.status !== 'READY'
+          || extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.automatskaPopravkaSvegaTrack.reviewPosture === 'REVIEW_REQUIRED',
+        reviewPosture:
+          extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.automatskaPopravkaSvegaTrack.reviewPosture,
+        rolloutPlan:
+          'Advance AUTOMATSKA POPRAVKA SVEGA only as an additive-only bounded repair/governance track through existing EXTREM readiness signals, EXTRONDOL WAWE freeze/promotion governance, and SPAJA KOD audit-safe summaries.',
+        rollbackPlan:
+          'Freeze promotion and revert to the previously verified Developer/Create package if AUTOMATSKA POPRAVKA SVEGA repair-summary, fallback discipline, or downstream summary alignment drifts from bounded policy.',
+        humanReviewStatus: 'required-before-promotion',
+        releaseAuditSummary:
+          'AUTOMATSKA POPRAVKA SVEGA release-audit summary requires bounded repair-summary, human-review confirmation, WAWE/freeze posture, rollback readiness, and downstream summary-only evidence before promotion.',
+        acceptanceEvidence: [
+          'developerAndCreateRepoWideReflection.automatskaPopravkaSvegaTrack',
+          'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.automatskaPopravkaSvegaTrack',
+          'spajaKod.publicSignals.automatskaPopravkaSvegaStatus',
+          'spajaKod.developerAndCreateImplementationPackage.automatskaPopravkaSvegaSummary',
         ],
         downstreamReference: 'docs/MULTI-REPO-LINKS.md -> spaja86/IO-OPENUI-AO (summary-only)',
       },

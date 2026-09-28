@@ -67,6 +67,11 @@ import type {
   DEVELOPER_CREATE_MEDALJE_SRBSKE_ROLE_CLASSIFICATION,
   DEVELOPER_CREATE_MEDALJE_SRBSKE_SCOPE_STATEMENT,
   DEVELOPER_CREATE_MEDALJE_SRBSKE_SUMMARY_SAFE_FIELDS,
+  DEVELOPER_CREATE_AUTOMATSKA_POPRAVKA_SVEGA_CANONICAL_ALIAS,
+  DEVELOPER_CREATE_AUTOMATSKA_POPRAVKA_SVEGA_FALLBACK_INPUTS,
+  DEVELOPER_CREATE_AUTOMATSKA_POPRAVKA_SVEGA_ROLE_CLASSIFICATION,
+  DEVELOPER_CREATE_AUTOMATSKA_POPRAVKA_SVEGA_SCOPE_STATEMENT,
+  DEVELOPER_CREATE_AUTOMATSKA_POPRAVKA_SVEGA_SUMMARY_SAFE_FIELDS,
   DEVELOPER_CREATE_KRALJEVSKI_RAD_BOUNDED_TOKEN_SEQUENCE,
   DEVELOPER_CREATE_KRALJEVSKI_RAD_CANONICAL_ALIAS,
   DEVELOPER_CREATE_KRALJEVSKI_RAD_FALLBACK_INPUTS,
@@ -3356,6 +3361,42 @@ export interface ExtrimliDokDikDakDukConsistencyHealth {
         'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.medaljeSrbskeTrack',
         'spajaKod.publicSignals.medaljeSrbskeStatus',
         'spajaKod.developerAndCreateImplementationPackage.medaljeSrbskeSummary'
+      ];
+      downstreamReference: 'docs/MULTI-REPO-LINKS.md -> spaja86/IO-OPENUI-AO (summary-only)';
+    };
+    automatskaPopravkaSvegaTrack: {
+      canonicalAlias: typeof DEVELOPER_CREATE_AUTOMATSKA_POPRAVKA_SVEGA_CANONICAL_ALIAS;
+      scopeStatement: typeof DEVELOPER_CREATE_AUTOMATSKA_POPRAVKA_SVEGA_SCOPE_STATEMENT;
+      roleClassification: typeof DEVELOPER_CREATE_AUTOMATSKA_POPRAVKA_SVEGA_ROLE_CLASSIFICATION;
+      boundedVocabularyPhrase: 'EXTRIMLI EXTRONDOL EXTREM DOK DUK DAK DIK FOR';
+      additiveOnly: true;
+      noNewRuntimeEngine: true;
+      noNewRuntimeRoutes: true;
+      noParallelSourceOfTruth: true;
+      sourceOfTruthRoutes: readonly ['/api/extrimli/extrem', '/api/extrimli/extrondol', '/api/extrimli/spaja-kod'];
+      ownershipLock: {
+        dokDikFor: 'EXTREM';
+        dakDuk: 'EXTRONDOL';
+        spajaKod: 'audit-safe-summary-only';
+      };
+      summarySafePublicFields: typeof DEVELOPER_CREATE_AUTOMATSKA_POPRAVKA_SVEGA_SUMMARY_SAFE_FIELDS;
+      readinessSignal: {
+        status: 'READY' | 'WATCH' | 'BLOCKED';
+        readinessScore: number;
+        fallbackInputStatus: 'READY' | 'WATCH' | 'BLOCKED';
+        deterministicFallbackRequired: boolean;
+        fallbackInputs: typeof DEVELOPER_CREATE_AUTOMATSKA_POPRAVKA_SVEGA_FALLBACK_INPUTS;
+        driver: 'developerAndCreateRepoWideReflection.readiness + developerAndCreateRepoWideReflection.technicalReadinessProfile.consolidatedRhythmStatus + runtimeAutomatskaPopravkaSvegaInput';
+      };
+      blockerReason: string | null;
+      watchReasons: string[];
+      reviewPosture: 'ALIGNED' | 'WATCH' | 'REVIEW_REQUIRED';
+      repairSummary: string;
+      acceptanceEvidence: readonly [
+        'developerAndCreateRepoWideReflection.automatskaPopravkaSvegaTrack',
+        'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.automatskaPopravkaSvegaTrack',
+        'spajaKod.publicSignals.automatskaPopravkaSvegaStatus',
+        'spajaKod.developerAndCreateImplementationPackage.automatskaPopravkaSvegaSummary'
       ];
       downstreamReference: 'docs/MULTI-REPO-LINKS.md -> spaja86/IO-OPENUI-AO (summary-only)';
     };

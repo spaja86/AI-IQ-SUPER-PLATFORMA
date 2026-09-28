@@ -1160,3 +1160,14 @@ Neproverene oblasti (u ovom ciklusu):
 - Audit zahtevi ostaju obavezni: `human-review`, `release-audit summary`, `rollback readiness` i `downstream reference` pre promocije.
 - Summary-safe izlaz ostaje ograničen na `canonicalAlias`, `status`, `blockerReason`, `watchReasons`, `reviewPosture`, `humanReviewStatus`, `releaseAuditSummaryRequired`, `rollbackRequiredBeforePromotion`, `downstreamReference`, `fallbackInputStatus`.
 - Downstream sync prema `spaja86/IO-OPENUI-AO` ostaje striktno summary-only i referencira `docs/MULTI-REPO-LINKS.md`.
+
+### 2.2.17) AUTOMATSKA POPRAVKA SVEGA bounded traka
+
+- Kanonski alias ostaje zaključan na `DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == AUTOMATSKA POPRAVKA SVEGA`, dok sirovi unos `DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == ATOMATSKA POPRAVKA SVEGA` ostaje samo supplemental/input-normalization alias bez posebnog runtime identiteta.
+- Traka je additive-only i ostaje unutar postojećih `/api/extrimli/extrem`, `/api/extrimli/extrondol` i `/api/extrimli/spaja-kod` granica (bez novog runtime engine-a, bez novih runtime ruta i bez paralelnog source-of-truth modela).
+- Repo-wide bounded vokabular ostaje nepromenjen: `EXTRIMLI EXTRONDOL EXTREM DOK DUK DAK DIK FOR`.
+- Ownership split ostaje zaključan: `DOK + DIK + FOR -> EXTREM` (samo bounded readiness + repair-summary signal), `DAK + DUK -> EXTRONDOL` (human-review, WAWE/freeze/promotion/rollback i release-audit odluka), `SPAJA KOD -> audit-safe summary-only`.
+- Status jezik ostaje zaključan na `READY | WATCH | BLOCKED`, sa deterministic fallback ulazima (`NaN`, `Infinity`, `empty`, `conflict`, raw `ATOMATSKA...` alias) i obaveznim blocker/watch razlozima.
+- EXTREM objavljuje samo bounded `repairSummary`, readiness signal, blocker/watch razloge i fallbackInputStatus; EXTRONDOL je jedino promotivno/gate mesto za rollout/rollback/release-audit odluku.
+- Summary-safe izlaz ostaje ograničen na `canonicalAlias`, `status`, `blockerReason`, `watchReasons`, `reviewPosture`, `humanReviewStatus`, `rolloutPlan`, `rollbackPlan`, `releaseAuditSummary`, `downstreamReference`, `repairSummary`, `fallbackInputStatus`.
+- Downstream sync prema `spaja86/IO-OPENUI-AO` ostaje striktno summary-only i ne sme izvoziti sirove EXTREM/EXTRONDOL formule, interne repair logike ili supplemental raw alias internale.

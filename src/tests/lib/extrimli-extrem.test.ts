@@ -287,6 +287,8 @@ async function runTests(): Promise<void> {
       report.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.kraljevskiPokloniZaSvacijiRodjendanTrack;
     const medaljeSrbskeTrack =
       report.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.medaljeSrbskeTrack;
+    const automatskaPopravkaSvegaTrack =
+      report.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.automatskaPopravkaSvegaTrack;
     const kraljevskiRadTrack =
       report.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.kraljevskiRadTrack;
     const radniProstorTrack =
@@ -448,6 +450,13 @@ async function runTests(): Promise<void> {
     assert(medaljeSrbskeTrack.summarySafePublicFields.join(',') === 'canonicalAlias,status,blockerReason,watchReasons,reviewPosture,humanReviewStatus,releaseAuditSummaryRequired,rollbackRequiredBeforePromotion,downstreamReference,fallbackInputStatus', 'developer/create MEDALJE SRBSKE summary-safe fields mismatch');
     assert(['READY', 'WATCH', 'BLOCKED'].includes(medaljeSrbskeTrack.readinessSignal.status), 'developer/create MEDALJE SRBSKE status mismatch');
     assert(medaljeSrbskeTrack.readinessSignal.fallbackInputs.join(',') === 'NaN,Infinity,empty,conflict', 'developer/create MEDALJE SRBSKE fallback inputs mismatch');
+    assert(automatskaPopravkaSvegaTrack.canonicalAlias === 'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == AUTOMATSKA POPRAVKA SVEGA', 'developer/create AUTOMATSKA POPRAVKA SVEGA canonical alias mismatch');
+    assert(automatskaPopravkaSvegaTrack.roleClassification === 'additive-only-bounded-repair-governance-track', 'developer/create AUTOMATSKA POPRAVKA SVEGA role classification mismatch');
+    assert(automatskaPopravkaSvegaTrack.summarySafePublicFields.join(',') === 'canonicalAlias,status,blockerReason,watchReasons,reviewPosture,humanReviewStatus,rolloutPlan,rollbackPlan,releaseAuditSummary,downstreamReference,repairSummary,fallbackInputStatus', 'developer/create AUTOMATSKA POPRAVKA SVEGA summary-safe fields mismatch');
+    assert(['READY', 'WATCH', 'BLOCKED'].includes(automatskaPopravkaSvegaTrack.readinessSignal.status), 'developer/create AUTOMATSKA POPRAVKA SVEGA status mismatch');
+    assert(automatskaPopravkaSvegaTrack.readinessSignal.fallbackInputs.join(',') === 'NaN,Infinity,empty,conflict,DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == ATOMATSKA POPRAVKA SVEGA', 'developer/create AUTOMATSKA POPRAVKA SVEGA fallback inputs mismatch');
+    assert(automatskaPopravkaSvegaTrack.acceptanceEvidence.join(',') === 'developerAndCreateRepoWideReflection.automatskaPopravkaSvegaTrack,releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.automatskaPopravkaSvegaTrack,spajaKod.publicSignals.automatskaPopravkaSvegaStatus,spajaKod.developerAndCreateImplementationPackage.automatskaPopravkaSvegaSummary', 'developer/create AUTOMATSKA POPRAVKA SVEGA acceptance evidence mismatch');
+    assert(automatskaPopravkaSvegaTrack.repairSummary.includes('additive-only bounded repair/governance track'), 'developer/create AUTOMATSKA POPRAVKA SVEGA repair summary mismatch');
     assert(kraljevskiRadTrack.canonicalAlias === 'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == KRALJEVSKI RAD', 'developer/create kraljevski rad canonical alias mismatch');
     assert(kraljevskiRadTrack.roleClassification === 'additive-only-bounded-kraljevski-rad-track', 'developer/create kraljevski rad role classification mismatch');
     assert(kraljevskiRadTrack.boundedTokenSequence.join(',') === 'DIR,DUR,DAR,RER,DIK,DUR,DAR,DJOMPA,DOKAT,KRUNA,ZOMBAT,DUKUS,NIKSON,KITAN,DIKAT,KVATRO,KALIMERO', 'developer/create kraljevski rad token sequence mismatch');
@@ -2375,6 +2384,24 @@ async function runTests(): Promise<void> {
 
         assert(track.readinessSignal.fallbackInputStatus === 'BLOCKED', 'kraljevski pokloni conflict input should map to BLOCKED');
         assert(track.readinessSignal.status === 'BLOCKED', 'kraljevski pokloni conflict input should block readiness');
+      });
+    });
+
+    await test('AUTOMATSKA POPRAVKA SVEGA keeps raw typo alias as WATCH-only normalization input', async () => {
+      await withEnv({
+        NODE_ENV: 'test',
+        EXTRIMLI_AUTOMATSKA_POPRAVKA_SVEGA_INPUT:
+          'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == ATOMATSKA POPRAVKA SVEGA',
+      }, () => {
+        const track =
+          getExtrimliExtremProfilerReport()
+            .dokDikDakDukConsistencyHealth
+            .developerAndCreateRepoWideReflection
+            .automatskaPopravkaSvegaTrack;
+
+        assert(track.readinessSignal.fallbackInputStatus === 'WATCH', 'automatska popravka svega raw typo alias must map to WATCH');
+        assert(track.readinessSignal.status === 'WATCH', 'automatska popravka svega raw typo alias must keep bounded WATCH posture');
+        assert(track.watchReasons.some((reason) => reason.includes('ATOMATSKA POPRAVKA SVEGA')), 'automatska popravka svega watch reason must mention raw typo alias normalization');
       });
     });
 

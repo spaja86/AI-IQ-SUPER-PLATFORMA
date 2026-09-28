@@ -1274,6 +1274,27 @@ export interface ExtrimliExtrondolDeveloperAndCreateRepoWideReflectionGovernance
     ];
     downstreamReference: 'docs/MULTI-REPO-LINKS.md -> spaja86/IO-OPENUI-AO (summary-only)';
   };
+  automatskaPopravkaSvegaTrack: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['automatskaPopravkaSvegaTrack'] & {
+    sourceOfTruth: '/api/extrimli/extrem';
+    governanceSource: '/api/extrimli/extrondol';
+    publicBoundary: '/api/extrimli/spaja-kod';
+    currentWave: ExtrimliExtrondolWaweStage;
+    eligibleNextWave: ExtrimliExtrondolWaweStage;
+    promotionFreeze: boolean;
+    reviewRequiredBeforeWideRollout: boolean;
+    reviewPosture: 'ALIGNED' | 'WATCH' | 'REVIEW_REQUIRED';
+    rolloutPlan: string;
+    rollbackPlan: string;
+    humanReviewStatus: 'required-before-promotion';
+    releaseAuditSummary: string;
+    acceptanceEvidence: readonly [
+      'developerAndCreateRepoWideReflection.automatskaPopravkaSvegaTrack',
+      'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.automatskaPopravkaSvegaTrack',
+      'spajaKod.publicSignals.automatskaPopravkaSvegaStatus',
+      'spajaKod.developerAndCreateImplementationPackage.automatskaPopravkaSvegaSummary'
+    ];
+    downstreamReference: 'docs/MULTI-REPO-LINKS.md -> spaja86/IO-OPENUI-AO (summary-only)';
+  };
   kraljevskiRadTrack: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['kraljevskiRadTrack'] & {
     sourceOfTruth: '/api/extrimli/extrem';
     governanceSource: '/api/extrimli/extrondol';
@@ -3269,6 +3290,7 @@ export interface ExtrimliSpajaKodPublicFacade {
     kraljevskoTakmicenjeStatus: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['kraljevskoTakmicenjeTrack']['readinessSignal']['status'];
     kraljevskiPokloniZaSvacijiRodjendanStatus: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['kraljevskiPokloniZaSvacijiRodjendanTrack']['readinessSignal']['status'];
     medaljeSrbskeStatus: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['medaljeSrbskeTrack']['readinessSignal']['status'];
+    automatskaPopravkaSvegaStatus: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['automatskaPopravkaSvegaTrack']['readinessSignal']['status'];
     kraljevskiRadStatus: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['kraljevskiRadTrack']['readinessSignal']['status'];
     radniProstorStatus: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['radniProstorTrack']['readinessSignal']['status'];
     alatiRadionicaStatus: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['alatiRadionicaTrack']['readinessSignal']['status'];
@@ -3405,6 +3427,7 @@ export interface ExtrimliSpajaKodPublicFacade {
       'publicSignals.kraljevskoTakmicenjeStatus',
       'publicSignals.kraljevskiPokloniZaSvacijiRodjendanStatus',
       'publicSignals.medaljeSrbskeStatus',
+      'publicSignals.automatskaPopravkaSvegaStatus',
       'publicSignals.kraljevskiRadStatus',
       'publicSignals.radniProstorStatus',
       'publicSignals.alatiRadionicaStatus',
@@ -3448,6 +3471,7 @@ export interface ExtrimliSpajaKodPublicFacade {
       'developerAndCreateImplementationPackage.kraljevskoTakmicenjeSummary',
       'developerAndCreateImplementationPackage.kraljevskiPokloniZaSvacijiRodjendanSummary',
       'developerAndCreateImplementationPackage.medaljeSrbskeSummary',
+      'developerAndCreateImplementationPackage.automatskaPopravkaSvegaSummary',
       'developerAndCreateImplementationPackage.kraljevskiRadSummary',
       'developerAndCreateImplementationPackage.radniProstorSummary',
       'developerAndCreateImplementationPackage.alatiRadionicaSummary',
@@ -3641,6 +3665,21 @@ export interface ExtrimliSpajaKodPublicFacade {
       downstreamReference: 'docs/MULTI-REPO-LINKS.md -> spaja86/IO-OPENUI-AO (summary-only)';
       fallbackInputStatus: 'READY' | 'WATCH' | 'BLOCKED';
       publicBoundary: 'audit-safe-summary-only';
+    };
+    automatskaPopravkaSvegaSummary: {
+      canonicalAlias: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['automatskaPopravkaSvegaTrack']['canonicalAlias'];
+      status: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['automatskaPopravkaSvegaTrack']['readinessSignal']['status'];
+      blockerReason: string | null;
+      watchReasons: string[];
+      reviewPosture: 'ALIGNED' | 'WATCH' | 'REVIEW_REQUIRED';
+      humanReviewStatus: 'required-before-promotion';
+      rolloutPlan: string;
+      rollbackPlan: string;
+      releaseAuditSummary: string;
+      downstreamReference: 'docs/MULTI-REPO-LINKS.md -> spaja86/IO-OPENUI-AO (summary-only)';
+      publicBoundary: 'audit-safe-summary-only';
+      repairSummary: string;
+      fallbackInputStatus: 'READY' | 'WATCH' | 'BLOCKED';
     };
     kraljevskiRadSummary: {
       canonicalAlias: typeof DEVELOPER_CREATE_KRALJEVSKI_RAD_CANONICAL_ALIAS;
