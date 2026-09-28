@@ -16,10 +16,14 @@ import {
   DEVELOPER_CREATE_KRALJEVSKI_SAT_READINESS_LANGUAGE,
   DEVELOPER_CREATE_MEDALJE_SRBSKE_ACCEPTANCE_CRITERIA,
   DEVELOPER_CREATE_AUTOMATSKA_POPRAVKA_SVEGA_ACCEPTANCE_CRITERIA,
+  DEVELOPER_CREATE_AUTOMATIZACIJA_PROGRAMSKOG_JEZIKA_ACCEPTANCE_CRITERIA,
   DEVELOPER_CREATE_AUTOMATSKA_POPRAVKA_SVEGA_FALLBACK_INPUTS,
+  DEVELOPER_CREATE_AUTOMATIZACIJA_PROGRAMSKOG_JEZIKA_FALLBACK_INPUTS,
   DEVELOPER_CREATE_AUTOMATSKA_POPRAVKA_SVEGA_INPUT_NORMALIZATION_ALIASES,
   DEVELOPER_CREATE_AUTOMATSKA_POPRAVKA_SVEGA_SCOPE_STATEMENT,
   DEVELOPER_CREATE_AUTOMATSKA_POPRAVKA_SVEGA_SUMMARY_SAFE_FIELDS,
+  DEVELOPER_CREATE_AUTOMATIZACIJA_PROGRAMSKOG_JEZIKA_SCOPE_STATEMENT,
+  DEVELOPER_CREATE_AUTOMATIZACIJA_PROGRAMSKOG_JEZIKA_SUMMARY_SAFE_FIELDS,
   DEVELOPER_CREATE_MEDALJE_SRBSKE_FALLBACK_INPUTS,
   DEVELOPER_CREATE_MEDALJE_SRBSKE_LAYER_OWNERSHIP_LOCK,
   DEVELOPER_CREATE_MEDALJE_SRBSKE_READINESS_LANGUAGE,
@@ -60,6 +64,7 @@ import {
   DEVELOPER_CREATE_VRH_KRALJEVSKI_SISTEM_ALIAS,
   DEVELOPER_CREATE_VRH_KRALJEVSKI_RAD_ALIAS,
   DEVELOPER_CREATE_VRH_AUTOMATSKA_POPRAVKA_SVEGA_ALIAS,
+  DEVELOPER_CREATE_VRH_AUTOMATIZACIJA_PROGRAMSKOG_JEZIKA_ALIAS,
   DEVELOPER_CREATE_VRH_ATOMATSKA_POPRAVKA_SVEGA_RAW_ALIAS,
   DEVELOPER_CREATE_VRH_MEDALJE_SRBSKE_ALIAS,
   DEVELOPER_CREATE_VRH_IZVESTAJ_ALIAS,
@@ -1133,6 +1138,88 @@ async function runTests(): Promise<void> {
         multiRepoLinks.includes('spajaKod.publicSignals.automatskaPopravkaSvegaStatus') &&
         multiRepoLinks.includes('treat raw `ATOMATSKA...` only as supplemental normalization input'),
       'multi-repo links AUTOMATSKA POPRAVKA SVEGA row missing',
+    );
+  });
+
+  await test('automatizacija programskog jezika track remains additive-only and summary-safe', async () => {
+    const automationDoc = await fs.readFile(
+      path.join(root, 'docs/PROGRAMSKI-JEZIK-AUTOMATIZACIJA-PROGRAMSKOG-JEZIKA.md'),
+      'utf8',
+    );
+    assert(
+      DEVELOPER_CREATE_VRH_INTERPRETATION_ALIASES.includes(
+        DEVELOPER_CREATE_VRH_AUTOMATIZACIJA_PROGRAMSKOG_JEZIKA_ALIAS,
+      ),
+      'AUTOMATIZACIJA PROGRAMSKOG JEZIKA canonical alias must remain part of the VRH interpretation aliases',
+    );
+    assert(
+      DEVELOPER_CREATE_AUTOMATIZACIJA_PROGRAMSKOG_JEZIKA_SCOPE_STATEMENT.includes('additive-only bounded automation-language traka'),
+      'AUTOMATIZACIJA PROGRAMSKOG JEZIKA scope statement must preserve additive-only wording',
+    );
+    assert(
+      DEVELOPER_CREATE_AUTOMATIZACIJA_PROGRAMSKOG_JEZIKA_SCOPE_STATEMENT.includes('bez novog runtime engine-a'),
+      'AUTOMATIZACIJA PROGRAMSKOG JEZIKA scope statement must forbid a new runtime engine',
+    );
+    assertArrayEquals(
+      DEVELOPER_CREATE_AUTOMATIZACIJA_PROGRAMSKOG_JEZIKA_FALLBACK_INPUTS,
+      ['NaN', 'Infinity', 'empty', 'conflict'],
+      'unexpected AUTOMATIZACIJA PROGRAMSKOG JEZIKA fallback inputs',
+    );
+    assertArrayEquals(
+      DEVELOPER_CREATE_AUTOMATIZACIJA_PROGRAMSKOG_JEZIKA_ACCEPTANCE_CRITERIA,
+      [
+        'preserve-vrh-canonical-lock-and-bounded-vocabulary',
+        'keep-track-additive-only-no-new-routes-and-no-parallel-source-of-truth',
+        'preserve-ownership-split-dok-dik-for-extrem-dak-duk-extrondol-spaja-kod-summary-only',
+        'require-ready-watch-blocked-automation-summary-and-deterministic-fallback-boundaries',
+        'require-human-review-wawe-freeze-rollout-rollback-and-release-audit-before-promotion',
+        'allow-ai-iq-sibling-visibility-without-new-source-of-truth',
+        'require-summary-only-downstream-reference-docs-multi-repo-links-for-io-openui-ao',
+      ],
+      'unexpected AUTOMATIZACIJA PROGRAMSKOG JEZIKA acceptance criteria',
+    );
+    assertArrayEquals(
+      DEVELOPER_CREATE_AUTOMATIZACIJA_PROGRAMSKOG_JEZIKA_SUMMARY_SAFE_FIELDS,
+      [
+        'canonicalAlias',
+        'status',
+        'blockerReason',
+        'watchReasons',
+        'reviewPosture',
+        'humanReviewStatus',
+        'rolloutPlan',
+        'rollbackPlan',
+        'releaseAuditSummary',
+        'downstreamReference',
+        'automationSummary',
+        'fallbackInputStatus',
+      ],
+      'unexpected AUTOMATIZACIJA PROGRAMSKOG JEZIKA summary-safe fields',
+    );
+    assert(
+      manifest.includes('### 2.2.18) AUTOMATIZACIJA PROGRAMSKOG JEZIKA bounded traka')
+        && manifest.includes('AUTOMATIZACIJA PROGRAMSKOG JEZIKA (SPROVOĐENJE AUTOMATSKOG RADA PROGRAMSKOG JEZIKA)'),
+      'manifest AUTOMATIZACIJA PROGRAMSKOG JEZIKA markers missing',
+    );
+    assert(
+      vrhDoc.includes('## AUTOMATIZACIJA PROGRAMSKOG JEZIKA (bounded extension)')
+        && vrhDoc.includes('automation-summary'),
+      'VRH doc AUTOMATIZACIJA PROGRAMSKOG JEZIKA markers missing',
+    );
+    assert(
+      extrimliDoc.includes('AUTOMATIZACIJA PROGRAMSKOG JEZIKA (SPROVOĐENJE AUTOMATSKOG RADA PROGRAMSKOG JEZIKA)')
+        && extrimliDoc.includes('bounded `automationSummary`'),
+      'EXTRIMLI doc AUTOMATIZACIJA PROGRAMSKOG JEZIKA markers missing',
+    );
+    assert(
+      multiRepoLinks.includes('Developer/Create `AUTOMATIZACIJA PROGRAMSKOG JEZIKA` bounded track')
+        && multiRepoLinks.includes('spajaKod.publicSignals.automatizacijaProgramskogJezikaStatus'),
+      'multi-repo links AUTOMATIZACIJA PROGRAMSKOG JEZIKA row missing',
+    );
+    assert(
+      automationDoc.includes('# PROGRAMSKI JEZIK AUTOMATIZACIJA PROGRAMSKOG JEZIKA')
+        && automationDoc.includes('additive-only AI IQ sibling interpretaciju'),
+      'PROGRAMSKI JEZIK AUTOMATIZACIJA PROGRAMSKOG JEZIKA doc markers missing',
     );
   });
 

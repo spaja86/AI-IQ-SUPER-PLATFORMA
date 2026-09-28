@@ -83,6 +83,11 @@ import type {
   DEVELOPER_CREATE_AUTOMATSKA_POPRAVKA_SVEGA_ROLE_CLASSIFICATION,
   DEVELOPER_CREATE_AUTOMATSKA_POPRAVKA_SVEGA_SCOPE_STATEMENT,
   DEVELOPER_CREATE_AUTOMATSKA_POPRAVKA_SVEGA_SUMMARY_SAFE_FIELDS,
+  DEVELOPER_CREATE_AUTOMATIZACIJA_PROGRAMSKOG_JEZIKA_CANONICAL_ALIAS,
+  DEVELOPER_CREATE_AUTOMATIZACIJA_PROGRAMSKOG_JEZIKA_FALLBACK_INPUTS,
+  DEVELOPER_CREATE_AUTOMATIZACIJA_PROGRAMSKOG_JEZIKA_ROLE_CLASSIFICATION,
+  DEVELOPER_CREATE_AUTOMATIZACIJA_PROGRAMSKOG_JEZIKA_SCOPE_STATEMENT,
+  DEVELOPER_CREATE_AUTOMATIZACIJA_PROGRAMSKOG_JEZIKA_SUMMARY_SAFE_FIELDS,
   DEVELOPER_CREATE_KRALJEVSKI_RAD_BOUNDED_TOKEN_SEQUENCE,
   DEVELOPER_CREATE_KRALJEVSKI_RAD_CANONICAL_ALIAS,
   DEVELOPER_CREATE_KRALJEVSKI_RAD_FALLBACK_INPUTS,
@@ -3487,6 +3492,45 @@ export interface ExtrimliDokDikDakDukConsistencyHealth {
         'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.automatskaPopravkaSvegaTrack',
         'spajaKod.publicSignals.automatskaPopravkaSvegaStatus',
         'spajaKod.developerAndCreateImplementationPackage.automatskaPopravkaSvegaSummary'
+      ];
+      downstreamReference: 'docs/MULTI-REPO-LINKS.md -> spaja86/IO-OPENUI-AO (summary-only)';
+    };
+    automatizacijaProgramskogJezikaTrack: {
+      canonicalAlias: typeof DEVELOPER_CREATE_AUTOMATIZACIJA_PROGRAMSKOG_JEZIKA_CANONICAL_ALIAS;
+      scopeStatement: typeof DEVELOPER_CREATE_AUTOMATIZACIJA_PROGRAMSKOG_JEZIKA_SCOPE_STATEMENT;
+      roleClassification: typeof DEVELOPER_CREATE_AUTOMATIZACIJA_PROGRAMSKOG_JEZIKA_ROLE_CLASSIFICATION;
+      boundedVocabularyPhrase: 'EXTRIMLI EXTRONDOL EXTREM DOK DUK DAK DIK FOR';
+      additiveOnly: true;
+      noNewRuntimeEngine: true;
+      noNewRuntimeRoutes: true;
+      noParallelSourceOfTruth: true;
+      sourceOfTruthRoutes: readonly ['/api/extrimli/extrem', '/api/extrimli/extrondol', '/api/extrimli/spaja-kod'];
+      ownershipLock: {
+        dokDikFor: 'EXTREM';
+        dakDuk: 'EXTRONDOL';
+        spajaKod: 'audit-safe-summary-only';
+      };
+      summarySafePublicFields: typeof DEVELOPER_CREATE_AUTOMATIZACIJA_PROGRAMSKOG_JEZIKA_SUMMARY_SAFE_FIELDS;
+      readinessSignal: {
+        status: 'READY' | 'WATCH' | 'BLOCKED';
+        readinessScore: number;
+        fallbackInputStatus: 'READY' | 'WATCH' | 'BLOCKED';
+        deterministicFallbackRequired: boolean;
+        fallbackInputs: typeof DEVELOPER_CREATE_AUTOMATIZACIJA_PROGRAMSKOG_JEZIKA_FALLBACK_INPUTS;
+        driver: 'developerAndCreateRepoWideReflection.readiness + developerAndCreateRepoWideReflection.technicalReadinessProfile.consolidatedRhythmStatus + runtimeAutomatizacijaProgramskogJezikaInput';
+      };
+      blockerReason: string | null;
+      watchReasons: string[];
+      reviewPosture: 'ALIGNED' | 'WATCH' | 'REVIEW_REQUIRED';
+      humanReviewStatus: 'required-before-promotion';
+      rolloutPosture: 'EXTREM-readiness-only';
+      rollbackPosture: 'EXTRONDOL-governance-required';
+      automationSummary: string;
+      acceptanceEvidence: readonly [
+        'developerAndCreateRepoWideReflection.automatizacijaProgramskogJezikaTrack',
+        'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.automatizacijaProgramskogJezikaTrack',
+        'spajaKod.publicSignals.automatizacijaProgramskogJezikaStatus',
+        'spajaKod.developerAndCreateImplementationPackage.automatizacijaProgramskogJezikaSummary'
       ];
       downstreamReference: 'docs/MULTI-REPO-LINKS.md -> spaja86/IO-OPENUI-AO (summary-only)';
     };
