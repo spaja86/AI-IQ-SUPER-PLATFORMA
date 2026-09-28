@@ -140,6 +140,19 @@ async function runTests(): Promise<void> {
     assert(lock.mandatoryArtifacts.docs.includes('docs/EXTRIMLI-VRH-PROGRAMSKOG-EKVILADENTA.md'), 'VRH mandatory doc artifact missing');
   });
 
+  await test('default report surfaces MARKAN status as canonical readiness mirror', () => {
+    const report = getExtrimliExtremProfilerReport();
+    const reflection = report.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection;
+    assert(
+      reflection.markanStatus === reflection.readiness.status,
+      'MARKAN status must mirror Developer/Create readiness status',
+    );
+    assert(
+      reflection.markanStatus === 'READY' || reflection.markanStatus === 'WATCH' || reflection.markanStatus === 'BLOCKED',
+      'MARKAN status must stay in canonical READY|WATCH|BLOCKED language',
+    );
+  });
+
   await test('default report maps Function Registry track into EXTREM readiness ownership', () => {
     const report = getExtrimliExtremProfilerReport();
     const lock = report.versionRoadmap.developerCreateLock;

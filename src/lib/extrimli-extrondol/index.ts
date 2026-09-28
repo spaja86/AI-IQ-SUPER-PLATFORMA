@@ -260,6 +260,7 @@ const DEVELOPER_CREATE_ROADMAP_ACCEPTANCE_EVIDENCE_BASE = [
   'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.radioTrack',
   'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.muzickaKutijaTrack',
   'spajaKod.publicSignals.developerAndCreateStatus',
+  'spajaKod.publicSignals.markanStatus',
   'spajaKod.publicSignals.developerAndCreateAudioVisualStatus',
   'spajaKod.publicSignals.developerAndCreateImplementationStatus',
   'spajaKod.publicSignals.napoleonDiskaveriStatus',
@@ -322,6 +323,7 @@ const DEVELOPER_CREATE_GOVERNANCE_ACCEPTANCE_EVIDENCE: ExtrimliExtrondolReport['
   'developerAndCreateRepoWideReflection.radioTrack',
   'developerAndCreateRepoWideReflection.muzickaKutijaTrack',
   'spajaKod.publicSignals.developerAndCreateStatus',
+  'spajaKod.publicSignals.markanStatus',
   'spajaKod.publicSignals.developerAndCreateAudioVisualStatus',
   'spajaKod.publicSignals.developerAndCreateImplementationStatus',
   'spajaKod.publicSignals.napoleonDiskaveriStatus',
@@ -3459,6 +3461,7 @@ function buildSpajaKodFacade(params: {
   spajinoProporcionalnoProgramiranjeUniverzitetStatus: ExtrimliExtrondolReport['extremProfiler']['spajinoProporcionalnoProgramiranjeUniverzitet']['readiness']['status'];
   vrhProgramskogEkviladentaStatus: ExtrimliExtrondolReport['extremProfiler']['vrhProgramskogEkviladenta']['readiness']['status'];
   developerAndCreateStatus: ExtrimliExtrondolReport['extremProfiler']['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['readiness']['status'];
+  markanStatus: ExtrimliExtrondolReport['extremProfiler']['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['markanStatus'];
   eksperimentProgramskiJezikStatus: ExtrimliExtrondolReport['extremProfiler']['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['eksperimentProgramskiJezikTrack']['readinessSignal']['status'];
   ispitivanjeSvegaStoJeFunkcionalnoStatus: ExtrimliExtrondolReport['extremProfiler']['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['ispitivanjeSvegaStoJeFunkcionalnoTrack']['readinessSignal']['status'];
   sarkazamPrivrednaGranaDigitalizmaStatus: ExtrimliExtrondolReport['extremProfiler']['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['sarkazamPrivrednaGranaDigitalizmaTrack']['reflectionSignal']['status'];
@@ -3642,6 +3645,7 @@ function buildSpajaKodFacade(params: {
       radioStatus: params.radioStatus,
       muzickaKutijaStatus: params.muzickaKutijaStatus,
       developerAndCreateStatus: params.developerAndCreateStatus,
+      markanStatus: params.markanStatus,
       developerAndCreateImplementationStatus,
       developerAndCreateAudioVisualStatus,
       napoleonDiskaveriStatus:
@@ -3739,6 +3743,7 @@ function buildSpajaKodFacade(params: {
         params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.canonicalScopeLock,
       routeSummaryFields: [
         'publicSignals.developerAndCreateStatus',
+        'publicSignals.markanStatus',
         'publicSignals.developerAndCreateImplementationStatus',
         'publicSignals.developerAndCreateAudioVisualStatus',
         'publicSignals.smartProgramskiJezikStatus',
@@ -5855,6 +5860,8 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
         sourceOfTruth: '/api/extrimli/extrem',
         status:
           extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.aiPlateOffer.boundedReadinessProfile.consolidatedStatus,
+        markanStatus:
+          extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.markanStatus,
         canonicalMapeUmaScopeLock: DEVELOPER_CREATE_VRH_MAPE_UMA_SCOPE_LOCK,
         readinessScore:
           extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.aiPlateOffer.boundedReadinessProfile.readinessScore,
@@ -7302,6 +7309,7 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
     spajinoProporcionalnoProgramiranjeUniverzitetStatus: extremProfiler.spajinoProporcionalnoProgramiranjeUniverzitet.readiness.status,
     vrhProgramskogEkviladentaStatus: extremProfiler.vrhProgramskogEkviladenta.readiness.status,
     developerAndCreateStatus,
+    markanStatus: extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.markanStatus,
     eksperimentProgramskiJezikStatus:
       extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.eksperimentProgramskiJezikTrack.readinessSignal.status,
     ispitivanjeSvegaStoJeFunkcionalnoStatus:
@@ -7563,6 +7571,8 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
       mappedTracks: extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.mappedTracks,
       canonicalGovernanceVocabulary:
         extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.canonicalGovernanceVocabulary,
+      markanStatus:
+        extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.markanStatus,
       readinessModel: ['READY', 'WATCH', 'BLOCKED'],
       driftZeroLayers: ['docs', 'types', 'routes', 'tests', 'workflows'],
       priorityExecutionOrder:
@@ -8084,6 +8094,7 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
           additiveOnly: true,
           governanceVisibility: 'audit-safe-readiness-only',
           status: extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.aiPlateOffer.boundedReadinessProfile.consolidatedStatus,
+          markanStatus: extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.markanStatus,
           readinessScore: extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.aiPlateOffer.boundedReadinessProfile.readinessScore,
           deterministicFallbackRequired:
             extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.aiPlateOffer.boundedReadinessProfile.deterministicFallbackRequired,
@@ -9074,6 +9085,8 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
       governanceVisibility: 'audit-safe-readiness-only',
       status:
         extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.aiPlateOffer.boundedReadinessProfile.consolidatedStatus,
+      markanStatus:
+        extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.markanStatus,
       readinessScore:
         extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.aiPlateOffer.boundedReadinessProfile.readinessScore,
       deterministicFallbackRequired:

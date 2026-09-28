@@ -115,8 +115,14 @@ import {
   DEVELOPER_CREATE_VRH_ZALAN_ALIAS,
   DEVELOPER_CREATE_VRH_ZALAN_ALIAS_BOUNDARY,
   DEVELOPER_CREATE_VRH_ELEKTRONSKI_POTPIS_ALIAS,
+  DEVELOPER_CREATE_VRH_MARKAN_ALIAS,
   DEVELOPER_CREATE_VRH_DEVASTATOR_ALIAS,
   DEVELOPER_CREATE_VRH_KRALJEVSKA_MONTEZACIJA_ALIAS,
+  DEVELOPER_CREATE_MARKAN_CANONICAL_ALIAS,
+  DEVELOPER_CREATE_MARKAN_SCOPE_STATEMENT,
+  DEVELOPER_CREATE_MARKAN_ROLE_CLASSIFICATION,
+  DEVELOPER_CREATE_MARKAN_GOVERNANCE_REQUIRED_OUTPUTS,
+  DEVELOPER_CREATE_MARKAN_SUMMARY_SAFE_FIELDS,
   DEVELOPER_CREATE_VRH_MONTEZACIJA_NAD_MONTEZACIJAMA_ALIAS,
   DEVELOPER_CREATE_VRH_NAVIGACIONI_SISTEM_SA_TREKEROM_ALIAS,
   DEVELOPER_CREATE_VRH_PADEZI_ALIAS,
@@ -1168,6 +1174,35 @@ async function runTests(): Promise<void> {
       DEVELOPER_CREATE_ELEKTRONSKI_POTPIS_SUMMARY_SAFE_FIELDS,
       ['canonicalAlias', 'status', 'reviewPosture', 'identityConfirmationStatus', 'signatureDisplaySummary', 'downstreamReference'],
       'unexpected ELEKTRONSKI POTPIS summary-safe fields',
+    );
+  });
+
+  await test('markan alias remains additive-only with locked ownership and governance outputs', () => {
+    assert(
+      DEVELOPER_CREATE_VRH_INTERPRETATION_ALIASES.includes(DEVELOPER_CREATE_VRH_MARKAN_ALIAS),
+      'MARKAN alias must remain part of the VRH interpretation aliases',
+    );
+    assert(
+      DEVELOPER_CREATE_MARKAN_CANONICAL_ALIAS === DEVELOPER_CREATE_VRH_MARKAN_ALIAS,
+      'MARKAN canonical alias mismatch',
+    );
+    assert(
+      DEVELOPER_CREATE_MARKAN_SCOPE_STATEMENT.includes('additive-only bounded'),
+      'MARKAN scope statement must preserve additive-only boundary',
+    );
+    assert(
+      DEVELOPER_CREATE_MARKAN_ROLE_CLASSIFICATION === 'additive-only-bounded-markan-alias-track',
+      'MARKAN role classification mismatch',
+    );
+    assertArrayEquals(
+      DEVELOPER_CREATE_MARKAN_GOVERNANCE_REQUIRED_OUTPUTS,
+      ['readinessStatus', 'blockerReason', 'watchReasons', 'humanReviewStatus', 'rolloutPlan', 'rollbackPlan', 'releaseAuditSummary', 'downstreamReference'],
+      'unexpected MARKAN governance outputs',
+    );
+    assertArrayEquals(
+      DEVELOPER_CREATE_MARKAN_SUMMARY_SAFE_FIELDS,
+      ['canonicalAlias', 'readinessStatus', 'blockerReason', 'watchReasons', 'humanReviewStatus', 'rolloutPlan', 'rollbackPlan', 'releaseAuditSummary', 'downstreamReference'],
+      'unexpected MARKAN summary-safe fields',
     );
   });
 
