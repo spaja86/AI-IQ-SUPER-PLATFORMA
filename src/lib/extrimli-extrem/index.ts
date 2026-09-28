@@ -56,6 +56,13 @@ import {
   DEVELOPER_CREATE_POSLOVNA_PONUDA_ZELEZARA_DOO_URGENT_MEETING_INTAKE_PACKAGE,
   DEVELOPER_CREATE_POSLOVNA_PONUDA_ZELEZARA_DOO_FALLBACK_INPUTS,
   DEVELOPER_CREATE_POSLOVNA_PONUDA_ZELEZARA_DOO_SUMMARY_SAFE_FIELDS,
+  DEVELOPER_CREATE_BIZNIS_BOUNDED_VOCABULARY_PHRASE,
+  DEVELOPER_CREATE_BIZNIS_CANONICAL_ALIAS,
+  DEVELOPER_CREATE_BIZNIS_FALLBACK_INPUTS,
+  DEVELOPER_CREATE_BIZNIS_REFERENCE_PACKAGE,
+  DEVELOPER_CREATE_BIZNIS_ROLE_CLASSIFICATION,
+  DEVELOPER_CREATE_BIZNIS_SCOPE_STATEMENT,
+  DEVELOPER_CREATE_BIZNIS_SUMMARY_SAFE_FIELDS,
   DEVELOPER_CREATE_KRALJEVSKO_TAKMICENJE_AUTHENTICITY_RULES,
   DEVELOPER_CREATE_KRALJEVSKO_TAKMICENJE_CANONICAL_ALIAS,
   DEVELOPER_CREATE_KRALJEVSKO_TAKMICENJE_EVALUATION_CRITERIA,
@@ -8425,6 +8432,49 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
         ],
         downstreamReference: 'docs/MULTI-REPO-LINKS.md -> spaja86/IO-OPENUI-AO (summary-only)',
       },
+      biznisTrack: {
+        canonicalAlias: DEVELOPER_CREATE_BIZNIS_CANONICAL_ALIAS,
+        scopeStatement: DEVELOPER_CREATE_BIZNIS_SCOPE_STATEMENT,
+        roleClassification: DEVELOPER_CREATE_BIZNIS_ROLE_CLASSIFICATION,
+        boundedVocabularyPhrase: DEVELOPER_CREATE_BIZNIS_BOUNDED_VOCABULARY_PHRASE,
+        additiveOnly: true,
+        noNewRuntimeEngine: true,
+        noNewRuntimeRoutes: true,
+        noParallelSourceOfTruth: true,
+        sourceOfTruthRoutes: ['/api/extrimli/extrem', '/api/extrimli/extrondol', '/api/extrimli/spaja-kod'],
+        ownershipLock: {
+          dokDikFor: 'EXTREM',
+          dakDuk: 'EXTRONDOL',
+          spajaKod: 'audit-safe-summary-only',
+        },
+        summarySafePublicFields: DEVELOPER_CREATE_BIZNIS_SUMMARY_SAFE_FIELDS,
+        referencePackage: DEVELOPER_CREATE_BIZNIS_REFERENCE_PACKAGE,
+        readinessSignal: {
+          status: 'BLOCKED',
+          readinessScore: 0,
+          referenceListStatus: 'BLOCKED',
+          ecosystemConsistencyStatus: 'BLOCKED',
+          enterpriseMappingStatus: 'BLOCKED',
+          fallbackInputStatus: 'BLOCKED',
+          deterministicFallbackRequired: true,
+          fallbackInputs: DEVELOPER_CREATE_BIZNIS_FALLBACK_INPUTS,
+          driver:
+            'developerAndCreateRepoWideReflection.readiness + technicalReadinessProfile.consolidatedRhythmStatus + fourTrackProgramPackage.businessTrack',
+        },
+        blockerReason:
+          'biznis-track-awaits-ekosistem-reference-readiness-enterprise-mapping-and-governance-alignment',
+        watchReasons: [],
+        reviewPosture: 'REVIEW_REQUIRED',
+        businessSummary: '',
+        governanceReadinessSummary: '',
+        acceptanceEvidence: [
+          'developerAndCreateRepoWideReflection.biznisTrack',
+          'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.biznisTrack',
+          'spajaKod.publicSignals.biznisStatus',
+          'spajaKod.developerAndCreateImplementationPackage.biznisSummary',
+        ],
+        downstreamReference: 'docs/MULTI-REPO-LINKS.md -> spaja86/IO-OPENUI-AO (summary-only)',
+      },
       aiIqKonferencijaZaStampuTrack: {
         canonicalAlias: DEVELOPER_CREATE_AI_IQ_KONFERENCIJA_ZA_STAMPU_CANONICAL_ALIAS,
         scopeStatement: DEVELOPER_CREATE_AI_IQ_KONFERENCIJA_ZA_STAMPU_SCOPE_STATEMENT,
@@ -8634,6 +8684,7 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
         puteviIstinskePravde: 'PUTEVI ISTINSKE PRAVDE',
         kraljevskiBastaUneverzite: 'KRALJEVSKI BAŠTA UNEVERZITE',
         kompanijaSpajaDigitalnaIndustrija: 'Kompanija SPAJA / Digitalna Industrija',
+        biznisEkosistemskaReferentnaLista: 'REFERENTNA LISTA == EKOSISTEMA == BIZNIS',
         sarkazamPrivrednaGranaDigitalizma: 'SARKAZAM / PRIVREDNA GRANA DIGITALIZMA / PROJEKTI ENTUZIJAZMA PO ČINU OBLASTIMA',
         kraljevskoTakmicenje: 'KRALJEVSKO TAKMIČENJE',
         kraljevskiPokloniZaSvacijiRodjendan: 'KRALJEVSKI POKLONI ZA SVAČIJI ROĐENDAN',
@@ -8765,6 +8816,11 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
           readinessStatus: 'BLOCKED',
           mappingMode: 'bounded-enterprise-interpretation',
           umbrellaModel: 'DIGITALNA INDUSTRIJA',
+          boundedAliases: [
+            'POSLOVNA PONUDA',
+            'POSLOVNA PONUDA / ŽELEZARA D.O.O. SMEDEREVO',
+            'REFERENTNA LISTA == EKOSISTEMA == BIZNIS',
+          ],
           noNewFinancialRuntimeFormulas: true,
           noOperationalExecutionEngine: true,
           publicBoundary: 'summary-only',
@@ -12911,6 +12967,20 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
       noParallelSourceOfTruth: true,
       rawInternalsExposed: false,
     },
+    biznisBoundary: {
+      trackRole: 'bounded-ekosistem-business-reference-track',
+      parentTrack: 'VRH PROGRAMSKOG EKVILADENTA',
+      canonicalAlias: DEVELOPER_CREATE_BIZNIS_CANONICAL_ALIAS,
+      roleClassification: DEVELOPER_CREATE_BIZNIS_ROLE_CLASSIFICATION,
+      extremPublishes: 'status-reference-consistency-enterprise-mapping-and-deterministic-fallback-signal-only',
+      extrondolPublishes: 'wawe-freeze-promotion-review-rollback-kpi-audit-summary-only',
+      spajaKodPublishes: 'status-blocker-review-downstream-and-business-summary-only',
+      technicalBinding: 'developerAndCreateRepoWideReflection.biznisTrack',
+      noNewRuntimeEngine: true,
+      noNewRuntimeRoutes: true,
+      noParallelSourceOfTruth: true,
+      rawInternalsExposed: false,
+    },
     canonicalTerminologyMapping: {
       phrase: 'EXTRIMLI EXTRONDOL EXTREM DOK DUK DAK DIK FOR',
       nucleusLayers: ['documentation', 'types', 'route-summary-fields', 'tests', 'workflow-audit-layer'],
@@ -15041,6 +15111,82 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
       : poslovnaPonudaZelezaraDooStatus === 'WATCH'
         ? 'WATCH'
         : 'REVIEW_REQUIRED';
+  const biznisTrack = dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.biznisTrack;
+  const biznisRuntimeFallbackInput = process.env.EXTRIMLI_BIZNIS_FALLBACK_INPUT;
+  const biznisNormalizedFallbackInputs = DEVELOPER_CREATE_BIZNIS_FALLBACK_INPUTS.map((token) =>
+    token.toLowerCase()
+  );
+  const biznisTrimmedFallbackInput = biznisRuntimeFallbackInput?.trim().toLowerCase() ?? null;
+  const biznisResolvedFallbackInput =
+    biznisTrimmedFallbackInput === '' ? 'empty' : biznisTrimmedFallbackInput;
+  const biznisFallbackInputStatus: ExtrimliExtremReadinessStatus =
+    biznisResolvedFallbackInput === 'conflict'
+      ? 'BLOCKED'
+      : biznisResolvedFallbackInput && biznisNormalizedFallbackInputs.includes(biznisResolvedFallbackInput)
+        ? 'WATCH'
+        : 'READY';
+  const biznisReferenceListStatus: ExtrimliExtremReadinessStatus =
+    biznisTrack.referencePackage.publicBoundary === 'summary-only'
+      && biznisTrack.referencePackage.referenceListModel
+        === 'ekosistemski-poslovni-kapaciteti-partnerstva-enterprise-mapiranje'
+      && biznisTrack.referencePackage.noNewFinancialRuntimeFormulas
+      && biznisTrack.referencePackage.noOperationalExecutionEngine
+      ? 'READY'
+      : 'BLOCKED';
+  const biznisEcosystemConsistencyStatus: ExtrimliExtremReadinessStatus =
+    biznisTrack.referencePackage.canonicalBusinessTrack
+        === dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.fourTrackProgramPackage.businessTrack.canonicalName
+      && biznisTrack.referencePackage.umbrellaModel
+        === dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.fourTrackProgramPackage.businessTrack.umbrellaModel
+      ? 'READY'
+      : 'BLOCKED';
+  const biznisEnterpriseMappingStatus: ExtrimliExtremReadinessStatus =
+    dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.fourTrackProgramPackage.businessTrack.boundedAliases.includes(
+      'REFERENTNA LISTA == EKOSISTEMA == BIZNIS'
+    )
+      ? 'READY'
+      : 'BLOCKED';
+  const biznisSignalStatuses = [
+    dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.status,
+    dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.technicalReadinessProfile.consolidatedRhythmStatus,
+    biznisReferenceListStatus,
+    biznisEcosystemConsistencyStatus,
+    biznisEnterpriseMappingStatus,
+    biznisFallbackInputStatus,
+  ] as const;
+  const biznisStatus = aggregateSignalReadinessStatus([...biznisSignalStatuses]);
+  biznisTrack.readinessSignal.status = biznisStatus;
+  biznisTrack.readinessSignal.readinessScore = round(
+    biznisSignalStatuses.reduce((sum, status) => sum + readinessStatusScore(status), 0)
+      / biznisSignalStatuses.length,
+    2,
+  );
+  biznisTrack.readinessSignal.referenceListStatus = biznisReferenceListStatus;
+  biznisTrack.readinessSignal.ecosystemConsistencyStatus = biznisEcosystemConsistencyStatus;
+  biznisTrack.readinessSignal.enterpriseMappingStatus = biznisEnterpriseMappingStatus;
+  biznisTrack.readinessSignal.fallbackInputStatus = biznisFallbackInputStatus;
+  biznisTrack.readinessSignal.deterministicFallbackRequired =
+    biznisStatus !== 'READY' || biznisFallbackInputStatus !== 'READY';
+  biznisTrack.businessSummary =
+    'BIZNIS ostaje additive-only bounded paket za ekosistemsku referentnu listu poslovnih kapaciteta, partnerstava i enterprise mapiranja unutar Kompanija SPAJA / Digitalna Industrija, bez novih finansijskih formula i bez operativnog execution engine-a.';
+  biznisTrack.governanceReadinessSummary =
+    'BIZNIS readiness ostaje vezan za postojeći ownership split (DOK/DIK/FOR=EXTREM, DAK/DUK=EXTRONDOL, SPAJA KOD=summary-only) uz human review, rollout/rollback i downstream reference discipline.';
+  biznisTrack.blockerReason =
+    biznisStatus === 'BLOCKED'
+      ? 'BIZNIS ostaje BLOCKED dok ekosistemska referentna lista, enterprise mapiranje ili fallback unos nisu poravnati kroz postojeći summary-only governance model.'
+      : null;
+  biznisTrack.watchReasons =
+    biznisStatus === 'WATCH'
+      ? [
+          'BIZNIS ostaje u WATCH režimu dok referentna lista ekosistema ostaje auditabilan signal i zahteva dodatni governance review pre promotion odluke.',
+        ]
+      : [];
+  biznisTrack.reviewPosture =
+    biznisStatus === 'READY'
+      ? 'ALIGNED'
+      : biznisStatus === 'WATCH'
+        ? 'WATCH'
+        : 'REVIEW_REQUIRED';
   const aiIqKonferencijaZaStampuTrack =
     dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.aiIqKonferencijaZaStampuTrack;
   const aiIqKonferencijaZaStampuMediaSummary =
@@ -15485,7 +15631,7 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
   dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.fourTrackProgramPackage.publicBoundaryTrack.readinessStatus =
     dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.status;
   dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.fourTrackProgramPackage.businessTrack.readinessStatus =
-    dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.status;
+    dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.biznisTrack.readinessSignal.status;
   dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.reasons = [
     'DEVELOPER AND CREATE ostaje additive-only repo-wide interpretativni lock preko postojećih EXTRIMLI / EXTREM / EXTRONDOL kontrakata.',
     'VRH PROGRAMSKOG EKVILADENTA ostaje vršni sloj, RADNI TAKT MOZGA (MISLILAC) ostaje zajednički ritam/readiness signal, a METRIČKO / SINEMETRIČKO / PARADIJOGONALNO ostaju kanonski prateći track-ovi.',

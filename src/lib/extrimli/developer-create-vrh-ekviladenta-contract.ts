@@ -182,6 +182,9 @@ export const DEVELOPER_CREATE_VRH_VINOGRADI_GROCKA_RESTORAN_ALIAS =
 export const DEVELOPER_CREATE_VRH_POSLOVNA_PONUDA_ZELEZARA_DOO_ALIAS =
   'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == POSLOVNA PONUDA / ŽELEZARA D.O.O. SMEDEREVO' as const;
 
+export const DEVELOPER_CREATE_VRH_BIZNIS_ALIAS =
+  'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == REFERENTNA LISTA == EKOSISTEMA == BIZNIS' as const;
+
 export const DEVELOPER_CREATE_VRH_MONTEZACIJA_ALIAS =
   'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == MONTEZACIJA' as const;
 
@@ -229,6 +232,7 @@ export const DEVELOPER_CREATE_VRH_INTERPRETATION_ALIASES = [
   'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == AI IQ LABORATORIJA == LABORATORIJSKI NALAZI FAUNE I FLORE I GRAĐEVINSKOG MATERIJALA',
   'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == POSLOVNA PONUDA',
   'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == POSLOVNA PONUDA / PRETPLATA',
+  DEVELOPER_CREATE_VRH_BIZNIS_ALIAS,
   DEVELOPER_CREATE_VRH_MONTEZACIJA_ALIAS,
   DEVELOPER_CREATE_VRH_MONTEZACIJA_NAD_MONTEZACIJAMA_ALIAS,
   DEVELOPER_CREATE_VRH_KRALJEVSKA_MONTEZACIJA_ALIAS,
@@ -1702,6 +1706,48 @@ export const DEVELOPER_CREATE_POSLOVNA_PONUDA_ZELEZARA_DOO_SUMMARY_SAFE_FIELDS =
   'operationsPlanStatus',
   'procurementLogisticsStatus',
   'referenceListStatus',
+] as const;
+
+export const DEVELOPER_CREATE_BIZNIS_CANONICAL_ALIAS =
+  DEVELOPER_CREATE_VRH_BIZNIS_ALIAS;
+
+export const DEVELOPER_CREATE_BIZNIS_SCOPE_STATEMENT =
+  'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == REFERENTNA LISTA == EKOSISTEMA == BIZNIS == additive-only bounded ecosystem business-reference paket bez novih ruta i bez paralelnog source-of-truth sistema' as const;
+
+export const DEVELOPER_CREATE_BIZNIS_ROLE_CLASSIFICATION =
+  'additive-only-bounded-ekosistem-business-reference-track' as const;
+
+export const DEVELOPER_CREATE_BIZNIS_BOUNDED_VOCABULARY_PHRASE =
+  'EXTRIMLI EXTRONDOL EXTREM DOK DUK DAK DIK FOR' as const;
+
+export const DEVELOPER_CREATE_BIZNIS_REFERENCE_PACKAGE = {
+  canonicalBusinessTrack: 'Kompanija SPAJA / Digitalna Industrija',
+  umbrellaModel: 'DIGITALNA INDUSTRIJA',
+  referenceListModel: 'ekosistemski-poslovni-kapaciteti-partnerstva-enterprise-mapiranje',
+  publicBoundary: 'summary-only',
+  noNewFinancialRuntimeFormulas: true,
+  noOperationalExecutionEngine: true,
+} as const;
+
+export const DEVELOPER_CREATE_BIZNIS_FALLBACK_INPUTS = [
+  'NaN',
+  'Infinity',
+  'empty',
+  'conflict',
+] as const;
+
+export const DEVELOPER_CREATE_BIZNIS_SUMMARY_SAFE_FIELDS = [
+  'canonicalAlias',
+  'status',
+  'blockerReason',
+  'watchReasons',
+  'reviewPosture',
+  'downstreamReference',
+  'businessSummary',
+  'referenceListStatus',
+  'ecosystemConsistencyStatus',
+  'enterpriseMappingStatus',
+  'fallbackInputStatus',
 ] as const;
 export const DEVELOPER_CREATE_AI_IQ_KONFERENCIJA_ZA_STAMPU_CANONICAL_ALIAS =
   'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == AI IQ KONFERENCIJA ZA ŠTAMPU (NOVINE, DIGITALNE NOVINE)' as const;

@@ -349,6 +349,8 @@ async function runTests(): Promise<void> {
       report.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.vinogradiGrockaRestoranTrack;
     const poslovnaPonudaZelezaraDooTrack =
       report.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.poslovnaPonudaZelezaraDooTrack;
+    const biznisTrack =
+      report.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.biznisTrack;
     const aiIqKonferencijaZaStampuTrack =
       report.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.aiIqKonferencijaZaStampuTrack;
     const radioTrack =
@@ -557,6 +559,14 @@ async function runTests(): Promise<void> {
     assert(poslovnaPonudaZelezaraDooTrack.acceptanceEvidence.join(',') === 'developerAndCreateRepoWideReflection.poslovnaPonudaZelezaraDooTrack,releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.poslovnaPonudaZelezaraDooTrack,spajaKod.publicSignals.poslovnaPonudaZelezaraDooStatus,spajaKod.developerAndCreateImplementationPackage.poslovnaPonudaZelezaraDooSummary', 'developer/create POSLOVNA PONUDA / ŽELEZARA D.O.O. SMEDEREVO acceptance evidence mismatch');
     assert(implementationPackage.poslovnaPonudaZelezaraDooBoundary.trackRole === 'bounded-business-offer-zelezara-urgent-meeting-track', 'developer/create implementation package POSLOVNA PONUDA / ŽELEZARA D.O.O. SMEDEREVO boundary role mismatch');
     assert(implementationPackage.poslovnaPonudaZelezaraDooBoundary.spajaKodPublishes === 'status-blocker-review-downstream-and-urgent-meeting-summary-only', 'developer/create implementation package POSLOVNA PONUDA / ŽELEZARA D.O.O. SMEDEREVO public boundary mismatch');
+    assert(biznisTrack.canonicalAlias === 'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == REFERENTNA LISTA == EKOSISTEMA == BIZNIS', 'developer/create BIZNIS canonical alias mismatch');
+    assert(biznisTrack.roleClassification === 'additive-only-bounded-ekosistem-business-reference-track', 'developer/create BIZNIS role classification mismatch');
+    assert(biznisTrack.summarySafePublicFields.join(',') === 'canonicalAlias,status,blockerReason,watchReasons,reviewPosture,downstreamReference,businessSummary,referenceListStatus,ecosystemConsistencyStatus,enterpriseMappingStatus,fallbackInputStatus', 'developer/create BIZNIS summary-safe fields mismatch');
+    assert(['READY', 'WATCH', 'BLOCKED'].includes(biznisTrack.readinessSignal.status), 'developer/create BIZNIS readiness status mismatch');
+    assert(biznisTrack.acceptanceEvidence.join(',') === 'developerAndCreateRepoWideReflection.biznisTrack,releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.biznisTrack,spajaKod.publicSignals.biznisStatus,spajaKod.developerAndCreateImplementationPackage.biznisSummary', 'developer/create BIZNIS acceptance evidence mismatch');
+    assert(implementationPackage.biznisBoundary.trackRole === 'bounded-ekosistem-business-reference-track', 'developer/create implementation package BIZNIS boundary role mismatch');
+    assert(implementationPackage.biznisBoundary.spajaKodPublishes === 'status-blocker-review-downstream-and-business-summary-only', 'developer/create implementation package BIZNIS public boundary mismatch');
+    assert(report.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.fourTrackProgramPackage.businessTrack.boundedAliases.join(',') === 'POSLOVNA PONUDA,POSLOVNA PONUDA / ŽELEZARA D.O.O. SMEDEREVO,REFERENTNA LISTA == EKOSISTEMA == BIZNIS', 'developer/create business bounded aliases mismatch');
     assert(report.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.technicalReadinessProfile.immersiveVisualization3dTrack.dimensionalProgression.join(',') === '360D,720D,1440D,2880D,5760D', 'developer/create immersive dimensional progression mismatch');
     assert(report.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.technicalReadinessProfile.immersiveVisualization3dTrack.fallbackPolicy.degradedMode === 'partial-payload-no-500', 'developer/create immersive degraded policy mismatch');
     assert(report.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.technicalReadinessProfile.immersiveVisualization3dTrack.dimensionalSignals.length === 5, 'developer/create immersive dimensional signals mismatch');

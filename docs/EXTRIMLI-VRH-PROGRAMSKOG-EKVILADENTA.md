@@ -56,10 +56,12 @@ Bounded vokabular ostaje zaključan na `EXTRIMLI EXTRONDOL EXTREM DOK DUK DAK DI
 - `VINOGRADI GROCKA, RESTORAN` → bounded leadership-transition paket istog lock-a; razrešenje postojećeg izvršnog direktora i imenovanje `JONAČIĆ SLAVIŠA` i `JONAČIĆ MARKO` ostaju governance-only evidencija sa obaveznim audit trail/effective-date, bez novih ruta, bez novih formula i bez izlaganja internih HR detalja u SPAJA KOD javnom izlazu
 - `POSLOVNA PONUDA` → additive-only bounded business-governance alias istog lock-a; kanonski Vercel pozdrav + alternativna saradnja + GitHub subscription bridge ostaju audit-only governance artefakt, bez novih ruta i bez paralelnog source-of-truth sistema
 - `POSLOVNA PONUDA / ŽELEZARA D.O.O. SMEDEREVO` → additive-only bounded urgent-meeting intake alias istog lock-a; obavezni strukturirani paket (`cilj saradnje`, `imenovanja izvršnih direktora`, `2000m² skladište`, `5000m² parking`, `plan pogona/sektora`, `referentna lista`, `rokovi`) ostaje pod istim `READY | WATCH | BLOCKED` modelom bez novih ruta i bez promene ownership split-a
+- `REFERENTNA LISTA == EKOSISTEMA == BIZNIS` → additive-only bounded business-reference alias istog lock-a; EXTREM objavljuje readiness/reference/enterprise-mapping signal, EXTRONDOL objavljuje human-review/rollout/rollback/release-audit ogledalo, a SPAJA KOD objavljuje samo audit-safe summary status, blocker/watch razloge, review posture, downstream reference i kratki business/ecosystem summary bez internih enterprise detalja
 - `POSLOVNA PONUDA` zadržava i `EKSTREMNA PREPORUKA` javni sloj, ali samo kao summary-safe preporuku za GitHub/Vercel poslovnu saradnju; `NOTES 1450` ostaje obavezni bounded handoff dokaz kontinuiteta pre bilo kakve promocije.
 - Za `POSLOVNA PONUDA / ŽELEZARA D.O.O. SMEDEREVO` lični kontakt podaci ostaju isključivo private intake/audit evidence; `SPAJA KOD` i downstream sync ostaju summary-only bez HR/operativnih internala i bez privatnih kontakata.
 - `TELEVIZIJA` → bounded media/distribution paket istog lock-a; EXTREM objavljuje distribucioni readiness + provider/channel/region-language fallback posture, EXTRONDOL governance ogledalo za provider review/compliance/payment/rollout/rollback, a SPAJA KOD samo audit-safe distribution summary bez sirovih provider formula i bez enforcement logike
 - Ownership split za `RADNI PROSTOR`, `KONSTRUKCIJE I PROJEKTOVANJE`, `VINOGRADI GROCKA, RESTORAN`, `RADIO`, `MUZIČKA KUTIJA`, `TELEVIZIJA` i `POSLOVNA PONUDA` ostaje zaključan: `DOK/DIK/FOR -> EXTREM`, `DAK/DUK -> EXTRONDOL`, `SPAJA KOD -> summary-only`.
+- Ownership split za `REFERENTNA LISTA == EKOSISTEMA == BIZNIS` ostaje isti poslovni boundary: `DOK/DIK/FOR -> EXTREM`, `DAK/DUK -> EXTRONDOL`, `SPAJA KOD -> summary-only`, a alias ostaje vezan za postojeću poslovnu traku `Kompanija SPAJA / Digitalna Industrija`.
 - Ownership split za `ALATI / RADIONICA` ostaje isti kao za `RADNI PROSTOR`: `DOK/DIK/FOR -> EXTREM`, `DAK/DUK -> EXTRONDOL`, `SPAJA KOD -> summary-only`.
 
 ### FUNCTION REGISTRY additive-only map
@@ -104,6 +106,8 @@ Bounded vokabular ostaje zaključan na `EXTRIMLI EXTRONDOL EXTREM DOK DUK DAK DI
 `VRH PROGRAMSKOG EKVILADENTA` nije novi modul, već vršni plan koji orkestrira postojeće proporcionalne, metričke, sinemetričke, paradijogonalne i AI-IQ jezičke slojeve u jednu governance priču.
 
 U istom vršnom planu `Kompanija SPAJA / Digitalna Industrija` ostaje bounded poslovna interpretacija: Developer/Create je vrh programski i governance sloj, dok Digitalna Industrija ostaje umbrella poslovni/operativni agregat bez novih finansijskih ili operativnih runtime formula.
+
+`BIZNIS` ostaje samo bounded referentni paket unutar tog umbrella modela: `REFERENTNA LISTA == EKOSISTEMA == BIZNIS` mapira poslovne kapacitete, partnerstva i enterprise pokrivenost kao proverljiv `READY | WATCH | BLOCKED` signal bez novog poslovnog engine-a i bez paralelnog source-of-truth sistema.
 
 Repo-wide reflection sada obavezno uključuje i dnevni operativni cadence: `morning-startup`, `deep-focus-block`, `midday-checkpoint` i `end-of-day-closeout`, uz dnevni task set prioriteta `1–3` vezan za jednu aktivnu roadmap fazu.
 

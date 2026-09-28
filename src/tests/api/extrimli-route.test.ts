@@ -1047,6 +1047,7 @@ async function runTests(): Promise<void> {
           aiIqLaboratorijaStatus: string;
           konstrukcijeIProjektovanjeStatus: string;
           vinogradiGrockaRestoranStatus: string;
+          biznisStatus: string;
           aiIqKonferencijaZaStampuStatus: string;
           radioStatus: string;
           muzickaKutijaStatus: string;
@@ -1111,6 +1112,7 @@ async function runTests(): Promise<void> {
             | 'publicSignals.aiIqLaboratorijaStatus'
             | 'publicSignals.konstrukcijeIProjektovanjeStatus'
             | 'publicSignals.vinogradiGrockaRestoranStatus'
+            | 'publicSignals.biznisStatus'
             | 'publicSignals.aiIqKonferencijaZaStampuStatus'
             | 'publicSignals.radioStatus'
             | 'publicSignals.muzickaKutijaStatus'
@@ -1150,6 +1152,7 @@ async function runTests(): Promise<void> {
             | 'developerAndCreateImplementationPackage.aiIqLaboratorijaSummary'
             | 'developerAndCreateImplementationPackage.konstrukcijeIProjektovanjeSummary'
             | 'developerAndCreateImplementationPackage.vinogradiGrockaRestoranSummary'
+            | 'developerAndCreateImplementationPackage.biznisSummary'
             | 'developerAndCreateImplementationPackage.aiIqKonferencijaZaStampuSummary'
             | 'developerAndCreateImplementationPackage.radioSummary'
             | 'developerAndCreateImplementationPackage.muzickaKutijaSummary'
@@ -1182,6 +1185,7 @@ async function runTests(): Promise<void> {
           aiIqLaboratorijaSummary: { canonicalAlias: string; roleClassification: string; status: string; blockerReason: string | null; watchReasons: string[]; reviewPosture: string; downstreamReference: string; publicBoundary: string; nalazSummary: string };
           konstrukcijeIProjektovanjeSummary: { canonicalAlias: string; roleClassification: string; status: string; blockerReason: string | null; watchReasons: string[]; reviewPosture: string; downstreamReference: string; publicBoundary: string; constructionDesignSummary: string; gradjevinskiFakultetStatus: string; gradjevinskiAktStatus: string };
           vinogradiGrockaRestoranSummary: { canonicalAlias: string; roleClassification: string; status: string; blockerReason: string | null; watchReasons: string[]; reviewPosture: string; downstreamReference: string; publicBoundary: string; leadershipTransitionSummary: string; effectiveDate: string; auditTrailReference: string };
+          biznisSummary: { canonicalAlias: string; roleClassification: string; status: string; blockerReason: string | null; watchReasons: string[]; reviewPosture: string; downstreamReference: string; publicBoundary: string; businessSummary: string; referenceListStatus: string; ecosystemConsistencyStatus: string; enterpriseMappingStatus: string; fallbackInputStatus: string; legalComplianceReviewStatus: string; enterpriseDetailsRedacted: boolean };
           aiIqKonferencijaZaStampuSummary: { canonicalAlias: string; roleClassification: string; status: string; blockerReason: string | null; watchReasons: string[]; reviewPosture: string; downstreamReference: string; publicBoundary: string; mediaSummary: string };
           radioSummary: { canonicalAlias: string; roleClassification: string; status: string; blockerReason: string | null; watchReasons: string[]; reviewPosture: string; downstreamReference: string; publicBoundary: string; semanticPreservation: { truMeaning: string; dokerMeaning: string; skuMeaning: string; noSemanticConflict: boolean }; mikrofonProjectionAlias: { canonicalEquality: string; status: string; blockerReason: string | null; watchReasons: string[]; reviewPosture: string; downstreamReference: string; publicBoundary: string; semanticPreservation: { mikrofonMeaning: string; megafonMeaning: string; distributerMeaning: string; saksofonMeaning: string; noSemanticConflict: boolean }; mikrofonSummary: string }; radioSummary: string };
           muzickaKutijaSummary: { canonicalAlias: string; roleClassification: string; status: string; blockerReason: string | null; watchReasons: string[]; reviewPosture: string; downstreamReference: string; publicBoundary: string; boundedDescription: string; mappedAudioInstrumentLayers: { instrumentTabla: string; ritamDuracije: string; narativVokal: string; audioVizuelniPaket: string }; mappedLayerSummary: string; musicBoxSummary: string };
@@ -1410,6 +1414,8 @@ async function runTests(): Promise<void> {
     const routeSummaryCsv = body.data.developerAndCreateImplementationPackage.routeSummaryFields.join(',');
     assert(routeSummaryCsv.includes('publicSignals.pilotStatus,publicSignals.devastatorStatus,publicSignals.elektronskiPotpisStatus'), 'unexpected SPAJA KOD PILOT->DEVASTATOR->ELEKTRONSKI POTPIS public route summary ordering');
     assert(routeSummaryCsv.includes('developerAndCreateImplementationPackage.pilotSummary,developerAndCreateImplementationPackage.devastatorSummary,developerAndCreateImplementationPackage.elektronskiPotpisSummary'), 'unexpected SPAJA KOD PILOT->DEVASTATOR->ELEKTRONSKI POTPIS package route summary ordering');
+    assert(routeSummaryCsv.includes('publicSignals.poslovnaPonudaZelezaraDooStatus,publicSignals.biznisStatus,publicSignals.aiIqKonferencijaZaStampuStatus'), 'unexpected SPAJA KOD POSLOVNA PONUDA->BIZNIS->AI IQ press public route summary ordering');
+    assert(routeSummaryCsv.includes('developerAndCreateImplementationPackage.poslovnaPonudaZelezaraDooSummary,developerAndCreateImplementationPackage.biznisSummary,developerAndCreateImplementationPackage.aiIqKonferencijaZaStampuSummary'), 'unexpected SPAJA KOD POSLOVNA PONUDA->BIZNIS->AI IQ press package route summary ordering');
     assert(body.data.developerAndCreateImplementationPackage.konstrukcijeIProjektovanjeSummary.status === body.data.publicSignals.konstrukcijeIProjektovanjeStatus, 'unexpected SPAJA KOD KONSTRUKCIJE I PROJEKTOVANJE summary/status mismatch');
     assert(body.data.developerAndCreateImplementationPackage.konstrukcijeIProjektovanjeSummary.publicBoundary === 'audit-safe-summary-only', 'unexpected SPAJA KOD KONSTRUKCIJE I PROJEKTOVANJE public boundary');
     assert(body.data.developerAndCreateImplementationPackage.konstrukcijeIProjektovanjeSummary.canonicalAlias === 'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == KONSTRUKCIJE I PROJEKTOVANJE', 'unexpected SPAJA KOD KONSTRUKCIJE I PROJEKTOVANJE canonical alias');
@@ -1417,6 +1423,10 @@ async function runTests(): Promise<void> {
     assert(body.data.developerAndCreateImplementationPackage.vinogradiGrockaRestoranSummary.publicBoundary === 'audit-safe-summary-only', 'unexpected SPAJA KOD VINOGRADI GROCKA, RESTORAN public boundary');
     assert(body.data.developerAndCreateImplementationPackage.vinogradiGrockaRestoranSummary.canonicalAlias === 'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == VINOGRADI GROCKA, RESTORAN', 'unexpected SPAJA KOD VINOGRADI GROCKA, RESTORAN canonical alias');
     assert(body.data.developerAndCreateImplementationPackage.vinogradiGrockaRestoranSummary.leadershipTransitionSummary.includes('summary-safe'), 'unexpected SPAJA KOD VINOGRADI GROCKA, RESTORAN leadership transition summary');
+    assert(body.data.developerAndCreateImplementationPackage.biznisSummary.status === body.data.publicSignals.biznisStatus, 'unexpected SPAJA KOD BIZNIS summary/status mismatch');
+    assert(body.data.developerAndCreateImplementationPackage.biznisSummary.publicBoundary === 'audit-safe-summary-only', 'unexpected SPAJA KOD BIZNIS public boundary');
+    assert(body.data.developerAndCreateImplementationPackage.biznisSummary.canonicalAlias === 'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == REFERENTNA LISTA == EKOSISTEMA == BIZNIS', 'unexpected SPAJA KOD BIZNIS canonical alias');
+    assert(body.data.developerAndCreateImplementationPackage.biznisSummary.enterpriseDetailsRedacted, 'unexpected SPAJA KOD BIZNIS redaction posture');
     assert(body.data.developerAndCreateImplementationPackage.covecanstvuPublicOutput === 'summary-only', 'unexpected SPAJA KOD implementation package ČOVEČANSTVU output');
     assert(body.data.developerAndCreateImplementationPackage.aiIqWorldBankPrepiskaSummary.canonicalName === 'AI IQ WORLD BANK PREPISKA', 'unexpected SPAJA KOD AI IQ WORLD BANK prepiska summary name');
     assert(body.data.developerAndCreateImplementationPackage.aiIqWorldBankPrepiskaSummary.canonicalSourceDocument === 'docs/AI-IQ-WORLD-BANK-AI-IDENTITY-FINANCE-GOVERNANCE.md', 'unexpected SPAJA KOD AI IQ WORLD BANK prepiska summary source document');
