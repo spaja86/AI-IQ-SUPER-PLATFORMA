@@ -126,6 +126,10 @@ import {
   DEVELOPER_CREATE_ELEKTRONSKI_POTPIS_SCOPE_STATEMENT,
   DEVELOPER_CREATE_ELEKTRONSKI_POTPIS_SUMMARY_SAFE_FIELDS,
   DEVELOPER_CREATE_VRH_INTERPRETATION_ALIASES,
+  DEVELOPER_CREATE_VRH_BERMUDSKI_TROUGAO_LICNO_ISKUSTVO_FOTOMORGANE_ALIAS,
+  DEVELOPER_CREATE_VRH_BERMUDSKI_TROUGAO_LICNO_ISKUSTVO_FOTOMORGANE_ALIAS_BOUNDARY,
+  DEVELOPER_CREATE_VRH_BERMUDSKI_TROUGAO_LICNO_ISKUSTVO_FOTOMORGANE_SUMMARY_SAFE_FIELDS,
+  DEVELOPER_CREATE_VRH_BERMUDSKI_TROUGAO_LICNO_ISKUSTVO_FOTOMORGANE_THEMATIC_SIGNALS,
   DEVELOPER_CREATE_VRH_ZALAN_ALIAS,
   DEVELOPER_CREATE_VRH_ZALAN_ALIAS_BOUNDARY,
   DEVELOPER_CREATE_VRH_ELEKTRONSKI_POTPIS_ALIAS,
@@ -229,6 +233,68 @@ async function runTests(): Promise<void> {
     assert(
       multiRepoLinks.includes('Developer/Create `ZALAN` interpretativni alias'),
       'multi-repo links ZALAN downstream entry missing',
+    );
+  });
+
+  await test('bermudski trougao / licno iskustvo / fotomorgane stays additive-only and summary-safe', () => {
+    assert(
+      DEVELOPER_CREATE_VRH_INTERPRETATION_ALIASES.includes(
+        DEVELOPER_CREATE_VRH_BERMUDSKI_TROUGAO_LICNO_ISKUSTVO_FOTOMORGANE_ALIAS,
+      ),
+      'BERMUDSKI TROUGAO / LIČNO ISKUSTVO / FOTOMORGANE alias must be present in interpretation aliases',
+    );
+    assert(
+      DEVELOPER_CREATE_VRH_BERMUDSKI_TROUGAO_LICNO_ISKUSTVO_FOTOMORGANE_ALIAS_BOUNDARY.classification
+        === 'documentation-and-interpretative-alias-only',
+      'BERMUDSKI TROUGAO / LIČNO ISKUSTVO / FOTOMORGANE classification must stay documentation/interpretative only',
+    );
+    assert(
+      DEVELOPER_CREATE_VRH_BERMUDSKI_TROUGAO_LICNO_ISKUSTVO_FOTOMORGANE_ALIAS_BOUNDARY.noNewRuntimeModule
+        && DEVELOPER_CREATE_VRH_BERMUDSKI_TROUGAO_LICNO_ISKUSTVO_FOTOMORGANE_ALIAS_BOUNDARY.noParallelSourceOfTruth
+        && DEVELOPER_CREATE_VRH_BERMUDSKI_TROUGAO_LICNO_ISKUSTVO_FOTOMORGANE_ALIAS_BOUNDARY.noNewPhysicsOrMedicalEngine,
+      'BERMUDSKI TROUGAO / LIČNO ISKUSTVO / FOTOMORGANE alias must not introduce runtime modules, parallel source-of-truth, or physics/medical engines',
+    );
+    assertArrayEquals(
+      DEVELOPER_CREATE_VRH_BERMUDSKI_TROUGAO_LICNO_ISKUSTVO_FOTOMORGANE_THEMATIC_SIGNALS,
+      [
+        'bermudski-trougao',
+        'licno-iskustvo',
+        'fotomorgane',
+        'more-i-oseka',
+        'vedro-nebo',
+        'vizuelni-trag-nepostojanja-objekta',
+        'documentation-only-prirodni-epilog',
+      ],
+      'BERMUDSKI TROUGAO / LIČNO ISKUSTVO / FOTOMORGANE thematic signals',
+    );
+    assertArrayEquals(
+      DEVELOPER_CREATE_VRH_BERMUDSKI_TROUGAO_LICNO_ISKUSTVO_FOTOMORGANE_SUMMARY_SAFE_FIELDS,
+      [
+        'canonicalAlias',
+        'scenarioId',
+        'status',
+        'blockerReason',
+        'reviewPosture',
+        'downstreamReference',
+        'boundedThematicLabels',
+      ],
+      'BERMUDSKI TROUGAO / LIČNO ISKUSTVO / FOTOMORGANE summary-safe fields',
+    );
+    assert(
+      manifest.includes('`DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == BERMUDSKI TROUGAO / LIČNO ISKUSTVO / FOTOMORGANE`'),
+      'manifest BERMUDSKI TROUGAO / LIČNO ISKUSTVO / FOTOMORGANE alias mention missing',
+    );
+    assert(
+      vrhDoc.includes('`BERMUDSKI TROUGAO / LIČNO ISKUSTVO / FOTOMORGANE`'),
+      'VRH extension doc BERMUDSKI TROUGAO / LIČNO ISKUSTVO / FOTOMORGANE alias mention missing',
+    );
+    assert(
+      extrimliDoc.includes('documentation-only://bermudski-trougao-licno-iskustvo-fotomorgane-prirodni-morski-epilog'),
+      'EXTRIMLI doc photomorgane documentation-only asset entry missing',
+    );
+    assert(
+      multiRepoLinks.includes('scenarioId=bermudski-trougao-more-oseka-vedro-nebo-fotomorgane-developer-create'),
+      'multi-repo links photomorgane downstream entry missing',
     );
   });
 
@@ -1490,6 +1556,7 @@ async function runTests(): Promise<void> {
         'ecosystemConsistencyStatus',
         'enterpriseMappingStatus',
         'fallbackInputStatus',
+        'potraznjaSveStoNamTreba',
       ],
       'unexpected BIZNIS summary-safe fields',
     );
