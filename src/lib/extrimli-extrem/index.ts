@@ -63,6 +63,12 @@ import {
   DEVELOPER_CREATE_BIZNIS_ROLE_CLASSIFICATION,
   DEVELOPER_CREATE_BIZNIS_SCOPE_STATEMENT,
   DEVELOPER_CREATE_BIZNIS_SUMMARY_SAFE_FIELDS,
+  DEVELOPER_CREATE_BIZNIS_POTRAZNJA_SVE_STO_NAM_TREBA_CANONICAL_ALIAS,
+  DEVELOPER_CREATE_BIZNIS_POTRAZNJA_SVE_STO_NAM_TREBA_SCOPE_STATEMENT,
+  DEVELOPER_CREATE_BIZNIS_POTRAZNJA_SVE_STO_NAM_TREBA_ROLE_CLASSIFICATION,
+  DEVELOPER_CREATE_BIZNIS_POTRAZNJA_SVE_STO_NAM_TREBA_BOUNDED_VOCABULARY_PHRASE,
+  DEVELOPER_CREATE_BIZNIS_POTRAZNJA_SVE_STO_NAM_TREBA_SUMMARY_SAFE_FIELDS,
+  DEVELOPER_CREATE_BIZNIS_POTRAZNJA_SVE_STO_NAM_TREBA_FALLBACK_INPUTS,
   DEVELOPER_CREATE_KRALJEVSKO_TAKMICENJE_AUTHENTICITY_RULES,
   DEVELOPER_CREATE_KRALJEVSKO_TAKMICENJE_CANONICAL_ALIAS,
   DEVELOPER_CREATE_KRALJEVSKO_TAKMICENJE_EVALUATION_CRITERIA,
@@ -8461,6 +8467,40 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
           driver:
             'developerAndCreateRepoWideReflection.readiness + technicalReadinessProfile.consolidatedRhythmStatus + fourTrackProgramPackage.businessTrack',
         },
+        potraznjaSveStoNamTreba: {
+          canonicalAlias: DEVELOPER_CREATE_BIZNIS_POTRAZNJA_SVE_STO_NAM_TREBA_CANONICAL_ALIAS,
+          scopeStatement: DEVELOPER_CREATE_BIZNIS_POTRAZNJA_SVE_STO_NAM_TREBA_SCOPE_STATEMENT,
+          roleClassification: DEVELOPER_CREATE_BIZNIS_POTRAZNJA_SVE_STO_NAM_TREBA_ROLE_CLASSIFICATION,
+          boundedVocabularyPhrase: DEVELOPER_CREATE_BIZNIS_POTRAZNJA_SVE_STO_NAM_TREBA_BOUNDED_VOCABULARY_PHRASE,
+          additiveOnly: true,
+          noNewRuntimeEngine: true,
+          noNewRuntimeRoutes: true,
+          noParallelSourceOfTruth: true,
+          ownershipLock: {
+            dokDikFor: 'EXTREM',
+            dakDuk: 'EXTRONDOL',
+            spajaKod: 'audit-safe-summary-only',
+          },
+          summarySafePublicFields: DEVELOPER_CREATE_BIZNIS_POTRAZNJA_SVE_STO_NAM_TREBA_SUMMARY_SAFE_FIELDS,
+          readinessSignal: {
+            status: 'BLOCKED',
+            readinessScore: 0,
+            demandCoverageStatus: 'BLOCKED',
+            ecosystemCoverageStatus: 'BLOCKED',
+            resourcePartnerCapacityStatus: 'BLOCKED',
+            fallbackInputStatus: 'BLOCKED',
+            deterministicFallbackRequired: true,
+            fallbackInputs: DEVELOPER_CREATE_BIZNIS_POTRAZNJA_SVE_STO_NAM_TREBA_FALLBACK_INPUTS,
+            driver:
+              'developerAndCreateRepoWideReflection.readiness + technicalReadinessProfile.consolidatedRhythmStatus + biznisTrack.referencePackage + biznisTrack.resourcePartnerCapacity',
+          },
+          blockerReason:
+            'potraznja-sve-sto-nam-treba-awaits-summary-safe-demand-reference-capacity-and-fallback-alignment',
+          watchReasons: [],
+          reviewPosture: 'REVIEW_REQUIRED',
+          demandSummary: '',
+          downstreamReference: 'docs/MULTI-REPO-LINKS.md -> spaja86/IO-OPENUI-AO (summary-only)',
+        },
         blockerReason:
           'biznis-track-awaits-ekosistem-reference-readiness-enterprise-mapping-and-governance-alignment',
         watchReasons: [],
@@ -15144,17 +15184,55 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
     dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.fourTrackProgramPackage.businessTrack.boundedAliases.includes(
       'REFERENTNA LISTA == EKOSISTEMA == BIZNIS'
     )
+      && dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.fourTrackProgramPackage.businessTrack.canonicalName
+        === 'Kompanija SPAJA / Digitalna Industrija'
       ? 'READY'
       : 'BLOCKED';
-  const biznisSignalStatuses = [
-    dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.status,
-    dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.technicalReadinessProfile.consolidatedRhythmStatus,
+  const potraznjaSveStoNamTrebaTrack = biznisTrack.potraznjaSveStoNamTreba;
+  const biznisDemandSignalStatuses = [
     biznisReferenceListStatus,
     biznisEcosystemConsistencyStatus,
     biznisEnterpriseMappingStatus,
     biznisFallbackInputStatus,
   ] as const;
-  const biznisStatus = aggregateSignalReadinessStatus([...biznisSignalStatuses]);
+  const biznisDemandStatus = aggregateReadinessStatus(biznisDemandSignalStatuses);
+  potraznjaSveStoNamTrebaTrack.readinessSignal.status = biznisDemandStatus;
+  potraznjaSveStoNamTrebaTrack.readinessSignal.readinessScore = round(
+    biznisDemandSignalStatuses.reduce((sum, status) => sum + readinessStatusScore(status), 0)
+      / biznisDemandSignalStatuses.length,
+    2,
+  );
+  potraznjaSveStoNamTrebaTrack.readinessSignal.demandCoverageStatus = biznisReferenceListStatus;
+  potraznjaSveStoNamTrebaTrack.readinessSignal.ecosystemCoverageStatus = biznisEcosystemConsistencyStatus;
+  potraznjaSveStoNamTrebaTrack.readinessSignal.resourcePartnerCapacityStatus = biznisEnterpriseMappingStatus;
+  potraznjaSveStoNamTrebaTrack.readinessSignal.fallbackInputStatus = biznisFallbackInputStatus;
+  potraznjaSveStoNamTrebaTrack.readinessSignal.deterministicFallbackRequired =
+    biznisDemandStatus !== 'READY' || biznisFallbackInputStatus !== 'READY';
+  potraznjaSveStoNamTrebaTrack.demandSummary =
+    'POTRAŽNJA SVE ŠTO NAM TREBA ostaje additive-only summary-safe demand/reference podtraka za potrebe, kapacitete, partnere i resurse unutar Kompanija SPAJA / Digitalna Industrija, bez novog business engine-a i bez execution layer-a.';
+  potraznjaSveStoNamTrebaTrack.blockerReason =
+    biznisDemandStatus === 'BLOCKED'
+      ? 'POTRAŽNJA SVE ŠTO NAM TREBA ostaje BLOCKED dok demand/reference pokrivenost, partner-resurs kapaciteti ili fallback unos nisu poravnati kroz postojeći summary-only governance model.'
+      : null;
+  potraznjaSveStoNamTrebaTrack.watchReasons =
+    biznisDemandStatus === 'WATCH'
+      ? [
+          'POTRAŽNJA SVE ŠTO NAM TREBA ostaje u WATCH režimu dok summary-safe mapa potreba i pokrivenosti zahteva dodatni governance review pre promotion odluke.',
+        ]
+      : [];
+  potraznjaSveStoNamTrebaTrack.reviewPosture =
+    biznisDemandStatus === 'READY'
+      ? 'ALIGNED'
+      : biznisDemandStatus === 'WATCH'
+        ? 'WATCH'
+        : 'REVIEW_REQUIRED';
+  const biznisSignalStatuses = [
+    dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.status,
+    dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.technicalReadinessProfile.consolidatedRhythmStatus,
+    potraznjaSveStoNamTrebaTrack.readinessSignal.status,
+    biznisFallbackInputStatus,
+  ] as const;
+  const biznisStatus = aggregateReadinessStatus(biznisSignalStatuses);
   biznisTrack.readinessSignal.status = biznisStatus;
   biznisTrack.readinessSignal.readinessScore = round(
     biznisSignalStatuses.reduce((sum, status) => sum + readinessStatusScore(status), 0)
@@ -15168,17 +15246,17 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
   biznisTrack.readinessSignal.deterministicFallbackRequired =
     biznisStatus !== 'READY' || biznisFallbackInputStatus !== 'READY';
   biznisTrack.businessSummary =
-    'BIZNIS ostaje additive-only bounded paket za ekosistemsku referentnu listu poslovnih kapaciteta, partnerstava i enterprise mapiranja unutar Kompanija SPAJA / Digitalna Industrija, bez novih finansijskih formula i bez operativnog execution engine-a.';
+    'BIZNIS ostaje additive-only bounded paket za ekosistemsku referentnu listu poslovnih kapaciteta, partnerstava i enterprise mapiranja unutar Kompanija SPAJA / Digitalna Industrija, a podtraka POTRAŽNJA SVE ŠTO NAM TREBA vodi summary-safe stanje potreba i pokrivenosti bez novih finansijskih formula i bez operativnog execution engine-a.';
   biznisTrack.governanceReadinessSummary =
-    'BIZNIS readiness ostaje vezan za postojeći ownership split (DOK/DIK/FOR=EXTREM, DAK/DUK=EXTRONDOL, SPAJA KOD=summary-only) uz human review, rollout/rollback i downstream reference discipline.';
+    'BIZNIS readiness ostaje vezan za postojeći ownership split (DOK/DIK/FOR=EXTREM, DAK/DUK=EXTRONDOL, SPAJA KOD=summary-only) uz human review, rollout/rollback i downstream reference discipline, dok POTRAŽNJA SVE ŠTO NAM TREBA ostaje samo summary-safe demand/reference ogledalo.';
   biznisTrack.blockerReason =
     biznisStatus === 'BLOCKED'
-      ? 'BIZNIS ostaje BLOCKED dok ekosistemska referentna lista, enterprise mapiranje ili fallback unos nisu poravnati kroz postojeći summary-only governance model.'
+      ? 'BIZNIS ostaje BLOCKED dok ekosistemska referentna lista, POTRAŽNJA SVE ŠTO NAM TREBA signal ili fallback unos nisu poravnati kroz postojeći summary-only governance model.'
       : null;
   biznisTrack.watchReasons =
     biznisStatus === 'WATCH'
       ? [
-          'BIZNIS ostaje u WATCH režimu dok referentna lista ekosistema ostaje auditabilan signal i zahteva dodatni governance review pre promotion odluke.',
+          'BIZNIS ostaje u WATCH režimu dok referentna lista ekosistema i summary-safe potražnja/pokrivenost zahtevaju dodatni governance review pre promotion odluke.',
         ]
       : [];
   biznisTrack.reviewPosture =

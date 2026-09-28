@@ -1748,6 +1748,40 @@ export const DEVELOPER_CREATE_BIZNIS_SUMMARY_SAFE_FIELDS = [
   'ecosystemConsistencyStatus',
   'enterpriseMappingStatus',
   'fallbackInputStatus',
+  'potraznjaSveStoNamTreba',
+] as const;
+
+export const DEVELOPER_CREATE_BIZNIS_POTRAZNJA_SVE_STO_NAM_TREBA_CANONICAL_ALIAS =
+  'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == REFERENTNA LISTA == EKOSISTEMA == BIZNIS == POTRAŽNJA SVE ŠTO NAM TREBA' as const;
+
+export const DEVELOPER_CREATE_BIZNIS_POTRAZNJA_SVE_STO_NAM_TREBA_SCOPE_STATEMENT =
+  'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == REFERENTNA LISTA == EKOSISTEMA == BIZNIS == POTRAŽNJA SVE ŠTO NAM TREBA == additive-only bounded demand/reference paket za potrebe, kapacitete, partnere i resurse bez novih ruta i bez paralelnog source-of-truth sistema' as const;
+
+export const DEVELOPER_CREATE_BIZNIS_POTRAZNJA_SVE_STO_NAM_TREBA_ROLE_CLASSIFICATION =
+  'additive-only-bounded-demand-reference-track' as const;
+
+export const DEVELOPER_CREATE_BIZNIS_POTRAZNJA_SVE_STO_NAM_TREBA_BOUNDED_VOCABULARY_PHRASE =
+  'EXTRIMLI EXTRONDOL EXTREM DOK DUK DAK DIK FOR' as const;
+
+export const DEVELOPER_CREATE_BIZNIS_POTRAZNJA_SVE_STO_NAM_TREBA_FALLBACK_INPUTS = [
+  'NaN',
+  'Infinity',
+  'empty',
+  'conflict',
+] as const;
+
+export const DEVELOPER_CREATE_BIZNIS_POTRAZNJA_SVE_STO_NAM_TREBA_SUMMARY_SAFE_FIELDS = [
+  'canonicalAlias',
+  'status',
+  'blockerReason',
+  'watchReasons',
+  'reviewPosture',
+  'downstreamReference',
+  'demandSummary',
+  'demandCoverageStatus',
+  'ecosystemCoverageStatus',
+  'resourcePartnerCapacityStatus',
+  'fallbackInputStatus',
 ] as const;
 export const DEVELOPER_CREATE_AI_IQ_KONFERENCIJA_ZA_STAMPU_CANONICAL_ALIAS =
   'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == AI IQ KONFERENCIJA ZA ŠTAMPU (NOVINE, DIGITALNE NOVINE)' as const;

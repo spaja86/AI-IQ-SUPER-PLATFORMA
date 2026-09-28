@@ -28,6 +28,8 @@ Umbrella nivo ostaje rukovodni i agregatni sloj. Specijalizovani moduli ostaju r
 
 Additive bounded alias `DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == SARKAZAM / PRIVREDNA GRANA DIGITALIZMA / PROJEKTI ENTUZIJAZMA PO ČINU OBLASTIMA` ostaje vezan za isti umbrella sloj samo kao summary-safe enterprise/policy/pedagoška interpretacija. `SARKAZAM` je zaključan kao narativni marker bez izvršne semantike, a poslovni smisao ostaje ograničen na postojeće okvire `Kompanija SPAJA / Digitalna Industrija`, `KRALJEVSKI EKONOMSKI UNEVERZITET`, `PRIVREDNI AKT` i katalog `testovi po oblastima`.
 
+Additive bounded pod-alias `DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == REFERENTNA LISTA == EKOSISTEMA == BIZNIS == POTRAŽNJA SVE ŠTO NAM TREBA` ostaje vezan za isti umbrella sloj samo kao summary-safe demand/reference interpretacija: opisuje šta je potrebno, koju pokrivenost imaju partneri/resursi/kapaciteti i gde postoje WATCH/BLOCKED praznine, bez novog poslovnog engine-a, bez execution layer-a i bez novih runtime ruta.
+
 ## 2. Poslovni tokovi
 
 Kanonski grupisani tokovi su:

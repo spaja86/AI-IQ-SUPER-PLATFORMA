@@ -51,8 +51,14 @@ import type {
   DEVELOPER_CREATE_BIZNIS_CANONICAL_ALIAS,
   DEVELOPER_CREATE_BIZNIS_SCOPE_STATEMENT,
   DEVELOPER_CREATE_BIZNIS_ROLE_CLASSIFICATION,
+  DEVELOPER_CREATE_BIZNIS_SUMMARY_SAFE_FIELDS,
   DEVELOPER_CREATE_BIZNIS_REFERENCE_PACKAGE,
   DEVELOPER_CREATE_BIZNIS_FALLBACK_INPUTS,
+  DEVELOPER_CREATE_BIZNIS_POTRAZNJA_SVE_STO_NAM_TREBA_CANONICAL_ALIAS,
+  DEVELOPER_CREATE_BIZNIS_POTRAZNJA_SVE_STO_NAM_TREBA_SCOPE_STATEMENT,
+  DEVELOPER_CREATE_BIZNIS_POTRAZNJA_SVE_STO_NAM_TREBA_ROLE_CLASSIFICATION,
+  DEVELOPER_CREATE_BIZNIS_POTRAZNJA_SVE_STO_NAM_TREBA_SUMMARY_SAFE_FIELDS,
+  DEVELOPER_CREATE_BIZNIS_POTRAZNJA_SVE_STO_NAM_TREBA_FALLBACK_INPUTS,
   DEVELOPER_CREATE_KRALJEVSKO_TAKMICENJE_AUTHENTICITY_RULES,
   DEVELOPER_CREATE_KRALJEVSKO_TAKMICENJE_CANONICAL_ALIAS,
   DEVELOPER_CREATE_KRALJEVSKO_TAKMICENJE_EVALUATION_CRITERIA,
@@ -3945,19 +3951,7 @@ export interface ExtrimliDokDikDakDukConsistencyHealth {
         dakDuk: 'EXTRONDOL';
         spajaKod: 'audit-safe-summary-only';
       };
-      summarySafePublicFields: readonly [
-        'canonicalAlias',
-        'status',
-        'blockerReason',
-        'watchReasons',
-        'reviewPosture',
-        'downstreamReference',
-        'businessSummary',
-        'referenceListStatus',
-        'ecosystemConsistencyStatus',
-        'enterpriseMappingStatus',
-        'fallbackInputStatus'
-      ];
+      summarySafePublicFields: typeof DEVELOPER_CREATE_BIZNIS_SUMMARY_SAFE_FIELDS;
       referencePackage: typeof DEVELOPER_CREATE_BIZNIS_REFERENCE_PACKAGE;
       readinessSignal: {
         status: 'READY' | 'WATCH' | 'BLOCKED';
@@ -3969,6 +3963,38 @@ export interface ExtrimliDokDikDakDukConsistencyHealth {
         deterministicFallbackRequired: boolean;
         fallbackInputs: typeof DEVELOPER_CREATE_BIZNIS_FALLBACK_INPUTS;
         driver: 'developerAndCreateRepoWideReflection.readiness + technicalReadinessProfile.consolidatedRhythmStatus + fourTrackProgramPackage.businessTrack';
+      };
+      potraznjaSveStoNamTreba: {
+        canonicalAlias: typeof DEVELOPER_CREATE_BIZNIS_POTRAZNJA_SVE_STO_NAM_TREBA_CANONICAL_ALIAS;
+        scopeStatement: typeof DEVELOPER_CREATE_BIZNIS_POTRAZNJA_SVE_STO_NAM_TREBA_SCOPE_STATEMENT;
+        roleClassification: typeof DEVELOPER_CREATE_BIZNIS_POTRAZNJA_SVE_STO_NAM_TREBA_ROLE_CLASSIFICATION;
+        boundedVocabularyPhrase: 'EXTRIMLI EXTRONDOL EXTREM DOK DUK DAK DIK FOR';
+        additiveOnly: true;
+        noNewRuntimeEngine: true;
+        noNewRuntimeRoutes: true;
+        noParallelSourceOfTruth: true;
+        ownershipLock: {
+          dokDikFor: 'EXTREM';
+          dakDuk: 'EXTRONDOL';
+          spajaKod: 'audit-safe-summary-only';
+        };
+        summarySafePublicFields: typeof DEVELOPER_CREATE_BIZNIS_POTRAZNJA_SVE_STO_NAM_TREBA_SUMMARY_SAFE_FIELDS;
+        readinessSignal: {
+          status: 'READY' | 'WATCH' | 'BLOCKED';
+          readinessScore: number;
+          demandCoverageStatus: 'READY' | 'WATCH' | 'BLOCKED';
+          ecosystemCoverageStatus: 'READY' | 'WATCH' | 'BLOCKED';
+          resourcePartnerCapacityStatus: 'READY' | 'WATCH' | 'BLOCKED';
+          fallbackInputStatus: 'READY' | 'WATCH' | 'BLOCKED';
+          deterministicFallbackRequired: boolean;
+          fallbackInputs: typeof DEVELOPER_CREATE_BIZNIS_POTRAZNJA_SVE_STO_NAM_TREBA_FALLBACK_INPUTS;
+          driver: 'developerAndCreateRepoWideReflection.readiness + technicalReadinessProfile.consolidatedRhythmStatus + biznisTrack.referencePackage + biznisTrack.resourcePartnerCapacity';
+        };
+        blockerReason: string | null;
+        watchReasons: string[];
+        reviewPosture: 'ALIGNED' | 'WATCH' | 'REVIEW_REQUIRED';
+        demandSummary: string;
+        downstreamReference: 'docs/MULTI-REPO-LINKS.md -> spaja86/IO-OPENUI-AO (summary-only)';
       };
       blockerReason: string | null;
       watchReasons: string[];
