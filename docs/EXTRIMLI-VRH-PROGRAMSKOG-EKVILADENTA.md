@@ -68,6 +68,7 @@ Bounded vokabular ostaje zaključan na `EXTRIMLI EXTRONDOL EXTREM DOK DUK DAK DI
 - Ne uvodi nove runtime rute i ne uvodi paralelni source-of-truth sloj.
 - Operacije (`FUNCTION PETLJE`, `RETURN_TO_START`, `DIREKT`, `INDIREKT`, `THIS`, `CREATE`, `DELETE`, `REPEAT`, `IN`, `BACKUP`, `ENTER`) ostaju mapirane na postojeći PETLJE ugovor.
 - `DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == SpajaNikOpenEvolution == FUNCTION BACKUP` ostaje additive-only bounded backup podtraka istog FUNCTION REGISTRY lock-a i koristi isti ownership split (`DOK/DIK/FOR -> EXTREM`, `DAK/DUK -> EXTRONDOL`, `SPAJA KOD -> summary-only`) bez novih ruta.
+- `DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == CLI == FUNCTION BACKDOWN.INOVACE.PAID.SPAJICNIKOLA` ostaje additive-only bounded CLI podtraka istog FUNCTION REGISTRY lock-a: normalizacija je zaključana (`BACKDOWN -> BACKUP`, `INOVACE -> INNOVATION_CONTEXT`, `SPAJICNIKOLA -> SpajaNikOpenEvolution`), ownership split ostaje isti, a governance promocija ostaje blokirana dok `PAID` dokaz nije potvrđen kroz postojeći EXTRONDOL payment-verification tok.
 - `RETURN_TO_START` i `REPEAT` ostaju kontrolni obrasci nad postojećim loop mehanizmima (`DOK PETLJA` + `UMBREL PETLJA`) uz deterministic fallback.
 - Governance zaključavanje ostaje isto: readiness `READY/WATCH/BLOCKED`, blocker reason, human-review status, rollout/rollback plan, downstream summary-only referenca.
 

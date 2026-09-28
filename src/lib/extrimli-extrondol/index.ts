@@ -269,6 +269,7 @@ const DEVELOPER_CREATE_ROADMAP_ACCEPTANCE_EVIDENCE_BASE = [
   'spajaKod.publicSignals.notes1450Status',
   'spajaKod.publicSignals.functionRegistryStatus',
   'spajaKod.publicSignals.spajaNikOpenEvolutionFunctionBackupStatus',
+  'spajaKod.publicSignals.cliFunctionBackdownInovacePaidSpajicnikolaStatus',
   'spajaKod.publicSignals.saradnjaReadyStatus',
   'spajaKod.publicSignals.leksikonStatus',
   'spajaKod.publicSignals.promocijeTiketiBonusiPropusniceAdministrativniBonusiStatus',
@@ -333,6 +334,7 @@ const DEVELOPER_CREATE_GOVERNANCE_ACCEPTANCE_EVIDENCE: ExtrimliExtrondolReport['
   'spajaKod.publicSignals.notes1450Status',
   'spajaKod.publicSignals.functionRegistryStatus',
   'spajaKod.publicSignals.spajaNikOpenEvolutionFunctionBackupStatus',
+  'spajaKod.publicSignals.cliFunctionBackdownInovacePaidSpajicnikolaStatus',
   'spajaKod.publicSignals.saradnjaReadyStatus',
   'spajaKod.publicSignals.leksikonStatus',
   'spajaKod.publicSignals.radniProstorStatus',
@@ -3469,6 +3471,8 @@ function buildSpajaKodFacade(params: {
   sarkazamPrivrednaGranaDigitalizmaStatus: ExtrimliExtrondolReport['extremProfiler']['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['sarkazamPrivrednaGranaDigitalizmaTrack']['reflectionSignal']['status'];
   notes1450Status: ExtrimliExtrondolReport['extremProfiler']['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['notes1450Track']['readinessSignal']['status'];
   functionRegistryStatus: ExtrimliExtrondolReport['extremProfiler']['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['functionRegistryTrack']['readiness']['status'];
+  spajaNikOpenEvolutionFunctionBackupStatus: ExtrimliExtrondolReport['extremProfiler']['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['functionRegistryTrack']['spajaNikOpenEvolutionFunctionBackup']['status'];
+  cliFunctionBackdownInovacePaidSpajicnikolaStatus: ExtrimliExtrondolReport['extremProfiler']['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['functionRegistryTrack']['cliFunctionBackdownInovacePaidSpajicnikola']['status'];
   saradnjaReadyStatus: ExtrimliExtrondolReport['extremProfiler']['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['saradnjaReadyPackage']['readinessSignal']['status'];
   leksikonStatus: ExtrimliExtrondolReport['extremProfiler']['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['leksikonTrack']['readinessSignal']['status'];
   promocijeTiketiBonusiPropusniceAdministrativniBonusiStatus: ExtrimliExtrondolReport['extremProfiler']['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['promocijeTiketiBonusiPropusniceAdministrativniBonusiTrack']['readinessSignal']['status'];
@@ -3623,6 +3627,8 @@ function buildSpajaKodFacade(params: {
       sarkazamPrivrednaGranaDigitalizmaStatus: params.sarkazamPrivrednaGranaDigitalizmaStatus,
       notes1450Status: params.notes1450Status,
       functionRegistryStatus: params.functionRegistryStatus,
+      spajaNikOpenEvolutionFunctionBackupStatus: params.spajaNikOpenEvolutionFunctionBackupStatus,
+      cliFunctionBackdownInovacePaidSpajicnikolaStatus: params.cliFunctionBackdownInovacePaidSpajicnikolaStatus,
       saradnjaReadyStatus: params.saradnjaReadyStatus,
       leksikonStatus: params.leksikonStatus,
       promocijeTiketiBonusiPropusniceAdministrativniBonusiStatus:
@@ -3756,6 +3762,7 @@ function buildSpajaKodFacade(params: {
         'publicSignals.notes1450Status',
         'publicSignals.functionRegistryStatus',
         'publicSignals.spajaNikOpenEvolutionFunctionBackupStatus',
+        'publicSignals.cliFunctionBackdownInovacePaidSpajicnikolaStatus',
         'publicSignals.leksikonStatus',
         'publicSignals.promocijeTiketiBonusiPropusniceAdministrativniBonusiStatus',
         'publicSignals.kraljevskoTakmicenjeStatus',
@@ -3989,6 +3996,21 @@ function buildSpajaKodFacade(params: {
         ],
         spajaNikOpenEvolutionFunctionBackupFallbackPosture:
           params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.functionRegistryTrack.spajaNikOpenEvolutionFunctionBackup.fallbackPosture,
+        cliFunctionBackdownInovacePaidSpajicnikolaScopeLock:
+          params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.functionRegistryTrack.cliFunctionBackdownInovacePaidSpajicnikola.scopeLock,
+        cliFunctionBackdownInovacePaidSpajicnikolaStatus:
+          params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.functionRegistryTrack.cliFunctionBackdownInovacePaidSpajicnikola.status,
+        cliFunctionBackdownInovacePaidSpajicnikolaNormalizedAlias:
+          params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.functionRegistryTrack.cliFunctionBackdownInovacePaidSpajicnikola.normalization.normalizedAlias,
+        cliFunctionBackdownInovacePaidSpajicnikolaPaymentGateStatus:
+          params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.functionRegistryTrack.cliFunctionBackdownInovacePaidSpajicnikola.paymentGateStatus,
+        cliFunctionBackdownInovacePaidSpajicnikolaBlockerReason:
+          params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.functionRegistryTrack.cliFunctionBackdownInovacePaidSpajicnikola.blockerReason,
+        cliFunctionBackdownInovacePaidSpajicnikolaWatchReasons: [
+          ...params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.functionRegistryTrack.cliFunctionBackdownInovacePaidSpajicnikola.watchReasons,
+        ],
+        cliFunctionBackdownInovacePaidSpajicnikolaFallbackPosture:
+          params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.functionRegistryTrack.cliFunctionBackdownInovacePaidSpajicnikola.fallbackPosture,
         reviewPosture:
           params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.functionRegistryTrack.readiness.status === 'READY'
             ? 'ALIGNED'
@@ -6110,7 +6132,8 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
           eligibleNextWave,
           promotionFreeze:
             promotionFreeze
-            || extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.functionRegistryTrack.readiness.status !== 'READY',
+            || extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.functionRegistryTrack.readiness.status !== 'READY'
+            || !paymentVerification.evidence.currentInvoicePaid,
           reviewRequiredBeforeWideRollout:
             extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.functionRegistryTrack.readiness.status !== 'READY',
           reviewPosture:
@@ -6128,11 +6151,31 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
             'developerAndCreateRepoWideReflection.functionRegistryTrack',
             'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.functionRegistryTrack',
             'spajaKod.publicSignals.functionRegistryStatus',
-  'spajaKod.publicSignals.spajaNikOpenEvolutionFunctionBackupStatus',
+            'spajaKod.publicSignals.spajaNikOpenEvolutionFunctionBackupStatus',
+            'spajaKod.publicSignals.cliFunctionBackdownInovacePaidSpajicnikolaStatus',
             'spajaKod.developerAndCreateImplementationPackage.functionRegistrySummary',
           ],
           downstreamReference:
             extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.functionRegistryTrack.readiness.downstreamReference,
+          cliFunctionBackdownInovacePaidSpajicnikola: {
+            ...extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.functionRegistryTrack.cliFunctionBackdownInovacePaidSpajicnikola,
+            status: paymentVerification.evidence.currentInvoicePaid
+              ? extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.functionRegistryTrack.cliFunctionBackdownInovacePaidSpajicnikola.status
+              : 'BLOCKED',
+            blockerReason: paymentVerification.evidence.currentInvoicePaid
+              ? extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.functionRegistryTrack.cliFunctionBackdownInovacePaidSpajicnikola.blockerReason
+              : 'CLI FUNCTION BACKDOWN.INOVACE.PAID.SPAJICNIKOLA remains blocked until PAID verification evidence is confirmed through the existing EXTRONDOL payment gate.',
+            watchReasons: paymentVerification.evidence.currentInvoicePaid
+              ? [
+                ...extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.functionRegistryTrack.cliFunctionBackdownInovacePaidSpajicnikola.watchReasons,
+              ]
+              : [
+                ...extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.functionRegistryTrack.cliFunctionBackdownInovacePaidSpajicnikola.watchReasons,
+                `payment-gate-blockers:${paymentVerification.blockers.join('|') || 'none'}`,
+              ],
+            paymentGateStatus: paymentVerification.evidence.currentInvoicePaid ? 'PAID_CONFIRMED' : 'PAID_REQUIRED',
+            humanReviewStatus: 'required-before-promotion',
+          },
         },
         saradnjaReadyPackage: {
           ...extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.saradnjaReadyPackage,
@@ -7337,6 +7380,10 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
       extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.functionRegistryTrack.readiness.status,
     spajaNikOpenEvolutionFunctionBackupStatus:
       extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.functionRegistryTrack.spajaNikOpenEvolutionFunctionBackup.status,
+    cliFunctionBackdownInovacePaidSpajicnikolaStatus:
+      paymentVerification.evidence.currentInvoicePaid
+        ? extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.functionRegistryTrack.cliFunctionBackdownInovacePaidSpajicnikola.status
+        : 'BLOCKED',
     saradnjaReadyStatus:
       extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.saradnjaReadyPackage.readinessSignal.status,
     leksikonStatus:
@@ -8296,7 +8343,8 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
             eligibleNextWave,
             promotionFreeze:
               promotionFreeze
-              || extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.functionRegistryTrack.readiness.status !== 'READY',
+              || extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.functionRegistryTrack.readiness.status !== 'READY'
+              || !paymentVerification.evidence.currentInvoicePaid,
             reviewRequiredBeforeWideRollout:
               extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.functionRegistryTrack.readiness.status !== 'READY',
             reviewPosture:
@@ -8314,11 +8362,31 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
               'developerAndCreateRepoWideReflection.functionRegistryTrack',
               'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.functionRegistryTrack',
               'spajaKod.publicSignals.functionRegistryStatus',
-  'spajaKod.publicSignals.spajaNikOpenEvolutionFunctionBackupStatus',
+              'spajaKod.publicSignals.spajaNikOpenEvolutionFunctionBackupStatus',
+              'spajaKod.publicSignals.cliFunctionBackdownInovacePaidSpajicnikolaStatus',
               'spajaKod.developerAndCreateImplementationPackage.functionRegistrySummary',
             ],
             downstreamReference:
               extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.functionRegistryTrack.readiness.downstreamReference,
+            cliFunctionBackdownInovacePaidSpajicnikola: {
+              ...extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.functionRegistryTrack.cliFunctionBackdownInovacePaidSpajicnikola,
+              status: paymentVerification.evidence.currentInvoicePaid
+                ? extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.functionRegistryTrack.cliFunctionBackdownInovacePaidSpajicnikola.status
+                : 'BLOCKED',
+              blockerReason: paymentVerification.evidence.currentInvoicePaid
+                ? extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.functionRegistryTrack.cliFunctionBackdownInovacePaidSpajicnikola.blockerReason
+                : 'CLI FUNCTION BACKDOWN.INOVACE.PAID.SPAJICNIKOLA remains blocked until PAID verification evidence is confirmed through the existing EXTRONDOL payment gate.',
+              watchReasons: paymentVerification.evidence.currentInvoicePaid
+                ? [
+                  ...extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.functionRegistryTrack.cliFunctionBackdownInovacePaidSpajicnikola.watchReasons,
+                ]
+                : [
+                  ...extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.functionRegistryTrack.cliFunctionBackdownInovacePaidSpajicnikola.watchReasons,
+                  `payment-gate-blockers:${paymentVerification.blockers.join('|') || 'none'}`,
+                ],
+              paymentGateStatus: paymentVerification.evidence.currentInvoicePaid ? 'PAID_CONFIRMED' : 'PAID_REQUIRED',
+              humanReviewStatus: 'required-before-promotion',
+            },
           },
           saradnjaReadyPackage: {
             ...extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.saradnjaReadyPackage,
@@ -9445,7 +9513,8 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
         eligibleNextWave,
         promotionFreeze:
           promotionFreeze
-          || extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.functionRegistryTrack.readiness.status !== 'READY',
+          || extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.functionRegistryTrack.readiness.status !== 'READY'
+          || !paymentVerification.evidence.currentInvoicePaid,
         reviewRequiredBeforeWideRollout:
           extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.functionRegistryTrack.readiness.status !== 'READY',
         reviewPosture:
@@ -9463,11 +9532,31 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
           'developerAndCreateRepoWideReflection.functionRegistryTrack',
           'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.functionRegistryTrack',
           'spajaKod.publicSignals.functionRegistryStatus',
-  'spajaKod.publicSignals.spajaNikOpenEvolutionFunctionBackupStatus',
+          'spajaKod.publicSignals.spajaNikOpenEvolutionFunctionBackupStatus',
+          'spajaKod.publicSignals.cliFunctionBackdownInovacePaidSpajicnikolaStatus',
           'spajaKod.developerAndCreateImplementationPackage.functionRegistrySummary',
         ],
         downstreamReference:
           extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.functionRegistryTrack.readiness.downstreamReference,
+        cliFunctionBackdownInovacePaidSpajicnikola: {
+          ...extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.functionRegistryTrack.cliFunctionBackdownInovacePaidSpajicnikola,
+          status: paymentVerification.evidence.currentInvoicePaid
+            ? extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.functionRegistryTrack.cliFunctionBackdownInovacePaidSpajicnikola.status
+            : 'BLOCKED',
+          blockerReason: paymentVerification.evidence.currentInvoicePaid
+            ? extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.functionRegistryTrack.cliFunctionBackdownInovacePaidSpajicnikola.blockerReason
+            : 'CLI FUNCTION BACKDOWN.INOVACE.PAID.SPAJICNIKOLA remains blocked until PAID verification evidence is confirmed through the existing EXTRONDOL payment gate.',
+          watchReasons: paymentVerification.evidence.currentInvoicePaid
+            ? [
+              ...extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.functionRegistryTrack.cliFunctionBackdownInovacePaidSpajicnikola.watchReasons,
+            ]
+            : [
+              ...extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.functionRegistryTrack.cliFunctionBackdownInovacePaidSpajicnikola.watchReasons,
+              `payment-gate-blockers:${paymentVerification.blockers.join('|') || 'none'}`,
+            ],
+          paymentGateStatus: paymentVerification.evidence.currentInvoicePaid ? 'PAID_CONFIRMED' : 'PAID_REQUIRED',
+          humanReviewStatus: 'required-before-promotion',
+        },
       },
       saradnjaReadyPackage: {
         ...extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.saradnjaReadyPackage,

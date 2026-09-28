@@ -1131,6 +1131,7 @@ export interface ExtrimliExtrondolDeveloperAndCreateRepoWideReflectionGovernance
       'developerAndCreateRepoWideReflection.functionRegistryTrack',
       'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.functionRegistryTrack',
       'spajaKod.publicSignals.functionRegistryStatus',
+      'spajaKod.publicSignals.cliFunctionBackdownInovacePaidSpajicnikolaStatus',
       'spajaKod.developerAndCreateImplementationPackage.functionRegistrySummary'
     ];
     downstreamReference: 'docs/MULTI-REPO-LINKS.md -> spaja86/IO-OPENUI-AO (summary-only)';
@@ -3310,6 +3311,7 @@ export interface ExtrimliSpajaKodPublicFacade {
     notes1450Status: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['notes1450Track']['readinessSignal']['status'];
     functionRegistryStatus: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['functionRegistryTrack']['readiness']['status'];
     spajaNikOpenEvolutionFunctionBackupStatus: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['functionRegistryTrack']['spajaNikOpenEvolutionFunctionBackup']['status'];
+    cliFunctionBackdownInovacePaidSpajicnikolaStatus: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['functionRegistryTrack']['cliFunctionBackdownInovacePaidSpajicnikola']['status'];
     saradnjaReadyStatus: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['saradnjaReadyPackage']['readinessSignal']['status'];
     leksikonStatus: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['leksikonTrack']['readinessSignal']['status'];
     promocijeTiketiBonusiPropusniceAdministrativniBonusiStatus: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['promocijeTiketiBonusiPropusniceAdministrativniBonusiTrack']['readinessSignal']['status'];
@@ -3608,6 +3610,13 @@ export interface ExtrimliSpajaKodPublicFacade {
       spajaNikOpenEvolutionFunctionBackupBlockerReason: string | null;
       spajaNikOpenEvolutionFunctionBackupWatchReasons: string[];
       spajaNikOpenEvolutionFunctionBackupFallbackPosture: string;
+      cliFunctionBackdownInovacePaidSpajicnikolaScopeLock: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['functionRegistryTrack']['cliFunctionBackdownInovacePaidSpajicnikola']['scopeLock'];
+      cliFunctionBackdownInovacePaidSpajicnikolaStatus: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['functionRegistryTrack']['cliFunctionBackdownInovacePaidSpajicnikola']['status'];
+      cliFunctionBackdownInovacePaidSpajicnikolaNormalizedAlias: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['functionRegistryTrack']['cliFunctionBackdownInovacePaidSpajicnikola']['normalization']['normalizedAlias'];
+      cliFunctionBackdownInovacePaidSpajicnikolaPaymentGateStatus: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['functionRegistryTrack']['cliFunctionBackdownInovacePaidSpajicnikola']['paymentGateStatus'];
+      cliFunctionBackdownInovacePaidSpajicnikolaBlockerReason: string | null;
+      cliFunctionBackdownInovacePaidSpajicnikolaWatchReasons: string[];
+      cliFunctionBackdownInovacePaidSpajicnikolaFallbackPosture: string;
       reviewPosture: 'ALIGNED' | 'WATCH' | 'REVIEW_REQUIRED';
       downstreamReference: 'docs/MULTI-REPO-LINKS.md -> spaja86/IO-OPENUI-AO (summary-only)';
       publicBoundary: 'audit-safe-summary-only';
