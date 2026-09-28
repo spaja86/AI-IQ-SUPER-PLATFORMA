@@ -367,8 +367,8 @@ import type {
 
 const DEVELOPER_CREATE_MEDALJE_SRBSKE_FALLBACK_INPUTS_LOWERCASE =
   DEVELOPER_CREATE_MEDALJE_SRBSKE_FALLBACK_INPUTS.map((item) => item.toLowerCase());
-const DEVELOPER_CREATE_AUTOMATSKA_POPRAVKA_SVEGA_FALLBACK_INPUTS_UPPERCASE =
-  DEVELOPER_CREATE_AUTOMATSKA_POPRAVKA_SVEGA_FALLBACK_INPUTS.map((item) => item.toUpperCase());
+const DEVELOPER_CREATE_AUTOMATSKA_POPRAVKA_SVEGA_FALLBACK_INPUTS_LOWERCASE =
+  DEVELOPER_CREATE_AUTOMATSKA_POPRAVKA_SVEGA_FALLBACK_INPUTS.map((item) => item.toLowerCase());
 const DEVELOPER_CREATE_AUTOMATSKA_POPRAVKA_SVEGA_INPUT_NORMALIZATION_ALIASES_UPPERCASE =
   DEVELOPER_CREATE_AUTOMATSKA_POPRAVKA_SVEGA_INPUT_NORMALIZATION_ALIASES.map((item) => item.toUpperCase());
 const DEVELOPER_CREATE_AUTOMATSKA_POPRAVKA_SVEGA_CANONICAL_ALIAS_UPPERCASE =
@@ -13529,16 +13529,18 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
   const automatskaPopravkaSvegaUsesRawAlias =
     normalizedAutomatskaPopravkaSvegaRuntimeInput
     === DEVELOPER_CREATE_AUTOMATSKA_POPRAVKA_SVEGA_RAW_INPUT_ALIAS_UPPERCASE;
+  const automatskaPopravkaSvegaUsesDocumentedFallbackInput =
+    normalizedAutomatskaPopravkaSvegaFallbackLower
+      ? DEVELOPER_CREATE_AUTOMATSKA_POPRAVKA_SVEGA_FALLBACK_INPUTS_LOWERCASE.includes(
+        normalizedAutomatskaPopravkaSvegaFallbackLower,
+      )
+      : false;
   const automatskaPopravkaSvegaFallbackInputStatus: ExtrimliExtremReadinessStatus =
     normalizedAutomatskaPopravkaSvegaFallbackLower === 'conflict'
       ? 'BLOCKED'
       : automatskaPopravkaSvegaUsesCanonicalAlias
         ? 'BLOCKED'
-      : normalizedAutomatskaPopravkaSvegaRuntimeInput
-          && (automatskaPopravkaSvegaUsesRawAlias
-            || normalizedAutomatskaPopravkaSvegaFallbackLower === 'nan'
-            || normalizedAutomatskaPopravkaSvegaFallbackLower === 'infinity'
-            || normalizedAutomatskaPopravkaSvegaFallbackLower === 'empty')
+      : automatskaPopravkaSvegaUsesDocumentedFallbackInput
         ? 'WATCH'
         : normalizedAutomatskaPopravkaSvegaRuntimeInput
             && !DEVELOPER_CREATE_AUTOMATSKA_POPRAVKA_SVEGA_INPUT_NORMALIZATION_ALIASES_UPPERCASE.includes(
