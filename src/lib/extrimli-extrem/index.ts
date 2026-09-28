@@ -12978,7 +12978,7 @@ export function getExtrimliExtremProfilerReport(options?: {
         ...cliFunctionBackdownBaseWatchReasons,
         'FUNCTION BACKDOWN stays in WATCH while normalized FUNCTION BACKUP fallback confirmation is active.',
       ]
-      : cliFunctionBackdownTrack.status === 'READY'
+      : cliFunctionBackdownTrack.status === 'READY' || cliFunctionBackdownTrack.status === 'BLOCKED'
         ? [...cliFunctionBackdownBaseWatchReasons]
         : [];
   const eksperimentProgramskiJezikSignalStatuses = [
