@@ -5827,6 +5827,8 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
         sourceOfTruth: '/api/extrimli/extrem',
         status:
           extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.aiPlateOffer.boundedReadinessProfile.consolidatedStatus,
+        markanStatus:
+          extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.markanStatus,
         canonicalMapeUmaScopeLock: DEVELOPER_CREATE_VRH_MAPE_UMA_SCOPE_LOCK,
         readinessScore:
           extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.aiPlateOffer.boundedReadinessProfile.readinessScore,
@@ -8057,6 +8059,7 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
           additiveOnly: true,
           governanceVisibility: 'audit-safe-readiness-only',
           status: extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.aiPlateOffer.boundedReadinessProfile.consolidatedStatus,
+          markanStatus: extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.markanStatus,
           readinessScore: extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.aiPlateOffer.boundedReadinessProfile.readinessScore,
           deterministicFallbackRequired:
             extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.aiPlateOffer.boundedReadinessProfile.deterministicFallbackRequired,

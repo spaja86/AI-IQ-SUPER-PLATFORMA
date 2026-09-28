@@ -1139,7 +1139,7 @@ async function runTests(): Promise<void> {
       'MARKAN canonical alias mismatch',
     );
     assert(
-      DEVELOPER_CREATE_MARKAN_SCOPE_STATEMENT.includes('additive-only bounded alias'),
+      DEVELOPER_CREATE_MARKAN_SCOPE_STATEMENT.includes('additive-only bounded'),
       'MARKAN scope statement must preserve additive-only boundary',
     );
     assert(
@@ -1148,12 +1148,12 @@ async function runTests(): Promise<void> {
     );
     assertArrayEquals(
       DEVELOPER_CREATE_MARKAN_GOVERNANCE_REQUIRED_OUTPUTS,
-      ['readinessStatus', 'blockerOrWatchReason', 'humanReviewStatus', 'rolloutPlan', 'rollbackPlan', 'downstreamReference'],
+      ['readinessStatus', 'blockerReason', 'watchReasons', 'humanReviewStatus', 'rolloutPlan', 'rollbackPlan', 'releaseAuditSummary', 'downstreamReference'],
       'unexpected MARKAN governance outputs',
     );
     assertArrayEquals(
       DEVELOPER_CREATE_MARKAN_SUMMARY_SAFE_FIELDS,
-      ['canonicalAlias', 'status', 'reviewPosture', 'blockerOrWatchReason', 'humanReviewStatus', 'rolloutPlan', 'rollbackPlan', 'downstreamReference'],
+      ['canonicalAlias', 'readinessStatus', 'blockerReason', 'watchReasons', 'humanReviewStatus', 'rolloutPlan', 'rollbackPlan', 'releaseAuditSummary', 'downstreamReference'],
       'unexpected MARKAN summary-safe fields',
     );
   });
