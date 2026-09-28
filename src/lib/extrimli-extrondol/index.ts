@@ -934,7 +934,8 @@ function buildKraljevskaPlataStartPackageSummary(
     paymentVerification.status,
   );
   const blockerReason =
-    startPackage.approvalStatus === 'BLOCKED'
+    startPackage.blockerReason
+      ?? (startPackage.approvalStatus === 'BLOCKED'
       ? 'approval-status-blocked'
       : startPackage.payoutReadinessStatus === 'BLOCKED'
         ? 'payout-readiness-blocked'
@@ -944,7 +945,7 @@ function buildKraljevskaPlataStartPackageSummary(
             ? 'approval-status-watch'
             : startPackage.payoutReadinessStatus === 'WATCH'
               ? 'payout-readiness-watch'
-              : startPackage.blockerReason;
+              : null);
 
   return {
     canonicalAlias: startPackage.canonicalAlias,
