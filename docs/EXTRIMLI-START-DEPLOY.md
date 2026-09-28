@@ -27,6 +27,25 @@ na SPAJA platformi. Prati sve faze, KPI rezultate, rollback plan i downstream ko
 
 ---
 
+## Source-of-truth closure order
+
+- Canonical route pair for deploy readiness remains:
+  - `/api/vercel-status`
+  - `/api/owner/vercel-ownership`
+- The machine-readable `deployReadinessPlan` on both routes tracks the closure order for:
+  1. source-of-truth confirmation
+  2. billing gate
+  3. evidence gate
+  4. ownership / enterprise gate
+  5. FinOps gate
+  6. deploy infra gate
+  7. domain gate
+  8. WAWE 3 / release gate
+  9. WAWE 4 production promotion + WAWE 5 post-release audit
+- Production remains blocked until the plan no longer reports billing/evidence/ownership/FinOps/infra blockers and the remaining domain / downstream / human-review requirements are closed.
+
+---
+
 ## Domain Strategy (SPAJA)
 
 <!-- START_DEPLOY_CANONICAL_DOMAIN_STRATEGY -->

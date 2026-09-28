@@ -235,6 +235,10 @@ async function runTests(): Promise<void> {
     const response = await GET();
     assert.strictEqual(response.status, 200);
     const body = await response.json() as {
+      deployReadinessPlan: {
+        summary: { total: number };
+        steps: Array<{ id: string; status: string }>;
+      };
       vercel: {
         deployGovernance: {
           blockerSourceOfTruth: { primaryEndpoint: string; mirroredEndpoint: string; currentStatus: string };
@@ -255,6 +259,13 @@ async function runTests(): Promise<void> {
     assert.strictEqual(body.vercel.deployGovernance.wavePhases[0]?.id, 'WAVE 1');
     assert.strictEqual(body.vercel.deployGovernance.wavePhases[0]?.status, 'BLOCKED');
     assert.ok(body.vercel.deployGovernance.recommendedNextAction.includes(EXPECTED_INVOICE_NUMBER));
+    assert.strictEqual(body.deployReadinessPlan.summary.total, 9);
+    assert.strictEqual(body.deployReadinessPlan.steps[0]?.id, 'source-of-truth');
+    assert.strictEqual(body.deployReadinessPlan.steps[0]?.status, 'READY');
+    assert.strictEqual(
+      body.deployReadinessPlan.steps.find((step) => step.id === 'billing-gate')?.status,
+      'BLOCKED',
+    );
   });
 
   await test('corrected invoice resolve requires prior correction request', async () => {
