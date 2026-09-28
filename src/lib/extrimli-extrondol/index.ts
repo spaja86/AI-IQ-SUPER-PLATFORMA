@@ -6161,10 +6161,10 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
           cliFunctionBackdownInovacePaidSpajicnikola: {
             ...extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.functionRegistryTrack.cliFunctionBackdownInovacePaidSpajicnikola,
             status: paymentVerification.evidence.currentInvoicePaid
-              ? extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.functionRegistryTrack.spajaNikOpenEvolutionFunctionBackup.status
+              ? extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.functionRegistryTrack.cliFunctionBackdownInovacePaidSpajicnikola.status
               : 'BLOCKED',
             blockerReason: paymentVerification.evidence.currentInvoicePaid
-              ? extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.functionRegistryTrack.spajaNikOpenEvolutionFunctionBackup.blockerReason
+              ? extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.functionRegistryTrack.cliFunctionBackdownInovacePaidSpajicnikola.blockerReason
               : 'CLI FUNCTION BACKDOWN.INOVACE.PAID.SPAJICNIKOLA remains blocked until PAID verification evidence is confirmed through the existing EXTRONDOL payment gate.',
             watchReasons: paymentVerification.evidence.currentInvoicePaid
               ? [
@@ -7383,7 +7383,7 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
       extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.functionRegistryTrack.spajaNikOpenEvolutionFunctionBackup.status,
     cliFunctionBackdownInovacePaidSpajicnikolaStatus:
       paymentVerification.evidence.currentInvoicePaid
-        ? extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.functionRegistryTrack.spajaNikOpenEvolutionFunctionBackup.status
+        ? extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.functionRegistryTrack.cliFunctionBackdownInovacePaidSpajicnikola.status
         : 'BLOCKED',
     cliFunctionBackdownInovacePaidSpajicnikolaPaymentGateStatus:
       paymentVerification.evidence.currentInvoicePaid ? 'PAID_CONFIRMED' : 'PAID_REQUIRED',
@@ -8374,10 +8374,10 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
             cliFunctionBackdownInovacePaidSpajicnikola: {
               ...extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.functionRegistryTrack.cliFunctionBackdownInovacePaidSpajicnikola,
               status: paymentVerification.evidence.currentInvoicePaid
-                ? extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.functionRegistryTrack.spajaNikOpenEvolutionFunctionBackup.status
+                ? extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.functionRegistryTrack.cliFunctionBackdownInovacePaidSpajicnikola.status
                 : 'BLOCKED',
               blockerReason: paymentVerification.evidence.currentInvoicePaid
-                ? extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.functionRegistryTrack.spajaNikOpenEvolutionFunctionBackup.blockerReason
+                ? extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.functionRegistryTrack.cliFunctionBackdownInovacePaidSpajicnikola.blockerReason
                 : 'CLI FUNCTION BACKDOWN.INOVACE.PAID.SPAJICNIKOLA remains blocked until PAID verification evidence is confirmed through the existing EXTRONDOL payment gate.',
               watchReasons: paymentVerification.evidence.currentInvoicePaid
                 ? [
@@ -9544,10 +9544,10 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
         cliFunctionBackdownInovacePaidSpajicnikola: {
           ...extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.functionRegistryTrack.cliFunctionBackdownInovacePaidSpajicnikola,
           status: paymentVerification.evidence.currentInvoicePaid
-            ? extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.functionRegistryTrack.spajaNikOpenEvolutionFunctionBackup.status
+            ? extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.functionRegistryTrack.cliFunctionBackdownInovacePaidSpajicnikola.status
             : 'BLOCKED',
           blockerReason: paymentVerification.evidence.currentInvoicePaid
-            ? extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.functionRegistryTrack.spajaNikOpenEvolutionFunctionBackup.blockerReason
+            ? extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.functionRegistryTrack.cliFunctionBackdownInovacePaidSpajicnikola.blockerReason
             : 'CLI FUNCTION BACKDOWN.INOVACE.PAID.SPAJICNIKOLA remains blocked until PAID verification evidence is confirmed through the existing EXTRONDOL payment gate.',
           watchReasons: paymentVerification.evidence.currentInvoicePaid
             ? [
