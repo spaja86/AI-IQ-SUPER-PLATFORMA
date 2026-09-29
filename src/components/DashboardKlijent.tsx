@@ -323,7 +323,7 @@ export default function DashboardKlijent() {
           </a>
           {plan !== 'unlimited' && (
             <a
-              href="/pricing"
+              href="/pretplata"
               className="rounded-lg bg-green-600 px-6 py-3 text-sm font-semibold text-white transition hover:bg-green-500"
             >
               ⬆️ Nadogradi plan

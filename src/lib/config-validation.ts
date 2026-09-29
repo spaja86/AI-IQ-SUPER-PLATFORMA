@@ -63,6 +63,31 @@ export const ENV_VARIJABLE: EnvVarDefinicija[] = [
     grupa: 'REQUIRED',
     opis: 'Stripe publishable ključ za frontend',
   },
+  {
+    kljuc: 'STRIPE_WEBHOOK_SECRET',
+    grupa: 'REQUIRED',
+    opis: 'Stripe webhook tajna za verifikaciju billing događaja',
+  },
+  {
+    kljuc: 'STRIPE_PRICE_BASIC',
+    grupa: 'REQUIRED',
+    opis: 'Stripe Price ID za Basic plan',
+  },
+  {
+    kljuc: 'STRIPE_PRICE_PRO',
+    grupa: 'REQUIRED',
+    opis: 'Stripe Price ID za Pro plan',
+  },
+  {
+    kljuc: 'STRIPE_PRICE_ENTERPRISE',
+    grupa: 'REQUIRED',
+    opis: 'Stripe Price ID za Enterprise plan',
+  },
+  {
+    kljuc: 'STRIPE_PRICE_UNLIMITED',
+    grupa: 'REQUIRED',
+    opis: 'Stripe Price ID za Unlimited plan',
+  },
   // Autofinish trigger
   {
     kljuc: 'AUTOFINISH_TRIGGER_TOKEN',
