@@ -83,3 +83,32 @@ export async function getB2BVercelDeploymentSummary(): Promise<B2BDeploymentSumm
     }
   }));
 }
+
+export interface B2BIncidentSummary {
+  level: Exclude<B2BDeploymentAlert, 'none'>;
+  platformId: string;
+  naziv: string;
+  message: string;
+  checkedAt: string;
+  checklist: readonly string[];
+}
+
+/** Creates a read-only review queue. It intentionally has no deployment or notification side effects. */
+export function getIncidentSummaries(deployments: B2BDeploymentSummary[]): B2BIncidentSummary[] {
+  return deployments.flatMap((deployment) => {
+    if (deployment.alert === 'none' || !deployment.alertMessage) return [];
+    return [{
+      level: deployment.alert,
+      platformId: deployment.id,
+      naziv: deployment.naziv,
+      message: deployment.alertMessage,
+      checkedAt: deployment.checkedAt,
+      checklist: [
+        'Potvrdite stanje u Vercel dashboard-u.',
+        'Pregledajte build ili runtime logove.',
+        'Odredite vlasnika i sledeći ručni korak.',
+        'Ne pokrećite redeploy bez ljudske potvrde.',
+      ],
+    }];
+  });
+}
