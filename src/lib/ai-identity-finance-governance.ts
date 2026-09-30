@@ -140,7 +140,8 @@ export interface AiIdentityFinanceGovernancePackage {
       'payment-verification-status',
       'human-review-status',
       'downstream-sync-status',
-      'payout-compensation-regime'
+      'payout-compensation-regime',
+      'bezpovratne-subvencije-status'
     ];
     forbiddenEvidence: readonly [
       'real-bank-account-numbers',
@@ -269,7 +270,7 @@ export function buildAiIdentityFinanceGovernancePackage(
   const personas = SEED_PERSONAS.map((persona) => {
     const completenessScore = deriveIdentityCompleteness(persona);
     identityCompletenessTotal += completenessScore;
-    const personaStatus = options.readinessStatus === 'BLOCKED' || options.promotionFreeze
+    const personaStatus: AiIdentityFinanceGovernanceStatus = options.readinessStatus === 'BLOCKED' || options.promotionFreeze
       ? 'BLOCKED'
       : completenessScore < 100
         ? 'WATCH'
@@ -311,7 +312,7 @@ export function buildAiIdentityFinanceGovernancePackage(
         finopsGuardrailsRequired: true as const,
         payoutCompensationMode: 'premium-rollout-regime' as const,
         masterBillingCycle: 'monthly-or-annual' as const,
-        weeklyTargetEur: 12000,
+        weeklyTargetEur: 12000 as const,
         status: personaStatus,
         blockers,
         publicSummary: 'Audit-safe AI identity-finance governance only; no real account numbers, raw statements, secrets, or KYC data are stored in Git.',
