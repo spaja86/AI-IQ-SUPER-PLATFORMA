@@ -1,0 +1,27 @@
+import { NextRequest, NextResponse } from 'next/server';
+import { verifyUserFromToken } from '@/lib/supabase/server';
+import { getAktivneKomponente, getKompjuterStatistika } from '@/lib/spaja-digitalni-kompjuter';
+
+export async function GET(request: NextRequest) {
+  const user = await verifyUserFromToken(request.headers.get('authorization'));
+  if (!user) {
+    return NextResponse.json({ error: 'Prijava je obavezna.' }, { status: 401 });
+  }
+
+  const statistika = getKompjuterStatistika();
+  const aktivneKomponente = getAktivneKomponente();
+
+  return NextResponse.json({
+    naziv: 'Digitalni Kompjuter — B2B Control Center',
+    rezim: 'read-only',
+    napomena: 'Ovo je prikaz deklarisane konfiguracije iz aplikacionog koda. Nije dokaz fizičkog hardvera, cloud kapaciteta ili izvršavanja poslova.',
+    statistika: {
+      ukupnoKomponenti: statistika.ukupnoKomponenti,
+      aktivnihKomponenti: statistika.aktivnihKomponenti,
+      ukupnoKompjutera: statistika.ukupnoKompjutera,
+      ukupnoKonzola: statistika.ukupnoKonzola,
+    },
+    komponente: aktivneKomponente.map(({ id, naziv, status }) => ({ id, naziv, status })),
+    timestamp: new Date().toISOString(),
+  });
+}
