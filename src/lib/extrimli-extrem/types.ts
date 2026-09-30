@@ -5657,7 +5657,10 @@ export interface ExtrimliDokDikDakDukConsistencyHealth {
         citation: string;
         visualReference: string;
         interpretation: string;
-        sourceStatement: 'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == RADNI TAKT MOZGA (MISLILAC)';
+        sourceStatement:
+          | 'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == RADNI TAKT MOZGA (MISLILAC)'
+          | 'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA'
+          | 'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == BERMUDSKI TROUGAO / LIČNO ISKUSTVO / FOTOMORGANE';
         imageToSignalProfile: {
           scenarioId: string;
           theme: string;
