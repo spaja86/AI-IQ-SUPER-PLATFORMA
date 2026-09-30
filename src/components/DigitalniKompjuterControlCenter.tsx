@@ -3,6 +3,8 @@
 import { useEffect, useState } from 'react';
 import { dohvatiSesiju } from '@/lib/auth/omega-session-client';
 
+type DeploymentSummary = { rezim: string; napomena: string; deploymenti: Array<{ id: string; naziv: string; state: string; checkedAt: string; source: string; message: string }> };
+
 type Monitoring = { rezim: string; napomena: string; platforme: Array<{ id: string; naziv: string; state: string; source: string; alert: string }> };
 
 type Platforma = { id: string; naziv: string; url: string; opis: string; kategorija: string };
@@ -22,6 +24,7 @@ export default function DigitalniKompjuterControlCenter() {
   const [greska, setGreska] = useState<string | null>(null);
   const [katalog, setKatalog] = useState<Katalog | null>(null);
   const [monitoring, setMonitoring] = useState<Monitoring | null>(null);
+  const [deploymenti, setDeploymenti] = useState<DeploymentSummary | null>(null);
 
   useEffect(() => {
     const sesija = dohvatiSesiju();
@@ -32,17 +35,21 @@ export default function DigitalniKompjuterControlCenter() {
       fetch('/api/b2b-control-center/digitalni-kompjuter', { headers }),
       fetch('/api/b2b-control-center/platforme', { headers }),
       fetch('/api/b2b-control-center/nadzor-platformi', { headers }),
+      fetch('/api/b2b-control-center/vercel-deployment-summary', { headers }),
     ])
-      .then(async ([statusResponse, katalogResponse, monitoringResponse]) => {
+      .then(async ([statusResponse, katalogResponse, monitoringResponse, deploymentResponse]) => {
         const statusPayload = await statusResponse.json() as Status | { error?: string };
         const katalogPayload = await katalogResponse.json() as Katalog | { error?: string };
         const monitoringPayload = await monitoringResponse.json() as Monitoring | { error?: string };
+        const deploymentPayload = await deploymentResponse.json() as DeploymentSummary | { error?: string };
         if (!statusResponse.ok) throw new Error('error' in statusPayload ? statusPayload.error : 'Status nije dostupan.');
         if (!katalogResponse.ok) throw new Error('error' in katalogPayload ? katalogPayload.error : 'Katalog nije dostupan.');
         if (!monitoringResponse.ok) throw new Error('error' in monitoringPayload ? monitoringPayload.error : 'Nadzor nije dostupan.');
+        if (!deploymentResponse.ok) throw new Error('error' in deploymentPayload ? deploymentPayload.error : 'Deployment status nije dostupan.');
         setStatus(statusPayload as Status);
         setKatalog(katalogPayload as Katalog);
         setMonitoring(monitoringPayload as Monitoring);
+        setDeploymenti(deploymentPayload as DeploymentSummary);
       })
       .catch((error: unknown) => setGreska(error instanceof Error ? error.message : 'Status nije dostupan.'));
   }, []);
@@ -69,6 +76,11 @@ export default function DigitalniKompjuterControlCenter() {
         <h2 className="text-lg font-semibold text-white">Deklarisano aktivne komponente</h2>
         <ul className="mt-4 grid gap-2 sm:grid-cols-2">{status.komponente.map((komponenta) => <li key={komponenta.id} className="rounded-lg bg-slate-800 px-3 py-2 text-sm text-slate-200">{komponenta.naziv} <span className="text-cyan-300">({komponenta.status})</span></li>)}</ul>
       </div>
+      {deploymenti && <div className="mt-6 rounded-xl border border-slate-700 bg-slate-900 p-5">
+        <h2 className="text-lg font-semibold text-white">Vercel deployment sažetak</h2>
+        <p className="mt-2 text-sm text-amber-100">{deploymenti.napomena}</p>
+        <ul className="mt-4 grid gap-2 sm:grid-cols-2">{deploymenti.deploymenti.map((deployment) => <li key={deployment.id} className="rounded-lg bg-slate-800 px-3 py-2 text-sm text-slate-200"><span className="font-semibold">{deployment.naziv}</span><span className="ml-2 text-cyan-300">{deployment.state}</span><p className="mt-1 text-xs text-slate-400">{deployment.message}</p></li>)}</ul>
+      </div>}
       {monitoring && <div className="mt-6 rounded-xl border border-slate-700 bg-slate-900 p-5">
         <h2 className="text-lg font-semibold text-white">Nadzor platformi</h2>
         <p className="mt-2 text-sm text-amber-100">{monitoring.napomena}</p>
