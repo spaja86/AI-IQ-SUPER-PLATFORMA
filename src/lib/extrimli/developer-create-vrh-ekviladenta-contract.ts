@@ -1828,7 +1828,7 @@ export const DEVELOPER_CREATE_BIZNIS_ROLE_CLASSIFICATION =
   'additive-only-bounded-ekosistem-business-reference-track' as const;
 
 export const DEVELOPER_CREATE_BIZNIS_BOUNDED_VOCABULARY_PHRASE =
-  'EXTRIMLI EXTRONDOL EXTREM DOK DUK DAK DIK FOR' as const;
+  DEVELOPER_CREATE_REPO_WIDE_BOUNDED_VOCABULARY_PHRASE;
 
 export const DEVELOPER_CREATE_BIZNIS_REFERENCE_PACKAGE = {
   canonicalBusinessTrack: 'Kompanija SPAJA / Digitalna Industrija',
