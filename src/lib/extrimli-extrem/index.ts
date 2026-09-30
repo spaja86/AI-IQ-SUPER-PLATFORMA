@@ -8974,6 +8974,7 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
         v4: 'governance-hardening-and-freeze-rules',
         v5: 'extrondol-release-audit-and-orchestration',
         v6: 'downstream-and-multi-repo-alignment',
+        v7: 'enterprise-operating-model',
       },
       fourTrackProgramPackage: {
         canonicalScopeLock: 'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA',
