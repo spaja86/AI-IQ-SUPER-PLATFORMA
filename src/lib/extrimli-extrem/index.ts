@@ -5633,7 +5633,7 @@ function buildEpicElikvadentSignal(
       canonicalName: 'Objektno orijentusano uzdizanje epskih elikvadenata',
       statement: 'Additive EXTREM signal that measures whether controlled epic equivalents can be elevated through object-state, cohesion, delegation, and encapsulation rules.',
       interpretationLayer: 'technical-signal',
-      existingContractBeforeThisChange: true,
+      existingContractBeforeThisChange: false,
     },
     ownershipModel: {
       extrem: 'technical-epic-equivalent-signal',
