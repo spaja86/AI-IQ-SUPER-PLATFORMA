@@ -2483,6 +2483,25 @@ async function runTests(): Promise<void> {
       assert(['READY', 'WATCH', 'BLOCKED'].includes(track.readinessSignal.status), 'kraljevsko takmicenje status must stay bounded');
     });
 
+    await test('BIZNIS fallback keeps degraded inputs in WATCH and conflict inputs BLOCKED', async () => {
+      await withEnv({ EXTRIMLI_BIZNIS_FALLBACK_INPUT: 'NaN' }, () => {
+        const track = getExtrimliExtremProfilerReport()
+          .dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.biznisTrack;
+
+        assert(track.readinessSignal.fallbackInputStatus === 'WATCH', 'BIZNIS NaN input should map to WATCH');
+        assert(track.readinessSignal.status !== 'READY', 'BIZNIS NaN input should not keep readiness READY');
+        assert(track.readinessSignal.deterministicFallbackRequired, 'BIZNIS NaN input should require deterministic fallback');
+      });
+
+      await withEnv({ EXTRIMLI_BIZNIS_FALLBACK_INPUT: 'conflict' }, () => {
+        const track = getExtrimliExtremProfilerReport()
+          .dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.biznisTrack;
+
+        assert(track.readinessSignal.fallbackInputStatus === 'BLOCKED', 'BIZNIS conflict input should map to BLOCKED');
+        assert(track.readinessSignal.status === 'BLOCKED', 'BIZNIS conflict input should block readiness');
+      });
+    });
+
     await test('KRALJEVSKI POKLONI fallback remains deterministic for NaN/Infinity/empty/conflict inputs', async () => {
       await withEnv({
         EXTRIMLI_KRALJEVSKI_POKLONI_INPUT: 'NaN',
