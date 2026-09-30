@@ -2397,7 +2397,8 @@ export interface ExtrimliExtremSpajaKodEncapsulation {
     'readiness-status',
     'governance-outcome',
     'promotion-freeze',
-    'audit-blockers'
+    'audit-blockers',
+    'zelezara-pretplata-identity-status'
   ];
   blockers: string[];
 }

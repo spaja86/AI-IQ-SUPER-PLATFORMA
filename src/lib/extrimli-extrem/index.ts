@@ -4976,7 +4976,7 @@ function resolveVrhProgramskogEkviladentaForSignalResolution(params: {
   const resolvedSignal = params.forSignal?.status != null && params.forSignal.readinessScore != null
     ? {
       kind: 'FOR PETLJA' as const,
-      status: params.forSignal.status,
+      status: params.forSignal.status ?? 'BLOCKED',
       readinessScore: params.forSignal.readinessScore,
     }
     : params.forSignal != null
@@ -5270,7 +5270,7 @@ function buildVrhProgramskogEkviladentaSignal(params: {
         forEvidence: {
           kind: 'FOR PETLJA',
           readinessScore: params.forSignal.readinessScore,
-          status: params.forSignal.status,
+          status: params.forSignal.status ?? 'BLOCKED',
         },
       },
       dokEvidence: {
@@ -11733,6 +11733,7 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
         'dispute-appeal-process',
         'downstream-sync',
         'audit-trail',
+        'rollback-plan',
       ],
     },
     intellectualEffortEvidence: {
