@@ -1930,7 +1930,7 @@ function buildProgramskiJezikInformacionihTokovaSignal(
       informacioniTokMeaning: 'upravljanje-tokom-informacija-kroz-deterministicke-signale',
       numerickiTokMeaning: 'upravljanje-numerickim-sekvencama-i-opsezima',
       forPetljaMeaning: 'osnovni-range-sekvencijalni-mehanizam-postojeceg-petlje-modela',
-      existingContractBeforeThisChange: true,
+      existingContractBeforeThisChange: false,
       aliasesOfExistingSurfaces: false,
       noNewRoutes: true,
     },
@@ -2236,7 +2236,7 @@ function buildProgramskiJezikPretpostavkaSignal(
       pretpostavkaMeaning: 'deterministicki-polazni-okvir-pretpostavke',
       kljucneInformacijeMeaning: 'obavezni-skup-kljucnih-informacija',
       uciniOblikMeaning: 'akcioni-oblik-za-izlaznu-interpretaciju',
-      existingContractBeforeThisChange: true,
+      existingContractBeforeThisChange: false,
       aliasesOfExistingSurfaces: false,
       noNewRoutes: true,
     },
@@ -3599,7 +3599,7 @@ function buildParadijogonalnoProgrimiranjeSignal(
 ): ExtrimliExtremParadijogonalnoProgrimiranjeSignal {
   const score = round(
     clamp(
-      (profileInput.paradijogonalnoFlowStabilityPercent * 0.2)
+      (profileInput.paradijogonalFlowStabilityPercent * 0.2)
       + (profileInput.instrumentalVisionPrecisionPercent * 0.18)
       + (profileInput.sihofiziProsparitetAlignmentPercent * 0.18)
       + (profileInput.prosparitetReadinessPercent * 0.17)
@@ -3614,7 +3614,7 @@ function buildParadijogonalnoProgrimiranjeSignal(
   );
   const aggregateStatus = classifyParadijogonalnoProgrimiranjeStatus(score);
   const watchReasons = [
-    ...(profileInput.paradijogonalnoFlowStabilityPercent < 82 ? [`paradijogonal-flow-watch:${profileInput.paradijogonalnoFlowStabilityPercent}`] : []),
+    ...(profileInput.paradijogonalFlowStabilityPercent < 82 ? [`paradijogonal-flow-watch:${profileInput.paradijogonalFlowStabilityPercent}`] : []),
     ...(profileInput.instrumentalVisionPrecisionPercent < 80 ? [`instrumental-vision-watch:${profileInput.instrumentalVisionPrecisionPercent}`] : []),
     ...(profileInput.sihofiziProsparitetAlignmentPercent < 80 ? [`sihofizi-prosparitet-watch:${profileInput.sihofiziProsparitetAlignmentPercent}`] : []),
     ...(profileInput.prosparitetReadinessPercent < 78 ? [`prosparitet-readiness-watch:${profileInput.prosparitetReadinessPercent}`] : []),
@@ -3624,7 +3624,7 @@ function buildParadijogonalnoProgrimiranjeSignal(
     ...(dikSignal?.status === 'WATCH' ? [`dik-evidence-watch:${dikSignal.readinessScore}`] : []),
   ];
   const blockerReasons = [
-    ...(profileInput.paradijogonalnoFlowStabilityPercent < 58 ? [`paradijogonal-flow-blocked:${profileInput.paradijogonalnoFlowStabilityPercent}`] : []),
+    ...(profileInput.paradijogonalFlowStabilityPercent < 58 ? [`paradijogonal-flow-blocked:${profileInput.paradijogonalFlowStabilityPercent}`] : []),
     ...(profileInput.instrumentalVisionPrecisionPercent < 56 ? [`instrumental-vision-blocked:${profileInput.instrumentalVisionPrecisionPercent}`] : []),
     ...(profileInput.sihofiziProsparitetAlignmentPercent < 56 ? [`sihofizi-prosparitet-blocked:${profileInput.sihofiziProsparitetAlignmentPercent}`] : []),
     ...(profileInput.prosparitetReadinessPercent < 54 ? [`prosparitet-readiness-blocked:${profileInput.prosparitetReadinessPercent}`] : []),
@@ -3668,7 +3668,7 @@ function buildParadijogonalnoProgrimiranjeSignal(
     },
     canonicalVocabulary: {
       paradijogonalFlowStability: {
-        canonicalField: 'profileInput.paradijogonalnoFlowStabilityPercent',
+        canonicalField: 'profileInput.paradijogonalFlowStabilityPercent',
         meaning: 'stabilnost-paradijogonalnog-toka',
       },
       instrumentalVisionPrecision: {
@@ -3811,7 +3811,7 @@ function buildObjektnaProngilacijaSignal(
     meaningLock: {
       canonicalName: 'Objektno orijentisana prongilacija',
       statement: 'Objekat nosi stanje, metode nose ponašanje, a delegacija i kompozicija određuju audit-safe saradnju u EXTRIMLI governance toku.',
-      existingContractBeforeThisChange: false,
+      existingContractBeforeThisChange: true,
     },
     ownershipModel: {
       extrem: 'technical-object-state-signal',
@@ -3885,7 +3885,7 @@ function buildFunkcinalnoProgramiranjeEnergetskogMisaonogTokaSignal(
       canonicalName: 'FUNKCINALNO PROGRAMIRANJE ENERGETSKOG MISAONOG TOKA',
       statement: 'Additive EXTREM signal that profiles energetic flow stability, functional transformation cohesion, deterministic thought-chain behavior, and bounded conflict pressure for WAWE governance.',
       interpretationLayer: 'technical-signal',
-      existingContractBeforeThisChange: false,
+      existingContractBeforeThisChange: true,
       aliasesOfExistingSurfaces: false,
     },
     ownershipModel: {
@@ -5633,7 +5633,7 @@ function buildEpicElikvadentSignal(
       canonicalName: 'Objektno orijentusano uzdizanje epskih elikvadenata',
       statement: 'Additive EXTREM signal that measures whether controlled epic equivalents can be elevated through object-state, cohesion, delegation, and encapsulation rules.',
       interpretationLayer: 'technical-signal',
-      existingContractBeforeThisChange: false,
+      existingContractBeforeThisChange: true,
     },
     ownershipModel: {
       extrem: 'technical-epic-equivalent-signal',
@@ -6616,7 +6616,7 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
   );
   const dokSignalForParadijogonalno = petljeSignals.signals.find((signal) => signal.kind === 'DOK PETLJA');
   const dikSignalForParadijogonalno = petljeSignals.signals.find((signal) => signal.kind === 'DIK PETLJA');
-  const paradijogonalnoFlowStabilityPercent = parsePercentEnvWithInvalidFallback(
+  const paradijogonalFlowStabilityPercent = parsePercentEnvWithInvalidFallback(
     'EXTRIMLI_EXTREM_PARADIJOGONALNO_FLOW_STABILITY_PERCENT',
     89,
     72,
@@ -6654,7 +6654,7 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
   );
   const paradijogonalnoProgrimiranje = buildParadijogonalnoProgrimiranjeSignal(
     {
-      paradijogonalnoFlowStabilityPercent,
+      paradijogonalFlowStabilityPercent,
       instrumentalVisionPrecisionPercent,
       sihofiziProsparitetAlignmentPercent,
       prosparitetReadinessPercent,
@@ -16050,7 +16050,7 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
       : mikrofonProjectionTonalSignalPresent
         ? 'WATCH'
         : 'BLOCKED';
-  const gateMikrofonProjectionComponentStatus = (status: ReadinessStatus): ReadinessStatus =>
+  const gateMikrofonProjectionComponentStatus = (status: ExtrimliExtremReadinessStatus): ExtrimliExtremReadinessStatus =>
     radioStatus === 'BLOCKED'
       ? 'BLOCKED'
       : radioStatus === 'WATCH' && status === 'READY'

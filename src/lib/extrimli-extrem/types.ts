@@ -2280,6 +2280,7 @@ export interface ExtrimliExtremSemaFormulaInput {
 
 export type ExtrimliExtremSemaFormulaStatus = 'PASSED' | 'BLOCKED';
 export type ExtrimliSpajaKodPublicStatus = 'READY' | 'WATCH' | 'BLOCKED';
+export type ExtrimliExtremReadinessStatus = ExtrimliSpajaKodPublicStatus;
 export type ExtrimliExtremPetljaSignalName =
   | 'DJUPRE PETLJA'
   | 'DOMPRE PETLJA'
@@ -2299,7 +2300,9 @@ export type ExtrimliExtremPetljaSignalName =
   | 'SAR PETLJA'
   | 'OKRED PETLJA'
   | 'DIREKT PETLJA'
-  | 'INDIREKT PETLJA';
+  | 'INDIREKT PETLJA'
+  | 'FOR PETLJA'
+  | 'UMBREL PETLJA';
 export type ExtrimliExtremPetljaSignalCategory = 'RANGE' | 'TARGET' | 'SEQUENCE';
 export type ExtrimliExtremPetljaSignalStatus = 'READY' | 'WATCH' | 'BLOCKED';
 
@@ -3200,7 +3203,7 @@ export interface ExtrimliDokDikDakDukConsistencyHealth {
       vercelCostGovernance: {
         canonicalTopicLock: typeof DEVELOPER_CREATE_SARADNJA_READY_SCOPE_LOCK;
         boundedBusinessPackage: typeof DEVELOPER_CREATE_SARADNJA_READY_POSLOVNA_PONUDA_SCOPE_LOCK;
-        pretplataExtension: typeof DEVELOPER_CREATE_SARADNJA_READY_POSLOVNA_PONUDA_PRETPLATA_SCOPE_LOCK;
+        pretplataExtension: typeof DEVELOPER_CREATE_SARADNJA_READY_POSLOVNA_PONUDA_SCOPE_LOCK;
         boundedVocabularyPhrase: typeof DEVELOPER_CREATE_REPO_WIDE_BOUNDED_VOCABULARY_PHRASE;
         governanceBlockers: typeof DEVELOPER_CREATE_SARADNJA_READY_VERCEL_GOVERNANCE_BLOCKERS;
         dualCostTargets: typeof DEVELOPER_CREATE_SARADNJA_READY_VERCEL_COST_TARGETS;
@@ -4429,7 +4432,6 @@ export interface ExtrimliDokDikDakDukConsistencyHealth {
       v5: 'extrondol-release-audit-and-orchestration';
       v6: 'downstream-and-multi-repo-alignment';
       v7: 'enterprise-operating-model';
-      v7: 'enterprise-organizational-operating-model';
     };
     technicalReadinessProfile: {
       radniTaktMozgaMislilac: {
@@ -4605,7 +4607,7 @@ export interface ExtrimliDokDikDakDukConsistencyHealth {
       ];
       financeBoundary: 'governance-only-no-real-bank-or-kyc-data-in-git';
     };
-    universityRolloutPhases: readonly Array<{
+    universityRolloutPhases: ReadonlyArray<{
       phaseId: 'faza-1' | 'faza-2' | 'faza-3' | 'faza-4' | 'faza-5';
       title: string;
       scope: string;
@@ -4740,7 +4742,7 @@ export interface ExtrimliDokDikDakDukConsistencyHealth {
           auditSafeSignalOnly: true;
           signalName: 'cene-privrednika-po-kvartalu';
           sourceProfile: 'dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.technicalReadinessProfile';
-          quarters: readonly Array<{
+          quarters: ReadonlyArray<{
             quarter: 'Q1' | 'Q2' | 'Q3' | 'Q4';
             priceIndex: number;
             status: 'READY' | 'WATCH' | 'BLOCKED';
@@ -4853,7 +4855,7 @@ export interface ExtrimliDokDikDakDukConsistencyHealth {
       domainTestCatalog: {
         scoreStatusModel: readonly ['passed', 'certified', 'eligible-for-payout', 'blocked-for-review'];
         certificationWindowPercent: readonly [80, 100];
-        areas: readonly Array<{
+        areas: ReadonlyArray<{
           areaId: string;
           areaLabel: string;
           weightPercent: number;
@@ -5636,7 +5638,7 @@ export interface ExtrimliDokDikDakDukConsistencyHealth {
         readinessStatusMirrorsReflection: true;
         conflictPressureDerivedFromReflection: true;
       };
-      supplementalVisualReferences: readonly Array<{
+      supplementalVisualReferences: ReadonlyArray<{
         title: string;
         canonicalNarrativeId: string;
         citation: string;
