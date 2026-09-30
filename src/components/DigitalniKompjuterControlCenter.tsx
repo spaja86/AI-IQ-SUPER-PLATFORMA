@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { dohvatiSesiju } from '@/lib/auth/omega-session-client';
+import VrCapabilityCheck from '@/components/VrCapabilityCheck';
 
 type DeploymentSummary = { rezim: string; napomena: string; deploymenti: Array<{ id: string; naziv: string; state: string; checkedAt: string; source: string; message: string; alert: string; alertMessage: string | null }>; incidenti: Array<{ level: string; platformId: string; naziv: string; message: string; checkedAt: string; checklist: string[]; reviewStatus: string; owner: string; note: string; nextAction: string }> };
 
@@ -87,6 +88,7 @@ export default function DigitalniKompjuterControlCenter() {
         <h2 className="text-lg font-semibold text-white">Deklarisano aktivne komponente</h2>
         <ul className="mt-4 grid gap-2 sm:grid-cols-2">{status.komponente.map((komponenta) => <li key={komponenta.id} className="rounded-lg bg-slate-800 px-3 py-2 text-sm text-slate-200">{komponenta.naziv} <span className="text-cyan-300">({komponenta.status})</span></li>)}</ul>
       </div>
+      <VrCapabilityCheck />
       {deploymenti && <div className="mt-6 rounded-xl border border-slate-700 bg-slate-900 p-5">
         <h2 className="text-lg font-semibold text-white">Vercel deployment sažetak</h2>
         <p className="mt-2 text-sm text-amber-100">{deploymenti.napomena}</p>
