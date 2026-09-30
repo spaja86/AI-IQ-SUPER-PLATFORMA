@@ -1703,6 +1703,7 @@ export interface ExtrimliExtremMetrickoProgramiranjeSignal {
     status: ExtrimliExtremMetrickoProgramiranjeStatus;
     readyForWaweProgression: boolean;
     degraded: boolean;
+    deterministicFallbackRequired: boolean;
     watchReasons: string[];
     blockerReasons: string[];
   };
@@ -2066,6 +2067,7 @@ export interface ExtrimliExtremSinemetrickoProgramiranjeSignal {
     status: ExtrimliExtremSinemetrickoProgramiranjeStatus;
     readyForWaweProgression: boolean;
     degraded: boolean;
+    deterministicFallbackRequired: boolean;
     watchReasons: string[];
     blockerReasons: string[];
   };
