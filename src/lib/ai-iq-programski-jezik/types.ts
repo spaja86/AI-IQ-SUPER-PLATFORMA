@@ -496,6 +496,23 @@ export interface AiiqLanguageCompileResult {
   durationMs: number;
 }
 
+export interface AiiqVrhProgramskogEkviladentaProfile {
+  profileId: 'VRH-PROGRAMSKOG-EKVILADENTA';
+  canonicalScope: 'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA';
+  markanAlias: 'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == MARKAN';
+  dslProfile: 'interpretacioni-orkestracioni-dsl';
+  executionMode: 'DETERMINISTIC_ONLY';
+  additiveOnly: true;
+  noNewRuntimeRoutes: true;
+  noParallelSourceOfTruth: true;
+  sourceOfTruthRoutes: readonly ['/api/extrimli/extrem', '/api/extrimli/extrondol', '/api/extrimli/spaja-kod'];
+  readinessStatus: AiiqIntegrationSignalStatus;
+  markanStatus: AiiqIntegrationSignalStatus;
+  automatizacijaProgramskogJezikaStatus: AiiqIntegrationSignalStatus;
+  recommendedAction: 'REVIEW_DECLARED_STATUS_ONLY';
+  explanation: string;
+}
+
 export interface AiiqLanguageHealthReport {
   personaId: string;
   displayName: string;
