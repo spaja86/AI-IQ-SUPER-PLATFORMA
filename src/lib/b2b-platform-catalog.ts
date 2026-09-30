@@ -3,7 +3,7 @@ export interface B2BPlatformCatalogEntry {
   naziv: string;
   url: string;
   opis: string;
-  kategorija: 'core' | 'organization' | 'public-site';
+  kategorija: 'core' | 'organization' | 'public-site' | 'external-ai';
 }
 
 /**
@@ -45,6 +45,13 @@ export const B2B_PLATFORM_CATALOG: readonly B2BPlatformCatalogEntry[] = [
     url: 'https://svetska-organizacija.vercel.app',
     opis: 'Povezan javni projekat.',
     kategorija: 'organization',
+  },
+  {
+    id: 'openai',
+    naziv: 'OpenAI',
+    url: 'https://platform.openai.com',
+    opis: 'Spoljni AI provajder za odabrane funkcije kada je zasebno konfigurisan. Katalog ne deli naloge, razgovore ni podatke sa OpenAI.',
+    kategorija: 'external-ai',
   },
   {
     id: 'ai-iq-world-bank',
