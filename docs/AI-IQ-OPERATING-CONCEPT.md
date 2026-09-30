@@ -81,3 +81,16 @@ Za izabrani pilot se otvara zaseban, mali PR sa success metrikom, budžetom, pri
 Ovaj epilog je autorski narativ o saradnji ljudi i AI alata u digitalnom prostoru. On podstiče dostojanstvo, kreativnost, odgovornost i bezbednu upotrebu tehnologije.
 
 Granica ostaje jasna: AI alati nisu pravne osobe, nemaju bankarske račune, ne primaju novac i ne preuzimaju pravne ili finansijske obaveze. Tekst ne menja postojeći ownership, source-of-truth, security, billing ili runtime ugovor.
+
+## Obavezni radni protokol
+
+Svaka nova inicijativa prati isti redosled:
+
+1. **Cilj** — jedna proverljiva korisnička ili operativna potreba.
+2. **Scope** — tačne rute, moduli, podaci i repozitorijumi koji se menjaju.
+3. **Granice** — šta izmena ne radi: nema skrivenog deploya, bankarskog transfera, pristupa tajnama ili neproverene VR/hardver tvrdnje.
+4. **Mala implementacija** — najmanja izmena koja rešava cilj i ne uvodi paralelni source-of-truth.
+5. **Dokaz** — relevantni testovi, lint/build gde je primenljivo, i `git diff --check`.
+6. **Review i rollout** — PR, human review, rollback plan i posle merge-a praćenje stvarnih Vercel podataka.
+
+Prioriteti se biraju ovim redom: bezbednost i trošak → stabilnost proizvoda → korisni pilot → skaliranje. Ako predlog nema vlasnika, meru uspeha, trošak i rollback put, ostaje ideja u dokumentaciji dok se ne dopuni.
