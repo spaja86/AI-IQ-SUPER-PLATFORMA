@@ -84,6 +84,8 @@ export async function getB2BVercelDeploymentSummary(): Promise<B2BDeploymentSumm
   }));
 }
 
+export type B2BIncidentReviewStatus = 'pending-human-review';
+
 export interface B2BIncidentSummary {
   level: Exclude<B2BDeploymentAlert, 'none'>;
   platformId: string;
@@ -91,6 +93,10 @@ export interface B2BIncidentSummary {
   message: string;
   checkedAt: string;
   checklist: readonly string[];
+  reviewStatus: B2BIncidentReviewStatus;
+  owner: 'unassigned';
+  note: 'Nema zabeležene ručne provere.';
+  nextAction: 'Dodeliti vlasnika i evidentirati ručni pregled.';
 }
 
 /** Creates a read-only review queue. It intentionally has no deployment or notification side effects. */
@@ -103,8 +109,11 @@ export function getIncidentSummaries(deployments: B2BDeploymentSummary[]): B2BIn
       naziv: deployment.naziv,
       message: deployment.alertMessage,
       checkedAt: deployment.checkedAt,
-      checklist: [
-        'Potvrdite stanje u Vercel dashboard-u.',
+      reviewStatus: 'pending-human-review',
+      owner: 'unassigned',
+      note: 'Nema zabeležene ručne provere.',
+      nextAction: 'Dodeliti vlasnika i evidentirati ručni pregled.',
+      checklist: [        'Potvrdite stanje u Vercel dashboard-u.',
         'Pregledajte build ili runtime logove.',
         'Odredite vlasnika i sledeći ručni korak.',
         'Ne pokrećite redeploy bez ljudske potvrde.',
