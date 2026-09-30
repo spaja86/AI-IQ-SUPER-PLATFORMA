@@ -5700,43 +5700,34 @@ export interface ExtrimliDokDikDakDukConsistencyHealth {
         governanceChecklistStatus: string;
         videoStoryboardSummary: string;
       };
-      companionAuditVisualReferences: readonly [
-        {
-          title: 'ČOVEČANSTVO / OSEĆAJ OSEBENOSTI';
-          canonicalNarrativeId: 'covecanstvo-osecaj-osebenosti-developer-create-vrh-radni-takt';
-          citation: string;
-          visualReference: string;
-          interpretation: string;
-          thematicSignals: readonly [
-            'self-knowledge',
-            'brain-and-mind-understanding',
-            'feeling',
-            'humanity',
-            'shared-world',
-            'epilog-guidance'
-          ];
-          imageToSignalProfile: {
-            scenarioId: 'covecanstvo-osecaj-osebenosti-developer-create-vrh-radni-takt';
-            theme: 'ČOVEČANSTVO / OSEĆAJ OSEBENOSTI';
-            narrativeInput: string;
-            ownershipLock: {
-              dokDikFor: 'EXTREM';
-              dakDuk: 'EXTRONDOL';
-              spajaKod: 'audit-safe-summary-only';
-            };
-            signalOutputs: {
-              readinessScore: number;
-              readinessStatus: 'READY' | 'WATCH' | 'BLOCKED';
-              conflictPressurePercent: number;
-              deterministicFallbackRequired: boolean;
-            };
+      companionAuditVisualReferences: ReadonlyArray<{
+        title: string;
+        canonicalNarrativeId: string;
+        citation: string;
+        visualReference: string;
+        interpretation: string;
+        thematicSignals: readonly string[];
+        imageToSignalProfile: {
+          scenarioId: string;
+          theme: string;
+          narrativeInput: string;
+          ownershipLock: {
+            dokDikFor: 'EXTREM';
+            dakDuk: 'EXTRONDOL';
+            spajaKod: 'audit-safe-summary-only';
           };
-          packageOutputs: {
-            auditShortSummary: string;
-            publicSummary: string;
+          signalOutputs: {
+            readinessScore: number;
+            readinessStatus: 'READY' | 'WATCH' | 'BLOCKED';
+            conflictPressurePercent: number;
+            deterministicFallbackRequired: boolean;
           };
-        }
-      ];
+        };
+        packageOutputs: {
+          auditShortSummary: string;
+          publicSummary: string;
+        };
+      }>;
     };
     implementationPackage: {
       additiveOnly: true;
