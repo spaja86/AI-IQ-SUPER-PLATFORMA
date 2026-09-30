@@ -14,6 +14,7 @@ import type {
   AiiqLanguageHealthReport,
   AiiqLanguageMode,
   AiiqLanguageStatus,
+  AiiqVrhProgramskogEkviladentaProfile,
 } from './types';
 import {
   AIIQ_LANG_API_RESPONSE_MAX_MS,
@@ -1277,6 +1278,29 @@ export function compileAiiqLanguage(input: AiiqLanguageCompileInput): AiiqLangua
     disclaimer: AIIQ_LANG_DISCLAIMER,
     valid: true,
     durationMs,
+  };
+}
+
+export function getAiiqVrhProgramskogEkviladentaProfile(): AiiqVrhProgramskogEkviladentaProfile {
+  const reflection = getExtrimliExtremProfilerReport()
+    .dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection;
+  const readinessStatus = reflection.readiness.status;
+
+  return {
+    profileId: 'VRH-PROGRAMSKOG-EKVILADENTA',
+    canonicalScope: 'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA',
+    markanAlias: 'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == MARKAN',
+    dslProfile: 'interpretacioni-orkestracioni-dsl',
+    executionMode: 'DETERMINISTIC_ONLY',
+    additiveOnly: true,
+    noNewRuntimeRoutes: true,
+    noParallelSourceOfTruth: true,
+    sourceOfTruthRoutes: ['/api/extrimli/extrem', '/api/extrimli/extrondol', '/api/extrimli/spaja-kod'],
+    readinessStatus,
+    markanStatus: reflection.markanStatus,
+    automatizacijaProgramskogJezikaStatus: reflection.automatizacijaProgramskogJezikaTrack.readinessSignal.status,
+    recommendedAction: 'REVIEW_DECLARED_STATUS_ONLY',
+    explanation: 'AI IQ Programski Jezik daje determinističko, read-only objašnjenje postojećih VRH i MARKAN statusa; EXTREM, EXTRONDOL i SPAJA KOD ostaju izvori istine.',
   };
 }
 

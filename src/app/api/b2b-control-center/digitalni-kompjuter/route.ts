@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { verifyUserFromToken } from '@/lib/supabase/server';
 import { canReadB2BControlCenter } from '@/lib/b2b-control-center-auth';
 import { getAktivneKomponente, getKompjuterStatistika } from '@/lib/spaja-digitalni-kompjuter';
+import { getAiiqVrhProgramskogEkviladentaProfile } from '@/lib/ai-iq-programski-jezik';
 
 export async function GET(request: NextRequest) {
   const user = await verifyUserFromToken(request.headers.get('authorization'));
@@ -14,6 +15,7 @@ export async function GET(request: NextRequest) {
 
   const statistika = getKompjuterStatistika();
   const aktivneKomponente = getAktivneKomponente();
+  const aiIqVrh = getAiiqVrhProgramskogEkviladentaProfile();
 
   return NextResponse.json({
     naziv: 'Digitalni Kompjuter — B2B Control Center',
@@ -26,6 +28,7 @@ export async function GET(request: NextRequest) {
       ukupnoKonzola: statistika.ukupnoKonzola,
     },
     komponente: aktivneKomponente.map(({ id, naziv, status }) => ({ id, naziv, status })),
+    aiIqVrh,
     timestamp: new Date().toISOString(),
   });
 }

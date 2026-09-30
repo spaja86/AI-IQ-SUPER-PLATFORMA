@@ -9,6 +9,7 @@ import {
   evaluateAiiqLanguage,
   compileAiiqLanguage,
   getAiiqLanguageHealthReport,
+  getAiiqVrhProgramskogEkviladentaProfile,
 } from '../../lib/ai-iq-programski-jezik';
 
 let passed = 0;
@@ -65,6 +66,20 @@ async function runTests(): Promise<void> {
 
   await test('persona id is stable', () => {
     assert(AIIQ_LANG_PERSONA_ID === 'ai-iq-programski-jezik-core', `unexpected persona id: ${AIIQ_LANG_PERSONA_ID}`);
+  });
+
+  await test('VRH profile stays read-only and mirrors MARKAN from the canonical reflection', () => {
+    const profile = getAiiqVrhProgramskogEkviladentaProfile();
+
+    assert(profile.profileId === 'VRH-PROGRAMSKOG-EKVILADENTA', 'VRH profile id mismatch');
+    assert(profile.canonicalScope === 'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA', 'VRH scope mismatch');
+    assert(profile.markanAlias === 'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == MARKAN', 'MARKAN alias mismatch');
+    assert(profile.dslProfile === 'interpretacioni-orkestracioni-dsl', 'VRH DSL profile mismatch');
+    assert(profile.executionMode === 'DETERMINISTIC_ONLY', 'VRH profile must remain deterministic-only');
+    assert(profile.additiveOnly && profile.noNewRuntimeRoutes && profile.noParallelSourceOfTruth, 'VRH profile boundaries mismatch');
+    assert(profile.sourceOfTruthRoutes.join(',') === '/api/extrimli/extrem,/api/extrimli/extrondol,/api/extrimli/spaja-kod', 'VRH source routes mismatch');
+    assert(profile.readinessStatus === profile.markanStatus, 'MARKAN must mirror VRH readiness');
+    assert(['READY', 'WATCH', 'BLOCKED'].includes(profile.automatizacijaProgramskogJezikaStatus), 'automation language status must be bounded');
   });
 
   console.log('\n🧠 [ai-iq-programski-jezik] evaluate');

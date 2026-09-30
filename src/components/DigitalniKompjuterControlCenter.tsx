@@ -16,6 +16,7 @@ type Status = {
   napomena: string;
   statistika: { ukupnoKomponenti: number; aktivnihKomponenti: number; ukupnoKompjutera: number; ukupnoKonzola: number };
   komponente: Array<{ id: string; naziv: string; status: string }>;
+  aiIqVrh: { canonicalScope: string; markanAlias: string; dslProfile: string; executionMode: string; readinessStatus: string; markanStatus: string; automatizacijaProgramskogJezikaStatus: string; explanation: string };
   timestamp: string;
 };
 
@@ -71,6 +72,16 @@ export default function DigitalniKompjuterControlCenter() {
       <p className="mt-3 rounded-xl border border-amber-500/30 bg-amber-950/20 p-4 text-sm text-amber-100">{status.napomena}</p>
       <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         {metrike.map(([naziv, vrednost]) => <div key={String(naziv)} className="rounded-xl border border-slate-700 bg-slate-900 p-5"><p className="text-sm text-slate-400">{naziv}</p><p className="mt-2 text-3xl font-bold text-cyan-200">{vrednost}</p></div>)}
+      </div>
+      <div className="mt-6 rounded-xl border border-cyan-500/30 bg-slate-900 p-5">
+        <h2 className="text-lg font-semibold text-white">AI IQ Programski Jezik — VRH profil</h2>
+        <p className="mt-2 text-sm text-amber-100">{status.aiIqVrh.explanation}</p>
+        <dl className="mt-4 grid gap-3 text-sm sm:grid-cols-3">
+          <div><dt className="text-slate-400">VRH status</dt><dd className="font-semibold text-cyan-200">{status.aiIqVrh.readinessStatus}</dd></div>
+          <div><dt className="text-slate-400">MARKAN status</dt><dd className="font-semibold text-cyan-200">{status.aiIqVrh.markanStatus}</dd></div>
+          <div><dt className="text-slate-400">Automatizacija jezika</dt><dd className="font-semibold text-cyan-200">{status.aiIqVrh.automatizacijaProgramskogJezikaStatus}</dd></div>
+        </dl>
+        <p className="mt-4 text-xs text-slate-400">{status.aiIqVrh.canonicalScope} · {status.aiIqVrh.dslProfile} · {status.aiIqVrh.executionMode}</p>
       </div>
       <div className="mt-6 rounded-xl border border-slate-700 bg-slate-900 p-5">
         <h2 className="text-lg font-semibold text-white">Deklarisano aktivne komponente</h2>
