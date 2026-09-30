@@ -3791,6 +3791,12 @@ export interface ExtrimliDokDikDakDukConsistencyHealth {
       rollbackPlan: string;
       humanReviewStatus: 'required-before-promotion';
       releaseAuditSummary: string;
+      acceptanceEvidence: readonly [
+        'developerAndCreateRepoWideReflection.pilotTrack',
+        'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.pilotTrack',
+        'spajaKod.publicSignals.pilotStatus',
+        'spajaKod.developerAndCreateImplementationPackage.pilotSummary'
+      ];
       downstreamReference: 'docs/MULTI-REPO-LINKS.md -> spaja86/IO-OPENUI-AO (summary-only)';
     };
     devastatorTrack: {
@@ -3824,6 +3830,12 @@ export interface ExtrimliDokDikDakDukConsistencyHealth {
       rolloutPlan: string;
       rollbackPlan: string;
       releaseAuditSummary: string;
+      acceptanceEvidence: readonly [
+        'developerAndCreateRepoWideReflection.devastatorTrack',
+        'releaseAuditSummary.developerAndCreateRepoWideReflectionGovernance.devastatorTrack',
+        'spajaKod.publicSignals.devastatorStatus',
+        'spajaKod.developerAndCreateImplementationPackage.devastatorSummary'
+      ];
       downstreamReference: 'docs/MULTI-REPO-LINKS.md -> spaja86/IO-OPENUI-AO (summary-only)';
     };
     elektronskiPotpisTrack: {
