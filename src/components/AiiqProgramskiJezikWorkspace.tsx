@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 type ApiResult = {
   valid: boolean;
@@ -16,6 +16,14 @@ type ApiResult = {
       promotionFreeze: boolean;
     };
   };
+};
+
+type EpilogijaCovecnosti = {
+  title: string;
+  canonicalNarrativeId: string;
+  interpretation: string;
+  packageOutputs: { masterEpilog: string; auditShortSummary: string; governanceChecklistStatus: string };
+  imageToSignalProfile: { signalOutputs: { readinessStatus: string; deterministicFallbackRequired: boolean } };
 };
 
 const DEFAULT_SOURCE = `INTENT: Objasni VRH status
@@ -51,6 +59,18 @@ export default function AiiqProgramskiJezikWorkspace() {
   const [compileResult, setCompileResult] = useState<ApiResult | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState<'evaluate' | 'compile' | null>(null);
+  const [epilog, setEpilog] = useState<EpilogijaCovecnosti | null>(null);
+  const [epilogError, setEpilogError] = useState<string | null>(null);
+
+  useEffect(() => {
+    fetch('/api/extrimli/extrondol')
+      .then(async (response) => {
+        const payload = await response.json() as { data?: { spajaKod?: { epilogijaCovecnosti?: EpilogijaCovecnosti } } };
+        if (!response.ok || !payload.data?.spajaKod?.epilogijaCovecnosti) throw new Error('EPILOG nije dostupan.');
+        setEpilog(payload.data.spajaKod.epilogijaCovecnosti);
+      })
+      .catch((requestError: unknown) => setEpilogError(requestError instanceof Error ? requestError.message : 'EPILOG nije dostupan.'));
+  }, []);
 
   async function request(path: string, body: Record<string, unknown>): Promise<ApiResult> {
     const response = await fetch(path, {
@@ -123,6 +143,18 @@ export default function AiiqProgramskiJezikWorkspace() {
           </div>
         </section>
         {error && <p className="rounded-xl border border-red-500/40 bg-red-950/30 p-4 text-red-200">{error}</p>}
+        <section className="rounded-xl border border-cyan-500/30 bg-slate-900 p-5">
+          <p className="text-sm font-semibold uppercase tracking-wider text-cyan-300">Audit-safe narrative</p>
+          <h2 className="mt-2 text-xl font-semibold text-white">{epilog?.title ?? 'EPILOGIJA ČOVEČANSTVA'}</h2>
+          {epilogError && <p className="mt-3 text-sm text-amber-100">{epilogError}</p>}
+          {epilog && <>
+            <p className="mt-3 text-sm text-slate-300">{epilog.interpretation}</p>
+            <p className="mt-3 text-xs text-slate-400">Narativ: {epilog.canonicalNarrativeId} · Status: {epilog.imageToSignalProfile.signalOutputs.readinessStatus} · Fallback: {String(epilog.imageToSignalProfile.signalOutputs.deterministicFallbackRequired)}</p>
+            <p className="mt-4 text-sm text-cyan-100">{epilog.packageOutputs.auditShortSummary}</p>
+            <p className="mt-2 text-xs text-amber-100">{epilog.packageOutputs.governanceChecklistStatus}</p>
+          </>}
+        </section>
+
         <ResultPanel title="Evaluacija" result={evaluateResult} />
         <ResultPanel title="Kompajliranje" result={compileResult} />
       </div>
