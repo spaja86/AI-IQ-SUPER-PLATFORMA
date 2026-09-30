@@ -10624,6 +10624,7 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
           auditShortSummary: '',
           publicSummary: '',
           governanceChecklistStatus: '',
+          videoStoryboardSummary: '',
         },
         companionAuditVisualReferences: [
           {

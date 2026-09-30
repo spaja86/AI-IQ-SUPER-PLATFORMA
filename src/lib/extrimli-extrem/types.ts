@@ -5694,6 +5694,7 @@ export interface ExtrimliDokDikDakDukConsistencyHealth {
         auditShortSummary: string;
         publicSummary: string;
         governanceChecklistStatus: string;
+        videoStoryboardSummary: string;
       };
       companionAuditVisualReferences: readonly [
         {
