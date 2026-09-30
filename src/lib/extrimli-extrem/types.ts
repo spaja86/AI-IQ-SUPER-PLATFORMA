@@ -3696,7 +3696,7 @@ export interface ExtrimliDokDikDakDukConsistencyHealth {
         fallbackInputStatus: 'READY' | 'WATCH' | 'BLOCKED';
         deterministicFallbackRequired: boolean;
         fallbackInputs: typeof DEVELOPER_CREATE_MONTEZACIJA_FALLBACK_INPUTS;
-        driver: 'developerAndCreateRepoWideReflection.readiness + developerAndCreateRepoWideReflection.technicalReadinessProfile.consolidatedRhythmStatus';
+        driver: 'montezacijaFallbackInputStatus; broader reflection remains governance context';
       };
       blockerReason: string | null;
       watchReasons: string[];
@@ -3849,7 +3849,7 @@ export interface ExtrimliDokDikDakDukConsistencyHealth {
         fallbackInputStatus: 'READY' | 'WATCH' | 'BLOCKED';
         deterministicFallbackRequired: boolean;
         fallbackInputs: typeof DEVELOPER_CREATE_ELEKTRONSKI_POTPIS_FALLBACK_INPUTS;
-        driver: 'developerAndCreateRepoWideReflection.readiness + developerAndCreateRepoWideReflection.technicalReadinessProfile.consolidatedRhythmStatus + auth.identity + auth.signature';
+        driver: 'auth.identity + auth.signature; broader reflection remains governance context';
       };
       blockerReason: string | null;
       watchReasons: string[];

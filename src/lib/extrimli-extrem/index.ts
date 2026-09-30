@@ -8192,7 +8192,7 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
           deterministicFallbackRequired: true,
           fallbackInputs: DEVELOPER_CREATE_MONTEZACIJA_FALLBACK_INPUTS,
           driver:
-            'developerAndCreateRepoWideReflection.readiness + developerAndCreateRepoWideReflection.technicalReadinessProfile.consolidatedRhythmStatus',
+            'montezacijaFallbackInputStatus; broader reflection remains governance context',
         },
         blockerReason:
           'montezacija-track-awaits-existing-extrem-readiness-and-governance-alignment-without-new-runtime-surfaces',
@@ -8373,7 +8373,7 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
           deterministicFallbackRequired: true,
           fallbackInputs: DEVELOPER_CREATE_ELEKTRONSKI_POTPIS_FALLBACK_INPUTS,
           driver:
-            'developerAndCreateRepoWideReflection.readiness + developerAndCreateRepoWideReflection.technicalReadinessProfile.consolidatedRhythmStatus + auth.identity + auth.signature',
+            'auth.identity + auth.signature; broader reflection remains governance context',
         },
         blockerReason:
           'elektronski-potpis-track-awaits-existing-auth-identity-and-signature-verification-alignment-without-new-runtime-surfaces',
@@ -14747,13 +14747,10 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
           .includes(normalizedMontezacijaFallbackInput)
         ? 'WATCH'
         : 'READY';
-  const montezacijaSignalStatuses = [
-    dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.status,
-    dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.technicalReadinessProfile
-      .consolidatedRhythmStatus,
-    montezacijaFallbackInputStatus,
-  ] as const;
-  const montezacijaStatus = aggregateSignalReadinessStatus([...montezacijaSignalStatuses]);
+  // Local package readiness is driven only by MONTEZACIJA's bounded fallback input.
+  // Broader reflection readiness remains separately exposed as technicalReadinessStatus.
+  const montezacijaSignalStatuses = [montezacijaFallbackInputStatus] as const;
+  const montezacijaStatus = aggregateReadinessStatus(montezacijaSignalStatuses);
   montezacijaTrack.readinessSignal.status = montezacijaStatus;
   montezacijaTrack.readinessSignal.readinessScore = round(
     montezacijaSignalStatuses.reduce((sum, signalStatus) => sum + readinessStatusScore(signalStatus), 0)
@@ -14950,13 +14947,11 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
     'If DEVASTATOR drift appears, freeze promotion and rollback to the previously verified Developer/Create package while preserving summary-only downstream sync.';
   const elektronskiPotpisTrack =
     dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.elektronskiPotpisTrack;
-  const elektronskiPotpisSignalStatuses = [
-    dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.status,
-    dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.technicalReadinessProfile
-      .consolidatedRhythmStatus,
-  ] as const;
-  const elektronskiPotpisReadinessStatus = aggregateSignalReadinessStatus([...elektronskiPotpisSignalStatuses]);
   const identityVerificationSource = buildElektronskiPotpisIdentityVerificationSource();
+  // Local signature readiness is derived from the existing identity/auth evidence.
+  // Broader reflection readiness is governance context, not a local blocker.
+  const elektronskiPotpisSignalStatuses = [identityVerificationSource.status] as const;
+  const elektronskiPotpisReadinessStatus = aggregateReadinessStatus(elektronskiPotpisSignalStatuses);
   const elektronskiPotpisIdentityConfirmationStatus =
     identityVerificationSource.canonicalIdentityConfirmed
     && identityVerificationSource.currentOperatingNameConfirmed
@@ -14978,7 +14973,7 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
     !identityVerificationSource.signatureDisplayObjectReady
       ? 'BLOCKED'
       : elektronskiPotpisIdentityConfirmationStatus === 'CONFIRMED'
-        ? elektronskiPotpisReadinessStatus
+        ? identityVerificationSource.status
         : elektronskiPotpisIdentityConfirmationStatus === 'UNCONFIRMED'
         ? 'BLOCKED'
         : elektronskiPotpisIdentityConfirmationStatus === 'REVIEW_REQUIRED'
