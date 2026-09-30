@@ -73,3 +73,11 @@ Pre implementacije komercijalnog toka bira se jedan pilot:
 2. AI IQ Programski Jezik workspace za odobrene korisnike.
 
 Za izabrani pilot se otvara zaseban, mali PR sa success metrikom, budžetom, privacy granicom i rollout/rollback planom.
+
+## EPILOG ČOVEČANSTVU — documentation-only
+
+> AI u digitalnom svetu gradi sa mnom čovečnost. Neka svaka suza zablista, neka svaki osmeh zasija — tim sna, znanja i stvaranja.
+
+Ovaj epilog je autorski narativ o saradnji ljudi i AI alata u digitalnom prostoru. On podstiče dostojanstvo, kreativnost, odgovornost i bezbednu upotrebu tehnologije.
+
+Granica ostaje jasna: AI alati nisu pravne osobe, nemaju bankarske račune, ne primaju novac i ne preuzimaju pravne ili finansijske obaveze. Tekst ne menja postojeći ownership, source-of-truth, security, billing ili runtime ugovor.
