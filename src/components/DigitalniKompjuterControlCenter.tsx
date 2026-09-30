@@ -3,6 +3,9 @@
 import { useEffect, useState } from 'react';
 import { dohvatiSesiju } from '@/lib/auth/omega-session-client';
 
+type Platforma = { id: string; naziv: string; url: string; opis: string; kategorija: string };
+type Katalog = { rezim: string; napomena: string; platforme: Platforma[] };
+
 type Status = {
   naziv: string;
   rezim: string;
@@ -15,18 +18,24 @@ type Status = {
 export default function DigitalniKompjuterControlCenter() {
   const [status, setStatus] = useState<Status | null>(null);
   const [greska, setGreska] = useState<string | null>(null);
+  const [katalog, setKatalog] = useState<Katalog | null>(null);
 
   useEffect(() => {
     const sesija = dohvatiSesiju();
     if (!sesija) return;
 
-    fetch('/api/b2b-control-center/digitalni-kompjuter', {
-      headers: { Authorization: `Bearer ${sesija.token}` },
-    })
-      .then(async (response) => {
-        const payload = await response.json() as Status | { error?: string };
-        if (!response.ok) throw new Error('error' in payload ? payload.error : 'Status nije dostupan.');
-        setStatus(payload as Status);
+    const headers = { Authorization: `Bearer ${sesija.token}` };
+    Promise.all([
+      fetch('/api/b2b-control-center/digitalni-kompjuter', { headers }),
+      fetch('/api/b2b-control-center/platforme', { headers }),
+    ])
+      .then(async ([statusResponse, katalogResponse]) => {
+        const statusPayload = await statusResponse.json() as Status | { error?: string };
+        const katalogPayload = await katalogResponse.json() as Katalog | { error?: string };
+        if (!statusResponse.ok) throw new Error('error' in statusPayload ? statusPayload.error : 'Status nije dostupan.');
+        if (!katalogResponse.ok) throw new Error('error' in katalogPayload ? katalogPayload.error : 'Katalog nije dostupan.');
+        setStatus(statusPayload as Status);
+        setKatalog(katalogPayload as Katalog);
       })
       .catch((error: unknown) => setGreska(error instanceof Error ? error.message : 'Status nije dostupan.'));
   }, []);
@@ -53,6 +62,11 @@ export default function DigitalniKompjuterControlCenter() {
         <h2 className="text-lg font-semibold text-white">Deklarisano aktivne komponente</h2>
         <ul className="mt-4 grid gap-2 sm:grid-cols-2">{status.komponente.map((komponenta) => <li key={komponenta.id} className="rounded-lg bg-slate-800 px-3 py-2 text-sm text-slate-200">{komponenta.naziv} <span className="text-cyan-300">({komponenta.status})</span></li>)}</ul>
       </div>
+      {katalog && <div className="mt-6 rounded-xl border border-slate-700 bg-slate-900 p-5">
+        <h2 className="text-lg font-semibold text-white">Povezane platforme</h2>
+        <p className="mt-2 text-sm text-amber-100">{katalog.napomena}</p>
+        <div className="mt-4 grid gap-3 sm:grid-cols-2">{katalog.platforme.map((platforma) => <a key={platforma.id} href={platforma.url} target="_blank" rel="noopener noreferrer" className="rounded-lg border border-slate-700 bg-slate-800 p-4 transition hover:border-cyan-400"><p className="font-semibold text-white">{platforma.naziv}</p><p className="mt-1 text-sm text-slate-300">{platforma.opis}</p><p className="mt-2 text-xs uppercase tracking-wide text-cyan-300">{platforma.kategorija}</p></a>)}</div>
+      </div>}
     </section>
   );
 }
