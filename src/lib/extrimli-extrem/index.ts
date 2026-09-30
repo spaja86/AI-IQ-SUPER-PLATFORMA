@@ -7195,6 +7195,7 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
     },
     consistent: false,
     status: 'BLOCKED',
+    score: 0,
     programskiJezikAnaliza: {
       canonicalName: 'PROGRAMSKI JEZIK ANALIZA',
       scope: 'ispitivanje eskalacije kodesnog zapleta',
@@ -10896,6 +10897,20 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
   } else {
     dokDikDakDukConsistencyHealth.status = 'READY';
   }
+  const consistencySignalStatuses = [
+    dokDikDakDukConsistencyHealth.signals.dok.status,
+    dokDikDakDukConsistencyHealth.signals.dik.status,
+    dokDikDakDukConsistencyHealth.signals.for.status,
+    dokDikDakDukConsistencyHealth.signals.dak.status,
+    dokDikDakDukConsistencyHealth.signals.duk.status,
+  ];
+  dokDikDakDukConsistencyHealth.score = round(
+    consistencySignalStatuses.reduce(
+      (sum, signalStatus) => sum + (signalStatus === null ? 0 : readinessStatusScore(signalStatus)),
+      0,
+    ) / consistencySignalStatuses.length,
+    2,
+  );
   const developerAndCreateReflectionStatuses = [
     radniTaktMozgaMislilac.readiness.status,
     metrikoProgramiranje.readiness.status,

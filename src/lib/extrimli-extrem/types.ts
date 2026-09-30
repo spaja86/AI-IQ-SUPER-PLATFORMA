@@ -2738,6 +2738,7 @@ export interface ExtrimliDokDikDakDukConsistencyHealth {
   };
   consistent: boolean;
   status: 'READY' | 'WATCH' | 'BLOCKED';
+  score: number;
   programskiJezikAnaliza: {
     canonicalName: 'PROGRAMSKI JEZIK ANALIZA';
     scope: 'ispitivanje eskalacije kodesnog zapleta';
