@@ -4366,10 +4366,10 @@ export interface ExtrimliDokDikDakDukConsistencyHealth {
       kraljevskiPokloniZaSvacijiRodjendan: 'KRALJEVSKI POKLONI ZA SVAČIJI ROĐENDAN';
       medaljeSrbske: 'MEDALJE SRBSKE';
       kraljevskiRad: 'KRALJEVSKI RAD';
+      aiIqKonferencijaZaStampu: 'AI IQ KONFERENCIJA ZA ŠTAMPU (NOVINE, DIGITALNE NOVINE)';
       radniProstor: 'RADNI PROSTOR';
       konstrukcijeIProjektovanje: 'KONSTRUKCIJE I PROJEKTOVANJE';
       radio: 'RADIO';
-      muzickaKutija: 'MUZIČKA KUTIJA';
       notes1450: 'NOTES 1450';
     };
     canonicalGovernanceVocabulary: {
@@ -4384,6 +4384,9 @@ export interface ExtrimliDokDikDakDukConsistencyHealth {
       kraljevskiProgramskiUneverzitet: 'KRALJEVSKI PROGRAMSKI UNEVERZITET';
       kraljevskiEkonomskiUneverzitet: 'KRALJEVSKI EKONOMSKI UNEVERZITET';
       kraljevskiDrustveniPoredak: 'KRALJEVSKI DRUŠTVENI POREDAK';
+      inspektori: 'INSPEKTORI';
+      unutrasnjaKontrolaGradjanstvaUInformacionomStavu: 'UNUTRAŠNJA KONTROLA GRAĐANSTVA U INFORMACIONOM STAVU';
+      puteviIstinskePravde: 'PUTEVI ISTINSKE PRAVDE';
       kraljevskiBastaUneverzite: 'KRALJEVSKI BAŠTA UNEVERZITE';
       stocarstvo: 'STOČARSTVO';
       vinogradarstvo: 'VINOGRADARSTVO';
