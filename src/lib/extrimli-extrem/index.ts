@@ -10754,7 +10754,7 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
         driftConflictScore: programskiJezikPretpostavka.technicalSignals.driftConflictScore,
         saturationLoadScore: programskiJezikPretpostavka.technicalSignals.saturationLoadScore,
         continuationReadinessScore: programskiJezikPretpostavka.technicalSignals.continuationReadinessScore,
-        forStatus: programskiJezikPretpostavka.forLoopBinding.forEvidence.status,
+        forStatus: programskiJezikPretpostavka.forLoopBinding.forEvidence.status ?? 'BLOCKED',
         dokStatus: dokSignal?.status ?? null,
         dikStatus: dikSignal?.status ?? null,
         fallbackRequired: programskiJezikPretpostavka.readiness.deterministicFallbackRequired,
