@@ -2,7 +2,7 @@
 
 ## Svrha
 
-`NODE 1450` je documentation-only naziv za ograničeni AI razvojni profil nad postojećim `NOTES 1450` handoff paketom. Pomaže da se iz postojećeg koda, dokumentacije i testova pripreme jasni predlozi za narednu izmenu.
+`NODE 1450` je lokalni read-only planer i ograničeni AI razvojni profil nad postojećim `NOTES 1450` handoff paketom. Pomaže da se iz postojećeg koda, dokumentacije i testova pripreme jasni predlozi za narednu izmenu.
 
 Nije autonoman izvršilac, produkcioni runtime, bankarski sistem niti izvor istine.
 
@@ -50,3 +50,14 @@ Nije autonoman izvršilac, produkcioni runtime, bankarski sistem niti izvor isti
 ## Granice
 
 NODE 1450 može ubrzati pripremu kvalitetnih izmena, ali vlasnik proizvoda zadržava odluke, a Vercel i GitHub ostaju stvarni sistemi za deploy, billing i verzionisanje.
+
+## Izvršna verzija v1
+
+```bash
+npm run node:1450 -- "Pregled bankarskog modula" src/lib/ai-iq-world-bank.ts
+npx tsx src/tests/lib/node-1450.test.ts
+```
+
+CLI validira 1–20 postojećih izvornih fajlova unutar `src/`, `scripts/` ili `docs/` i ispisuje JSON plan sa postojećim ownership granicama. Ne čita sadržaj fajlova, ne poziva LLM, ne generiše diff, ne izvršava testove niti menja fajlove. Cilj je ulaz vlasnika, ne dokaz izvršenog rada. Plan navodi `checksExecuted: false` i `codeGenerated: false`. Tajni/dot fajlovi, putanje van repozitorijuma i symlink ciljevi su odbijeni.
+
+Ova verzija ne zamenjuje TypeScript, Node.js ili Next.js. NOTES 1450 ostaje postojeći handoff; nema nove runtime rute, source-of-truth sloja ili petog track-a. Predlog koda/automatska analiza sadržaja ostaju naredna faza, ne implementirana mogućnost.

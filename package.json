@@ -16,6 +16,7 @@
   ],
   "scripts": {
     "dev": "next dev",
+    "node:1450": "npx tsx scripts/node-1450.ts",
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
