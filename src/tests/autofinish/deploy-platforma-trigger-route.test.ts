@@ -1,3 +1,6 @@
+import { ΩAuthProvider } from '../../lib/auth/omega-auth';
+import { ΩClearanceLevel, type ΩIdentity } from '../../lib/auth/types';
+import { randomBytes } from 'crypto';
 import { POST } from '../../app/api/deploy-platforma/trigger/route';
 
 let passed = 0;
@@ -22,12 +25,14 @@ function assert(condition: boolean, message: string): asserts condition {
   }
 }
 
-function makeRequest(body: unknown): Request {
+let accessToken = '';
+function makeRequest(body: unknown, token = accessToken): Request {
   return new Request('http://localhost/api/deploy-platforma/trigger', {
     method: 'POST',
     headers: {
       'content-type': 'application/json',
-      'x-omega-user': 'route-test-user',
+      'x-omega-user': 'spoofed-admin',
+      ...(token ? { authorization: `Bearer ${token}` } : {}),
     },
     body: JSON.stringify(body),
   });
@@ -35,6 +40,30 @@ function makeRequest(body: unknown): Request {
 
 async function runTests(): Promise<void> {
   console.log('\n🧪 Deploy Platforma Trigger Route Test Suite\n');
+
+  process.env.OMEGA_JWT_SECRET = randomBytes(32).toString('hex');
+  const identity: ΩIdentity = { id: 'deploy-test-admin', did: 'did:test:admin', publicKey: '', roles: ['admin'], clearanceLevel: ΩClearanceLevel.ADMIN, digitalIndustryAccess: true, mfaEnabled: false, createdAt: Date.now() };
+  accessToken = (await ΩAuthProvider.issueToken(identity, [])).value;
+  await test('rejects spoofed identity without Bearer token', async () => {
+    assert((await POST(makeRequest({}, '') as never)).status === 401, 'must reject anonymous request');
+  });
+  await test('rejects tampered signature', async () => {
+    assert((await POST(makeRequest({}, accessToken + 'x') as never)).status === 401, 'must reject invalid signature');
+  });
+  await test('rejects non-admin ACCESS token', async () => {
+    const token = await ΩAuthProvider.issueToken({ ...identity, id: 'deploy-test-user', clearanceLevel: ΩClearanceLevel.USER }, []);
+    assert((await POST(makeRequest({}, token.value) as never)).status === 403, 'must reject non-admin');
+  });
+  await test('rejects REFRESH token', async () => {
+    const token = await ΩAuthProvider.issueToken(identity, [], 'REFRESH');
+    assert((await POST(makeRequest({}, token.value) as never)).status === 401, 'must reject refresh token');
+  });
+  await test('fails closed without signing configuration', async () => {
+    const secret = process.env.OMEGA_JWT_SECRET;
+    delete process.env.OMEGA_JWT_SECRET;
+    try { assert((await POST(makeRequest({}) as never)).status === 503, 'must fail closed'); }
+    finally { process.env.OMEGA_JWT_SECRET = secret; }
+  });
 
   await test('vraća 400 kada platformId nedostaje', async () => {
     const response = await POST(makeRequest({ environment: 'staging' }) as never);

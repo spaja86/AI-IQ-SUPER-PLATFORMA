@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import type { DeployEnvironment } from '@/lib/deploy/deploy-registry';
 import { triggerPlatformDeploy } from '@/lib/deploy/deploy-trigger';
 import { recordDeployHistory } from '@/lib/deploy/deploy-history';
+import { authorizeDeployRequest } from '@/lib/deploy/deploy-authorization';
 import { APP_VERSION } from '@/lib/constants';
 
 export const dynamic = 'force-dynamic';
@@ -23,9 +24,13 @@ const VALID_ENVIRONMENTS: DeployEnvironment[] = ['dev', 'staging', 'production']
  *
  * Bezbednost:
  * - Production deploy zahteva confirmToken === 'DEPLOY_PRODUCTION'
- * - Zahteva OMEGA_JWT_SECRET (provera u omega-security middleware-u)
+ * - Verifikuje ACCESS Bearer token i ADMIN clearance u handler-u
  */
 export async function POST(request: NextRequest) {
+  const authorization = await authorizeDeployRequest(request);
+  if (!authorization.ok) {
+    return NextResponse.json({ error: authorization.error }, { status: authorization.status });
+  }
   let body: TriggerBody = {};
   try {
     body = await request.json() as TriggerBody;
@@ -46,10 +51,7 @@ export async function POST(request: NextRequest) {
     );
   }
 
-  const triggeredBy =
-    request.headers.get('x-omega-user') ??
-    request.headers.get('x-forwarded-for')?.split(',')[0]?.trim() ??
-    'unknown';
+  const triggeredBy = authorization.identityId;
 
   const result = await triggerPlatformDeploy({
     platformId: platformId.trim(),
