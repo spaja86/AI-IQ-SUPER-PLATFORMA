@@ -1825,7 +1825,7 @@ function buildSinemetrickoProgramiranjeReasons(
 function getWaweWatchSummary(
   extremProfiler: ExtrimliExtrondolReport['extremProfiler'],
 ): string {
-  return [
+  return ([
     [
       extremProfiler.objektnoOrijentisanaReprodukcija.readiness.status === 'WATCH',
       'Ready for next WAWE stage with replay review visibility before broader rollout.',
@@ -1859,7 +1859,7 @@ function getWaweWatchSummary(
         || extremProfiler.objektnoOrijentusanoUzdizanjeEpskihElikvadenata.readiness.status === 'WATCH',
       'Ready for next WAWE stage with architecture review visibility before broader rollout.',
     ],
-  ].find(([condition]) => condition)?.[1]
+  ] as const).find(([condition]) => condition)?.[1]
     ?? 'Ready for next WAWE stage with governance evidence.';
 }
 
