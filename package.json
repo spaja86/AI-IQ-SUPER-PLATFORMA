@@ -17,6 +17,7 @@
   "scripts": {
     "dev": "next dev",
     "node:1450": "npx tsx scripts/node-1450.ts",
+    "node:1450:all": "node scripts/node-1450-all.mjs",
     "node:1450:cycle": "npx tsx scripts/node-1450-cycle.ts",
     "build": "next build",
     "start": "next start",

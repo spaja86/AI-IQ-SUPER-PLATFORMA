@@ -82,3 +82,14 @@ npm run node:1450:cycle -- src/lib/extrimli-extrem/index.ts previous.log
 Lokalni ciklus pokreće instalirani TypeScript kompajler jednom, bez shell interpolacije, sa timeout-om od 120 sekundi i ograničenjem izlaza. `previous.log` je opciona prethodna plain tsc evidencija. Izlaz sadrži nov rezultat, analizu odabranog EXTREM fajla i poređenje broja dijagnostika po kodu. Delta nije potvrda da je pojedinačna greška rešena (redovi i ugovori se menjaju).
 
 Komanda vraća neuspešan izlazni kod kada tsc ne prolazi, čak i ako analiza uspe. Neočekivani izlaz, timeout ili prekoračenje limita zaustavljaju ciklus. Ne izvršava testove, ne generiše/prihvata ispravke, ne menja source, ne deployuje i ne plaća. Korisnik pregleda i primenjuje mali patch, pokreće ciljane testove, pa ponavlja komandu. Nema autonomne petlje za popravku svih grešaka.
+
+## Bounded check orkestrator
+
+```bash
+npm run node:1450:all -- --check
+node --test src/tests/node-1450-all.test.mjs
+```
+
+Otkriva poznate ekstenzije u src/scripts/contracts; to nije dokaz podrške svim jezicima. Fiksni redosled: lokalni tsc, lint NODE 1450 fajlova, tri lokalna NODE 1450 test fajla i testovi orkestratora. Staje na prvom neuspehu; preostale provere označava skipped. Python/Solidity/Rust/Go/Java adapteri nisu implementirani. Ne pokreće proizvoljne package skripte, build, migracije ili deploy.
+
+Izlaz je ograničen status izveštaj bez sirovog stdout/stderr; nema automatske ispravke. Komande imaju 120s timeout i 1 MiB output limit. Ovo nije sigurnosni sandbox: lokalni compiler/linter/testovi i njihova konfiguracija jesu izvršni kod. Koristiti isključivo pregledan checkout i okruženje bez produkcionih tajni; nije garancija da promenjeni dependency ili test nikada nema side-effect. Puna aplikaciona test kolekcija nije uključena niti se tvrdi da prolazi.
