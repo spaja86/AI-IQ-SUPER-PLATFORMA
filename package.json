@@ -42,7 +42,7 @@
     "blockchain:deploy:testnet": "npx hardhat run scripts/deploy.ts --network amoy",
     "blockchain:deploy:mainnet": "npx hardhat run scripts/deploy.ts --network polygon",
     "digitalni-kompjuter": "npx tsx scripts/digitalni-kompjuter.ts",
-    "test:digitalni-kompjuter": "npx tsx src/tests/digitalni-kompjuter/catalog.test.ts && npx tsx src/tests/digitalni-kompjuter/finance-governance.test.ts"
+    "test:digitalni-kompjuter": "npx tsx src/tests/digitalni-kompjuter/catalog.test.ts && npx tsx src/tests/digitalni-kompjuter/finance-governance.test.ts && npx tsx src/tests/digitalni-kompjuter/innovation-registry.test.ts"
   },
   "dependencies": {
     "@supabase/ssr": "^0.10.2",
