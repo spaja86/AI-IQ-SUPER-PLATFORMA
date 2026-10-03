@@ -56,3 +56,11 @@ are readonly tuples so their message lookup remains a string, not boolean|string
 Six finance governance scenarios pass, including promotion freezes and
 non-operational evidence boundaries. Catalog contracts and targeted lint pass.
 Whole-project TypeScript diagnostics: 291; compilation remains blocked.
+
+## Typed persona records
+Seed mapping now has an explicit AiIdentityFinanceGovernancePersonaRecord return
+contract. This context preserves literal fields without casts or widening the
+contract. The declared weekly target is unchanged and is not a balance or payout.
+Catalog and six finance scenarios pass; targeted ESLint and diff check pass.
+Whole-project diagnostics: 290. No diagnostics remain in
+ai-identity-finance-governance.ts in this run; overall compilation still fails.

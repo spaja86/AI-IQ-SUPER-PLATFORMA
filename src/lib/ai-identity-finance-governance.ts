@@ -267,7 +267,7 @@ export function buildAiIdentityFinanceGovernancePackage(
 ): AiIdentityFinanceGovernancePackage {
   const baseBlockers = Array.from(new Set(options.blockers ?? []));
   let identityCompletenessTotal = 0;
-  const personas = SEED_PERSONAS.map((persona) => {
+  const personas = SEED_PERSONAS.map((persona): AiIdentityFinanceGovernancePersonaRecord => {
     const completenessScore = deriveIdentityCompleteness(persona);
     identityCompletenessTotal += completenessScore;
     const personaStatus: AiIdentityFinanceGovernanceStatus = options.readinessStatus === 'BLOCKED' || options.promotionFreeze
