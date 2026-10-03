@@ -1,3 +1,4 @@
+import { DIGITALNI_KOMPJUTER_EVIDENCE } from '@/lib/spaja-digitalni-kompjuter';
 import { NextResponse } from 'next/server';
 import {
   spajaKonzole,
@@ -14,7 +15,8 @@ import {
 
 export async function GET() {
   return NextResponse.json({
-    status: 'aktivan',
+    status: 'deklarisano',
+    ...DIGITALNI_KOMPJUTER_EVIDENCE,
     naziv: 'SPAJA Digitalni Kompjuter — Konzole i Dzojstici',
     opis: 'Dva tipa konzola sa dzojsticima — Univerzalna Virtuelna Konzola i Univerzalna Digitalna Konzola, obe pokretane od SPAJA Generator za Endzine',
     verzija: APP_VERSION,

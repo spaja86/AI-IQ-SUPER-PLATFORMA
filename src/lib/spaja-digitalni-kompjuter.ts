@@ -337,6 +337,7 @@ export function getSveKomponente(): KompjuterKomponenta[] {
     ...zajednickeKomponente,
     monitoringLiveKomponenta,
     aiIqMonitoringKomponenta,
+    spajaDzojstici,
   ];
 }
 
@@ -347,3 +348,10 @@ export function getAktivneKomponente(): KompjuterKomponenta[] {
 export function getKompjuterStatistika() {
   return izracunajStatistiku();
 }
+
+/** Catalog metadata is not runtime telemetry or resource provisioning. */
+export const DIGITALNI_KOMPJUTER_EVIDENCE = {
+  rezim: 'declaration-only',
+  runtimeVerified: false,
+  napomena: 'Deklarisana konfiguracija; nije dokaz hardvera, kapaciteta ili izvršavanja poslova.',
+} as const;

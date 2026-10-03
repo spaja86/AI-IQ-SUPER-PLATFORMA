@@ -63,7 +63,7 @@ async function runTests(): Promise<void> {
 
   await test('GET smoke provera', async () => {
     const response = await GET();
-    assert(response.status >= 200 && response.status < 600, `Neočekivan status: ${response.status}`);
+    assert(response.status === 200, `Neočekivan status: ${response.status}`);
 
     const xAppVersion = response.headers.get('X-App-Version');
     if (xAppVersion !== null) {
