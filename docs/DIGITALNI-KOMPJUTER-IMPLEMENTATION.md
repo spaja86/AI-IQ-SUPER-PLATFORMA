@@ -84,3 +84,11 @@ controlled slow-clock test asserts sinemetricko and overall remain BLOCKED.
 Language suite: 12 passed, 0 failed; targeted ESLint and diff check passed.
 Production timing and guards are unchanged. Full-project compilation remains
 blocked; no new full typecheck was run for this test-only follow-up.
+
+## Innovation registry contract
+Registry construction is contextually checked against its full model. The target
+count has a literal constant and tests verify it equals clusterCount times
+innovationsPerCluster and the materialized inventory count. Summary/full cache
+separation and deep freezing are tested. These are catalog records, not proof of
+implemented capabilities. Diagnostic suites and targeted lint pass. Whole-project
+TypeScript diagnostics: 281; compiler still fails, with none in this registry.

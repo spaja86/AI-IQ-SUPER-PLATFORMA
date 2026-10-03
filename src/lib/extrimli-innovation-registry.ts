@@ -103,6 +103,7 @@ export interface ExtrimliInnovationRegistryModel {
 
 const CLUSTER_COUNT = 130 as const;
 const INNOVATIONS_PER_CLUSTER = 100 as const;
+const TARGET_INNOVATION_COUNT = 13000 as const;
 const TRACKS: readonly ExtrimliInnovationTrack[] = [
   'funkcionalno',
   'objektno',
@@ -271,7 +272,7 @@ export function buildExtrimliInnovationRegistry(
       ? 'READY'
       : 'WATCH';
 
-  const builtRegistry = deepFreeze({
+  const builtRegistry = deepFreeze<ExtrimliInnovationRegistryModel>({
     canonicalAlias: 'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == 13000 INOVACIJA',
     additiveOnly: true,
     sourceOfTruthRoutes: ['/api/extrimli/extrem', '/api/extrimli/extrondol', '/api/extrimli/spaja-kod'],
@@ -283,7 +284,7 @@ export function buildExtrimliInnovationRegistry(
     matrix: {
       clusterCount: CLUSTER_COUNT,
       innovationsPerCluster: INNOVATIONS_PER_CLUSTER,
-      targetInnovationCount: CLUSTER_COUNT * INNOVATIONS_PER_CLUSTER,
+      targetInnovationCount: TARGET_INNOVATION_COUNT,
     },
     phaseMapping: [
       { id: 'V1', focus: 'taxonomy-standardization' },

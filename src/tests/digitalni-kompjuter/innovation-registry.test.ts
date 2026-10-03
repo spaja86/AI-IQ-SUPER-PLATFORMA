@@ -1,0 +1,15 @@
+import assert from 'node:assert/strict';
+import { buildExtrimliInnovationRegistry } from '../../lib/extrimli-innovation-registry';
+const summary = buildExtrimliInnovationRegistry({ materializeInnovations: false });
+assert.equal(summary.innovationsMaterialized, false);
+assert.equal(summary.innovations.length, 0);
+assert(Object.isFrozen(summary));
+const full = buildExtrimliInnovationRegistry();
+assert.equal(full.innovationsMaterialized, true);
+assert.equal(full.innovations.length, full.matrix.targetInnovationCount);
+assert.equal(full.matrix.clusterCount * full.matrix.innovationsPerCluster, full.matrix.targetInnovationCount);
+assert(Object.isFrozen(full));
+assert.equal(buildExtrimliInnovationRegistry(), full);
+assert.equal(buildExtrimliInnovationRegistry({ materializeInnovations: false }), summary);
+assert.equal(summary.innovations.length, 0);
+console.log('PASS: frozen full/summary registry caches preserve inventory contracts');
