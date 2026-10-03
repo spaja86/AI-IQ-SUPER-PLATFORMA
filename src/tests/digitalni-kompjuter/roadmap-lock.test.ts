@@ -1,0 +1,10 @@
+import assert from 'node:assert/strict';
+import { getExtrimliVersionRoadmap, isExtrimliDeveloperCreateLockAligned } from '../../lib/extrimli-version-roadmap';
+const canonical = getExtrimliVersionRoadmap().developerCreateLock;
+assert.equal(isExtrimliDeveloperCreateLockAligned(canonical), true);
+const clone = structuredClone(canonical);
+assert.equal(isExtrimliDeveloperCreateLockAligned(clone), true);
+clone.dailyOperationalCadence.taskTemplate[0].focus = 'Changed operational focus';
+assert.equal(isExtrimliDeveloperCreateLockAligned(clone), false);
+assert.equal(isExtrimliDeveloperCreateLockAligned(canonical), true);
+console.log('PASS: canonical cadence aligns and task drift is rejected without mutation');

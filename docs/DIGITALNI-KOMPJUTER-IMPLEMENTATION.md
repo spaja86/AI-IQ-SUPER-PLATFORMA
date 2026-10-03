@@ -92,3 +92,10 @@ innovationsPerCluster and the materialized inventory count. Summary/full cache
 separation and deep freezing are tested. These are catalog records, not proof of
 implemented capabilities. Diagnostic suites and targeted lint pass. Whole-project
 TypeScript diagnostics: 281; compiler still fails, with none in this registry.
+
+## Roadmap cadence comparison
+The comparable roadmap lock previously omitted dailyOperationalCadence, rejecting
+its own canonical keyset. Comparison now includes it; tests prove canonical and
+cloned locks align, modified task focus is rejected, and the canonical remains
+unchanged. All diagnostic suites and targeted lint pass. Whole-project TypeScript
+diagnostics: 280; compilation still fails. No production deployment performed.
