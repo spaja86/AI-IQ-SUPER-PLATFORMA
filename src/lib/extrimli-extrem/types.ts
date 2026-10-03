@@ -6464,7 +6464,7 @@ export interface ExtrimliDeveloperCreateScopeLock {
 
 export interface ExtrimliSurfaceHealthSnapshot {
   generatedFrom: '/api/extrimli/extrem';
-  surfaces: [
+  surfaces: readonly [
     {
       route: '/api/extrimli/extrem';
       status: ExtrimliSpajaKodPublicStatus;

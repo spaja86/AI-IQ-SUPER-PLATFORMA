@@ -86,7 +86,7 @@ export interface ExtrimliDeveloperCreateScopeLock {
 
 export interface ExtrimliSurfaceHealthSnapshot {
   generatedFrom: '/api/extrimli/extrondol';
-  surfaces: [
+  surfaces: readonly [
     {
       route: '/api/extrimli/extrem';
       status: ExtrimliSpajaKodPublicStatus;

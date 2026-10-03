@@ -99,3 +99,10 @@ its own canonical keyset. Comparison now includes it; tests prove canonical and
 cloned locks align, modified task focus is rejected, and the canonical remains
 unchanged. All diagnostic suites and targeted lint pass. Whole-project TypeScript
 diagnostics: 280; compilation still fails. No production deployment performed.
+
+## Readonly health and rollout ring contracts
+Both health snapshot interfaces accept the readonly tuples their producers
+already return. Rollout ring selection is contextually typed against the existing
+B2B ring union. Runtime statuses and thresholds are unchanged. Diagnostic suites,
+targeted ESLint and diff check pass. Whole-project diagnostics: 276 (still a
+failed compilation). No full build or production deployment performed.
