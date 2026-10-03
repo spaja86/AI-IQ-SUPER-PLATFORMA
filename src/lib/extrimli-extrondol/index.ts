@@ -5607,7 +5607,7 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
   const operationalApproval = currentWawe !== 'WAWE-1' && currentWawe !== 'WAWE-2';
   const rollbackPlanComplete = Boolean(governanceEvidence.rollbackPlanComplete);
   const humanReviewComplete = Boolean(governanceEvidence.humanReviewComplete);
-  const rolloutRing = currentWawe === 'WAWE-1'
+  const rolloutRing: import('./types').ExtrimliExtrondolB2bReadiness['tenant']['rolloutRing'] = currentWawe === 'WAWE-1'
     ? 'RING-0-CONTRACT'
     : currentWawe === 'WAWE-2'
       ? 'RING-1-STAGING'
