@@ -5416,7 +5416,8 @@ export interface ExtrimliDokDikDakDukConsistencyHealth {
       };
       supportingNarratives: readonly [
         'covecanstvo-kraljevska-produktivnost-pravno-gradjanstvo-basta-epilog-developer-create',
-        'covecanstvo-maticne-celije-i-spoznavanje-sebe-developer-create'
+        'covecanstvo-maticne-celije-i-spoznavanje-sebe-developer-create',
+        'covecanstvo-prirodne-maticne-celije-kukuruz-developer-create'
       ];
       thematicSignals: readonly [
         'knowledge',
