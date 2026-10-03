@@ -48,3 +48,11 @@ Whole-project diagnostics decreased from 300 to 293. New catalog contracts,
 ESLint on the three touched modules, and diff check passed. Remaining diagnostics
 include schema drift in large EXTRONDOL/EXTREM reporting models; these require
 contract-focused review rather than casts, disabled checking or invented data.
+
+## Report-contract follow-up
+Finance governance types now describe the existing subsidy-status evidence;
+persona readiness has an explicit status-union annotation. WATCH-summary entries
+are readonly tuples so their message lookup remains a string, not boolean|string.
+Six finance governance scenarios pass, including promotion freezes and
+non-operational evidence boundaries. Catalog contracts and targeted lint pass.
+Whole-project TypeScript diagnostics: 291; compilation remains blocked.
