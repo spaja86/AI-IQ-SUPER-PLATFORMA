@@ -1040,6 +1040,8 @@ export function evaluateAiiqLanguage(input: AiiqLanguageEvaluateInput): AiiqLang
     prosparitetDeklasiraneMatriceEkstazaTechnicalSignals: extremProsparitetDeklasiraneMatriceEkstaza.technicalSignals,
     dekoracijeObjektnihPrimesaSignalStatus: extremDekoracijeObjektnihPrimesa.readiness.status,
     dekoracijeObjektnihPrimesaReadinessScore: extremDekoracijeObjektnihPrimesa.readiness.score,
+    dekoracijeObjektnihPrimesaDeterministicFallbackRequired:
+      extremDekoracijeObjektnihPrimesa.readiness.deterministicFallbackRequired,
     dekoracijeObjektnihPrimesaTechnicalSignals: extremDekoracijeObjektnihPrimesa.technicalSignals,
     gamingDslSignalStatus: extremGamingDsl.readiness.status,
     gamingDslReadinessScore: extremGamingDsl.readiness.score,
@@ -1226,6 +1228,8 @@ export function compileAiiqLanguage(input: AiiqLanguageCompileInput): AiiqLangua
     prosparitetDeklasiraneMatriceEkstazaTechnicalSignals: extremProsparitetDeklasiraneMatriceEkstaza.technicalSignals,
     dekoracijeObjektnihPrimesaSignalStatus: extremDekoracijeObjektnihPrimesa.readiness.status,
     dekoracijeObjektnihPrimesaReadinessScore: extremDekoracijeObjektnihPrimesa.readiness.score,
+    dekoracijeObjektnihPrimesaDeterministicFallbackRequired:
+      extremDekoracijeObjektnihPrimesa.readiness.deterministicFallbackRequired,
     dekoracijeObjektnihPrimesaTechnicalSignals: extremDekoracijeObjektnihPrimesa.technicalSignals,
     gamingDslSignalStatus: extremGamingDsl.readiness.status,
     gamingDslReadinessScore: extremGamingDsl.readiness.score,

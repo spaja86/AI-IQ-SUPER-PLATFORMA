@@ -64,3 +64,13 @@ contract. The declared weekly target is unchanged and is not a balance or payout
 Catalog and six finance scenarios pass; targeted ESLint and diff check pass.
 Whole-project diagnostics: 290. No diagnostics remain in
 ai-identity-finance-governance.ts in this run; overall compilation still fails.
+
+## Deterministic fallback propagation
+Evaluate/compile now pass the existing decoration-track fallback requirement,
+matching the other integration calls. The public-boundary switch captures its
+status before narrowing, preserving exhaustive typing and fail-closed behavior.
+Catalog/finance diagnostics and targeted lint pass. TypeScript diagnostics: 286,
+none in the two touched modules in this run. Overall compilation still fails.
+Language suite: 10 pass, 1 determinism assertion fails. A comparison run with the
+pre-change engine also produces 10 pass / the same 1 failure. This is not a clean
+language-suite pass and requires a separate investigation.
