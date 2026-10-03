@@ -1,3 +1,4 @@
+import { DIGITALNI_KOMPJUTER_EVIDENCE } from '@/lib/spaja-digitalni-kompjuter';
 import { NextResponse } from 'next/server';
 import {
   spajaDigitalniKompjuterSistem,
@@ -40,14 +41,15 @@ export async function GET() {
   const aktivnih = sveKomponente.filter((k) => k.status === 'aktivan').length;
 
   return NextResponse.json({
-    status: 'aktivan',
+    status: 'deklarisano',
+    ...DIGITALNI_KOMPJUTER_EVIDENCE,
     naziv: 'SPAJA Digitalni Kompjuter — Aktivacija',
     opis: 'Aktivacija digitalnog kompjutera za svakog ulogovanog korisnika — sve komponente pokretane od SPAJA Generator za Endzine',
     verzija: APP_VERSION,
 
     aktivacija: {
-      aktiviran: true,
-      poruka: 'Digitalni Kompjuter je uspesno aktiviran za korisnika — sve komponente su u funkciji',
+      aktiviran: false,
+      poruka: 'Prikazan je katalog; resursi nisu dodeljeni niti je izvršavanje provereno.',
       generatorLink: sistem.generatorLink,
     },
 

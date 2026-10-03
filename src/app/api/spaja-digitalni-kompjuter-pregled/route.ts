@@ -1,3 +1,4 @@
+import { DIGITALNI_KOMPJUTER_EVIDENCE } from '@/lib/spaja-digitalni-kompjuter';
 import { NextResponse } from 'next/server';
 import {
   spajaDigitalniKompjuterSistem,
@@ -19,7 +20,8 @@ export async function GET() {
   const sveKomponente = getSveKomponente();
 
   return NextResponse.json({
-    status: 'aktivan',
+    status: 'deklarisano',
+    ...DIGITALNI_KOMPJUTER_EVIDENCE,
     naziv: 'SPAJA Digitalni Kompjuter — Pregled',
     verzija: APP_VERSION,
 

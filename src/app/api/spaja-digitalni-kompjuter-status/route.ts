@@ -1,3 +1,4 @@
+import { DIGITALNI_KOMPJUTER_EVIDENCE } from '@/lib/spaja-digitalni-kompjuter';
 import { NextResponse } from 'next/server';
 import { spajaDigitalniKompjuterSistem, getSveKomponente } from '@/lib/spaja-digitalni-kompjuter';
 import { APP_VERSION, AUTOFINISH_COUNT, AUTOFINISH_TARGET } from '@/lib/constants';
@@ -8,7 +9,8 @@ export async function GET() {
   const aktivnih = sveKomponente.filter((k) => k.status === 'aktivan').length;
 
   return NextResponse.json({
-    status: 'aktivan',
+    status: 'deklarisano',
+    ...DIGITALNI_KOMPJUTER_EVIDENCE,
     naziv: 'SPAJA Digitalni Kompjuter — Status',
     verzija: APP_VERSION,
 

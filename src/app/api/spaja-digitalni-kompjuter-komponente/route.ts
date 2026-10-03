@@ -1,3 +1,4 @@
+import { DIGITALNI_KOMPJUTER_EVIDENCE } from '@/lib/spaja-digitalni-kompjuter';
 import { NextResponse } from 'next/server';
 import {
   getSveKomponente,
@@ -17,7 +18,8 @@ export async function GET() {
   const aktivne = getAktivneKomponente();
 
   return NextResponse.json({
-    status: 'aktivan',
+    status: 'deklarisano',
+    ...DIGITALNI_KOMPJUTER_EVIDENCE,
     naziv: 'SPAJA Digitalni Kompjuter — Komponente',
     opis: 'Detaljan pregled svih komponenti digitalnog kompjutera — maticna ploca, procesori, cipovi, BIOS, RAM, GPU, graficke, hard disk, tastatura i mis, monitoring',
     verzija: APP_VERSION,
