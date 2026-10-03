@@ -1,3 +1,4 @@
+import { mock } from 'node:test';
 // SpajaUltraOmegaCore -∞Ω+∞ — AI IQ PROGRAMSKI JEZIK Tests
 // Kompanija SPAJA — Digitalna Industrija
 
@@ -69,6 +70,24 @@ async function runTests(): Promise<void> {
 
   console.log('\n🧠 [ai-iq-programski-jezik] evaluate');
 
+  await test('slow evaluation keeps the performance signal blocked', () => {
+    let tick = 0;
+    const clock = mock.method(performance, 'now', () => (++tick) * (AIIQ_LANG_PERFORMANCE_MAX_MS + 100));
+    try {
+      const result = evaluateAiiqLanguage({
+        referenceId: 'eval-slow', goal: 'Controlled latency guard', mode: 'HYBRID',
+        promptComplexity: 84, ruleCoverage: 86, orchestrationReadiness: 82,
+        autonomyLevel: 79, riskLevel: 28, explainabilityNeed: 90,
+        securityPolicyScore: 88, fallbackConfigured: true,
+      });
+      assert(result.integrationProfile.unifiedSignalStatus.sinemetricko === 'BLOCKED', 'latency guard must block sinemetricko');
+      assert(result.integrationProfile.unifiedSignalStatus.overall === 'BLOCKED', 'latency guard must block overall');
+    } finally {
+      clock.mock.restore();
+    }
+  });
+
+
   await test('deterministic evaluate returns stable status and score', () => {
     const input = {
       referenceId: 'eval-stable',
@@ -84,8 +103,16 @@ async function runTests(): Promise<void> {
       fallbackConfigured: true,
     };
 
-    const first = evaluateAiiqLanguage(input);
-    const second = evaluateAiiqLanguage(input);
+    // Determinism requires the same timing input; cold-start latency is variable.
+    const clock = mock.method(performance, 'now', () => 100);
+    let first: ReturnType<typeof evaluateAiiqLanguage>;
+    let second: ReturnType<typeof evaluateAiiqLanguage>;
+    try {
+      first = evaluateAiiqLanguage(input);
+      second = evaluateAiiqLanguage(input);
+    } finally {
+      clock.mock.restore();
+    }
 
     assert(first.valid, 'result should be valid');
     assert(first.status === 'AI_NATIVE_READY', `expected AI_NATIVE_READY, got ${first.status}`);
