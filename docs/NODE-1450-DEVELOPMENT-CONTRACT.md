@@ -72,3 +72,13 @@ npx tsx src/tests/lib/node-1450-diagnostics.test.ts
 Opciono čita eksplicitno odabran lokalni `.log`/`.txt` artifact do 1 MiB (krajnji symlink i dot putanje se odbijaju). Ne prosleđujte fajlove sa tajnama; koristite pouzdan lokalni direktorijum. Podržan je plain `tsc` format `file(line,column): error TSxxxx: ...`. Jedan postojeći EXTREM `.ts`/`.tsx` target se validira postojećim source allowlist pravilima.
 
 Izlaz grupiše dijagnostike po kodu i navodi putanju/red/kolonu i generičku preporuku za pregled. Ne ispisuje originalne poruke ni sadržaj izvora, ne dokazuje da se artifact odnosi na aktuelnu reviziju i ne izvodi konkretan patch. Neprepoznat/prazan ulaz je greška, ne uspešan typecheck. Nula grešaka za target nije dokaz da ceo projekat prolazi. `checksExecuted`, `sourceContentsAnalyzed` i `codeGenerated` ostaju false.
+
+## Function.analiza.typescripte.reper.typescript.return.to.analiza
+
+```bash
+npm run node:1450:cycle -- src/lib/extrimli-extrem/index.ts previous.log
+```
+
+Lokalni ciklus pokreće instalirani TypeScript kompajler jednom, bez shell interpolacije, sa timeout-om od 120 sekundi i ograničenjem izlaza. `previous.log` je opciona prethodna plain tsc evidencija. Izlaz sadrži nov rezultat, analizu odabranog EXTREM fajla i poređenje broja dijagnostika po kodu. Delta nije potvrda da je pojedinačna greška rešena (redovi i ugovori se menjaju).
+
+Komanda vraća neuspešan izlazni kod kada tsc ne prolazi, čak i ako analiza uspe. Neočekivani izlaz, timeout ili prekoračenje limita zaustavljaju ciklus. Ne izvršava testove, ne generiše/prihvata ispravke, ne menja source, ne deployuje i ne plaća. Korisnik pregleda i primenjuje mali patch, pokreće ciljane testove, pa ponavlja komandu. Nema autonomne petlje za popravku svih grešaka.
