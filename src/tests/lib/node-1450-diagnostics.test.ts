@@ -1,0 +1,32 @@
+import assert from 'node:assert/strict';
+import { mkdtempSync, mkdirSync, writeFileSync, rmSync, symlinkSync } from 'node:fs';
+import { tmpdir } from 'node:os';
+import { join } from 'node:path';
+import { analyzeTypeScriptDiagnostics, readDiagnosticArtifact } from '../../lib/node-1450/diagnostics';
+const root = mkdtempSync(join(tmpdir(), 'node1450-diagnostics-'));
+const target = 'src/lib/extrimli-extrem/index.ts';
+try {
+  mkdirSync(join(root, 'src/lib/extrimli-extrem'), { recursive: true });
+  writeFileSync(join(root, target), 'export const example = 1;');
+  const text = `${target}(1,2): error TS2322: incompatible secret-looking message\n  continuation\nsrc/other.ts(2,3): error TS2339: other\n${target}(3,4): error TS2322: other`;
+  const result = analyzeTypeScriptDiagnostics(root, text, target);
+  assert.equal(result.parsedDiagnostics, 3);
+  assert.equal(result.targetDiagnostics, 2);
+  assert.equal(result.groups.TS2322, 2);
+  assert.equal(result.checksExecuted, false);
+  assert.equal(result.sourceContentsAnalyzed, false);
+  assert.ok(!JSON.stringify(result).includes('secret-looking'));
+  assert.throws(() => analyzeTypeScriptDiagnostics(root, '', target));
+  assert.throws(() => analyzeTypeScriptDiagnostics(root, 'x'.repeat(1048577), target));
+  assert.throws(() => analyzeTypeScriptDiagnostics(root, text, '../index.ts'));
+  const artifact = join(root, 'sample.log');
+  writeFileSync(artifact, text);
+  assert.equal(readDiagnosticArtifact(artifact), text);
+  symlinkSync(artifact, join(root, 'linked.log'));
+  assert.throws(() => readDiagnosticArtifact(join(root, 'linked.log')));
+  assert.throws(() => readDiagnosticArtifact(join(root, '.env')));
+  const noTarget = analyzeTypeScriptDiagnostics(root, 'src/other.ts(1,1): error TS9999: other', target);
+  assert.equal(noTarget.targetDiagnostics, 0);
+  assert.equal(noTarget.checksExecuted, false);
+  console.log('NODE 1450 diagnostic parser tests passed.');
+} finally { rmSync(root, { recursive: true, force: true }); }

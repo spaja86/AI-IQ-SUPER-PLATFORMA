@@ -61,3 +61,14 @@ npx tsx src/tests/lib/node-1450.test.ts
 CLI validira 1–20 postojećih izvornih fajlova unutar `src/`, `scripts/` ili `docs/` i ispisuje JSON plan sa postojećim ownership granicama. Ne čita sadržaj fajlova, ne poziva LLM, ne generiše diff, ne izvršava testove niti menja fajlove. Cilj je ulaz vlasnika, ne dokaz izvršenog rada. Plan navodi `checksExecuted: false` i `codeGenerated: false`. Tajni/dot fajlovi, putanje van repozitorijuma i symlink ciljevi su odbijeni.
 
 Ova verzija ne zamenjuje TypeScript, Node.js ili Next.js. NOTES 1450 ostaje postojeći handoff; nema nove runtime rute, source-of-truth sloja ili petog track-a. Predlog koda/automatska analiza sadržaja ostaju naredna faza, ne implementirana mogućnost.
+
+## Sačuvana TypeScript dijagnostika
+
+```bash
+npm run node:1450 -- --diagnostics /path/to/typecheck.log src/lib/extrimli-extrem/index.ts
+npx tsx src/tests/lib/node-1450-diagnostics.test.ts
+```
+
+Opciono čita eksplicitno odabran lokalni `.log`/`.txt` artifact do 1 MiB (krajnji symlink i dot putanje se odbijaju). Ne prosleđujte fajlove sa tajnama; koristite pouzdan lokalni direktorijum. Podržan je plain `tsc` format `file(line,column): error TSxxxx: ...`. Jedan postojeći EXTREM `.ts`/`.tsx` target se validira postojećim source allowlist pravilima.
+
+Izlaz grupiše dijagnostike po kodu i navodi putanju/red/kolonu i generičku preporuku za pregled. Ne ispisuje originalne poruke ni sadržaj izvora, ne dokazuje da se artifact odnosi na aktuelnu reviziju i ne izvodi konkretan patch. Neprepoznat/prazan ulaz je greška, ne uspešan typecheck. Nula grešaka za target nije dokaz da ceo projekat prolazi. `checksExecuted`, `sourceContentsAnalyzed` i `codeGenerated` ostaju false.
