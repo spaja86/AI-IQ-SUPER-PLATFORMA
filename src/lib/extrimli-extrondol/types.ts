@@ -1,10 +1,10 @@
+import type { ExtrimliExtremZelezaraPretplataIdentityStatus } from '../extrimli-extrem/types';
 import type { ExtrimliExtrondendReport } from '../extrimli-extrondend';
 import type { ExtrimliExtendolReport } from '../extrimli-extendol';
 import type { ExtrimliKoronHealthReport } from '../extrimli-koron';
 import type { DuetInput, DuetStatus } from '../duet';
 import type {
   ExtrimliExtremProfilerReport,
-  ExtrimliExtremZelezaraPretplataIdentityStatus,
   ExtrimliSpajaKodPublicStatus,
 } from '../extrimli-extrem';
 import type { ExtrimliVersionRoadmap, ExtrimliVersionRoadmapVersionId } from '../extrimli-version-roadmap';
@@ -125,7 +125,6 @@ export interface ExtrimliDeveloperCreateBranchReportBucketItem {
 
 export interface ExtrimliDeveloperCreateBranchReport {
   canonicalFormat: 'developer-create-branch-report-v1';
-  canonicalAlias: typeof import('../extrimli/developer-create-vrh-ekviladenta-contract').DEVELOPER_CREATE_VRH_IZVESTAJ_ALIAS;
   canonicalScopeLock: 'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA';
   boundedVocabularyPhrase: 'EXTRIMLI EXTRONDOL EXTREM DOK DUK DAK DIK FOR';
   canonicalAlias: typeof DEVELOPER_CREATE_VRH_IZVESTAJ_ALIAS;

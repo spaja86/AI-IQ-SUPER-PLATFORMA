@@ -525,7 +525,6 @@ function buildDeveloperCreateBranchReport(params: {
 
   return {
     canonicalFormat: 'developer-create-branch-report-v1',
-    canonicalAlias: DEVELOPER_CREATE_VRH_IZVESTAJ_ALIAS,
     canonicalScopeLock: 'DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA',
     boundedVocabularyPhrase: DEVELOPER_CREATE_REPO_WIDE_BOUNDED_VOCABULARY_PHRASE,
     canonicalAlias: DEVELOPER_CREATE_VRH_IZVESTAJ_ALIAS,
@@ -800,7 +799,6 @@ function mapDeveloperCreateCovecnostAuditVisualReference(
       ownershipLock: { ...reflection.imageToSignalProfile.ownershipLock },
       signalOutputs: { ...reflection.imageToSignalProfile.signalOutputs },
     },
-    flowLock: { ...reflection.flowLock, sequence: [...reflection.flowLock.sequence] },
     supplementalVisualReferences: reflection.supplementalVisualReferences.map((reference) => ({
       ...reference,
       thematicSignals: [...reference.thematicSignals],
