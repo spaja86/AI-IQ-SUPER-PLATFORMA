@@ -74,3 +74,13 @@ none in the two touched modules in this run. Overall compilation still fails.
 Language suite: 10 pass, 1 determinism assertion fails. A comparison run with the
 pre-change engine also produces 10 pass / the same 1 failure. This is not a clean
 language-suite pass and requires a separate investigation.
+
+## Timing-aware determinism tests
+Observed identical input scores/status, but cold-start evaluation produced
+sinemetricko BLOCKED followed by READY on warm calls. The integration profile
+intentionally includes measured duration in its performance guard.
+The deterministic test now uses a fixed clock restored in finally; a separate
+controlled slow-clock test asserts sinemetricko and overall remain BLOCKED.
+Language suite: 12 passed, 0 failed; targeted ESLint and diff check passed.
+Production timing and guards are unchanged. Full-project compilation remains
+blocked; no new full typecheck was run for this test-only follow-up.
