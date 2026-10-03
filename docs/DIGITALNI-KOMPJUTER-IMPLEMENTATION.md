@@ -39,3 +39,12 @@ No production deployment, payment or financial credential changes are included.
 - Whole-project `tsc --noEmit --incremental false`: failed with 300 diagnostics
   in other modules (including extrimli and AI identity finance). No full build or
   production readiness is claimed. Baseline comparison has not been performed.
+
+## Follow-up compiler cleanup
+Removed duplicate identical canonicalAlias/flowLock declarations, corrected the
+identity-status type import to its defining module, and imported the missing
+PersonaRegistrationInput type. No runtime financial behavior was added.
+Whole-project diagnostics decreased from 300 to 293. New catalog contracts,
+ESLint on the three touched modules, and diff check passed. Remaining diagnostics
+include schema drift in large EXTRONDOL/EXTREM reporting models; these require
+contract-focused review rather than casts, disabled checking or invented data.

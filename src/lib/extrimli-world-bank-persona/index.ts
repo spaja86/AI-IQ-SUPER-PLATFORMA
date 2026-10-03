@@ -1,3 +1,4 @@
+import type { PersonaRegistrationInput } from '../persona-bank';
 import { isDeepStrictEqual } from 'node:util';
 import { buildAiIqWorldBank } from '../ai-iq-world-bank';
 import {
