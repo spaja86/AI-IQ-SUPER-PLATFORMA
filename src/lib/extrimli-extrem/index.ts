@@ -13752,7 +13752,7 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
     notes1450AiMaterialSaturationRiskStatus,
     notes1450DeterministicNextStepStatus,
   ];
-  const notes1450Status = aggregateSignalReadinessStatus(notes1450FinalStatuses);
+  const notes1450Status = aggregateReadinessStatus(notes1450FinalStatuses);
   const notes1450ReadinessScore = round(
     notes1450FinalStatuses.reduce((sum, status) => sum + readinessStatusScore(status), 0) / notes1450FinalStatuses.length,
     2,
@@ -13928,7 +13928,7 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
     || leksikonFallbackStatus === 'BLOCKED'
       ? 'BLOCKED'
       : 'READY';
-  const leksikonStatus = aggregateSignalReadinessStatus([...leksikonFinalStatuses]);
+  const leksikonStatus = aggregateReadinessStatus([...leksikonFinalStatuses]);
   const leksikonReadinessScore = round(
     leksikonFinalStatuses.reduce((sum, status) => sum + readinessStatusScore(status), 0)
       / leksikonFinalStatuses.length,
@@ -13970,7 +13970,7 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
     dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.kraljevskiEkonomskiUneverzitet.privredniAkt.readiness.status;
   const administrativeBonusOverrideStatus =
     dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.kraljevskiDrustveniPoredak.readiness.status;
-  const promotionsConflictStatus = aggregateSignalReadinessStatus([
+  const promotionsConflictStatus = aggregateReadinessStatus([
     ticketEvidenceStatus,
     administrativeBonusOverrideStatus,
   ]);
@@ -13989,7 +13989,7 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
     promotionsConflictStatus,
     promotionsFallbackStatus,
   ] as const;
-  const promotionsPackageStatus = aggregateSignalReadinessStatus([...promotionsPackageStatuses]);
+  const promotionsPackageStatus = aggregateReadinessStatus([...promotionsPackageStatuses]);
   const promotionsPackageReadinessScore = round(
     promotionsPackageStatuses.reduce((sum, status) => sum + readinessStatusScore(status), 0)
       / promotionsPackageStatuses.length,
@@ -14065,7 +14065,7 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
     kraljevskoTakmicenjeRhythmStatus,
     kraljevskoTakmicenjeVisualStatus,
   ] as const;
-  const kraljevskoTakmicenjeStatus = aggregateSignalReadinessStatus([...kraljevskoTakmicenjeStatuses]);
+  const kraljevskoTakmicenjeStatus = aggregateReadinessStatus([...kraljevskoTakmicenjeStatuses]);
   const kraljevskoTakmicenjeReadinessScore = round(
     (
       kraljevskoTakmicenjeStatuses.reduce((sum, status) => sum + readinessStatusScore(status), 0)
@@ -14185,7 +14185,7 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
       .consolidatedRhythmStatus,
     medaljeSrbskeFallbackInputStatus,
   ] as const;
-  const medaljeSrbskeStatus = aggregateSignalReadinessStatus([...medaljeSrbskeSignalStatuses]);
+  const medaljeSrbskeStatus = aggregateReadinessStatus([...medaljeSrbskeSignalStatuses]);
   medaljeSrbskeTrack.readinessSignal.status = medaljeSrbskeStatus;
   medaljeSrbskeTrack.readinessSignal.readinessScore = round(
     medaljeSrbskeSignalStatuses.reduce((sum, signalStatus) => sum + readinessStatusScore(signalStatus), 0)
@@ -14575,7 +14575,7 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
     (radniProstorMatchedTokenCount / radniProstorTokenDenominator) * 100,
     2,
   );
-  const radniProstorStatus = aggregateSignalReadinessStatus([...radniProstorSignalStatuses]);
+  const radniProstorStatus = aggregateReadinessStatus([...radniProstorSignalStatuses]);
   const radniProstorReadinessScore = round(
     radniProstorSignalStatuses.reduce((sum, status) => sum + readinessStatusScore(status), 0)
       / radniProstorSignalStatuses.length,
@@ -14882,7 +14882,7 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
     dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.technicalReadinessProfile
       .consolidatedRhythmStatus,
   ] as const;
-  const pilotStatus = aggregateSignalReadinessStatus([...pilotSignalStatuses]);
+  const pilotStatus = aggregateReadinessStatus([...pilotSignalStatuses]);
   const pilotFallbackInputStatus: ExtrimliExtremReadinessStatus = pilotStatus;
   pilotTrack.readinessSignal.status = pilotStatus;
   pilotTrack.readinessSignal.readinessScore = round(
@@ -14927,7 +14927,7 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
     dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.technicalReadinessProfile
       .consolidatedRhythmStatus,
   ] as const;
-  const devastatorStatus = aggregateSignalReadinessStatus([...devastatorSignalStatuses]);
+  const devastatorStatus = aggregateReadinessStatus([...devastatorSignalStatuses]);
   const devastatorFallbackInputStatus: ExtrimliExtremReadinessStatus = devastatorStatus;
   devastatorTrack.readinessSignal.status = devastatorStatus;
   devastatorTrack.readinessSignal.readinessScore = round(
@@ -14999,11 +14999,11 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
         : elektronskiPotpisIdentityConfirmationStatus === 'REVIEW_REQUIRED'
           ? 'WATCH'
           : 'BLOCKED';
-  const elektronskiPotpisFallbackInputStatus: ExtrimliExtremReadinessStatus = aggregateSignalReadinessStatus([
+  const elektronskiPotpisFallbackInputStatus: ExtrimliExtremReadinessStatus = aggregateReadinessStatus([
     elektronskiPotpisReadinessStatus,
     identityVerificationSource.status,
   ]);
-  const elektronskiPotpisStatus = aggregateSignalReadinessStatus([
+  const elektronskiPotpisStatus = aggregateReadinessStatus([
     elektronskiPotpisReadinessStatus,
     elektronskiPotpisSignatureDisplayStatus,
   ]);
@@ -15188,18 +15188,18 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
     aiIqLaboratorijaProgramskiEkanalogStatus,
     aiIqLaboratorijaLaboratoryProfileStatus,
   ] as const;
-  const aiIqLaboratorijaStatus = aggregateSignalReadinessStatus([...aiIqLaboratorijaSignalStatuses]);
+  const aiIqLaboratorijaStatus = aggregateReadinessStatus([...aiIqLaboratorijaSignalStatuses]);
   const aiIqLaboratorijaReadinessScore = round(
     aiIqLaboratorijaSignalStatuses.reduce((sum, status) => sum + readinessStatusScore(status), 0)
       / aiIqLaboratorijaSignalStatuses.length,
     2,
   );
   const aiIqLaboratorijaFindingsStatus = aiIqLaboratorijaLaboratoryProfileStatus;
-  const aiIqLaboratorijaFaunaIFLoraStatus = aggregateSignalReadinessStatus([
+  const aiIqLaboratorijaFaunaIFLoraStatus = aggregateReadinessStatus([
     dokDikDakDukConsistencyHealth.programskiJezikProucavanja.laboratoryCaseProfile.consolidatedStatus,
     aiIqLaboratorijaProgramskiEkanalogStatus,
   ]);
-  const aiIqLaboratorijaGradjevinskiMaterijalStatus = aggregateSignalReadinessStatus([
+  const aiIqLaboratorijaGradjevinskiMaterijalStatus = aggregateReadinessStatus([
     dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.status,
     dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.technicalReadinessProfile.consolidatedRhythmStatus,
   ]);
@@ -15482,7 +15482,7 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
     vinogradiGrockaRestoranEffectiveDateStatus,
     vinogradiGrockaRestoranFallbackInputStatus,
   ] as const;
-  const vinogradiGrockaRestoranStatus = aggregateSignalReadinessStatus([
+  const vinogradiGrockaRestoranStatus = aggregateReadinessStatus([
     ...vinogradiGrockaRestoranSignalStatuses,
   ]);
   vinogradiGrockaRestoranTrack.readinessSignal.status = vinogradiGrockaRestoranStatus;
@@ -15566,7 +15566,7 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
     poslovnaPonudaZelezaraDooReferenceListStatus,
     poslovnaPonudaZelezaraDooFallbackInputStatus,
   ] as const;
-  const poslovnaPonudaZelezaraDooStatus = aggregateSignalReadinessStatus([
+  const poslovnaPonudaZelezaraDooStatus = aggregateReadinessStatus([
     ...poslovnaPonudaZelezaraDooSignalStatuses,
   ]);
   poslovnaPonudaZelezaraDooTrack.readinessSignal.status = poslovnaPonudaZelezaraDooStatus;
@@ -15809,7 +15809,7 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
     dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.covecnostAuditVisualReference.imageToSignalProfile.signalOutputs.readinessStatus,
     aiIqKonferencijaZaStampuPublicPackageStatus,
   ] as const;
-  const aiIqKonferencijaZaStampuStatus = aggregateSignalReadinessStatus([...aiIqKonferencijaZaStampuSignalStatuses]);
+  const aiIqKonferencijaZaStampuStatus = aggregateReadinessStatus([...aiIqKonferencijaZaStampuSignalStatuses]);
   const aiIqKonferencijaZaStampuReadinessScore = round(
     aiIqKonferencijaZaStampuSignalStatuses.reduce((sum, status) => sum + readinessStatusScore(status), 0)
       / aiIqKonferencijaZaStampuSignalStatuses.length,
