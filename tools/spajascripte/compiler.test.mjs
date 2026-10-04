@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import { spawnSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 import { readFileSync } from 'node:fs';
-import { compile } from './compiler.mjs';
+import { compile, parse, validate, generateJava } from './compiler.mjs';
 const example = fileURLToPath(new URL('./example.spaja', import.meta.url));
 const output = compile(readFileSync(example, 'utf8'));
 assert.equal(output.expectedOutput, '42\n');
@@ -20,3 +20,15 @@ else {
   console.log('PASS: JVM output matches reference result.');
 }
 console.log('PASS: parser, generator, negative cases and bounded arithmetic.');
+
+const ast = parse('LET number = 4\nPRINT number + 2');
+assert.equal(ast.statements[0].line, 1);
+assert.equal(ast.statements[1].terms[0].kind, 'identifier');
+assert.equal(validate(ast).statements[1].type, 'int32');
+assert.equal(generateJava(ast), compile('LET number = 4\nPRINT number + 2').java);
+assert.throws(() => validate(parse('PRINT missing')));
+assert.throws(() => generateJava({ kind: 'program', version: '0.1', statements: [{ kind: 'print', line: 1, terms: [{ kind: 'integer', value: 'System.exit(0)' }] }] }));
+assert.throws(() => generateJava({ kind: 'program', version: '0.1', statements: [{ kind: 'let', name: 'x;exit', line: 1, terms: [{ kind: 'integer', value: 1 }] }] }));
+assert.throws(() => compile('LET high = 999999999 + 999999999\nPRINT high + 999999999 + -999999999'));
+assert.deepEqual(ast, parse('LET number = 4\nPRINT number + 2'));
+console.log('PASS: AST structure, int32 validation, generator trust boundary and intermediate overflow rejection.');
