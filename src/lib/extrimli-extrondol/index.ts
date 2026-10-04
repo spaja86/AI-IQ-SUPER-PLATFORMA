@@ -2034,6 +2034,8 @@ function buildObjektnaProngilacijaGovernance(params: {
     waweImpact: {
       currentWawe: params.currentWawe,
       eligibleNextWawe: params.eligibleNextWawe,
+      currentWave: params.currentWawe,
+      eligibleNextWave: params.eligibleNextWawe,
       promotionFreeze: params.promotionFreeze,
       stageRules: [
         { stage: 'WAWE-1', requirement: 'Canonical term, source-of-truth lock, and object-state readiness must be explicitly defined.' },
@@ -3145,6 +3147,8 @@ function buildSinemetrickoProgramiranjeGovernance(params: {
     waweImpact: {
       currentWawe: params.currentWawe,
       eligibleNextWawe: params.eligibleNextWawe,
+      currentWave: params.currentWawe,
+      eligibleNextWave: params.eligibleNextWawe,
       promotionFreeze: params.promotionFreeze,
       reviewRequiredBeforeWideRollout: signal.readiness.status !== 'READY' || signal.conflict.evidenceRequired,
     },

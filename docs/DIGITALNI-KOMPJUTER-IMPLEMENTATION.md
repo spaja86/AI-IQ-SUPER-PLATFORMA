@@ -113,3 +113,11 @@ kraljevskiDrustveniPoredak, covecnostAuditVisualReference and repoWideReflection
 Removed the earlier copies; the effective last values remain unchanged.
 All diagnostic suites and targeted lint pass. Whole-project diagnostics: 273;
 compilation still fails. No runtime status, payments or deployments changed.
+
+## Wave alias compatibility
+Prongilacija and sinemetricko governance outputs now include canonical currentWave
+and eligibleNextWave alongside existing currentWawe/eligibleNextWawe fields.
+Both pairs derive from the same parameters; legacy fields are retained explicitly
+in the contract. Diagnostic suites, targeted lint and diff check pass. Whole-project
+TypeScript diagnostics: 271; compilation remains blocked. Full EXTRONDOL runtime
+integration has not been verified by this change.

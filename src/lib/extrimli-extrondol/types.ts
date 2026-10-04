@@ -545,6 +545,9 @@ export interface ExtrimliExtrondolObjektnaProngilacijaGovernance {
     spajaKod: 'public-encapsulated-boundary';
   };
   waweImpact: {
+    /** Legacy spelling retained for existing clients. */
+    currentWawe: ExtrimliExtrondolWaweStage;
+    eligibleNextWawe: ExtrimliExtrondolWaweStage;
     currentWave: ExtrimliExtrondolWaweStage;
     eligibleNextWave: ExtrimliExtrondolWaweStage;
     promotionFreeze: boolean;
@@ -649,6 +652,9 @@ export interface ExtrimliExtrondolSinemetrickoProgramiranjeGovernance {
     dakDuk: 'EXTRONDOL';
   };
   waweImpact: {
+    /** Legacy spelling retained for existing clients. */
+    currentWawe: ExtrimliExtrondolWaweStage;
+    eligibleNextWawe: ExtrimliExtrondolWaweStage;
     currentWave: ExtrimliExtrondolWaweStage;
     eligibleNextWave: ExtrimliExtrondolWaweStage;
     promotionFreeze: boolean;
