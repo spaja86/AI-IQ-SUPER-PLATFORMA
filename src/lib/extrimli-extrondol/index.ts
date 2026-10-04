@@ -868,6 +868,15 @@ function mapDeveloperCreateCovecnostAuditVisualReference(
   };
 }
 
+/** Public projection must not expose internal technical readiness bindings. */
+function mapPublicDeveloperCreateVisualReference(
+  reflection: Parameters<typeof mapDeveloperCreateCovecnostAuditVisualReference>[0],
+) {
+  const { technicalReadinessBinding: _technicalReadinessBinding, ...publicView } =
+    mapDeveloperCreateCovecnostAuditVisualReference(reflection);
+  return publicView;
+}
+
 function mapInspektoriGovernance(
   inspektori: ExtrimliExtrondolReport['extremProfiler']['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['inspektori'],
 ) {
@@ -3795,7 +3804,7 @@ function buildSpajaKodFacade(params: {
       ...mapCovecanstvoEpilog(params.extremProfiler.radniTaktMozgaMislilac.epilogijaCovecnosti),
     },
     developerAndCreateVisualReflection: {
-      ...mapDeveloperCreateCovecnostAuditVisualReference(
+      ...mapPublicDeveloperCreateVisualReference(
         params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.covecnostAuditVisualReference,
       ),
       audioVisualKontrabasPackage: {
