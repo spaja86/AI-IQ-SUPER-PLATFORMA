@@ -1,0 +1,13 @@
+import assert from 'node:assert/strict';
+import { createAiiqBuildPlan, AIIQ_BUILD_PLAN_EXAMPLE } from '../../lib/ai-iq-programski-jezik/build-plan';
+const plan = createAiiqBuildPlan(AIIQ_BUILD_PLAN_EXAMPLE);
+assert.equal(plan.executionEnabled, false); assert.equal(plan.buildVerified, false); assert.equal(plan.buildsExecuted, false);
+assert.deepEqual(plan.targets.map(t => t.target), ['java', 'next']);
+assert(plan.targets.every(t => t.steps.every(s => s.status === 'not-executed')));
+assert.deepEqual(plan, createAiiqBuildPlan(AIIQ_BUILD_PLAN_EXAMPLE));
+for (const intent of ['JAVA_BUILD', 'NEXT_BUILD']) assert.equal(createAiiqBuildPlan(AIIQ_BUILD_PLAN_EXAMPLE.map(n => n.op === 'INTENT' ? { ...n, value: intent } : n)).targets.length, 1);
+for (const value of ['DEPLOY', 'JAVA_BUILD; rm -rf', '']) assert.throws(() => createAiiqBuildPlan(AIIQ_BUILD_PLAN_EXAMPLE.map(n => n.op === 'INTENT' ? { ...n, value } : n)));
+assert.throws(() => createAiiqBuildPlan(AIIQ_BUILD_PLAN_EXAMPLE.slice(1)));
+assert.throws(() => createAiiqBuildPlan([...AIIQ_BUILD_PLAN_EXAMPLE.slice(0,3), AIIQ_BUILD_PLAN_EXAMPLE[0]]));
+assert.throws(() => createAiiqBuildPlan(AIIQ_BUILD_PLAN_EXAMPLE.map(n => n.op === 'RULE' ? { ...n, value: 'ALLOWLIST' } : n)));
+console.log('PASS: AI IQ AST build-plan adapter, exact policies, separate targets and no execution/success claims');
