@@ -160,3 +160,9 @@ Forward existing konstrukcijeIProjektovanjeTrack.nalazSummary into its public
 summary projection; no findings invented. Diagnostic suites, targeted lint and
 diff check pass. Whole-project diagnostics: 261; compilation still fails.
 Full runtime/build verification and production deployment not performed.
+
+## Unknown effective date
+Summary effectiveDate now derives its type from the source track (string|null).
+Unknown dates remain null; no dates fabricated or runtime values changed.
+Diagnostic suites, targeted lint and diff check pass. Whole-project diagnostics:
+260; compilation still fails. Full build/runtime validation unverified.
