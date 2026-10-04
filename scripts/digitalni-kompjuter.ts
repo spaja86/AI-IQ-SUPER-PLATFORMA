@@ -4,7 +4,14 @@ import { getSveKomponente, getKompjuterStatistika, DIGITALNI_KOMPJUTER_EVIDENCE 
 import { buildBankPrototypeSummary } from '../src/lib/bank-prototype';
 import { getDigitalniKompjuterToolchain } from '../src/lib/digitalni-kompjuter-toolchain';
 const command = process.argv[2];
-if (command === 'toolchain') {
+if (command === 'evidence') {
+  const file = process.argv[3];
+  if (!file || process.argv.length !== 4) { console.error('Usage: evidence <local-report.json>'); process.exitCode = 2; }
+  else {
+    const result = spawnSync(process.execPath, ['scripts/revision-test-evidence.mjs', '--inspect', file], { stdio: 'inherit', timeout: 15000, shell: false });
+    process.exitCode = result.status ?? 1;
+  }
+} else if (command === 'toolchain') {
   console.log(JSON.stringify(getDigitalniKompjuterToolchain(), null, 2));
 } else if (command === 'bank-status') {
   console.log(JSON.stringify(buildBankPrototypeSummary(), null, 2));
@@ -21,6 +28,6 @@ if (command === 'toolchain') {
   const result = spawnSync('npm', ['run', 'test:digitalni-kompjuter'], { stdio: 'inherit' });
   process.exitCode = result.status ?? 1;
 } else {
-  console.error('Usage: npm run digitalni-kompjuter -- inventory|status|check|test|bank-status|toolchain');
+  console.error('Usage: npm run digitalni-kompjuter -- inventory|status|check|test|bank-status|toolchain|evidence');
   process.exitCode = 2;
 }
