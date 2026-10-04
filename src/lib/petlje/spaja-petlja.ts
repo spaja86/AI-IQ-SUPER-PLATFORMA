@@ -156,7 +156,8 @@ function applyImport(input: PetljaInput, importTarget: SpajaImportTarget, value:
 export function runSpajaPetlja(input: PetljaInput): PetljaResult {
   const normalized = normalizeInput(input);
   const transferEvents: SpajaTransferEvent[] = [];
-  const result = { ...baseResult('SPAJA PETLJA', GOAL, normalized), transferEvents };
+  const fallbackSummary: NonNullable<PetljaResult['fallbackSummary']> = { successful: false, skipped: [] };
+  const result = { ...baseResult('SPAJA PETLJA', GOAL, normalized), transferEvents, fallbackSummary };
   let status = result.status;
   const statusTrail = [...result.statusTrail];
   const rawTransferPolicy = input.spajaTransferPolicy ?? 'strict';
@@ -293,6 +294,7 @@ export function runSpajaPetlja(input: PetljaInput): PetljaResult {
         return finalizeResult(result, guard, 'max-iterations', output, trace, warnings, status, statusTrail);
       }
 
+      const previousInput = { ...workingInput, sequence: [...(workingInput.sequence ?? [])] };
       if (pendingSegmentImport !== undefined) {
         workingInput = applyImport(workingInput, importTarget, pendingSegmentImport);
         transferEvents.push({ event: 'import', segmentIndex, loop, ...pendingSource, value: pendingSegmentImport, target: importTarget });
@@ -335,6 +337,10 @@ export function runSpajaPetlja(input: PetljaInput): PetljaResult {
           return finalizeResult(result, guard, part.reason, output, trace, warnings, status, statusTrail);
         }
 
+        workingInput = previousInput;
+        fallbackSummary.successful = false;
+        fallbackSummary.skipped.push({ segmentIndex, loop, reason: part.reason });
+        transferEvents.push({ event: 'rollback', segmentIndex, loop, reason: part.reason });
         warnings.push(`[${segment.segment}][${part.kind}] fallback skip zbog ${part.reason}`);
         continue;
       }
@@ -355,11 +361,16 @@ export function runSpajaPetlja(input: PetljaInput): PetljaResult {
         importedValue = undefined;
         exportSource = undefined;
         pendingSegmentImport = undefined;
+        workingInput = previousInput;
+        fallbackSummary.successful = false;
+        fallbackSummary.skipped.push({ segmentIndex, loop, reason: 'invalid-export' });
+        transferEvents.push({ event: 'rollback', segmentIndex, loop, reason: 'invalid-export' });
         warnings.push(`[${segment.segment}][${part.kind}] fallback skip zbog nevalidnog exporta`);
       }
     }
   }
 
+  fallbackSummary.successful = fallbackSummary.skipped.length === 0;
   const terminal = resolveTerminalStatus('completed');
   const transition = createStatusTransition(status, terminal, 'completed', guard.getIterations());
   status = transition.status;

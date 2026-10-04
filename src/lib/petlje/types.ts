@@ -82,7 +82,7 @@ export interface PetljaStatusTransition {
 }
 
 export interface SpajaTransferEvent {
-  event: 'export' | 'import' | 'unavailable' | 'invalidated';
+  event: 'export' | 'import' | 'unavailable' | 'invalidated' | 'rollback';
   segmentIndex: number;
   loop: PetljaKind;
   sourceSegmentIndex?: number;
@@ -95,6 +95,7 @@ export interface SpajaTransferEvent {
 
 export interface PetljaResult {
   transferEvents?: SpajaTransferEvent[];
+  fallbackSummary?: { successful: boolean; skipped: { segmentIndex: number; loop: PetljaKind; reason: string }[] };
   kind: PetljaKind;
   goal: string;
   input: Required<Pick<PetljaInput, 'start' | 'end' | 'step' | 'target' | 'sequence' | 'maxIterations' | 'maxDurationMs' | 'status'>>;
