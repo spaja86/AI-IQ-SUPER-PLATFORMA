@@ -1,0 +1,9 @@
+# AI IQ build-plan blocker diagnosis
+
+Base94bb327a. Real strict deterministic sample: valid=true,securityPass=true,syntaxScore=100,compilerStatus=READY; sinemetricko=BLOCKED → overall=BLOCKED → deterministicFallbackRequired=true. Wrapper correctly returns blocked/null plan.
+
+Source: resolveSinemetrickoSignalStatus in engine.ts blocks on promotionFreeze, performanceWithinTargets=false, securityBoundariesPreserved=false or blocked DOM/DIK/DAK/DUK. For this sample promotionFreeze=false/security preserved and basic signals WATCH/READY. performanceWithinTargets derives measured compile duration <= AIIQ_LANG_PERFORMANCE_MAX_MS (50ms). This is latency-dependent integrated gating, not TypeScript parsing failure, missing JDK, disabled requested AI (deterministic mode does not request AI) or invalid four-directive syntax. Timing varies by cold/warm execution/load, so same source may change integrated readiness. No claim of a universally reproducible duration.
+
+Adds allowlisted diagnostics to wrapper: valid/security/syntax, names of blocked signals, fallbackRequired, compilerDurationMs and explicit durationIsObservationNotApproval. No source text, full integration internals, arbitrary warnings or secrets exported. Diagnostics do NOT authorize execution or remove gate. Real pipeline tests/lint/diff check run; full build/CI/Preview/JVM unverified.
+
+No policy bypass/fix applied. Before changing gate, owners must decide whether read-only plan construction should share AI promotion/performance policy, and whether timing readiness is a measured operational signal rather than deterministic syntax decision. Separate approved design required, preserving deployment/AI freezes. Current behavior remains fail closed. Human review; no dependency/config/workflow/deploy/payment changes. Rollback removes diagnostics/document/test assertions only.
