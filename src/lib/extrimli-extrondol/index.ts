@@ -2756,7 +2756,10 @@ function buildProgramskiJezikSpecijalizovanZaIgriceGovernance(params: {
       dakPromotionDecision: promotionHold ? 'HOLD' : 'PROMOTE',
       dukHumanReviewDecision: 'REQUIRED',
     },
-    consumerAnchors: signal.consumerAnchors,
+    consumerAnchors: {
+      ...signal.consumerAnchors,
+      publicOutput: 'audit-safe-summary',
+    },
     waweImpact: {
       currentWawe: params.currentWawe,
       eligibleNextWawe: params.eligibleNextWawe,
