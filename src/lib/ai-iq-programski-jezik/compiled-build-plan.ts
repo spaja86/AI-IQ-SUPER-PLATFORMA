@@ -20,12 +20,15 @@ export function compileAiiqBuildPlan(
     compilerDurationMs: result.durationMs,
     durationIsObservationNotApproval: true,
   };
-  const blocked = !result.valid || !result.securityPass || result.status === 'BLOCKED' || result.syntaxScore !== 100 ||
-    !profile || profile.unifiedSignalStatus.overall === 'BLOCKED' || profile.dokDikDakDukConsistencyHealth.deterministicFallbackRequired;
-  if (blocked) return { status: 'blocked' as const, diagnostics, provenance, compilerStatus: result.status, executionEnabled: false, buildVerified: false, plan: null };
+  const executionGate = {
+    integrationBlocked: !profile || profile.unifiedSignalStatus.overall === 'BLOCKED' || profile.dokDikDakDukConsistencyHealth.deterministicFallbackRequired,
+    authorizationGranted: false, promotionEnabled: false, deploymentEnabled: false,
+  };
+  const blocked = !result.valid || !result.securityPass || result.status === 'BLOCKED' || result.syntaxScore !== 100;
+  if (blocked) return { status: 'blocked' as const, executionGate, diagnostics, provenance, compilerStatus: result.status, executionEnabled: false, buildVerified: false, plan: null };
   // Partial parser success must not ignore any source directive or malformed line.
   const lines = source.split(/\r?\n/).map(line => line.trim()).filter(Boolean);
   if (lines.length !== result.ast.length || lines.some((line, i) => line !== `${result.ast[i].op}: ${result.ast[i].value}`)) throw new Error('Source/AST exact policy mismatch');
   const plan = createAiiqBuildPlan(result.ast);
-  return { status: 'proposed' as const, diagnostics, provenance, compilerStatus: result.status, executionEnabled: false, buildVerified: false, plan };
+  return { status: 'proposed' as const, executionGate, diagnostics, provenance, compilerStatus: result.status, executionEnabled: false, buildVerified: false, plan };
 }
