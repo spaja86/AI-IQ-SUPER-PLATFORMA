@@ -794,6 +794,8 @@ function mapDeveloperCreateCovecnostAuditVisualReference(
     visualReference: reflection.visualReference,
     interpretation: reflection.interpretation,
     sourceStatement: reflection.sourceStatement,
+    visualSemantics: reflection.visualSemantics,
+    technicalReadinessBinding: reflection.technicalReadinessBinding,
     imageToSignalProfile: {
       ...reflection.imageToSignalProfile,
       ownershipLock: { ...reflection.imageToSignalProfile.ownershipLock },
@@ -851,7 +853,7 @@ function mapDeveloperCreateCovecnostAuditVisualReference(
         }),
       ),
     })),
-    flowLock: { ...reflection.flowLock, sequence: [...reflection.flowLock.sequence] },
+    flowLock: { ...reflection.flowLock, sequence: [...reflection.flowLock.sequence] as const },
     packageOutputs: { ...reflection.packageOutputs },
     companionAuditVisualReferences: reflection.companionAuditVisualReferences.map((reference) => ({
       ...reference,

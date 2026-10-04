@@ -135,3 +135,10 @@ implementation package was compared with WATCH, and a READY/WATCH dispute status
 was compared with BLOCKED. No producer status or meaningful guard changed.
 Diagnostic suites pass; targeted ESLint has 0 errors / 11 warnings. Whole-project
 diagnostics: 266, compilation still fails. Broader runtime behavior unverified.
+
+## Visual audit mapping preservation
+Mapper now forwards existing visualSemantics and technicalReadinessBinding fields,
+and preserves the copied flowLock sequence as a readonly tuple. No visual content
+or readiness values are invented. Diagnostic suites pass; final targeted lint and
+diff check pass. Whole-project diagnostics: 264; compilation still fails.
+Broader report runtime and full build remain unverified.
