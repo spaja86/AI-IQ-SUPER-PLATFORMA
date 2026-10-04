@@ -9,5 +9,5 @@ export const metadata: Metadata = {
 };
 
 export default function AiIqWorldBankProcesiranjePage() {
-  return <StranicaRenderer sekvence={aiIqWorldBankProcesiranjeSekvence} />;
+  return <><aside className="mx-auto max-w-5xl p-6" role="note"><h1>SIMULACIJA — bankarski prototip</h1><p>Prikazani računi, transferi, kamate, partnerstva i KPI su nepotvrđeni primeri, ne izvršene uplate ili garantovana zarada. Stvarna plaćanja i izdavanje kartica su isključeni.</p><a href="/bank-prototype">Autentifikovani prototip</a></aside><StranicaRenderer sekvence={aiIqWorldBankProcesiranjeSekvence} /></>;
 }

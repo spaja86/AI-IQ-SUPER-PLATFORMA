@@ -167,6 +167,9 @@ export interface WorldBankKPI {
 }
 
 export interface AiIqWorldBankRezultat {
+  environment: 'simulation';
+  settlementVerified: false;
+  paymentsEnabled: false;
   status: 'aktivan';
   userId: string;
   timestamp: string;
@@ -300,28 +303,28 @@ export function buildAiIqWorldBank(userId: string): AiIqWorldBankRezultat {
     vlasnikRacuna: 'Digitalna Industrija',
     vlasnik: {
       ime: 'Nikola Spajić',
-      registarskiBrojLicneKarte: '015639997',
-      jmbg: '0312986850017',
+      registarskiBrojLicneKarte: '[REDACTED]',
+      jmbg: '[REDACTED]',
     },
     racuni: [
       {
         tip: 'dinarski',
         valuta: 'RSD',
-        brojRacuna: '025897158',
+        brojRacuna: 'SIMULATION-NOT-A-BANK-ACCOUNT',
         opis: 'Poslovni dinarski račun za domaće transakcije',
         ikona: '🇷🇸',
       },
       {
         tip: 'devizni',
         valuta: 'EUR',
-        brojRacuna: '038971285',
+        brojRacuna: 'SIMULATION-NOT-A-BANK-ACCOUNT',
         opis: 'Devizni račun u evrima za međunarodne transakcije',
         ikona: '🇪🇺',
       },
       {
         tip: 'devizni',
         valuta: 'USD',
-        brojRacuna: '05364215985',
+        brojRacuna: 'SIMULATION-NOT-A-BANK-ACCOUNT',
         opis: 'Devizni račun u dolarima za globalne transakcije',
         ikona: '🇺🇸',
       },
@@ -448,7 +451,7 @@ export function buildAiIqWorldBank(userId: string): AiIqWorldBankRezultat {
       iznos: 10_000,
       valuta: 'EUR',
       opis: 'Transfer 10.000 EUR sa glavnog računa na novi generisani EUR račun za operativne troškove',
-      status: 'izvrseno',
+      status: 'simulacija',
       tip: 'interni-transfer',
     },
   ];
@@ -527,7 +530,7 @@ export function buildAiIqWorldBank(userId: string): AiIqWorldBankRezultat {
 
   const srpskeBanke = {
     zahtev:
-      'Kompanija "Digitalna Industrija" — vlasnik Nikola Spajić, JMBG: 0312986850017 — upućuje formalni zahtev svim bankama u Republici Srbiji za registraciju poslovnih računa, uspostavljanje mesnog poreza i potpisivanje ugovora o poslovnoj saradnji.',
+      'Kompanija "Digitalna Industrija" — vlasnik Nikola Spajić, identifikacioni podaci: [REDACTED] — upućuje formalni zahtev svim bankama u Republici Srbiji za registraciju poslovnih računa, uspostavljanje mesnog poreza i potpisivanje ugovora o poslovnoj saradnji.',
     banke: [
       { id: 'banca-intesa', naziv: 'Banca Intesa a.d. Beograd', lokacija: 'Beograd', valute: ['RSD', 'EUR', 'USD'], statusZahteva: 'zahtev-poslat' },
       { id: 'unicredit', naziv: 'UniCredit Bank Srbija a.d.', lokacija: 'Beograd', valute: ['RSD', 'EUR', 'USD'], statusZahteva: 'zahtev-poslat' },
@@ -573,6 +576,9 @@ export function buildAiIqWorldBank(userId: string): AiIqWorldBankRezultat {
   };
 
   return {
+    environment: 'simulation',
+    settlementVerified: false,
+    paymentsEnabled: false,
     status: 'aktivan',
     userId,
     timestamp: new Date().toISOString(),
