@@ -16045,7 +16045,7 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
       : mikrofonProjectionCaptureSignalPresent || mikrofonProjectionCanonicalCoverageCount > 0
         ? 'WATCH'
         : 'BLOCKED';
-  const mikrofonProjectionDistributionCoverageCount = ['MEGAFON', 'DISTRIBUTER'].filter((token) =>
+  const mikrofonProjectionDistributionCoverageCount = (['MEGAFON', 'DISTRIBUTER'] as const).filter((token) =>
     actualMikrofonProjectionSequence.includes(token)
     && actualMikrofonProjectionCategorizedTokens.has(token),
   ).length;
