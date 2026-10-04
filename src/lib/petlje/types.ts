@@ -81,7 +81,20 @@ export interface PetljaStatusTransition {
   iteration: number;
 }
 
+export interface SpajaTransferEvent {
+  event: 'export' | 'import' | 'unavailable' | 'invalidated';
+  segmentIndex: number;
+  loop: PetljaKind;
+  sourceSegmentIndex?: number;
+  sourceLoop?: PetljaKind;
+  value?: number;
+  fields?: SpajaTransferField[];
+  target?: SpajaImportTarget;
+  reason?: string;
+}
+
 export interface PetljaResult {
+  transferEvents?: SpajaTransferEvent[];
   kind: PetljaKind;
   goal: string;
   input: Required<Pick<PetljaInput, 'start' | 'end' | 'step' | 'target' | 'sequence' | 'maxIterations' | 'maxDurationMs' | 'status'>>;
