@@ -1,0 +1,16 @@
+import assert from 'node:assert/strict';
+import { runReferenceProgram, parseReferenceProgram } from '../../lib/petlje/spajascripte-reference-program';
+import { runForPetlja } from '../../lib/petlje';
+const source = 'LET start = 1\nLET end = 3\nCALL FOR PETLJA FROM start TO end STEP 1 LIMIT 10 TIMEOUT 1000 AS result\nPRINT result.output\nPRINT result.status';
+const report = runReferenceProgram(source);
+const direct = runForPetlja({ start: 1, end: 3, step: 1, maxIterations: 10, maxDurationMs: 1000, status: 'ACTIVATED' });
+assert.deepEqual(report.output, [String(direct.output), direct.status]);
+for (const field of ['output', 'status', 'reason', 'warnings', 'trace', 'completed'] as const) assert.deepEqual(report.results[0].result[field], direct[field]);
+assert.equal(report.javaTranslationVerified, false);
+assert.equal(parseReferenceProgram(source).length, 5);
+for (const bad of ['', 'LET x = 1\nLET x = 2', 'PRINT missing.output', 'CALL SPAJA PETLJA FROM 1 TO 2 STEP 1 LIMIT 10 TIMEOUT 1000 AS r', 'CALL FOR PETLJA FROM missing TO 2 STEP 1 LIMIT 10 TIMEOUT 1000 AS r', 'CALL FOR PETLJA FROM 1 TO 2 STEP 1 LIMIT 1001 TIMEOUT 1000 AS r', source + '\nPRINT result.constructor', source + '\nLET result = 1', 'LET x = 1000001', 'LET x = Runtime.getRuntime()']) assert.throws(() => runReferenceProgram(bad));
+const stopped = 'CALL FOR PETLJA FROM 1 TO 10 STEP 1 LIMIT 1 TIMEOUT 1000 AS r\nPRINT r.reason';
+assert.equal(runReferenceProgram(stopped).results[0].result.completed, false);
+assert.throws(() => runReferenceProgram(stopped + '\nPRINT r.output'), /incomplete/);
+assert.equal(runReferenceProgram('CALL FOR PETLJA FROM 1 TO 3 STEP 0 LIMIT 10 TIMEOUT 1000 AS r\nPRINT r.reason').output[0], 'invalid-input');
+console.log('PASS: LET/CALL/PRINT reference parity, complete result retention, preflight and incomplete-output guard');

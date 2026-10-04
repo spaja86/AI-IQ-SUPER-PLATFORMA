@@ -5,7 +5,7 @@ assert.equal(plan.mode, 'read-only-plan');
 assert.equal(plan.checksExecuted, false);
 assert.equal(plan.codeGenerated, false);
 assert.equal(plan.humanReviewRequired, true);
-assert.equal(plan.integration.combinedLetLoopPrintImplemented, false);
+assert.equal(plan.integration.combinedLetLoopPrintImplemented, true);
 assert.equal(plan.integration.javaTranslationVerified, false);
 assert(plan.targets.includes('src/lib/petlje/vrh-registry.ts'));
 assert(plan.forbiddenOperations.includes('automatic-code-write'));
