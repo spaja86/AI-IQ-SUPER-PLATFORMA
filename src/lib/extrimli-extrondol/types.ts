@@ -828,10 +828,10 @@ export interface ExtrimliExtrondolRadniTaktMozgaMislilacGovernance {
     title: 'EPILOGIJA ČOVEČANSTVA';
     canonicalNarrativeId: 'priroda-zdrav-zivot-covecanstvo';
     includedInAuditSummary: true;
-    citationPresent: true;
-    visualReferencePresent: true;
-    imageToSignalProfilePresent: true;
-    ownershipLockPreserved: true;
+    citationPresent: boolean;
+    visualReferencePresent: boolean;
+    imageToSignalProfilePresent: boolean;
+    ownershipLockPreserved: boolean;
     interpretationLayer: 'educational-development-learning-discipline-ethics-signal';
     flowLockPreserved: true;
     packageOutputs: readonly string[];
