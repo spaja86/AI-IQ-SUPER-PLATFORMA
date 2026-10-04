@@ -148,3 +148,9 @@ Paradijogonalno governance now forwards existing ownershipEvidence DOK/DIK statu
 without fabricated READY defaults. Diagnostic suites and targeted lint pass.
 Whole-project diagnostics: 263; compilation remains blocked. Runtime report
 integration and full build not verified.
+
+## Documentation reference tuple
+Copy the two canonical documentation references explicitly so their positional
+contract is preserved. URLs, order and documentation-only boundaries unchanged.
+Diagnostic suites/targeted lint/diff check pass. Whole-project diagnostics: 262;
+compilation remains blocked. Full runtime and build remain unverified.
