@@ -6495,6 +6495,8 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
       sourceOfTruth: '/api/extrimli/extrem',
       status: extremProfiler.paradijogonalnoProgrimiranje.readiness.status,
       readinessScore: extremProfiler.paradijogonalnoProgrimiranje.readiness.score,
+      dokStatus: extremProfiler.paradijogonalnoProgrimiranje.ownershipEvidence.dokEvidence.status,
+      dikStatus: extremProfiler.paradijogonalnoProgrimiranje.ownershipEvidence.dikEvidence.status,
       cloudFieldCohesionPercent: extremProfiler.paradijogonalnoProgrimiranje.profileInput.cloudFieldCohesionPercent,
       conflictDegradationPressurePercent: extremProfiler.paradijogonalnoProgrimiranje.profileInput.conflictDegradationPressurePercent,
       reviewRequiredBeforeWideRollout: extremProfiler.paradijogonalnoProgrimiranje.readiness.status !== 'READY',

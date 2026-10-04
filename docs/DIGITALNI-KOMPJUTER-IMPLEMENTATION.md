@@ -142,3 +142,9 @@ and preserves the copied flowLock sequence as a readonly tuple. No visual conten
 or readiness values are invented. Diagnostic suites pass; final targeted lint and
 diff check pass. Whole-project diagnostics: 264; compilation still fails.
 Broader report runtime and full build remain unverified.
+
+## DOK/DIK evidence forwarding
+Paradijogonalno governance now forwards existing ownershipEvidence DOK/DIK statuses,
+without fabricated READY defaults. Diagnostic suites and targeted lint pass.
+Whole-project diagnostics: 263; compilation remains blocked. Runtime report
+integration and full build not verified.
