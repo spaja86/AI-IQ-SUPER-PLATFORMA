@@ -4058,7 +4058,7 @@ export interface ExtrimliSpajaKodPublicFacade {
       downstreamReference: 'docs/MULTI-REPO-LINKS.md -> spaja86/IO-OPENUI-AO (summary-only)';
       publicBoundary: 'audit-safe-summary-only';
       leadershipTransitionSummary: string;
-      effectiveDate: string;
+      effectiveDate: ExtrimliExtremProfilerReport['dokDikDakDukConsistencyHealth']['developerAndCreateRepoWideReflection']['vinogradiGrockaRestoranTrack']['effectiveDate'];
       auditTrailReference: string;
     };
     poslovnaPonudaZelezaraDooSummary: {
