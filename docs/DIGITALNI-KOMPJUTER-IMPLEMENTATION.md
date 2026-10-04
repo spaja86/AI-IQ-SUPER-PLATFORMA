@@ -166,3 +166,10 @@ Summary effectiveDate now derives its type from the source track (string|null).
 Unknown dates remain null; no dates fabricated or runtime values changed.
 Diagnostic suites, targeted lint and diff check pass. Whole-project diagnostics:
 260; compilation still fails. Full build/runtime validation unverified.
+
+## Gaming summary boundary
+Governance consumer anchors retain existing source references and explicitly mark
+publicOutput as audit-safe-summary, as required by the contract. No gaming runtime
+activation is performed. Diagnostic suites, targeted lint and diff check pass.
+Whole-project diagnostics: 259; compilation still fails. Full runtime/build
+verification and production deployment not performed.
