@@ -1,0 +1,9 @@
+# Direct evidence panel and actual build attempts
+
+User approved both local-report browser display and actual Java/Next build attempts. Adds LocalEvidencePanel to existing digital computer page: local File.text only, <=64KiB, strict v2 envelope/results summary validation, React text rendering, no network upload or command execution. Claimed revision/status displayed as unsigned observations; no comparison with deployed Git revision/content. Current deployment comparison false, trusted=false, execution disabled. Browser summary validator is independent of Node Git inspector; tests cover consistent/invalid claims. Browser visual interaction not tested here.
+
+Actual build attempts on base8543ff93 in session:
+- Java example: `node tools/spajascripte/cli.mjs build tools/spajascripte/example.spaja` exited1, javac ENOENT. java/javac absent. mise install java@21 failed DNS/network resolution; JVM build/run remains BLOCKED, not skipped-success.
+- Next: `npm run build` under 180-second timeout and 10-second kill grace. Next16.2.4/Turbopack reached Creating an optimized production build; no final compile result before timeout. Exit124; NOT verified successful, no confirmed application error cause. Process ended, no deployment attempted. This build started before panel edits, and source changed while it was compiling; source snapshot is not established, so it cannot verify either base or completed panel revision. No false claim panel passed production build.
+
+PASS synthetic and prior real local report summary checks, malformed/oversize/build-claim rejection, targeted lint and diff check. Full changed-revision build/typecheck/browser/CI/Preview unverified. No API/auth weakening, dependencies/config/workflows or production/payments. Human review before merge. Rollback removes panel/module/tests/docs; original catalog intact. Next use supported JDK environment and sufficient isolated build resources, verify exact PR revision before release.
