@@ -13715,14 +13715,14 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
     contextIntegrityStatus:
       dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.technicalReadinessProfile.consolidatedRhythmStatus,
     taskContinuityStatus:
-      dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.dailyOperationalCadence.status,
+      dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.status,
   };
   const notes1450Track =
     dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.notes1450Track;
   const notes1450AiMaterialSaturationRiskScore = [
     dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.status,
     dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.technicalReadinessProfile.consolidatedRhythmStatus,
-    dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.dailyOperationalCadence.status,
+    dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.status,
   ].reduce((score, status) => {
     if (status === 'BLOCKED') {
       return score + 35;
@@ -13745,7 +13745,7 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
         ? 'WATCH'
         : 'READY';
   const notes1450DeterministicNextStepStatus = notes1450Signals.taskContinuityStatus;
-  const notes1450FinalStatuses = [
+  const notes1450FinalStatuses: Parameters<typeof aggregateReadinessStatus>[0] = [
     notes1450Signals.goalClarityStatus,
     notes1450Signals.contextIntegrityStatus,
     notes1450Signals.taskContinuityStatus,
@@ -13823,7 +13823,7 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
       : 'BLOCKED';
   const saradnjaStabilityStatus = aggregateReadinessStatus([
     dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.technicalReadinessProfile.consolidatedRhythmStatus,
-    dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.dailyOperationalCadence.status,
+    dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.readiness.status,
   ]);
   const saradnjaFinalStatuses = [
     saradnjaOfferClarityStatus,
