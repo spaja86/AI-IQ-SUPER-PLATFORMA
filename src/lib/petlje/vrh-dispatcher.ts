@@ -1,5 +1,6 @@
 /** Shared bounded VRH execution boundary, delegates to existing numerical loop runtime. */
 import type { PetljaInput, PetljaKind } from './types';
+import { dispatchVrhProfile } from './vrh-individual-profiles';
 import { resolveVrhLoop } from './vrh-registry';
 
 export interface VrhLoopRequest {
@@ -25,6 +26,7 @@ export function validateVrhLoopRequest(value: unknown): VrhLoopRequest {
 }
 
 export function dispatchVrhLoop(value: unknown, target: 'reference' | 'java') {
+  if (value && typeof value === 'object' && (value as { version?: unknown }).version === '0.2') return dispatchVrhProfile(value, target);
   const call = validateVrhLoopRequest(value);
   if (target !== 'reference') throw new Error('Named loop Java translation is not verified');
   if (call.name !== 'FOR PETLJA') throw new Error('Registered loop has no verified VRH execution profile yet');
