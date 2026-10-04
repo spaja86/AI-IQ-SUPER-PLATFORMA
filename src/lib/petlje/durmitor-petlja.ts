@@ -42,6 +42,8 @@ export function runDurmitorPetlja(input: PetljaInput): PetljaResult {
   ];
 
   if (normalized.step === 0) errors.push('step ne sme biti 0');
+  if (!Number.isFinite(normalized.maxIterations)) errors.push('maxIterations mora biti konačan');
+  if (!Number.isFinite(normalized.maxDurationMs)) errors.push('maxDurationMs mora biti konačan');
   if (normalized.maxIterations < 1) errors.push('maxIterations mora biti >= 1');
   if (normalized.maxDurationMs < 0) errors.push('maxDurationMs mora biti >= 0');
   if (normalized.start < normalized.end && normalized.step < 0) errors.push('step mora biti pozitivan kada je start < end');
@@ -65,7 +67,9 @@ export function runDurmitorPetlja(input: PetljaInput): PetljaResult {
   status = startTransition.status;
   statusTrail.push(startTransition.entry);
 
+  const guard = buildGuard(normalized.maxIterations, normalized.maxDurationMs);
   const umbrella = runUmbrelPetlja(normalized);
+  for (let i = 0; i < umbrella.iterations; i += 1) guard.tick();
   statusTrail.push(
     ...umbrella.statusTrail.map((entry) => ({
       ...entry,
@@ -74,12 +78,12 @@ export function runDurmitorPetlja(input: PetljaInput): PetljaResult {
   );
 
   const warnings = umbrella.warnings.map((warning) => `[UMBREL PETLJA] ${warning}`);
-  const guard = buildGuard(normalized.maxIterations, normalized.maxDurationMs);
   const trace = [];
   const landscapeWeight = normalized.sequence.length + 5;
   const ascending = normalized.step > 0;
   let current = normalized.start;
   let output = 0;
+  let layerCount = 0;
 
   while ((ascending && current <= normalized.end) || (!ascending && current >= normalized.end)) {
     const decision = guard.canContinue();
@@ -88,14 +92,14 @@ export function runDurmitorPetlja(input: PetljaInput): PetljaResult {
       const transition = createStatusTransition(status, terminal, `guard-stop:${decision.reason}`, guard.getIterations());
       status = transition.status;
       statusTrail.push(transition.entry);
-      return finalizeResult(result, guard, decision.reason!, output, trace, warnings, status, statusTrail);
+      return finalizeResult(result, guard, decision.reason!, output + (Number.isFinite(umbrella.output) ? umbrella.output : 0), trace, warnings, status, statusTrail);
     }
 
     guard.tick();
-    const layerWidth = guard.getIterations();
+    const layerWidth = ++layerCount;
     const layerValue = (Math.abs(current) + landscapeWeight) * layerWidth;
     output += layerValue;
-    trace.push({ iteration: layerWidth, value: layerValue, accumulator: output });
+    trace.push({ iteration: guard.getIterations(), value: layerValue, accumulator: output });
     current += normalized.step;
   }
 
