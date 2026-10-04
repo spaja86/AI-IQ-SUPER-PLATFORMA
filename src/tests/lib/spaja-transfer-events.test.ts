@@ -1,0 +1,17 @@
+import assert from 'node:assert/strict';
+import { runSpajaPetlja } from '../../lib/petlje';
+const base = { start: 1, end: 3, step: 1, target: 3, sequence: [1,2], maxIterations: 100, maxDurationMs: 1000, status: 'ACTIVATED' as const };
+const success = runSpajaPetlja({ ...base, spajaSegments: [{ segment: 'RANGE', loops: ['FOR PETLJA'] }, { segment: 'TARGET', loops: ['DOK PETLJA'], importFromPrevious: true }] });
+assert.equal(success.output, 16);
+const imported = success.transferEvents!.find(e => e.event === 'import')!;
+assert.equal(imported.sourceLoop, 'FOR PETLJA'); assert.equal(imported.loop, 'DOK PETLJA'); assert.equal(imported.value, 6); assert.equal(imported.sourceSegmentIndex, 0); assert.equal(imported.segmentIndex, 1);
+const stale = runSpajaPetlja({ ...base, spajaTransferPolicy: 'fallback', spajaSegments: [{ segment: 'RANGE', loops: ['FOR PETLJA', 'NIK PETLJA'] }, { segment: 'TARGET', loops: ['DOK PETLJA'], importFromPrevious: true }] });
+assert(stale.transferEvents!.some(e => e.event === 'invalidated' && e.loop === 'NIK PETLJA'));
+assert(stale.transferEvents!.some(e => e.event === 'unavailable'));
+assert(!stale.transferEvents!.some(e => e.event === 'import'));
+assert.equal(stale.output, 7);
+const strict = runSpajaPetlja({ ...base, spajaTransferPolicy: 'strict', spajaSegments: [{ segment: 'RANGE', loops: ['FOR PETLJA', 'NIK PETLJA'] }, { segment: 'TARGET', loops: ['DOK PETLJA'], importFromPrevious: true }] });
+assert.equal(strict.completed, false); assert(!strict.transferEvents!.some(e => e.event === 'import'));
+const stopped = runSpajaPetlja({ ...base, maxIterations: 3, spajaSegments: [{ segment: 'RANGE', loops: ['FOR PETLJA'] }, { segment: 'TARGET', loops: ['DOK PETLJA'], importFromPrevious: true }] });
+assert(!stopped.transferEvents!.some(e => e.event === 'import'));
+console.log('PASS: transfer provenance, failed-child stale export revocation, strict stop and guard-before-import');

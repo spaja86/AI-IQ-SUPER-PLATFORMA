@@ -7,6 +7,7 @@ import type {
   SpajaSegmentKind,
   SpajaTransferField,
   SpajaTransferPolicy,
+  SpajaTransferEvent,
 } from './types';
 import {
   baseResult,
@@ -154,7 +155,8 @@ function applyImport(input: PetljaInput, importTarget: SpajaImportTarget, value:
 
 export function runSpajaPetlja(input: PetljaInput): PetljaResult {
   const normalized = normalizeInput(input);
-  const result = baseResult('SPAJA PETLJA', GOAL, normalized);
+  const transferEvents: SpajaTransferEvent[] = [];
+  const result = { ...baseResult('SPAJA PETLJA', GOAL, normalized), transferEvents };
   let status = result.status;
   const statusTrail = [...result.statusTrail];
   const rawTransferPolicy = input.spajaTransferPolicy ?? 'strict';
@@ -232,6 +234,7 @@ export function runSpajaPetlja(input: PetljaInput): PetljaResult {
   const warnings: string[] = [];
   let output = 0;
   let importedValue: number | undefined;
+  let exportSource: { sourceSegmentIndex: number; sourceLoop: PetljaKind } | undefined;
   let workingInput: PetljaInput = {
     ...normalized,
     sequence: [...normalized.sequence],
@@ -242,7 +245,7 @@ export function runSpajaPetlja(input: PetljaInput): PetljaResult {
   status = startTransition.status;
   statusTrail.push(startTransition.entry);
 
-  for (const segment of segments) {
+  for (const [segmentIndex, segment] of segments.entries()) {
     const segmentKind = segment.segment;
     const defaultLoops = SEGMENT_DEFAULT_LOOPS[segmentKind];
     if (!defaultLoops) {
@@ -261,12 +264,9 @@ export function runSpajaPetlja(input: PetljaInput): PetljaResult {
     }
 
     let pendingSegmentImport = segment.importFromPrevious ? importedValue : undefined;
+    const pendingSource = exportSource;
+    if (segment.importFromPrevious && pendingSegmentImport === undefined) transferEvents.push({ event: 'unavailable', segmentIndex, loop: loops[0], target: importTarget, reason: 'no-valid-export' });
     for (const loop of loops) {
-      if (pendingSegmentImport !== undefined) {
-        workingInput = applyImport(workingInput, importTarget, pendingSegmentImport);
-        pendingSegmentImport = undefined;
-      }
-
       const runner = RUNNERS[loop];
       if (typeof runner !== 'function') {
         const transition = createStatusTransition(status, 'DISABLED', 'invalid-loop-runner', guard.getIterations());
@@ -293,6 +293,11 @@ export function runSpajaPetlja(input: PetljaInput): PetljaResult {
         return finalizeResult(result, guard, 'max-iterations', output, trace, warnings, status, statusTrail);
       }
 
+      if (pendingSegmentImport !== undefined) {
+        workingInput = applyImport(workingInput, importTarget, pendingSegmentImport);
+        transferEvents.push({ event: 'import', segmentIndex, loop, ...pendingSource, value: pendingSegmentImport, target: importTarget });
+        pendingSegmentImport = undefined;
+      }
       const part = runner({
         ...workingInput,
         maxIterations: remainingIterations,
@@ -319,6 +324,10 @@ export function runSpajaPetlja(input: PetljaInput): PetljaResult {
       });
 
       if (!part.completed) {
+        transferEvents.push({ event: 'invalidated', segmentIndex, loop, ...exportSource, reason: part.reason });
+        importedValue = undefined;
+        exportSource = undefined;
+        pendingSegmentImport = undefined;
         if (transferPolicy === 'strict') {
           const transition = createStatusTransition(status, part.status, `pivot-stop:${part.reason}`, guard.getIterations());
           status = transition.status;
@@ -333,13 +342,18 @@ export function runSpajaPetlja(input: PetljaInput): PetljaResult {
       const exported = computeExportValue(part, exportFields);
       if (exported !== undefined) {
         importedValue = exported;
+        exportSource = { sourceSegmentIndex: segmentIndex, sourceLoop: loop };
+        transferEvents.push({ event: 'export', segmentIndex, loop, ...exportSource, value: exported, fields: [...exportFields] });
       } else if (transferPolicy === 'strict') {
+        transferEvents.push({ event: 'invalidated', segmentIndex, loop, reason: 'invalid-export' });
         const transition = createStatusTransition(status, 'DISABLED', 'pivot-export-invalid', guard.getIterations());
         status = transition.status;
         statusTrail.push(transition.entry);
         return finalizeResult(result, guard, 'invalid-input', output, trace, warnings, status, statusTrail);
       } else {
+        transferEvents.push({ event: 'invalidated', segmentIndex, loop, reason: 'invalid-export' });
         importedValue = undefined;
+        exportSource = undefined;
         pendingSegmentImport = undefined;
         warnings.push(`[${segment.segment}][${part.kind}] fallback skip zbog nevalidnog exporta`);
       }
