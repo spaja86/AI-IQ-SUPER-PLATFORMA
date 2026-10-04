@@ -8,6 +8,11 @@ const actual = compileAiiqBuildPlan(source, context);
 assert(Array.isArray(actual.diagnostics.blockedSignals));
 assert.equal(actual.diagnostics.durationIsObservationNotApproval, true);
 assert.equal(actual.executionEnabled, false); assert.equal(actual.buildVerified, false);
+assert.equal(actual.status, 'proposed');
+assert(actual.plan);
+assert.equal(actual.executionGate.authorizationGranted, false);
+assert.equal(actual.executionGate.promotionEnabled, false);
+assert.equal(actual.executionGate.deploymentEnabled, false);
 assert.equal(actual.provenance.revisionVerified, false);
 assert.equal(actual.provenance.sourceHash.length, 64);
 const real = compileAiiqLanguage({ source, targetMode: 'DETERMINISTIC_ONLY', strictSecurity: true, featureFlagAiIqLanguage: false });
@@ -20,3 +25,8 @@ assert.throws(() => compileAiiqBuildPlan(source + '\nBROKEN', context, () => app
 assert.throws(() => compileAiiqBuildPlan(source, { ...context, sourceRevision: 'main' }));
 assert.throws(() => compileAiiqBuildPlan(source, context, () => { throw new Error('compiler failed'); }));
 console.log(`PASS: real compiler pipeline status=${actual.status}; positive fixture, blockers and source provenance boundaries`);
+
+const gated = compileAiiqBuildPlan(source, context, () => ({ ...approvedFixture, integrationProfile: { ...approvedFixture.integrationProfile, unifiedSignalStatus: { ...approvedFixture.integrationProfile.unifiedSignalStatus, overall: 'BLOCKED' } } }));
+assert.equal(gated.status, 'proposed'); assert.equal(gated.executionGate.integrationBlocked, true); assert.equal(gated.executionEnabled, false);
+assert.equal(compileAiiqBuildPlan(source, context, () => ({ ...approvedFixture, securityPass: false })).plan, null);
+assert.equal(compileAiiqBuildPlan(source, context, () => ({ ...approvedFixture, syntaxScore: 99 })).plan, null);
