@@ -1,10 +1,13 @@
+import { getSpajaServerControlPlane } from '../src/lib/spaja-server-control-plane';
 /** Read-only local diagnostics. No network, deployment or payment operations. */
 import { spawnSync } from 'node:child_process';
 import { getSveKomponente, getKompjuterStatistika, DIGITALNI_KOMPJUTER_EVIDENCE } from '../src/lib/spaja-digitalni-kompjuter';
 import { buildBankPrototypeSummary } from '../src/lib/bank-prototype';
 import { getDigitalniKompjuterToolchain } from '../src/lib/digitalni-kompjuter-toolchain';
 const command = process.argv[2];
-if (command === 'evidence') {
+if (command === 'server') {
+  console.log(JSON.stringify(getSpajaServerControlPlane(), null, 2));
+} else if (command === 'evidence') {
   const file = process.argv[3];
   if (!file || process.argv.length !== 4) { console.error('Usage: evidence <local-report.json>'); process.exitCode = 2; }
   else {
@@ -28,6 +31,6 @@ if (command === 'evidence') {
   const result = spawnSync('npm', ['run', 'test:digitalni-kompjuter'], { stdio: 'inherit' });
   process.exitCode = result.status ?? 1;
 } else {
-  console.error('Usage: npm run digitalni-kompjuter -- inventory|status|check|test|bank-status|toolchain|evidence');
+  console.error('Usage: npm run digitalni-kompjuter -- inventory|status|check|test|bank-status|toolchain|evidence|server');
   process.exitCode = 2;
 }
