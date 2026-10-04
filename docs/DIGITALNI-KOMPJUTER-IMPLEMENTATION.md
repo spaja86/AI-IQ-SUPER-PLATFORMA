@@ -179,3 +179,10 @@ Keep reviewPosture branches and downstream-reference constant as literal types,
 without widening contracts or changing runtime strings/status rules. Diagnostic
 suites, targeted lint and diff check pass. Whole-project diagnostics: 254;
 compilation still fails. Full report/build validation remains unverified.
+
+## Evidence presence results
+Four epilog evidence-check fields now use boolean, matching runtime checks that
+can fail. These are observations, not invariant true flags; do not cast failed
+checks to true. No producer or promotion logic changed. Diagnostic suites,
+targeted lint and diff check pass. Whole-project diagnostics: 251; compilation
+still fails. Full runtime/build unverified.
