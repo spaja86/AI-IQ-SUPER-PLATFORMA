@@ -127,80 +127,66 @@ export function runUmbrelPetlja(input: PetljaInput): PetljaResult {
   status = startTransition.status;
   statusTrail.push(startTransition.entry);
 
-  const forResult = runForPetlja(normalized);
-  const itchResult = runItchPetlja(normalized);
-  const urResult = runUrPelja(normalized);
-  const nikResult = runNikPetlja(normalized);
-  const dorResult = runDorPetlja(normalized);
-  const exeResult = runExePetlja(normalized);
-  const kurResult = runKurPetlja(normalized);
-  const darResult = runDarPetlja(normalized);
-  const yuResult = runYuPetlja(normalized);
-  const zarResult = runZarPetlja(normalized);
-  const derResult = runDerPetlja(normalized);
-  const garResult = runGarPetlja(normalized);
-  const zurResult = runZurPetlja(normalized);
-  const iziResult = runIziPetlja(normalized);
-  const ukResult = runUkPetlja(normalized);
-  const zumResult = runZumPetlja(normalized);
-  const djupreResult = runDjuprePetlja(normalized);
-  const dompreResult = runDomprePetlja(normalized);
-  const krumpeResult = runKrumpePetlja(normalized);
-  const dombreResult = runDombrePetlja(normalized);
-  const ombaResult = runOmbaPetlja(normalized);
-  const doksiResult = runDoksiPetlja(normalized);
-  const dombraResult = runDombraPetlja(normalized);
-  const dokonResult = runDokonPetlja(normalized);
-  const dumpirResult = runDumpirPetlja(normalized);
-  const dombarResult = runDombarPetlja(normalized);
-  const zumbaResult = runZumbaPetlja(normalized);
-  const donkiResult = runDonkiPetlja(normalized);
-  const domporResult = runDomporPetlja(normalized);
-  const dokResult = runDokPetlja(normalized);
-  const dikResult = runDikPetlja(normalized);
-  const sarResult = runSarPetlja(normalized);
-  const okredResult = runOkredPetlja(normalized);
-  const direktResult = runDirektPetlja(normalized);
-  const indirektResult = runIndirektPetlja(normalized);
-
-  const parts = [
-    forResult,
-    itchResult,
-    urResult,
-    nikResult,
-    dorResult,
-    exeResult,
-    kurResult,
-    darResult,
-    yuResult,
-    zarResult,
-    derResult,
-    garResult,
-    zurResult,
-    iziResult,
-    ukResult,
-    zumResult,
-    djupreResult,
-    dompreResult,
-    krumpeResult,
-    dombreResult,
-    ombaResult,
-    doksiResult,
-    dombraResult,
-    dokonResult,
-    dumpirResult,
-    dombarResult,
-    zumbaResult,
-    donkiResult,
-    domporResult,
-    dokResult,
-    dikResult,
-    sarResult,
-    okredResult,
-    direktResult,
-    indirektResult,
+  const startedAt = Date.now();
+  const parts: PetljaResult[] = [];
+  let consumed = 0;
+  let budgetStop: 'max-iterations' | 'time-limit' | undefined;
+  if (!Number.isFinite(normalized.maxIterations) || normalized.maxIterations < 1 || !Number.isFinite(normalized.maxDurationMs) || normalized.maxDurationMs < 0) {
+    return { ...result, status: 'DISABLED', completed: false, reason: 'invalid-input', warnings: ['Invalid finite UMBREL budget'] };
+  }
+  const runners = [
+    runForPetlja,
+    runItchPetlja,
+    runUrPelja,
+    runNikPetlja,
+    runDorPetlja,
+    runExePetlja,
+    runKurPetlja,
+    runDarPetlja,
+    runYuPetlja,
+    runZarPetlja,
+    runDerPetlja,
+    runGarPetlja,
+    runZurPetlja,
+    runIziPetlja,
+    runUkPetlja,
+    runZumPetlja,
+    runDjuprePetlja,
+    runDomprePetlja,
+    runKrumpePetlja,
+    runDombrePetlja,
+    runOmbaPetlja,
+    runDoksiPetlja,
+    runDombraPetlja,
+    runDokonPetlja,
+    runDumpirPetlja,
+    runDombarPetlja,
+    runZumbaPetlja,
+    runDonkiPetlja,
+    runDomporPetlja,
+    runDokPetlja,
+    runDikPetlja,
+    runSarPetlja,
+    runOkredPetlja,
+    runDirektPetlja,
+    runIndirektPetlja,
   ];
+  for (const runner of runners) {
+    const remainingIterations = normalized.maxIterations - consumed;
+    const remainingDurationMs = Math.max(0, normalized.maxDurationMs - (Date.now() - startedAt));
+    if (remainingIterations <= 0) { budgetStop = 'max-iterations'; break; }
+    if (remainingDurationMs <= 0) { budgetStop = 'time-limit'; break; }
+    const part = runner({ ...normalized, sequence: [...normalized.sequence], maxIterations: remainingIterations, maxDurationMs: remainingDurationMs });
+    parts.push(part);
+    consumed += part.iterations;
+  }
   const aggregated = aggregateParts(parts);
+  if (budgetStop) {
+    aggregated.completed = false;
+    aggregated.status = 'DEAD';
+    aggregated.reason = budgetStop;
+    aggregated.warnings.push(`UMBREL shared budget exhausted; ${runners.length - parts.length} runners not executed`);
+  }
 
   const mergedTrails = parts
     .flatMap((p, runnerOrder) => p.statusTrail.map((entry) => ({
@@ -225,7 +211,7 @@ export function runUmbrelPetlja(input: PetljaInput): PetljaResult {
     completed: aggregated.completed,
     reason: aggregated.reason,
     warnings: aggregated.warnings,
-    durationMs: aggregated.totalDurationMs,
+    durationMs: Date.now() - startedAt,
     trace: parts.map((part, index) => {
       traceAccumulator += aggregated.safeOutputs[index];
       return {
