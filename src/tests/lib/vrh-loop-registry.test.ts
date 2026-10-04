@@ -1,0 +1,16 @@
+import assert from 'node:assert/strict';
+import * as loops from '../../lib/petlje';
+import { VRH_LOOP_REGISTRY, describeVrhLoops, resolveVrhLoop } from '../../lib/petlje/vrh-registry';
+const runners = Object.entries(loops).filter(([name]) => name.startsWith('run'));
+assert.equal(runners.length, 38);
+assert.equal(Object.keys(VRH_LOOP_REGISTRY).length, runners.length);
+for (const [, run] of runners) assert(Object.values(VRH_LOOP_REGISTRY).some(entry => entry.run === run));
+assert.equal(resolveVrhLoop('SPAJA PETLJA'), loops.runSpajaPetlja);
+assert.equal(resolveVrhLoop('FOR PETLJA'), loops.runForPetlja);
+for (const name of ['REPEAT', 'constructor', '__proto__', 'UNKNOWN']) assert.throws(() => resolveVrhLoop(name));
+assert(Object.isFrozen(VRH_LOOP_REGISTRY));
+assert(describeVrhLoops().every(entry => !entry.javaTranslationVerified && entry.source.endsWith('.ts')));
+const input = { start: 1, end: 3, step: 1, maxIterations: 10, maxDurationMs: 1000, status: 'ACTIVATED' as const };
+const direct = loops.runForPetlja(input), registered = resolveVrhLoop('FOR PETLJA')(input);
+for (const key of ['output', 'iterations', 'reason', 'completed', 'status'] as const) assert.equal(registered[key], direct[key]);
+console.log('PASS: all 38 existing runners, SPAJA identity, unknown-name rejection and FOR delegation');
