@@ -128,3 +128,10 @@ with the same values. Distribution coverage uses a readonly token tuple preservi
 its literal union. Diagnostic suites pass; targeted lint has 0 errors and 11
 unused-variable warnings. Whole-project diagnostics: 268, still failing.
 Full report-runtime validation, build and production deployment remain unverified.
+
+## Unreachable status comparisons
+Removed comparisons that cannot match their local producer unions: a READY/BLOCKED
+implementation package was compared with WATCH, and a READY/WATCH dispute status
+was compared with BLOCKED. No producer status or meaningful guard changed.
+Diagnostic suites pass; targeted ESLint has 0 errors / 11 warnings. Whole-project
+diagnostics: 266, compilation still fails. Broader runtime behavior unverified.
