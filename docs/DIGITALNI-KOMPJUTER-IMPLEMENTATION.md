@@ -173,3 +173,9 @@ publicOutput as audit-safe-summary, as required by the contract. No gaming runti
 activation is performed. Diagnostic suites, targeted lint and diff check pass.
 Whole-project diagnostics: 259; compilation still fails. Full runtime/build
 verification and production deployment not performed.
+
+## Audio governance literal contracts
+Keep reviewPosture branches and downstream-reference constant as literal types,
+without widening contracts or changing runtime strings/status rules. Diagnostic
+suites, targeted lint and diff check pass. Whole-project diagnostics: 254;
+compilation still fails. Full report/build validation remains unverified.

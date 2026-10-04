@@ -373,7 +373,7 @@ const AUDIO_VISUAL_KONTRABAS_ROLLOUT_PLAN =
 const AUDIO_VISUAL_KONTRABAS_ROLLBACK_PLAN =
   'Freeze promotion and fall back to the prior Developer/Create reflection package if audio-vizuelni readiness, review evidence, or downstream summary alignment drifts.';
 const AUDIO_VISUAL_KONTRABAS_DOWNSTREAM_REFERENCE =
-  'docs/MULTI-REPO-LINKS.md -> spaja86/IO-OPENUI-AO (summary-only)';
+  'docs/MULTI-REPO-LINKS.md -> spaja86/IO-OPENUI-AO (summary-only)' as const;
 const DEVELOPER_CREATE_BRANCH_REPORT_TEMPLATE_SOURCE =
   'docs/EXTRIMLI-DEVELOPER-CREATE-PROGRAM.md#14-implementacija-plana-audit-snapshot-2026-09-25' as const;
 
@@ -611,10 +611,10 @@ function buildAudioVisualKontrabasGovernancePackage(
     reviewPosture:
       promotionFreeze
       || audioVisualKontrabasPackage.readinessStatus === 'BLOCKED'
-        ? 'REVIEW_REQUIRED'
+        ? 'REVIEW_REQUIRED' as const
         : audioVisualKontrabasPackage.readinessStatus === 'WATCH'
-          ? 'WATCH'
-          : 'ALIGNED',
+          ? 'WATCH' as const
+          : 'ALIGNED' as const,
     rolloutPlan: AUDIO_VISUAL_KONTRABAS_ROLLOUT_PLAN,
     rollbackPlan: AUDIO_VISUAL_KONTRABAS_ROLLBACK_PLAN,
     acceptanceEvidence: AUDIO_VISUAL_KONTRABAS_ACCEPTANCE_EVIDENCE,
