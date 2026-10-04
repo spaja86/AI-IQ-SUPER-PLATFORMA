@@ -1,0 +1,16 @@
+import assert from 'node:assert/strict';
+import { dispatchVrhLoop, validateVrhLoopRequest } from '../../lib/petlje/vrh-dispatcher';
+import { executeLoopCall, validateLoopCall } from '../../lib/petlje/spajascripte-loop-adapter';
+import { runForPetlja } from '../../lib/petlje';
+assert.equal(executeLoopCall, dispatchVrhLoop);
+assert.equal(validateLoopCall, validateVrhLoopRequest);
+const input = { start: 1, end: 3, step: 1, maxIterations: 10, maxDurationMs: 1000, status: 'ACTIVATED' as const };
+const request = { kind: 'loop-call', version: '0.1', name: 'FOR PETLJA', input };
+const result = dispatchVrhLoop(request, 'reference');
+const direct = runForPetlja(input);
+for (const field of ['output', 'status', 'warnings', 'reason', 'completed', 'trace'] as const) assert.deepEqual(result[field], direct[field]);
+assert.throws(() => dispatchVrhLoop(request, 'java'));
+assert.throws(() => dispatchVrhLoop({ ...request, name: 'SPAJA PETLJA' }, 'reference'));
+assert.throws(() => dispatchVrhLoop({ ...request, input: { ...input, maxIterations: 1001 } }, 'reference'));
+assert.throws(() => validateVrhLoopRequest({ ...request, name: '__proto__' }));
+console.log('PASS: VRH central delegation, reference parity, unsupported names/targets and limits');
