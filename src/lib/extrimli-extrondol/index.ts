@@ -3066,7 +3066,10 @@ function buildVrhProgramskogEkviladentaGovernance(params: {
       ekspozje: 'auditabilni-intenzitet-opterecenja',
       obrtniMoment: 'momentum-torque-signal',
     },
-    documentationOnlyReferences: signal.meaningLock.chatGptShareReferences.map((reference) => ({ ...reference })),
+    documentationOnlyReferences: [
+      { ...signal.meaningLock.chatGptShareReferences[0] },
+      { ...signal.meaningLock.chatGptShareReferences[1] },
+    ],
     ownershipEvidence: {
       forTechnical: true,
       dokTechnical: true,
