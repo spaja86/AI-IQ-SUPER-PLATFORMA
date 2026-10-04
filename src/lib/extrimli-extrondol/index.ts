@@ -9591,6 +9591,8 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
         publicBoundary: '/api/extrimli/spaja-kod',
         currentWawe,
         eligibleNextWawe: eligibleNextWave,
+        currentWave: currentWawe,
+        eligibleNextWave,
         promotionFreeze,
         reviewRequiredBeforeWideRollout:
           extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.alatiRadionicaTrack.readinessSignal.status !== 'READY',

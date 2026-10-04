@@ -121,3 +121,10 @@ Both pairs derive from the same parameters; legacy fields are retained explicitl
 in the contract. Diagnostic suites, targeted lint and diff check pass. Whole-project
 TypeScript diagnostics: 271; compilation remains blocked. Full EXTRONDOL runtime
 integration has not been verified by this change.
+
+## Workshop wave and distribution token types
+ALATI/RADIONICA now includes canonical wave names alongside legacy spellings,
+with the same values. Distribution coverage uses a readonly token tuple preserving
+its literal union. Diagnostic suites pass; targeted lint has 0 errors and 11
+unused-variable warnings. Whole-project diagnostics: 268, still failing.
+Full report-runtime validation, build and production deployment remain unverified.

@@ -1393,6 +1393,9 @@ export interface ExtrimliExtrondolDeveloperAndCreateRepoWideReflectionGovernance
     sourceOfTruth: '/api/extrimli/extrem';
     governanceSource: '/api/extrimli/extrondol';
     publicBoundary: '/api/extrimli/spaja-kod';
+    /** Legacy spellings retained for compatibility. */
+    currentWawe: ExtrimliExtrondolWaweStage;
+    eligibleNextWawe: ExtrimliExtrondolWaweStage;
     currentWave: ExtrimliExtrondolWaweStage;
     eligibleNextWave: ExtrimliExtrondolWaweStage;
     promotionFreeze: boolean;
