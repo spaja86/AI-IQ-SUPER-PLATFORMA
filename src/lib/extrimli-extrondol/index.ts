@@ -6153,19 +6153,7 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
         inspektori: mapInspektoriGovernance(
           extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.inspektori,
         ),
-        kraljevskiDrustveniPoredak: {
-          ...extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.kraljevskiDrustveniPoredak,
-          sourceOfTruth: '/api/extrimli/extrondol',
-          technicalSignalSource: '/api/extrimli/extrem',
-          publicBoundary: '/api/extrimli/spaja-kod',
-          reviewRequiredBeforeWideRollout:
-            extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.kraljevskiDrustveniPoredak.readiness.status !== 'READY',
-          promotionFreeze,
-          humanReviewRequired: true,
-          complianceReviewRequired: true,
-          paymentVerificationRequired: true,
-          downstreamSync: 'follow-up-only-until-io-openui-ao-adopts-audit-safe-summary',
-        },
+
         privredniAkt:
           extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.kraljevskiEkonomskiUneverzitet.privredniAkt,
         certificationGovernance: {
@@ -8521,8 +8509,8 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
                promotionFreeze
                || extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.aiIdentityFinanceGovernance.technicalSignals.status !== 'READY',
            },
-           covecnostAuditVisualReference: mappedDeveloperCreateCovecnostAuditVisualReference,
-           repoWideReflection: extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.repoWideReflection,
+
+
           covecnostAuditVisualReference: mappedDeveloperCreateCovecnostAuditVisualReference,
           implementationPackage: {
             ...extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.implementationPackage,

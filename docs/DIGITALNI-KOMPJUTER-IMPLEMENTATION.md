@@ -106,3 +106,10 @@ already return. Rollout ring selection is contextually typed against the existin
 B2B ring union. Runtime statuses and thresholds are unchanged. Diagnostic suites,
 targeted ESLint and diff check pass. Whole-project diagnostics: 276 (still a
 failed compilation). No full build or production deployment performed.
+
+## Duplicate EXTRONDOL fields
+AST inspection confirmed three identical duplicate property initializers:
+kraljevskiDrustveniPoredak, covecnostAuditVisualReference and repoWideReflection.
+Removed the earlier copies; the effective last values remain unchanged.
+All diagnostic suites and targeted lint pass. Whole-project diagnostics: 273;
+compilation still fails. No runtime status, payments or deployments changed.
