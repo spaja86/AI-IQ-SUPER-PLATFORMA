@@ -5,6 +5,8 @@ import { AIIQ_BUILD_PLAN_EXAMPLE } from '../../lib/ai-iq-programski-jezik/build-
 const source = AIIQ_BUILD_PLAN_EXAMPLE.map(n => `${n.op}: ${n.value}`).join('\n');
 const context = { sourceRevision: 'a'.repeat(40), environment: 'local' as const };
 const actual = compileAiiqBuildPlan(source, context);
+assert(Array.isArray(actual.diagnostics.blockedSignals));
+assert.equal(actual.diagnostics.durationIsObservationNotApproval, true);
 assert.equal(actual.executionEnabled, false); assert.equal(actual.buildVerified, false);
 assert.equal(actual.provenance.revisionVerified, false);
 assert.equal(actual.provenance.sourceHash.length, 64);

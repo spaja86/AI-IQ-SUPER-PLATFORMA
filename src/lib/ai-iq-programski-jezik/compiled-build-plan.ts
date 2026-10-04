@@ -13,12 +13,19 @@ export function compileAiiqBuildPlan(
   const provenance = { sourceHash: createHash('sha256').update(source).digest('hex'), sourceRevision: context.sourceRevision, environment: context.environment, revisionVerified: false };
   const result: AiiqLanguageCompileResult = compiler({ source, targetMode: 'DETERMINISTIC_ONLY', strictSecurity: true, featureFlagAiIqLanguage: false });
   const profile = result.integrationProfile;
+  const diagnostics = {
+    valid: result.valid, securityPass: result.securityPass, syntaxScore: result.syntaxScore,
+    blockedSignals: profile ? Object.entries(profile.unifiedSignalStatus).filter(([, status]) => status === 'BLOCKED').map(([name]) => name) : ['missing-integration-profile'],
+    deterministicFallbackRequired: profile?.dokDikDakDukConsistencyHealth.deterministicFallbackRequired ?? true,
+    compilerDurationMs: result.durationMs,
+    durationIsObservationNotApproval: true,
+  };
   const blocked = !result.valid || !result.securityPass || result.status === 'BLOCKED' || result.syntaxScore !== 100 ||
     !profile || profile.unifiedSignalStatus.overall === 'BLOCKED' || profile.dokDikDakDukConsistencyHealth.deterministicFallbackRequired;
-  if (blocked) return { status: 'blocked' as const, provenance, compilerStatus: result.status, executionEnabled: false, buildVerified: false, plan: null };
+  if (blocked) return { status: 'blocked' as const, diagnostics, provenance, compilerStatus: result.status, executionEnabled: false, buildVerified: false, plan: null };
   // Partial parser success must not ignore any source directive or malformed line.
   const lines = source.split(/\r?\n/).map(line => line.trim()).filter(Boolean);
   if (lines.length !== result.ast.length || lines.some((line, i) => line !== `${result.ast[i].op}: ${result.ast[i].value}`)) throw new Error('Source/AST exact policy mismatch');
   const plan = createAiiqBuildPlan(result.ast);
-  return { status: 'proposed' as const, provenance, compilerStatus: result.status, executionEnabled: false, buildVerified: false, plan };
+  return { status: 'proposed' as const, diagnostics, provenance, compilerStatus: result.status, executionEnabled: false, buildVerified: false, plan };
 }
