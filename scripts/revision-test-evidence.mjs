@@ -1,8 +1,28 @@
+import { createHash } from 'node:crypto';
 import { spawnSync } from 'node:child_process';
-import { readFileSync, statSync } from 'node:fs';
+import { readFileSync, statSync, lstatSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { runLocalVerification } from './local-verification.mjs';
+
+/** Hash reviewed tracked code/config scope; no node_modules or credentials. */
+export function sourceDigest(root) {
+  const list = spawnSync('git', ['ls-files', '-z', '--', 'src', 'scripts', 'tools', 'package.json', 'package-lock.json', 'tsconfig.json', 'next.config.ts'], { cwd: root, shell: false, encoding: 'utf8', timeout: 10000, maxBuffer: 1024 * 1024 });
+  if (list.error || list.status !== 0) throw new Error('Tracked source listing failed');
+  const files = list.stdout.split('\0').filter(Boolean).sort();
+  if (!files.length || files.length > 20000 || !files.includes('package-lock.json')) throw new Error('Invalid digest scope');
+  const hash = createHash('sha256');
+  let total = 0;
+  for (const file of files) {
+    const path = resolve(root, file), info = lstatSync(path);
+    if (!info.isFile() || info.isSymbolicLink() || info.size > 16 * 1024 * 1024) throw new Error('Unsupported tracked file');
+    total += info.size;
+    if (total > 256 * 1024 * 1024) throw new Error('Digest size exceeded');
+    const content = readFileSync(path);
+    hash.update(`${file}\0${content.length}\0`); hash.update(content);
+  }
+  return hash.digest('hex');
+}
 
 export function readCheckout(root) {
   const git = args => {
@@ -12,21 +32,22 @@ export function readCheckout(root) {
   };
   const revision = git(['rev-parse', 'HEAD']);
   if (!/^[a-f0-9]{40}$/.test(revision)) throw new Error('Invalid Git revision');
-  return { revision, dirty: git(['status', '--porcelain', '--untracked-files=all']) !== '' };
+  return { revision, sourceDigest: sourceDigest(root), digestScope: 'tracked-toolchain-v1', dirty: git(['status', '--porcelain', '--untracked-files=all']) !== '' };
 }
 
 export function createRevisionEvidence(root) {
   const before = readCheckout(root), startedAt = new Date().toISOString();
   const checks = runLocalVerification(root, { execute: true, suite: 'reference-tests' });
   const after = readCheckout(root);
-  return { format: 'local-reference-evidence-v1', startedAt, finishedAt: new Date().toISOString(),
-    checkout: before, checkoutAfter: after, sourceStable: !before.dirty && !after.dirty && before.revision === after.revision,
+  return { format: 'local-reference-evidence-v2', startedAt, finishedAt: new Date().toISOString(),
+    checkout: before, checkoutAfter: after, sourceStable: !before.dirty && !after.dirty && before.revision === after.revision && before.sourceDigest === after.sourceDigest,
     trust: 'unsigned-local-observation', nodeVersion: process.version, checks };
 }
 
 export function assessRevisionEvidence(value, current) {
-  if (!value || value.format !== 'local-reference-evidence-v1' || value.trust !== 'unsigned-local-observation' ||
+  if (!value || value.format !== 'local-reference-evidence-v2' || value.trust !== 'unsigned-local-observation' ||
       !value.checkout || !value.checkoutAfter || !/^[a-f0-9]{40}$/.test(value.checkout.revision) || !/^[a-f0-9]{40}$/.test(value.checkoutAfter.revision) ||
+      ![value.checkout, value.checkoutAfter].every(c => c.digestScope === 'tracked-toolchain-v1' && /^[a-f0-9]{64}$/.test(c.sourceDigest)) ||
       typeof value.checkout.dirty !== 'boolean' || typeof value.checkoutAfter.dirty !== 'boolean' || typeof value.sourceStable !== 'boolean' ||
       !Number.isFinite(Date.parse(value.startedAt)) || !Number.isFinite(Date.parse(value.finishedAt)) || Date.parse(value.finishedAt) < Date.parse(value.startedAt)) throw new Error('Invalid evidence envelope');
   const c = value.checks;
@@ -40,9 +61,9 @@ export function assessRevisionEvidence(value, current) {
   });
   const passed = c.results.length === 5 && c.results.every(r => r.status === 'passed');
   if (c.passed !== passed || JSON.stringify(c.skipped) !== JSON.stringify(names.slice(c.results.length))) throw new Error('Inconsistent report');
-  const stable = !value.checkout.dirty && !value.checkoutAfter.dirty && value.checkout.revision === value.checkoutAfter.revision;
+  const stable = !value.checkout.dirty && !value.checkoutAfter.dirty && value.checkout.revision === value.checkoutAfter.revision && value.checkout.sourceDigest === value.checkoutAfter.sourceDigest;
   if (value.sourceStable !== stable) throw new Error('Inconsistent checkout stability');
-  return { status: !stable || current.dirty || current.revision !== value.checkout.revision ? 'stale' : passed ? 'reported-passed' : 'reported-failed',
+  return { status: !stable || current.dirty || current.revision !== value.checkout.revision || current.sourceDigest !== value.checkout.sourceDigest ? 'stale' : passed ? 'reported-passed' : 'reported-failed',
     trusted: false, executionEnabled: false, javaBuildVerified: false, nextBuildVerified: false, scope: 'selected-local-tests-only' };
 }
 

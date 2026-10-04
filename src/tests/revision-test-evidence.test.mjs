@@ -1,8 +1,8 @@
 import assert from 'node:assert/strict';
 import { assessRevisionEvidence, readCheckout } from '../../scripts/revision-test-evidence.mjs';
-const revision='a'.repeat(40), checkout={revision,dirty:false};
+const revision='a'.repeat(40), checkout={revision,dirty:false,sourceDigest:'b'.repeat(64),digestScope:'tracked-toolchain-v1'};
 const names=['spajascripte-vrh-calls','vrh-individual-profiles','vrh-orchestrator-musema','spaja-fallback-isolation','aiiq-plan-policy'];
-const value={format:'local-reference-evidence-v1',trust:'unsigned-local-observation',startedAt:'2026-10-04T00:00:00Z',finishedAt:'2026-10-04T00:00:01Z',checkout,checkoutAfter:checkout,sourceStable:true,checks:{suite:'reference-tests',scope:'selected-local-tests-only',javaBuildVerified:false,nextBuildVerified:false,deploymentExecuted:false,results:names.map(name=>({name,status:'passed',exitCode:0,signal:null,durationMs:1})),skipped:[],passed:true}};
+const value={format:'local-reference-evidence-v2',trust:'unsigned-local-observation',startedAt:'2026-10-04T00:00:00Z',finishedAt:'2026-10-04T00:00:01Z',checkout,checkoutAfter:checkout,sourceStable:true,checks:{suite:'reference-tests',scope:'selected-local-tests-only',javaBuildVerified:false,nextBuildVerified:false,deploymentExecuted:false,results:names.map(name=>({name,status:'passed',exitCode:0,signal:null,durationMs:1})),skipped:[],passed:true}};
 assert.equal(assessRevisionEvidence(value,checkout).status,'reported-passed');
 assert.equal(assessRevisionEvidence(value,{...checkout,dirty:true}).status,'stale');
 assert.equal(assessRevisionEvidence(value,{...checkout,revision:'b'.repeat(40)}).status,'stale');
@@ -12,3 +12,5 @@ assert.throws(()=>assessRevisionEvidence({...value,sourceStable:false},checkout)
 assert.throws(()=>assessRevisionEvidence({...value,checks:{...value.checks,passed:false}},checkout));
 assert(/^[a-f0-9]{40}$/.test(readCheckout(process.cwd()).revision));
 console.log('PASS: revision staleness, dirty checkout, untrusted report and inconsistent claim rejection');
+
+assert.equal(assessRevisionEvidence(value,{...checkout,sourceDigest:'c'.repeat(64)}).status,'stale');
