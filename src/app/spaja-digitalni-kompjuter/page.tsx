@@ -1,3 +1,4 @@
+import { getSpajaServerControlPlane } from '@/lib/spaja-server-control-plane';
 import type { Metadata } from 'next';
 import { StranicaRenderer } from '@/components/sekvence';
 import { spajaDigitalniKompjuterSekvence } from '@/lib/sekvence/spaja-digitalni-kompjuter-page';
@@ -10,6 +11,7 @@ export const metadata: Metadata = {
 };
 
 export default function SpajaDigitalniKompjuter() {
+  const server = getSpajaServerControlPlane();
   const toolchain = getDigitalniKompjuterToolchain();
   return <><section className="mx-auto max-w-5xl p-6" aria-labelledby="toolchain-title">
     <h1 id="toolchain-title">Procedure i analize — povezani moduli</h1>
@@ -17,6 +19,6 @@ export default function SpajaDigitalniKompjuter() {
     <ul>{toolchain.modules.map(module => <li key={module.id}><strong>{module.name}</strong>: {module.role} — {module.status}</li>)}</ul>
     <p>CLI pregled: npm run digitalni-kompjuter -- toolchain</p>
     <p>Odvojena, eksplicitna lokalna provera: node scripts/local-verification.mjs --execute reference-tests</p>
-  </section><StranicaRenderer sekvence={spajaDigitalniKompjuterSekvence} /></>;
+  </section><section className="mx-auto max-w-5xl p-6"><h2>SPAJA SERVER</h2><p>Runtime: {server.runtime}. Konfiguracija: {server.configurationStatus}. Dostupnost nije potvrđena.</p><p>JDK i build worker nisu implementirani; nema automatskog izvršavanja.</p><ul>{server.adapters.map(adapter => <li key={adapter.id}>{adapter.id}: {adapter.configured ? 'konfiguracija prisutna' : 'nekonfigurisan'}</li>)}</ul></section><StranicaRenderer sekvence={spajaDigitalniKompjuterSekvence} /></>;
 
 }

@@ -1,0 +1,9 @@
+# SPAJA SERVER digital computer control-plane view
+
+User approved server integration and repeat checks. Existing SPAJA SERVER/BAZA implementation is configuration metadata for Vercel Functions with Supabase/Postgres, Blob and Redis adapters. READY originally means required env vars present, not successful connectivity. New read-only view reports configurationStatus separately from availabilityVerified=false; no credential values/missing key names exposed. providesJdk/buildWorkerImplemented/executionEnabled=false. Existing infrastructure API unchanged.
+
+Digital computer page and CLI server command show this view; no provisioning/server credentials/tool execution. Panel is descriptive, not actual remote build worker. NODE1450/VRH/local test authority unchanged. No new API or auth weakening.
+
+Repeated checks on isolated archive of main8543ff937d530dfbd8a6fb1f65e2e0d3566fbdb9: original infrastructure tests PASS and all five fixed local tests exit0, no source edits in archive during run. node_modules symlink reused, not independent dependency install. New view test/CLI/targeted lint/diff run on branch. Full Next/JVM not rerun: previous Next180s timeout and JDK DNS blockage remain; no new toolchain/resource evidence suggests identical attempt improves. This task does not falsely claim server inclusion repaired build. Browser visual/changed-revision production build/CI/Preview unverified.
+
+Important branch scope: based current main; prior draft#1334 evidence-upload panel not present in base and not merged here. This PR server view does not integrate that unmerged panel or approve merging it. Human review required. Rollback removes view/CLI/panel/test/docs. No dependencies/config/workflow/deployment/payments or resource creation. Next supported isolated worker/JDK design and actual provider health checks require separate approved scope.
