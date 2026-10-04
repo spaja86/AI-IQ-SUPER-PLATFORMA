@@ -1,0 +1,20 @@
+import assert from 'node:assert/strict';
+import { compileAiiqBuildPlan } from '../../lib/ai-iq-programski-jezik/compiled-build-plan';
+import { compileAiiqLanguage } from '../../lib/ai-iq-programski-jezik/engine';
+import { AIIQ_BUILD_PLAN_EXAMPLE } from '../../lib/ai-iq-programski-jezik/build-plan';
+const source = AIIQ_BUILD_PLAN_EXAMPLE.map(n => `${n.op}: ${n.value}`).join('\n');
+const context = { sourceRevision: 'a'.repeat(40), environment: 'local' as const };
+const actual = compileAiiqBuildPlan(source, context);
+assert.equal(actual.executionEnabled, false); assert.equal(actual.buildVerified, false);
+assert.equal(actual.provenance.revisionVerified, false);
+assert.equal(actual.provenance.sourceHash.length, 64);
+const real = compileAiiqLanguage({ source, targetMode: 'DETERMINISTIC_ONLY', strictSecurity: true, featureFlagAiIqLanguage: false });
+const approvedFixture = { ...real, valid: true, securityPass: true, syntaxScore: 100, status: 'READY' as const, integrationProfile: { ...real.integrationProfile, unifiedSignalStatus: { ...real.integrationProfile.unifiedSignalStatus, overall: 'READY' as const }, dokDikDakDukConsistencyHealth: { ...real.integrationProfile.dokDikDakDukConsistencyHealth, deterministicFallbackRequired: false } } };
+const positive = compileAiiqBuildPlan(source, context, () => approvedFixture);
+assert.equal(positive.status, 'proposed'); assert(positive.plan); // synthetic unblocked result, not live readiness
+assert.equal(compileAiiqBuildPlan(source, context, () => ({ ...approvedFixture, status: 'BLOCKED' })).status, 'blocked');
+assert.equal(compileAiiqBuildPlan(source, context, () => ({ ...approvedFixture, valid: false })).plan, null);
+assert.throws(() => compileAiiqBuildPlan(source + '\nBROKEN', context, () => approvedFixture));
+assert.throws(() => compileAiiqBuildPlan(source, { ...context, sourceRevision: 'main' }));
+assert.throws(() => compileAiiqBuildPlan(source, context, () => { throw new Error('compiler failed'); }));
+console.log(`PASS: real compiler pipeline status=${actual.status}; positive fixture, blockers and source provenance boundaries`);
