@@ -186,3 +186,11 @@ can fail. These are observations, not invariant true flags; do not cast failed
 checks to true. No producer or promotion logic changed. Diagnostic suites,
 targeted lint and diff check pass. Whole-project diagnostics: 251; compilation
 still fails. Full runtime/build unverified.
+
+## Cadence readiness source
+Replace three reads of nonexistent dailyOperationalCadence.status with the existing
+reflection readiness status, matching governance cadence status derivation. Keep
+NOTES final status aggregation contextually typed. This changes previously undefined
+inputs and requires report-runtime review before merge. Diagnostic suites pass;
+targeted lint had 0 errors/11 warnings. Whole-project diagnostics: 248; compilation
+still fails. Full runtime/build validation not performed.
