@@ -1,3 +1,4 @@
+import LocalEvidencePanel from '@/components/LocalEvidencePanel';
 import type { Metadata } from 'next';
 import { StranicaRenderer } from '@/components/sekvence';
 import { spajaDigitalniKompjuterSekvence } from '@/lib/sekvence/spaja-digitalni-kompjuter-page';
@@ -17,6 +18,6 @@ export default function SpajaDigitalniKompjuter() {
     <ul>{toolchain.modules.map(module => <li key={module.id}><strong>{module.name}</strong>: {module.role} — {module.status}</li>)}</ul>
     <p>CLI pregled: npm run digitalni-kompjuter -- toolchain</p>
     <p>Odvojena, eksplicitna lokalna provera: node scripts/local-verification.mjs --execute reference-tests</p>
-  </section><StranicaRenderer sekvence={spajaDigitalniKompjuterSekvence} /></>;
+  </section><LocalEvidencePanel /><StranicaRenderer sekvence={spajaDigitalniKompjuterSekvence} /></>;
 
 }
