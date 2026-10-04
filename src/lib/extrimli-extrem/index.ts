@@ -13911,7 +13911,6 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
   const leksikonWatchSignalStatus =
     leksikonReadinessStatus === 'WATCH'
     || leksikonRhythmStatus === 'WATCH'
-    || leksikonImplementationPackageStatus === 'WATCH'
     || leksikonFallbackStatus === 'WATCH'
       ? 'WATCH'
       : 'READY';

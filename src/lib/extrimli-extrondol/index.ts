@@ -3430,7 +3430,7 @@ function buildDeveloperCreateUniversityGovernanceProfile(params: {
     ...(!params.rollbackPlanComplete ? ['rollback-plan-required'] : []),
   ];
   const freezeRequired =
-    zadrugaBlockerReasons.length > 0 || antiAbuseStatus === 'BLOCKED' || disputeStatus === 'BLOCKED';
+    zadrugaBlockerReasons.length > 0 || antiAbuseStatus === 'BLOCKED';
   const promotionEligible = !freezeRequired && params.downstreamSyncComplete;
   const reviewPosture =
     freezeRequired || payoutReadinessStatus === 'BLOCKED'
