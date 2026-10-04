@@ -1,0 +1,11 @@
+# Fixed local verification runner
+
+User approved local selected test execution after #1329. `node scripts/local-verification.mjs --execute reference-tests` accepts only exact opt-in and suite; no AI IQ plan or source instruction grants permission. Library rejects extra options/arbitrary commands. Five reviewed fixtures: generic38 CALL, individual profiles, orchestrator mušema, SPAJA fallback, AI IQ plan policy. Sequential Node/tsx child processes with shell=false, 30sec each,64KiB output cap; stops on first nonzero/timeout/signal/missing status. Report stores exit code/signal/duration, names/skipped; raw stdout/stderr omitted to avoid source/secret output exposure. Child env minimal PATH/HOME/LANG; no inherited credentials/NODE_OPTIONS.
+
+Not an authentication system, sandbox or malicious-code isolation. Review checkout/tests/dependencies before execution; trusted executable/dependency paths assumed. Tests may have source-defined side effects; fixed list here is reviewed local numerical/read-only fixture tests, not general arbitrary repo scripts. Timeouts terminate direct child, not guarantee killing arbitrary descendant trees. No Java/Next builds, deployments, writes/repairs or persistent evidence store. passed applies only selected tests; javaBuildVerified/nextBuildVerified/deploymentExecuted remain false. Return report is in-memory CLI JSON, not signed/tamperproof proof or readiness authorization.
+
+Unit tests mock pass/fail/timeouts/signals and validate exact argv/options/env. Actual five checks executed separately, with actual exit evidence reported. No full platform suite/build/CI/Preview/JVM claim. AI IQ adapter remains read-only and is not automatically wired to execute this runner; operator chooses fixed CLI explicitly. Existing gate policies untouched.
+
+Human review required; no merge/promotion. No config/dependency/workflow/environment mutation. Rollback removes standalone runner/test/docs. Next consider bounded saved report + revision verification, then separately approved actual Java/Next runners only when toolchain/build prerequisites resolved.
+
+Recorded run: all five actual checks exited0 (463/466/436/411/952ms in this sandbox), skipped=[], passed=true for selected-local-tests only. Runner unit tests, JS syntax/diff pass.
