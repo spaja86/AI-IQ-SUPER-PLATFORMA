@@ -1,0 +1,5 @@
+LET value = 2
+IF value > 0 THEN PRINT value + 1
+IF -1 > 0 THEN PRINT 8
+REPEAT 3 PRINT value
+REPEAT 0 PRINT 9
