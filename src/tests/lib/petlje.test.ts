@@ -544,7 +544,9 @@ async function runTests(): Promise<void> {
     assert(!result.completed, 'UMBREL should not complete');
     assertEqual(result.status, 'DEAD', 'UMBREL should prioritize DEAD child statuses');
     assertEqual(result.reason, 'max-iterations', 'UMBREL should prioritize guard-stop reason');
-    assert(result.warnings.some((warning) => warning.includes('[NIK PETLJA] start mora biti >= end for NIK PETLJA') || warning.includes('[NIK PETLJA] start mora biti >= end za NIK PETLJU')), 'UMBREL should preserve DISABLED child warnings');
+    assertEqual(result.iterations, 2, 'UMBREL shared iteration budget');
+    assertEqual(result.trace.length, 1, 'Only FOR ran before shared budget stopped');
+    assert(!result.warnings.some(warning => warning.includes('[NIK PETLJA]')), 'Unexecuted NIK must not fabricate warnings');
   });
 
   await test('UMBREL PETLJA reports time-limit when a child hits the time guard first', () => {
