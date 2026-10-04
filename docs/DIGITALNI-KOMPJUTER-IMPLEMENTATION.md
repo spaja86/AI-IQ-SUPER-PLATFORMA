@@ -154,3 +154,9 @@ Copy the two canonical documentation references explicitly so their positional
 contract is preserved. URLs, order and documentation-only boundaries unchanged.
 Diagnostic suites/targeted lint/diff check pass. Whole-project diagnostics: 262;
 compilation remains blocked. Full runtime and build remain unverified.
+
+## Construction finding summary
+Forward existing konstrukcijeIProjektovanjeTrack.nalazSummary into its public
+summary projection; no findings invented. Diagnostic suites, targeted lint and
+diff check pass. Whole-project diagnostics: 261; compilation still fails.
+Full runtime/build verification and production deployment not performed.

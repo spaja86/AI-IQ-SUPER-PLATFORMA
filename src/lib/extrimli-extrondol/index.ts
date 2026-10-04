@@ -4595,6 +4595,8 @@ function buildSpajaKodFacade(params: {
         publicBoundary: 'audit-safe-summary-only',
         constructionDesignSummary:
           params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.konstrukcijeIProjektovanjeTrack.constructionDesignSummary,
+        nalazSummary:
+          params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.konstrukcijeIProjektovanjeTrack.nalazSummary,
         gradjevinskiFakultetStatus:
           params.extremProfiler.dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.konstrukcijeIProjektovanjeTrack.readinessSignal.gradjevinskiFakultetStatus,
         gradjevinskiAktStatus:
