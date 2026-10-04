@@ -1,0 +1,16 @@
+import assert from 'node:assert/strict';
+import { createSpajascripteNode1450Plan } from '../../lib/node-1450/spajascripte';
+const plan = createSpajascripteNode1450Plan(process.cwd());
+assert.equal(plan.mode, 'read-only-plan');
+assert.equal(plan.checksExecuted, false);
+assert.equal(plan.codeGenerated, false);
+assert.equal(plan.humanReviewRequired, true);
+assert.equal(plan.integration.combinedLetLoopPrintImplemented, false);
+assert.equal(plan.integration.javaTranslationVerified, false);
+assert(plan.targets.includes('src/lib/petlje/vrh-registry.ts'));
+assert(plan.forbiddenOperations.includes('automatic-code-write'));
+assert(plan.forbiddenOperations.includes('deploy'));
+assert(plan.steps.every(step => step.outcome === 'not-executed'));
+assert.deepEqual(plan, createSpajascripteNode1450Plan(process.cwd()));
+assert.throws(() => createSpajascripteNode1450Plan('/missing-repository'));
+console.log('PASS: NODE 1450 Spajascripte read-only integration, fixed targets and no execution claims');
