@@ -1,0 +1,16 @@
+import assert from 'node:assert/strict';
+import { validateSkeletonProposal, SKELETON_DEMO, VRH_LAYER_PROPOSAL, SENZACIJA_DEMO_PROFILE } from '../../lib/extrimli/vrh-skeleton-proposal';
+const evidence = new Set(['synthetic-input-test', 'synthetic-rotation-test']);
+const valid = validateSkeletonProposal(SKELETON_DEMO, evidence);
+assert.equal(valid.status, 'REVIEW_REQUIRED');
+assert.equal(valid.executionEnabled, false);
+assert.deepEqual(validateSkeletonProposal(SKELETON_DEMO, evidence), valid);
+assert.equal(validateSkeletonProposal(SKELETON_DEMO, new Set()).status, 'BLOCKED');
+for (const value of [null, {}, { nodes: [], links: [] }, { nodes: [null], links: [] }, { ...SKELETON_DEMO, links: [null] }, { ...SKELETON_DEMO, nodes: [...SKELETON_DEMO.nodes, SKELETON_DEMO.nodes[0]] }, { ...SKELETON_DEMO, links: [] }, { ...SKELETON_DEMO, links: [...SKELETON_DEMO.links, SKELETON_DEMO.links[0]] }]) assert.equal(validateSkeletonProposal(value, evidence).status, 'BLOCKED');
+const cycle = { nodes: [{ id: 'a', input: 'x', output: 'x' }, { id: 'b', input: 'x', output: 'x' }], links: [{ from: 'a', to: 'b', evidenceIds: ['synthetic-input-test'] }, { from: 'b', to: 'a', evidenceIds: ['synthetic-input-test'] }] };
+assert(validateSkeletonProposal(cycle, evidence).reasons.includes('cycle'));
+assert(validateSkeletonProposal({ ...SKELETON_DEMO, nodes: SKELETON_DEMO.nodes.map(n => n.id === 'cube' ? { ...n, input: 'wrong' } : n) }, evidence).reasons.includes('type-mismatch'));
+assert.equal(VRH_LAYER_PROPOSAL.imortal.restoreImplemented, false);
+assert.equal(VRH_LAYER_PROPOSAL.epskiNadrazaj.octaveSemanticsVerified, false);
+assert.equal(SENZACIJA_DEMO_PROFILE.businessLogicChangesAllowed, false);
+console.log('PASS: dry-run only, valid links, type mismatch, evidence rejection, cycles and malformed proposals');
