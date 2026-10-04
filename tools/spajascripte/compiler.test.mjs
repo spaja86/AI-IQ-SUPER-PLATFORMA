@@ -32,3 +32,12 @@ assert.throws(() => generateJava({ kind: 'program', version: '0.1', statements: 
 assert.throws(() => compile('LET high = 999999999 + 999999999\nPRINT high + 999999999 + -999999999'));
 assert.deepEqual(ast, parse('LET number = 4\nPRINT number + 2'));
 console.log('PASS: AST structure, int32 validation, generator trust boundary and intermediate overflow rejection.');
+const flow = compile('LET value = 2\nIF value > 0 THEN PRINT value + 1\nIF -1 > 0 THEN PRINT 8\nREPEAT 3 PRINT value\nREPEAT 0 PRINT 9');
+assert.equal(flow.expectedOutput, '3\n2\n2\n2\n');
+assert(flow.java.includes('if ((sp_0) > 0)'));
+assert(flow.java.includes('loop_3 < 3'));
+assert.equal(compile('REPEAT 100 PRINT 1').expectedOutput.split('\n').length, 101);
+for (const source of ['REPEAT 101 PRINT 1', 'REPEAT -1 PRINT 1', 'REPEAT x PRINT 1', 'IF missing > 0 THEN PRINT 1', 'IF 1 > 0 THEN PRINT missing', 'IF 1 > 0 THEN REPEAT 3 PRINT 1', 'REPEAT 3 PRINT Runtime.getRuntime()']) assert.throws(() => compile(source));
+const forged = parse('REPEAT 2 PRINT 1');
+for (const count of [Infinity, -1, 101, '2', 1.5]) { forged.statements[0].count = count; assert.throws(() => generateJava(forged)); }
+console.log('PASS: IF/REPEAT semantics, zero/max counts, missing symbols and forged loop rejection.');
