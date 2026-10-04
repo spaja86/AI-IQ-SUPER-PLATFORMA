@@ -1,0 +1,13 @@
+# SPAJA fallback input isolation
+
+User-approved follow-up to transfer audit #1320. Existing runtime now snapshots workingInput (including sequence) before each child import. On incomplete child or invalid export under fallback, restores that snapshot, revokes export as before, records rollback event and skipped reason. This rollback is local input state only; budgets consumed, audit history and accumulated partial numeric output are NOT reverted. Successful older imports remain in baseline; caller input is not modified. Exceptions from child runners are not swallowed or converted to successful skips.
+
+PetljaResult optional fallbackSummary: successful boolean and skipped[{segmentIndex,loop,reason}]. successful starts false, becomes true only after whole traversal finishes with no skips. Early invalid/blocked/guard return stays false. completed retains legacy meaning: traversal completed. Hence completed=true may coexist with fallbackSummary.successful=false. Consumers MUST inspect summary for all-child success; numeric output remains partial and not a financial result. No new partial reason enum or change to existing status names.
+
+VRH v0.3 now accepts explicit strict/fallback; no implicit default at profile layer. Strict behavior unchanged and remains recommended. Invalid policies rejected. No enabling recursive/UMBREL/DURMITOR combinations, Java support or arbitrary branches.
+
+Test fixture: FOR exports 6 into next DOK start, which fails directional validation; rollback restores original start=1 so subsequent ITCH contributes 3, total 9. Assert rollback event, skipped reason, successful=false while traversal complete. Successful fallback has successful=true/skipped=[]; strict stops before later ITCH. Prior stale-export/provenance tests and SPAJA profile tests retained, existing 153 runner tests run. Targeted lint/isolated strict dispatcher compilation/diff check run. Full platform build/CI/Preview/JVM and all import/export combinations unverified.
+
+Review consumers of completed before merge: summary is additive but incomplete traversal semantics can be misunderstood by older consumers. This change does not impose new authorization or audit persistence. Existing docs saying VRH fallback blocked are historical; this document describes enabling it only with isolation changes in this PR. Prior transfer docs' no-rollback limitation is superseded for failed-child workingInput only.
+
+No deployment, payment, persistent data, dependencies/config/workflows. Human review required. Rollback restores earlier input-leak behavior; prefer forward fix. Further tests needed for sequence import, invalid numeric export, repeated failures and global UMBREL/DURMITOR budgets before broader execution claims.

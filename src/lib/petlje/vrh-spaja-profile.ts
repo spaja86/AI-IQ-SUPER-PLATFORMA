@@ -16,7 +16,7 @@ export function validateVrhSpajaRequest(value: unknown): PetljaInput {
   if (!Array.isArray(input.sequence) || input.sequence.length > 1000 || !input.sequence.every(bounded)) throw new Error('Invalid sequence');
   for (const key of ['maxIterations', 'maxDurationMs']) if (!Number.isInteger(input[key]) || (input[key] as number) < 1 || (input[key] as number) > 1000) throw new Error('Budget must be 1..1000');
   if (!['ACTIVATED', 'DISABLED', 'MONSTER', 'DEAD'].includes(input.status as string)) throw new Error('Canonical status required');
-  if (input.spajaTransferPolicy !== 'strict') throw new Error('Only strict transfer enabled; fallback requires provenance review');
+  if (!['strict', 'fallback'].includes(input.spajaTransferPolicy as string)) throw new Error('Explicit strict or fallback policy required');
   if (!['start', 'end', 'target', 'sequence'].includes(input.spajaImportTarget as string)) throw new Error('Invalid import target');
   if (!Array.isArray(input.spajaExportFields) || !input.spajaExportFields.length || input.spajaExportFields.length > 3 || new Set(input.spajaExportFields).size !== input.spajaExportFields.length || !input.spajaExportFields.every(f => ['output', 'iterations', 'warnings-count'].includes(f))) throw new Error('Invalid export fields');
   if (!Array.isArray(input.spajaSegments) || !input.spajaSegments.length || input.spajaSegments.length > 10) throw new Error('Invalid segments');
