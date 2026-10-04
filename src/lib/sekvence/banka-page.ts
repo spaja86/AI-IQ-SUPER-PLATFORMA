@@ -197,11 +197,11 @@ export const bankaSekvence: Sekvenca[] = [
         '🏦 Banka: ERSTE Banka DOO Smederevo',
         '🏢 Vlasnik racuna: Digitalna Industrija',
         '👤 Vlasnik svih racuna: Nikola Spajic',
-        '🪪 Registarski broj licne karte: 015639997',
-        '🆔 JMBG: 0312986850017',
-        '🇷🇸 Dinarski racun (RSD): 025897158',
-        '🇪🇺 Devizni racun (EUR): 038971285',
-        '🇺🇸 Devizni racun (USD): 05364215985',
+        '🪪 Registarski broj licne karte: [REDACTED]',
+        '🆔 Identifikacioni podaci: [REDACTED]',
+        '🇷🇸 Dinarski racun (RSD): [REDACTED]',
+        '🇪🇺 Devizni racun (EUR): [REDACTED]',
+        '🇺🇸 Devizni racun (USD): [REDACTED]',
         '💳 Kartice: Izdate na ERSTE Banka DOO Smederevo',
         '✅ Status: Svi racuni aktivni i operativni',
       ],
@@ -361,7 +361,7 @@ export const bankaSekvence: Sekvenca[] = [
     podnaslov: 'Formalni zahtev upućen svim poslovnim bankama u Republici Srbiji',
     redosled: 21,
     podaci: {
-      sadrzaj: 'Kompanija "Digitalna Industrija" — vlasnik Nikola Spajić, JMBG: 0312986850017 — upućuje formalni zahtev svim bankama u Republici Srbiji za registraciju poslovnih računa, uspostavljanje mesnog poreza i potpisivanje ugovora o poslovnoj saradnji. Cilj: otvaranje dinarskog, dolarskog i evro računa sa odgovarajućim bankarskim karticama u svakoj banci.',
+      sadrzaj: 'Kompanija "Digitalna Industrija" — vlasnik Nikola Spajić, Identifikacioni podaci: [REDACTED] — upućuje formalni zahtev svim bankama u Republici Srbiji za registraciju poslovnih računa, uspostavljanje mesnog poreza i potpisivanje ugovora o poslovnoj saradnji. Cilj: otvaranje dinarskog, dolarskog i evro računa sa odgovarajućim bankarskim karticama u svakoj banci.',
       istaknuteStavke: [
         '🏢 Podnosilac zahteva: Digitalna Industrija — Nikola Spajić',
         '📋 Predmet: Registracija poslovnih računa u svim bankama Srbije',
@@ -443,19 +443,19 @@ export const bankaSekvence: Sekvenca[] = [
       kartice: [
         {
           naslov: '💳 Kartica 1 — Dinarska (RSD)',
-          opis: 'Bankarska kartica za dinarski račun (RSD) — primarni instrument plaćanja u Srbiji. Račun: 025897158. Izdavač: Erste banka DOO Smederevo. Vlasnik: Nikola Spajić.',
+          opis: 'Bankarska kartica za dinarski račun (RSD) — primarni instrument plaćanja u Srbiji. Račun: [REDACTED]. Izdavač: Erste banka DOO Smederevo. Vlasnik: Nikola Spajić.',
           ikona: '🇷🇸',
           oznake: ['RSD', 'Dinarska', 'Erste Smederevo', 'Aktivna'],
         },
         {
           naslov: '💳 Kartica 2 — Evro (EUR)',
-          opis: 'Bankarska kartica za devizni evro račun (EUR) — plaćanja u EU i međunarodne transakcije. Račun: 038971285. Izdavač: Erste banka DOO Smederevo. Vlasnik: Nikola Spajić.',
+          opis: 'Bankarska kartica za devizni evro račun (EUR) — plaćanja u EU i međunarodne transakcije. Račun: [REDACTED]. Izdavač: Erste banka DOO Smederevo. Vlasnik: Nikola Spajić.',
           ikona: '🇪🇺',
           oznake: ['EUR', 'Evro', 'Erste Smederevo', 'Aktivna'],
         },
         {
           naslov: '💳 Kartica 3 — Dolar (USD)',
-          opis: 'Bankarska kartica za devizni dolar račun (USD) — globalna plaćanja i US transakcije. Račun: 05364215985. Izdavač: Erste banka DOO Smederevo. Vlasnik: Nikola Spajić.',
+          opis: 'Bankarska kartica za devizni dolar račun (USD) — globalna plaćanja i US transakcije. Račun: [REDACTED]. Izdavač: Erste banka DOO Smederevo. Vlasnik: Nikola Spajić.',
           ikona: '🇺🇸',
           oznake: ['USD', 'Dolar', 'Erste Smederevo', 'Aktivna'],
         },
@@ -471,9 +471,9 @@ export const bankaSekvence: Sekvenca[] = [
     podaci: {
       zaglavlje: ['Kartica', 'Valuta', 'Broj računa', 'Namena', 'Status'],
       redovi: [
-        ['Dinarska kartica', 'RSD 🇷🇸', '025897158', 'Domaći platni promet, plate, lokalne uplate', '✅ Aktivna'],
-        ['Evro kartica', 'EUR 🇪🇺', '038971285', 'EU transakcije, međunarodna plaćanja', '✅ Aktivna'],
-        ['Dolar kartica', 'USD 🇺🇸', '05364215985', 'Globalne transakcije, US plaćanja, Vercel', '✅ Aktivna'],
+        ['Dinarska kartica', 'RSD 🇷🇸', '[REDACTED]', 'Domaći platni promet, plate, lokalne uplate', 'SIMULACIJA — nije potvrđeno'],
+        ['Evro kartica', 'EUR 🇪🇺', '[REDACTED]', 'EU transakcije, međunarodna plaćanja', 'SIMULACIJA — nije potvrđeno'],
+        ['Dolar kartica', 'USD 🇺🇸', '[REDACTED]', 'Globalne transakcije, US plaćanja, Vercel', 'SIMULACIJA — nije potvrđeno'],
       ],
     },
   },

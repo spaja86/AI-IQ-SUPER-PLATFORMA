@@ -78,6 +78,9 @@ export interface KpiProcesiranja {
 }
 
 export interface AiIqWorldBankProcesiranjeRezultat {
+  environment: 'simulation';
+  settlementVerified: false;
+  paymentsEnabled: false;
   status: 'aktivan';
   sistem: string;
   kompanija: string;
@@ -220,6 +223,9 @@ export function buildAiIqWorldBankProcesiranje(): AiIqWorldBankProcesiranjeRezul
   };
 
   return {
+    environment: 'simulation',
+    settlementVerified: false,
+    paymentsEnabled: false,
     status: 'aktivan',
     sistem: 'AI IQ World Bank — Procesiranje Transakcija',
     kompanija: KOMPANIJA,
