@@ -2,8 +2,11 @@
 import { spawnSync } from 'node:child_process';
 import { getSveKomponente, getKompjuterStatistika, DIGITALNI_KOMPJUTER_EVIDENCE } from '../src/lib/spaja-digitalni-kompjuter';
 import { buildBankPrototypeSummary } from '../src/lib/bank-prototype';
+import { getDigitalniKompjuterToolchain } from '../src/lib/digitalni-kompjuter-toolchain';
 const command = process.argv[2];
-if (command === 'bank-status') {
+if (command === 'toolchain') {
+  console.log(JSON.stringify(getDigitalniKompjuterToolchain(), null, 2));
+} else if (command === 'bank-status') {
   console.log(JSON.stringify(buildBankPrototypeSummary(), null, 2));
 } else if (command === 'inventory') {
   console.log(JSON.stringify({ ...DIGITALNI_KOMPJUTER_EVIDENCE, components: getSveKomponente() }, null, 2));
@@ -18,6 +21,6 @@ if (command === 'bank-status') {
   const result = spawnSync('npm', ['run', 'test:digitalni-kompjuter'], { stdio: 'inherit' });
   process.exitCode = result.status ?? 1;
 } else {
-  console.error('Usage: npm run digitalni-kompjuter -- inventory|status|check|test|bank-status');
+  console.error('Usage: npm run digitalni-kompjuter -- inventory|status|check|test|bank-status|toolchain');
   process.exitCode = 2;
 }
