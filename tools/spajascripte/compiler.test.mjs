@@ -41,3 +41,5 @@ for (const source of ['REPEAT 101 PRINT 1', 'REPEAT -1 PRINT 1', 'REPEAT x PRINT
 const forged = parse('REPEAT 2 PRINT 1');
 for (const count of [Infinity, -1, 101, '2', 1.5]) { forged.statements[0].count = count; assert.throws(() => generateJava(forged)); }
 console.log('PASS: IF/REPEAT semantics, zero/max counts, missing symbols and forged loop rejection.');
+
+assert.throws(() => compile('LOOP {}'), /Java translation is not verified/);

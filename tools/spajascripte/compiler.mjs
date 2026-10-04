@@ -6,6 +6,7 @@ export function parse(source) {
     const text = raw.trim(), line = index + 1;
     if (!text || text.startsWith('#')) continue;
     if (statements.length >= 100) throw new Error('Maximum 100 statements');
+    if (/^LOOP\b/.test(text)) throw new Error('Named loops require reference adapter; Java translation is not verified');
     const declaration = /^LET ([a-z][a-z0-9_]{0,31}) = (.+)$/.exec(text);
     const print = /^PRINT (.+)$/.exec(text);
     const condition = /^IF (.+) > 0 THEN PRINT (.+)$/.exec(text);
