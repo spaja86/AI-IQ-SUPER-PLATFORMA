@@ -1,0 +1,12 @@
+import assert from 'node:assert/strict';
+import { runLocalVerification } from '../../scripts/local-verification.mjs';
+let calls=0;
+const success=(executable,args,options)=>{calls++; assert.equal(options.shell,false); assert.equal(options.timeout,30000); assert.equal(options.maxBuffer,65536); assert.deepEqual(Object.keys(options.env).sort(),['HOME','LANG','PATH']); assert(args[1].startsWith('src/tests/lib/')); return {status:0};};
+const report=runLocalVerification(process.cwd(),{execute:true,suite:'reference-tests'},success);
+assert.equal(calls,5); assert.equal(report.passed,true); assert.equal(report.javaBuildVerified,false); assert.equal(report.nextBuildVerified,false);
+for(const options of [{}, {execute:false,suite:'reference-tests'},{execute:true,suite:'next-build'},{execute:true,suite:'reference-tests',command:'anything'}]) assert.throws(()=>runLocalVerification(process.cwd(),options,success));
+calls=0;
+const failed=runLocalVerification(process.cwd(),{execute:true,suite:'reference-tests'},()=>{calls++;return{status:1};});
+assert.equal(calls,1);assert.equal(failed.passed,false);assert.equal(failed.skipped.length,4);
+for(const result of [{status:null,signal:'SIGTERM'},{error:{code:'ETIMEDOUT'}},{}]) assert.equal(runLocalVerification(process.cwd(),{execute:true,suite:'reference-tests'},()=>result).results[0].status,'execution-error');
+console.log('PASS: fixed-suite opt-in, no arbitrary commands, failure stop, error/timeout reporting and no build claims');
