@@ -29,3 +29,8 @@ No encryption currently implemented and no key requested. Next phase: authentica
 
 ## Next steps
 Confirm JDK build/run, then add typed AST validation, functions/control flow and resource isolation in separate reviewed iterations. Real graphics/VR remain separate. Existing platform type errors are not fixed by this prototype. Human review before merge; rollback removes standalone tools/spajascripte only. No dependencies/config/workflows modified or cross-repo raw-data synchronization.
+
+## AST pipeline update
+Parser now exports structured program/statement/integer/identifier nodes with source line numbers. Validator checks externally supplied AST, declared-before-use immutable names, integer types and intermediate addition overflow. generateJava always validates AST; callers cannot inject raw Java expressions. compile remains compatible and additionally returns AST and validated statements. All arithmetic remains int32-only; functions, loops and encryption are not implemented.
+
+Local parser/AST/generator tests and JS syntax checks pass. JVM still unavailable here; integration explicitly skipped. Full platform build/CI not verified. Intermediate overflow now fails even when a later negative term would bring the final sum back into range. This is intentional checked-arithmetic behavior, not Java wraparound.
