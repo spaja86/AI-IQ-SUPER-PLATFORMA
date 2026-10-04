@@ -194,3 +194,10 @@ NOTES final status aggregation contextually typed. This changes previously undef
 inputs and requires report-runtime review before merge. Diagnostic suites pass;
 targeted lint had 0 errors/11 warnings. Whole-project diagnostics: 248; compilation
 still fails. Full runtime/build validation not performed.
+
+## Runtime review and public projection correction
+EXTREM suite: 101 pass/0 fail. EXTRONDOL initially 63 pass/1 fail: the shared mapper
+introduced technicalReadinessBinding into public SPAJA KOD in #1297. Separate public
+projection now removes that internal binding, while governance retains it.
+EXTRONDOL rerun: 64 pass/0 fail; targeted lint/diff check pass. No production
+exposure verified. No fresh full typecheck; last run 248 diagnostics, still failing.
