@@ -1,0 +1,4 @@
+# Spajascripte v0.1 — Java target
+LET first = 20
+LET second = first + 22
+PRINT second
