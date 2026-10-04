@@ -1,0 +1,9 @@
+# SPAJA digital computer local work protocol v1
+
+User approved executable prototype, not more catalog. `node scripts/computer-work-protocol.mjs --execute reference-tests <expected40hexRevision>` validates exact work mušema (version/service/expectedRevision), requires explicit local opt-in and clean matching checkout, then executes existing fixed five-check evidence service. States queued→running→passed/failed/blocked; cancelled only before start. UUID/history and original revision/digest evidence included; report passed only for selected tests with stable expected source. No persistent queue, concurrent scheduler, mid-run cancellation, server authentication or production API. State history is returned after synchronous completion, not live streaming UI.
+
+Clean Git gate/digest limits inherited; unsigned evidence not authentic signature. Local opt-in not identity permission; trusted checkout/dependencies required. Test dependency injection is internal seam, not public untrusted executor input. Source program cannot supply shell commands or switch services. Java/Next excluded. No automatic digital-computer browser execution, JDK provisioning, storage or SPAJA SERVER build worker. Existing server metadata remains separate.
+
+Unit tests exercise states/failure/cancellation/opt-in/revision gating. Real clean local job executed after commit; selected five tests outcome reported separately. JS syntax/diff checks. Full build/CI/Preview/JVM/browser orchestration unverified.
+
+Run output saved outside repo by operator if desired. No secrets/raw process output or persistent mutations. Review before merge; no deployment/payment/config/dependency/workflow changes. Rollback removes standalone local protocol/test/docs. Next reviewed storage/identity/worker design is required for production service; do not claim current local job is server service or all projects active.

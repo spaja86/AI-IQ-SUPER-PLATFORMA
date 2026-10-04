@@ -1,0 +1,16 @@
+import assert from 'node:assert/strict';
+import { runComputerJob, validateWorkRequest } from '../../scripts/computer-work-protocol.mjs';
+const revision='a'.repeat(40), request={version:'v1',service:'reference-tests',expectedRevision:revision};
+let ran=0;
+const services={readCheckout:()=>({revision,dirty:false}),createRevisionEvidence:()=>{ran++;return{checkout:{revision},checkoutAfter:{revision},sourceStable:true,checks:{passed:true}};}};
+const good=runComputerJob('.',request,{execute:true},services);
+assert.equal(good.state,'passed');assert.deepEqual(good.history,['queued','running','passed']);assert.equal(good.serverAuthorized,false);
+ran=0;
+for(const control of [{},{execute:false},{execute:true,command:'anything'}]) assert.equal(runComputerJob('.',request,control,services).state,'blocked');
+assert.equal(runComputerJob('.',request,{execute:true,cancelBeforeStart:true},services).state,'cancelled');assert.equal(ran,0);
+assert.equal(runComputerJob('.',request,{execute:true},{...services,readCheckout:()=>({revision,dirty:true})}).state,'blocked');
+assert.equal(runComputerJob('.',request,{execute:true},{...services,createRevisionEvidence:()=>{throw Error('failure');}}).state,'failed');
+assert.equal(runComputerJob('.',request,{execute:true},{...services,createRevisionEvidence:()=>({checkout:{revision},checkoutAfter:{revision},sourceStable:false})}).state,'blocked');
+assert.equal(runComputerJob('.',request,{execute:true},{...services,createRevisionEvidence:()=>({checkout:{revision},checkoutAfter:{revision},sourceStable:true,checks:{passed:false}})}).state,'failed');
+assert.throws(()=>validateWorkRequest({...request,service:'next-build'}));assert.throws(()=>validateWorkRequest({...request,command:'shell'}));
+console.log('PASS: work mušema, state transitions, opt-in, pre-start cancellation, revision gates and failure outcomes');
