@@ -1,0 +1,11 @@
+import assert from 'node:assert/strict';
+import { existsSync } from 'node:fs';
+import { getDigitalniKompjuterToolchain } from '../../lib/digitalni-kompjuter-toolchain';
+const report=getDigitalniKompjuterToolchain();
+assert.equal(report.executionEnabled,false); assert.equal(report.runtimeVerified,false);
+assert.equal(report.javaBuildVerified,false);assert.equal(report.nextBuildVerified,false);
+assert.equal(report.evidence.status,'not-attached');assert.equal(report.evidence.sourceRevision,null);
+assert.equal(new Set(report.modules.map(m=>m.id)).size,5);
+assert(report.modules.every(m=>existsSync(m.reference)));
+assert.deepEqual(report,getDigitalniKompjuterToolchain());
+console.log('PASS: linked documentation, unique modules, no live-evidence/build/execution claims');
