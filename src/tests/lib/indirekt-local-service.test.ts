@@ -1,0 +1,10 @@
+import assert from 'node:assert/strict';
+import { runIndirektLocalService } from '../../../scripts/indirekt-local-service';
+import { dispatchVrhLoop } from '../../lib/petlje/vrh-dispatcher';
+import { runIndirektPetlja } from '../../lib/petlje';
+const input={start:0,target:5,sequence:[1,3,5],maxIterations:100,maxDurationMs:1000,status:'ACTIVATED' as const};
+const request={kind:'loop-call',version:'0.2',name:'INDIREKT PETLJA',input};
+assert.equal(runIndirektLocalService(process.cwd(),request,{execute:false,expectedRevision:'a'.repeat(40)}).state,'blocked');
+const direct=runIndirektPetlja(input),result=dispatchVrhLoop(request,'reference');
+for(const field of ['output','iterations','reason','status','trace'] as const) assert.deepEqual(result[field],direct[field]);
+console.log('PASS: INDIREKT waypoint parity and explicit service opt-in');
