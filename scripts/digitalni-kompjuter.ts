@@ -1,11 +1,21 @@
 import { getSpajaServerControlPlane } from '../src/lib/spaja-server-control-plane';
-/** Read-only local diagnostics. No network, deployment or payment operations. */
+/** Read-only diagnostics plus explicit opt-in local numerical execution. No deployment or payments. */
 import { spawnSync } from 'node:child_process';
 import { getSveKomponente, getKompjuterStatistika, DIGITALNI_KOMPJUTER_EVIDENCE } from '../src/lib/spaja-digitalni-kompjuter';
 import { buildBankPrototypeSummary } from '../src/lib/bank-prototype';
 import { getDigitalniKompjuterToolchain } from '../src/lib/digitalni-kompjuter-toolchain';
+import { runKreatorijumLocalCommand } from '../src/lib/kreatorijum-local-service';
 const command = process.argv[2];
-if (command === 'server') {
+if (command === 'indirekt-plan' || command === 'indirekt-run') {
+  try {
+    const report = runKreatorijumLocalCommand(process.cwd(), process.argv.slice(2));
+    console.log(JSON.stringify(report, null, 2));
+    if ('numericalOutputUsable' in report && !report.numericalOutputUsable) process.exitCode = 1;
+  } catch (error) {
+    console.error(error instanceof Error ? error.message : 'Local reference command failed');
+    process.exitCode = 2;
+  }
+} else if (command === 'server') {
   console.log(JSON.stringify(getSpajaServerControlPlane(), null, 2));
 } else if (command === 'evidence') {
   const file = process.argv[3];
@@ -31,6 +41,6 @@ if (command === 'server') {
   const result = spawnSync('npm', ['run', 'test:digitalni-kompjuter'], { stdio: 'inherit' });
   process.exitCode = result.status ?? 1;
 } else {
-  console.error('Usage: npm run digitalni-kompjuter -- inventory|status|check|test|bank-status|toolchain|evidence|server');
+  console.error('Usage: npm run digitalni-kompjuter -- inventory|status|check|test|bank-status|toolchain|evidence|server|indirekt-plan <input-json>|indirekt-run <input-json> --execute');
   process.exitCode = 2;
 }
