@@ -312,7 +312,7 @@ export function buildAiIdentityFinanceGovernancePackage(
         finopsGuardrailsRequired: true as const,
         payoutCompensationMode: 'premium-rollout-regime' as const,
         masterBillingCycle: 'monthly-or-annual' as const,
-        weeklyTargetEur: 12000,
+        weeklyTargetEur: 12000 as const,
         status: personaStatus,
         blockers,
         publicSummary: 'Audit-safe AI identity-finance governance only; no real account numbers, raw statements, secrets, or KYC data are stored in Git.',
