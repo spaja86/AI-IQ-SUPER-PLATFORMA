@@ -1,7 +1,7 @@
 // SpajaUltraOmegaCore -∞Ω+∞ — AI IQ PROGRAMSKI JEZIK
 // Kompanija SPAJA — Digitalna Industrija
 
-export { evaluateAiiqLanguage, compileAiiqLanguage, getAiiqLanguageHealthReport, _resetAiiqLanguageMetrics } from './engine';
+export { evaluateAiiqLanguage, compileAiiqLanguage, getAiiqLanguageHealthReport, getAiiqVrhProgramskogEkviladentaProfile, _resetAiiqLanguageMetrics } from './engine';
 export { setAiiqLanguageHeaders } from './route-utils';
 
 export type {
@@ -17,6 +17,7 @@ export type {
   AiiqLanguageHealthReport,
   AiiqLanguageMode,
   AiiqLanguageStatus,
+  AiiqVrhProgramskogEkviladentaProfile,
 } from './types';
 
 export {

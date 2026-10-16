@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { dohvatiSesiju } from '@/lib/auth/omega-session-client';
+import VrCapabilityCheck from '@/components/VrCapabilityCheck';
 
 type DeploymentSummary = { rezim: string; napomena: string; deploymenti: Array<{ id: string; naziv: string; state: string; checkedAt: string; source: string; message: string; alert: string; alertMessage: string | null }>; incidenti: Array<{ level: string; platformId: string; naziv: string; message: string; checkedAt: string; checklist: string[]; reviewStatus: string; owner: string; note: string; nextAction: string }> };
 
@@ -16,6 +17,8 @@ type Status = {
   napomena: string;
   statistika: { ukupnoKomponenti: number; aktivnihKomponenti: number; ukupnoKompjutera: number; ukupnoKonzola: number };
   komponente: Array<{ id: string; naziv: string; status: string }>;
+  aiIqVrh: { canonicalScope: string; markanAlias: string; dslProfile: string; executionMode: string; readinessStatus: string; markanStatus: string; automatizacijaProgramskogJezikaStatus: string; explanation: string };
+  digitalniBrouvzer: { naziv: string; verzija: string; ekstremniRezim: string; aktivnihModula: number; ukupnoModula: number; gamingIntegration: string; browserUrl: string; gamingUrl: string; napomena: string };
   timestamp: string;
 };
 
@@ -72,10 +75,31 @@ export default function DigitalniKompjuterControlCenter() {
       <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         {metrike.map(([naziv, vrednost]) => <div key={String(naziv)} className="rounded-xl border border-slate-700 bg-slate-900 p-5"><p className="text-sm text-slate-400">{naziv}</p><p className="mt-2 text-3xl font-bold text-cyan-200">{vrednost}</p></div>)}
       </div>
+      <div className="mt-6 rounded-xl border border-cyan-500/30 bg-slate-900 p-5">
+        <h2 className="text-lg font-semibold text-white">AI IQ Programski Jezik — VRH profil</h2>
+        <p className="mt-2 text-sm text-amber-100">{status.aiIqVrh.explanation}</p>
+        <dl className="mt-4 grid gap-3 text-sm sm:grid-cols-3">
+          <div><dt className="text-slate-400">VRH status</dt><dd className="font-semibold text-cyan-200">{status.aiIqVrh.readinessStatus}</dd></div>
+          <div><dt className="text-slate-400">MARKAN status</dt><dd className="font-semibold text-cyan-200">{status.aiIqVrh.markanStatus}</dd></div>
+          <div><dt className="text-slate-400">Automatizacija jezika</dt><dd className="font-semibold text-cyan-200">{status.aiIqVrh.automatizacijaProgramskogJezikaStatus}</dd></div>
+        </dl>
+        <p className="mt-4 text-xs text-slate-400">{status.aiIqVrh.canonicalScope} · {status.aiIqVrh.dslProfile} · {status.aiIqVrh.executionMode}</p>
+      </div>
       <div className="mt-6 rounded-xl border border-slate-700 bg-slate-900 p-5">
         <h2 className="text-lg font-semibold text-white">Deklarisano aktivne komponente</h2>
         <ul className="mt-4 grid gap-2 sm:grid-cols-2">{status.komponente.map((komponenta) => <li key={komponenta.id} className="rounded-lg bg-slate-800 px-3 py-2 text-sm text-slate-200">{komponenta.naziv} <span className="text-cyan-300">({komponenta.status})</span></li>)}</ul>
       </div>
+      <section className="mt-6 rounded-xl border border-cyan-500/30 bg-slate-900 p-5">
+        <h2 className="text-lg font-semibold text-white">Digitalni Brouvzer i igrice</h2>
+        <p className="mt-2 text-sm text-slate-300">{status.digitalniBrouvzer.gamingIntegration}</p>
+        <p className="mt-2 text-xs text-slate-400">{status.digitalniBrouvzer.naziv} v{status.digitalniBrouvzer.verzija} · {status.digitalniBrouvzer.ekstremniRezim} · aktivni moduli: {status.digitalniBrouvzer.aktivnihModula}/{status.digitalniBrouvzer.ukupnoModula}</p>
+        <div className="mt-4 flex flex-wrap gap-3">
+          <a href={status.digitalniBrouvzer.browserUrl} className="rounded-lg border border-cyan-400 px-4 py-2 text-sm font-semibold text-cyan-200">Otvori Digitalni Brouvzer</a>
+          <a href={status.digitalniBrouvzer.gamingUrl} className="rounded-lg bg-cyan-600 px-4 py-2 text-sm font-semibold text-white">Otvori gaming platformu</a>
+        </div>
+        <p className="mt-3 text-xs text-amber-100">{status.digitalniBrouvzer.napomena}</p>
+      </section>
+      <VrCapabilityCheck />
       {deploymenti && <div className="mt-6 rounded-xl border border-slate-700 bg-slate-900 p-5">
         <h2 className="text-lg font-semibold text-white">Vercel deployment sažetak</h2>
         <p className="mt-2 text-sm text-amber-100">{deploymenti.napomena}</p>
