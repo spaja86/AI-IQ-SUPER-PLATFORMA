@@ -14,7 +14,7 @@ type Status = {
   naziv: string;
   rezim: string;
   napomena: string;
-  statistika: { ukupnoKomponenti: number; aktivnihKomponenti: number; ukupnoKompjutera: number; ukupnoKonzola: number };
+  statistika: { ukupnoKomponenti: number; aktivnihKomponenti: null; deklarisanoAktivnihKomponenti: number; ukupnoKompjutera: number; ukupnoKonzola: number };
   komponente: Array<{ id: string; naziv: string; status: string }>;
   timestamp: string;
 };
@@ -59,7 +59,7 @@ export default function DigitalniKompjuterControlCenter() {
 
   const metrike = [
     ['Komponente', status.statistika.ukupnoKomponenti],
-    ['Deklarisano aktivne', status.statistika.aktivnihKomponenti],
+    ['Deklarisano aktivne', status.statistika.deklarisanoAktivnihKomponenti],
     ['Tipovi sistema', status.statistika.ukupnoKompjutera],
     ['Konzole', status.statistika.ukupnoKonzola],
   ];
@@ -73,7 +73,7 @@ export default function DigitalniKompjuterControlCenter() {
         {metrike.map(([naziv, vrednost]) => <div key={String(naziv)} className="rounded-xl border border-slate-700 bg-slate-900 p-5"><p className="text-sm text-slate-400">{naziv}</p><p className="mt-2 text-3xl font-bold text-cyan-200">{vrednost}</p></div>)}
       </div>
       <div className="mt-6 rounded-xl border border-slate-700 bg-slate-900 p-5">
-        <h2 className="text-lg font-semibold text-white">Deklarisano aktivne komponente</h2>
+        <h2 className="text-lg font-semibold text-white">Deklarisane komponente</h2>
         <ul className="mt-4 grid gap-2 sm:grid-cols-2">{status.komponente.map((komponenta) => <li key={komponenta.id} className="rounded-lg bg-slate-800 px-3 py-2 text-sm text-slate-200">{komponenta.naziv} <span className="text-cyan-300">({komponenta.status})</span></li>)}</ul>
       </div>
       {deploymenti && <div className="mt-6 rounded-xl border border-slate-700 bg-slate-900 p-5">

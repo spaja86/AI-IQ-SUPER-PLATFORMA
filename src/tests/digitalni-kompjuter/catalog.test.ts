@@ -8,7 +8,7 @@ const components = getSveKomponente();
 assert.equal(new Set(components.map(c => c.id)).size, components.length);
 assert(components.some(c => c.id === 'spaja-dzojstici'));
 assert.equal(getKompjuterStatistika().ukupnoKomponenti, components.length);
-assert.equal(getKompjuterStatistika().aktivnihKomponenti, getAktivneKomponente().length);
+assert.equal(getKompjuterStatistika().deklarisanoAktivnihKomponenti, getAktivneKomponente().length);
 function user(app: unknown, editable: unknown = 999) {
   return { app_metadata: { clearanceLevel: app }, user_metadata: { clearanceLevel: editable } } as unknown as User;
 }

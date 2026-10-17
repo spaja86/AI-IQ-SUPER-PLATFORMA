@@ -1,3 +1,4 @@
+import { getSpajaServerControlPlane } from '@/lib/spaja-server-control-plane';
 import { DIGITALNI_KOMPJUTER_EVIDENCE } from '@/lib/spaja-digitalni-kompjuter';
 import { NextResponse } from 'next/server';
 import {
@@ -19,12 +20,14 @@ export async function GET() {
 
   return NextResponse.json({
     status: 'deklarisano',
+    server: getSpajaServerControlPlane(),
     ...DIGITALNI_KOMPJUTER_EVIDENCE,
     naziv: 'SPAJA Digitalni Kompjuter — Kompletni digitalni kompjuter sa svim komponentama',
     verzija: APP_VERSION,
 
     kompjuter: {
       ukupnoKomponenti: sistem.statistika.ukupnoKomponenti,
+      deklarisanoAktivnihKomponenti: sistem.statistika.deklarisanoAktivnihKomponenti,
       aktivnihKomponenti: sistem.statistika.aktivnihKomponenti,
       ukupnoKompjutera: sistem.statistika.ukupnoKompjutera,
       ukupnoKonzola: sistem.statistika.ukupnoKonzola,
@@ -42,7 +45,7 @@ export async function GET() {
         id: k.id,
         naziv: k.naziv,
         ikona: k.ikona,
-        status: k.status,
+        status: k.status, statusScope: k.statusScope,
         link: k.link,
       })),
 
@@ -51,7 +54,7 @@ export async function GET() {
         naziv: k.naziv,
         tip: k.tip,
         ikona: k.ikona,
-        status: k.status,
+        status: k.status, statusScope: k.statusScope,
         link: k.link,
         dzojsticiLink: k.dzojsticiLink,
       })),
@@ -61,6 +64,7 @@ export async function GET() {
         naziv: sistem.dzojstici.naziv,
         ikona: sistem.dzojstici.ikona,
         status: sistem.dzojstici.status,
+        statusScope: sistem.dzojstici.statusScope,
         link: sistem.dzojstici.link,
       },
     },

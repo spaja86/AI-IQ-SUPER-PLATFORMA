@@ -1074,8 +1074,8 @@ export default function BrouvzerViewer({ url, igra, igricaId }: Props) {
           ⚙️ <span className="text-yellow-400 font-bold">CPU×2 CIP×2</span>
         </span>
         <span className="text-gray-600">|</span>
-        <span className="text-gray-400" title={`Kompjuter: ${getKompjuterStatistika().ukupnoKomponenti} komponenti aktivan`}>
-          ✅ <span className="text-green-400 font-bold">{getKompjuterStatistika().aktivnihKomponenti}</span>/{getKompjuterStatistika().ukupnoKomponenti} aktivan
+        <span className="text-gray-400" title={`Kompjuter: ${getKompjuterStatistika().ukupnoKomponenti} deklarisanih komponenti; dostupnost nije merena`}>
+          📋 <span className="text-cyan-400 font-bold">{getKompjuterStatistika().deklarisanoAktivnihKomponenti}</span>/{getKompjuterStatistika().ukupnoKomponenti} deklarisano aktivno
         </span>
       </div>
 

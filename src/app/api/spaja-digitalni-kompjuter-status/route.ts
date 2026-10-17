@@ -1,3 +1,4 @@
+import { getSpajaServerControlPlane } from '@/lib/spaja-server-control-plane';
 import { DIGITALNI_KOMPJUTER_EVIDENCE } from '@/lib/spaja-digitalni-kompjuter';
 import { NextResponse } from 'next/server';
 import { spajaDigitalniKompjuterSistem, getSveKomponente } from '@/lib/spaja-digitalni-kompjuter';
@@ -6,21 +7,23 @@ import { APP_VERSION, AUTOFINISH_COUNT, AUTOFINISH_TARGET } from '@/lib/constant
 export async function GET() {
   const sistem = spajaDigitalniKompjuterSistem;
   const sveKomponente = getSveKomponente();
-  const aktivnih = sveKomponente.filter((k) => k.status === 'aktivan').length;
 
   return NextResponse.json({
     status: 'deklarisano',
+    server: getSpajaServerControlPlane(),
     ...DIGITALNI_KOMPJUTER_EVIDENCE,
     naziv: 'SPAJA Digitalni Kompjuter — Status',
     verzija: APP_VERSION,
 
     zdravlje: {
       ukupnoKomponenti: sveKomponente.length,
-      aktivnihKomponenti: aktivnih,
-      procenatAktivnih: Math.round((aktivnih / sveKomponente.length) * 100),
+      deklarisanoAktivnihKomponenti: sistem.statistika.deklarisanoAktivnihKomponenti,
+      aktivnihKomponenti: null,
+      procenatAktivnih: null,
       kompjuterTipovi: sistem.kompjuteri.map((k) => ({ naziv: k.naziv, tip: k.tip })),
-      konzoleStatus: sistem.konzole.map((k) => ({ naziv: k.naziv, tip: k.tip, status: k.status })),
+      konzoleStatus: sistem.konzole.map((k) => ({ naziv: k.naziv, tip: k.tip, status: k.status, statusScope: k.statusScope })),
       dzojsticiStatus: sistem.dzojstici.status,
+      statusScope: 'declaration-only',
     },
 
     autofinish: {

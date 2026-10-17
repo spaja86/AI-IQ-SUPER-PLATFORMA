@@ -7,7 +7,7 @@ import { getDigitalniKompjuterToolchain } from '@/lib/digitalni-kompjuter-toolch
 
 export const metadata: Metadata = {
   title: 'SPAJA Digitalni Kompjuter — AI IQ SUPER PLATFORMA',
-  description: 'Kompletni digitalni kompjuter sa svim SPAJA komponentama — Maticna Ploca, Server, Procesor, GPU, Graficka, RAM, Hard Disk, BIOS, konzole i dzojstici — sve pokretano od SPAJA Generator za Endzine',
+  description: 'Deklarisani katalog digitalnog kompjutera sa svim SPAJA komponentama — Maticna Ploca, Server, Procesor, GPU, Graficka, RAM, Hard Disk, BIOS, konzole i dzojstici — razvojne mogućnosti; dostupnost i izvršavanje nisu potvrđeni',
 };
 
 export default function SpajaDigitalniKompjuter() {
@@ -19,6 +19,6 @@ export default function SpajaDigitalniKompjuter() {
     <ul>{toolchain.modules.map(module => <li key={module.id}><strong>{module.name}</strong>: {module.role} — {module.status}</li>)}</ul>
     <p>CLI pregled: npm run digitalni-kompjuter -- toolchain</p>
     <p>Odvojena, eksplicitna lokalna provera: node scripts/local-verification.mjs --execute reference-tests</p>
-  </section><section className="mx-auto max-w-5xl p-6"><h2>SPAJA SERVER</h2><p>Runtime: {server.runtime}. Konfiguracija: {server.configurationStatus}. Dostupnost nije potvrđena.</p><p>JDK i build worker nisu implementirani; nema automatskog izvršavanja.</p><ul>{server.adapters.map(adapter => <li key={adapter.id}>{adapter.id}: {adapter.configured ? 'konfiguracija prisutna' : 'nekonfigurisan'}</li>)}</ul></section><StranicaRenderer sekvence={spajaDigitalniKompjuterSekvence} /></>;
+  </section><section className="mx-auto max-w-5xl p-6"><h2>SPAJA SERVER</h2><p>Runtime: {server.runtime}. Konfiguracija: {server.configurationStatus}. Dostupnost nije potvrđena.</p><p>Izmerena dostupnost: nije merena. Potvrđena sposobnost izvršavanja: nije potvrđena. Prisustvo konfiguracije ne dokazuje rad servisa.</p><p>JDK i build worker nisu implementirani; nema automatskog izvršavanja.</p><ul>{server.adapters.map(adapter => <li key={adapter.id}>{adapter.id}: {adapter.configured ? 'konfiguracija prisutna' : 'nekonfigurisan'}</li>)}</ul></section><StranicaRenderer sekvence={spajaDigitalniKompjuterSekvence} /></>;
 
 }
