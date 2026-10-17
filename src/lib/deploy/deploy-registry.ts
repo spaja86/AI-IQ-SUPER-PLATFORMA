@@ -7,6 +7,12 @@
  * Jedan izvor istine za deploy-platforma hub.
  */
 
+/** Provider capabilities are separate from legacy Vercel project metadata. */
+export const deploymentProviders = {
+  vercel: { scope: 'remote-hook', executionDefault: 'existing-gates', resultVerification: 'not-verified', rollback: 'unsupported' },
+  'spaja-local': { scope: 'dev-fixture-only', executionDefault: 'disabled', resultVerification: 'local-artifact', rollback: 'verified-session-release' },
+} as const;
+
 export type DeployEnvironment = 'dev' | 'staging' | 'production';
 export type DeployPlatformStatus = 'aktivan' | 'u_pripremi' | 'neaktivan' | 'greska';
 

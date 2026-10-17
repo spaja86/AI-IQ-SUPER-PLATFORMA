@@ -8,6 +8,7 @@ import { APP_VERSION } from '@/lib/constants';
 export const dynamic = 'force-dynamic';
 
 interface TriggerBody {
+  provider?: unknown;
   platformId?: unknown;
   environment?: unknown;
   confirmToken?: unknown;
@@ -38,6 +39,12 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: 'Neispravan JSON body' }, { status: 400 });
   }
 
+  if (!body || typeof body !== 'object' || Array.isArray(body)) {
+    return NextResponse.json({ error: 'JSON body mora biti objekat' }, { status: 400 });
+  }
+  if (body.provider !== undefined && body.provider !== 'vercel') {
+    return NextResponse.json({ error: 'This HTTP route supports only Vercel. Local prototype execution is offline only.' }, { status: 400 });
+  }
   const { platformId, environment, confirmToken } = body;
 
   if (typeof platformId !== 'string' || !platformId.trim()) {

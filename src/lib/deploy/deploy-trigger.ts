@@ -1,6 +1,7 @@
 /**
  * Deploy Trigger — AI IQ SUPER PLATFORMA
  *
+ * Vercel compatibility entry point; explicit provider selection: provider-adapters.ts.
  * Server-side funkcija za pokretanje deploymenta putem Vercel deploy hook-ova.
  * Zahteva odgovarajući VERCEL_DEPLOY_HOOK_* env var konfigurisan za platformu.
  *

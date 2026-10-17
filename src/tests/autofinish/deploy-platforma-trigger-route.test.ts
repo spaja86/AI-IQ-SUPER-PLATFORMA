@@ -65,6 +65,15 @@ async function runTests(): Promise<void> {
     finally { process.env.OMEGA_JWT_SECRET = secret; }
   });
 
+  await test('rejects offline providers and invalid JSON body shapes', async () => {
+    for (const provider of ['spaja-local', 'unknown', null]) {
+      assert((await POST(makeRequest({ provider, platformId: 'ai-iq-super-platforma', environment: 'dev' }) as never)).status === 400, 'must not trigger Vercel');
+    }
+    for (const body of [null, [], 1, 'spaja-local']) {
+      assert((await POST(makeRequest(body) as never)).status === 400, 'must reject invalid shape');
+    }
+  });
+
   await test('vraća 400 kada platformId nedostaje', async () => {
     const response = await POST(makeRequest({ environment: 'staging' }) as never);
     assert(response.status === 400, `očekivan status 400, dobijen ${response.status}`);
