@@ -67,7 +67,9 @@ async function runTests(): Promise<void> {
       headers: { 'x-forwarded-for': '127.0.1.10' },
     });
 
-    const response = await GET(request as unknown as NextRequest, {} as unknown as Parameters<typeof GET>[1]);
+    const response = await GET(request as unknown as NextRequest, {
+      params: Promise.resolve({ id: 'missing-milestone' }),
+    });
     assert(response.status >= 200 && response.status < 600, `Neočekivan status: ${response.status}`);
 
     const xAppVersion = response.headers.get('X-App-Version');
