@@ -33,7 +33,12 @@ export const wagmiConfig = createConfig({
   chains: [polygon, polygonAmoy],
   connectors: [
     injected(),
-    walletConnect({ projectId: WALLETCONNECT_PROJECT_ID }),
+    // createConfig eagerly runs connector.setup(), even with ssr: true.
+    // WalletConnect's bundled storage needs IndexedDB during that setup.
+    // Keep it out of SSR and browsers without IndexedDB; injected still works.
+    ...(typeof window !== 'undefined' && typeof indexedDB !== 'undefined'
+      ? [walletConnect({ projectId: WALLETCONNECT_PROJECT_ID })]
+      : []),
   ],
   transports: {
     [polygon.id]: http(
