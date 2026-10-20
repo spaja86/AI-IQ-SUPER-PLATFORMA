@@ -10,6 +10,46 @@ import { DatabaseSync } from 'node:sqlite';
 import { PilotStore } from '../../lib/suoc-pilot/store';
 import { tick } from '../../lib/suoc-pilot/worker';
 import { PILOT_EXAMPLE, validatePlan } from '../../lib/suoc-pilot/plan';
+import { OMEGA_SKELETON } from '../../lib/suoc-pilot/omega';
+import { startPilot } from '../../lib/suoc-pilot/server';
+
+test('Omega inventory has unique modules, resolvable links and explicit planned boundaries', () => {
+  const { modules, links } = OMEGA_SKELETON;
+  const ids = new Set(modules.map(module => module.id));
+  assert.equal(ids.size, modules.length);
+  assert.equal(new Set(links.map(link => `${link.from}:${link.to}`)).size, links.length);
+  for (const link of links) {
+    assert.ok(ids.has(link.from) && ids.has(link.to));
+    assert.notEqual(link.from, link.to);
+    if (link.state === 'local') {
+      assert.notEqual(modules.find(module => module.id === link.from)?.state, 'planned');
+      assert.notEqual(modules.find(module => module.id === link.to)?.state, 'planned');
+    }
+  }
+  for (const id of ['bank', 'nbs', 'cloud', 'agents', 'games']) {
+    assert.equal(modules.find(module => module.id === id)?.state, 'planned');
+  }
+  assert.ok(links.length < OMEGA_SKELETON.referenceConnectionTarget);
+});
+
+test('Omega assets and read-only API retain local security boundaries and never create a run', async () => {
+  const directory = mkdtempSync(join(tmpdir(), 'suoc-omega-test-'));
+  const app = await startPilot({ database: join(directory, 'pilot.sqlite'), port: 0, assets: resolve('pilot/suoc') });
+  const headers = { 'X-SUOC-Pilot': '1' };
+  try {
+    for (const path of ['/omega', '/omega.css', '/omega.js']) {
+      const response = await fetch(app.origin + path);
+      assert.equal(response.status, 200);
+      assert.match(response.headers.get('content-security-policy')!, /default-src 'none'/);
+      assert.ok((await response.text()).length > 0);
+    }
+    assert.equal((await fetch(app.origin + '/api/omega')).status, 403);
+    assert.equal((await fetch(app.origin + '/api/omega', { headers: { ...headers, Origin: 'https://example.invalid' } })).status, 403);
+    assert.deepEqual(await (await fetch(app.origin + '/api/omega', { headers })).json(), OMEGA_SKELETON);
+    assert.equal((await fetch(app.origin + '/api/omega', { method: 'POST', headers })).status, 404);
+    assert.deepEqual(await (await fetch(app.origin + '/api/runs', { headers })).json(), []);
+  } finally { await app.close(); rmSync(directory, { recursive: true, force: true }); }
+});
 
 function fixture() {
   const directory = mkdtempSync(join(tmpdir(), 'suoc-pilot-test-'));

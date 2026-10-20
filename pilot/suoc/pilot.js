@@ -18,7 +18,7 @@ function updateControls() {
     button.disabled = actionBusy || !allowed;
   }
 }
-function invalidateDetail() { visibleRun = null; $('detail').hidden = true; updateControls(); }
+function invalidateDetail() { visibleRun = null; $('detail').hidden = true; if ($('command-target')) $('command-target').textContent = 'Izabrani zadatak još nije potvrđen.'; updateControls(); }
 function selectRun(id) { selected = id; viewVersion++; invalidateDetail(); void refresh(); }
 async function action(fn) {
   if (actionBusy) return;
@@ -55,6 +55,7 @@ async function refresh() {
     if (data) {
       const run = data.run;
       visibleRun = run;
+      if ($('command-target')) $('command-target').textContent = `Izabrani zadatak: ${run.name}`;
       $('detail').hidden = false; $('detail-title').textContent = run.name; badge($('run-status'), run.status);
       const done = run.steps.filter(step => step.status === 'succeeded').length;
       $('progress').textContent = `${done}/${run.steps.length} uspešnih koraka = ${Math.round(done / run.steps.length * 100)}% ovog zadatka.`;

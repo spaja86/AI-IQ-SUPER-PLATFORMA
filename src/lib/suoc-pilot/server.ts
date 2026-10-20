@@ -4,6 +4,7 @@ import { resolve } from 'node:path';
 import { PILOT_EXAMPLE, PILOT_LIMITS } from './plan';
 import { PilotStore } from './store';
 import { tick } from './worker';
+import { OMEGA_SKELETON } from './omega';
 
 export async function startPilot(options: { database: string; port: number; assets: string; intervalMs?: number }) {
   if (!Number.isInteger(options.port) || options.port < 0 || options.port > 65535) throw new Error('Neispravan port.');
@@ -11,6 +12,9 @@ export async function startPilot(options: { database: string; port: number; asse
     ['/', { content: readFileSync(resolve(options.assets, 'index.html')), type: 'text/html; charset=utf-8' }],
     ['/pilot.js', { content: readFileSync(resolve(options.assets, 'pilot.js')), type: 'text/javascript; charset=utf-8' }],
     ['/pilot.css', { content: readFileSync(resolve(options.assets, 'pilot.css')), type: 'text/css; charset=utf-8' }],
+    ['/omega', { content: readFileSync(resolve(options.assets, 'omega.html')), type: 'text/html; charset=utf-8' }],
+    ['/omega.css', { content: readFileSync(resolve(options.assets, 'omega.css')), type: 'text/css; charset=utf-8' }],
+    ['/omega.js', { content: readFileSync(resolve(options.assets, 'omega.js')), type: 'text/javascript; charset=utf-8' }],
   ]);
   const store = new PilotStore(options.database);
   let origin = '', busy = false, workerError = '', closing = false;
@@ -45,6 +49,7 @@ export async function startPilot(options: { database: string; port: number; asse
         json(res, workerError ? 503 : 200, { scope: 'local-single-operator', worker: workerError ? 'blocked' : 'ready', error: workerError || undefined }); return;
       }
       if (req.method === 'GET' && path === '/api/example') { json(res, 200, PILOT_EXAMPLE); return; }
+      if (req.method === 'GET' && path === '/api/omega') { json(res, 200, OMEGA_SKELETON); return; }
       if (req.method === 'GET' && path === '/api/runs') { json(res, 200, store.list().map(run => ({ id: run.id, name: run.name, status: run.status, updatedAt: run.updatedAt }))); return; }
       if (req.method === 'POST' && path === '/api/runs') { json(res, 201, store.create(await readBody(req))); return; }
       const match = /^\/api\/runs\/([a-f0-9-]{36})(?:\/(pause|resume|cancel|retry))?$/.exec(path);
