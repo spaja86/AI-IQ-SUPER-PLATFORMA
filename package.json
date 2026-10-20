@@ -46,7 +46,9 @@
     "test:bank-prototype": "tsx src/tests/bank-prototype/safety.test.ts && tsx src/tests/bank-prototype/routes.test.ts",
     "test:suoc": "node --import tsx src/tests/spaja-ultra/spaja-ultra-core.test.ts && node --import tsx src/tests/spaja-ultra/lifecycle.test.ts && node --import tsx --test src/tests/spaja-ultra/vrh.test.ts",
     "suoc:pilot": "node --import tsx scripts/suoc-pilot.ts",
-    "test:suoc:pilot": "node --import tsx --test src/tests/spaja-ultra/pilot.test.ts"
+    "test:suoc:pilot": "node --import tsx --test src/tests/spaja-ultra/pilot.test.ts",
+    "test:vrh:reference": "node --import tsx --test --test-concurrency=1 src/tests/lib/petlje.test.ts src/tests/lib/vrh-*.test.ts src/tests/lib/spajascripte-*.test.ts src/tests/lib/spaja-fallback-isolation.test.ts src/tests/lib/umbrel-budget.test.ts src/tests/lib/durmitor-budget.test.ts",
+    "test:vrh": "npm run test:suoc && npm run test:suoc:pilot && npm run test:vrh:reference"
   },
   "dependencies": {
     "@supabase/ssr": "^0.10.2",

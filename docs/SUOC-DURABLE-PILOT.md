@@ -118,7 +118,9 @@ Izvršeno 20.10.2026. na ovom kodu:
 Pri pripremi promene pronađen je dupliran `test:core` ključ u spojenom
 `package.json`: drugi ključ je prekrivao VRH test dodajući login security test.
 Sada postoji jedan ključ koji uključuje oba testa. Novi pilot se pokreće zasebno
-preko `test:suoc:pilot`; zahteva Node 24 i nije automatski dodat postojećem CI-ju.
+preko `test:suoc:pilot`; zahteva Node 24. U prvobitnom pilot PR-u nije bio
+automatski dodat CI-ju. Dopuna [VRH GitHub provere](VRH-GITHUB-VALIDATION.md)
+uključuje ga u `npm run test:vrh` i zaseban GitHub Actions workflow.
 
 Rollout: draft PR → ljudski pregled → kontrolisano lokalno pokretanje.
 Rollback: zaustaviti servis i vratiti promenu; korisničku bazu ne brisati.
