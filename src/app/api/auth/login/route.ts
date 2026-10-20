@@ -4,8 +4,7 @@
 
 import { NextRequest, NextResponse } from 'next/server';
 import { ΩAuthProvider, ensureDemoSeeded } from '@/lib/auth/omega-auth';
-import { checkBruteForce, recordFailedLoginAttempt, resetLoginAttempts } from '@/middleware/omega-security';
-import { ΩAuditLogger } from '@/middleware/omega-audit';
+import { createLoginProtection } from '@/lib/auth/login-protection';
 import type { ΩLoginRequest } from '@/lib/auth/types';
 import { APP_VERSION, KOMPANIJA } from '@/lib/constants';
 import { buildPretplataSnapshot } from '@/lib/login-pretplata';
@@ -21,26 +20,6 @@ import { digitalnaIndustrija, getIndustrijaStats } from '@/lib/industrija';
 import { platforme } from '@/lib/platforme';
 
 export async function POST(request: NextRequest) {
-  const ip = request.headers.get('x-forwarded-for')?.split(',')[0]?.trim() ?? '127.0.0.1';
-  const userAgent = request.headers.get('user-agent') ?? 'unknown';
-
-  // Brute-force zaštita: max 5 pokušaja / 15 min po IP
-  if (!checkBruteForce(ip)) {
-    ΩAuditLogger.log({
-      userId: 'anonymous',
-      action: 'LOGIN_BLOCKED_BRUTE_FORCE',
-      resource: '/api/auth/login',
-      ip,
-      userAgent,
-      outcome: 'DENIED',
-    });
-
-    return NextResponse.json(
-      { error: 'Previše neuspešnih pokušaja. Pokušajte ponovo za 15 minuta.' },
-      { status: 429 }
-    );
-  }
-
   let body: ΩLoginRequest;
   try {
     body = (await request.json()) as ΩLoginRequest;
@@ -48,7 +27,8 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: 'Nevalidan JSON' }, { status: 400 });
   }
 
-  if (!body.email || typeof body.email !== 'string' || !body.email.trim()) {
+  if (!body || typeof body !== 'object' || Array.isArray(body) ||
+      typeof body.email !== 'string' || !body.email.trim()) {
     return NextResponse.json({ error: 'Email je obavezan' }, { status: 400 });
   }
 
@@ -75,23 +55,26 @@ export async function POST(request: NextRequest) {
     }
   }
 
+  if (body.totpCode !== undefined && typeof body.totpCode !== 'string') {
+    return NextResponse.json({ error: 'Neispravan format MFA koda' }, { status: 400 });
+  }
+
+  const protection = createLoginProtection(emailTrimmed, request.headers, '/api/auth/login');
+  const { ip, userAgent } = protection;
+  if (!protection.isAllowed()) {
+    return NextResponse.json(
+      { error: 'Previše neuspešnih pokušaja. Pokušajte ponovo za 15 minuta.' },
+      { status: 429 },
+    );
+  }
+
   // Osiguraj da je demo nalog kreiran pre logina (resava race condition u serverless okruzenju)
   await ensureDemoSeeded();
 
   const result = await ΩAuthProvider.login(body);
 
   if (!result) {
-    recordFailedLoginAttempt(ip);
-
-    ΩAuditLogger.log({
-      userId: body.email,
-      action: 'LOGIN_FAILED',
-      resource: '/api/auth/login',
-      ip,
-      userAgent,
-      outcome: 'DENIED',
-      details: { reason: 'invalid_credentials' },
-    });
+    protection.recordFailure();
 
     console.error(`[OMEGA-AUTH] Login failed from IP ${ip}`);
 
@@ -102,7 +85,7 @@ export async function POST(request: NextRequest) {
   }
 
   // Uspešna prijava
-  resetLoginAttempts(ip);
+  protection.reset();
 
   const pretplata = buildPretplataSnapshot({
     email: body.email,

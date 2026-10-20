@@ -11,7 +11,7 @@ import { getSecurityHeaders } from '@/lib/security-headers';
 const rateLimitStore = new Map<string, { count: number; resetAt: number }>();
 
 // Brute force protection za login
-// Format: IP -> { attempts, blockedUntil }
+// Format: login protection key (account/trusted IP) -> { attempts, blockedUntil }
 const bruteForceStore = new Map<string, { attempts: number; blockedUntil: number }>();
 
 // Brute force protection za register (odvojen od login-a)
@@ -51,7 +51,7 @@ if (process.env.OMEGA_BLOCKED_IPS) {
 const RATE_LIMIT_ANON = 100; // 100 req/min za anonimne korisnike
 const RATE_LIMIT_AUTH = 1000; // 1000 req/min za autentifikovane
 const RATE_LIMIT_WINDOW_MS = 60 * 1000; // 1 minut
-const AUTH_MAX_ATTEMPTS = 5; // max pokusaja za login i register po IP
+const AUTH_MAX_ATTEMPTS = 5; // max neuspeha po kljucu; register koristi IP
 const AUTH_BLOCK_DURATION_MS = 15 * 60 * 1000; // 15 minuta
 
 // Rute koje ne zahtevaju autentifikaciju
@@ -141,7 +141,7 @@ export function recordFailedLoginAttempt(ip: string): void {
   const existing = bruteForceStore.get(ip);
 
   // Reset only when a real block period has fully expired (blockedUntil > 0)
-  if (existing && existing.blockedUntil > 0 && now > existing.blockedUntil) {
+  if (existing && existing.blockedUntil > 0 && now >= existing.blockedUntil) {
     bruteForceStore.set(ip, { attempts: 1, blockedUntil: 0 });
     return;
   }

@@ -5,6 +5,7 @@ import { buildPretplataSnapshot, STANDARDIZOVANI_PRETPLATA_STATUS_MODEL } from '
 import { auditLoginPretplataEvents } from '@/lib/login-pretplata-audit';
 import { getSveKomponente, spajaDigitalniKompjuterSistem } from '@/lib/spaja-digitalni-kompjuter';
 import { ΩAuthProvider, ensureDemoSeeded } from '@/lib/auth/omega-auth';
+import { createLoginProtection } from '@/lib/auth/login-protection';
 import { REFRESH_TOKEN_TTL } from '@/lib/auth/types';
 import { digitalnaIndustrija, getIndustrijaStats } from '@/lib/industrija';
 import { platforme } from '@/lib/platforme';
@@ -23,14 +24,16 @@ import {
  */
 export async function POST(request: Request) {
   try {
-    const ip = request.headers.get('x-forwarded-for')?.split(',')[0]?.trim() ?? '127.0.0.1';
-    const userAgent = request.headers.get('user-agent') ?? 'unknown';
     const body = await request.json();
+    if (!body || typeof body !== 'object' || Array.isArray(body)) {
+      return NextResponse.json({ greska: 'Neispravan format zahteva.' }, { status: 400 });
+    }
     // Podrži oba formata: { email, lozinka } i { email, password }
     const emailRaw = body.email as string | undefined;
     const password = (body.password ?? body.lozinka) as string | undefined;
 
-    if (!emailRaw || !password) {
+    if (typeof emailRaw !== 'string' || !emailRaw.trim() ||
+        typeof password !== 'string' || !password.trim()) {
       return NextResponse.json(
         { greska: 'Email i lozinka su obavezni.' },
         { status: 400 },
@@ -54,18 +57,34 @@ export async function POST(request: Request) {
       );
     }
 
+    if (body.totpCode !== undefined && typeof body.totpCode !== 'string') {
+      return NextResponse.json({ greska: 'Neispravan format MFA koda.' }, { status: 400 });
+    }
+
+    const protection = createLoginProtection(email, request.headers, '/api/login');
+    const { ip, userAgent } = protection;
+    if (!protection.isAllowed()) {
+      return NextResponse.json(
+        { greska: 'Previše neuspešnih pokušaja. Pokušajte ponovo za 15 minuta.' },
+        { status: 429 },
+      );
+    }
+
     // Osiguraj da je demo nalog kreiran pre logina
     await ensureDemoSeeded();
 
     // Delegiraj na centralni Omega Auth sistem
-    const result = await ΩAuthProvider.login({ email, password });
+    const result = await ΩAuthProvider.login({ email, password, totpCode: body.totpCode });
 
     if (!result) {
+      protection.recordFailure();
       return NextResponse.json(
         { greska: 'Neispravni podaci za prijavu.' },
         { status: 401 },
       );
     }
+
+    protection.reset();
 
     // Odredjivanje vlasnicke uloge iz centralnog owner identity modela
     const jeVlasnik = isOwnerEmail(email);
