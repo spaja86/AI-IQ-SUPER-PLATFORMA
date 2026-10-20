@@ -129,6 +129,30 @@ test('failed audit insert rolls back the matching state update', () => {
   } finally { f.close(); }
 });
 
+test('failed result commit cannot become success and restart requires retry of B only', async () => {
+  const f = fixture();
+  const run = f.store.create(clone()); f.store.control(run.id, 'resume'); await tick(f.store);
+  const confirmedA = f.store.get(run.id).steps[0];
+  const db = new DatabaseSync(f.path);
+  db.exec("CREATE TRIGGER fail_result BEFORE INSERT ON events WHEN NEW.kind='succeeded' BEGIN SELECT RAISE(ABORT, 'injected result write failure'); END;");
+  try {
+    await assert.rejects(tick(f.store), /injected result write failure/);
+    const state = f.store.get(run.id);
+    assert.equal(state.status, 'running'); assert.equal(state.steps[1].result, undefined);
+    assert.deepEqual(state.steps[0], confirmedA);
+    assert.equal(f.store.events(run.id).filter(event => event.kind === 'succeeded').length, 1);
+  } finally { db.exec('DROP TRIGGER fail_result'); db.close(); f.store.close(); }
+  const reopened = new PilotStore(f.path);
+  try {
+    assert.equal(reopened.get(run.id).status, 'interrupted'); assert.equal(await tick(reopened), false);
+    reopened.control(run.id, 'retry'); reopened.control(run.id, 'resume'); await tick(reopened);
+    const recovered = reopened.get(run.id);
+    assert.equal(recovered.status, 'succeeded'); assert.deepEqual(recovered.steps[0], confirmedA);
+    assert.deepEqual(recovered.steps.map(step => step.attempts), [1, 2]);
+    assert.equal(recovered.steps[1].result?.output, 21);
+  } finally { reopened.close(); rmSync(f.directory, { recursive: true, force: true }); }
+});
+
 test('queued and paused states survive reopen with their execution intent', async () => {
   const f = fixture();
   const paused = f.store.create(clone()), queued = f.store.create(clone());
@@ -142,8 +166,17 @@ test('queued and paused states survive reopen with their execution intent', asyn
   } finally { store.close(); rmSync(f.directory, { recursive: true, force: true }); }
 });
 
-async function launch(path: string) {
-  const child = spawn(process.execPath, ['--import', 'tsx', 'scripts/suoc-pilot.ts'], { cwd: resolve('.'), env: { ...process.env, SUOC_PILOT_DB: path, SUOC_PILOT_PORT: '0' }, stdio: ['ignore', 'pipe', 'pipe'] });
+async function launch(path: string, crashBeforeBCommit = false) {
+  // Test-only fault injection in the real worker: compute B, then die before result commit.
+  const crashScript = `import { PilotStore } from './src/lib/suoc-pilot/store.ts';
+    const finish = PilotStore.prototype.finish;
+    PilotStore.prototype.finish = function(id, stepId, result, error) {
+      if (stepId === 'B') { process.kill(process.pid, 'SIGKILL'); return; }
+      return finish.call(this, id, stepId, result, error);
+    };
+    await import('./scripts/suoc-pilot.ts');`;
+  const args = crashBeforeBCommit ? ['--import', 'tsx', '--input-type=module', '-e', crashScript] : ['--import', 'tsx', 'scripts/suoc-pilot.ts'];
+  const child = spawn(process.execPath, args, { cwd: resolve('.'), env: { ...process.env, SUOC_PILOT_DB: path, SUOC_PILOT_PORT: '0' }, stdio: ['ignore', 'pipe', 'pipe'] });
   let stdout = '', stderr = '';
   child.stdout!.on('data', data => { stdout += data; }); child.stderr!.on('data', data => { stderr += data; });
   const deadline = Date.now() + 15000;
@@ -192,6 +225,61 @@ test('real HTTP process: create/resume/result, security boundary, SIGKILL/restar
     await stop(app.child, 'SIGKILL'); app = await launch(path);
     const restored = await (await fetch(`${app.origin}/api/runs/${created.id}`, { headers })).json();
     assert.deepEqual(restored, saved);
+  } finally { await stop(app.child); rmSync(directory, { recursive: true, force: true }); }
+});
+
+test('aborted HTTP plan upload leaves no partial run or success', { timeout: 15000 }, async () => {
+  const directory = mkdtempSync(join(tmpdir(), 'suoc-aborted-upload-')), path = join(directory, 'pilot.sqlite');
+  const app = await launch(path);
+  try {
+    await new Promise<void>((accept, reject) => {
+      const request = httpRequest(`${app.origin}/api/runs`, { method: 'POST', headers: {
+        'X-SUOC-Pilot': '1', 'Content-Type': 'application/json', 'Content-Length': '60000',
+      } });
+      request.on('error', error => { if (!request.destroyed) reject(error); });
+      request.on('close', accept);
+      request.write('{"name":"incomplete upload","steps":[');
+      setTimeout(() => request.destroy(), 50);
+    });
+    const headers = { 'X-SUOC-Pilot': '1' };
+    assert.deepEqual(await (await fetch(`${app.origin}/api/runs`, { headers })).json(), []);
+    assert.equal((await fetch(`${app.origin}/api/status`, { headers })).status, 200);
+    await stop(app.child, 'SIGKILL');
+    const store = new PilotStore(path);
+    try { assert.deepEqual(store.list(), []); } finally { store.close(); }
+  } finally { await stop(app.child); rmSync(directory, { recursive: true, force: true }); }
+});
+
+test('real HTTP worker SIGKILL after computation cannot confirm B; retry keeps A exactly', { timeout: 30000 }, async () => {
+  const directory = mkdtempSync(join(tmpdir(), 'suoc-before-commit-')), path = join(directory, 'pilot.sqlite');
+  let app = await launch(path, true);
+  const headers = { 'X-SUOC-Pilot': '1', 'Content-Type': 'application/json' };
+  try {
+    const response = await fetch(`${app.origin}/api/runs`, { method: 'POST', headers, body: JSON.stringify(clone()) });
+    assert.equal(response.status, 201); const run = await response.json();
+    const died = once(app.child, 'exit');
+    await fetch(`${app.origin}/api/runs/${run.id}/resume`, { method: 'POST', headers });
+    const [, signal] = await died; assert.equal(signal, 'SIGKILL');
+    app = await launch(path);
+    const read = async () => (await fetch(`${app.origin}/api/runs/${run.id}`, { headers })).json();
+    const recovered = await read();
+    assert.equal(recovered.run.status, 'interrupted');
+    assert.deepEqual(recovered.run.steps.map((step: { status: string }) => step.status), ['succeeded', 'interrupted']);
+    assert.equal(recovered.run.steps[0].result.output, 6); assert.equal(recovered.run.steps[1].result, undefined);
+    assert.deepEqual(recovered.events.filter((event: { kind: string }) => event.kind === 'succeeded').map((event: { detail: string }) => event.detail), ['A']);
+    await fetch(`${app.origin}/api/runs/${run.id}/retry`, { method: 'POST', headers });
+    assert.equal((await read()).run.status, 'paused');
+    await fetch(`${app.origin}/api/runs/${run.id}/resume`, { method: 'POST', headers });
+    let finished;
+    for (let i = 0; i < 80; i++) {
+      finished = await read(); if (finished.run.status === 'succeeded') break;
+      await new Promise(accept => setTimeout(accept, 50));
+    }
+    assert.equal(finished.run.status, 'succeeded');
+    assert.deepEqual(finished.run.steps[0], recovered.run.steps[0]);
+    assert.deepEqual(finished.run.steps.map((step: { attempts: number }) => step.attempts), [1, 2]);
+    assert.equal(finished.run.steps[1].result.output, 21);
+    assert.deepEqual(finished.events.filter((event: { kind: string }) => event.kind === 'claimed').map((event: { detail: string }) => event.detail), ['A', 'B', 'B']);
   } finally { await stop(app.child); rmSync(directory, { recursive: true, force: true }); }
 });
 
