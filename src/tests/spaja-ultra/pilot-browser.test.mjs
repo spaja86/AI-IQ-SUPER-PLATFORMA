@@ -54,6 +54,47 @@ async function createInPanel(page, name) {
   await page.locator('#create').click(); await waitText(page, 'detail-title', name);
 }
 
+test('Omega: browse image modules, build a paused VRH plan, execute 6/21 and reload', { timeout: 40000 }, async t => {
+  const f = await fixture(t); const { page } = f;
+  page.setDefaultTimeout(5000); await page.goto(f.origin + '/omega'); await waitText(page, 'health', 'dostupan');
+  await waitText(page, 'module-count', '23'); t.diagnostic('Omega catalog loaded');
+  assert.equal(await page.locator('[data-module]').count(), 22); // SCP has its own functional panel.
+  assert.equal(await page.locator('#link-count').innerText(), '25');
+  assert.equal(await page.locator('#local-count').innerText(), '4');
+  assert.deepEqual(await f.api('/api/runs'), [], 'Opening the map must not activate a task');
+  await page.locator('[data-module=bank]').click(); await waitText(page, 'module-title', 'AI IQ World Bank');
+  assert.match(await page.locator('#module-scope').innerText(), /PLAN/);
+  assert.match(await page.locator('#connections').innerText(), /predlog/);
+  await page.locator('#create').click(); await waitText(page, 'run-status', 'pauzirano'); t.diagnostic('Omega plan paused');
+  const [run] = await f.api('/api/runs');
+  assert.match(await page.locator('#command-target').innerText(), /A → B: sačuvan VRH rezultat/);
+  assert.deepEqual((await f.api(`/api/runs/${run.id}`)).run.steps.map(step => step.attempts), [0, 0]);
+  await page.locator('[data-action=resume]').click(); await waitText(page, 'run-status', 'Potvrđeno završeno');
+  assert.match(await page.locator('#steps').innerText(), /Rezultat: 6\./);
+  assert.match(await page.locator('#steps').innerText(), /Rezultat: 21\./);
+  t.diagnostic('Omega results confirmed'); const saved = await f.api(`/api/runs/${run.id}`);
+  await page.reload(); await waitText(page, 'run-status', 'Potvrđeno završeno');
+  assert.deepEqual(await f.api(`/api/runs/${run.id}`), saved);
+  for (const width of [390, 768, 1280]) {
+    await page.setViewportSize({ width, height: 900 });
+    assert.equal(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), true, `No horizontal overflow at ${width}px`);
+  }
+  t.diagnostic('Omega responsive layouts checked'); await f.stop(); t.diagnostic('Omega service stopped'); await page.locator('#refresh').click(); t.diagnostic('Omega refresh clicked'); await waitText(page, 'health', 'nije dostupan');
+  assert.equal(await page.locator('#detail').isVisible(), false);
+  assert.equal(await page.locator('[data-action=resume]').isDisabled(), true);
+  assert.match(await page.locator('#command-target').innerText(), /nije potvrđen/);
+});
+
+test('Omega: unavailable catalog gives an explicit error while the independent pilot remains usable', { timeout: 20000 }, async t => {
+  const f = await fixture(t); const { page } = f;
+  await page.route('**/api/omega', route => route.fulfill({ status: 503, body: '{}' }));
+  await page.goto(f.origin + '/omega'); await waitText(page, 'health', 'dostupan');
+  await waitText(page, 'catalog-error', 'nije dostupan');
+  assert.equal(await page.locator('#module-count').innerText(), '—');
+  assert.equal(await page.locator('[data-module]').count(), 0);
+  assert.deepEqual(await f.api('/api/runs'), []);
+});
+
 test('browser: create A→B, run, inspect 6/21, reload and restart preserve results', { timeout: 20000 }, async t => {
   const f = await fixture(t); const { page } = f;
   await page.goto(f.origin); await waitText(page, 'health', 'dostupan');

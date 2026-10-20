@@ -2,6 +2,7 @@
 <html lang="sr-Latn">
 <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>SUOC · VRH pilot</title><link rel="stylesheet" href="/pilot.css"><script src="/pilot.js" defer></script></head>
 <body><main>
+<nav aria-label="Prikazi pilota"><a href="/omega">SPAJA MASTER OMEGA · VRH skelet</a></nav>
 <header><p class="eyebrow">SPAJA / LOKALNI PILOT</p><h1>Zadatak → VRH → sačuvan rezultat</h1><p>Pratite povezane korake i nastavite pregled posle restarta servisa.</p><p class="scope">Jedan lokalni operater. Podaci ostaju na disku ovog računara. Pauza i otkazivanje deluju između koraka.</p></header>
 <p id="health" role="status">Provera servisa…</p><p id="error" role="alert" hidden></p>
 <div class="layout"><section aria-labelledby="plan-title"><h2 id="plan-title">Novi zadatak</h2><label for="plan">Plan koraka (JSON)</label><textarea id="plan" rows="18" spellcheck="false"></textarea><div class="actions"><button id="example">Učitaj A → B primer</button><button id="create" class="primary">Sačuvaj zadatak</button></div><p class="hint">Primer: A sabira 1–3 i vraća 6. B koristi taj rezultat kao početak i sabira 6–8, do 21. Sačuvan zadatak čeka „Nastavi“.</p></section>

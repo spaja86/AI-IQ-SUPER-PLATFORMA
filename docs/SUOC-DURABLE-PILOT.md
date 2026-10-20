@@ -17,6 +17,8 @@ npm run suoc:pilot
 ```
 
 Otvorite adresu koju servis ispiše, podrazumevano `http://127.0.0.1:4318`.
+Prikaz prema arhitekturnoj slici dostupan je na `/omega`:
+[SPAJA MASTER OMEGA / VRH skelet](VRH-OMEGA-SKELETON.md).
 U interfejsu: **Učitaj A → B primer → Sačuvaj zadatak → Nastavi**.
 Korak A sabira 1–3 i vraća 6. Korak B čeka uspešan A, uzima njegov sačuvani
 rezultat kao početak i sabira 6–8 do 21.

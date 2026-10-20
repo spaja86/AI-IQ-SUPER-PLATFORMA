@@ -10,6 +10,7 @@ async function main() {
     assets: resolve('pilot/suoc'),
   });
   console.log(`SUOC pilot: ${app.origin}`);
+  console.log(`SPAJA MASTER OMEGA / VRH: ${app.origin}/omega`);
   let stopping = false;
   const stop = async () => { if (stopping) return; stopping = true; await app.close(); };
   process.on('SIGTERM', () => void stop());
