@@ -2188,3 +2188,9 @@ Koristiti format `AI-IQ-SUPER-PLATFORMA#VPOREKLO-2026-09 -> IO-OPENUI-AO#123` gd
 - Obavezni governance izlazi ostaju zaključani: `humanReviewStatus`, `releaseAuditSummary`, `rolloutPlan`, `rollbackPlan`, `downstreamReference`.
 - Downstream boundary za `spaja86/IO-OPENUI-AO` ostaje summary-only (`READY|WATCH|BLOCKED`, blocker reason, review posture, effective date, audit trail reference) bez internih HR detalja i bez internih formula.
 - Ownership ostaje nepromenjen: `DOK/DIK/FOR -> EXTREM`, `DAK/DUK -> EXTRONDOL`, `SPAJA KOD -> audit-safe-summary-only`.
+
+## VRH / SUOC CI dopuna — 21.10.2026.
+
+`OKRID-2026-GOV-001`: [VRH GitHub provera](VRH-GITHUB-VALIDATION.md) dodaje
+repo-local numeričke/SUOC/pilot provere. Downstream `spaja86/IO-OPENUI-AO`:
+nema izmene koda, ugovora, verzija, konfiguracije ili deployment-a.

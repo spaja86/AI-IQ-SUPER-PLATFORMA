@@ -1,0 +1,90 @@
+name: VRH / SUOC validation
+
+# OKRID-2026-GOV-001: numerical/runtime checks supplement the release gates.
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'src/lib/**'
+      - 'src/tests/**'
+      - 'src/components/SpajaUltraREPL.tsx'
+      - 'src/app/spaja-ultra-repl/**'
+      - 'scripts/suoc-pilot.ts'
+      - 'pilot/suoc/**'
+      - 'package*.json'
+      - 'tsconfig*.json'
+      - 'eslint.config.*'
+      - '.github/workflows/vrh-validation.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'src/lib/**'
+      - 'src/tests/**'
+      - 'src/components/SpajaUltraREPL.tsx'
+      - 'src/app/spaja-ultra-repl/**'
+      - 'scripts/suoc-pilot.ts'
+      - 'pilot/suoc/**'
+      - 'package*.json'
+      - 'tsconfig*.json'
+      - 'eslint.config.*'
+      - '.github/workflows/vrh-validation.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: vrh-validation-${{ github.event_name }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  validate:
+    name: VRH contracts and durable pilot (Node 24)
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Checkout tested revision
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          persist-credentials: false
+      - name: Set up Node 24 for node:sqlite
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        with:
+          node-version: '24'
+          cache: npm
+      - name: Install locked dependencies
+        id: install
+        run: npm ci --ignore-scripts --no-audit --no-fund
+      - name: Typecheck project and pilot test entrypoints
+        id: types
+        run: |
+          npx --no-install tsc --noEmit --incremental false
+          npx --no-install tsc --noEmit --strict --skipLibCheck --target ES2022 --module ESNext --moduleResolution bundler --esModuleInterop scripts/suoc-pilot.ts src/tests/spaja-ultra/pilot.test.ts src/tests/spaja-ultra/vrh.test.ts
+      - name: Lint SUOC and pilot
+        id: lint
+        run: npx --no-install eslint src/lib/spaja-ultra-core src/lib/suoc-pilot scripts/suoc-pilot.ts src/tests/spaja-ultra/*.ts
+      - name: Test SUOC, durable pilot and VRH reference profiles
+        id: tests
+        run: npm run test:vrh
+      - name: Record actual gate outcomes
+        if: always()
+        env:
+          TESTED_SHA: ${{ github.sha }}
+          INSTALL_RESULT: ${{ steps.install.outcome }}
+          TYPES_RESULT: ${{ steps.types.outcome }}
+          LINT_RESULT: ${{ steps.lint.outcome }}
+          TEST_RESULT: ${{ steps.tests.outcome }}
+        run: |
+          {
+            printf '## VRH / SUOC validation\n\n'
+            printf 'OKRID: OKRID-2026-GOV-001\n\nTested revision: `%s`\n\n' "$TESTED_SHA"
+            printf '| Check | Outcome |\n| --- | --- |\n'
+            printf '| Locked install | %s |\n' "$INSTALL_RESULT"
+            printf '| TypeScript | %s |\n' "$TYPES_RESULT"
+            printf '| Targeted lint | %s |\n' "$LINT_RESULT"
+            printf '| SUOC + pilot + VRH reference tests | %s |\n' "$TEST_RESULT"
+            printf '\nScope: local numerical contracts, HTTP, SQLite durability and crash recovery.\n'
+            printf 'Browser interaction, full repository tests/lint, smoke, predeploy, security and production build are separate gates.\n'
+            printf 'No deployment or release approval. IO-OPENUI-AO: no downstream change.\n'
+            printf 'Rollout: human review then merge; rollback: revert this CI change.\n'
+          } >> "$GITHUB_STEP_SUMMARY"
