@@ -20,7 +20,7 @@ html {
 body {
   margin: 0;
   color: var(--text);
-  font: 14px/1.6 system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI',
+  font: 14px/1.6 system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
     sans-serif;
   background: radial-gradient(ellipse at 50% 0, #12325270, transparent 55%),
     radial-gradient(ellipse at 95% 50%, #421c5e20, transparent 50%), var(--bg);
@@ -282,7 +282,7 @@ textarea:focus-visible {
   transition: border-color 0.15s, background 0.15s;
 }
 .module:hover,
-.module[aria-pressed='true'] {
+.module[aria-pressed="true"] {
   background: #112439;
   border-color: var(--accent);
   box-shadow: 0 0 20px #46d9ff10;
@@ -304,10 +304,10 @@ textarea:focus-visible {
   white-space: nowrap;
   color: var(--muted);
 }
-.module[data-state='local'] .module-state {
+.module[data-state="local"] .module-state {
   color: var(--green);
 }
-.module[data-state='partial'] .module-state {
+.module[data-state="partial"] .module-state {
   color: var(--amber);
 }
 .module .module-title {
@@ -325,29 +325,29 @@ textarea:focus-visible {
   line-height: 1.85;
 }
 .module .module-item:before {
-  content: '·';
+  content: "·";
   color: var(--accent);
   margin-right: 6px;
 }
-.module[data-group='games'] {
+.module[data-group="games"] {
   --accent: var(--pink);
 }
-.module[data-group='domains'] {
+.module[data-group="domains"] {
   --accent: var(--amber);
 }
-.module[data-module='suoc'] {
+.module[data-module="suoc"] {
   --accent: var(--green);
 }
-.module[data-module='vrh'] {
+.module[data-module="vrh"] {
   --accent: var(--green);
   background: radial-gradient(ellipse at top right, #1d765145, transparent 80%),
     #0a1b25;
   border-color: #349373;
 }
-.module[data-module='vrh'] .module-title {
+.module[data-module="vrh"] .module-title {
   font-size: 21px;
 }
-.module[data-module='vrh'] .module-code {
+.module[data-module="vrh"] .module-code {
   font-size: 28px;
   letter-spacing: -1px;
   color: var(--green);
@@ -923,10 +923,10 @@ footer p {
   .operations {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
-  .module[data-module='vrh'] .module-title {
+  .module[data-module="vrh"] .module-title {
     font-size: 18px;
   }
-  .module[data-module='vrh'] .module-code {
+  .module[data-module="vrh"] .module-code {
     font-size: 21px;
   }
   .inspector {
@@ -1000,5 +1000,191 @@ footer p {
   .foundation .module-top {
     flex-direction: row;
     align-items: center;
+  }
+}
+
+/* Relationship explorer: direction, status and evidence remain readable without color. */
+.summary {
+  flex-wrap: wrap;
+}
+.summary > p {
+  display: none;
+}
+.module-degree {
+  display: block;
+  font-size: 10px;
+  color: var(--cyan);
+  margin-top: 10px;
+}
+.module[data-connected="true"] {
+  border-bottom: 2px solid var(--cyan);
+}
+.relationship-explorer {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 20px;
+  margin-top: 24px;
+}
+.relationship-explorer h2 {
+  font-size: 18px;
+}
+.relation-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin: 18px 0;
+  align-items: end;
+}
+.relation-filters label {
+  display: grid;
+  gap: 5px;
+  flex: 1 1 170px;
+  min-width: 0;
+  font-size: 12px;
+}
+.relation-filters input,
+.relation-filters select,
+.relationship-explorer button {
+  font: inherit;
+  color: var(--text);
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 5px;
+  padding: 9px;
+  max-width: 100%;
+}
+.relation-filters input:focus-visible,
+.relation-filters select:focus-visible {
+  outline: 3px solid var(--amber);
+}
+#filter-count {
+  font-size: 12px;
+  color: var(--cyan);
+}
+.neighborhood {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 0.7fr) minmax(0, 1fr);
+  gap: 14px;
+  margin: 18px 0;
+}
+.neighborhood h3 {
+  font-size: 13px;
+  margin-bottom: 10px;
+}
+.focus-module {
+  border: 1px solid var(--cyan);
+  border-radius: 8px;
+  padding: 16px;
+  align-self: start;
+  text-align: center;
+  overflow-wrap: anywhere;
+}
+.focus-module strong {
+  display: block;
+  font-size: 19px;
+  margin: 12px 0;
+}
+.focus-module span,
+.focus-module p {
+  font-size: 10px;
+  color: var(--muted);
+}
+.focus-module button {
+  margin-top: 16px;
+}
+.relation-button {
+  display: block;
+  width: 100%;
+  text-align: left;
+  border: 1px dashed var(--line);
+  border-left: 3px dashed var(--muted);
+  border-radius: 5px;
+  background: var(--panel);
+  color: var(--text);
+  padding: 10px;
+  margin: 0 0 8px;
+  overflow-wrap: anywhere;
+}
+.relation-button span {
+  display: block;
+  font-size: 11px;
+  color: var(--muted);
+}
+.relation-button.implemented {
+  border-left: 3px solid var(--green);
+}
+.relation-button.partial {
+  border-left: 3px dotted var(--amber);
+}
+.relation-button[aria-pressed="true"] {
+  background: #123249;
+  outline: 1px solid var(--cyan);
+}
+#relation-detail {
+  border-top: 1px solid var(--line);
+  padding-top: 20px;
+  overflow-wrap: anywhere;
+}
+#relation-title {
+  font-size: 20px;
+  color: var(--cyan);
+}
+#relation-state {
+  margin: 5px 0 12px;
+  font-size: 12px;
+  color: var(--muted);
+}
+#relation-contract {
+  display: grid;
+  grid-template-columns: 160px minmax(0, 1fr);
+  gap: 8px 16px;
+  font-size: 13px;
+}
+#relation-contract dt {
+  color: var(--muted);
+}
+#relation-contract dd {
+  margin: 0;
+}
+#relation-detail h4 {
+  margin: 18px 0 8px;
+  font-size: 13px;
+}
+#relation-detail li,
+#evidence-scope,
+#activation-acceptance {
+  font-size: 12px;
+}
+#relation-evidence {
+  font-family: ui-monospace, monospace;
+}
+#link-table .relation-button {
+  min-width: 190px;
+}
+.inspector li.implemented {
+  color: var(--green);
+}
+.inspector li.partial {
+  color: var(--amber);
+}
+@media (max-width: 760px) {
+  .relationship-explorer {
+    padding: 14px;
+  }
+  .neighborhood {
+    grid-template-columns: 1fr;
+  }
+  .focus-module {
+    grid-row: 1;
+  }
+  #relation-contract {
+    grid-template-columns: 1fr;
+    gap: 4px;
+  }
+  #relation-contract dd {
+    margin-bottom: 12px;
+  }
+  .relation-filters label {
+    flex-basis: 100%;
   }
 }

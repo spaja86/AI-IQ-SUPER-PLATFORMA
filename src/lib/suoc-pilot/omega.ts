@@ -1,3 +1,5 @@
+import { OMEGA_LINKS } from './omega-links';
+import { summarizeOmegaRelations, validateOmegaCatalog } from './omega-model';
 /** Image-inspired architecture inventory, not a registry of executable services. */
 export const OMEGA_MODULES = [
   {
@@ -275,57 +277,19 @@ export const OMEGA_MODULES = [
 ] as const;
 
 export type OmegaModuleId = (typeof OMEGA_MODULES)[number]['id'];
-export interface OmegaLink {
-  from: OmegaModuleId;
-  to: OmegaModuleId;
-  kind: 'control' | 'data' | 'monitoring';
-  state: 'local' | 'proposed';
-}
-
-/** Explicit architectural subset; image arrows are not 270 verified integrations. */
-const local = (
-  from: OmegaModuleId,
-  to: OmegaModuleId,
-  kind: OmegaLink['kind']
-): OmegaLink => ({ from, to, kind, state: 'local' });
-const proposed = (
-  from: OmegaModuleId,
-  to: OmegaModuleId,
-  kind: OmegaLink['kind'] = 'data'
-): OmegaLink => ({ from, to, kind, state: 'proposed' });
-export const OMEGA_LINKS: readonly OmegaLink[] = [
-  local('scp', 'suoc', 'control'),
-  local('suoc', 'vrh', 'control'),
-  local('vrh', 'storage', 'data'),
-  local('storage', 'monitoring', 'monitoring'),
-  proposed('snoe', 'openui'),
-  proposed('openui', 'scp', 'control'),
-  proposed('bank', 'backend'),
-  proposed('company', 'creative'),
-  proposed('games', 'backend'),
-  proposed('poker', 'backend'),
-  proposed('transformers', 'backend'),
-  proposed('scp', 'agents', 'control'),
-  proposed('agents', 'backend', 'control'),
-  proposed('backend', 'vrh', 'control'),
-  proposed('backend', 'automation', 'control'),
-  proposed('ovsm', 'backend'),
-  proposed('creative', 'backend'),
-  proposed('nbs', 'bank'),
-  proposed('gpu', 'agents'),
-  proposed('backend', 'storage'),
-  proposed('cloud', 'backend', 'control'),
-  proposed('security', 'backend', 'control'),
-  proposed('pipeline', 'cloud', 'control'),
-  proposed('recovery', 'storage', 'control'),
-  proposed('automation', 'monitoring', 'monitoring'),
-];
+export { OMEGA_LINKS } from './omega-links';
+export type { OmegaRelation as OmegaLink } from './omega-model';
 
 export const OMEGA_SKELETON = {
-  version: 'omega-skeleton-v1',
+  version: 'omega-relationships-v2',
   title: 'SPAJA MASTER OMEGA',
   referenceConnectionTarget: 270,
-  scope: 'Lokalni VRH pilot + plan arhitekture prema referentnoj slici.',
+  scope:
+    'Opis lokalne implementacije i planiranih odnosa; nije telemetrija ni dozvola za aktiviranje.',
   modules: OMEGA_MODULES,
   links: OMEGA_LINKS,
+  summary: summarizeOmegaRelations(OMEGA_LINKS, 270),
 } as const;
+const catalogErrors = validateOmegaCatalog(OMEGA_SKELETON);
+if (catalogErrors.length)
+  throw new Error(`Invalid Omega catalog: ${catalogErrors.join('; ')}`);
