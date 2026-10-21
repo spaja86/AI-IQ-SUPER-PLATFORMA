@@ -2,6 +2,7 @@ import type { NavItem } from './types';
 
 export const navigation: NavItem[] = [
   { label: 'Početna', href: '/', icon: '🏠', description: 'Digitalna Industrija — pregled' },
+  { label: 'SUPEROMEGA', href: '/superomegatrajektorijum', icon: '🧭', description: 'SUPEROMEGATRAJEKTORIJUM — projekti, aplikacije, izvori i proverljivi statusi' },
   { label: 'OMEGATROJEKTORIJUM', href: '/omegatrojektorijum', icon: '🧩', description: 'Katalog ideja, bankarski prototip i lokalni filmski studio' },
   { label: 'Dashboard', href: '/dashboard', icon: '📊', description: 'Statistika i stanje ekosistema' },
   { label: 'Industrija', href: '/industrija', icon: '🏭', description: 'O digitalnoj industriji' },
