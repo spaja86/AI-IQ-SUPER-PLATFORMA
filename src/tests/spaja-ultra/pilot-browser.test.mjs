@@ -59,7 +59,7 @@ test('Omega: browse image modules, build a paused VRH plan, execute 6/21 and rel
   page.setDefaultTimeout(5000); await page.goto(f.origin + '/omega'); await waitText(page, 'health', 'dostupan');
   await waitText(page, 'module-count', '23'); t.diagnostic('Omega catalog loaded');
   assert.equal(await page.locator('[data-module]').count(), 22); // SCP has its own functional panel.
-  assert.equal(await page.locator('#link-count').innerText(), '25');
+  assert.equal(await page.locator('#link-count').innerText(), '64');
   assert.equal(await page.locator('#local-count').innerText(), '4');
   assert.deepEqual(await f.api('/api/runs'), [], 'Opening the map must not activate a task');
   await page.locator('[data-module=bank]').click(); await waitText(page, 'module-title', 'AI IQ World Bank');
@@ -83,6 +83,64 @@ test('Omega: browse image modules, build a paused VRH plan, execute 6/21 and rel
   assert.equal(await page.locator('#detail').isVisible(), false);
   assert.equal(await page.locator('[data-action=resume]').isDisabled(), true);
   assert.match(await page.locator('#command-target').innerText(), /nije potvrđen/);
+});
+
+test('Omega: filter directed relationships, inspect evidence/gaps, reset and remain read-only', { timeout: 30000 }, async t => {
+  const f = await fixture(t); const { page } = f;
+  await page.goto(f.origin + '/omega'); await waitText(page, 'link-count', '64');
+  assert.equal(await page.locator('#partial-count').innerText(), '3');
+  assert.equal(await page.locator('#planned-count').innerText(), '57');
+  await waitText(page, 'catalog-progress', '206');
+  await page.locator('#state-filter').selectOption('implemented');
+  await waitText(page, 'filter-count', '4 / 64');
+  assert.equal(await page.locator('#link-table tr').count(), 4);
+  await page.locator('#outgoing-links [data-relation=omega-scp-suoc-control]').click();
+  await waitText(page, 'relation-evidence', 'pilot/suoc/pilot.js');
+  await waitText(page, 'activation-missing', 'Nema nedostajućih');
+  await page.locator('#reset-filters').click();
+  await page.locator('[data-module=storage]').click();
+  await page.locator('#state-filter').selectOption('partial');
+  await waitText(page, 'filter-count', '1 / 64');
+  await page.locator('#incoming-links [data-relation=omega-recovery-storage-control]').click();
+  await waitText(page, 'evidence-scope', 'backup/restore nije implementiran');
+  await waitText(page, 'activation-missing', 'restore');
+  await page.locator('#kind-filter').selectOption('monitoring');
+  await waitText(page, 'filter-count', '0 / 64');
+  assert.equal(await page.locator('#relation-detail').isVisible(), false);
+  await page.locator('#reset-filters').click();
+  await page.locator('#relation-search').fill('omega-creative-gpu-control');
+  await waitText(page, 'filter-count', '1 / 64');
+  await waitText(page, 'relation-state', 'Planirano');
+  await waitText(page, 'activation-missing', 'GPU radnik');
+  assert.equal(await page.locator('#relation-evidence').innerText(), 'Nema potvrđenog adaptera ni integracionog testa za ovaj odnos.');
+  await page.locator('#reset-filters').click();
+  await waitText(page, 'filter-count', '64 / 64');
+  await page.locator('#module-filter').selectOption('vrh');
+  await page.locator('#state-filter').selectOption('implemented');
+  assert.equal(await page.locator('#incoming-links [data-relation]').count(), 1);
+  assert.equal(await page.locator('#outgoing-links [data-relation]').count(), 1);
+  await page.locator('#outgoing-links button').focus(); await page.keyboard.press('Enter');
+  await waitText(page, 'relation-title', 'VRH → DATA');
+  for (const width of [390, 768, 1280]) {
+    await page.setViewportSize({ width, height: 900 });
+    await page.locator('.connection-register').evaluate(el => { el.open = true; });
+    assert.equal(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), true, `Graph/table overflow at ${width}`);
+  }
+  assert.deepEqual(await f.api('/api/runs'), [], 'Graph exploration must never create a run');
+});
+
+test('Omega: catalog content renders as text and unsupported versions fail visibly', { timeout: 20000 }, async t => {
+  const f = await fixture(t); const { page } = f;
+  const catalog = await f.api('/api/omega');
+  catalog.links[0].purpose = '<img src=x onerror="window.omegaInjected=true">';
+  await page.route('**/api/omega', route => route.fulfill({ json: catalog }));
+  await page.goto(f.origin + '/omega'); await waitText(page, 'relation-purpose', '<img');
+  assert.equal(await page.locator('#relation-detail img').count(), 0);
+  assert.equal(await page.evaluate(() => window.omegaInjected), undefined);
+  catalog.version = 'unknown';
+  await page.reload(); await waitText(page, 'catalog-error', 'Nepodržana verzija');
+  assert.equal(await page.locator('#link-count').innerText(), '—');
+  assert.deepEqual(await f.api('/api/runs'), []);
 });
 
 test('Omega: unavailable catalog gives an explicit error while the independent pilot remains usable', { timeout: 20000 }, async t => {

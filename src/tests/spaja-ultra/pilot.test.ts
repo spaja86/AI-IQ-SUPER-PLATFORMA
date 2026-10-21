@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import { test } from 'node:test';
-import { mkdtempSync, rmSync } from 'node:fs';
+import { mkdtempSync, rmSync, existsSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join, resolve } from 'node:path';
 import { spawn, type ChildProcess } from 'node:child_process';
@@ -10,6 +10,7 @@ import { DatabaseSync } from 'node:sqlite';
 import { PilotStore } from '../../lib/suoc-pilot/store';
 import { tick } from '../../lib/suoc-pilot/worker';
 import { PILOT_EXAMPLE, validatePlan } from '../../lib/suoc-pilot/plan';
+import { validateOmegaCatalog, summarizeOmegaRelations, omegaRelationId } from '../../lib/suoc-pilot/omega-model';
 import { OMEGA_SKELETON } from '../../lib/suoc-pilot/omega';
 import { startPilot } from '../../lib/suoc-pilot/server';
 
@@ -17,11 +18,11 @@ test('Omega inventory has unique modules, resolvable links and explicit planned 
   const { modules, links } = OMEGA_SKELETON;
   const ids = new Set(modules.map(module => module.id));
   assert.equal(ids.size, modules.length);
-  assert.equal(new Set(links.map(link => `${link.from}:${link.to}`)).size, links.length);
+  assert.equal(new Set(links.map(link => `${link.from}:${link.to}:${link.kind}`)).size, links.length);
   for (const link of links) {
     assert.ok(ids.has(link.from) && ids.has(link.to));
     assert.notEqual(link.from, link.to);
-    if (link.state === 'local') {
+    if (link.state === 'implemented') {
       assert.notEqual(modules.find(module => module.id === link.from)?.state, 'planned');
       assert.notEqual(modules.find(module => module.id === link.to)?.state, 'planned');
     }
@@ -30,6 +31,65 @@ test('Omega inventory has unique modules, resolvable links and explicit planned 
     assert.equal(modules.find(module => module.id === id)?.state, 'planned');
   }
   assert.ok(links.length < OMEGA_SKELETON.referenceConnectionTarget);
+});
+
+test('Omega relationship summary is derived and never labels proposals as active', () => {
+  assert.deepEqual(validateOmegaCatalog(OMEGA_SKELETON), []);
+  assert.deepEqual(OMEGA_SKELETON.summary, { described: 64, implemented: 4, partial: 3, planned: 57, target: 270, remainingToDescribe: 206 });
+  assert.deepEqual(summarizeOmegaRelations([], 270), { described: 0, implemented: 0, partial: 0, planned: 0, target: 270, remainingToDescribe: 270 });
+  for (const link of OMEGA_SKELETON.links) {
+    assert.equal(link.id, omegaRelationId(link.from, link.to, link.kind));
+    for (const path of [...link.evidence.code, ...link.evidence.tests]) assert.ok(existsSync(resolve(path)), `Missing evidence: ${path}`);
+    if (link.state === 'planned') assert.equal(link.evidence.code.length, 0);
+  }
+  // Every original directed pair remains present, with the same nature.
+  const original = [
+    'scp:suoc:control', 'suoc:vrh:control', 'vrh:storage:data', 'storage:monitoring:monitoring',
+    'snoe:openui:data', 'openui:scp:control', 'bank:backend:data', 'company:creative:data',
+    'games:backend:data', 'poker:backend:data', 'transformers:backend:data', 'scp:agents:control',
+    'agents:backend:control', 'backend:vrh:control', 'backend:automation:control', 'ovsm:backend:data',
+    'creative:backend:data', 'nbs:bank:data', 'gpu:agents:data', 'backend:storage:data',
+    'cloud:backend:control', 'security:backend:control', 'pipeline:cloud:control', 'recovery:storage:control',
+    'automation:monitoring:monitoring',
+  ];
+  const identities = new Set(OMEGA_SKELETON.links.map(link => `${link.from}:${link.to}:${link.kind}`));
+  for (const identity of original) assert.ok(identities.has(identity), identity);
+});
+
+// Test the runtime validator with untrusted JSON rather than relying only on TS types.
+const editableCatalog = () => JSON.parse(JSON.stringify(OMEGA_SKELETON));
+for (const [name, mutate, expected] of [
+  ['duplicate module', (x: ReturnType<typeof editableCatalog>) => x.modules.push(x.modules[0]), /duplicate snoe/],
+  ['missing source', (x: ReturnType<typeof editableCatalog>) => { x.links[0].from = 'absent'; }, /unknown module/],
+  ['missing target', (x: ReturnType<typeof editableCatalog>) => { x.links[0].to = 'absent'; }, /unknown module/],
+  ['self reference', (x: ReturnType<typeof editableCatalog>) => { x.links[0].to = x.links[0].from; }, /self link/],
+  ['duplicate id', (x: ReturnType<typeof editableCatalog>) => { x.links[1].id = x.links[0].id; }, /duplicate id/],
+  ['duplicate identity with new id', (x: ReturnType<typeof editableCatalog>) => x.links.push({ ...x.links[0], id: 'renamed-copy' }), /duplicate directed relationship/],
+  ['invalid kind', (x: ReturnType<typeof editableCatalog>) => { x.links[0].kind = 'payment'; }, /invalid kind/],
+  ['invalid state', (x: ReturnType<typeof editableCatalog>) => { x.links[0].state = 'active'; }, /invalid state/],
+  ['missing contract', (x: ReturnType<typeof editableCatalog>) => { x.links[0].contract.payload = ' '; }, /incomplete contract/],
+  ['missing evidence', (x: ReturnType<typeof editableCatalog>) => { x.links[0].evidence.tests = []; }, /requires code and test evidence/],
+  ['path escape', (x: ReturnType<typeof editableCatalog>) => { x.links[0].evidence.code = ['src/../../secret']; }, /invalid evidence path/],
+  ['false implemented', (x: ReturnType<typeof editableCatalog>) => { x.links[4].state = 'implemented'; }, /status contradicts|planned module/],
+  ['incomplete partial', (x: ReturnType<typeof editableCatalog>) => { x.links[23].activation.missing = []; }, /status contradicts/],
+  ['planned without gap', (x: ReturnType<typeof editableCatalog>) => { x.links[4].activation.missing = []; }, /status contradicts/],
+  ['invalid target', (x: ReturnType<typeof editableCatalog>) => { x.referenceConnectionTarget = -1; }, /invalid target/],
+  ['null relation', (x: ReturnType<typeof editableCatalog>) => { x.links[0] = null; }, /invalid relation/],
+] as const) {
+  test(`Omega validator rejects ${name}`, () => {
+    const value = editableCatalog(); mutate(value);
+    assert.match(validateOmegaCatalog(value).join('; '), expected);
+  });
+}
+
+test('Omega validates malformed envelopes without throwing and permits distinct direction/kind', () => {
+  for (const value of [null, [], {}, { modules: null, links: [] }]) assert.ok(validateOmegaCatalog(value).length);
+  const value = editableCatalog();
+  const proposal = value.links.find((link: { state: string }) => link.state === 'planned');
+  for (const variation of [{ ...proposal, from: proposal.to, to: proposal.from }, { ...proposal, kind: 'monitoring' }]) {
+    variation.id = omegaRelationId(variation.from, variation.to, variation.kind); value.links.push(variation);
+  }
+  assert.deepEqual(validateOmegaCatalog(value), []);
 });
 
 test('Omega assets and read-only API retain local security boundaries and never create a run', async () => {
