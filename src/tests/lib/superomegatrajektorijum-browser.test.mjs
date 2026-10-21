@@ -93,5 +93,7 @@ test('registry fits mobile and tablet widths, including long addresses', async t
     await page.setViewportSize({ width, height: 900 });
     const dimensions = await section.evaluate(el => ({ width: el.clientWidth, content: el.scrollWidth }));
     assert(dimensions.content <= dimensions.width + 1, `${width}: ${JSON.stringify(dimensions)}`);
+    const documentWidth = await page.evaluate(() => document.documentElement.scrollWidth);
+    assert(documentWidth <= width + 1, `Navigation/page overflow at ${width}: ${documentWidth}`);
   }
 });
