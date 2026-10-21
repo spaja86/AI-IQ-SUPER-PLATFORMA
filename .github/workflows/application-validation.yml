@@ -154,6 +154,8 @@ jobs:
         shell: bash
         run: |
           node scripts/ci/run-check.mjs smoke npm run test:smoke
+      - name: Predeploy contract and route response regressions
+        run: node scripts/ci/run-check.mjs predeploy-regressions node --test scripts/tests/predeploy-source-contracts.test.mjs scripts/tests/predeploy-route-responses.test.mjs
       - name: Predeploy source contracts without production secrets
         shell: bash
         run: |
