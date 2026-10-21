@@ -9,22 +9,11 @@
 
 import { NextResponse } from 'next/server';
 import { deployRegistry } from '@/lib/deploy/deploy-registry';
+import { kpiSnapshot } from '@/lib/deploy/deploy-portfolio-data';
 import { APP_VERSION } from '@/lib/constants';
 import deployEvidence from '../../../../public/deploy_status.json';
 
 export const dynamic = 'force-dynamic';
-
-/** KPI snapshot za deployment portfolio */
-const kpiSnapshot = {
-  apiLatencyP95Target: '≤ 300ms',
-  ngEvalP99Target: '≤ 50ms',
-  uptimeSlaTarget: '≥ 99.99%',
-  buildDurationTarget: '≤ 3 min',
-  coldStartP95Target: '≤ 1.5s',
-  errorRateTarget: '< 0.1%',
-  gamingSessionCompletion: '≥ 95%',
-  fairnessCompliance: '100%',
-};
 
 /** CI/CD workflow status snapshot */
 const workflowStatus = [
