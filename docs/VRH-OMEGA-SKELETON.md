@@ -44,13 +44,17 @@ pokreću infrastrukturu, igre, banku, spoljne agente ili deployment.
 | GPU, storage, infrastructure | Temelj; lokalni SQLite, ostalo plan |
 | Security, CI/CD, recovery, monitoring | Donji operativni sloj sa preciznim obimom |
 
-Registar ima **23 modula i 25 eksplicitno opisanih veza**. Četiri veze opisuju
-lokalni put SCP → SUOC → VRH → storage → monitoring. Ostala 21 veza je predlog
-arhitekture. To nije automatski otkriven niti izvršiv mrežni graf.
-Broj 270 sa slike prikazan je kao referentni cilj; strelice sa slike nisu
-predstavljene kao 270 proverenih integracija. Postojeći eksperimentalni
-`vrh-skeleton-proposal.ts` ostaje odvojena dry-run validacija i ne daje
-ovlašćenje za izvršavanje.
+Registar sada ima **23 modula i 64 funkcionalno opisana usmerena odnosa**:
+**4 implementirana lokalno, 3 delimična i 57 planiranih**. Četiri implementirana
+odnosa i dalje opisuju postojeći put SCP → SUOC → VRH → storage → monitoring.
+Nije dodat novi izvršni adapter. Broj 270 ostaje razvojni cilj; preostalih
+206 odnosa tek treba opravdati i razraditi. Broj opisanih odnosa nije broj
+aktivnih integracija niti procenat produkcione spremnosti.
+
+Detalji modela, analiza svih modula, dokazi i uslovi proširenja nalaze se u
+[OMEGA-RELATIONSHIPS.md](OMEGA-RELATIONSHIPS.md). Postojeći eksperimentalni
+`vrh-skeleton-proposal.ts` ostaje odvojena dry-run validacija bez ovlašćenja
+za izvršavanje.
 
 Statusi kartica opisuju **ovu integraciju**, ne kompletan kod drugih delova
 repozitorijuma ili zdravlje produkcije. `U KODU` je lokalna implementacija;
@@ -61,9 +65,11 @@ Hosting je nezavisan; nije uvedena Vercel zavisnost.
 
 ## Mesta za proširenje
 
-- `src/lib/suoc-pilot/omega.ts`: tipizirani katalog modula i veza.
+- `src/lib/suoc-pilot/omega.ts`: postojeći tipizirani katalog 23 modula, validiran pri učitavanju.
+- `src/lib/suoc-pilot/omega-links.ts`: 64 opisana odnosa sa dokazima i kriterijumima.
+- `src/lib/suoc-pilot/omega-model.ts`: model, validacija referenci/duplikata i izvedeni brojači.
 - `pilot/suoc/omega.html`, `omega.css`, `omega.js`: responzivni prikaz,
-  izbor modula i registar veza. Tekst se upisuje preko `textContent`.
+  izbor modula, ulazne/izlazne veze, kombinovani filteri i detalji aktiviranja. Tekst se upisuje preko `textContent`.
 - `pilot/suoc/pilot.js`: postojeće kontrole, izbor zadatka, status i audit;
   dele ih oba prikaza, bez kopije logike izvršavanja.
 - `GET /api/omega`: read-only katalog sa istim lokalnim Host/Origin i
@@ -89,7 +95,7 @@ Novi integracioni testovi su u postojećem `pilot.test.ts`, pa ih preuzima
 Obuhvataju mapu, pripremu bez izvršavanja, rezultat 6/21, ponovno učitavanje,
 gubitak veze, nedostupan katalog i širine 390/768/1280 px.
 
-Lokalno provereno na osnovi `e201f73a10e25a71c00243dd82fb6bd5751032bd`:
+Istorijska provera PR-a #1363, pre proširenja odnosa, na osnovi `e201f73a10e25a71c00243dd82fb6bd5751032bd`:
 23/23 testova pilota, 73/73 SUOC testova (7 osnovnih + 17 lifecycle + 49 VRH),
 9/9 browser testova (7 postojećih + 2 Omega), projektni i strogi pilot
 TypeScript, ciljani ESLint i `git diff --check`. Vizuelno pregledan desktop
