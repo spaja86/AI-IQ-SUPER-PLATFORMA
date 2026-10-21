@@ -38,16 +38,18 @@ function collectTestFiles(baseDir) {
 
 const targetDirectory = isAbsolute(directory) ? directory : resolve(repoRoot, directory);
 if (!existsSync(targetDirectory)) {
-  console.warn(`Test directory does not exist, skipping: ${targetDirectory}`);
-  process.exit(0);
+  console.error(`Required test directory does not exist: ${targetDirectory}`);
+  process.exit(1);
 }
 
 const testFiles = collectTestFiles(targetDirectory);
 
 if (testFiles.length === 0) {
-  console.warn(`No test files found, skipping: ${targetDirectory}`);
-  process.exit(0);
+  console.error(`No test files found in required directory: ${targetDirectory}`);
+  process.exit(1);
 }
+
+console.log(`Discovered ${testFiles.length} test files in ${directory}`);
 
 let tsxCliPath;
 try {
@@ -59,6 +61,7 @@ try {
 }
 
 for (const file of testFiles) {
+  console.log(`Running ${file}`);
   const command = spawnSync(process.execPath, [tsxCliPath, file], {
     stdio: 'inherit',
     cwd: repoRoot,
@@ -74,3 +77,5 @@ for (const file of testFiles) {
     process.exit(command.status ?? 1);
   }
 }
+
+console.log(`Completed ${testFiles.length}/${testFiles.length} test files successfully.`);
