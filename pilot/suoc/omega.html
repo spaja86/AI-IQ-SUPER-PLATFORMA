@@ -27,7 +27,9 @@
       <main id="main">
         <section class="hero" aria-labelledby="title">
           <div>
-            <p class="eyebrow">FINAL AI LAB ECOSYSTEM / SKELETON 01</p>
+            <p class="eyebrow">
+              FINAL AI LAB ECOSYSTEM / RELATIONSHIP CATALOG 02
+            </p>
             <h1 id="title">SPAJA MASTER <span>OMEGA</span></h1>
             <p class="hero-copy">
               Jedna vizija. Povezani sistemi. <strong>VRH u jezgru.</strong>
@@ -45,13 +47,20 @@
             <strong id="link-count">—</strong><span>opisanih veza</span>
           </div>
           <div>
-            <strong id="local-count">—</strong><span>lokalne veze</span>
+            <strong id="local-count">—</strong
+            ><span>implementirane · lokalno</span>
+          </div>
+          <div>
+            <strong id="partial-count">—</strong><span>delimične veze</span>
+          </div>
+          <div>
+            <strong id="planned-count">—</strong><span>planirane veze</span>
           </div>
           <div class="reference">
-            <strong>270</strong
+            <strong id="target-count">—</strong
             ><span>cilj sa slike · nije broj integracija</span>
           </div>
-          <p>Nezavisni SPAJA skelet <span>LOKALNI PILOT / v1</span></p>
+          <p>Nezavisni SPAJA skelet <span>LOKALNI PILOT / v2</span></p>
         </div>
         <div id="catalog-error" class="error" role="alert" hidden></div>
         <section id="architecture" aria-labelledby="architecture-title">
@@ -140,6 +149,83 @@
             class="module-grid operations"
             aria-label="Operativni slojevi"
           ></div>
+          <section
+            class="relationship-explorer"
+            aria-labelledby="relations-title"
+          >
+            <h2 id="relations-title">Istraži odnose</h2>
+            <p id="catalog-progress" class="scope-note"></p>
+            <p class="scope-note">
+              Status veze važi samo za opisani obim. Katalog ne meri dostupnost
+              servisa i ne aktivira integracije.
+            </p>
+            <div class="relation-filters">
+              <label
+                >Modul<select id="module-filter">
+                  <option value="all">Svi moduli</option>
+                </select></label
+              >
+              <label
+                >Status veze<select id="state-filter">
+                  <option value="all">Svi statusi</option>
+                  <option value="implemented">Implementirano lokalno</option>
+                  <option value="partial">Delimično</option>
+                  <option value="planned">Planirano</option>
+                </select></label
+              >
+              <label
+                >Priroda veze<select id="kind-filter">
+                  <option value="all">Svi tipovi</option>
+                  <option value="control">Kontrola</option>
+                  <option value="data">Podaci</option>
+                  <option value="monitoring">Praćenje</option>
+                </select></label
+              >
+              <label
+                >Pretraga<input
+                  id="relation-search"
+                  type="search"
+                  placeholder="Namena, modul ili ID veze"
+              /></label>
+              <button id="reset-filters" type="button">Obriši filtere</button>
+            </div>
+            <p id="filter-count" role="status"></p>
+            <div
+              class="neighborhood"
+              aria-label="Usmerene veze izabranog modula"
+            >
+              <section>
+                <h3>Ulazne veze →</h3>
+                <div id="incoming-links"></div>
+              </section>
+              <div class="focus-module">
+                <span>IZABRANI MODUL</span><strong id="focus-title"></strong>
+                <p>← ulaz / izlaz →</p>
+                <button id="inspect-scp" type="button">Pregled SCP</button>
+              </div>
+              <section>
+                <h3>→ Izlazne veze</h3>
+                <div id="outgoing-links"></div>
+              </section>
+            </div>
+            <section
+              id="relation-detail"
+              aria-labelledby="relation-title"
+              hidden
+            >
+              <h3 id="relation-title" tabindex="-1"></h3>
+              <p id="relation-state"></p>
+              <p id="relation-purpose"></p>
+              <dl id="relation-contract"></dl>
+              <h4>Dokazi i potvrđeni obim</h4>
+              <p id="evidence-scope"></p>
+              <ul id="relation-evidence"></ul>
+              <h4>Šta nedostaje za aktiviranje punog opisanog obima</h4>
+              <ul id="activation-missing"></ul>
+              <h4>Provera prihvatanja</h4>
+              <p id="activation-acceptance"></p>
+            </section>
+          </section>
           <section class="inspector" aria-labelledby="module-title">
             <div>
               <p class="eyebrow">PREGLED VEZA / IZABRANI MODUL</p>
@@ -188,19 +274,21 @@
           </div>
         </section>
         <details class="connection-register">
-          <summary>Registar svih veza · predlog arhitekture</summary>
+          <summary>Registar veza · prati izabrane filtere</summary>
           <p>
-            Lokalne veze opisuju postojeći put kroz pilot. Ostale su predložene;
-            nisu aktivni servisi ni odobrenje za izvršavanje.
+            Implementirane veze opisuju postojeći put kroz pilot. Delimične
+            imaju nedovršen obim; planirane su predlozi i nisu aktivni servisi
+            ni odobrenje za izvršavanje.
           </p>
           <div class="table-scroll">
             <table>
               <thead>
                 <tr>
+                  <th>Odnos / detalji</th>
                   <th>Izvor</th>
                   <th>Odredište</th>
                   <th>Tip</th>
-                  <th>Obim</th>
+                  <th>Status veze</th>
                 </tr>
               </thead>
               <tbody id="link-table"></tbody>
