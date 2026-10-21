@@ -53,6 +53,7 @@ test('deployment details distinguish configured active and historical evidence',
   await section.getByLabel('Tip servisa', { exact: true }).selectOption('deployment');
   const card = section.locator('[data-registry-id="deploy:ai-iq-super-platforma"]');
   await card.locator('summary').click();
+  await card.getByRole('link', { name: 'Pogledaj osnov statusa' }).waitFor();
   const text = await card.innerText();
   assert.match(text, /Konfiguracioni status\s+aktivan/);
   assert.match(text, /Dostupnost nije proverena/);
@@ -67,6 +68,7 @@ test('shared idea expansion remains available and keyboard details work', async 
   await summary.focus(); await page.keyboard.press('Enter');
   const idea = section.locator('[data-registry-id] details details');
   await idea.locator('summary').click();
+  await idea.locator('ol > li').last().waitFor();
   assert.equal(await idea.locator('ol > li').count(), 80);
   assert.match(await idea.innerText(), /OMEGA-0001-K01/);
 });
@@ -77,11 +79,13 @@ test('Sites and local Omega keep their boundaries and correct destinations', asy
   const pilot = section.locator('[data-registry-id]');
   assert.match(await pilot.getByRole('link', { name: 'Uputstvo za lokalni pilot' }).getAttribute('href'), /VRH-OMEGA-SKELETON.md$/);
   await pilot.locator('summary').click();
+  await pilot.getByRole('link', { name: 'Pogledaj osnov statusa' }).waitFor();
   assert.match(await pilot.innerText(), /\/omega nije ruta glavne Next.js/);
   await section.getByLabel('Pretraga registra').fill('app:spaja-sites');
   const sites = section.locator('[data-registry-id]');
   assert.equal(await sites.getByRole('link', { name: 'Otvori adresu' }).getAttribute('href'), 'https://spaja-deploy.able-mesa-4439.chatgpt.site/');
   await sites.locator('summary').click();
+  await sites.getByRole('link', { name: 'Pogledaj osnov statusa' }).waitFor();
   assert.match(await sites.innerText(), /nisu nezavisno potvrđene/);
 });
 
