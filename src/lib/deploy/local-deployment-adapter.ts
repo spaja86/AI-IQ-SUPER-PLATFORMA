@@ -4,6 +4,7 @@ import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { validDeploymentRequest } from './deployment-provider';
 import type { DeploymentAdapter, DeploymentReceipt, DeploymentRequest, RollbackRequest } from './deployment-provider';
+import { validBuiltStaticArtifact, type BuiltStaticArtifact } from './built-static-artifact';
 
 interface Release {
   deploymentId: string;
@@ -12,6 +13,10 @@ interface Release {
   artifactSha256: string;
   triggeredBy: string;
   createdAt: string;
+  scope?: 'dev-static-build';
+  sourceSha256?: string;
+  compilerSha256?: string;
+  buildJobId?: string;
 }
 interface AuditEvent {
   operation: 'deploy' | 'rollback';
@@ -25,7 +30,7 @@ interface AuditEvent {
 
 /** Trusted single-process fixture worker. No shell, repository execution or network.
  * Not an OS sandbox. Restart/session import is unsupported. */
-export function createLocalDeploymentAdapter(options: { executionEnabled?: boolean } = {}) {
+export function createLocalDeploymentAdapter(options: { executionEnabled?: boolean; builtArtifactsEnabled?: boolean } = {}) {
   const enabled = options.executionEnabled === true;
   let workspace: string | null = null;
   let closed = false;
@@ -50,7 +55,7 @@ export function createLocalDeploymentAdapter(options: { executionEnabled?: boole
   function persist(nextActive: string, nextReleases: Release[], nextAudit: AuditEvent[]) {
     // Active pointer and ledger commit together; memory advances only after rename.
     const temporary = join(workspace!, 'state.pending');
-    writeFileSync(temporary, JSON.stringify({ schemaVersion: 1, provider: 'spaja-local', scope: 'fixture-only', availabilityVerified: false,
+    writeFileSync(temporary, JSON.stringify({ schemaVersion: 1, provider: 'spaja-local', scope: options.builtArtifactsEnabled === true ? 'dev-local-artifacts' : 'fixture-only', availabilityVerified: false,
       activeDeploymentId: nextActive, releases: nextReleases, audit: nextAudit }, null, 2), { mode: 0o600, flag: 'w' });
     renameSync(temporary, join(workspace!, 'state.json'));
     activeDeploymentId = nextActive; releases = nextReleases; audit = nextAudit;
@@ -58,9 +63,9 @@ export function createLocalDeploymentAdapter(options: { executionEnabled?: boole
   function verify(release: Release) {
     const path = join(workspace!, release.deploymentId + '.html');
     const stat = lstatSync(path);
-    if (!stat.isFile() || stat.isSymbolicLink() || stat.size > 1024) throw new Error('invalid-artifact');
+    if (!stat.isFile() || stat.isSymbolicLink() || stat.size > (release.scope === 'dev-static-build' ? 65536 : 1024)) throw new Error('invalid-artifact');
     const content = readFileSync(path, 'utf8');
-    if (content !== fixture(release) || digest(content) !== release.artifactSha256) throw new Error('invalid-artifact');
+    if ((release.scope !== 'dev-static-build' && content !== fixture(release)) || digest(content) !== release.artifactSha256) throw new Error('invalid-artifact');
   }
   const adapter: DeploymentAdapter = {
     id: 'spaja-local',
@@ -112,6 +117,35 @@ export function createLocalDeploymentAdapter(options: { executionEnabled?: boole
     },
   };
   return { ...adapter,
+    /** Separate opt-in entry point, for a trusted development worker only. Never expose over HTTP. */
+    async deployBuiltArtifact(request: DeploymentRequest, artifact: BuiltStaticArtifact): Promise<DeploymentReceipt> {
+      const reason = closed ? 'session-closed' : !enabled ? 'execution-disabled'
+        : options.builtArtifactsEnabled !== true ? 'built-artifacts-disabled'
+        : !validDeploymentRequest(request) ? 'invalid-request'
+        : request.environment !== 'dev' ? 'local-dev-only'
+        : request.platformId !== 'spaja-build-prototype' ? 'local-build-prototype-only'
+        : !validBuiltStaticArtifact(artifact, request) ? 'invalid-build-artifact'
+        : releases.length >= 20 ? 'release-limit' : null;
+      if (reason) {
+        const result = receipt('blocked', reason); record('deploy', result, request.triggeredBy); return result;
+      }
+      let artifactPath: string | null = null;
+      try {
+        workspace ??= mkdtempSync(join(tmpdir(), 'spaja-deploy-'));
+        const release: Release = { deploymentId: randomUUID(), sourceRevision: request.sourceRevision, version: request.version,
+          artifactSha256: artifact.artifactSha256!, triggeredBy: request.triggeredBy, createdAt: new Date().toISOString(),
+          scope: 'dev-static-build', sourceSha256: artifact.sourceSha256!, compilerSha256: artifact.compilerSha256, buildJobId: artifact.jobId };
+        artifactPath = join(workspace, release.deploymentId + '.html');
+        writeFileSync(artifactPath, artifact.html!, { mode: 0o600, flag: 'wx' });
+        verify(release);
+        const result = receipt('verified', 'local-built-artifact-verified', release);
+        persist(release.deploymentId, [...releases, release], [...audit, event('deploy', result, request.triggeredBy)].slice(-100));
+        return result;
+      } catch {
+        if (artifactPath) { try { rmSync(artifactPath, { force: true }); } catch { /* inspect orphan manually */ } }
+        const result = receipt('failed', 'local-write-or-verification-failed'); record('deploy', result, request.triggeredBy); return result;
+      }
+    },
     inspect: () => ({ workspace, activeDeploymentId, releases: structuredClone(releases), audit: structuredClone(audit) }),
     /** Removes only the internally generated temporary directory. */
     dispose: () => { closed = true; if (workspace) rmSync(workspace, { recursive: true, force: true }); },
