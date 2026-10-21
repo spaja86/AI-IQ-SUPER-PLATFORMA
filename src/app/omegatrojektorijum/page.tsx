@@ -16,6 +16,7 @@ export default function OmegaPage() {
         <h1 className="break-words text-3xl font-bold sm:text-5xl">OMEGATROJEKTORIJUM</h1>
         <p className="text-slate-300">Poveži ideju sa sledećim konkretnim korakom.</p>
       </header>
+      <Link className="inline-block text-cyan-300 underline focus-visible:outline-2" href="/superomegatrajektorijum">SUPEROMEGATRAJEKTORIJUM — zajednički registar platformi i aplikacija</Link>
       <nav aria-label="Radni prostori" className="grid gap-4 sm:grid-cols-3">
         <Link className="rounded-xl border border-slate-600 p-5 hover:border-cyan-300 focus-visible:outline-2 focus-visible:outline-cyan-300" href="/bank-prototype">
           <strong>Bankarski prototip</strong><p className="mt-2 text-sm text-slate-300">Proveri sesiju. Stvarna plaćanja i izdavanje kartica su isključeni.</p>
