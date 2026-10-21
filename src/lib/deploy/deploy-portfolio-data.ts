@@ -9,4 +9,3 @@ export const kpiSnapshot = {
   gamingSessionCompletion: '≥ 95%',
   fairnessCompliance: '100%',
 };
-
