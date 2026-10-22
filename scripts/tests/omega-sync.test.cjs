@@ -1,7 +1,8 @@
-const { test } = require('node:test');
-const assert = require('node:assert/strict');
-const fs = require('node:fs');
-const { proposeSync } = require('../omega-sync.cjs');
+(async () => {
+const { test } = await import('node:test');
+const { default: assert } = await import('node:assert/strict');
+const fs = await import('node:fs');
+const { proposeSync } = await import('../omega-sync.cjs');
 
 function fixture({ ahead = 1, existing = [], branches = ['main', 'master', 'feature/a', 'copilot/a'], fail } = {}) {
   const calls = [];
@@ -87,3 +88,4 @@ test('workflow permissions and trusted execution remain restrictive', () => {
   assert.match(ci, /pull_request:/);
   assert.match(ci, /node --test scripts\/tests\/omega-sync.test.cjs/);
 });
+})().catch((error) => { console.error(error); process.exitCode = 1; });

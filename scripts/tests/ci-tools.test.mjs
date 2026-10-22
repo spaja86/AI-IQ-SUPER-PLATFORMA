@@ -21,9 +21,9 @@ function runnerFixture(t) {
   mkdirSync(join(cwd, 'scripts'));
   copyFileSync(join(root, 'scripts/run-tsx-tests.mjs'), join(cwd, 'scripts/run-tsx-tests.mjs'));
   mkdirSync(join(cwd, 'node_modules/tsx'), { recursive: true });
-  writeFileSync(join(cwd, 'node_modules/tsx/package.json'), JSON.stringify({ name: 'tsx', exports: { './cli': './cli.cjs' } }));
-  // An isolated executable fixture tests runner discovery/exit propagation without npm.
-  writeFileSync(join(cwd, 'node_modules/tsx/cli.cjs'), 'require(process.argv[2]);\n');
+  writeFileSync(join(cwd, 'node_modules/tsx/package.json'), JSON.stringify({ name: 'tsx', exports: { '.': './loader.mjs' } }));
+  // A no-op loader fixture tests discovery and exit propagation without npm.
+  writeFileSync(join(cwd, 'node_modules/tsx/loader.mjs'), 'export {};\n');
   return { cwd, run: dir => invoke(join(cwd, 'scripts/run-tsx-tests.mjs'), [dir], cwd) };
 }
 
