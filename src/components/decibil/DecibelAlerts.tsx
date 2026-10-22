@@ -3,7 +3,7 @@
 // SpajaUltraOmegaCore -∞Ω+∞ — DECIBIL DecibelAlerts Component
 // Kompanija SPAJA — Digitalna Industrija
 
-import { useEffect, useState, useCallback } from 'react';
+import { useEffect, useState } from 'react';
 import type { DecibelHistoryEntry } from '@/lib/decibil';
 
 interface DecibelAlertsProps {
@@ -30,33 +30,37 @@ export function DecibelAlerts({
   className = '',
 }: DecibelAlertsProps) {
   const [alerts, setAlerts] = useState<DecibelHistoryEntry[]>([]);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  const fetchAlerts = useCallback(async () => {
-    setLoading(true);
-    setError(null);
-    try {
-      const res = await fetch(`/api/decibil/history?limit=100`);
-      if (!res.ok) throw new Error(`HTTP ${res.status}`);
-      const json = await res.json();
-      const history: DecibelHistoryEntry[] = (json.data ?? json).history ?? [];
-      const filtered = history
-        .filter((e) => ALERT_STATUSES.includes(e.measurement.status as typeof ALERT_STATUSES[number]))
-        .slice(0, limit);
-      setAlerts(filtered);
-    } catch (e) {
-      setError(e instanceof Error ? e.message : 'Greška pri učitavanju alerta.');
-    } finally {
-      setLoading(false);
-    }
-  }, [limit]);
-
   useEffect(() => {
-    fetchAlerts();
-    const interval = setInterval(fetchAlerts, pollingIntervalMs);
-    return () => clearInterval(interval);
-  }, [fetchAlerts, pollingIntervalMs]);
+    let cancelled = false;
+    async function fetchAlerts() {
+      try {
+        const res = await fetch(`/api/decibil/history?limit=100`);
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        const json = await res.json();
+        if (cancelled) return;
+        setError(null);
+        const history: DecibelHistoryEntry[] = (json.data ?? json).history ?? [];
+        const filtered = history
+          .filter((e) => ALERT_STATUSES.includes(e.measurement.status as typeof ALERT_STATUSES[number]))
+          .slice(0, limit);
+        setAlerts(filtered);
+      } catch (e) {
+        if (!cancelled) setError(e instanceof Error ? e.message : 'Greška pri učitavanju alerta.');
+      } finally {
+        if (!cancelled) setLoading(false);
+      }
+    }
+    void fetchAlerts();
+    const interval = setInterval(() => {
+      setLoading(true);
+      setError(null);
+      void fetchAlerts();
+    }, pollingIntervalMs);
+    return () => { cancelled = true; clearInterval(interval); };
+  }, [limit, pollingIntervalMs]);
 
   return (
     <div className={`flex flex-col gap-2 p-4 rounded-xl border border-gray-700 ${className}`}>
