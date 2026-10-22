@@ -15,7 +15,7 @@ export function JokeGenerator({
   showStats = true,
 }: JokeGeneratorProps) {
   const [joke, setJoke] = useState<Joke | null>(null);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(autoLoad);
   const [error, setError] = useState<string | null>(null);
   const [category, setCategory] = useState<string>('Any');
   const [jokeType, setJokeType] = useState<'single' | 'twopart' | 'any'>('any');
@@ -23,19 +23,7 @@ export function JokeGenerator({
   const [jokesCount, setJokesCount] = useState(0);
   const [favorites, setFavorites] = useState<Joke[]>([]);
 
-  // Auto-load prvi put
-  useEffect(() => {
-    if (autoLoad) {
-      fetchJoke();
-    }
-  // Intentionally run only on mount; changes to autoLoad or fetchJoke do not re-trigger
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
   const fetchJoke = async () => {
-    setLoading(true);
-    setError(null);
-
     try {
       const params = new URLSearchParams();
       if (category && category !== 'Any') {
@@ -53,6 +41,7 @@ export function JokeGenerator({
       }
 
       const data = await response.json();
+      setError(null);
       setJoke(data.data?.joke || null);
       setJokesCount((c) => c + 1);
     } catch (err) {
@@ -61,6 +50,14 @@ export function JokeGenerator({
       setLoading(false);
     }
   };
+
+  // Auto-load prvi put
+  useEffect(() => {
+    async function initialize() { if (autoLoad) await fetchJoke(); }
+    void initialize();
+  // Intentionally run only on mount; changes to autoLoad or fetchJoke do not re-trigger
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const addToFavorites = () => {
     if (joke && !favorites.find((f) => f.id === joke.id)) {
@@ -218,7 +215,7 @@ export function JokeGenerator({
       {/* Action Buttons */}
       <div className="flex flex-wrap gap-3 mb-6">
         <button
-          onClick={fetchJoke}
+          onClick={() => { setLoading(true); setError(null); void fetchJoke(); }}
           disabled={loading}
           className="flex-1 px-6 py-3 bg-purple-600 hover:bg-purple-500 disabled:bg-purple-800 text-white font-semibold rounded-lg transition"
         >
