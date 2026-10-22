@@ -30,8 +30,10 @@ function assert(condition: boolean, label: string): void {
 
 console.log('\n[listInstrukcije]');
 
+const expectedModuleIds = ['risk', 'destruction', 'gear', 'events', 'performance', 'spaja-kod', 'sports', 'weather', 'read-voice', 'health'];
 const all = listInstrukcije();
-assert(all.length === 9, 'returns exactly 9 modules');
+assert(all.length === expectedModuleIds.length, 'returns all ten documented modules');
+assert(new Set(all.map((entry) => entry.id)).size === all.length, 'module IDs are unique');
 assert(Array.isArray(all), 'returns an array');
 assert(all !== INSTRUKCIJA_REGISTRY, 'returns a copy (not the same reference)');
 
@@ -41,7 +43,7 @@ for (const field of requiredFields) {
 }
 
 const moduleIds = all.map((e) => e.id);
-for (const id of ['risk', 'destruction', 'gear', 'events', 'performance', 'sports', 'weather', 'read-voice', 'health']) {
+for (const id of expectedModuleIds) {
   assert(moduleIds.includes(id), `contains module "${id}"`);
 }
 
@@ -109,7 +111,8 @@ const gearEntry = bundle.gearListing[0] as Record<string, unknown>;
 assert(typeof gearEntry.affiliateCommission === 'number', 'gear listing includes affiliateCommission');
 
 // instrukcije (no primerInput / primerOutput)
-assert(bundle.instrukcije.length === 9, 'instrukcije has 9 entries');
+assert(bundle.instrukcije.length === expectedModuleIds.length, 'export contains all ten modules');
+assert(JSON.stringify(bundle.instrukcije.map((entry) => entry.id).sort()) === JSON.stringify([...expectedModuleIds].sort()), 'export module IDs match the complete documented set');
 const instrEntry = bundle.instrukcije[0] as Record<string, unknown>;
 assert(instrEntry.primerInput === undefined, 'export bundle instrukcije omit primerInput');
 assert(instrEntry.primerOutput === undefined, 'export bundle instrukcije omit primerOutput');

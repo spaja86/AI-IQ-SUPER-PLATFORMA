@@ -1,3 +1,4 @@
+import { mock } from 'node:test';
 // SpajaUltraOmegaCore -∞Ω+∞ — AI IQ PROGRAMSKI JEZIK Tests
 // Kompanija SPAJA — Digitalna Industrija
 
@@ -84,8 +85,16 @@ async function runTests(): Promise<void> {
       fallbackConfigured: true,
     };
 
-    const first = evaluateAiiqLanguage(input);
-    const second = evaluateAiiqLanguage(input);
+    // Readiness includes a real latency gate; wall-clock jitter is not a deterministic input.
+    const clock = mock.method(performance, 'now', () => 0);
+    let first: ReturnType<typeof evaluateAiiqLanguage>;
+    let second: ReturnType<typeof evaluateAiiqLanguage>;
+    try {
+      first = evaluateAiiqLanguage(input);
+      second = evaluateAiiqLanguage(input);
+    } finally {
+      clock.mock.restore();
+    }
 
     assert(first.valid, 'result should be valid');
     assert(first.status === 'AI_NATIVE_READY', `expected AI_NATIVE_READY, got ${first.status}`);
@@ -153,6 +162,25 @@ async function runTests(): Promise<void> {
     assert(first.integrationProfile.acceptanceCriteria.dekoracijeObjektnihPrimesaAdditiveInput, 'dekoracije-objektnih-primesa additive input lock must stay enabled');
     assert(first.integrationProfile.governanceLink.downstreamReference.linkedRepo === 'spaja86/IO-OPENUI-AO', 'downstream reference mismatch');
     assert(first.durationMs <= AIIQ_LANG_PERFORMANCE_MAX_MS, `duration ${first.durationMs} > ${AIIQ_LANG_PERFORMANCE_MAX_MS}`);
+  });
+
+  await test('latency above the budget still blocks integration readiness', () => {
+    let elapsed = 0;
+    const clock = mock.method(performance, 'now', () => (elapsed += AIIQ_LANG_PERFORMANCE_MAX_MS + 1));
+    try {
+      const result = evaluateAiiqLanguage({
+        goal: 'latency gate', mode: 'HYBRID', promptComplexity: 84,
+        ruleCoverage: 86, orchestrationReadiness: 82, autonomyLevel: 79,
+        riskLevel: 28, explainabilityNeed: 90, securityPolicyScore: 88,
+        fallbackConfigured: true,
+      });
+      assert(result.durationMs > AIIQ_LANG_PERFORMANCE_MAX_MS, 'fixture must exceed latency budget');
+      assert(!result.integrationProfile.acceptanceCriteria.performanceWithinTargets, 'latency gate must reject slow evaluation');
+      assert(result.integrationProfile.unifiedSignalStatus.sinemetricko === 'BLOCKED', 'slow evaluation must block sinemetricko');
+      assert(result.integrationProfile.unifiedSignalStatus.overall === 'BLOCKED', 'slow evaluation must block overall integration');
+    } finally {
+      clock.mock.restore();
+    }
   });
 
   await test('NaN is rejected', () => {
