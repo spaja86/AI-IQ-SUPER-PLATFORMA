@@ -2,12 +2,10 @@ import { existsSync, readdirSync } from 'node:fs';
 import { dirname, isAbsolute, join, resolve } from 'node:path';
 import { spawnSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
-import { createRequire } from 'node:module';
 
 const directory = process.argv[2];
 const scriptDir = dirname(fileURLToPath(import.meta.url));
 const repoRoot = resolve(scriptDir, '..');
-const require = createRequire(import.meta.url);
 
 if (!directory) {
   console.error('Usage: node scripts/run-tsx-tests.mjs <tests-directory>');
@@ -51,18 +49,9 @@ if (testFiles.length === 0) {
 
 console.log(`Discovered ${testFiles.length} test files in ${directory}`);
 
-let tsxCliPath;
-try {
-  tsxCliPath = require.resolve('tsx/cli', { paths: [repoRoot] });
-} catch (error) {
-  console.error('Unable to resolve tsx CLI (tsx/cli). Ensure dependencies are installed (npm ci).');
-  console.error(error);
-  process.exit(1);
-}
-
 for (const file of testFiles) {
   console.log(`Running ${file}`);
-  const command = spawnSync(process.execPath, [tsxCliPath, file], {
+  const command = spawnSync(process.execPath, ['--import', 'tsx', file], {
     stdio: 'inherit',
     cwd: repoRoot,
   });
