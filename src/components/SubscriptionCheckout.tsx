@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import Button from '@/components/Button';
 import { dohvatiSesiju } from '@/lib/auth/omega-session-client';
 
@@ -14,13 +15,14 @@ const PLANOVI: Array<{ id: PlanId; naziv: string; cena: string; opis: string }> 
 ];
 
 export default function SubscriptionCheckout() {
+  const router = useRouter();
   const [loadingPlan, setLoadingPlan] = useState<PlanId | null>(null);
   const [poruka, setPoruka] = useState<string | null>(null);
 
   async function startCheckout(planId: PlanId) {
     const sesija = dohvatiSesiju();
     if (!sesija) {
-      window.location.href = `/login?redirect=${encodeURIComponent('/pretplata')}`;
+      router.push(`/login?redirect=${encodeURIComponent('/pretplata')}`);
       return;
     }
 

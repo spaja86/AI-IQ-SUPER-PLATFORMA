@@ -73,21 +73,20 @@ const STATUS_ICON: Record<string, string> = {
 export default function ExtremaStatusDashboard() {
   const [reportData, setReportData] = useState<ReportData | null>(null);
   const [lastScan, setLastScan] = useState<DiagnosticsReport | null>(null);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [scanning, setScanning] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [activeModule, setActiveModule] = useState<string>('all');
   const [severityFilter, setSeverityFilter] = useState<string>('');
 
   const fetchReport = useCallback(async () => {
-    setLoading(true);
-    setError(null);
     try {
       const params = new URLSearchParams();
       if (severityFilter) params.set('severity', severityFilter);
       const res = await fetch(`/api/diagnostics/extrema/report?${params.toString()}`);
       if (!res.ok) throw new Error(`HTTP ${res.status}`);
       const data = (await res.json()) as ReportData;
+      setError(null);
       setReportData(data);
     } catch (e) {
       setError(e instanceof Error ? e.message : 'Greška pri učitavanju izveštaja');
@@ -122,7 +121,8 @@ export default function ExtremaStatusDashboard() {
   }, [activeModule, fetchReport]);
 
   useEffect(() => {
-    void fetchReport();
+    async function load() { await fetchReport(); }
+    void load();
   }, [fetchReport]);
 
   const modules = ['all', 'gigatron', 'nova-generacija', 'calculator', 'ci-cd', 'network'];
@@ -228,7 +228,7 @@ export default function ExtremaStatusDashboard() {
         </div>
         <select
           value={severityFilter}
-          onChange={(e) => setSeverityFilter(e.target.value)}
+          onChange={(e) => { setLoading(true); setError(null); setSeverityFilter(e.target.value); }}
           className="text-sm border rounded px-2 py-1"
         >
           <option value="">Sve severity</option>
@@ -250,7 +250,7 @@ export default function ExtremaStatusDashboard() {
             )}
           </span>
           <button
-            onClick={() => void fetchReport()}
+            onClick={() => { setLoading(true); setError(null); void fetchReport(); }}
             disabled={loading}
             className="text-xs text-blue-600 hover:underline disabled:opacity-50"
           >

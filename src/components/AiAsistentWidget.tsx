@@ -97,11 +97,12 @@ export default function AiAsistentWidget({ pagePrompts }: Props) {
     (p) => p.kategorija === activeTab
   );
 
-  // Reset messages when page changes
-  useEffect(() => {
+  const [previousPath, setPreviousPath] = useState(pathname);
+  if (previousPath !== pathname) {
+    setPreviousPath(pathname);
     setMessages([]);
     setShowPrompts(true);
-  }, [pathname]);
+  }
 
   // Scroll to bottom on new messages
   useEffect(() => {
