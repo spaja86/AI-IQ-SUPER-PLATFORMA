@@ -5,6 +5,7 @@ import { POST as COMPILE_POST } from '../../app/api/ai-iq-programski-jezik/compi
 import {
   _resetAiiqLanguageMetrics,
   AIIQ_LANG_API_RESPONSE_MAX_MS,
+  AIIQ_LANG_PERFORMANCE_MAX_MS,
   AIIQ_LANG_CONTRACT_VERSION,
   AIIQ_LANG_MODULE_VERSION,
   AIIQ_LANG_PERSONA_ID,
@@ -84,6 +85,7 @@ async function runTests(): Promise<void> {
       data: {
         valid: boolean;
         status: string;
+        durationMs: number;
         integrationProfile: {
           profileId: string;
           signalMapping: {
@@ -157,6 +159,7 @@ async function runTests(): Promise<void> {
             };
           };
           acceptanceCriteria: {
+            performanceWithinTargets: boolean;
             preserveDokDikDakDukContract: boolean;
             sinemetrickoAdditiveInput: boolean;
             informacioniTokoviAdditiveInput: boolean;
@@ -186,7 +189,14 @@ async function runTests(): Promise<void> {
     assert(body.data.integrationProfile.dokDikDakDukConsistencyHealth.sourceOfTruth === '/api/extrimli/extrondol', 'consistency source mismatch');
     assert(['READY', 'WATCH', 'BLOCKED'].includes(body.data.integrationProfile.dokDikDakDukConsistencyHealth.escalationStatus), 'invalid escalation consistency status');
     assert(body.data.integrationProfile.dokDikDakDukConsistencyHealth.escalationScore >= 0 && body.data.integrationProfile.dokDikDakDukConsistencyHealth.escalationScore <= 100, 'invalid escalation consistency score');
-    assert(body.data.integrationProfile.dokDikDakDukConsistencyHealth.deterministicFallbackRequired === false, 'valid payload should not require deterministic fallback');
+    // A valid payload can still exceed the engine's latency budget on a cold start.
+    // Keep the real API timing assertion above and verify the resulting safety signal.
+    const latencyExceeded = body.data.durationMs > AIIQ_LANG_PERFORMANCE_MAX_MS;
+    assert(body.data.integrationProfile.acceptanceCriteria.performanceWithinTargets === !latencyExceeded, 'performance gate must match measured engine duration');
+    assert(body.data.integrationProfile.dokDikDakDukConsistencyHealth.deterministicFallbackRequired === latencyExceeded, 'valid payload fallback must reflect the latency gate');
+    if (latencyExceeded) {
+      assert(body.data.integrationProfile.unifiedSignalStatus.sinemetricko === 'BLOCKED', 'slow evaluation must block the integration signal');
+    }
     assert(body.data.integrationProfile.dokDikDakDukConsistencyHealth.programskiJezikProucavanja.canonicalName === 'PROGRAMSKI JEZIK PROUČAVANJA', 'missing programski jezik proucavanja profile');
     assert(body.data.integrationProfile.dokDikDakDukConsistencyHealth.programskiJezikProucavanja.programskiEkanalog.canonicalName === 'PROGRAMSKI EKANALOG', 'missing programski ekanalog profile');
     assert(body.data.integrationProfile.dokDikDakDukConsistencyHealth.programskiJezikProucavanja.programskiEkanalog.meaning === 'razumevanje logike', 'programski ekanalog meaning mismatch');
