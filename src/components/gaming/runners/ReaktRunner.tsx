@@ -156,6 +156,7 @@ export default function ReaktRunner({ konfiguracija, isPauziran, onScoreUpdate, 
     aktivan: false,
   });
 
+  const [hasStimuli, setHasStimuli] = useState(false);
   const [displayHp, setDisplayHp] = useState(MAX_HP);
   const [displayStreak, setDisplayStreak] = useState(0);
   const [feedbackTekst, setFeedbackTekst] = useState<string | null>(null);
@@ -285,6 +286,7 @@ export default function ReaktRunner({ konfiguracija, isPauziran, onScoreUpdate, 
 
     // ── Render loop ──
     function render() {
+      setHasStimuli(st.stimulusi.length > 0);
       if (!st.aktivan) return;
       const sada = performance.now();
 
@@ -450,7 +452,7 @@ export default function ReaktRunner({ konfiguracija, isPauziran, onScoreUpdate, 
       )}
 
       {/* Uputstvo pri prvom prikazu */}
-      {stateRef.current.stimulusi.length === 0 && displayHp === MAX_HP && (
+      {!hasStimuli && displayHp === MAX_HP && (
         <div className="pointer-events-none absolute bottom-4 left-1/2 -translate-x-1/2 text-center text-xs text-gray-600">
           Klikni na stimuluse ⚡ · Izbegavaj crvene ✕
         </div>
