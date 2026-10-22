@@ -4,7 +4,7 @@
 // Kompanija SPAJA — Digitalna Industrija
 // SpajaPro 16 Hipermreza — 16×16, 256 čvorova
 
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 
 interface NgSession {
   sessionId: string;
@@ -35,26 +35,28 @@ const FAIRNESS_COLOR: Record<string, string> = {
 
 export function NovaGeneracijaCard({ className = '' }: NovaGeneracijaCardProps) {
   const [session, setSession] = useState<NgSession | null>(null);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  const fetchSession = useCallback(async () => {
-    setLoading(true);
-    setError(null);
-    try {
-      const r = await fetch('/api/nova-generacija');
-      if (!r.ok) throw new Error(`HTTP ${r.status}`);
-      const json = await r.json() as { data?: NgSession } | NgSession;
-      const payload = (json as { data?: NgSession }).data ?? (json as NgSession);
-      setSession(payload && typeof payload.sessionId === 'string' ? payload : null);
-    } catch (e) {
-      setError(e instanceof Error ? e.message : 'Greška');
-    } finally {
-      setLoading(false);
+  useEffect(() => {
+    let cancelled = false;
+    async function fetchSession() {
+      try {
+        const r = await fetch('/api/nova-generacija');
+        if (!r.ok) throw new Error(`HTTP ${r.status}`);
+        const json = await r.json() as { data?: NgSession } | NgSession;
+        if (cancelled) return;
+        const payload = (json as { data?: NgSession }).data ?? (json as NgSession);
+        setSession(payload && typeof payload.sessionId === 'string' ? payload : null);
+      } catch (e) {
+        if (!cancelled) setError(e instanceof Error ? e.message : 'Greška');
+      } finally {
+        if (!cancelled) setLoading(false);
+      }
     }
+    void fetchSession();
+    return () => { cancelled = true; };
   }, []);
-
-  useEffect(() => { void fetchSession(); }, [fetchSession]);
 
   const statusColor = session ? STATUS_COLOR[session.status] ?? '#6b7280' : '#6b7280';
   const fairnessColor = session ? FAIRNESS_COLOR[session.fairnessStatus] ?? '#6b7280' : '#6b7280';
