@@ -236,6 +236,8 @@ async function runTests(): Promise<void> {
   });
 
   await test('overall follows prosparitet deklasirane matrice track WATCH and BLOCKED transitions', async () => {
+    const clock = mock.method(performance, 'now', () => 0);
+    try {
     const input = {
       referenceId: 'eval-prosparitet-overall',
       goal: 'AI-native orkestracija prompta i pravila',
@@ -276,11 +278,14 @@ async function runTests(): Promise<void> {
     );
     assert(blockedResult.integrationProfile.unifiedSignalStatus.prosparitetDeklasiraneMatriceEkstaza === 'BLOCKED', `expected BLOCKED prosparitet/deklasirane-matrice status, got ${blockedResult.integrationProfile.unifiedSignalStatus.prosparitetDeklasiraneMatriceEkstaza}`);
     assert(blockedResult.integrationProfile.unifiedSignalStatus.overall === 'BLOCKED', `expected BLOCKED overall integration status, got ${blockedResult.integrationProfile.unifiedSignalStatus.overall}`);
+    } finally { clock.mock.restore(); }
   });
 
   console.log('\n🧠 [ai-iq-programski-jezik] compile');
 
   await test('compile accepts valid v1 program', () => {
+    const clock = mock.method(performance, 'now', () => 0);
+    try {
     const result = compileAiiqLanguage({
       referenceId: 'compile-ok',
       source: [
@@ -301,6 +306,7 @@ async function runTests(): Promise<void> {
     assert(result.executionMode === 'AI_NATIVE', `expected AI_NATIVE, got ${result.executionMode}`);
     assert(result.status === 'AI_NATIVE_READY', `expected AI_NATIVE_READY, got ${result.status}`);
     assert(result.compiledProgram.length > 0, 'compiled program must be present');
+    } finally { clock.mock.restore(); }
   });
 
   await test('compile blocks strict security when missing NO_SECRET rule', () => {
