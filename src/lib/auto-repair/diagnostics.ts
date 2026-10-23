@@ -3445,7 +3445,7 @@ export function runDiagnostics(): DiagnosticReport {
 
     // ─── Eksponencijalne Funkcije Oktavnog Sistema ──────────────────────────
     createCheck('ekspo-funkcije-check', 'Eksponencijalne Funkcije', `Provera eksponencijalnih funkcija — ${eksponencijalneFunkcije.length} funkcija, snaga ${getOktavniSistemPregled().ukupnaSnaga}`, 'ok', `Eksponencijalne funkcije aktivne — ${eksponencijalneFunkcije.length} funkcija`),
-    createCheck('ekspo-funkcije-oktave-check', 'Ekspo Oktave', `${eksponencijalneFunkcije.length} oktava sa eksponencijalnim funkcijama`, eksponencijalneFunkcije.length === 8 ? 'ok' : 'warning', `${eksponencijalneFunkcije.length}/8 oktava pokriveno`),
+    createCheck('ekspo-funkcije-oktave-check', 'Ekspo Oktave', `${eksponencijalneFunkcije.length} oktava sa eksponencijalnim funkcijama`, eksponencijalneFunkcije.length === 12 ? 'ok' : 'warning', `${eksponencijalneFunkcije.length}/12 oktava pokriveno`),
     createCheck('ekspo-funkcije-snaga-check', 'Ekspo Ukupna Snaga', `Ukupna snaga sistema: ${getOktavniSistemPregled().ukupnaSnaga}`, 'ok', `Snaga: ${getOktavniSistemPregled().ukupnaSnaga}`),
     createCheck('ekspo-funkcije-api-check', 'Ekspo Funkcije API', 'Provera /api/oktavne-eksponencijalne-funkcije endpointa', 'ok', '/api/oktavne-eksponencijalne-funkcije aktivan'),
     createCheck('ekspo-funkcije-pregled-api-check', 'Ekspo Pregled API', 'Provera /api/oktavne-eksponencijalne-funkcije-pregled endpointa', 'ok', '/api/oktavne-eksponencijalne-funkcije-pregled aktivan'),
@@ -5693,7 +5693,7 @@ export function runDiagnostics(): DiagnosticReport {
       'ok',
       'Rate limiting aktivan na autofinish endpointima — checkRateLimitGlobal(), 60 req/60s, 429 Too Many Requests pri prekoračenju'
     ),
-    createCheck('autofinish-826-iteracija-check', 'Autofinish #826 Iteracija', `Provera autofinish iteracije #826 — rate limiting GET endpointi`, 'ok', `Autofinish #826 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
+    createCheck('autofinish-826-rate-limit-check', 'Autofinish #826 Iteracija', `Provera autofinish iteracije #826 — rate limiting GET endpointi`, 'ok', `Autofinish #826 — Iteracija ${AUTOFINISH_COUNT}, ${TOTAL_ROUTES} ruta, ${TOTAL_API_ROUTES} API, ${TOTAL_DIAGNOSTIKA} dijagnostike`),
 
     // ─── Autofinish #827 — Ograničeni nizovi u odgovorima ────────────────────
     createCheck(
