@@ -35,7 +35,7 @@
     "test:unit": "node scripts/run-tsx-tests.mjs src/tests/unit",
     "test:lib": "node scripts/run-tsx-tests.mjs src/tests/lib",
     "test:api": "node scripts/run-tsx-tests.mjs src/tests/api",
-    "test:ci": "npm run test:core && npm run test:autofinish:critical && npm run test:billing && npm run test:brouvzer && npm run test:call-centar && npm run test:depon && npm run test:unit && npm run test:lib && npm run test:api && npm run test:dependencies",
+    "test:ci": "node scripts/ci/run-all-tests.mjs --suite=node",
     "test": "npm run test:ci",
     "test:smoke": "node --import tsx --test src/tests/smoke/smoke.test.ts",
     "blockchain:compile": "npx hardhat compile",
@@ -49,7 +49,11 @@
     "test:suoc:pilot": "node --import tsx --test src/tests/spaja-ultra/pilot.test.ts",
     "test:vrh:reference": "node --import tsx --test --test-concurrency=1 src/tests/lib/petlje.test.ts src/tests/lib/vrh-*.test.ts src/tests/lib/spajascripte-*.test.ts src/tests/lib/spaja-fallback-isolation.test.ts src/tests/lib/umbrel-budget.test.ts src/tests/lib/durmitor-budget.test.ts",
     "test:vrh": "npm run test:suoc && npm run test:suoc:pilot && npm run test:vrh:reference",
-    "test:dependencies": "node --test scripts/tests/dependency-compatibility.test.mjs"
+    "test:dependencies": "node --test scripts/tests/dependency-compatibility.test.mjs",
+    "test:inventory": "node scripts/ci/run-all-tests.mjs --list",
+    "test:ci:python": "node scripts/ci/run-all-tests.mjs --suite=python",
+    "test:ci:java": "node scripts/ci/run-all-tests.mjs --suite=java",
+    "test:ci:browser": "node scripts/ci/run-all-tests.mjs --suite=browser"
   },
   "dependencies": {
     "@supabase/ssr": "^0.10.2",
