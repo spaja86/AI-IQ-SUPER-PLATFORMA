@@ -34,7 +34,11 @@ interface AsistentBody {
  */
 export async function POST(request: Request) {
   try {
-    const body = (await request.json()) as AsistentBody;
+    const payload: unknown = await request.json().catch(() => null);
+    if (!payload || typeof payload !== 'object' || Array.isArray(payload)) {
+      return NextResponse.json({ error: 'Body must be a JSON object' }, { status: 400 });
+    }
+    const body = payload as AsistentBody;
     const { pitanje, putanja, kontekst, naslovStranice, kategorija } = body;
 
     if (!pitanje || typeof pitanje !== 'string' || !pitanje.trim()) {
