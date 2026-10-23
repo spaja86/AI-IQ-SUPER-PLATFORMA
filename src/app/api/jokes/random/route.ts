@@ -58,10 +58,14 @@ export async function GET(request: NextRequest) {
  */
 export async function POST(request: NextRequest) {
   try {
-    const body = (await request.json().catch(() => ({}))) as {
-      count?: number;
-      filters?: JokeFilters;
-    };
+    const payload: unknown = await request.json().catch(() => null);
+    if (!payload || typeof payload !== 'object' || Array.isArray(payload)) {
+      return apiError('BAD_REQUEST', 'Body must be a JSON object');
+    }
+    const body = payload as { count?: number; filters?: JokeFilters };
+    if (body.count !== undefined && (!Number.isInteger(body.count) || body.count < 1 || body.count > 10)) {
+      return apiError('BAD_REQUEST', 'count must be an integer from 1 to 10');
+    }
 
     const count = Math.min(body.count || 1, 10); // Max 10 jokes
     const filters = body.filters;
