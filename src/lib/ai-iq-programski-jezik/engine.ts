@@ -771,9 +771,9 @@ function invalidEvaluateResult(
       gamingDslReadinessScore: extremGamingDsl.readiness.score,
       gamingDslSignals: extremGamingDsl.gamingDomainCoverage,
       automatizacijaProgramskogJezikaSignalStatus:
-        getExtrimliExtremProfilerReport().dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.automatizacijaProgramskogJezikaTrack.readinessSignal.status,
+        getExtrimliExtremProfilerReport({ materializeInnovations: false }).dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.automatizacijaProgramskogJezikaTrack.readinessSignal.status,
       automatizacijaProgramskogJezikaSummary:
-        getExtrimliExtremProfilerReport().dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.automatizacijaProgramskogJezikaTrack.automationSummary,
+        getExtrimliExtremProfilerReport({ materializeInnovations: false }).dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.automatizacijaProgramskogJezikaTrack.automationSummary,
     }),
     disclaimer: AIIQ_LANG_DISCLAIMER,
     valid: false,
@@ -834,9 +834,9 @@ function invalidCompileResult(
       gamingDslReadinessScore: extremGamingDsl.readiness.score,
       gamingDslSignals: extremGamingDsl.gamingDomainCoverage,
       automatizacijaProgramskogJezikaSignalStatus:
-        getExtrimliExtremProfilerReport().dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.automatizacijaProgramskogJezikaTrack.readinessSignal.status,
+        getExtrimliExtremProfilerReport({ materializeInnovations: false }).dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.automatizacijaProgramskogJezikaTrack.readinessSignal.status,
       automatizacijaProgramskogJezikaSummary:
-        getExtrimliExtremProfilerReport().dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.automatizacijaProgramskogJezikaTrack.automationSummary,
+        getExtrimliExtremProfilerReport({ materializeInnovations: false }).dokDikDakDukConsistencyHealth.developerAndCreateRepoWideReflection.automatizacijaProgramskogJezikaTrack.automationSummary,
     }),
     disclaimer: AIIQ_LANG_DISCLAIMER,
     valid: false,
@@ -898,7 +898,7 @@ function parseProgram(source: string): {
 
 export function evaluateAiiqLanguage(input: AiiqLanguageEvaluateInput): AiiqLanguageEvaluateResult {
   const start = performance.now();
-  const extremReport = getExtrimliExtremProfilerReport();
+  const extremReport = getExtrimliExtremProfilerReport({ materializeInnovations: false });
   const extremInformationalFlow = extremReport.programskiJezikInformacionihTokova;
   const extremPretpostavka = extremReport.programskiJezikPretpostavka;
   const extremProsparitetDeklasiraneMatriceEkstaza = extremReport.programskiJezikPoProsparitetuDeklasiraneMatriceUEkstazi;
@@ -1081,7 +1081,7 @@ export function evaluateAiiqLanguage(input: AiiqLanguageEvaluateInput): AiiqLang
 
 export function compileAiiqLanguage(input: AiiqLanguageCompileInput): AiiqLanguageCompileResult {
   const start = performance.now();
-  const extremReport = getExtrimliExtremProfilerReport();
+  const extremReport = getExtrimliExtremProfilerReport({ materializeInnovations: false });
   const extremInformationalFlow = extremReport.programskiJezikInformacionihTokova;
   const extremPretpostavka = extremReport.programskiJezikPretpostavka;
   const extremProsparitetDeklasiraneMatriceEkstaza = extremReport.programskiJezikPoProsparitetuDeklasiraneMatriceUEkstazi;
