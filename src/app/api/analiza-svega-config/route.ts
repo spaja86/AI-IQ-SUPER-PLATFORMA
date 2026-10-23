@@ -46,7 +46,11 @@ export async function GET() {
  */
 export async function POST(request: Request) {
   try {
-    const body = (await request.json()) as { weights?: unknown; reset?: boolean };
+    const payload: unknown = await request.json().catch(() => null);
+    if (!payload || typeof payload !== 'object' || Array.isArray(payload)) {
+      return NextResponse.json({ error: 'Body must be a JSON object' }, { status: 400 });
+    }
+    const body = payload as { weights?: unknown; reset?: boolean };
 
     if (body.reset === true) {
       clearAnalizaDomainWeightsOverride();
