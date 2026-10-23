@@ -1,3 +1,4 @@
+import { withEmptySupabase } from '../helpers/supabase-read-fixture';
 // Autofinish — billing-health Route Coverage Test
 // Generisano: scripts/generate-route-tests.mjs
 
@@ -67,8 +68,8 @@ async function runTests(): Promise<void> {
       headers: { 'x-forwarded-for': '127.0.1.10' },
     });
 
-    const response = await GET(request as unknown as NextRequest);
-    assert(response.status >= 200 && response.status < 600, `Neočekivan status: ${response.status}`);
+    const response = await withEmptySupabase(() => GET(request as unknown as NextRequest));
+    assertEqual(response.status, 200, 'empty offline database fixture');
 
     const xAppVersion = response.headers.get('X-App-Version');
     if (xAppVersion !== null) {

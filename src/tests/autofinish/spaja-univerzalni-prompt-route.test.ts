@@ -1,3 +1,4 @@
+import { spajaUltraOmegaCore } from '../../lib/spaja-ultra-omega-core';
 // Autofinish — spaja-univerzalni-prompt Route Coverage Test
 // Generisano: scripts/generate-route-tests.mjs
 
@@ -83,7 +84,7 @@ async function runTests(): Promise<void> {
       }
 
       if (typeof body['verzija'] === 'string') {
-        assertEqual(body['verzija'], APP_VERSION, 'verzija');
+        assertEqual(body['verzija'], spajaUltraOmegaCore.verzija, 'model verzija');
       } else if (isObject(body['data']) && typeof body['data']['verzija'] === 'string') {
         assertEqual(body['data']['verzija'], APP_VERSION, 'data.verzija');
       }

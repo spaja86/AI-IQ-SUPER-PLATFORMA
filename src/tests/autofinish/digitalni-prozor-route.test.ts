@@ -46,9 +46,9 @@ async function runTests(): Promise<void> {
   });
 
   await test('Navigation sadrži /digitalni-prozor link', () => {
-    const navPath = path.resolve(process.cwd(), 'src/components/Navigation.tsx');
+    const navPath = path.resolve(process.cwd(), 'src/lib/navigation.ts');
     const navSource = fs.readFileSync(navPath, 'utf8');
-    assert(navSource.includes("href: '/digitalni-prozor'"), 'Navigation.tsx nema link ka /digitalni-prozor');
+    assert(navSource.includes("href: '/digitalni-prozor'"), 'navigation.ts nema link ka /digitalni-prozor');
   });
 
   console.log(`\n📊 Rezultat: ${passed} prošlo, ${failed} palo`);
