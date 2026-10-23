@@ -46,3 +46,7 @@ artifacts/
 cache-hardhat/
 .env.deployed
 typechain-types/
+
+# Local CI evidence (uploaded only as explicitly selected workflow artifacts)
+.ci-evidence/
+/tools/ci-browser/node_modules/

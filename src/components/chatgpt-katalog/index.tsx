@@ -236,10 +236,14 @@ export function RecommendationPanel({
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  useEffect(() => {
+  const seed = JSON.stringify([initialDomain, initialCapabilities]);
+  const [previousSeed, setPreviousSeed] = useState(seed);
+  if (previousSeed !== seed) {
+    setPreviousSeed(seed);
     setDomain(initialDomain);
     setRequiredCapabilities(initialCapabilities);
-  }, [initialCapabilities, initialDomain]);
+    setResult(null);
+  }
 
   const toggleCapability = (capability: string) => {
     setRequiredCapabilities((current) => current.includes(capability)
@@ -416,7 +420,7 @@ export function ChatGPTKatalogBrowser() {
   const [results, setResults] = useState<KatalogEntry[]>([]);
   const [total, setTotal] = useState(0);
   const [summary, setSummary] = useState<{ models: number; tools: number; useCases: number; activeModels: number; matchedCapabilities: string[] } | null>(null);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [searched, setSearched] = useState(false);
   const [searchError, setSearchError] = useState<string | null>(null);
   const [selectedCompareIds, setSelectedCompareIds] = useState<string[]>([]);
@@ -457,14 +461,13 @@ export function ChatGPTKatalogBrowser() {
       pageSize: 30,
     };
 
-    setLoading(true);
-    setSearchError(null);
     try {
       const res = await fetch('/api/chatgpt-katalog/search', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload),
       });
+      setSearchError(null);
       const json = await res.json() as { data?: { entries: KatalogEntry[]; total: number; summary?: { models: number; tools: number; useCases: number; activeModels: number; matchedCapabilities: string[] } }; error?: { message: string } };
       if (!res.ok || !json.data) {
         setResults([]);
@@ -487,15 +490,21 @@ export function ChatGPTKatalogBrowser() {
     }
   };
 
+  const requestSearch = (...args: Parameters<typeof runSearch>) => {
+    setLoading(true);
+    setSearchError(null);
+    return runSearch(...args);
+  };
+
   useEffect(() => {
-    void loadHealth();
-    void runSearch();
+    async function initialize() { await Promise.all([loadHealth(), runSearch()]); }
+    void initialize();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handleSearch = async (e: React.FormEvent) => {
     e.preventDefault();
-    await runSearch();
+    await requestSearch();
   };
 
   const toggleCapability = (capability: string) => {
@@ -598,7 +607,7 @@ export function ChatGPTKatalogBrowser() {
                   setSortBy('relevance');
                   setMaxInputCostPer1k('');
                   setCapabilities([]);
-                  void runSearch({ searchText: '', type: '', status: '', sortBy: 'relevance', maxInputCostPer1k: '', capabilities: [] });
+                  void requestSearch({ searchText: '', type: '', status: '', sortBy: 'relevance', maxInputCostPer1k: '', capabilities: [] });
                 }}
                 className="rounded-lg border border-gray-200 px-3 py-2 text-sm font-medium text-gray-600 transition-colors hover:bg-gray-50"
               >

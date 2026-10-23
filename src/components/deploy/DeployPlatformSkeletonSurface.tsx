@@ -214,9 +214,6 @@ export default function DeployPlatformSkeletonSurface() {
   }, [appendAudit]);
 
   const loadAll = useCallback(async (isRefresh = false) => {
-    if (isRefresh) setRefreshing(true);
-    else setLoadingInitial(true);
-
     try {
       const loadedStatuses = await loadStatus();
       await Promise.all(loadedStatuses.map((status) => loadHistoryForPlatform(status.platformId)));
@@ -232,7 +229,8 @@ export default function DeployPlatformSkeletonSurface() {
   }, [appendAudit, loadHistoryForPlatform, loadStatus]);
 
   useEffect(() => {
-    void loadAll(false);
+    async function initialize() { await loadAll(false); }
+    void initialize();
   }, [loadAll]);
 
   const activeStates = useMemo(() => {
@@ -262,7 +260,7 @@ export default function DeployPlatformSkeletonSurface() {
             <div className="flex flex-wrap items-center gap-2">
               <button
                 type="button"
-                onClick={() => void loadAll(true)}
+                onClick={() => { setRefreshing(true); void loadAll(true); }}
                 aria-label="Osveži deploy status i istoriju"
                 className="rounded-lg border border-zinc-700 px-3 py-2 text-xs font-medium text-zinc-200 transition hover:border-zinc-500 hover:bg-zinc-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
               >
@@ -305,7 +303,7 @@ export default function DeployPlatformSkeletonSurface() {
             <p className="mt-1 text-sm text-red-200">{errorMessage}</p>
             <button
               type="button"
-              onClick={() => void loadAll(true)}
+              onClick={() => { setRefreshing(true); void loadAll(true); }}
               className="mt-3 rounded-lg border border-red-400/40 px-3 py-2 text-xs font-medium text-red-100 transition hover:bg-red-500/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-500"
             >
               Pokušaj ponovo

@@ -1,3 +1,4 @@
+import { proksiGitHubDeploySistem } from '../../lib/proksi-github-deploy';
 // Autofinish — proksi-github-deploy Route Coverage Test
 // Generisano: scripts/generate-route-tests.mjs
 
@@ -83,7 +84,7 @@ async function runTests(): Promise<void> {
       }
 
       if (typeof body['verzija'] === 'string') {
-        assertEqual(body['verzija'], APP_VERSION, 'verzija');
+        assertEqual(body['verzija'], proksiGitHubDeploySistem.verzija, 'model verzija');
       } else if (isObject(body['data']) && typeof body['data']['verzija'] === 'string') {
         assertEqual(body['data']['verzija'], APP_VERSION, 'data.verzija');
       }

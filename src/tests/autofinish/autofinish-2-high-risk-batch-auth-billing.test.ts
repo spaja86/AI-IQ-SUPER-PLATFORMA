@@ -70,7 +70,10 @@ async function runTests(): Promise<void> {
 
   await test('High-risk route source safety gate-ovi su prisutni', () => {
     const loginSrc = fs.readFileSync(routeFiles.login, 'utf8');
-    assertIncludes(loginSrc, 'checkBruteForce', 'auth/login brute-force');
+    assertIncludes(loginSrc, 'createLoginProtection', 'auth/login protection wiring');
+    assertIncludes(loginSrc, 'protection.isAllowed()', 'auth/login protection guard');
+    const protectionSrc = fs.readFileSync(path.resolve('src/lib/auth/login-protection.ts'), 'utf8');
+    assertIncludes(protectionSrc, 'checkBruteForce', 'shared login brute-force');
     assertIncludes(loginSrc, 'export async function POST', 'auth/login POST');
 
     const registerSrc = fs.readFileSync(routeFiles.register, 'utf8');

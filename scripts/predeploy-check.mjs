@@ -64,32 +64,11 @@ if (fast) {
   process.exit(0);
 }
 
-// ── Full contract validation (parallel file reads) ────────────────────────────
-const navigationPath = resolve(repoRoot, 'src/lib/navigation.ts');
-const sitemapPath = resolve(repoRoot, 'src/app/sitemap.ts');
-
-const filePaths = {
-  analizaLib: resolve(repoRoot, 'src/lib/analiza-svega.ts'),
-  analizaRoute: resolve(repoRoot, 'src/app/api/analiza-svega/route.ts'),
-  potencijalLib: resolve(repoRoot, 'src/lib/potencijal-svega-ovoga-do-sada.ts'),
-  potencijalRoute: resolve(repoRoot, 'src/app/api/potencijal-svega-ovoga-do-sada/route.ts'),
-  procesuiranjeLib: resolve(repoRoot, 'src/lib/procesuiranje-svega.ts'),
-  procesuiranje3Lib: resolve(repoRoot, 'src/lib/procesuiranje-3.ts'),
-  procesuiranje3Route: resolve(repoRoot, 'src/app/api/procesuiranje-3/route.ts'),
-  ekstremnoRoute: resolve(repoRoot, 'src/app/api/ekstremno-procesuiranje-svega/route.ts'),
-  maksimusLib: resolve(repoRoot, 'src/lib/maksimus-svega.ts'),
-  maksimusRoute: resolve(repoRoot, 'src/app/api/maksimus-svega/route.ts'),
-  maksimus2Lib: resolve(repoRoot, 'src/lib/maksimus-2.ts'),
-  maksimus2Route: resolve(repoRoot, 'src/app/api/maksimus-2/route.ts'),
-  maksimus3Lib: resolve(repoRoot, 'src/lib/maksimus-3.ts'),
-  maksimus3Route: resolve(repoRoot, 'src/app/api/maksimus-3/route.ts'),
-  sitemap: sitemapPath,
-  navigation: navigationPath,
-};
-
-const keys = Object.keys(filePaths);
-const sources = await Promise.all(keys.map((k) => readFileAsync(filePaths[k], 'utf8')));
-const src = Object.fromEntries(keys.map((k, i) => [k, sources[i]]));
+// Full source validation intentionally does not read the public-page sitemap.
+// Load the parser only in full mode; --fast retains its env/cron-only behavior.
+const { checkSourceContracts } = await import('./predeploy-source-contracts.mjs');
+const contracts = await checkSourceContracts(repoRoot);
+const navigation = await readFileAsync(resolve(repoRoot, 'src/lib/navigation.ts'), 'utf8').catch(() => '');
 
 const deployPlatformaRegistryPath = resolve(repoRoot, 'src/lib/deploy/deploy-registry.ts');
 const deployPlatformaPagePath = resolve(repoRoot, 'src/app/deploy-platforma/page.tsx');
@@ -108,7 +87,7 @@ try {
     registrySrc.includes('deployRegistry'),
     pageSrc.includes('deploy-platforma'),
     apiStatusSrc.includes('/api/deploy-platforma/status'),
-    src.navigation.includes('/deploy-platforma'),
+    navigation.includes('/deploy-platforma'),
   ].every(Boolean);
 
   // Verify deploy-history exports getDeployHistory
@@ -134,84 +113,14 @@ try {
   deployPlatformaReady = false;
 }
 
-// ── Contract readiness checks ─────────────────────────────────────────────────
-const analizaContractVersion = src.analizaLib.match(/export const ANALIZA_CONTRACT_VERSION = '([^']+)'/)?.[1] ?? 'unknown';
-const analizaModelVersion = src.analizaLib.match(/export const ANALIZA_MODEL_VERSION = '([^']+)'/)?.[1] ?? 'unknown';
-const analizaContractReady = [
-  src.analizaLib.includes('sourceOfTruth: \'/api/analiza-svega\''),
-  src.analizaRoute.includes('X-Analiza-Contract-Version'),
-  src.sitemap.includes('/api/analiza-svega'),
-  src.navigation.includes('/analiza-svega'),
-].every(Boolean);
-
-const potencijalContractVersion = src.potencijalLib.match(/export const POTENCIJAL_CONTRACT_VERSION = '([^']+)'/)?.[1] ?? 'unknown';
-const potencijalModelVersion = src.potencijalLib.match(/export const POTENCIJAL_MODEL_VERSION = '([^']+)'/)?.[1] ?? 'unknown';
-const potencijalContractReady = [
-  src.potencijalLib.includes('sourceOfTruth: \'/api/potencijal-svega-ovoga-do-sada\''),
-  src.potencijalRoute.includes('X-Potencijal-Contract-Version'),
-  src.sitemap.includes('/api/potencijal-svega-ovoga-do-sada'),
-  src.navigation.includes('/potencijal-svega-ovoga-do-sada'),
-].every(Boolean);
-
-const procesuiranjeContractVersion = src.procesuiranjeLib.match(/export const PROCESUIRANJE_SVEGA_CONTRACT_VERSION = '([^']+)'/)?.[1] ?? 'unknown';
-const procesuiranjeModelVersion = src.procesuiranjeLib.match(/export const PROCESUIRANJE_SVEGA_MODEL_VERSION = '([^']+)'/)?.[1] ?? 'unknown';
-const procesuiranjeContractReady = [
-  src.procesuiranjeLib.includes('PROCESUIRANJE_SVEGA_SOURCE_OF_TRUTH = \'/api/procesuiranje-svega\''),
-  src.ekstremnoRoute.includes('X-Procesuiranje-Contract-Version'),
-  src.sitemap.includes('/api/ekstremno-procesuiranje-svega'),
-  src.navigation.includes('/procesuiranje-svega'),
-].every(Boolean);
-
-const procesuiranje3ContractVersion = src.procesuiranje3Lib.match(/export const PROCESUIRANJE_3_CONTRACT_VERSION = '([^']+)'/)?.[1] ?? 'unknown';
-const procesuiranje3ModelVersion = src.procesuiranje3Lib.match(/export const PROCESUIRANJE_3_MODEL_VERSION = '([^']+)'/)?.[1] ?? 'unknown';
-const procesuiranje3ContractReady = [
-  src.procesuiranje3Lib.includes('PROCESUIRANJE_3_SOURCE_OF_TRUTH = \'/api/procesuiranje-3\''),
-  src.procesuiranje3Route.includes('X-Procesuiranje3-Contract-Version'),
-  src.sitemap.includes('/api/procesuiranje-3'),
-  src.navigation.includes('/procesuiranje-3'),
-].every(Boolean);
-
-const maksimusContractVersion = src.maksimusLib.match(/export const MAKSIMUS_SVEGA_CONTRACT_VERSION = '([^']+)'/)?.[1] ?? 'unknown';
-const maksimusModelVersion = src.maksimusLib.match(/export const MAKSIMUS_SVEGA_MODEL_VERSION = '([^']+)'/)?.[1] ?? 'unknown';
-const maksimusContractReady = [
-  src.maksimusLib.includes('MAKSIMUS_SVEGA_SOURCE_OF_TRUTH = \'/api/maksimus-svega\''),
-  src.maksimusRoute.includes('X-Maksimus-Contract-Version'),
-  src.sitemap.includes('/api/maksimus-svega'),
-  src.navigation.includes('/maksimus-svega'),
-].every(Boolean);
-
-// maksimus2 and maksimus3 are not yet production-activated — demoted to warnings.
-const maksimus2ContractVersion = src.maksimus2Lib.match(/export const MAKSIMUS_2_CONTRACT_VERSION = '([^']+)'/)?.[1] ?? 'unknown';
-const maksimus2ModelVersion = src.maksimus2Lib.match(/export const MAKSIMUS_2_MODEL_VERSION = '([^']+)'/)?.[1] ?? 'unknown';
-const maksimus2ContractReady = [
-  src.maksimus2Lib.includes('MAKSIMUS_2_SOURCE_OF_TRUTH = \'/api/maksimus-2\''),
-  src.maksimus2Route.includes('X-Maksimus2-Contract-Version'),
-  src.sitemap.includes('/api/maksimus-2'),
-  src.navigation.includes('/maksimus-2'),
-].every(Boolean);
-
-const maksimus3ContractVersion = src.maksimus3Lib.match(/export const MAKSIMUS_3_CONTRACT_VERSION = '([^']+)'/)?.[1] ?? 'unknown';
-const maksimus3ModelVersion = src.maksimus3Lib.match(/export const MAKSIMUS_3_MODEL_VERSION = '([^']+)'/)?.[1] ?? 'unknown';
-const maksimus3ContractReady = [
-  src.maksimus3Lib.includes('MAKSIMUS_3_SOURCE_OF_TRUTH = \'/api/maksimus-3\''),
-  src.maksimus3Route.includes('X-Maksimus3-Contract-Version'),
-  src.sitemap.includes('/api/maksimus-3'),
-  src.navigation.includes('/maksimus-3'),
-].every(Boolean);
-
-// ── Deployment blockers (critical contracts only) ─────────────────────────────
-// maksimus2 and maksimus3 are warnings, not blockers.
+// Preserve the five mandatory contracts and the two warning-only contracts.
+const requiredContracts = ['analizaSvega', 'potencijalSvegaOvogaDoSada',
+  'ekstremnoProcesuiranjeSvega', 'procesuiranje3', 'maksimusSvega'];
 const hasDeploymentBlockers = missingRequiredEnv.length > 0
-  || !analizaContractReady
-  || !potencijalContractReady
-  || !procesuiranjeContractReady
-  || !procesuiranje3ContractReady
-  || !maksimusContractReady;
-
-const contractWarnings = [
-  !maksimus2ContractReady && 'maksimus2ContractReady=false (warning only)',
-  !maksimus3ContractReady && 'maksimus3ContractReady=false (warning only)',
-].filter(Boolean);
+  || requiredContracts.some(name => contracts[name]?.contractReady !== true);
+const contractWarnings = ['maksimus2', 'maksimus3']
+  .filter(name => contracts[name]?.contractReady !== true)
+  .map(name => `${name}ContractReady=false (warning only)`);
 
 const report = {
   mode: 'full',
@@ -222,43 +131,7 @@ const report = {
   cronCount,
   missingRequiredEnv,
   contractWarnings,
-  analizaSvega: {
-    contractVersion: analizaContractVersion,
-    modelVersion: analizaModelVersion,
-    contractReady: analizaContractReady,
-  },
-  potencijalSvegaOvogaDoSada: {
-    contractVersion: potencijalContractVersion,
-    modelVersion: potencijalModelVersion,
-    contractReady: potencijalContractReady,
-  },
-  ekstremnoProcesuiranjeSvega: {
-    contractVersion: procesuiranjeContractVersion,
-    modelVersion: procesuiranjeModelVersion,
-    contractReady: procesuiranjeContractReady,
-  },
-  procesuiranje3: {
-    contractVersion: procesuiranje3ContractVersion,
-    modelVersion: procesuiranje3ModelVersion,
-    contractReady: procesuiranje3ContractReady,
-  },
-  maksimusSvega: {
-    contractVersion: maksimusContractVersion,
-    modelVersion: maksimusModelVersion,
-    contractReady: maksimusContractReady,
-  },
-  maksimus2: {
-    contractVersion: maksimus2ContractVersion,
-    modelVersion: maksimus2ModelVersion,
-    contractReady: maksimus2ContractReady,
-    blocker: false,
-  },
-  maksimus3: {
-    contractVersion: maksimus3ContractVersion,
-    modelVersion: maksimus3ModelVersion,
-    contractReady: maksimus3ContractReady,
-    blocker: false,
-  },
+  ...contracts,
   deployPlatforma: {
     ready: deployPlatformaReady,
     deployHistoryExportReady,

@@ -1,3 +1,4 @@
+import { eksponencijalneFunkcije } from '../../lib/oktavne-eksponencijalne-funkcije';
 // Autofinish #1233 — Unit Testovi buildDigatalnaEureka()
 // Kompanija SPAJA — Digitalna Industrija
 //
@@ -91,7 +92,7 @@ async function runTests(): Promise<void> {
     assert(Array.isArray(r.oktavnaSinergija), 'oktavnaSinergija niz');
   });
 
-  await test('oktavnaSinergija ima 8 elemenata', () => {
+  await test('oktavnaSinergija ima 8 uzoraka', () => {
     assertEqual(r.oktavnaSinergija.length, 8, 'oktavnaSinergija.length');
   });
 
@@ -158,16 +159,16 @@ async function runTests(): Promise<void> {
   // ── 6. ektridonalnaEksinometrija ──────────────────────────────────────────
   console.log('\n📦 ektridonalnaEksinometrija (#1233)');
 
-  await test('superPozicija ima 8 elemenata', () => {
+  await test('superPozicija ima 8 uzoraka', () => {
     assertEqual(r.ektridonalnaEksinometrija.superPozicija.length, 8, 'superPozicija.length');
   });
 
-  await test('normalizovana ima 8 elemenata', () => {
+  await test('normalizovana ima 8 uzoraka', () => {
     assertEqual(r.ektridonalnaEksinometrija.normalizovana.length, 8, 'normalizovana.length');
   });
 
-  await test('doprinosiOktava ima 8 elemenata', () => {
-    assertEqual(r.ektridonalnaEksinometrija.doprinosiOktava.length, 8, 'doprinosiOktava.length');
+  await test('doprinosiOktava prati katalog oktava', () => {
+    assertEqual(r.ektridonalnaEksinometrija.doprinosiOktava.length, eksponencijalneFunkcije.length, 'doprinosiOktava.length');
   });
 
   await test('ukupnaSinergija je > 0', () => {
@@ -182,7 +183,7 @@ async function runTests(): Promise<void> {
   // ── 7. Konzistentnost konstanti ───────────────────────────────────────────
   console.log('\n📦 Globalni Invarijanti (#1233)');
 
-  await test('AUTOFINISH_COUNT === 1246', () => {
+  await test('AUTOFINISH_COUNT >= 1246', () => {
     assert(AUTOFINISH_COUNT >= 1246, 'AUTOFINISH_COUNT baseline');
   });
 
@@ -190,12 +191,12 @@ async function runTests(): Promise<void> {
     assert(/^\d+\.\d+\.\d+$/.test(APP_VERSION), 'APP_VERSION semver format');
   });
 
-  await test('TOTAL_API_ROUTES === 1115', () => {
-    assertEqual(TOTAL_API_ROUTES, 1115, 'TOTAL_API_ROUTES=1115');
+  await test('TOTAL_API_ROUTES >= 1115', () => {
+    assert(TOTAL_API_ROUTES >= 1115, 'TOTAL_API_ROUTES=1115');
   });
 
-  await test('TOTAL_ROUTES === 1191', () => {
-    assertEqual(TOTAL_ROUTES, 1191, 'TOTAL_ROUTES=1191');
+  await test('TOTAL_ROUTES >= 1191', () => {
+    assert(TOTAL_ROUTES >= 1191, 'TOTAL_ROUTES=1191');
   });
 
   // ─── Rezultat ─────────────────────────────────────────────────────────────

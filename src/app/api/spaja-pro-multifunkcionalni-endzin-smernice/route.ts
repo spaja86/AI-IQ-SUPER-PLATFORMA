@@ -15,7 +15,11 @@ export const dynamic = 'force-dynamic';
  */
 export async function POST(request: Request) {
   try {
-    const body = (await request.json()) as { upit: string; kategorija?: string };
+    const payload: unknown = await request.json().catch(() => null);
+    if (!payload || typeof payload !== 'object' || Array.isArray(payload)) {
+      return NextResponse.json({ error: 'Body must be a JSON object' }, { status: 400 });
+    }
+    const body = payload as { upit: string; kategorija?: string };
     const { upit, kategorija } = body;
 
     if (!upit || typeof upit !== 'string') {

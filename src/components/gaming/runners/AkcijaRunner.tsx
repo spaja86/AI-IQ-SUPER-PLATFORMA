@@ -12,7 +12,7 @@
  *   - Dimenzija određuje brzinu, broj neprijatelja i vizuelne efekte
  */
 
-import { useRef, useEffect, useCallback, useState } from 'react';
+import { useLayoutEffect, useRef, useEffect, useCallback, useState } from 'react';
 import type { GamingEndzinKonfiguracija, GameScore } from '@/lib/gaming-endzin';
 import { noviScore, crtajElipsoid, crtajSpiralu, crtajRezonancu } from '@/lib/gaming-endzin';
 
@@ -356,7 +356,9 @@ export default function AkcijaRunner({ konfiguracija, isPauziran, onScoreUpdate,
   ]);
 
   // Keep stableGameLoopRef in sync so the running rAF loop always calls the latest version.
-  stableGameLoopRef.current = gameLoop;
+  useLayoutEffect(() => {
+    stableGameLoopRef.current = gameLoop;
+  }, [gameLoop]);
 
   // ── Mount / restart ──
 

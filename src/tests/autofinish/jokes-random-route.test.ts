@@ -96,7 +96,7 @@ async function runTests(): Promise<void> {
     const req = new Request('http://localhost/api/jokes/random', {
       method: 'POST',
       headers: { 'content-type': 'application/json' },
-      body: JSON.stringify({ __invalid: true }),
+      body: JSON.stringify({ count: -1 }),
     });
     const response = await POST(req as unknown as NextRequest);
     assert(response.status >= 400 && response.status < 500, `Očekivan 4xx, dobijeno ${response.status}`);

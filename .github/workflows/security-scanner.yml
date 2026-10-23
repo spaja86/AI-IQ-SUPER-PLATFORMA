@@ -117,3 +117,41 @@ jobs:
 
       - name: 🧠 Analyze
         uses: github/codeql-action/analyze@ce5e7eeac396d720fe2d802714996c8ce561e311 # v3
+
+  security-gate:
+    name: SPAJA security gate
+    needs: [dependency-review, secret-heuristics, npm-audit, codeql]
+    if: ${{ always() }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 2
+    permissions: {}
+    steps:
+      - name: Reject missing or skipped PR security checks
+        env:
+          NEEDS_JSON: ${{ toJSON(needs) }}
+          VALIDATION_EVENT: ${{ github.event_name }}
+        shell: bash
+        run: |
+          python3 - <<'PY_SECURITY_GATE'
+          import json, os, sys
+          event = os.environ.get('VALIDATION_EVENT')
+          expected = {'dependency-review': 'success', 'secret-heuristics': 'success',
+                      'npm-audit': 'success', 'codeql': 'success'}
+          # Dependency Review is PR-only. Every PR must actually run it.
+          if event in ('push', 'schedule', 'workflow_dispatch'):
+              expected['dependency-review'] = 'skipped'
+          try:
+              results = json.loads(os.environ['NEEDS_JSON'])
+              valid = event in ('pull_request', 'push', 'schedule', 'workflow_dispatch')
+              valid = valid and isinstance(results, dict) and set(results) == set(expected)
+              valid = valid and all(
+                  isinstance(results[name], dict) and results[name].get('result') == outcome
+                  for name, outcome in expected.items()
+              )
+          except (KeyError, ValueError, TypeError):
+              valid = False
+          if not valid:
+              print('Security gate failed: required results are missing or unsuccessful.', file=sys.stderr)
+              sys.exit(1)
+          print('Security jobs passed for this event. This is not a deployment authorization.')
+          PY_SECURITY_GATE

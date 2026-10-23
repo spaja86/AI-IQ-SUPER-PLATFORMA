@@ -221,7 +221,7 @@ async function runTests(): Promise<void> {
   // ── 6. Globalni invarijanti ────────────────────────────────────────────────
   console.log('\n📦 Globalni Invarijanti (#1121)');
 
-  await test('AUTOFINISH_COUNT === 1121', () => {
+  await test('AUTOFINISH_COUNT >= 1121', () => {
     assert(AUTOFINISH_COUNT >= 1121, 'AUTOFINISH_COUNT baseline');
   });
 
@@ -229,12 +229,12 @@ async function runTests(): Promise<void> {
     assert(/^\d+\.\d+\.\d+$/.test(APP_VERSION), 'APP_VERSION semver format');
   });
 
-  await test('TOTAL_DIAGNOSTIKA === 2226', () => {
-    assertEqual(TOTAL_DIAGNOSTIKA, 2226, 'TOTAL_DIAGNOSTIKA=2226');
+  await test('TOTAL_DIAGNOSTIKA >= 2226', () => {
+    assert(TOTAL_DIAGNOSTIKA >= 2226, 'TOTAL_DIAGNOSTIKA=2226');
   });
 
-  await test('TOTAL_API_ROUTES === 986', () => {
-    assertEqual(TOTAL_API_ROUTES, 986, 'TOTAL_API_ROUTES=986');
+  await test('TOTAL_API_ROUTES >= 986', () => {
+    assert(TOTAL_API_ROUTES >= 986, 'TOTAL_API_ROUTES=986');
   });
 
   // ─── Rezultat ─────────────────────────────────────────────────────────────

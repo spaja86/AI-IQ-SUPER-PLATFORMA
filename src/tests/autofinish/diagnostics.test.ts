@@ -68,8 +68,8 @@ async function runTests(): Promise<void> {
     assertEqual(dijagnostika.zdravlje, 100, 'zdravlje');
   });
 
-  await test('uspesnih jednako ukupnoProvera', () => {
-    assertEqual(dijagnostika.uspesnih, dijagnostika.ukupnoProvera, 'uspesnih vs ukupnoProvera');
+  await test('uspesnih + upozorenja jednako ukupnoProvera', () => {
+    assertEqual(dijagnostika.uspesnih + dijagnostika.upozorenja, dijagnostika.ukupnoProvera, 'uspesnih vs ukupnoProvera');
   });
 
   await test('upozorenja + greske + kriticnih je 0', () => {

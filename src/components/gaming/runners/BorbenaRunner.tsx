@@ -14,7 +14,7 @@
  *   - Dimenzija određuje dostupne modove, vizuelne efekte i brzinu
  */
 
-import { useRef, useEffect, useCallback, useState } from 'react';
+import { useLayoutEffect, useRef, useEffect, useCallback, useState } from 'react';
 import type { GamingEndzinKonfiguracija, GameScore } from '@/lib/gaming-endzin';
 import {
   noviScore,
@@ -709,7 +709,9 @@ export default function BorbenaRunner({
     onModChange,
   ]);
 
-  stableLoopRef.current = gameLoop;
+  useLayoutEffect(() => {
+    stableLoopRef.current = gameLoop;
+  }, [gameLoop]);
 
   // ── Inicijalizacija ──
 

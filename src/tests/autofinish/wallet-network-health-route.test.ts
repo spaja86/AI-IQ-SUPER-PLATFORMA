@@ -41,7 +41,7 @@ function isObject(v: unknown): v is Record<string, unknown> {
 
 const _lintUseHelpers = [assertEqual, isObject];
 void _lintUseHelpers;
-import type { NextRequest } from 'next/server';
+import { NextRequest } from 'next/server';
 import { GET } from '../../app/api/wallet/network-health/route';
 
 async function runTests(): Promise<void> {
@@ -63,7 +63,7 @@ async function runTests(): Promise<void> {
   });
 
   await test('GET smoke provera', async () => {
-    const request = new Request('http://localhost/api/wallet/network-health', {
+    const request = new NextRequest('http://localhost/api/wallet/network-health', {
       headers: { 'x-forwarded-for': '127.0.1.10' },
     });
 

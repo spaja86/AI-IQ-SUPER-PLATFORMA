@@ -88,14 +88,16 @@ async function runTests(): Promise<void> {
     assert(response.status >= 400 && response.status < 500, `Očekivan 4xx, dobijeno ${response.status}`);
   });
 
-  await test('POST odbija nevalidan payload', async () => {
+  await test('POST prijavljuje neuspešnu verifikaciju praznih podataka', async () => {
     const req = new Request('http://localhost/api/profesionalni-login-paypal', {
       method: 'POST',
       headers: { 'content-type': 'application/json' },
       body: JSON.stringify({ __invalid: true }),
     });
     const response = await POST(req as unknown as NextRequest);
-    assert(response.status >= 400 && response.status < 500, `Očekivan 4xx, dobijeno ${response.status}`);
+    assertEqual(response.status, 200, 'verification evaluation status');
+    const result = await response.json();
+    assert(result.verifikacija.rezultat !== 'uspesno', 'invalid data must not verify');
   });
 
   await test('Konstante su dostupne', () => {

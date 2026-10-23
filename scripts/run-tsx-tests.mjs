@@ -2,12 +2,10 @@ import { existsSync, readdirSync } from 'node:fs';
 import { dirname, isAbsolute, join, resolve } from 'node:path';
 import { spawnSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
-import { createRequire } from 'node:module';
 
 const directory = process.argv[2];
 const scriptDir = dirname(fileURLToPath(import.meta.url));
 const repoRoot = resolve(scriptDir, '..');
-const require = createRequire(import.meta.url);
 
 if (!directory) {
   console.error('Usage: node scripts/run-tsx-tests.mjs <tests-directory>');
@@ -38,28 +36,22 @@ function collectTestFiles(baseDir) {
 
 const targetDirectory = isAbsolute(directory) ? directory : resolve(repoRoot, directory);
 if (!existsSync(targetDirectory)) {
-  console.warn(`Test directory does not exist, skipping: ${targetDirectory}`);
-  process.exit(0);
+  console.error(`Required test directory does not exist: ${targetDirectory}`);
+  process.exit(1);
 }
 
 const testFiles = collectTestFiles(targetDirectory);
 
 if (testFiles.length === 0) {
-  console.warn(`No test files found, skipping: ${targetDirectory}`);
-  process.exit(0);
-}
-
-let tsxCliPath;
-try {
-  tsxCliPath = require.resolve('tsx/cli', { paths: [repoRoot] });
-} catch (error) {
-  console.error('Unable to resolve tsx CLI (tsx/cli). Ensure dependencies are installed (npm ci).');
-  console.error(error);
+  console.error(`No test files found in required directory: ${targetDirectory}`);
   process.exit(1);
 }
 
+console.log(`Discovered ${testFiles.length} test files in ${directory}`);
+
 for (const file of testFiles) {
-  const command = spawnSync(process.execPath, [tsxCliPath, file], {
+  console.log(`Running ${file}`);
+  const command = spawnSync(process.execPath, ['--import', 'tsx', file], {
     stdio: 'inherit',
     cwd: repoRoot,
   });
@@ -74,3 +66,5 @@ for (const file of testFiles) {
     process.exit(command.status ?? 1);
   }
 }
+
+console.log(`Completed ${testFiles.length}/${testFiles.length} test files successfully.`);

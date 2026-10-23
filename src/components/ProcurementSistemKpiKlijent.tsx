@@ -110,15 +110,11 @@ export default function ProcurementSistemKpiKlijent() {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    if (!sesija?.token) {
-      setLoading(false);
-      return;
-    }
+    if (!sesija?.token) return;
 
     let cancelled = false;
 
     async function fetchStatus() {
-      setLoading(true);
       try {
         const res = await fetch('/api/procurement-sistem', {
           headers: { Authorization: `Bearer ${sesija!.token}` },
