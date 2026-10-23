@@ -53,8 +53,10 @@ jobs:
       - name: CI guard regression tests
         shell: bash
         run: |
-          python3 scripts/tests/application-gate.test.py
-          node --test scripts/tests/ci-tools.test.mjs
+          npm run test:ci:python
+          node --test scripts/tests/ci-tools.test.mjs scripts/tests/all-tests-runner.test.mjs
+      - name: JVM compiler integration (requires javac on the runner)
+        run: node scripts/ci/run-check.mjs java npm run test:ci:java
       - name: TypeScript
         shell: bash
         run: |
@@ -75,9 +77,13 @@ jobs:
           retention-days: 14
 
   tests:
-    name: SPAJA tests and security regressions
+    name: SPAJA tests and security regressions (${{ matrix.shard }}/6)
     runs-on: ubuntu-latest
-    timeout-minutes: 30
+    timeout-minutes: 45
+    strategy:
+      fail-fast: false
+      matrix:
+        shard: [1, 2, 3, 4, 5, 6]
     steps:
       - name: Checkout tested merge or push revision
         id: checkout
@@ -103,19 +109,15 @@ jobs:
           } > .ci-evidence/revision.txt
       - name: Install locked project dependencies
         run: node scripts/ci/run-check.mjs dependencies npm ci --ignore-scripts --no-audit --no-fund
-      - name: Repository tests including both login routes
+      - name: All discovered Node test files including both login routes
         shell: bash
         run: |
-          node scripts/ci/run-check.mjs tests npm run test:ci
-      - name: SUOC durable pilot and VRH reference profiles
-        shell: bash
-        run: |
-          node scripts/ci/run-check.mjs vrh npm run test:vrh
+          node scripts/ci/run-check.mjs tests npm run test:ci -- --shard=${{ matrix.shard }}/6
       - name: Retain command results and hashed logs
         if: always() && steps.checkout.outcome == 'success'
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:
-          name: spaja-ci-tests-${{ github.run_id }}-${{ github.run_attempt }}
+          name: spaja-ci-tests-${{ matrix.shard }}-${{ github.run_id }}-${{ github.run_attempt }}
           path: .ci-evidence/
           include-hidden-files: true
           if-no-files-found: error
@@ -217,7 +219,7 @@ jobs:
       - name: Exercise real browser and loopback HTTP pilot
         shell: bash
         run: |
-          node scripts/ci/run-check.mjs browser node --import tsx --test --test-reporter=tap src/tests/spaja-ultra/pilot-browser.test.mjs
+          node scripts/ci/run-check.mjs browser npm run test:ci:browser
       - name: Retain command results and hashed logs
         if: always() && steps.checkout.outcome == 'success'
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
