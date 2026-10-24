@@ -67,3 +67,9 @@ Početni lokalni prolaz otkrio je 94 neuspešne Node test datoteke (1.667 prošl
 Kompletan lokalni rezultat, verzije alata, SHA-256 izvora, hash logova i preostali nalazi pripadaju paketu validacije uz PR. Ne tvrditi da je CI zelen samo zato što su pojedinačni ponovljeni testovi prošli. Lokalne performanse mogu pasti i bez paralelnog izvršavanja; takav pad ostaje blokirajući nalaz.
 
 GitHub prikazuje problem naplate naloga i poslove koji nisu ni počeli izvršavanje. To je prepreka udaljenoj validaciji; ova promena ne menja naplatu, zaštitu grana ni produkcionu konfiguraciju. Audit od 23. oktobra 2026. nakon povlačenja GHSA-vfj7-8cjw-p6xm prijavljuje 0 high/critical i 32 niža nalaza; nisu menjane zavisnosti radi prikrivanja nalaza.
+
+## Investigation update — 24 October 2026
+
+See [the eight-file investigation](CI-INSTABILITY-2026-10-24.md) and its [machine-readable evidence](CI-INSTABILITY-EVIDENCE-2026-10-24.json). The new complete local Node run passed 1765/1765 files with concurrency 4 and eight explicit exclusive barriers. The original 1757/8 run remains failed and is preserved. API/engine/process and security budgets are unchanged. Functional limiter/MFA clocks are controlled; real API latency assertions are not mocked.
+
+Every invocation now retains an immutable `attempt-*` directory under the existing suite/shard evidence directory. The parent `summary.json` is the latest report only; log paths are relative to that parent directory. Reports include isolation/start/end and optional cgroup resource context. Separate invocations still require separate workspaces for host-level isolation. Remote required CI remains unverified until the actual application/security jobs pass.
