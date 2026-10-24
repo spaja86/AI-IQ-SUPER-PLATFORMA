@@ -1,3 +1,4 @@
+// @ci-isolation: exclusive — exercises real process deadlines and nested runners.
 import assert from 'node:assert/strict';
 import { spawn, spawnSync } from 'node:child_process';
 import { createHash } from 'node:crypto';
@@ -6,6 +7,7 @@ import { tmpdir } from 'node:os';
 import { dirname, join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { test } from 'node:test';
+import { processDeadline, runScheduled } from '../ci/test-scheduling.mjs';
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '../..');
 function fixture(t, files = { 'src/tests/a.test.mjs': "console.log('ok');" }) {
@@ -27,6 +29,7 @@ function fixture(t, files = { 'src/tests/a.test.mjs': "console.log('ok');" }) {
   write('node_modules/tsx/loader.mjs', 'export {};');
   write('scripts/ci/run-all-tests.mjs', '');
   copyFileSync(join(root, 'scripts/ci/run-all-tests.mjs'), join(cwd, 'scripts/ci/run-all-tests.mjs'));
+  copyFileSync(join(root, 'scripts/ci/test-scheduling.mjs'), join(cwd, 'scripts/ci/test-scheduling.mjs'));
   for (const [path, value] of Object.entries(files)) write(path, value);
   const args = ['scripts/ci/run-all-tests.mjs'];
   return { cwd, write, run: (extra = [], env = {}) => spawnSync(process.execPath, [...args, ...extra], {
@@ -87,11 +90,30 @@ test('skipped/TODO tests are incomplete, never successful coverage', t => {
   const f = fixture(t, { 'src/tests/a.test.mjs': "import {test} from 'node:test'; test.skip('missing setup',()=>{});" });
   assert.equal(f.run().status, 1); assert.equal(f.report().results[0].status, 'incomplete');
 });
-test('a timed out process is killed and later files still run', t => {
-  const f = fixture(t, { 'src/tests/a.test.mjs': 'setInterval(()=>{}, 1000);', 'src/tests/z.test.mjs': '' });
+test('a real hanging process is killed at the configured deadline', t => {
+  const f = fixture(t, { 'src/tests/a.test.mjs': 'setInterval(()=>{}, 1000);' });
   assert.equal(f.run(['--timeout-ms=1500']).status, 1);
   assert.equal(f.report().results[0].status, 'timed_out');
-  assert.equal(f.report().results[1].status, 'passed');
+  assert.equal(f.report().results[0].signal, 'SIGKILL');
+});
+test('deadlines expire exactly at budget and a later entry still runs', async t => {
+  t.mock.timers.enable({ apis: ['setTimeout'] });
+  const results = [];
+  await runScheduled([{ path: 'hang' }, { path: 'next' }], 1, async entry => {
+    let kills = 0;
+    const deadline = processDeadline(1500, () => kills++);
+    t.mock.timers.tick(entry.path === 'hang' ? 1499 : 1);
+    assert.equal(deadline.expired, false); assert.equal(kills, 0);
+    if (entry.path === 'hang') {
+      t.mock.timers.tick(1);
+      assert.equal(deadline.expired, true); assert.equal(kills, 1);
+    }
+    results.push(deadline.expired ? 'timed_out' : 'passed');
+    deadline.cancel();
+    t.mock.timers.tick(1500);
+    assert.equal(kills, entry.path === 'hang' ? 1 : 0, 'closed children cannot be killed by a stale timer');
+  });
+  assert.deepEqual(results, ['timed_out', 'passed']);
 });
 test('termination by signal fails', t => {
   const f = fixture(t, { 'src/tests/a.test.mjs': "process.kill(process.pid,'SIGTERM');" });
@@ -124,6 +146,41 @@ test('concurrent execution collects every result and preserves failure', t => {
   assert.equal(report.completedFiles, 4); assert.equal(report.passedFiles, 3);
   assert.equal(new Set(report.results.map(r => r.path)).size, 4);
   assert.equal(report.pending.length, 0);
+});
+test('exclusive entries drain parallel work and block later launches', async () => {
+  const entries = ['a', 'b', 'exclusive', 'c', 'd'].map(path => ({ path, isolation: path === 'exclusive' ? 'exclusive' : 'parallel' }));
+  const active = new Set(); const events = []; const release = new Map();
+  const running = runScheduled(entries, 2, async entry => {
+    if (entry.isolation === 'exclusive') assert.equal(active.size, 0);
+    else assert.equal(active.has('exclusive'), false);
+    active.add(entry.path); events.push(entry.path);
+    await new Promise(resolveEntry => release.set(entry.path, resolveEntry));
+    active.delete(entry.path);
+  });
+  assert.deepEqual(events, ['a', 'b']);
+  release.get('b')(); await new Promise(resolveTick => setImmediate(resolveTick));
+  assert.deepEqual(events, ['a', 'b']);
+  release.get('a')(); await new Promise(resolveTick => setImmediate(resolveTick));
+  assert.deepEqual(events, ['a', 'b', 'exclusive']);
+  release.get('exclusive')(); await new Promise(resolveTick => setImmediate(resolveTick));
+  assert.deepEqual(events, ['a', 'b', 'exclusive', 'c', 'd']);
+  release.get('c')(); release.get('d')(); await running;
+});
+test('exclusive annotations are discovered and failures remain in immutable attempts', t => {
+  const f = fixture(t, { 'src/tests/a.test.mjs': '// @ci-isolation: exclusive\nprocess.exit(2);' });
+  const inventory = JSON.parse(f.run(['--list']).stdout);
+  assert.equal(inventory.selected[0].isolation, 'exclusive');
+  assert.equal(f.run(['--concurrency=4']).status, 1);
+  const first = f.report();
+  const firstLog = readFileSync(join(f.cwd, '.ci-evidence/all-tests-node-1-of-1', first.results[0].log));
+  f.write('src/tests/a.test.mjs', '// @ci-isolation: exclusive\n');
+  assert.equal(f.run(['--concurrency=4']).status, 0);
+  const second = f.report();
+  assert.notEqual(first.attempt, second.attempt);
+  const retained = JSON.parse(readFileSync(join(f.cwd, '.ci-evidence/all-tests-node-1-of-1', first.attempt, 'summary.json')));
+  assert.equal(retained.status, 'failed');
+  assert.equal(retained.results[0].isolation, 'exclusive');
+  assert.deepEqual(readFileSync(join(f.cwd, '.ci-evidence/all-tests-node-1-of-1', first.results[0].log)), firstLog);
 });
 test('application workflow requires all four suites and six complete Node shards', () => {
   const workflow = readFileSync(join(root, '.github/workflows/application-validation.yml'), 'utf8');
