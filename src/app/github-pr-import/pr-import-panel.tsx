@@ -19,6 +19,7 @@ export default function PrImportPanel() {
   const rows = snapshot?.pull_requests ?? emptyRows;
   const summary = useMemo(() => summarizePrs(rows), [rows]);
   const filtered = useMemo(() => filterPrs(rows, filters), [rows, filters]);
+  const nonPublicCount = useMemo(() => filtered.filter(row => row.repository_visibility !== 'public').length, [filtered]);
   const pages = Math.max(1, Math.ceil(filtered.length / PR_IMPORT_PAGE_SIZE));
   const currentPage = Math.min(page, pages - 1);
   function updateFilters(next: PrFilters) { setFilters(next); setPage(0); setSelected(null); }
@@ -40,6 +41,14 @@ export default function PrImportPanel() {
     if (fileInput.current) fileInput.current.value = '';
   }
   function download() {
+    if (!filtered.length) return;
+    // Synchronous, per-click consent applies only to the current filtered rows.
+    // Cancel (including a suppressed dialog) exits before serialization or Blob creation.
+    if (nonPublicCount > 0 && !window.confirm(
+      `Broj privatnih, internih ili neklasifikovanih zapisa: ${nonPublicCount} od ukupno ${filtered.length}.\n\n` +
+      'Ovi zapisi biće uključeni u preuzetu JSON datoteku. Čuvaj je kao privatni dokument.\n\n' +
+      'Potvrdi izvoz izborom „U redu” (OK), ili izaberi „Otkaži” (Cancel) bez kreiranja datoteke.'
+    )) return;
     const url = URL.createObjectURL(new Blob([serializePrs(filtered)], { type: 'application/json' }));
     const link = document.createElement('a'); link.href = url; link.download = 'spaja-pr-izbor.json'; link.click();
     setTimeout(() => URL.revokeObjectURL(url), 1000);
@@ -68,7 +77,7 @@ export default function PrImportPanel() {
         <button type="button" className={button} onClick={() => updateFilters({})}>Resetuj filtere</button>
       </section>
       <div className="flex flex-wrap items-center justify-between gap-3"><p role="status" aria-label="Broj rezultata">Prikazano {filtered.length} od {snapshot.total} PR-a</p><button type="button" className={button} onClick={download} disabled={!filtered.length}>Izvezi prikazane PR-ove</button></div>
-      {filtered.some(row => row.repository_visibility !== 'public') && <p className="text-sm text-amber-200">Izbor sadrži privatne, interne ili neklasifikovane podatke. Izvezeni fajl čuvaj kao privatni dokument.</p>}
+      {nonPublicCount > 0 && <p className="text-sm text-amber-200">Broj privatnih, internih ili neklasifikovanih zapisa u izboru: {nonPublicCount}. Biće uključeni u preuzetu JSON datoteku samo ako potvrdiš izvoz. Izvezeni fajl čuvaj kao privatni dokument.</p>}
       <ul aria-label="PR rezultati" className="space-y-4">
         {filtered.slice(currentPage * PR_IMPORT_PAGE_SIZE, (currentPage + 1) * PR_IMPORT_PAGE_SIZE).map(row => <li key={row.id} className="min-w-0 space-y-3 rounded-xl border border-slate-700 p-5">
           <p className="break-all text-sm text-cyan-300">{row.repository} · #{row.number}</p>
