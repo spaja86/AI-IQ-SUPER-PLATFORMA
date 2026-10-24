@@ -56,6 +56,7 @@ interface SpajaProVerzija {
 }
 
 interface ChatMessage {
+  model?: string;
   role: 'user' | 'assistant';
   content: string;
   vreme: string;
@@ -105,6 +106,9 @@ export default function SpajaProPromptApp({ promptovi, verzije, kategorije }: Pr
   const [chatInput, setChatInput] = useState('');
   const [chatLoading, setChatLoading] = useState(false);
   const [chatError, setChatError] = useState('');
+  const [chatMode, setChatMode] = useState<'catalog' | 'model'>('catalog');
+  const activeChat = useRef<AbortController | null>(null);
+  useEffect(() => () => { activeChat.current?.abort(); activeChat.current = null; }, []);
   const chatEndRef = useRef<HTMLDivElement>(null);
 
   // History state
@@ -225,51 +229,66 @@ export default function SpajaProPromptApp({ promptovi, verzije, kategorije }: Pr
     }
   }, [korisnikUnos, izabranaVerzija, parametriVrednosti, izabraniPrompt, ucitavanje]);
 
+  const stopChat = useCallback(() => {
+    activeChat.current?.abort();
+    activeChat.current = null;
+    setChatLoading(false);
+    setChatError('Zahtev je zaustavljen. Već prihvaćen poziv modela može potrošiti kvotu.');
+  }, []);
+
   const posaljiChat = useCallback(async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!chatInput.trim() || chatLoading) return;
-
+    if (!chatInput.trim() || activeChat.current) return;
+    const sesija = dohvatiSesiju();
+    if (chatMode === 'model' && !sesija?.token) {
+      setChatError('Prijavite se za razgovor sa AI modelom.');
+      return;
+    }
+    const controller = new AbortController();
+    activeChat.current = controller;
+    const timeout = setTimeout(() => controller.abort(), 60000);
     const userMessage = chatInput.trim();
     setChatInput('');
     setChatError('');
-    setChatMessages((prev) => [...prev, { role: 'user', content: userMessage, vreme: getVreme(), verzija: izabranaVerzija }]);
+    setChatMessages(prev => [...prev, { role: 'user', content: userMessage, vreme: getVreme(), verzija: izabranaVerzija }]);
     setChatLoading(true);
-
     try {
-      const sesija = dohvatiSesiju();
       const headers: Record<string, string> = { 'Content-Type': 'application/json' };
-      if (sesija?.token) {
-        headers.Authorization = `Bearer ${sesija.token}`;
-      }
-
-      const res = await fetch('/api/spaja-pro-prompt-execute', {
-        method: 'POST',
-        headers,
-        body: JSON.stringify({ prompt: userMessage, verzija: izabranaVerzija, parametri: {} }),
+      if (sesija?.token) headers.Authorization = `Bearer ${sesija.token}`;
+      const body = chatMode === 'model'
+        ? { requestId: crypto.randomUUID(), messages: [...chatMessages.slice(-10).map(({ role, content }) => ({ role, content })), { role: 'user', content: userMessage }] }
+        : { prompt: userMessage, verzija: izabranaVerzija, parametri: {} };
+      const res = await fetch(chatMode === 'model' ? '/api/spaja-pro-ai' : '/api/spaja-pro-prompt-execute', {
+        method: 'POST', headers, body: JSON.stringify(body), signal: controller.signal,
       });
-
       const data = await res.json();
+      if (activeChat.current !== controller || controller.signal.aborted) return;
       if (!res.ok) {
         setChatError(data.error ?? 'Greška pri slanju poruke.');
-        setChatLoading(false);
         return;
       }
-
       const reply = data.rezultat ?? data.odgovor?.sadrzaj ?? 'Nema odgovora.';
-      setChatMessages((prev) => [...prev, { role: 'assistant', content: reply, vreme: getVreme(), verzija: izabranaVerzija }]);
+      setChatMessages(prev => [...prev, { role: 'assistant', content: reply, vreme: getVreme(), verzija: izabranaVerzija, model: data.mode === 'model' ? data.model : undefined }]);
+      if (data.incomplete) setChatError('Odgovor je skraćen zbog ograničenja izlaza.');
     } catch {
-      setChatError('Greška u mreži. Pokušajte ponovo.');
+      if (activeChat.current === controller) setChatError(controller.signal.aborted
+        ? 'Zahtev je prekinut. Kvota modela može ostati rezervisana.'
+        : 'Greška u mreži. Zahtev nije automatski ponovljen.');
     } finally {
-      setChatLoading(false);
+      clearTimeout(timeout);
+      if (activeChat.current === controller) {
+        activeChat.current = null;
+        setChatLoading(false);
+      }
     }
-  }, [chatInput, chatLoading, izabranaVerzija]);
+  }, [chatInput, chatMode, chatMessages, izabranaVerzija]);
 
   // ─── Tab definitions ───────────────────────────────────────────────
 
   const tabs: Array<{ id: AppTab; naziv: string; ikona: string; opis: string }> = [
     { id: 'builder', naziv: 'Builder', ikona: '🔧', opis: 'Kreiraj i izvrši Prompt' },
     { id: 'biblioteka', naziv: 'Biblioteka', ikona: '📚', opis: 'Pretraži Prompt-ove' },
-    { id: 'chat', naziv: 'Chat', ikona: '💬', opis: 'AI razgovor' },
+    { id: 'chat', naziv: 'Chat', ikona: '💬', opis: 'Katalog ili AI model' },
     { id: 'analitika', naziv: 'Analitika', ikona: '📊', opis: 'Statistike i uvidi' },
   ];
 
@@ -679,22 +698,34 @@ export default function SpajaProPromptApp({ promptovi, verzije, kategorije }: Pr
               <div className="flex items-center justify-between border-b border-gray-700/50 px-4 py-3">
                 <div className="flex items-center gap-2">
                   <span className="text-lg">💬</span>
-                  <h3 className="font-semibold text-white">SpajaPro AI Chat</h3>
+                  <h3 className="font-semibold text-white">SpajaPro razgovor</h3>
                 </div>
                 <div className="text-xs text-gray-400">
                   {aktivnaVerzija?.ikona} SpajaPro v{izabranaVerzija} ({aktivnaVerzija?.kodnoIme})
                 </div>
               </div>
 
+              <div className="border-b border-gray-700/50 px-4 py-3">
+                <label htmlFor="spaja-chat-mode" className="mr-3 text-sm text-gray-300">Način odgovaranja</label>
+                <select id="spaja-chat-mode" value={chatMode} disabled={chatLoading}
+                  onChange={e => { setChatMode(e.target.value as 'catalog' | 'model'); setChatMessages([]); setChatError(''); }}
+                  className="rounded-lg bg-gray-800 p-2 text-sm text-white">
+                  <option value="catalog">Katalog i pravila</option>
+                  <option value="model">AI model — ograničeni pilot</option>
+                </select>
+                <p className="mt-2 text-xs text-gray-400">{chatMode === 'model'
+                  ? 'Tekst razgovora šalje se OpenAI servisu. Potrebni su prijava i odobren pristup pilotu. Dnevne kvote važe i za prekinute pozive.'
+                  : 'Odgovori nastaju iz lokalnog kataloga i pravila. Ovaj režim ne poziva AI model.'}</p>
+              </div>
               {/* Messages area */}
               <div className="h-[450px] overflow-y-auto p-4">
                 {chatMessages.length === 0 && (
                   <div className="flex h-full items-center justify-center text-gray-500">
                     <div className="text-center">
                       <p className="mb-2 text-4xl">🤖</p>
-                      <p className="text-lg font-medium">Dobrodošli u SpajaPro AI Chat!</p>
+                      <p className="text-lg font-medium">Dobrodošli u SpajaPro razgovor!</p>
                       <p className="mt-1 text-sm">Postavite pitanje da započnete razgovor.</p>
-                      <p className="mt-2 text-xs text-gray-600">Engine: SpajaPro v{izabranaVerzija} — {aktivnaVerzija?.kodnoIme}</p>
+                      <p className="mt-2 text-xs text-gray-400">{chatMode === 'model' ? 'AI model — pilot' : `Katalog SpajaPro v${izabranaVerzija}`}</p>
                     </div>
                   </div>
                 )}
@@ -704,7 +735,7 @@ export default function SpajaProPromptApp({ promptovi, verzije, kategorije }: Pr
                       msg.role === 'user' ? 'bg-blue-600 text-white' : 'bg-gray-700 text-gray-100'
                     }`}>
                       <div className="mb-1 flex items-center justify-between gap-3 text-xs opacity-60">
-                        <span>{msg.role === 'user' ? 'Vi' : `SpajaPro v${msg.verzija}`}</span>
+                        <span>{msg.role === 'user' ? 'Vi' : msg.model ? `AI model: ${msg.model}` : `Katalog v${msg.verzija}`}</span>
                         <span>{msg.vreme}</span>
                       </div>
                       <div className="whitespace-pre-wrap">{msg.content}</div>
@@ -751,6 +782,7 @@ export default function SpajaProPromptApp({ promptovi, verzije, kategorije }: Pr
                 >
                   {chatLoading ? '...' : 'Pošalji'}
                 </Button>
+                {chatLoading && <Button type="button" onClick={stopChat} className="rounded-xl bg-red-800 px-4 py-3 text-sm text-white">Zaustavi</Button>}
               </form>
             </div>
           </div>
