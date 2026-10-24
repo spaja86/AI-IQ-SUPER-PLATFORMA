@@ -35,6 +35,7 @@ This document turns the repo-wide future plan into an operational roadmap for `A
 
 ### Phase 2 — Automation and security completion
 
+- `OKRID-2026-PRIVACY-001`: require fresh confirmation for non-public PR archive exports, zero files on cancellation, one-click public export and zero imported-data transport calls. Track implementation and validation in [GITHUB-PR-IMPORT.md](GITHUB-PR-IMPORT.md) and draft PR #1369; human review and remote CI remain release gates.
 - Keep `omega-auto-build.yml` as the core quality gate.
 - Run lint + unit test + smoke + predeploy validation in CI for every protected change path, and treat build as a tracked release gate even when specific workflows still rely on scoped enforcement.
 - Activate the dedicated `security-scanner` workflow for CodeQL, dependency review, npm audit, and secret heuristics.
