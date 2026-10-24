@@ -48,7 +48,10 @@
     "suoc:pilot": "node --import tsx scripts/suoc-pilot.ts",
     "test:suoc:pilot": "node --import tsx --test src/tests/spaja-ultra/pilot.test.ts",
     "test:vrh:reference": "node --import tsx --test --test-concurrency=1 src/tests/lib/petlje.test.ts src/tests/lib/vrh-*.test.ts src/tests/lib/spajascripte-*.test.ts src/tests/lib/spaja-fallback-isolation.test.ts src/tests/lib/umbrel-budget.test.ts src/tests/lib/durmitor-budget.test.ts",
-    "test:vrh": "npm run test:suoc && npm run test:suoc:pilot && npm run test:vrh:reference"
+    "test:vrh": "npm run test:suoc && npm run test:suoc:pilot && npm run test:vrh:reference",
+    "test:stripe:isolated": "node scripts/verify-stripe-isolated.mjs",
+    "test:stripe:characterize": "node scripts/verify-stripe-isolated.mjs --characterize",
+    "test:stripe:readiness": "node scripts/verify-stripe-isolated.mjs"
   },
   "dependencies": {
     "@supabase/ssr": "^0.10.2",
