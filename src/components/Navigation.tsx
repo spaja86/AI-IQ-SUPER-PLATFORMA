@@ -53,8 +53,8 @@ export default function Navigation() {
       <a href="#main-content" className="sr-only focus:not-sr-only focus:absolute focus:z-50 focus:bg-blue-600 focus:p-2 focus:text-white">
         Preskoči na sadržaj
       </a>
-      <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3">
-        <Link href="/" className="flex items-center gap-2 text-lg font-bold text-white">
+      <div className="mx-auto flex min-w-0 max-w-7xl items-center justify-between gap-4 px-4 py-3">
+        <Link href="/" className="flex shrink-0 items-center gap-2 text-lg font-bold text-white">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src={BRAND_ASSETS.navLogo}
@@ -67,12 +67,12 @@ export default function Navigation() {
         </Link>
 
         {/* Desktop */}
-        <div className="hidden items-center gap-1 md:flex">
+        <div className="hidden min-w-0 flex-1 items-center gap-1 overflow-x-auto md:flex">
           {navLinks.map((link) => (
             <Link
               key={link.href}
               href={link.href}
-              className={`rounded-lg px-3 py-2 text-sm transition ${
+              className={`shrink-0 whitespace-nowrap rounded-lg px-3 py-2 text-sm transition ${
                 pathname === link.href
                   ? 'bg-blue-600/20 text-blue-400'
                   : 'text-gray-400 hover:bg-gray-800 hover:text-white'
@@ -83,7 +83,7 @@ export default function Navigation() {
           ))}
 
           {/* Auth dugmad */}
-          <div className="ml-2 flex items-center gap-2 border-l border-gray-700 pl-3">
+          <div className="ml-2 flex shrink-0 items-center gap-2 border-l border-gray-700 pl-3">
             {isLoggedIn ? (
               <>
                 <span className="text-xs text-gray-500" title={sesija?.email}>
