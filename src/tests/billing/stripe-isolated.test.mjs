@@ -1,0 +1,310 @@
+import assert from 'node:assert/strict';
+import { afterEach, test } from 'node:test';
+import { createHarness, checkoutEvent, invoiceEvent, USER } from './fixtures/stripe-isolated-harness.mjs';
+
+// TODO cases EXECUTE their safety assertions. Strict mode makes each a failing
+// readiness gate, rather than treating the current vulnerability as correct.
+const strict = process.env.STRIPE_READINESS_STRICT === '1';
+const harnesses = [];
+function setup(options) { const h = createHarness(options); harnesses.push(h); return h; }
+function gap(id, name, fn) { test(`[${id}] ${name}`, { todo: strict ? false : 'Confirmed readiness blocker; run test:stripe:readiness' }, fn); }
+afterEach(() => {
+  for (const h of harnesses.splice(0)) assert.deepEqual(h.state.networkAttempts, [], 'no network operation is permitted');
+});
+const stableHeaders = { 'idempotency-key': 'fixture-request-001', 'x-request-id': 'fixture-trace-stable' };
+function noCheckoutSideEffects(h) {
+  assert.equal(h.state.sessionCalls.length, 0);
+  assert.equal(h.state.customerCalls.length, 0);
+  assert.equal(h.state.profileWrites, 0);
+}
+
+test('isolation refuses any non-fixture API key, including live and real test keys', () => {
+  for (const key of ['sk_live_forbidden', 'rk_live_forbidden', 'sk_test_external', 'rk_test_external']) {
+    assert.throws(() => createHarness({ env: { STRIPE_SECRET_KEY: key } }), /synthetic fixture key/);
+  }
+});
+test('Stripe config fails when API key is absent', () => {
+  const h = setup({ env: { STRIPE_SECRET_KEY: undefined } });
+  assert.throws(() => h.load('src/lib/stripe/config.ts').getStripe(), /STRIPE_SECRET_KEY/);
+});
+test('Supabase config fails when URL or service role is absent', () => {
+  for (const key of ['NEXT_PUBLIC_SUPABASE_URL', 'SUPABASE_SERVICE_ROLE_KEY']) {
+    const h = setup({ env: { [key]: undefined } });
+    assert.throws(() => h.load('src/lib/supabase/server.ts').getSupabaseServerClient(), /kredencijali/);
+  }
+});
+test('missing Price configuration returns 500 before Stripe effects', async () => {
+  const h = setup({ env: { STRIPE_PRICE_BASIC: undefined } });
+  assert.equal((await h.checkout()).status, 500); noCheckoutSideEffects(h);
+});
+test('missing Stripe key returns controlled Checkout failure', async () => {
+  const h = setup({ env: { STRIPE_SECRET_KEY: undefined } });
+  assert.equal((await h.checkout()).status, 500); noCheckoutSideEffects(h);
+});
+for (const authorization of ['', 'Basic abc', 'Bearer', 'Bearer invalid-fixture-token']) {
+  test(`real auth adapter rejects ${authorization || 'missing credentials'} when providers do not verify`, async () => {
+    const h = setup();
+    assert.equal((await h.checkout(undefined, { authorization })).status, 401);
+    noCheckoutSideEffects(h);
+  });
+}
+test('auth adapter passes token to Supabase boundary and does not trust client user ID', async () => {
+  const h = setup();
+  assert.equal((await h.checkout({ planId: 'basic', userId: 'attacker', priceId: 'price_attacker' })).status, 200);
+  assert.deepEqual(h.state.authTokens, ['fixture-valid-token']);
+  assert.equal(h.state.sessionCalls[0].params.metadata.supabase_user_id, USER);
+  assert.equal(h.state.sessionCalls[0].params.line_items[0].price, 'price_fixture_basic');
+});
+for (const [name, body, status] of [
+  ['malformed JSON', '{', 400], ['null body', null, 400], ['array body', [], 400],
+  ['missing plan', {}, 400], ['non-string plan', { planId: 1 }, 400],
+  ['unknown plan', { planId: 'not-a-plan' }, 404], ['free plan', { planId: 'starter' }, 400],
+]) {
+  test(`Checkout rejects ${name}`, async () => {
+    const h = setup(); assert.equal((await h.checkout(body)).status, status); noCheckoutSideEffects(h);
+  });
+}
+for (const [flag, plan] of [
+  ['billing-read-only-mode', 'basic'], ['billing-kill-switch-checkout', 'basic'], ['billing-kill-switch-enterprise', 'enterprise'],
+]) {
+  test(`${flag} blocks the applicable Checkout`, async () => {
+    const h = setup({ flags: { [flag]: true } });
+    assert.equal((await h.checkout({ planId: plan })).status, 503); noCheckoutSideEffects(h);
+  });
+}
+test('sixth Checkout request is rate limited per user in one process', async () => {
+  const h = setup();
+  for (let i = 0; i < 5; i++) assert.equal((await h.checkout()).status, 200);
+  assert.equal((await h.checkout()).status, 429);
+  assert.equal(h.state.sessionCalls.length, 5);
+});
+test('twenty-first request from same claimed IP is blocked across fixture users', async () => {
+  const h = setup();
+  for (let i = 0; i < 21; i++) {
+    const response = await h.checkout({}, { authorization: `Bearer fixture-user-${i}`, 'x-forwarded-for': '192.0.2.1' });
+    assert.equal(response.status, i === 20 ? 429 : 400);
+  }
+  noCheckoutSideEffects(h);
+});
+test('recent plan change enforces five-minute cooldown', async () => {
+  const h = setup({ profile: { last_plan_changed_at: new Date().toISOString() } });
+  assert.equal((await h.checkout()).status, 429); noCheckoutSideEffects(h);
+});
+test('three open sessions blocks Checkout for existing customer', async () => {
+  const h = setup({ activeSessions: 3 });
+  assert.equal((await h.checkout()).status, 429); noCheckoutSideEffects(h);
+});
+test('non-EUR Price rejects Checkout', async () => {
+  const h = setup({ price: { currency: 'rsd' } });
+  assert.equal((await h.checkout()).status, 409); noCheckoutSideEffects(h);
+});
+test('unknown Stripe Price API failure does not create a Checkout session', async () => {
+  const h = setup({ priceError: true });
+  assert.equal((await h.checkout()).status, 500); noCheckoutSideEffects(h);
+});
+test('malformed idempotency key returns 400', async () => {
+  const h = setup();
+  assert.equal((await h.checkout(undefined, { 'idempotency-key': 'bad key' })).status, 400);
+  noCheckoutSideEffects(h);
+});
+test('Checkout success sends server-owned subscription parameters without granting access', async () => {
+  const h = setup();
+  assert.equal((await h.checkout(undefined, stableHeaders)).status, 200);
+  const call = h.state.sessionCalls[0];
+  assert.equal(call.params.customer, 'cus_fixture');
+  assert.equal(call.params.mode, 'subscription');
+  assert.deepEqual(call.params.line_items, [{ price: 'price_fixture_basic', quantity: 1 }]);
+  assert.equal(call.options.idempotencyKey, `checkout:${USER}:basic:fixture-request-001`);
+  assert.equal(h.state.profile.plan, 'starter');
+  assert.equal(h.state.profile.subscription_status, null);
+  assert.equal(h.state.profileWrites, 0);
+});
+test('new fixture customer is linked to profile before session creation', async () => {
+  const h = setup({ profile: { stripe_customer_id: null } });
+  assert.equal((await h.checkout()).status, 200);
+  assert.equal(h.state.customerCalls.length, 1);
+  assert.equal(h.state.profile.stripe_customer_id, 'cus_fixture_new_1');
+});
+test('same idempotency key AND stable trace reuse simulated session', async () => {
+  const h = setup();
+  const responses = await Promise.all([h.checkout(undefined, stableHeaders), h.checkout(undefined, stableHeaders)]);
+  assert.deepEqual(responses.map(r => r.status), [200, 200]);
+  assert.equal(h.state.sessions.size, 1);
+});
+test('Checkout API exceptions open real circuit and next request receives 503', async () => {
+  const h = setup({ sessionError: true });
+  for (let i = 0; i < 3; i++) assert.equal((await h.checkout()).status, 500);
+  assert.equal((await h.checkout()).status, 503);
+  assert.equal(h.state.sessionCalls.length, 3);
+  assert.equal(h.state.profile.subscription_status, null);
+});
+test('Checkout response without URL fails with 503 and no activation', async () => {
+  const h = setup({ noSessionUrl: true });
+  assert.equal((await h.checkout()).status, 503);
+  assert.equal(h.state.profile.subscription_status, null);
+});
+test('real fraud assessor blocks genuinely high signals when supplied', () => {
+  const h = setup();
+  const result = h.load('src/lib/stripe/billing-validators.ts').assessFraudRisk({
+    checkoutAttemptsLastHour: 5, failedPaymentsLast30Days: 5, distinctIpsLast24h: 5, isNewAccount: true,
+  });
+  assert.equal(result.blocked, true); assert.equal(result.score, 95);
+});
+test('missing webhook signature fails before DB access', async () => {
+  const h = setup(); assert.equal((await h.webhook(checkoutEvent(), { noSignature: true })).status, 400);
+  assert.equal(h.state.queries.length, 0);
+});
+test('missing webhook secret fails before DB access', async () => {
+  const h = setup({ env: { STRIPE_WEBHOOK_SECRET: undefined } });
+  assert.equal((await h.webhook(checkoutEvent())).status, 500); assert.equal(h.state.queries.length, 0);
+});
+for (const [name, options] of [
+  ['wrong signing secret', { secret: 'whsec_wrong_fixture' }],
+  ['modified raw body', { body: JSON.stringify(checkoutEvent()) + ' ' }],
+  ['stale signature', { timestamp: Math.floor(Date.now() / 1000) - 1000 }],
+]) {
+  test(`real Stripe SDK rejects ${name}`, async () => {
+    const h = setup(); assert.equal((await h.webhook(checkoutEvent(), options)).status, 400);
+    assert.equal(h.state.queries.length, 0);
+  });
+}
+test('invalid tolerance configuration falls back to 300 seconds', async () => {
+  const h = setup({ env: { STRIPE_WEBHOOK_TOLERANCE_SEC: '0' } });
+  assert.equal((await h.webhook(checkoutEvent(), { timestamp: Math.floor(Date.now() / 1000) - 400 })).status, 400);
+});
+test('correct signature plus invalid Checkout schema is rejected', async () => {
+  const h = setup();
+  assert.equal((await h.webhook(checkoutEvent({ mode: 'invalid' }))).status, 422);
+  assert.equal(h.state.queries.length, 0);
+});
+test('non-allowlisted event is acknowledged without billing writes', async () => {
+  const h = setup();
+  const response = await h.webhook(checkoutEvent({}, { type: 'payout.created' }));
+  assert.equal(response.status, 200); assert.equal((await response.json()).ignored, true);
+  assert.equal(h.state.queries.length, 0);
+});
+test('signed paid Checkout event activates fixture subscription and records audit', async () => {
+  const h = setup(); assert.equal((await h.webhook(checkoutEvent())).status, 200);
+  assert.equal(h.state.profile.plan, 'basic'); assert.equal(h.state.profile.subscription_status, 'active');
+  assert.equal(h.state.profile.stripe_subscription_id, 'sub_fixture');
+  assert.equal(h.state.profile.chat_messages_limit, 100);
+  assert.equal(h.state.audits[0].action, 'subscription.activated');
+});
+test('same webhook event ID delivered five times concurrently has one simulated profile write', async () => {
+  const h = setup();
+  const responses = await Promise.all(Array.from({ length: 5 }, () => h.webhook(checkoutEvent())));
+  const bodies = await Promise.all(responses.map(r => r.json()));
+  assert.equal(bodies.filter(b => b.duplicate).length, 4);
+  assert.equal(h.state.profileWrites, 1); assert.equal(h.state.audits.length, 1);
+});
+test('invoice failure sets past_due and soft-lock on third failure', async () => {
+  const h = setup({ profile: { failed_payment_count: 2 } });
+  assert.equal((await h.webhook(invoiceEvent())).status, 200);
+  assert.equal(h.state.profile.failed_payment_count, 3);
+  assert.equal(h.state.profile.subscription_status, 'past_due');
+  assert.equal(h.state.profile.billing_locked, true);
+});
+test('real retry helper retries thrown transient DB errors', async () => {
+  const h = setup(); let calls = 0;
+  const result = await h.load('src/lib/stripe/billing-guard.ts').withRetry(async () => {
+    if (++calls < 3) throw Object.assign(new Error('fixture transient error'), { code: '40001' });
+    return 'ok';
+  }, { initialDelayMs: 0 });
+  assert.equal(result, 'ok'); assert.equal(calls, 3);
+});
+
+gap('FRAUD-01', 'route must use measured Checkout attempt count', async () => {
+  const h = setup();
+  for (let i = 0; i < 5; i++) await h.checkout();
+  assert.equal(h.state.fraudInputs.at(-1).checkoutAttemptsLastHour, 5);
+});
+gap('FRAUD-02', 'route must use measured distinct IP count', async () => {
+  const h = setup();
+  for (let i = 1; i <= 5; i++) await h.checkout(undefined, { 'x-forwarded-for': `192.0.2.${i}` });
+  assert.equal(h.state.fraudInputs.at(-1).distinctIpsLast24h, 5);
+});
+gap('FRAUD-03', 'new account with five failures and five IP attempts must be blocked', async () => {
+  const h = setup({ profile: { failed_payment_count: 5, created_at: new Date().toISOString() } });
+  let response;
+  for (let i = 1; i <= 5; i++) response = await h.checkout(undefined, { 'x-forwarded-for': `192.0.2.${i}` });
+  assert.equal(response.status, 403);
+});
+gap('CHECKOUT-01', 'same idempotency key with independently generated request IDs must retry successfully', async () => {
+  const h = setup();
+  assert.equal((await h.checkout(undefined, { 'idempotency-key': 'fixture-retry' })).status, 200);
+  assert.equal((await h.checkout(undefined, { 'idempotency-key': 'fixture-retry' })).status, 200);
+});
+gap('CHECKOUT-02', 'distinct 255-character keys must not collide after namespacing', async () => {
+  const h = setup();
+  for (const suffix of ['a', 'b']) await h.checkout(undefined, { ...stableHeaders, 'idempotency-key': 'x'.repeat(254) + suffix });
+  assert.notEqual(h.state.sessionCalls[0].options.idempotencyKey, h.state.sessionCalls[1].options.idempotencyKey);
+});
+gap('CHECKOUT-03', 'invalid key must be rejected before new customer/profile mutations', async () => {
+  const h = setup({ profile: { stripe_customer_id: null } });
+  assert.equal((await h.checkout(undefined, { 'idempotency-key': 'bad key' })).status, 400);
+  noCheckoutSideEffects(h);
+});
+gap('CHECKOUT-04', 'profile read error must stop Checkout before Stripe effects', async () => {
+  const h = setup({ profileReadError: { code: '08006' } });
+  await h.checkout(); noCheckoutSideEffects(h);
+});
+gap('CHECKOUT-05', 'failed customer link must prevent creation of unlinked session', async () => {
+  const h = setup({ profile: { stripe_customer_id: null }, profileWriteError: { code: '08006' } });
+  await h.checkout(); assert.equal(h.state.sessionCalls.length, 0);
+});
+gap('CHECKOUT-06', 'billing-locked profile must not create a new session', async () => {
+  const h = setup({ profile: { billing_locked: true, failed_payment_count: 10 } });
+  await h.checkout(); assert.equal(h.state.sessionCalls.length, 0);
+});
+gap('WEBHOOK-01', 'unpaid completed Checkout must not activate subscription', async () => {
+  const h = setup(); await h.webhook(checkoutEvent({ payment_status: 'unpaid' }));
+  assert.equal(h.state.profile.subscription_status, null);
+});
+gap('WEBHOOK-02', 'non-subscription Checkout must not activate subscription', async () => {
+  const h = setup(); await h.webhook(checkoutEvent({ mode: 'payment', subscription: null }));
+  assert.equal(h.state.profile.subscription_status, null);
+});
+gap('WEBHOOK-03', 'unknown metadata plan must not grant access', async () => {
+  const h = setup(); await h.webhook(checkoutEvent({ metadata: { supabase_user_id: USER, plan_id: 'unknown-paid-plan' } }));
+  assert.equal(h.state.profileWrites, 0);
+});
+gap('WEBHOOK-04', 'failed deduplication insert must stop billing mutations', async () => {
+  const h = setup({ eventInsertError: { code: '08006' } });
+  const response = await h.webhook(checkoutEvent());
+  assert.equal(h.state.profileWrites, 0); assert.ok(response.status >= 500);
+});
+gap('WEBHOOK-05', 'resolved Supabase write error must retry and preserve webhook delivery', async () => {
+  const h = setup({ profileWriteError: { code: '08006' } });
+  const response = await h.webhook(checkoutEvent());
+  assert.ok(h.state.profileWrites > 1, 'withRetry must inspect resolved errors, not only rejections');
+  assert.ok(response.status >= 500 || h.state.deadLetters.length > 0);
+});
+gap('WEBHOOK-06', 'failed write must not consume event ID and discard its redelivery', async () => {
+  const h = setup({ profileWriteError: { code: '08006' } });
+  await h.webhook(checkoutEvent()); h.state.options.profileWriteError = null;
+  await h.webhook(checkoutEvent()); assert.equal(h.state.profile.subscription_status, 'active');
+});
+gap('WEBHOOK-07', 'handler and dead-letter failure must return retryable HTTP status', async () => {
+  const h = setup({ profileWriteThrow: true, deadLetterError: { code: '08006' } });
+  const response = await h.webhook(checkoutEvent());
+  assert.ok(response.status >= 500); assert.equal(h.state.deadLetters.length, 0);
+});
+gap('WEBHOOK-08', 'first valid delayed event must not be discarded by its own insertion timestamp', async () => {
+  const h = setup();
+  await h.webhook(checkoutEvent({}, { created: Math.floor(Date.now() / 1000) - 60 }));
+  assert.equal(h.state.profile.subscription_status, 'active');
+});
+gap('WEBHOOK-09', 'different event IDs for same Checkout must not reset usage twice', async () => {
+  const h = setup(); await h.webhook(checkoutEvent()); h.state.profile.chat_messages_used = 17;
+  await h.webhook(checkoutEvent({}, { id: 'evt_fixture_duplicate_object' }));
+  assert.equal(h.state.profile.chat_messages_used, 17);
+});
+gap('WEBHOOK-10', 'paid asynchronous Checkout must activate fixture subscription', async () => {
+  const h = setup();
+  await h.webhook(checkoutEvent({}, { type: 'checkout.session.async_payment_succeeded' }));
+  assert.equal(h.state.profile.subscription_status, 'active');
+});
+gap('WEBHOOK-11', 'missing Stripe key must return a controlled webhook configuration response', async () => {
+  const h = setup({ env: { STRIPE_SECRET_KEY: undefined } });
+  const response = await h.webhook(checkoutEvent()); assert.equal(response.status, 500);
+});
