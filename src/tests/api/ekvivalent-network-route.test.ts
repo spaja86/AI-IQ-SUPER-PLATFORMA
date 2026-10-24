@@ -1,3 +1,4 @@
+// @ci-isolation: exclusive — real 200 ms API budget, no concurrent sibling load.
 // SpajaUltraOmegaCore -∞Ω+∞ — EKVIVALENT NETWORK Route Tests
 // Kompanija SPAJA — Digitalna Industrija
 
