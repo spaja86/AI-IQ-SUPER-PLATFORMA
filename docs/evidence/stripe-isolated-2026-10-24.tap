@@ -1,0 +1,711 @@
+TAP version 13
+# Subtest: isolation refuses any non-fixture API key, including live and real test keys
+ok 1 - isolation refuses any non-fixture API key, including live and real test keys
+  ---
+  duration_ms: 1.831238
+  type: 'test'
+  ...
+# Subtest: Stripe config fails when API key is absent
+ok 2 - Stripe config fails when API key is absent
+  ---
+  duration_ms: 225.448131
+  type: 'test'
+  ...
+# Subtest: Supabase config fails when URL or service role is absent
+ok 3 - Supabase config fails when URL or service role is absent
+  ---
+  duration_ms: 4.658703
+  type: 'test'
+  ...
+# Subtest: missing Price configuration returns 500 before Stripe effects
+ok 4 - missing Price configuration returns 500 before Stripe effects
+  ---
+  duration_ms: 7.917623
+  type: 'test'
+  ...
+# Subtest: missing Stripe key returns controlled Checkout failure
+ok 5 - missing Stripe key returns controlled Checkout failure
+  ---
+  duration_ms: 3.458135
+  type: 'test'
+  ...
+# Subtest: real auth adapter rejects missing credentials when providers do not verify
+ok 6 - real auth adapter rejects missing credentials when providers do not verify
+  ---
+  duration_ms: 2.621161
+  type: 'test'
+  ...
+# Subtest: real auth adapter rejects Basic abc when providers do not verify
+ok 7 - real auth adapter rejects Basic abc when providers do not verify
+  ---
+  duration_ms: 4.612465
+  type: 'test'
+  ...
+# Subtest: real auth adapter rejects Bearer when providers do not verify
+ok 8 - real auth adapter rejects Bearer when providers do not verify
+  ---
+  duration_ms: 1.788945
+  type: 'test'
+  ...
+# Subtest: real auth adapter rejects Bearer invalid-fixture-token when providers do not verify
+ok 9 - real auth adapter rejects Bearer invalid-fixture-token when providers do not verify
+  ---
+  duration_ms: 1.922743
+  type: 'test'
+  ...
+# Subtest: auth adapter passes token to Supabase boundary and does not trust client user ID
+ok 10 - auth adapter passes token to Supabase boundary and does not trust client user ID
+  ---
+  duration_ms: 2.802258
+  type: 'test'
+  ...
+# Subtest: Checkout rejects malformed JSON
+ok 11 - Checkout rejects malformed JSON
+  ---
+  duration_ms: 1.803527
+  type: 'test'
+  ...
+# Subtest: Checkout rejects null body
+ok 12 - Checkout rejects null body
+  ---
+  duration_ms: 1.787333
+  type: 'test'
+  ...
+# Subtest: Checkout rejects array body
+ok 13 - Checkout rejects array body
+  ---
+  duration_ms: 1.916283
+  type: 'test'
+  ...
+# Subtest: Checkout rejects missing plan
+ok 14 - Checkout rejects missing plan
+  ---
+  duration_ms: 1.571165
+  type: 'test'
+  ...
+# Subtest: Checkout rejects non-string plan
+ok 15 - Checkout rejects non-string plan
+  ---
+  duration_ms: 1.652614
+  type: 'test'
+  ...
+# Subtest: Checkout rejects unknown plan
+ok 16 - Checkout rejects unknown plan
+  ---
+  duration_ms: 1.495803
+  type: 'test'
+  ...
+# Subtest: Checkout rejects free plan
+ok 17 - Checkout rejects free plan
+  ---
+  duration_ms: 1.517335
+  type: 'test'
+  ...
+# Subtest: billing-read-only-mode blocks the applicable Checkout
+ok 18 - billing-read-only-mode blocks the applicable Checkout
+  ---
+  duration_ms: 1.695367
+  type: 'test'
+  ...
+# Subtest: billing-kill-switch-checkout blocks the applicable Checkout
+ok 19 - billing-kill-switch-checkout blocks the applicable Checkout
+  ---
+  duration_ms: 1.793142
+  type: 'test'
+  ...
+# Subtest: billing-kill-switch-enterprise blocks the applicable Checkout
+ok 20 - billing-kill-switch-enterprise blocks the applicable Checkout
+  ---
+  duration_ms: 1.564925
+  type: 'test'
+  ...
+# Subtest: sixth Checkout request is rate limited per user in one process
+ok 21 - sixth Checkout request is rate limited per user in one process
+  ---
+  duration_ms: 3.450453
+  type: 'test'
+  ...
+# Subtest: twenty-first request from same claimed IP is blocked across fixture users
+ok 22 - twenty-first request from same claimed IP is blocked across fixture users
+  ---
+  duration_ms: 6.250448
+  type: 'test'
+  ...
+# Subtest: recent plan change enforces five-minute cooldown
+ok 23 - recent plan change enforces five-minute cooldown
+  ---
+  duration_ms: 2.901134
+  type: 'test'
+  ...
+# Subtest: three open sessions blocks Checkout for existing customer
+ok 24 - three open sessions blocks Checkout for existing customer
+  ---
+  duration_ms: 1.654057
+  type: 'test'
+  ...
+# Subtest: non-EUR Price rejects Checkout
+ok 25 - non-EUR Price rejects Checkout
+  ---
+  duration_ms: 1.53391
+  type: 'test'
+  ...
+# Subtest: unknown Stripe Price API failure does not create a Checkout session
+ok 26 - unknown Stripe Price API failure does not create a Checkout session
+  ---
+  duration_ms: 1.724821
+  type: 'test'
+  ...
+# Subtest: malformed idempotency key returns 400
+ok 27 - malformed idempotency key returns 400
+  ---
+  duration_ms: 1.573608
+  type: 'test'
+  ...
+# Subtest: Checkout success sends server-owned subscription parameters without granting access
+ok 28 - Checkout success sends server-owned subscription parameters without granting access
+  ---
+  duration_ms: 1.623852
+  type: 'test'
+  ...
+# Subtest: new fixture customer is linked to profile before session creation
+ok 29 - new fixture customer is linked to profile before session creation
+  ---
+  duration_ms: 1.716159
+  type: 'test'
+  ...
+# Subtest: same idempotency key AND stable trace reuse simulated session
+ok 30 - same idempotency key AND stable trace reuse simulated session
+  ---
+  duration_ms: 1.920119
+  type: 'test'
+  ...
+# Subtest: Checkout API exceptions open real circuit and next request receives 503
+ok 31 - Checkout API exceptions open real circuit and next request receives 503
+  ---
+  duration_ms: 2.941423
+  type: 'test'
+  ...
+# Subtest: Checkout response without URL fails with 503 and no activation
+ok 32 - Checkout response without URL fails with 503 and no activation
+  ---
+  duration_ms: 5.33541
+  type: 'test'
+  ...
+# Subtest: real fraud assessor blocks genuinely high signals when supplied
+ok 33 - real fraud assessor blocks genuinely high signals when supplied
+  ---
+  duration_ms: 1.349979
+  type: 'test'
+  ...
+# Subtest: missing webhook signature fails before DB access
+ok 34 - missing webhook signature fails before DB access
+  ---
+  duration_ms: 2.455738
+  type: 'test'
+  ...
+# Subtest: missing webhook secret fails before DB access
+ok 35 - missing webhook secret fails before DB access
+  ---
+  duration_ms: 1.699844
+  type: 'test'
+  ...
+# Subtest: real Stripe SDK rejects wrong signing secret
+ok 36 - real Stripe SDK rejects wrong signing secret
+  ---
+  duration_ms: 2.233971
+  type: 'test'
+  ...
+# Subtest: real Stripe SDK rejects modified raw body
+ok 37 - real Stripe SDK rejects modified raw body
+  ---
+  duration_ms: 1.535752
+  type: 'test'
+  ...
+# Subtest: real Stripe SDK rejects stale signature
+ok 38 - real Stripe SDK rejects stale signature
+  ---
+  duration_ms: 1.530835
+  type: 'test'
+  ...
+# Subtest: invalid tolerance configuration falls back to 300 seconds
+ok 39 - invalid tolerance configuration falls back to 300 seconds
+  ---
+  duration_ms: 1.548952
+  type: 'test'
+  ...
+# Subtest: correct signature plus invalid Checkout schema is rejected
+ok 40 - correct signature plus invalid Checkout schema is rejected
+  ---
+  duration_ms: 1.67017
+  type: 'test'
+  ...
+# Subtest: non-allowlisted event is acknowledged without billing writes
+ok 41 - non-allowlisted event is acknowledged without billing writes
+  ---
+  duration_ms: 1.768836
+  type: 'test'
+  ...
+# Subtest: signed paid Checkout event activates fixture subscription and records audit
+ok 42 - signed paid Checkout event activates fixture subscription and records audit
+  ---
+  duration_ms: 2.67465
+  type: 'test'
+  ...
+# Subtest: same webhook event ID delivered five times concurrently has one simulated profile write
+ok 43 - same webhook event ID delivered five times concurrently has one simulated profile write
+  ---
+  duration_ms: 2.530067
+  type: 'test'
+  ...
+# Subtest: invoice failure sets past_due and soft-lock on third failure
+ok 44 - invoice failure sets past_due and soft-lock on third failure
+  ---
+  duration_ms: 1.847411
+  type: 'test'
+  ...
+# Subtest: real retry helper retries thrown transient DB errors
+ok 45 - real retry helper retries thrown transient DB errors
+  ---
+  duration_ms: 15.24633
+  type: 'test'
+  ...
+# Subtest: [FRAUD-01] route must use measured Checkout attempt count
+not ok 46 - [FRAUD-01] route must use measured Checkout attempt count
+  ---
+  duration_ms: 6.343785
+  type: 'test'
+  location: '<repo>/src/tests/billing/stripe-isolated.test.mjs:10:30'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+    
+    1 !== 5
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: 5
+  actual: 1
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (file://<repo>/src/tests/billing/stripe-isolated.test.mjs:219:10)
+    async Test.run (node:internal/test_runner/test:1409:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:974:7)
+  ...
+# Subtest: [FRAUD-02] route must use measured distinct IP count
+not ok 47 - [FRAUD-02] route must use measured distinct IP count
+  ---
+  duration_ms: 4.720734
+  type: 'test'
+  location: '<repo>/src/tests/billing/stripe-isolated.test.mjs:10:30'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+    
+    1 !== 5
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: 5
+  actual: 1
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (file://<repo>/src/tests/billing/stripe-isolated.test.mjs:224:10)
+    async Test.run (node:internal/test_runner/test:1409:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:974:7)
+  ...
+# Subtest: [FRAUD-03] new account with five failures and five IP attempts must be blocked
+not ok 48 - [FRAUD-03] new account with five failures and five IP attempts must be blocked
+  ---
+  duration_ms: 9.617337
+  type: 'test'
+  location: '<repo>/src/tests/billing/stripe-isolated.test.mjs:10:30'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+    
+    200 !== 403
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: 403
+  actual: 200
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (file://<repo>/src/tests/billing/stripe-isolated.test.mjs:230:10)
+    async Test.run (node:internal/test_runner/test:1409:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:974:7)
+  ...
+# Subtest: [CHECKOUT-01] same idempotency key with independently generated request IDs must retry successfully
+not ok 49 - [CHECKOUT-01] same idempotency key with independently generated request IDs must retry successfully
+  ---
+  duration_ms: 2.430571
+  type: 'test'
+  location: '<repo>/src/tests/billing/stripe-isolated.test.mjs:10:30'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+    
+    500 !== 200
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: 200
+  actual: 500
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (file://<repo>/src/tests/billing/stripe-isolated.test.mjs:235:10)
+    async Test.run (node:internal/test_runner/test:1409:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:974:7)
+  ...
+# Subtest: [CHECKOUT-02] distinct 255-character keys must not collide after namespacing
+not ok 50 - [CHECKOUT-02] distinct 255-character keys must not collide after namespacing
+  ---
+  duration_ms: 1.942732
+  type: 'test'
+  location: '<repo>/src/tests/billing/stripe-isolated.test.mjs:10:30'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected "actual" to be strictly unequal to:
+    
+    'checkout:00000000-0000-4000-8000-000000000001:basic:xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: 'checkout:00000000-0000-4000-8000-000000000001:basic:xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'
+  actual: 'checkout:00000000-0000-4000-8000-000000000001:basic:xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'
+  operator: 'notStrictEqual'
+  stack: |-
+    TestContext.<anonymous> (file://<repo>/src/tests/billing/stripe-isolated.test.mjs:240:10)
+    async Test.run (node:internal/test_runner/test:1409:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:974:7)
+  ...
+# Subtest: [CHECKOUT-03] invalid key must be rejected before new customer/profile mutations
+not ok 51 - [CHECKOUT-03] invalid key must be rejected before new customer/profile mutations
+  ---
+  duration_ms: 1.58131
+  type: 'test'
+  location: '<repo>/src/tests/billing/stripe-isolated.test.mjs:10:30'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+    
+    1 !== 0
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: 0
+  actual: 1
+  operator: 'strictEqual'
+  stack: |-
+    noCheckoutSideEffects (file://<repo>/src/tests/billing/stripe-isolated.test.mjs:17:10)
+    TestContext.<anonymous> (file://<repo>/src/tests/billing/stripe-isolated.test.mjs:245:3)
+    async Test.run (node:internal/test_runner/test:1409:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:974:7)
+  ...
+# Subtest: [CHECKOUT-04] profile read error must stop Checkout before Stripe effects
+not ok 52 - [CHECKOUT-04] profile read error must stop Checkout before Stripe effects
+  ---
+  duration_ms: 1.488793
+  type: 'test'
+  location: '<repo>/src/tests/billing/stripe-isolated.test.mjs:10:30'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+    
+    1 !== 0
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: 0
+  actual: 1
+  operator: 'strictEqual'
+  stack: |-
+    noCheckoutSideEffects (file://<repo>/src/tests/billing/stripe-isolated.test.mjs:16:10)
+    TestContext.<anonymous> (file://<repo>/src/tests/billing/stripe-isolated.test.mjs:249:23)
+    async Test.run (node:internal/test_runner/test:1409:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:974:7)
+  ...
+# Subtest: [CHECKOUT-05] failed customer link must prevent creation of unlinked session
+not ok 53 - [CHECKOUT-05] failed customer link must prevent creation of unlinked session
+  ---
+  duration_ms: 1.469154
+  type: 'test'
+  location: '<repo>/src/tests/billing/stripe-isolated.test.mjs:10:30'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+    
+    1 !== 0
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: 0
+  actual: 1
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (file://<repo>/src/tests/billing/stripe-isolated.test.mjs:253:30)
+    async Test.run (node:internal/test_runner/test:1409:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:974:7)
+  ...
+# Subtest: [CHECKOUT-06] billing-locked profile must not create a new session
+not ok 54 - [CHECKOUT-06] billing-locked profile must not create a new session
+  ---
+  duration_ms: 1.551415
+  type: 'test'
+  location: '<repo>/src/tests/billing/stripe-isolated.test.mjs:10:30'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+    
+    1 !== 0
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: 0
+  actual: 1
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (file://<repo>/src/tests/billing/stripe-isolated.test.mjs:257:30)
+    async Test.run (node:internal/test_runner/test:1409:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:974:7)
+  ...
+# Subtest: [WEBHOOK-01] unpaid completed Checkout must not activate subscription
+not ok 55 - [WEBHOOK-01] unpaid completed Checkout must not activate subscription
+  ---
+  duration_ms: 1.932107
+  type: 'test'
+  location: '<repo>/src/tests/billing/stripe-isolated.test.mjs:10:30'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+    
+    'active' !== null
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: ~
+  actual: 'active'
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (file://<repo>/src/tests/billing/stripe-isolated.test.mjs:261:10)
+    async Test.run (node:internal/test_runner/test:1409:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:974:7)
+  ...
+# Subtest: [WEBHOOK-02] non-subscription Checkout must not activate subscription
+not ok 56 - [WEBHOOK-02] non-subscription Checkout must not activate subscription
+  ---
+  duration_ms: 1.801785
+  type: 'test'
+  location: '<repo>/src/tests/billing/stripe-isolated.test.mjs:10:30'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+    
+    'active' !== null
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: ~
+  actual: 'active'
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (file://<repo>/src/tests/billing/stripe-isolated.test.mjs:265:10)
+    async Test.run (node:internal/test_runner/test:1409:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:974:7)
+  ...
+# Subtest: [WEBHOOK-03] unknown metadata plan must not grant access
+not ok 57 - [WEBHOOK-03] unknown metadata plan must not grant access
+  ---
+  duration_ms: 1.938435
+  type: 'test'
+  location: '<repo>/src/tests/billing/stripe-isolated.test.mjs:10:30'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+    
+    1 !== 0
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: 0
+  actual: 1
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (file://<repo>/src/tests/billing/stripe-isolated.test.mjs:269:10)
+    async Test.run (node:internal/test_runner/test:1409:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:974:7)
+  ...
+# Subtest: [WEBHOOK-04] failed deduplication insert must stop billing mutations
+not ok 58 - [WEBHOOK-04] failed deduplication insert must stop billing mutations
+  ---
+  duration_ms: 1.68373
+  type: 'test'
+  location: '<repo>/src/tests/billing/stripe-isolated.test.mjs:10:30'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+    
+    1 !== 0
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: 0
+  actual: 1
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (file://<repo>/src/tests/billing/stripe-isolated.test.mjs:274:10)
+    async Test.run (node:internal/test_runner/test:1409:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:974:7)
+  ...
+# Subtest: [WEBHOOK-05] resolved Supabase write error must retry and preserve webhook delivery
+not ok 59 - [WEBHOOK-05] resolved Supabase write error must retry and preserve webhook delivery
+  ---
+  duration_ms: 1.775936
+  type: 'test'
+  location: '<repo>/src/tests/billing/stripe-isolated.test.mjs:10:30'
+  failureType: 'testCodeFailure'
+  error: 'withRetry must inspect resolved errors, not only rejections'
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: true
+  actual: false
+  operator: '=='
+  stack: |-
+    TestContext.<anonymous> (file://<repo>/src/tests/billing/stripe-isolated.test.mjs:279:10)
+    async Test.run (node:internal/test_runner/test:1409:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:974:7)
+  ...
+# Subtest: [WEBHOOK-06] failed write must not consume event ID and discard its redelivery
+not ok 60 - [WEBHOOK-06] failed write must not consume event ID and discard its redelivery
+  ---
+  duration_ms: 2.101165
+  type: 'test'
+  location: '<repo>/src/tests/billing/stripe-isolated.test.mjs:10:30'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+    
+    null !== 'active'
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: 'active'
+  actual: ~
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (file://<repo>/src/tests/billing/stripe-isolated.test.mjs:285:44)
+    async Test.run (node:internal/test_runner/test:1409:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:974:7)
+  ...
+# Subtest: [WEBHOOK-07] handler and dead-letter failure must return retryable HTTP status
+not ok 61 - [WEBHOOK-07] handler and dead-letter failure must return retryable HTTP status
+  ---
+  duration_ms: 5.117088
+  type: 'test'
+  location: '<repo>/src/tests/billing/stripe-isolated.test.mjs:10:30'
+  failureType: 'testCodeFailure'
+  error: |-
+    The expression evaluated to a falsy value:
+    
+      assert.ok(response.status >= 500)
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: true
+  actual: false
+  operator: '=='
+  stack: |-
+    TestContext.<anonymous> (file://<repo>/src/tests/billing/stripe-isolated.test.mjs:290:10)
+    async Test.run (node:internal/test_runner/test:1409:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:974:7)
+  ...
+# Subtest: [WEBHOOK-08] first valid delayed event must not be discarded by its own insertion timestamp
+not ok 62 - [WEBHOOK-08] first valid delayed event must not be discarded by its own insertion timestamp
+  ---
+  duration_ms: 1.752611
+  type: 'test'
+  location: '<repo>/src/tests/billing/stripe-isolated.test.mjs:10:30'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+    
+    null !== 'active'
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: 'active'
+  actual: ~
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (file://<repo>/src/tests/billing/stripe-isolated.test.mjs:295:10)
+    async Test.run (node:internal/test_runner/test:1409:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:974:7)
+  ...
+# Subtest: [WEBHOOK-09] different event IDs for same Checkout must not reset usage twice
+not ok 63 - [WEBHOOK-09] different event IDs for same Checkout must not reset usage twice
+  ---
+  duration_ms: 7.972404
+  type: 'test'
+  location: '<repo>/src/tests/billing/stripe-isolated.test.mjs:10:30'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+    
+    0 !== 17
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: 17
+  actual: 0
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (file://<repo>/src/tests/billing/stripe-isolated.test.mjs:300:10)
+    async Test.run (node:internal/test_runner/test:1409:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:974:7)
+  ...
+# Subtest: [WEBHOOK-10] paid asynchronous Checkout must activate fixture subscription
+not ok 64 - [WEBHOOK-10] paid asynchronous Checkout must activate fixture subscription
+  ---
+  duration_ms: 1.551576
+  type: 'test'
+  location: '<repo>/src/tests/billing/stripe-isolated.test.mjs:10:30'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+    
+    null !== 'active'
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: 'active'
+  actual: ~
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (file://<repo>/src/tests/billing/stripe-isolated.test.mjs:305:10)
+    async Test.run (node:internal/test_runner/test:1409:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:974:7)
+  ...
+# Subtest: [WEBHOOK-11] missing Stripe key must return a controlled webhook configuration response
+not ok 65 - [WEBHOOK-11] missing Stripe key must return a controlled webhook configuration response
+  ---
+  duration_ms: 1.317911
+  type: 'test'
+  location: '<repo>/src/tests/billing/stripe-isolated.test.mjs:10:30'
+  failureType: 'testCodeFailure'
+  error: 'STRIPE_SECRET_KEY nije postavljen u environment varijablama.'
+  code: 'ERR_TEST_FAILURE'
+  stack: |-
+    getStripe (<repo>/src/lib/stripe/config.ts:21:15)
+    Object.POST (<repo>/src/app/api/stripe/webhook/route.ts:48:43)
+    async TestContext.<anonymous> (file://<repo>/src/tests/billing/stripe-isolated.test.mjs:309:20)
+    async Test.run (node:internal/test_runner/test:1409:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:974:7)
+  ...
+1..65
+# tests 65
+# suites 0
+# pass 45
+# fail 20
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 788.201259
