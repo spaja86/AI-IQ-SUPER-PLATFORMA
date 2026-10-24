@@ -1,3 +1,4 @@
+// @ci-isolation: exclusive — retains real PBKDF2, MFA and token verification.
 import assert from 'node:assert/strict';
 import { beforeEach, afterEach, test, type TestContext } from 'node:test';
 import { createHmac } from 'node:crypto';
@@ -14,7 +15,11 @@ import { ΩAuditLogger } from '../../middleware/omega-audit';
 const envNames = ['OMEGA_LOGIN_TRUSTED_PROXY_HOPS', 'KV_REST_API_URL', 'KV_REST_API_TOKEN',
   'VERCEL_KV_REST_API_URL', 'VERCEL_KV_REST_API_TOKEN'] as const;
 let savedEnv: Record<string, string | undefined>;
-beforeEach(() => {
+beforeEach((t) => {
+  // Test execution speed must not roll MFA, lockout or limiter windows forward.
+  // Tests of expiry advance their own clock explicitly; cryptography stays real.
+  const now = Date.now();
+  t.mock.method(Date, 'now', () => now);
   savedEnv = Object.fromEntries(envNames.map((key) => [key, process.env[key]]));
   for (const key of envNames) delete process.env[key];
 });
