@@ -1,8 +1,10 @@
 import { createHash } from 'node:crypto';
 import { spawn, spawnSync } from 'node:child_process';
-import { closeSync, mkdirSync, openSync, readFileSync, renameSync, writeFileSync } from 'node:fs';
+import { closeSync, mkdirSync, mkdtempSync, openSync, readFileSync, renameSync, writeFileSync } from 'node:fs';
+import { availableParallelism } from 'node:os';
 import { basename, dirname, join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { processDeadline, runScheduled } from './test-scheduling.mjs';
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '../..');
 const suites = ['node', 'browser', 'python', 'java'];
@@ -23,7 +25,8 @@ function inventory() {
     else if (/\.(?:test|spec)\.py$/u.test(path)) suite = 'python';
     else if (/\.(?:test|spec)\.(?:[cm]?[jt]s|tsx|jsx)$/u.test(path)) suite = 'node';
     else throw new Error(`Unclassified test: ${path}; assign a runner before CI can pass.`);
-    return { path, suite };
+    const isolation = /^\/\/ @ci-isolation: exclusive\b/mu.test(readFileSync(join(root, path), 'utf8')) ? 'exclusive' : 'parallel';
+    return { path, suite, isolation };
   });
   if (!entries.length) throw new Error('No test files discovered.');
   return { paths, entries };
@@ -60,6 +63,13 @@ function environment() {
   return { ...Object.fromEntries(allowed.filter(key => process.env[key] !== undefined).map(key => [key, process.env[key]])),
     CI: 'true', NEXT_TELEMETRY_DISABLED: '1' };
 }
+function resources() {
+  const cgroup = {};
+  for (const name of ['cpu.max', 'cpu.stat', 'memory.max', 'memory.current', 'memory.events']) {
+    try { cgroup[name] = readFileSync(`/sys/fs/cgroup/${name}`, 'utf8').trim(); } catch { /* Optional on non-Linux hosts. */ }
+  }
+  return { node: process.version, platform: process.platform, availableParallelism: availableParallelism(), cgroup };
+}
 async function main() {
   const config = options(process.argv.slice(2));
   const { paths, entries } = inventory();
@@ -72,14 +82,18 @@ async function main() {
   }
   const directory = join(root, '.ci-evidence', `all-tests-${config.suite}-${config.shard}-of-${config.shards}`);
   mkdirSync(directory, { recursive: true });
+  // Preserve every attempt; the root summary is only a convenience pointer.
+  const attempt = basename(mkdtempSync(join(directory, 'attempt-')));
   const report = { schema: 'spaja-test-files-v1', status: 'running', startedAt: new Date().toISOString(),
     revision: git(['rev-parse', 'HEAD']).trim(), dirty: Boolean(git(['status', '--porcelain']).trim()),
     sourceSha256: sourceDigest(paths), inventorySha256: hash(JSON.stringify(entries)), config,
     discoveredFiles: entries.length, selectedFiles: selected.length, completedFiles: 0, passedFiles: 0, failedFiles: 0,
-    results: [], pending: selected.map(e => e.path), productionVerified: false };
+    attempt, resourcesBefore: resources(), results: [], pending: selected.map(e => e.path), productionVerified: false };
   function save() {
-    writeFileSync(join(directory, 'summary.json.tmp'), JSON.stringify(report, null, 2) + '\n');
-    renameSync(join(directory, 'summary.json.tmp'), join(directory, 'summary.json'));
+    writeFileSync(join(directory, attempt, 'summary.json.tmp'), JSON.stringify(report, null, 2) + '\n');
+    renameSync(join(directory, attempt, 'summary.json.tmp'), join(directory, attempt, 'summary.json'));
+    writeFileSync(join(directory, `${attempt}.json.tmp`), JSON.stringify(report, null, 2) + '\n');
+    renameSync(join(directory, `${attempt}.json.tmp`), join(directory, 'summary.json'));
   }
   save();
   const env = environment();
@@ -87,7 +101,6 @@ async function main() {
     report.status = 'blocked'; report.finishedAt = new Date().toISOString(); report.error = 'javac is required; JVM integration must not silently skip.'; save();
     throw new Error(report.error);
   }
-  console.log(`Discovered ${entries.length} files; running ${selected.length} ${config.suite} files, shard ${config.shard}/${config.shards}.`);
   const active = new Set();
   let interrupted = false;
   function kill(child) {
@@ -95,8 +108,10 @@ async function main() {
   }
   const stop = () => { interrupted = true; for (const child of active) kill(child); };
   process.on('SIGTERM', stop); process.on('SIGINT', stop);
+  // Readiness must be announced only after cancellation handlers are installed.
+  console.log(`Discovered ${entries.length} files; running ${selected.length} ${config.suite} files, shard ${config.shard}/${config.shards}.`);
   async function run(entry) {
-    const logName = `${hash(entry.path).slice(0, 16)}-${basename(entry.path).slice(0, 80)}.log`;
+    const logName = `${attempt}/${hash(entry.path).slice(0, 16)}-${basename(entry.path).slice(0, 80)}.log`;
     const fd = openSync(join(directory, logName), 'w', 0o600);
     const command = config.suite === 'python' ? 'python3' : process.execPath;
     const args = config.suite === 'python' ? [entry.path] : ['--import', 'tsx', '--test', '--test-reporter=tap', entry.path];
@@ -107,15 +122,19 @@ async function main() {
       active.add(child);
       let error = null;
       child.on('error', cause => { error = cause.message; });
-      const timer = setTimeout(() => { timedOut = true; kill(child); }, config.timeoutMs);
-      child.on('close', (code, signal) => { clearTimeout(timer); active.delete(child); resolveResult({ exitCode: code, signal, error }); });
+      const deadline = processDeadline(config.timeoutMs, () => kill(child));
+      child.on('close', (code, signal) => {
+        timedOut = deadline.expired; deadline.cancel(); active.delete(child);
+        resolveResult({ exitCode: code, signal, error });
+      });
     });
     closeSync(fd);
     const log = readFileSync(join(directory, logName));
     const output = log.toString('utf8');
     const hasSkips = /^# skipped [1-9]\d*$/mu.test(output) || /\bSKIP:/u.test(output) || /# (?:SKIP|TODO)\b/u.test(output) || /\bskipped=[1-9]\d*/u.test(output);
     const status = timedOut ? 'timed_out' : interrupted ? 'cancelled' : result.exitCode === 0 && !result.error && !hasSkips ? 'passed' : hasSkips && result.exitCode === 0 ? 'incomplete' : 'failed';
-    report.results.push({ path: entry.path, status, ...result, durationMs: Date.now() - startedAt,
+    report.results.push({ path: entry.path, isolation: entry.isolation, status, ...result,
+      startedAt: new Date(startedAt).toISOString(), finishedAt: new Date().toISOString(), durationMs: Date.now() - startedAt,
       command: [command, ...args], log: logName, logSha256: hash(log) });
     report.pending = report.pending.filter(path => path !== entry.path);
     report.completedFiles++;
@@ -123,12 +142,10 @@ async function main() {
     save();
     if (status !== 'passed' || report.completedFiles % 50 === 0) console.log(`${report.completedFiles}/${selected.length}: ${status} ${entry.path}`);
   }
-  let cursor = 0;
-  await Promise.all(Array.from({ length: config.concurrency }, async () => {
-    while (!interrupted && cursor < selected.length) await run(selected[cursor++]);
-  }));
+  await runScheduled(selected, config.concurrency, run, () => interrupted);
   process.off('SIGTERM', stop); process.off('SIGINT', stop);
   report.finishedAt = new Date().toISOString();
+  report.resourcesAfter = resources();
   const after = inventory();
   report.sourceStable = sourceDigest(after.paths) === report.sourceSha256;
   report.status = !interrupted && report.sourceStable && report.completedFiles === selected.length && report.failedFiles === 0 ? 'passed' : 'failed';
