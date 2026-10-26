@@ -1,0 +1,29 @@
+{
+  "version": 1,
+  "hours": 3,
+  "limits": {
+    "costMicros": 0,
+    "taskMs": 30000,
+    "totalTaskMs": 180000
+  },
+  "tasks": [
+    {
+      "id": "inventory",
+      "kind": "file-manifest",
+      "files": ["docs/SUOC-DURABLE-PILOT.md", "src/lib/suoc-pilot/store.ts"]
+    },
+    {
+      "id": "generate",
+      "kind": "generate-module",
+      "moduleName": "spajaSum",
+      "operation": "sum",
+      "dependsOn": ["inventory"]
+    },
+    {
+      "id": "verify",
+      "kind": "verify-module",
+      "source": "generate",
+      "dependsOn": ["generate"]
+    }
+  ]
+}
