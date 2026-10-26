@@ -7,14 +7,16 @@ export const SECTOR = {
 } as const;
 export const CAMERAS = Array.from({ length: 23 }, (_, index) => ({
   id: index + 1,
-  name: ['Taktički pogled odozgo', 'Praćenje jedinice', 'Orbitalni pregled'][index] ?? `Planirani pogled ${index + 1}`,
-  implemented: index < 3,
+  name: ['Taktički pogled odozgo', 'Praćenje jedinice', 'Orbitalni pregled', 'Pregled duela'][index] ?? `Planirani pogled ${index + 1}`,
+  implemented: index < 4,
 }));
 export type Form = 'robot' | 'vehicle';
 export interface Unit {
   id: 'player' | 'bot'; x: number; z: number; hp: number; form: Form;
   transition: number; cooldown: number; flash: number;
+  route?: Point[]; routeGoal?: string;
 }
+export interface Point { x: number; z: number }
 export interface Duel {
   phase: 'ready' | 'active' | 'finished';
   units: [Unit, Unit]; remaining: number; elapsed: number;
@@ -25,7 +27,8 @@ export type Action =
   | { type: 'start' | 'reset' | 'transform' | 'fire' | 'pause' }
   | { type: 'camera'; id: number }
   | { type: 'orbit'; delta: number }
-  | { type: 'tick'; dt: number; x: number; z: number };
+  | { type: 'tick'; dt: number; x: number; z: number }
+  | { type: 'advance'; dt: number; x: number; z: number; fire: boolean };
 
 export function createDuel(): Duel {
   const unit = (id: Unit['id'], x: number, z: number): Unit => ({
@@ -49,6 +52,51 @@ function move(unit: Unit, x: number, z: number, dt: number) {
   const nz = unit.z + z / length * speed * dt;
   if (canStand(nx, unit.z)) unit.x = nx;
   if (canStand(unit.x, nz)) unit.z = nz;
+}
+
+/** Segment vs expanded AABBs: robot/vehicle clearance, including corner grazing. */
+export function pathClear(a: Point, b: Point): boolean {
+  if (!canStand(a.x,a.z) || !canStand(b.x,b.z)) return false;
+  return !SECTOR.obstacles.some(o => {
+    let lo=0, hi=1;
+    for (const [start, delta, min, max] of [
+      [a.x,b.x-a.x,o.x-2,o.x+o.w+2], [a.z,b.z-a.z,o.z-2,o.z+o.d+2],
+    ]) {
+      if (Math.abs(delta)<1e-9) { if (start<min || start>max) return false; }
+      else {
+        const t1=(min-start)/delta, t2=(max-start)/delta;
+        lo=Math.max(lo,Math.min(t1,t2)); hi=Math.min(hi,Math.max(t1,t2));
+        if (lo>hi) return false;
+      }
+    }
+    return true;
+  });
+}
+
+/** Bounded visibility graph (at most 10 vertices for this sector), no external pathfinder. */
+export function findRoute(start: Point, target: Point): Point[] {
+  if (!canStand(start.x,start.z) || !canStand(target.x,target.z)) return [];
+  const vertices: Point[]=[start,target];
+  for (const o of SECTOR.obstacles) for (const x of [o.x-2.25,o.x+o.w+2.25])
+    for (const z of [o.z-2.25,o.z+o.d+2.25]) if(canStand(x,z)) vertices.push({x,z});
+  const distances=vertices.map(()=>Infinity), previous=vertices.map(()=>-1), visited=new Set<number>();
+  distances[0]=0;
+  for(let step=0;step<vertices.length;step++) {
+    let current=-1;
+    for(let i=0;i<vertices.length;i++) if(!visited.has(i) && (current<0 || distances[i]<distances[current])) current=i;
+    if(current<0 || !Number.isFinite(distances[current])) return [];
+    if(current===1) {
+      const route:Point[]=[];
+      for(let i=1;i!==0;i=previous[i]) { if(i<0 || route.length>vertices.length) return []; route.unshift({...vertices[i]}); }
+      return route;
+    }
+    visited.add(current);
+    for(let i=0;i<vertices.length;i++) if(!visited.has(i) && pathClear(vertices[current],vertices[i])) {
+      const d=distances[current]+Math.hypot(vertices[i].x-vertices[current].x,vertices[i].z-vertices[current].z);
+      if(d<distances[i]) {distances[i]=d;previous[i]=current;}
+    }
+  }
+  return [];
 }
 function fire(attacker: Unit, target: Unit) {
   if (attacker.form !== 'robot' || attacker.transition > 0 || attacker.cooldown > 0 || attacker.hp <= 0) return;
@@ -82,6 +130,22 @@ export function duelReducer(state: Duel, action: Action): Duel {
   if (action.type === 'orbit') return { ...state, orbit: state.orbit + finite(action.delta) };
   if (action.type === 'pause') return state.phase === 'active' ? { ...state, paused: !state.paused } : state;
   if (state.phase !== 'active' || state.paused) return state;
+  if (action.type === 'advance') {
+    const elapsed=Math.max(0,finite(action.dt));
+    if(elapsed===0) return state;
+    // Preserve real active match time; bound catch-up physics to 2 seconds (40 substeps).
+    const duration=Math.min(elapsed,state.remaining);
+    const simulated=Math.min(duration,2);
+    let next=state;
+    for(let remaining=simulated;remaining>1e-9 && next.phase==='active';) {
+      const dt=Math.min(0.05,remaining);
+      next=duelReducer(next,{type:'tick',dt,x:action.x,z:action.z});
+      if(action.fire) next=duelReducer(next,{type:'fire'});
+      remaining-=dt;
+    }
+    if(next.phase==='finished') return next;
+    return finish({...next,elapsed:state.elapsed+duration,remaining:Math.max(0,state.remaining-duration)});
+  }
   const next: Duel = { ...state, units: [{ ...state.units[0] }, { ...state.units[1] }] };
   const [player, bot] = next.units;
   if (action.type === 'transform') {
@@ -103,7 +167,20 @@ export function duelReducer(state: Duel, action: Action): Duel {
     if (player.transition === 0) move(player, finite(action.x), finite(action.z), dt);
     const dx = player.x - bot.x, dz = player.z - bot.z;
     const distance = Math.hypot(dx, dz);
-    if (distance > 19) move(bot, dx / Math.max(1, distance), dz / Math.max(1, distance), dt);
+    if (distance > 19 || !pathClear(bot,player)) {
+      const goal=`${Math.floor(player.x/4)},${Math.floor(player.z/4)}`;
+      if(!bot.route?.length || bot.routeGoal!==goal || !pathClear(bot,bot.route[0])) {
+        bot.route=findRoute(bot,player); bot.routeGoal=goal;
+      }
+      const waypoint=bot.route?.[0];
+      if(waypoint) {
+        const wx=waypoint.x-bot.x,wz=waypoint.z-bot.z,d=Math.hypot(wx,wz);
+        const speed=bot.form==='vehicle'?18:10;
+        const travel=Math.min(dt,d/speed);
+        move(bot,wx/Math.max(1e-9,d),wz/Math.max(1e-9,d),travel);
+        if(d<=speed*dt+1e-8) bot.route=bot.route!.slice(1);
+      }
+    }
     // Bot is deliberately slower to shoot than the player: a transparent local sparring partner.
     if (bot.cooldown === 0 && next.remaining > 0) { fire(bot, player); bot.cooldown = 1.2; }
   }
@@ -113,10 +190,14 @@ export function duelReducer(state: Duel, action: Action): Duel {
 /** Orthographic 2.5D projection; all views use the same world and unit identity. */
 export function project(x: number, z: number, height: number, state: Duel): [number, number] {
   const tracked = state.camera === 2;
-  const cx = tracked ? state.units[0].x : 50, cz = tracked ? state.units[0].z : 50;
-  const angle = state.camera === 1 ? 0 : state.camera === 2 ? Math.PI / 4 : state.orbit;
+  const duel = state.camera === 4;
+  const cx = tracked ? state.units[0].x : duel ? (state.units[0].x+state.units[1].x)/2 : 50;
+  const cz = tracked ? state.units[0].z : duel ? (state.units[0].z+state.units[1].z)/2 : 50;
+  const angle = state.camera === 1 ? 0 : state.camera === 2 ? Math.PI / 4 : state.camera === 3 ? state.orbit : 0;
   const pitch = state.camera === 1 ? 1 : 0.55;
-  const scale = tracked ? 7 : 4.3;
+  const spanX=Math.abs(state.units[0].x-state.units[1].x)+12;
+  const spanZ=Math.abs(state.units[0].z-state.units[1].z)+12;
+  const scale = tracked ? 7 : duel ? Math.max(2.5,Math.min(7,660/spanX,330/(spanZ*0.55+10))) : 4.3;
   const dx = x - cx, dz = z - cz;
   return [400 + (dx * Math.cos(angle) - dz * Math.sin(angle)) * scale,
     260 + (dx * Math.sin(angle) + dz * Math.cos(angle)) * scale * pitch - height * scale];

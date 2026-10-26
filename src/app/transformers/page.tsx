@@ -4,7 +4,7 @@ import TransformersRunner from '@/components/gaming/runners/TransformersRunner';
 
 export const metadata: Metadata = {
   title: 'TRANSFORMERS 1350 — lokalni prototip',
-  description: 'Robot ↔ vozilo, probni sektor Smedereva, tri kamere i lokalni duel.',
+  description: 'Robot ↔ vozilo, probni sektor Smedereva, četiri kamere i lokalni duel.',
 };
 export default function TransformersPage() {
   return <main className="min-h-screen bg-slate-950">

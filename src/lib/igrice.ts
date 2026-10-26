@@ -2075,7 +2075,7 @@ export const igrice: Igrica[] = [
   {
     id: 'igrica-transformers-1350',
     naziv: 'TRANSFORMERS 1350',
-    opis: 'Lokalni 2.5D prototip: robot ↔ vozilo, šematski sektor Zemlje kod Smedereva, tri kamere i duel protiv skriptovanog bota. Sve dimenzionalne oznake koriste istu simulaciju. Ostale transformacije, puna mapa Zemlje, liga i eliminacija su planirani.',
+    opis: 'Lokalni 2.5D prototip: robot ↔ vozilo, šematski sektor Zemlje kod Smedereva, četiri kamere i duel protiv skriptovanog bota koji obilazi prepreke. Sve dimenzionalne oznake koriste istu simulaciju. Ostale transformacije, puna mapa Zemlje, liga i eliminacija su planirani.',
     ikona: '🤖',
     kategorija: 'akcija',
     podrzaneDimenzije: sveDimenzije,
@@ -2084,7 +2084,7 @@ export const igrice: Igrica[] = [
     funkcije: [
       'Robot ↔ vozilo sa kontrolisanim prelazom',
       'Šematski sektor Zemlje: Smederevo, 2 × 2 km',
-      'Tri kamere; preostalih 20 pogleda je planirano',
+      'Četiri kamere; preostalih 19 pogleda je planirano',
       'Lokalni duel, pauza, rezultat i novi meč',
       'Planirano: liga, eliminacija, mrežni mečevi i ostale transformacije',
     ],

@@ -113,16 +113,16 @@ test('five resets restore all initial state without carrying a result or pause',
     assert.deepEqual(state,createDuel()); state=duelReducer(state,{type:'start'});
   }
 });
-test('only three of 23 unique cameras activate; camera changes preserve world state', () => {
+test('only four of 23 unique cameras activate; camera changes preserve world state', () => {
   assert.equal(CAMERAS.length,23); assert.equal(new Set(CAMERAS.map(c=>c.id)).size,23);
-  assert.equal(CAMERAS.filter(c=>c.implemented).length,3);
+  assert.equal(CAMERAS.filter(c=>c.implemented).length,4);
   const state=active();
-  for (const id of [1,2,3]) {
+  for (const id of [1,2,3,4]) {
     const view=duelReducer(state,{type:'camera',id});
     assert.equal(view.camera,id); assert.deepEqual(view.units,state.units);
     assert.ok(project(20,50,0,view).every(Number.isFinite));
   }
-  for (const id of [0,4,23,24,NaN]) assert.equal(duelReducer(state,{type:'camera',id}),state);
+  for (const id of [0,5,23,24,NaN]) assert.equal(duelReducer(state,{type:'camera',id}),state);
   const tracked=duelReducer(state,{type:'camera',id:2});
   assert.deepEqual(project(20,50,0,tracked),[400,260]);
 });

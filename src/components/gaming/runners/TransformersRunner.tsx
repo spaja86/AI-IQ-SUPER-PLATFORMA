@@ -37,16 +37,21 @@ export default function TransformersRunner({ onIzlaz }: { onIzlaz?: () => void }
   const [state, dispatch] = useReducer(duelReducer, undefined, createDuel);
   const keys = useRef(new Set<string>());
   useEffect(() => {
-    const clear = () => keys.current.clear();
+    if (state.phase !== 'active' || state.paused) return;
+    let previous = performance.now();
+    const clear = () => { keys.current.clear(); previous = performance.now(); };
     window.addEventListener('blur', clear);
     document.addEventListener('visibilitychange', clear);
     const interval = window.setInterval(() => {
+      const now = performance.now();
+      const dt = Math.max(0, (now - previous) / 1000);
+      previous = now;
       if (document.hidden) return;
       const pressed = keys.current;
-      dispatch({ type: 'tick', dt: 0.05,
+      dispatch({ type: 'advance', dt,
         x: Number(pressed.has('d') || pressed.has('arrowright')) - Number(pressed.has('a') || pressed.has('arrowleft')),
-        z: Number(pressed.has('s') || pressed.has('arrowdown')) - Number(pressed.has('w') || pressed.has('arrowup')) });
-      if (pressed.has(' ')) dispatch({ type: 'fire' });
+        z: Number(pressed.has('s') || pressed.has('arrowdown')) - Number(pressed.has('w') || pressed.has('arrowup')),
+        fire: pressed.has(' ') });
     }, 50);
     return () => {
       window.clearInterval(interval);
@@ -54,7 +59,7 @@ export default function TransformersRunner({ onIzlaz }: { onIzlaz?: () => void }
       document.removeEventListener('visibilitychange', clear);
       clear();
     };
-  }, []);
+  }, [state.phase, state.paused]);
   const active = state.phase === 'active' && !state.paused;
   const [player, bot] = state.units;
   const result = state.result === 'win' ? 'POBEDA' : state.result === 'loss' ? 'PORAZ' : 'NEREŠENO';
@@ -62,7 +67,7 @@ export default function TransformersRunner({ onIzlaz }: { onIzlaz?: () => void }
     const p = project(x,z,0,state), q = project(a,b,0,state);
     return { x1:p[0], y1:p[1], x2:q[0], y2:q[1] };
   };
-  const switchCamera = () => dispatch({ type:'camera', id: state.camera % 3 + 1 });
+  const switchCamera = () => dispatch({ type:'camera', id: state.camera % 4 + 1 });
   return <section aria-label="TRANSFORMERS lokalni prototip" tabIndex={0}
     className="flex h-full min-h-[600px] flex-col overflow-auto bg-slate-950 text-slate-100 outline-none focus-visible:ring-2 focus-visible:ring-cyan-400"
     onBlur={event => { if (!event.currentTarget.contains(event.relatedTarget as Node | null)) keys.current.clear(); }}
@@ -91,7 +96,7 @@ export default function TransformersRunner({ onIzlaz }: { onIzlaz?: () => void }
       <div className="rounded-xl bg-rose-950 p-3 text-rose-200">BOT <strong>{bot.hp} HP</strong><br/>SKRIPTOVANI PROTIVNIK</div>
     </div>
     <div className="relative mx-4 mt-3 min-h-[260px] flex-1 overflow-hidden rounded-2xl border border-slate-700 bg-[#071621]">
-      <svg viewBox="0 0 800 520" className="h-full min-h-[260px] max-h-[520px] w-full" role="img" aria-label={`${SECTOR.name}, kamera ${state.camera}, igrač ${player.hp} HP, bot ${bot.hp} HP`}>
+      <svg onPointerDown={event => event.currentTarget.closest('section')?.focus()} viewBox="0 0 800 520" className="h-full min-h-[260px] max-h-[520px] w-full" role="img" aria-label={`${SECTOR.name}, kamera ${state.camera}, igrač ${player.hp} HP, bot ${bot.hp} HP`}>
         <defs><radialGradient id="transformers-ground"><stop stopColor="#123744"/><stop offset="1" stopColor="#071621"/></radialGradient></defs>
         <rect width="800" height="520" fill="url(#transformers-ground)"/>
         {Array.from({length:11},(_,i) => <g key={i} stroke="#24505e" strokeWidth="1"><line {...line(i*10,0,i*10,100)}/><line {...line(0,i*10,100,i*10)}/></g>)}
@@ -132,8 +137,8 @@ export default function TransformersRunner({ onIzlaz }: { onIzlaz?: () => void }
       </div>
       <p className="text-xs text-slate-400">Klikni teren za tastaturu · WASD/strelice · T oblik · C kamera · P pauza</p>
     </div>
-    <details className="mx-4 mb-4 rounded-xl border border-slate-800 p-3 text-xs text-slate-400"><summary className="cursor-pointer">Obuhvat prototipa — 3 od 23 pogleda</summary>
-      <p className="mt-2">Jedna transformacija, lokalni bot i šematski sektor oko {SECTOR.latitude}° N, {SECTOR.longitude}° E. Lokacija je približna; teren nije geografski snimak. Sve dimenzionalne oznake koriste istu simulaciju. Liga, eliminacija, mrežni mečevi, ostale transformacije, cela Zemlja i pogledi 4–23 su planirani.</p>
+    <details className="mx-4 mb-4 rounded-xl border border-slate-800 p-3 text-xs text-slate-400"><summary className="cursor-pointer">Obuhvat prototipa — 4 od 23 pogleda</summary>
+      <p className="mt-2">Jedna transformacija, lokalni bot i šematski sektor oko {SECTOR.latitude}° N, {SECTOR.longitude}° E. Lokacija je približna; teren nije geografski snimak. Pregled duela drži oba učesnika u kadru. Sve dimenzionalne oznake koriste istu simulaciju. Liga, eliminacija, mrežni mečevi, ostale transformacije, cela Zemlja i pogledi 5–23 su planirani.</p>
     </details>
   </section>;
 }
