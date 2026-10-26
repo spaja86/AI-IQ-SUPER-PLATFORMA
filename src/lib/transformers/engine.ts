@@ -54,7 +54,7 @@ function move(unit: Unit, x: number, z: number, dt: number) {
   if (canStand(unit.x, nz)) unit.z = nz;
 }
 
-/** Segment vs expanded AABBs: robot/vehicle clearance, including corner grazing. */
+/** Block interior crossings; touching the clearance boundary is legal, as in canStand. */
 export function pathClear(a: Point, b: Point): boolean {
   if (!canStand(a.x,a.z) || !canStand(b.x,b.z)) return false;
   return !SECTOR.obstacles.some(o => {
@@ -62,11 +62,11 @@ export function pathClear(a: Point, b: Point): boolean {
     for (const [start, delta, min, max] of [
       [a.x,b.x-a.x,o.x-2,o.x+o.w+2], [a.z,b.z-a.z,o.z-2,o.z+o.d+2],
     ]) {
-      if (Math.abs(delta)<1e-9) { if (start<min || start>max) return false; }
+      if (Math.abs(delta)<1e-9) { if (start<=min || start>=max) return false; }
       else {
         const t1=(min-start)/delta, t2=(max-start)/delta;
         lo=Math.max(lo,Math.min(t1,t2)); hi=Math.min(hi,Math.max(t1,t2));
-        if (lo>hi) return false;
+        if (lo>=hi) return false;
       }
     }
     return true;

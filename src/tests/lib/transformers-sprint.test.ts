@@ -56,6 +56,24 @@ test('routing is deterministic and rejects unreachable or invalid endpoints',()=
   assert.deepEqual(findRoute(start,{x:101,z:40}),[]);
   assert.deepEqual(findRoute(start,{x:NaN,z:40}),[]);
 });
+test('bot reaches players standing on legal obstacle clearance boundaries',()=>{
+  for(const [x,z] of [[38,40],[54,40],[60,60],[60,72]]) {
+    let state=active();Object.assign(state.units[0],{x,z});
+    assert.ok(canStand(x,z));
+    const route=findRoute(state.units[1],state.units[0]);
+    assert.ok(route.length>0,`missing route to legal boundary ${x},${z}`);
+    let arrived=false;
+    for(let i=0;i<1200;i++) {
+      const before=state.units[1];state=duelReducer(state,{type:'tick',dt:0.05,x:0,z:0});
+      const bot=state.units[1];
+      assert.ok(canStand(bot.x,bot.z));assert.ok(pathClear(before,bot));
+      if(Math.hypot(bot.x-x,bot.z-z)<=19.01 && pathClear(bot,state.units[0])) {arrived=true;break;}
+    }
+    assert.ok(arrived,`bot did not reach legal boundary ${x},${z}`);
+  }
+  assert.equal(pathClear({x:38,z:30},{x:38,z:50}),true);
+  assert.equal(pathClear({x:30,z:40},{x:60,z:40}),false);
+});
 test('fourth camera frames both robot and vehicle at opposite sector corners',()=>{
   for(const [ax,az,bx,bz] of [[2,2,98,98],[2,98,98,2],[50,50,51,51]]) {
     const state=active();Object.assign(state.units[0],{x:ax,z:az});Object.assign(state.units[1],{x:bx,z:bz});
