@@ -6,6 +6,8 @@ This document formalizes coordination between `spaja86/AI-IQ-SUPER-PLATFORMA` an
 
 ## Linked repository registry
 
+`OKRID-2026-PRIVACY-001` / [draft PR #1369](https://github.com/spaja86/AI-IQ-SUPER-PLATFORMA/pull/1369): the independent main-based extraction preserves export-confirmation hardening and affects only the local GitHub PR import UI. No linked-repository writes, shared-contract changes or archive transmission are required, including for `spaja86/IO-OPENUI-AO`. Validation and rollout boundary: [GITHUB-PR-IMPORT.md](GITHUB-PR-IMPORT.md).
+
 | Repository | Relationship | Sync cadence | Sync fields | Status |
 |---|---|---|---|---|
 | `spaja86/IO-OPENUI-AO` | Primary linked product repo | Weekly + on cross-repo change | versions, labels, milestones, agent-config, docs, shared contracts | Active coordination |

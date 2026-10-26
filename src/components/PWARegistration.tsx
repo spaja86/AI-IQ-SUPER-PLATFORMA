@@ -13,6 +13,9 @@ export default function PWARegistration() {
     let refreshed = false;
     const onControllerChange = () => {
       if (refreshed) return;
+      // Imported PR files live only in memory. Worker activation must not erase
+      // the user's local import; a manual reload still applies the update.
+      if (window.location.pathname === '/github-pr-import') return;
       refreshed = true;
       window.location.reload();
     };

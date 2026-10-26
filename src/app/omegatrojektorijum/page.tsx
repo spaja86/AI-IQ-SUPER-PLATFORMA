@@ -27,6 +27,9 @@ export default function OmegaPage() {
           <strong>Snimi prvi film</strong><p className="mt-2 text-sm text-slate-300">Kamera i mikrofon uz dozvolu. Preuzmi snimak na svoj uređaj.</p>
         </Link>
       </nav>
+      <Link className="block rounded-xl border border-cyan-700 bg-cyan-950/30 p-5 hover:border-cyan-300 focus-visible:outline-2 focus-visible:outline-cyan-300" href="/github-pr-import">
+        <strong>GitHub PR uvoz</strong><p className="mt-2 text-sm text-slate-300">Uvezi SPAJA PR paket, pretraži opise i pregledaj statuse iz svih obuhvaćenih repozitorijuma.</p>
+      </Link>
       <a className="inline-block text-cyan-300 underline focus-visible:outline-2" href="#povezani-projekti">Pregled povezanih GitHub projekata</a>
       <OmegaProjects />
       <OmegaCatalog />
