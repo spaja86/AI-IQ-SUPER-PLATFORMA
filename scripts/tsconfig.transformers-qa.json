@@ -1,0 +1,12 @@
+{
+  "extends": "../tsconfig.json",
+  "compilerOptions": {
+    "incremental": false
+  },
+  "include": [
+    "../next-env.d.ts",
+    "../src/components/Navigation.tsx",
+    "../src/components/gaming/runners/TransformersRunner.tsx"
+  ],
+  "exclude": ["../node_modules"]
+}

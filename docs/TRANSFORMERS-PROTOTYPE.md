@@ -83,6 +83,20 @@ Ponovljena provera ovom skriptom prolazi sa exit 0: priprema 132.728 ms, ukupno 
 
 Ova provera ne potvrđuje standardni CLI startup, izbor dimenzije, pritisak na „Pokreni duel“, tastaturu, dodir, prebacivanje unutrašnjih kartica Brouvzera ili fizički telefon. Vreme skrivenih kartica u opisu mehanike odnosi se na `document.hidden` u host pregledaču; unutrašnje kartice SPAJA aplikacije zahtevaju zasebnu UI proveru.
 
+## Integracija dostavljenog QA paketa — 26. oktobar 2026.
+
+Preuzet je `TRANSFORMERS-PR1375-browser-QA-2026-10-26.zip`, verzija 1, dopunjen 26. oktobra 2026. Provereno je svih 79 SHA-256 vrednosti njegovog manifesta. Patch sa osnovom `06f61e964bfc3e1d8a8f1899bb5c2baaa3fcc83c` primenjen je na aplikacioni kod naslednika `2311b314abd469eca9c33eacd22551c1d9da6f52`. Navigacija i sva četiri QA izvora odgovaraju hash vrednostima iz dostavljenog build izveštaja.
+
+- Primenjena je ispravka zajedničke navigacije: desktop linkovi od 768 px dobijaju ograničenu flex širinu i pristupačan unutrašnji skrol; logo, linkovi i prijava zadržavaju svoju širinu. U proverenim širinama dokument se više ne širi zbog celog navigacionog niza. Logika duela i autentifikacija nisu menjane ovom dopunom.
+- Dostavljeni log celog Chromium prolaza ima **19 uspešnih, 0 neuspešnih i 1 preskočen scenario**, exit 0, 382,73 s. Obuhvata javni Brouvzer katalog do duela, transformacije, četiri kamere, tastaturu, emulirani dodir, mobilne širine i desktop navigaciju 768/1024/1280 px. Preskočen je zaštićeni Industrija tok bez legitimne prijave. To su pregledani dokazi iz paketa, a ne novo browser izvršavanje ove sesije.
+- Browser provera u paketu koristi dijagnostički build tri rute. Ne potvrđuje celu platformu, produkciju ili fizički telefon. Sintetički visibility scenario nije provera OS suspendovanja.
+- Postojeći uspešni Node testovi logike i pokretanja nisu ponavljani jer su engine, runner i njihove regresije ostali identični. Paket sadrži uspešnu ciljanu TypeScript proveru Navigation/TransformersRunner. U ovoj sesiji ponovo su prošli sintaksa QA skripti, validacija putanja konfiguracije i ciljani ESLint: bez grešaka, jedno postojeće upozorenje u odjavi na Navigation.tsx:46.
+- **Novi pun standardni build sa navigacionom ispravkom nije potvrđen.** `npm run build`, Turbopack, heap 4096 MB: supervizor je aktivirao limit od 1200 s, ukupno 1202,142 s, `timeout=true`, završni returncode -15. Log je ostao u fazi kompilacije bez konačne kompajlerske dijagnostike. Ovo je vremensko prekoračenje; ne tvrdi se memorijska greška ili greška TypeScript koda. Prethodni uspešan pun build ne prenosi se na ovaj novi izvor.
+
+Priloženi `TRANSFORMERS-NAVIGATION-FIX-2026-10-26.md` i istorijski `TRANSFORMERS-PR1375-QA-2026-10-26.md` zadržavaju detalje originalnih pokušaja. Putanje njihovih sirovih logova odnose se na dostavljeni ZIP, ne na dodatne datoteke repozitorijuma.
+
+Pre spajanja ostaju pun release build, provera zaštićenog toka uz legitimnu sesiju, fizički telefon, udaljene provere i ljudski pregled. PR ostaje draft. Dodata QA konfiguracija `scripts/tsconfig.transformers-qa.json` ne menja produkcioni tsconfig; PR je označen `agent:config-change` radi revizije. Nema promene runtime zavisnosti, produkcione konfiguracije, infrastrukture ili povezanih repozitorijuma.
+
 ## Cross-repo impact
 
 Nema promene IO-OPENUI-AO repozitorijuma ili zajedničkih mrežnih ugovora. Promena kataloga odnosi se samo na centralnu aplikaciju. Stari razgovor kao istorijska referenca: https://chatgpt.com/g/g-p-67c080727f6c8191bba48cc3999f24e9-igrice/c/692376be-8280-8332-a476-5e3d619972cf .
