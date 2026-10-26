@@ -256,13 +256,17 @@ overlapping package versions were checked against that lock. This is not a fresh
 | `npm run predeploy:check` | Exit 0 with warnings; runtime readiness and production promotion remain unproven |
 | `npm test` | Blocked before tests: tsx CLI Unix IPC socket `listen EPERM`; direct Node invocations above are separate scoped checks |
 | Full `npm run build -- --webpack` | First attempt exhausted the default roughly 2 GiB V8 heap. Retry with `NODE_OPTIONS=--max-old-space-size=6144` reached the 900-second timeout (exit 124) during compilation; no successful full build is claimed |
+| Selected-route production build | `--webpack --debug-build-paths='src/app/github-pr-import/page.tsx,src/app/omegatrojektorijum/page.tsx'` compiled successfully in 2.6 minutes, then reached its 300-second timeout during Next's full-project TypeScript phase; no completed production artifact |
+| Fresh browser acceptance | Blocked by the unfinished production build; all nine existing synthetic scenarios and optional private-archive skip are preserved, but no fresh browser pass is claimed |
 | Source preservation | All nine executable/test Git blobs exactly match #1369 |
 | Latest CI compatibility | Three-way Git merge of the code candidate with #1364 is conflict-free; actual runner inventory reproduces the browser-as-node defect described above |
 
 The historical 2026-10-24 build/browser results above belong to the stacked branch
-and are not substituted for fresh results on this independent branch. Full build,
-browser and remote CI outcomes are recorded below and in the draft PR. All browser
-checks use synthetic data; no real PR archive is added to this branch.
+and are not substituted for fresh results on this independent branch. The standalone
+TypeScript command passed before these build attempts; that does not turn a timed-out
+Next build into a pass. Browser revalidation remains required. Future browser checks
+must use synthetic data with the optional archive unset; no real PR archive is added
+to this branch.
 
 Remote checks inspected on 2026-10-26 are not green: the pinned #1369 head has
 13 completed Actions runs (failure/startup_failure), and the pinned #1364 head
