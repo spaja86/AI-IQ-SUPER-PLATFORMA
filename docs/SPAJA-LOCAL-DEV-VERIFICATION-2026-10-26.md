@@ -52,3 +52,40 @@ serveru. Git publikacija koristi `[skip ci]` kako ne bi namerno aktivirala
 postojeće automatske build/deploy integracije. Cloudflare Workers potvrđuje
 podršku za tu oznaku u [zvaničnom repozitorijumu](https://github.com/cloudflare/workers-sdk/discussions/13216);
 to nije dokaz da je udaljeni CI izvršen ili zelen. Status publikacije se proverava odvojeno.
+
+## Dopunski pregled i nadzirano lokalno izvršavanje
+
+Nakon korisnikovog odobrenja nastavka 26.10.2026. pregledan je PR #1373 na
+osnovi `a0ef1a43eb6b759e52810e728d30b232fb061ea4`. Pregled je pronašao konkretan
+propust: neuspešan upis pauze tokom zatvaranja mogao je preskočiti stop i
+čekanje aktivnog procesa. Novi test je najpre pao na starom kodu
+(`close must drain the active task before reporting the persistence error`).
+
+Ispravka zaustavlja i čeka aktivni proces i kada upis pauze ne uspe. Neuspešni
+`pause`/`cancel` dodatno blokiraju naredno preuzimanje u istom radniku; namera
+koja nije upisana ne prikazuje se kao potvrđeno otkazivanje. Potrebni su
+otklanjanje greške, zatvaranje i ponovno otvaranje. CLI grešku pri zatvaranju
+prijavljuje exit kodom 1 uz oslobađanje baze. Dodate su četiri regresije sa
+stvarnim SQLite trigger-om koji odbija upis; nije samo simuliran povratni status.
+
+| Dopunska provera | Rezultat |
+| --- | --- |
+| Postojećih 38 + 4 nove regresije | **42/42 pass**, 0 fail/skip/TODO; 12,70 s |
+| Novi zaseban CLI acceptance test | **1/1 pass**, 35,56 s; ukupno **43/43** preko ova dva izvršavanja |
+| Stvarni red u konfiguraciji 3 h | **64/64 succeeded**; 2 inventara + 31 generisanje + 31 provera |
+| Generisani moduli / njihovi testovi | **31 modul**, naizmenično sum/clamp; **62/62 testova pass** |
+| Životni ciklus | Eksplicitni start → pauza → quit → ponovno otvaranje → eksplicitni resume → uspeh → quit |
+| Trajnost i rok | Uspešni pokušaji se ne ponavljaju; pauzirani red ne kreće sam; deadline ostaje isti |
+| Revizija i resursi primera | **132 validna događaja**, rezervisano 320.000 ms, `spentMicros: 0` |
+| Stvarno trajanje primera | **35.198 ms**; završen čim je red ispražnjen |
+| Ciljani ESLint / whitespace | Prolaz na izmenjenim `.mjs` fajlovima; `git diff --check` prolazi |
+
+Acceptance test koristi stvarni sat, procese, SQLite bazu i fajlove. Baza i
+artefakti postoje tokom provere, rezultat se proverava ponovnim otvaranjem, pa
+se privremeni test direktorijum briše. U dijagnostici testa izričito stoji
+`realThreeHourSoak: false`. Nema procesa koji je ostavljen da radi u pozadini.
+
+Ovaj dopunski pregled nije nezavisni ljudski/security sign-off. PR ostaje draft;
+main, SUOC, hosting i naplata nisu menjani. Prethodno navedene granice punog
+builda/smoke provera i nepotvrđenog višesatnog rada ostaju na snazi. Novi workflow
+nije pokrenut, niti su pozivani plaćeni AI servisi ili deployment komande.

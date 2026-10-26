@@ -112,6 +112,13 @@ aktivna sesija je pauzirana; running zadatak je interrupted. Čak i restart
 između koraka zahteva `resume`. Zakasneli uspešan callback posle roka ili
 otkazivanja ne vraća sesiju u uspešno stanje.
 
+Ako upis `pause`/`cancel` ne uspe, radnik ipak šalje stop aktivnom procesu i
+blokira svako sledeće preuzimanje zadatka. Greška se prijavljuje; neuspešno
+otkazivanje nije predstavljeno kao trajno sačuvano. Čak ni naknadni retry/resume
+ne aktivira isti radnik: potrebno je `quit`, otklanjanje greške i ponovno
+otvaranje baze. Zatvaranje uvek sačeka aktivni pokušaj i kada provera revizije,
+sat ili upis pauze prijave grešku. CLI u tom slučaju završava sa exit kodom 1.
+
 Posle SIGKILL-a nije poznato da li je artefakt delimično ili potpuno napravljen.
 Pregledati rezultat i stare procese; retry je odbijen pre isteka sačuvanog roka
 pokušaja plus 2 s. Novi pokušaj dobija novu putanju; stari fajlovi se ne prepisuju.
@@ -147,6 +154,16 @@ Novi testovi obuhvataju sve vremenske režime preko simuliranog sata, stvarno
 generisanje i Node testove, konkurentno preuzimanje, SIGKILL/restart, audit
 oštećenje, rollback neuspelog upisa, zavisnosti, budžete, stare tokene, prekid,
 memoriju, zatrpavanje izlaza, pad supervisor-a i zatvaranje CLI-ja.
+
+`acceptance.test.mjs` dodatno pokreće stvarni CLI sa maksimalna 64 zadatka:
+dva inventara, 31 generisanje i 31 izvršavanje testova. Proverava eksplicitni
+start, pauzu, zatvaranje, ponovno otvaranje i nastavak bez ponavljanja već
+uspešnih zadataka. To je kratka integraciona provera u konfiguraciji 3 h,
+ne trosatni soak test. Za samostalno ponavljanje:
+
+```sh
+node --test src/tests/spaja-dev-orchestrator/acceptance.test.mjs
+```
 
 Poseban workflow `SPAJA local development orchestrator checks` je isključivo
 `workflow_dispatch`: pokreće kratke testove, bez višesatne sesije, instaliranja
