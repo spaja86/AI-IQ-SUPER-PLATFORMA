@@ -69,6 +69,20 @@ Potvrđeno u radnom checkout-u 26. oktobra 2026:
 
 Pre ljudskog pregleda proveriti i u browseru: početak, transformaciju u oba smera, sve četiri kamere, pauzu/nastavak, promenu kartice tokom pritisnute komande, završetak i novi duel. Mobilni scenario: kretanje dodirom, otpuštanje van dugmeta i odsustvo horizontalnog skrolovanja. Uspešni testovi logike ne potvrđuju ove UI scenarije ili fizički telefon.
 
+## Ulaz kroz SPAJA DIGITALNI BROUVZER — naknadna provera
+
+Ugrađeni ulaz je `/spaja-digitalni-brouvzer?igricaId=igrica-transformers-1350`. Ruta prosleđuje identitet igre u BrouvzerViewer, zatim ProzorViewer bira dimenziju i GamingEndzin bira TransformersRunner. Taj tok ne koristi polje za eksterni URL.
+
+Na istoj aplikacionoj reviziji 26. oktobra 2026. potvrđena su oba odgovora preko dokumentovanog Next API-ja, posle `app.prepare()`: direktni `/transformers` HTTP 200 i ugrađeni ulaz HTTP 200 sa nazivom TRANSFORMERS i identitetom igre. To potvrđuje HTTP odgovor i početni serverski sadržaj, a ne klijentske klikove ili igranje.
+
+Standardni `next start` u naknadnim pokušajima ove sesije nije vratio odgovor ni za direktnu igru ni za kontrolne statičke resurse. Rokovi od 90 s i 180 s nisu bili dovoljni. Mali nezavisni Node HTTP server, uključujući vezu između dva procesa, vraća HTTP 200. Uzrok razlike između Next API-ja i CLI pokretanja nije potvrđen. Poruka CLI-ja „Ready“ pojavljuje se pre učitavanja konfiguracije i obrade zahteva, pa sama nije kriterijum uspeha. Raniji uspešan HTTP test direktne produkcione rute ostaje zaseban zabeležen rezultat.
+
+Opt-in provera `node scripts/verify-transformers-http.mjs` koristi postojeći produkcioni build, dokumentovani Next API i samo `127.0.0.1`. Čeka pripremu i stvarni HTTP odgovor, proverava početni ekran, 23 opcije sa tačno četiri aktivne kamere i identitet igre u Brouvzeru, zatim zatvara server. Ne pokreće build, CI ili deployment. Podrazumevani port je 3134; promenljivom `TRANSFORMERS_QA_PORT` može se izabrati drugi lokalni port. Priprema je ograničena na pet minuta, a zatim se svaki HTTP zahtev zasebno proverava u roku od 20 s. Izveštaj odvojeno beleži vreme pripreme i ukupno vreme. Za ovo okruženje može se koristiti `NODE_OPTIONS=--max-old-space-size=2048`.
+
+Ponovljena provera ovom skriptom prolazi sa exit 0: priprema 132.728 ms, ukupno 136.500 ms, obe rute HTTP 200, direktni prikaz ima 23 opcije i tačno četiri aktivne kamere, a Brouvzer sadrži naziv i identitet igre. Sintaksna provera i ciljani ESLint skripte prolaze. Rok za pripremu i rok HTTP zahteva su odvojeni; ranija verzija provere mogla je potrošiti HTTP rok tokom pripreme i zatim ne poslati nijedan zahtev. To je ispravka provere, a ne dokaz da je CLI problem rešen. Kod igre, konfiguracija i zavisnosti ovom dopunom nisu menjani.
+
+Ova provera ne potvrđuje standardni CLI startup, izbor dimenzije, pritisak na „Pokreni duel“, tastaturu, dodir, prebacivanje unutrašnjih kartica Brouvzera ili fizički telefon. Vreme skrivenih kartica u opisu mehanike odnosi se na `document.hidden` u host pregledaču; unutrašnje kartice SPAJA aplikacije zahtevaju zasebnu UI proveru.
+
 ## Cross-repo impact
 
 Nema promene IO-OPENUI-AO repozitorijuma ili zajedničkih mrežnih ugovora. Promena kataloga odnosi se samo na centralnu aplikaciju. Stari razgovor kao istorijska referenca: https://chatgpt.com/g/g-p-67c080727f6c8191bba48cc3999f24e9-igrice/c/692376be-8280-8332-a476-5e3d619972cf .
