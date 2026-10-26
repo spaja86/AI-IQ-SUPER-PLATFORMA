@@ -32,9 +32,22 @@ export async function GET(req: NextRequest) {
     return encoder.encode(`event: ${eventType}\ndata: ${JSON.stringify(data)}\n\n`);
   }
 
+  let interval: ReturnType<typeof setInterval> | undefined;
+  let abort: (() => void) | undefined;
+  const cleanup = () => {
+    if (interval !== undefined) clearInterval(interval);
+    if (abort) req.signal.removeEventListener('abort', abort);
+  };
   const stream = new ReadableStream({
-    async start(controller) {
+    start(controller) {
       let count = 0;
+      let closed = false;
+      const close = () => {
+        if (closed) return;
+        closed = true;
+        cleanup();
+        controller.close();
+      };
 
       const sendHealth = () => {
         if (count >= MAX_EVENTS) {
@@ -46,7 +59,7 @@ export async function GET(req: NextRequest) {
             timestamp: new Date().toISOString(),
           };
           controller.enqueue(buildEvent('close', closeData));
-          controller.close();
+          close();
           return;
         }
 
@@ -74,25 +87,15 @@ export async function GET(req: NextRequest) {
         controller.enqueue(buildEvent('zdravlje', payload));
       };
 
-      // Pošalji odmah prvu poruku
+      abort = close;
+      req.signal.addEventListener('abort', abort, { once: true });
+      if (req.signal.aborted) { close(); return; }
       sendHealth();
-
-      // Pošalji na svakih STREAM_INTERVAL_MS
-      const interval = setInterval(() => {
-        try {
-          sendHealth();
-        } catch {
-          clearInterval(interval);
-          controller.close();
-        }
+      interval = setInterval(() => {
+        try { sendHealth(); } catch { close(); }
       }, STREAM_INTERVAL_MS);
-
-      // Očisti interval kad se klijent odjavi
-      req.signal.addEventListener('abort', () => {
-        clearInterval(interval);
-        controller.close();
-      });
     },
+    cancel() { cleanup(); },
   });
 
   return new Response(stream, {

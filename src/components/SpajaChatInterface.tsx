@@ -173,11 +173,10 @@ export default function SpajaChatInterface() {
   // ─── Initialize ─────────────────────────────────────────────────────────
 
   useEffect(() => {
-    if (isLoggedIn) {
-      loadThreads();
-      loadModels();
-      loadSettings();
+    async function initialize() {
+      if (isLoggedIn) await Promise.all([loadThreads(), loadModels(), loadSettings()]);
     }
+    void initialize();
   }, [isLoggedIn, loadThreads, loadModels, loadSettings]);
 
   // Auto-scroll

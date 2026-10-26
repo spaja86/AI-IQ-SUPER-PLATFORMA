@@ -1,3 +1,4 @@
+// @ci-isolation: exclusive — real 200 ms API budget, no concurrent sibling load.
 import type { NextRequest } from 'next/server';
 import { GET } from '../../app/api/trikot/health/route';
 import { POST } from '../../app/api/trikot/evaluate/route';

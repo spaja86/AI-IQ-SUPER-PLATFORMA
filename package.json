@@ -26,8 +26,8 @@
     "routes:generate-tests": "node scripts/generate-route-tests.mjs",
     "openapi:generate": "npx tsx scripts/generate-openapi.mts",
     "engines:sync": "npx tsx scripts/engine-auto-connect.ts",
-    "test:core": "npx tsx src/tests/auth/omega-auth.test.ts && node --import tsx --test src/tests/auth/login-route-security.test.ts && npx tsx src/tests/spaja-ultra/spaja-ultra-core.test.ts && npx tsx src/tests/spaja-ultra/lifecycle.test.ts && node --import tsx --test src/tests/spaja-ultra/vrh.test.ts && npx tsx src/tests/glavni-endzin/glavni-endzin.test.ts && npx tsx src/tests/api/api-contracts.test.ts",
-    "test:autofinish:critical": "npx tsx src/tests/autofinish/sve-od-svega-route.test.ts && npx tsx src/tests/autofinish/cron-sve-od-svega-refresh-route.test.ts && npx tsx src/tests/autofinish/eksponencionalne-geometrijske-razmere-route.test.ts",
+    "test:core": "node --import tsx --test src/tests/auth/omega-auth.test.ts && node --import tsx --test src/tests/auth/login-route-security.test.ts && node --import tsx --test src/tests/spaja-ultra/spaja-ultra-core.test.ts && node --import tsx --test src/tests/spaja-ultra/lifecycle.test.ts && node --import tsx --test src/tests/spaja-ultra/vrh.test.ts && node --import tsx --test src/tests/glavni-endzin/glavni-endzin.test.ts && node --import tsx --test src/tests/api/api-contracts.test.ts",
+    "test:autofinish:critical": "node --import tsx --test src/tests/autofinish/sve-od-svega-route.test.ts && node --import tsx --test src/tests/autofinish/cron-sve-od-svega-refresh-route.test.ts && node --import tsx --test src/tests/autofinish/eksponencionalne-geometrijske-razmere-route.test.ts && node --import tsx --test src/tests/autofinish/deploy-platforma-trigger-route.test.ts",
     "test:billing": "node scripts/run-tsx-tests.mjs src/tests/billing",
     "test:brouvzer": "node scripts/run-tsx-tests.mjs src/tests/brouvzer",
     "test:call-centar": "node scripts/run-tsx-tests.mjs src/tests/call-centar",
@@ -35,9 +35,9 @@
     "test:unit": "node scripts/run-tsx-tests.mjs src/tests/unit",
     "test:lib": "node scripts/run-tsx-tests.mjs src/tests/lib",
     "test:api": "node scripts/run-tsx-tests.mjs src/tests/api",
-    "test:ci": "npm run test:core && npm run test:autofinish:critical && npm run test:billing && npm run test:brouvzer && npm run test:call-centar && npm run test:depon && npm run test:unit && npm run test:lib && npm run test:api",
+    "test:ci": "node scripts/ci/run-all-tests.mjs --suite=node",
     "test": "npm run test:ci",
-    "test:smoke": "npx tsx src/tests/smoke/smoke.test.ts",
+    "test:smoke": "node --import tsx --test src/tests/smoke/smoke.test.ts",
     "blockchain:compile": "npx hardhat compile",
     "blockchain:deploy:testnet": "npx hardhat run scripts/deploy.ts --network amoy",
     "blockchain:deploy:mainnet": "npx hardhat run scripts/deploy.ts --network polygon",
@@ -48,7 +48,12 @@
     "suoc:pilot": "node --import tsx scripts/suoc-pilot.ts",
     "test:suoc:pilot": "node --import tsx --test src/tests/spaja-ultra/pilot.test.ts",
     "test:vrh:reference": "node --import tsx --test --test-concurrency=1 src/tests/lib/petlje.test.ts src/tests/lib/vrh-*.test.ts src/tests/lib/spajascripte-*.test.ts src/tests/lib/spaja-fallback-isolation.test.ts src/tests/lib/umbrel-budget.test.ts src/tests/lib/durmitor-budget.test.ts",
-    "test:vrh": "npm run test:suoc && npm run test:suoc:pilot && npm run test:vrh:reference"
+    "test:vrh": "npm run test:suoc && npm run test:suoc:pilot && npm run test:vrh:reference",
+    "test:dependencies": "node --test scripts/tests/dependency-compatibility.test.mjs",
+    "test:inventory": "node scripts/ci/run-all-tests.mjs --list",
+    "test:ci:python": "node scripts/ci/run-all-tests.mjs --suite=python",
+    "test:ci:java": "node scripts/ci/run-all-tests.mjs --suite=java",
+    "test:ci:browser": "node scripts/ci/run-all-tests.mjs --suite=browser"
   },
   "dependencies": {
     "@supabase/ssr": "^0.10.2",
@@ -68,6 +73,15 @@
     "stripe": "^22.1.0",
     "viem": "^2.21.56",
     "wagmi": "^2.14.16"
+  },
+  "overrides": {
+    "ws@^8.0.0": "8.22.0",
+    "@nomicfoundation/ignition-core": {
+      "lodash-es": "4.18.1"
+    },
+    "mocha@^11.0.0": {
+      "serialize-javascript": "7.1.2"
+    }
   },
   "devDependencies": {
     "@nomicfoundation/hardhat-toolbox-mocha-ethers": "^3.0.4",

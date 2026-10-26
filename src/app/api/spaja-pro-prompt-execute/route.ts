@@ -24,7 +24,11 @@ interface ExecuteBody {
  */
 export async function POST(request: Request) {
   try {
-    const body = (await request.json()) as ExecuteBody;
+    const payload: unknown = await request.json().catch(() => null);
+    if (!payload || typeof payload !== 'object' || Array.isArray(payload)) {
+      return NextResponse.json({ error: 'Body must be a JSON object' }, { status: 400 });
+    }
+    const body = payload as ExecuteBody;
     const { prompt, verzija, parametri, promptId } = body;
 
     if (!prompt || typeof prompt !== 'string') {

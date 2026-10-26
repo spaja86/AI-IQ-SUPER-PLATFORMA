@@ -1,3 +1,4 @@
+delete process.env.AUTOFINISH_TRIGGER_TOKEN;
 // Autofinish — autofinish-analiza-svega Route Coverage Test
 // Generisano: scripts/generate-route-tests.mjs
 
@@ -78,24 +79,26 @@ async function runTests(): Promise<void> {
     }
   });
 
-  await test('POST odbija nevalidan JSON payload', async () => {
+  await test('POST bez konfiguracije odbija nevalidan JSON', async () => {
     const req = new Request('http://localhost/api/autofinish-analiza-svega', {
       method: 'POST',
       headers: { 'content-type': 'application/json' },
       body: '{',
     });
     const response = await POST(req as unknown as NextRequest);
-    assert(response.status >= 400 && response.status < 500, `Očekivan 4xx, dobijeno ${response.status}`);
+    assertEqual(response.status, 503, 'unconfigured trigger is unavailable');
+    assertEqual((await response.json()).error, 'SERVICE_UNAVAILABLE', 'fail-closed code');
   });
 
-  await test('POST odbija nevalidan payload', async () => {
+  await test('POST bez konfiguracije odbija objekat', async () => {
     const req = new Request('http://localhost/api/autofinish-analiza-svega', {
       method: 'POST',
       headers: { 'content-type': 'application/json' },
       body: JSON.stringify({ __invalid: true }),
     });
     const response = await POST(req as unknown as NextRequest);
-    assert(response.status >= 400 && response.status < 500, `Očekivan 4xx, dobijeno ${response.status}`);
+    assertEqual(response.status, 503, 'unconfigured trigger is unavailable');
+    assertEqual((await response.json()).error, 'SERVICE_UNAVAILABLE', 'fail-closed code');
   });
 
   await test('Konstante su dostupne', () => {

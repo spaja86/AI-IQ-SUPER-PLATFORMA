@@ -30,7 +30,11 @@ export async function POST(request: NextRequest) {
     );
     if (!allowed) return apiRateLimited(60);
 
-    const body = (await request.json()) as Record<string, unknown>;
+    const payload: unknown = await request.json().catch(() => null);
+    if (!payload || typeof payload !== 'object' || Array.isArray(payload)) {
+      return apiError('BAD_REQUEST', 'Body must be a JSON object');
+    }
+    const body = payload as Record<string, unknown>;
     const telefon = typeof body['telefon'] === 'string' ? body['telefon'].trim() : '';
     const otp = typeof body['otp'] === 'string' ? body['otp'].trim() : '';
 

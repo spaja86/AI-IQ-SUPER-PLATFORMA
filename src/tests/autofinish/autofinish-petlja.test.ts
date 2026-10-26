@@ -62,9 +62,9 @@ async function runTests(): Promise<void> {
     assert(typeof izvestaj === 'object' && izvestaj !== null, 'izvestaj mora biti objekat');
   });
 
-  await test('status je \'zavrsena\' kada su svi podsistemi na 100%', () => {
+  await test('nezavršen podsistem sprečava završetak petlje', () => {
     const izvestaj = pokreniAutofinishPetlju();
-    assertEqual(izvestaj.status, 'zavrsena', 'status');
+    assertEqual(izvestaj.status, 'ponavljanje', 'degraded monolog keeps the loop open');
   });
 
   await test('ukupniProgres je 100', () => {
@@ -72,9 +72,9 @@ async function runTests(): Promise<void> {
     assertEqual(izvestaj.ukupniProgres, 100, 'ukupniProgres');
   });
 
-  await test('podsistemiNa100 jednako ukupnoPodsistema', () => {
+  await test('podsistemiNa100 isključuje nezavršen monolog', () => {
     const izvestaj = pokreniAutofinishPetlju();
-    assertEqual(izvestaj.podsistemiNa100, izvestaj.ukupnoPodsistema, 'podsistemiNa100 vs ukupnoPodsistema');
+    assertEqual(izvestaj.podsistemiNa100, izvestaj.ukupnoPodsistema - 1, 'podsistemiNa100 vs ukupnoPodsistema');
   });
 
   await test('ima tačno 9 podsistema', () => {
@@ -82,11 +82,11 @@ async function runTests(): Promise<void> {
     assertEqual(izvestaj.podsistemi.length, 9, 'broj podsistema');
   });
 
-  await test('svi podsistemi imaju progres=100 i status=ok', () => {
+  await test('progres i status se prikazuju odvojeno', () => {
     const izvestaj = pokreniAutofinishPetlju();
     for (const p of izvestaj.podsistemi) {
       assert(p.progres === 100, `${p.id} progres mora biti 100`);
-      assert(p.status === 'ok', `${p.id} status mora biti ok`);
+      assert(p.status === (p.id === 'oktavni-monolog' ? 'u_toku' : 'ok'), `${p.id} status mora biti ok`);
     }
   });
 

@@ -301,7 +301,7 @@ async function runTests(): Promise<void> {
   // ── 5. Globalni invarijanti ───────────────────────────────────────────────
   console.log('\n📦 Globalni Invarijanti (#872 + #876)');
 
-  await test('AUTOFINISH_COUNT === 950', () => {
+  await test('AUTOFINISH_COUNT >= 950', () => {
     assert(AUTOFINISH_COUNT >= 960, 'AUTOFINISH_COUNT baseline');
   });
 

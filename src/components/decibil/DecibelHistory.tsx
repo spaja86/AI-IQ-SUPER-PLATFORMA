@@ -3,7 +3,7 @@
 // SpajaUltraOmegaCore -∞Ω+∞ — DECIBIL DecibelHistory Component
 // Kompanija SPAJA — Digitalna Industrija
 
-import { useEffect, useState, useCallback } from 'react';
+import { useEffect, useState } from 'react';
 import type { DecibelHistoryEntry, DecibelHealthReport } from '@/lib/decibil';
 
 interface HistoryResponse {
@@ -30,29 +30,33 @@ export function DecibelHistory({
   className = '',
 }: DecibelHistoryProps) {
   const [data, setData] = useState<HistoryResponse | null>(null);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  const fetchHistory = useCallback(async () => {
-    setLoading(true);
-    setError(null);
-    try {
-      const res = await fetch(`/api/decibil/history?limit=${limit}`);
-      if (!res.ok) throw new Error(`HTTP ${res.status}`);
-      const json = await res.json();
-      setData(json.data ?? json);
-    } catch (e) {
-      setError(e instanceof Error ? e.message : 'Greška pri učitavanju istorije.');
-    } finally {
-      setLoading(false);
-    }
-  }, [limit]);
-
   useEffect(() => {
-    fetchHistory();
-    const interval = setInterval(fetchHistory, pollingIntervalMs);
-    return () => clearInterval(interval);
-  }, [fetchHistory, pollingIntervalMs]);
+    let cancelled = false;
+    async function fetchHistory() {
+      try {
+        const res = await fetch(`/api/decibil/history?limit=${limit}`);
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        const json = await res.json();
+        if (cancelled) return;
+        setError(null);
+        setData(json.data ?? json);
+      } catch (e) {
+        if (!cancelled) setError(e instanceof Error ? e.message : 'Greška pri učitavanju istorije.');
+      } finally {
+        if (!cancelled) setLoading(false);
+      }
+    }
+    void fetchHistory();
+    const interval = setInterval(() => {
+      setLoading(true);
+      setError(null);
+      void fetchHistory();
+    }, pollingIntervalMs);
+    return () => { cancelled = true; clearInterval(interval); };
+  }, [limit, pollingIntervalMs]);
 
   const history = data?.history ?? [];
   const report = data?.healthReport;

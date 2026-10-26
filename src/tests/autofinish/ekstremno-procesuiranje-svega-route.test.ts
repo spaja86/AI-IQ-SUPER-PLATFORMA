@@ -1,8 +1,11 @@
+// @ci-isolation: exclusive — real diagnostic snapshot; deterministic limiter boundary.
 // Autofinish — ekstremno-procesuiranje-svega Route Coverage Test
 // Generisano: scripts/generate-route-tests.mjs
 
 import fs from 'node:fs';
 import path from 'node:path';
+import { mock } from 'node:test';
+import { checkRateLimitGlobal, rateLimitKey } from '../../lib/rate-limit';
 import { APP_VERSION, AUTOFINISH_COUNT, TOTAL_API_ROUTES, TOTAL_ROUTES } from '../../lib/constants';
 
 let passed = 0;
@@ -42,7 +45,7 @@ function isObject(v: unknown): v is Record<string, unknown> {
 const _lintUseHelpers = [assertEqual, isObject];
 void _lintUseHelpers;
 import type { NextRequest } from 'next/server';
-import { GET } from '../../app/api/ekstremno-procesuiranje-svega/route';
+import { GET, EKSTREMNO_PROCESUIRANJE_SVEGA_RATE_LIMIT, EKSTREMNO_PROCESUIRANJE_SVEGA_RATE_WINDOW_SECONDS } from '../../app/api/ekstremno-procesuiranje-svega/route';
 
 async function runTests(): Promise<void> {
   console.log('\n🏁 ekstremno-procesuiranje-svega — Route Coverage Test Suite\n');
@@ -116,19 +119,30 @@ async function runTests(): Promise<void> {
 
   await test('Rate limit aktivan posle više zahteva sa iste IP', async () => {
     const ip = '127.0.9.90';
-    let got429 = false;
-    for (let i = 0; i < 40; i++) {
-      const request = new Request('http://localhost/api/ekstremno-procesuiranje-svega', {
-        headers: { 'x-forwarded-for': ip },
-      });
-      const response = await GET(request as unknown as NextRequest);
-      if (response.status === 429) {
-        got429 = true;
-        assert(response.headers.get('Retry-After') !== null, 'Retry-After header');
-        break;
+    const endpoint = '/api/ekstremno-procesuiranje-svega';
+    const limit = EKSTREMNO_PROCESUIRANJE_SVEGA_RATE_LIMIT;
+    const windowSeconds = EKSTREMNO_PROCESUIRANJE_SVEGA_RATE_WINDOW_SECONDS;
+    assertEqual(limit, 30, 'unchanged rate limit');
+    assertEqual(windowSeconds, 60, 'unchanged rate window');
+    let now = Date.now();
+    const clock = mock.method(Date, 'now', () => now);
+    const req = () => new Request(`http://localhost${endpoint}`, { headers: { 'x-forwarded-for': ip } }) as unknown as NextRequest;
+    try {
+      // Seed the real limiter, avoiding 29 unrelated full diagnostic snapshots.
+      for (let i = 0; i < limit - 1; i++) {
+        assert(await checkRateLimitGlobal(rateLimitKey(ip, endpoint), limit, windowSeconds), 'prefill remains allowed');
       }
+      assertEqual((await GET(req())).status, 200, 'last allowed route request');
+      const blocked = await GET(req());
+      assertEqual(blocked.status, 429, 'first request above the limit');
+      assertEqual(blocked.headers.get('Retry-After'), String(windowSeconds), 'Retry-After');
+      now += windowSeconds * 1000 - 1;
+      assertEqual((await GET(req())).status, 429, 'blocked one millisecond before expiry');
+      now += 1;
+      assertEqual((await GET(req())).status, 200, 'allowed exactly at expiry');
+    } finally {
+      clock.mock.restore();
     }
-    assert(got429, 'očekivan je 429 nakon prelaska limita');
   });
 
   await test('Konstante su dostupne', () => {

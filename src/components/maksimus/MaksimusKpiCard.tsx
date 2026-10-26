@@ -3,7 +3,7 @@
 // SpajaUltraOmegaCore -∞Ω+∞ — MAKSIMUS KPI Card Component
 // Kompanija SPAJA — Digitalna Industrija
 
-import { useCallback, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 interface MaksimusResult {
   ukupanScore: number;
@@ -18,26 +18,28 @@ interface MaksimusKpiCardProps {
 
 export function MaksimusKpiCard({ className = '' }: MaksimusKpiCardProps) {
   const [result, setResult] = useState<MaksimusResult | null>(null);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  const fetchResult = useCallback(async () => {
-    setLoading(true);
-    setError(null);
-    try {
-      const r = await fetch('/api/maksimus');
-      if (!r.ok) throw new Error(`HTTP ${r.status}`);
-      const json = await r.json() as { data?: MaksimusResult } | MaksimusResult;
-      const payload = (json as { data?: MaksimusResult }).data ?? (json as MaksimusResult);
-      setResult(payload && typeof payload.ukupanScore === 'number' ? payload : null);
-    } catch (e) {
-      setError(e instanceof Error ? e.message : 'Greška');
-    } finally {
-      setLoading(false);
+  useEffect(() => {
+    let cancelled = false;
+    async function fetchResult() {
+      try {
+        const r = await fetch('/api/maksimus');
+        if (!r.ok) throw new Error(`HTTP ${r.status}`);
+        const json = await r.json() as { data?: MaksimusResult } | MaksimusResult;
+        if (cancelled) return;
+        const payload = (json as { data?: MaksimusResult }).data ?? (json as MaksimusResult);
+        setResult(payload && typeof payload.ukupanScore === 'number' ? payload : null);
+      } catch (e) {
+        if (!cancelled) setError(e instanceof Error ? e.message : 'Greška');
+      } finally {
+        if (!cancelled) setLoading(false);
+      }
     }
+    void fetchResult();
+    return () => { cancelled = true; };
   }, []);
-
-  useEffect(() => { void fetchResult(); }, [fetchResult]);
 
   const scoreColor =
     result && result.ukupanScore >= 80

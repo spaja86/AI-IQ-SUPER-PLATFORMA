@@ -6499,8 +6499,8 @@ function buildZelezaraPretplataIdentityTrack(): ExtrimliExtremZelezaraPretplataI
   };
 }
 
-export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport {
-  const innovationRegistry13k = buildExtrimliInnovationRegistry();
+export function getExtrimliExtremProfilerReport(options: { materializeInnovations?: boolean } = {}): ExtrimliExtremProfilerReport {
+  const innovationRegistry13k = buildExtrimliInnovationRegistry(options);
   const extendolReport = getExtrimliExtendolReport();
   const versionRoadmap = getExtrimliVersionRoadmap();
   const activeRoadmapStages = versionRoadmap.versions.filter(

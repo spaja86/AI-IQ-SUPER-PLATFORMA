@@ -1,3 +1,4 @@
+import { withEmptySupabase } from '../helpers/supabase-read-fixture';
 // Autofinish — spaja-baza-knowledge/sources Route Coverage Test
 // Generisano: scripts/generate-route-tests.mjs
 
@@ -64,8 +65,8 @@ async function runTests(): Promise<void> {
   });
 
   await test('GET smoke provera', async () => {
-    const response = await GET();
-    assert(response.status >= 200 && response.status < 600, `Neočekivan status: ${response.status}`);
+    const response = await withEmptySupabase(() => GET());
+    assertEqual(response.status, 200, 'empty offline database fixture');
 
     const body = (await response.clone().json().catch(() => null)) as unknown;
     if (isObject(body)) {

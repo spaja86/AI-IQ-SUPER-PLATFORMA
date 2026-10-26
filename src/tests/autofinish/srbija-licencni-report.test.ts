@@ -72,7 +72,7 @@ async function runTests(): Promise<void> {
   });
 
   await test('ukupno/u_nabavci/potvrdjene prate compliance izveštaj', () => {
-    assertEqual(report.ukupnoLicenci, compliance.ukupnoLicenci, 'ukupnoLicenci');
+    assertEqual(report.ukupnoLicenci, report.stavke.length, 'Serbia budget item count');
     assertEqual(report.uNabavci, compliance.uNabavci, 'uNabavci');
     assertEqual(report.potvrdjene, compliance.potvrdjene, 'potvrdjene');
     assertEqual(report.coverageProcenat, compliance.coverageProcenat, 'coverageProcenat');

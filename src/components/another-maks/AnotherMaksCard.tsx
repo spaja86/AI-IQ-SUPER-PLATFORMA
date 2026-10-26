@@ -3,7 +3,7 @@
 // SpajaUltraOmegaCore -∞Ω+∞ — ANOTHER MAKS Card Component
 // Kompanija SPAJA — Digitalna Industrija
 
-import { useCallback, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 interface AnotherMaksResult {
   ukupanScore: number;
@@ -18,26 +18,28 @@ interface AnotherMaksCardProps {
 
 export function AnotherMaksCard({ className = '' }: AnotherMaksCardProps) {
   const [result, setResult] = useState<AnotherMaksResult | null>(null);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  const fetchResult = useCallback(async () => {
-    setLoading(true);
-    setError(null);
-    try {
-      const r = await fetch('/api/another-maks');
-      if (!r.ok) throw new Error(`HTTP ${r.status}`);
-      const json = await r.json() as { data?: AnotherMaksResult } | AnotherMaksResult;
-      const payload = (json as { data?: AnotherMaksResult }).data ?? (json as AnotherMaksResult);
-      setResult(payload && typeof payload.ukupanScore === 'number' ? payload : null);
-    } catch (e) {
-      setError(e instanceof Error ? e.message : 'Greška');
-    } finally {
-      setLoading(false);
+  useEffect(() => {
+    let cancelled = false;
+    async function fetchResult() {
+      try {
+        const r = await fetch('/api/another-maks');
+        if (!r.ok) throw new Error(`HTTP ${r.status}`);
+        const json = await r.json() as { data?: AnotherMaksResult } | AnotherMaksResult;
+        if (cancelled) return;
+        const payload = (json as { data?: AnotherMaksResult }).data ?? (json as AnotherMaksResult);
+        setResult(payload && typeof payload.ukupanScore === 'number' ? payload : null);
+      } catch (e) {
+        if (!cancelled) setError(e instanceof Error ? e.message : 'Greška');
+      } finally {
+        if (!cancelled) setLoading(false);
+      }
     }
+    void fetchResult();
+    return () => { cancelled = true; };
   }, []);
-
-  useEffect(() => { void fetchResult(); }, [fetchResult]);
 
   return (
     <section className={`rounded-xl border border-purple-700 bg-slate-900/40 p-4 text-slate-100 ${className}`}>

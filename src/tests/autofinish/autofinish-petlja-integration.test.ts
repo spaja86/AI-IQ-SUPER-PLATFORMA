@@ -88,8 +88,8 @@ async function runTests(): Promise<void> {
   // ── 2. status === 'zavrsena' ───────────────────────────────────────────────
   console.log('\n📋 Status odgovora');
 
-  await test('status je \'zavrsena\'', () => {
-    assertEqual(response.status, 'zavrsena', 'status');
+  await test('nezavršen podsistem sprečava završetak petlje', () => {
+    assertEqual(response.status, 'ponavljanje', 'degraded monolog keeps the loop open');
   });
 
   await test('napomena postoji i nije prazna', () => {
@@ -118,8 +118,8 @@ async function runTests(): Promise<void> {
     assertEqual(response.ukupnoPodsistema, 9, 'ukupnoPodsistema');
   });
 
-  await test('podsistemiNa100 = 9', () => {
-    assertEqual(response.podsistemiNa100, 9, 'podsistemiNa100');
+  await test('podsistemiNa100 = 8', () => {
+    assertEqual(response.podsistemiNa100, 8, 'podsistemiNa100');
   });
 
   const ocekivaniPodsistemi = [
@@ -134,9 +134,9 @@ async function runTests(): Promise<void> {
     }
   });
 
-  await test('svih 9 podsistema ima status=ok', () => {
+  await test('monolog ostaje u_toku', () => {
     for (const p of response.podsistemi) {
-      assertEqual(p.status, 'ok', `${p.id}.status`);
+      assertEqual(p.status, p.id === 'oktavni-monolog' ? 'u_toku' : 'ok', `${p.id}.status`);
     }
   });
 

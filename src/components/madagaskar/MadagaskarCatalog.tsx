@@ -2,7 +2,7 @@
 // SpajaUltraOmegaCore -∞Ω+∞ — MADAGASKAR MadagaskarCatalog
 // Kompanija SPAJA — Digitalna Industrija
 
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useEffect, useState } from 'react';
 import type { ExoticGood, ExoticGoodCategory, OriginRegion } from '@/lib/madagaskar';
 import { ExoticGoodCard } from './ExoticGoodCard';
 
@@ -21,8 +21,9 @@ const REGIONS: (OriginRegion | '')[] = [
 
 /** Grid catalog with filter/sort controls for exotic goods. */
 export function MadagaskarCatalog({ onSelectGood, className = '' }: MadagaskarCatalogProps) {
+  const [refreshVersion, setRefreshVersion] = useState(0);
   const [goods, setGoods] = useState<ExoticGood[]>([]);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
   const [category, setCategory] = useState<ExoticGoodCategory | ''>('');
@@ -30,29 +31,30 @@ export function MadagaskarCatalog({ onSelectGood, className = '' }: MadagaskarCa
   const [rarityMin, setRarityMin] = useState<number>(1);
   const [sortBy, setSortBy] = useState<'rarity' | 'sustainability' | 'price'>('rarity');
 
-  const fetchGoods = useCallback(async () => {
-    setLoading(true);
-    setError(null);
-    try {
-      const params = new URLSearchParams();
-      if (category) params.set('category', category);
-      if (region) params.set('region', region);
-      if (rarityMin > 1) params.set('rarity_min', String(rarityMin));
-
-      const res = await fetch(`/api/madagaskar/catalog?${params.toString()}`);
-      if (!res.ok) throw new Error(`HTTP ${res.status}`);
-      const json = await res.json();
-      setGoods(json.data?.goods ?? []);
-    } catch (e) {
-      setError(e instanceof Error ? e.message : 'Failed to load catalog.');
-    } finally {
-      setLoading(false);
-    }
-  }, [category, region, rarityMin]);
-
   useEffect(() => {
-    fetchGoods();
-  }, [fetchGoods]);
+    let cancelled = false;
+    async function fetchGoods() {
+      try {
+        const params = new URLSearchParams();
+        if (category) params.set('category', category);
+        if (region) params.set('region', region);
+        if (rarityMin > 1) params.set('rarity_min', String(rarityMin));
+
+        const res = await fetch(`/api/madagaskar/catalog?${params.toString()}`);
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        const json = await res.json();
+        if (cancelled) return;
+        setError(null);
+        setGoods(json.data?.goods ?? []);
+      } catch (e) {
+        if (!cancelled) setError(e instanceof Error ? e.message : 'Failed to load catalog.');
+      } finally {
+        if (!cancelled) setLoading(false);
+      }
+    }
+    void fetchGoods();
+    return () => { cancelled = true; };
+  }, [category, region, rarityMin, refreshVersion]);
 
   const sorted = [...goods].sort((a, b) => {
     if (sortBy === 'rarity') return b.rarity - a.rarity;
@@ -69,7 +71,7 @@ export function MadagaskarCatalog({ onSelectGood, className = '' }: MadagaskarCa
           <select
             className="px-2 py-1 rounded bg-gray-800 text-white text-sm border border-gray-600"
             value={category}
-            onChange={(e) => setCategory(e.target.value as ExoticGoodCategory | '')}
+            onChange={(e) => { setLoading(true); setError(null); setCategory(e.target.value as ExoticGoodCategory | ''); }}
           >
             {CATEGORIES.map((c) => (
               <option key={c} value={c}>{c || 'All Categories'}</option>
@@ -81,7 +83,7 @@ export function MadagaskarCatalog({ onSelectGood, className = '' }: MadagaskarCa
           <select
             className="px-2 py-1 rounded bg-gray-800 text-white text-sm border border-gray-600"
             value={region}
-            onChange={(e) => setRegion(e.target.value as OriginRegion | '')}
+            onChange={(e) => { setLoading(true); setError(null); setRegion(e.target.value as OriginRegion | ''); }}
           >
             {REGIONS.map((r) => (
               <option key={r} value={r}>{r || 'All Regions'}</option>
@@ -95,7 +97,7 @@ export function MadagaskarCatalog({ onSelectGood, className = '' }: MadagaskarCa
             min={1}
             max={10}
             value={rarityMin}
-            onChange={(e) => setRarityMin(Number(e.target.value))}
+            onChange={(e) => { setLoading(true); setError(null); setRarityMin(Number(e.target.value)); }}
             className="accent-indigo-500"
           />
         </div>
@@ -113,7 +115,7 @@ export function MadagaskarCatalog({ onSelectGood, className = '' }: MadagaskarCa
         </div>
         <button
           className="px-3 py-1.5 rounded bg-indigo-600 hover:bg-indigo-500 text-white text-sm font-medium transition-colors"
-          onClick={fetchGoods}
+          onClick={() => { setLoading(true); setError(null); setRefreshVersion((value) => value + 1); }}
         >
           Refresh
         </button>

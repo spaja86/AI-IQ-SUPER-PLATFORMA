@@ -161,8 +161,16 @@ type CetTab = 'cet' | 'povratne' | 'gradnje' | 'import-export';
 // ─── Component ──────────────────────────────────────────────────────────────
 
 export default function PromptCet({ prompt }: Props) {
+  return <PromptConversation key={JSON.stringify(prompt)} prompt={prompt} />;
+}
+
+function PromptConversation({ prompt }: Props) {
   const [aktivniTab, setAktivniTab] = useState<CetTab>('cet');
-  const [poruke, setPoruke] = useState<PromptCetPoruka[]>([]);
+  const [poruke, setPoruke] = useState<PromptCetPoruka[]>(() => [{
+      uloga: 'asistent',
+      sadrzaj: `Dobrodošli u Čet za "${prompt.naziv}"! 💬\n\nOvaj Prompt koristi SpajaPro v${prompt.spajaProVerzija} engine.\nKategorija: ${prompt.kategorija}\n${prompt.ciljnaPersona ? `Persona: ${prompt.ciljnaPersona}\n` : ''}${prompt.ciljnaPlatforma ? `Platforma: ${prompt.ciljnaPlatforma}\n` : ''}\nPitajte me bilo šta o ovom Prompt-u — kako ga koristiti, šta može da gradi, i kako da budete zadovoljni rezultatima. 🚀`,
+      vreme: '',
+    }]);
   const [unos, setUnos] = useState('');
   const [ucitavanje, setUcitavanje] = useState(false);
   const [greska, setGreska] = useState('');
@@ -179,17 +187,6 @@ export default function PromptCet({ prompt }: Props) {
   useEffect(() => {
     porukeRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [poruke]);
-
-  // Kontekstualna poruka za ovaj specifični prompt
-  useEffect(() => {
-    setPoruke([{
-      uloga: 'asistent',
-      sadrzaj: `Dobrodošli u Čet za "${prompt.naziv}"! 💬\n\nOvaj Prompt koristi SpajaPro v${prompt.spajaProVerzija} engine.\nKategorija: ${prompt.kategorija}\n${prompt.ciljnaPersona ? `Persona: ${prompt.ciljnaPersona}\n` : ''}${prompt.ciljnaPlatforma ? `Platforma: ${prompt.ciljnaPlatforma}\n` : ''}\nPitajte me bilo šta o ovom Prompt-u — kako ga koristiti, šta može da gradi, i kako da budete zadovoljni rezultatima. 🚀`,
-      vreme: getVreme(),
-    }]);
-    setPovratna({ ocena: null, komentar: '', tipovi: [] });
-    setPovratnaPoslata(false);
-  }, [prompt]);
 
   const posaljiPoruku = useCallback(async (e: React.FormEvent) => {
     e.preventDefault();

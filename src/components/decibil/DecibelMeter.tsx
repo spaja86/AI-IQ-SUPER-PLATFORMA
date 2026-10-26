@@ -3,7 +3,7 @@
 // SpajaUltraOmegaCore -∞Ω+∞ — DECIBIL DecibelMeter Component
 // Kompanija SPAJA — Digitalna Industrija
 
-import { useEffect, useState, useCallback } from 'react';
+import { useEffect, useState } from 'react';
 import type { DecibelMeasurement, DecibelAnalysisInput } from '@/lib/decibil';
 import { DECIBIL_DEFAULT_THRESHOLDS } from '@/lib/decibil';
 
@@ -37,38 +37,42 @@ export function DecibelMeter({
   className = '',
 }: DecibelMeterProps) {
   const [measurement, setMeasurement] = useState<DecibelMeasurement | null>(null);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  const fetchMeasurement = useCallback(async () => {
-    setLoading(true);
-    setError(null);
-    try {
-      let res: Response;
-      if (samples && samples.length > 0) {
-        res = await fetch('/api/decibil/measure', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ samples, sampleRate, source }),
-        });
-      } else {
-        res = await fetch('/api/decibil/measure');
-      }
-      if (!res.ok) throw new Error(`HTTP ${res.status}`);
-      const json = await res.json();
-      setMeasurement(json.data ?? json);
-    } catch (e) {
-      setError(e instanceof Error ? e.message : 'Greška pri merenju.');
-    } finally {
-      setLoading(false);
-    }
-  }, [samples, sampleRate, source]);
-
   useEffect(() => {
-    fetchMeasurement();
-    const interval = setInterval(fetchMeasurement, pollingIntervalMs);
-    return () => clearInterval(interval);
-  }, [fetchMeasurement, pollingIntervalMs]);
+    let cancelled = false;
+    async function fetchMeasurement() {
+      try {
+        let res: Response;
+        if (samples && samples.length > 0) {
+          res = await fetch('/api/decibil/measure', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ samples, sampleRate, source }),
+          });
+        } else {
+          res = await fetch('/api/decibil/measure');
+        }
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        const json = await res.json();
+        if (cancelled) return;
+        setError(null);
+        setMeasurement(json.data ?? json);
+      } catch (e) {
+        if (!cancelled) setError(e instanceof Error ? e.message : 'Greška pri merenju.');
+      } finally {
+        if (!cancelled) setLoading(false);
+      }
+    }
+    void fetchMeasurement();
+    const interval = setInterval(() => {
+      setLoading(true);
+      setError(null);
+      void fetchMeasurement();
+    }, pollingIntervalMs);
+    return () => { cancelled = true; clearInterval(interval); };
+  }, [samples, sampleRate, source, pollingIntervalMs]);
 
   const dbfs = measurement?.dbfs ?? DECIBIL_DEFAULT_THRESHOLDS.silenceDbfs;
   const status = measurement?.status ?? 'silence';

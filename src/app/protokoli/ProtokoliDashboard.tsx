@@ -112,8 +112,6 @@ export function ProtokoliDashboard() {
   const [proposalReason, setProposalReason] = useState('');
 
   async function loadData(): Promise<void> {
-    setLoading(true);
-    setActionMessage('');
     try {
       const [listRes, statusRes, exportRes] = await Promise.all([
         fetch('/api/protokoli?limit=200', { cache: 'no-store' }),
@@ -137,11 +135,7 @@ export function ProtokoliDashboard() {
   }
 
   async function loadDetail(id: string): Promise<void> {
-    if (!id) {
-      setDetail(null);
-      return;
-    }
-    setDetailLoading(true);
+    if (!id) return;
     try {
       const response = await fetch(`/api/protokoli/${id}`, { cache: 'no-store' });
       const payload = (await response.json()) as DetailApiResponse & { error?: string };
@@ -161,11 +155,13 @@ export function ProtokoliDashboard() {
   }
 
   useEffect(() => {
-    void loadData();
+    async function initialize() { await loadData(); }
+    void initialize();
   }, []);
 
   useEffect(() => {
-    void loadDetail(selectedId);
+    async function load() { await loadDetail(selectedId); }
+    void load();
   }, [selectedId]);
 
   const filtered = useMemo(
@@ -310,7 +306,7 @@ export function ProtokoliDashboard() {
         </select>
         <Button
           type="button"
-          onClick={() => void loadData()}
+          onClick={() => { setLoading(true); setActionMessage(''); void loadData(); }}
           className="rounded-md border border-cyan-400/40 bg-cyan-500/10 px-4 py-2 text-sm font-medium text-cyan-300 hover:bg-cyan-500/20"
         >
           Osveži
@@ -355,7 +351,7 @@ export function ProtokoliDashboard() {
                           <button
                             type="button"
                             className="text-left"
-                            onClick={() => setSelectedId(protokol.id)}
+                            onClick={() => { if (selectedId !== protokol.id) { setDetail(null); setDetailLoading(true); setSelectedId(protokol.id); } }}
                           >
                             <div className="font-medium text-white">{protokol.naziv}</div>
                             <div className="text-xs text-zinc-500">{protokol.id}</div>
@@ -380,7 +376,7 @@ export function ProtokoliDashboard() {
                             </Button>
                             <Button
                               type="button"
-                              onClick={() => setSelectedId(protokol.id)}
+                              onClick={() => { if (selectedId !== protokol.id) { setDetail(null); setDetailLoading(true); setSelectedId(protokol.id); } }}
                               className="rounded-md border border-white/20 bg-white/5 px-3 py-1.5 text-xs font-medium text-zinc-200 hover:bg-white/10"
                             >
                               Detalji
