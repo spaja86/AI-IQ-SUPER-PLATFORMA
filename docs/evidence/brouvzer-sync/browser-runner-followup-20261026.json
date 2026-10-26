@@ -1,0 +1,90 @@
+{
+  "sourceBase": "0cc9a927063e455e9ec22b62607501daa3af7315",
+  "date": "2026-10-26",
+  "testedFilesSha256": {
+    "tests/brouvzer-sync/browser-harness.mjs": "4ca98711248bd69e67cd9cdf630a163f84b3cfd0d06b9246fce60494567f13b4",
+    "tests/brouvzer-sync/browser-harness.test.mjs": "3d53fe6647a12ded5a627681b71f60a16b37f471eb04052b69074b4ddf71ed13",
+    "tests/brouvzer-sync/browser-local.mjs": "5d7bde1917082e1ef051aab9f04880e348f243c8186df83c3b94c69eb43c285e",
+    "tests/brouvzer-sync/browser.mjs": "5c446b7a4cf366a7382f46f1f676ed517a8bfdfe1e22d618929f4d9f6e7912a4"
+  },
+  "localUi": {
+    "exitCode": 0,
+    "suite": "local-ui",
+    "outcome": "passed",
+    "phase": "storage-fault-blocks-edits",
+    "completed": [
+      "local-bookmark-durable-commit",
+      "rename-through-ui",
+      "indexeddb-reload",
+      "indexeddb-profile-restart",
+      "incognito-isolation",
+      "durable-delete",
+      "responsive-layout",
+      "storage-fault-blocks-edits"
+    ],
+    "pageErrors": 0,
+    "cleanup": [
+      {
+        "kind": "server",
+        "closed": true
+      },
+      {
+        "kind": "profile",
+        "closed": true
+      },
+      {
+        "kind": "context",
+        "closed": true
+      },
+      {
+        "kind": "context",
+        "closed": true
+      },
+      {
+        "kind": "context",
+        "closed": true
+      }
+    ],
+    "rtcTransfer": "not-exercised",
+    "externalIceUsed": false,
+    "browserVersion": "138.0.7204.0",
+    "expected": 8,
+    "passed": 8,
+    "notCompleted": 0
+  },
+  "applicationRtc": {
+    "exitCode": 1,
+    "suite": "application-rtc",
+    "outcome": "failed",
+    "phase": "pair-offer",
+    "completed": [
+      "offline-independent-edits"
+    ],
+    "pageErrors": 0,
+    "cleanup": [
+      {
+        "kind": "server",
+        "closed": true
+      },
+      {
+        "kind": "browser",
+        "closed": true
+      },
+      {
+        "kind": "context",
+        "closed": true
+      },
+      {
+        "kind": "context",
+        "closed": true
+      }
+    ],
+    "rtcTransfer": "not-confirmed",
+    "externalIceUsed": false,
+    "browserVersion": "138.0.7204.0",
+    "errorCode": "ice-no-candidates",
+    "expected": 11,
+    "passed": 1,
+    "notCompleted": 10
+  }
+}

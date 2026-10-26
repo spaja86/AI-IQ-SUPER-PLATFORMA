@@ -209,3 +209,10 @@ STUN/TURN, drugi browseri, fizički uređaji i dve različite mreže nisu
 provereni. Nije bilo odobrene testne ICE konfiguracije za spoljne servise.
 Puni root build/lint/TypeScript/predeploy i udaljeni CI nisu potvrđeni ovom
 dopunom; prethodni CI nalazi ostaju istorijski, bez novog zaključka o nalogu.
+
+## Nastavak browser provera
+
+Raniji timeout-i u gornjoj tabeli ostaju istorijski rezultati. Nakon dopune
+runner-a, lokalni UI paket je ponovo proveravan sa oznakama faza i potvrdom
+cleanup-a. Najnoviji rezultati: [BROUVZER-BROWSER-RUNNER-FOLLOWUP.md](BROUVZER-BROWSER-RUNNER-FOLLOWUP.md).
+Native RTC kod i pet profila iz ovog dokumenta nisu menjani tom dopunom.
