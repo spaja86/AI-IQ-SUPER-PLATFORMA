@@ -26,9 +26,17 @@ export class Runner {
   #store; #active = null; #busy = false; #closing = false;
   constructor(store) { preflight(); this.#store = store; }
   async control(action) {
-    const state = this.#store.control(action); // Persist stop intent before signaling.
-    if (['pause', 'cancel'].includes(action) && this.#active?.connected) this.#active.send({ type: 'stop' });
-    return state;
+    const stopRequested = ['pause', 'cancel'].includes(action);
+    try {
+      return this.#store.control(action); // Persist stop intent before signaling when possible.
+    } catch (error) {
+      // A failed stop write must not leave this worker dispatching more tasks.
+      // Reopen/reconcile the store explicitly before any subsequent execution.
+      if (stopRequested) this.#closing = true;
+      throw error;
+    } finally {
+      if (stopRequested && this.#active?.connected) this.#active.send({ type: 'stop' });
+    }
   }
   async tick() {
     if (this.#busy || this.#closing) return false;
@@ -105,8 +113,15 @@ export class Runner {
   }
   async close() {
     this.#closing = true;
-    if (this.#store.get().status === 'running') await this.control('pause');
-    if (this.#active?.connected) this.#active.send({ type: 'stop' });
-    while (this.#busy) await new Promise(resolve => setTimeout(resolve, 10));
+    try {
+      if (this.#store.get().status === 'running') await this.control('pause');
+    } finally {
+      // Stop/drain even if audit verification, the clock or a SQLite write fails.
+      try {
+        if (this.#active?.connected) this.#active.send({ type: 'stop' });
+      } finally {
+        while (this.#busy) await new Promise(resolve => setTimeout(resolve, 10));
+      }
+    }
   }
 }

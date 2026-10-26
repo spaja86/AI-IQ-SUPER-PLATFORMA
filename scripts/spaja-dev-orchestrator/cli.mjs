@@ -18,7 +18,9 @@ if (!['create', 'run', 'status', 'audit'].includes(command) || !database) {
     if (stopping) return; stopping = true;
     clearInterval(timer); input?.close();
     if (command === 'run') process.stdin.destroy();
-    try { await runner?.close(); } finally { store?.close(); }
+    try { await runner?.close(); }
+    catch (error) { process.exitCode = 1; console.error(error.message); }
+    finally { store?.close(); }
   };
   try {
     store = new Store(resolve(database));
