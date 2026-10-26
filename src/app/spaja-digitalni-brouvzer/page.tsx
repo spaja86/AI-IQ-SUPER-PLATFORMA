@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import Link from 'next/link';
 import { StranicaRenderer } from '@/components/sekvence';
 import { spajaDigitalniBrouvzerSekvence } from '@/lib/sekvence/spaja-digitalni-brouvzer-page';
 import BrouvzerViewer from '@/components/BrouvzerViewer';
@@ -39,5 +40,14 @@ export default async function SpajaDigitalniBrouvzerPage({ searchParams }: Props
     return <BrouvzerViewer url={decodedUrl} igra={decodedIgra} />;
   }
 
-  return <StranicaRenderer sekvence={spajaDigitalniBrouvzerSekvence} />;
+  return (
+    <>
+      <nav aria-label="Razvojni pilot" className="mx-auto max-w-7xl px-6 pt-6">
+        <Link href="/spaja-digitalni-brouvzer/sync-pilot" className="text-teal-300 underline">
+          Probna CRDT / WebRTC sinhronizacija — lokalni pilot
+        </Link>
+      </nav>
+      <StranicaRenderer sekvence={spajaDigitalniBrouvzerSekvence} />
+    </>
+  );
 }

@@ -1,0 +1,14 @@
+{
+  "name": "spaja-brouvzer-sync-pilot",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "engines": {"node": ">=24"},
+  "scripts": {
+    "build": "esbuild ui.mjs --bundle --format=esm --outfile=dist/ui.js",
+    "start": "node server.mjs",
+    "test": "node --test ../../tests/brouvzer-sync/*.test.mjs"
+  },
+  "dependencies": {"yjs": "13.6.33"},
+  "devDependencies": {"esbuild": "0.25.12"}
+}

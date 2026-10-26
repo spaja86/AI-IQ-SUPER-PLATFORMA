@@ -1,0 +1,18 @@
+<!doctype html>
+<html lang="sr-Latn"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>SPAJA · Probna sinhronizacija</title><link rel="stylesheet" href="/style.css"><script type="module" src="/ui.js"></script></head>
+<body><main>
+<header><p class="eyebrow">SPAJA DIGITALNI BROUZVER / LOKALNI PILOT</p><h1>Bookmarkovi na dva uređaja</h1><p>Probni podaci, offline izmene i ručno potvrđena veza.</p></header>
+<aside>Koristite samo izmišljene bookmarkove. Probna baza je lokalna i <strong>nije šifrovana na disku</strong>. WebRTC DTLS štiti prenos između potvrđenih uređaja. Ovo nije produkcioni servis.</aside>
+<p id="status" role="status">Priprema probne baze…</p><p id="error" role="alert" hidden></p>
+<nav><a id="mode" href="/?inkognito=1">Otvori inkognito pilot</a></nav>
+<div class="grid"><section><h2>1. Probna kolekcija</h2><p>Izmene su lokalne dok oba učesnika ne potvrde otisak. Brisanje ima prednost nad konkurentnim izmenama istog ID-ja.</p>
+<form id="bookmark"><label>Naziv<input id="title" maxlength="120" required value="Probni SPAJA sajt"></label><label>HTTPS adresa<input id="url" maxlength="2048" type="url" required value="https://example.com/"></label><button id="save" disabled>Dodaj bookmark</button></form>
+<ul id="rows"></ul><p id="storage">Upis nije potvrđen.</p></section>
+<section><h2>2. Uparivanje</h2><p>Na A napravite ponudu. Prenesite je u B i napravite odgovor. Vratite odgovor u A. Signalni paketi sadrže mrežne adrese — razmenjujte ih privatno.</p>
+<div class="actions"><button id="invite" disabled>Napravi ponudu (A)</button><button id="accept" disabled>Prihvati ponudu (B)</button><button id="finish" disabled>Učitaj odgovor (A)</button></div>
+<label>Dolazni signal<textarea id="incoming" maxlength="60000" spellcheck="false"></textarea></label>
+<label>Signal za drugi uređaj<textarea id="outgoing" readonly spellcheck="false"></textarea></label>
+<h3>Provera identiteta</h3><p>Uporedite ceo otisak preko zasebnog, pouzdanog kanala, npr. uživo. Signalni kanal nije dovoljan za proveru. Potvrda je potrebna na oba uređaja.</p>
+<output id="code">Otisak još nije dostupan.</output><label>Otisak koji ste nezavisno proverili na drugom uređaju<input id="peerCode" maxlength="64" autocomplete="off" spellcheck="false"></label><button id="confirm" disabled>Potvrdi provereni otisak</button><button id="revoke" disabled>Opozovi vezu / novo uparivanje</button>
+<p>Oporavak: ponovite uparivanje sa novom sesijom. Sačuvane offline izmene razmenjuju se nakon obe potvrde. Automatski ICE restart i TURN nisu potvrđeni ovim pilotom.</p>
+</section></div></main></body></html>
