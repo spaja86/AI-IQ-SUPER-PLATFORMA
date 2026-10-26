@@ -89,3 +89,12 @@ OKRID-2026-BROUVZER-001 ostaje proposed; KPI nije proglašen kompletno ispunjeni
 Cross-repo impact: No linked repo change required; IO-OPENUI-AO nepromenjen.
 Rollback ove dopune vraća dijagnostiku/deadline i pripadajuće testove/dokumente,
 bez brisanja probne baze ili menjanja kriptografskog modela.
+
+## Nova kontrolisana dijagnostika
+
+Nastavak na osnovi `160b43b8`: sačuvana je komanda `native-rtc.cjs`, uz
+kontrolisane profile, odobrenje tačne STUN/TURN konfiguracije i proveru
+poruka/zatvaranja. Stvarni prenos i dalje nije potvrđen. Uputstvo, matrica
+ishoda i rezultati ove dopune: [BROUVZER-NATIVE-RTC-DIAGNOSTICS.md](BROUVZER-NATIVE-RTC-DIAGNOSTICS.md).
+Ranijih 8/8 UI scenarija iz ovog dokumenta odnosi se na prethodnu reviziju;
+ponovljena UI provera nove dopune nije završila u roku.
