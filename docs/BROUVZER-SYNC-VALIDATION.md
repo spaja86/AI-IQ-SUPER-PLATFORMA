@@ -64,3 +64,10 @@ Korisnik je 26.10.2026. odobrio konkretno ponuđeni izuzetak za nepotpisan
 commit i draft PR odgovorom „Može sve.😁😁😁“, nakon citiranja zahteva
 AGENTS.md za `git commit -S`. Izuzetak nije odobrenje za merge, release
 ili deployment; obavezan human/security review ostaje otvoren.
+
+## Dopuna dijagnostike istog dana
+
+Naknadno su potvrđene billing anotacije dva GitHub posla i reprodukovan
+native WebRTC bez kandidata. Dopuna dodaje dijagnostiku/deadline uz **20/20**
+Node i **8/8** lokalnih browser provera. Stvarni RTC prenos i dalje nije
+potvrđen. Izvor, tačan obuhvat i dokazi: [BROUVZER-SYNC-FOLLOWUP.md](BROUVZER-SYNC-FOLLOWUP.md).

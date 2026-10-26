@@ -19,10 +19,14 @@ try {
   const add = async(page,title)=>{await page.locator('#title').fill(title);await page.locator('#save').click();await page.waitForFunction(t=>document.querySelector('#rows').textContent.includes(t),title);};
   await add(a,'A-offline');await add(b,'B-offline');
   assert.equal(await a.locator('#rows li').count(),1);assert.equal(await b.locator('#rows li').count(),1);results.push('offline independent edits');
+  async function signalReady(page, type) {
+    await page.waitForFunction(t => document.querySelector('#outgoing').value.includes(t) || !document.querySelector('#error').hidden, type);
+    if (await page.locator('#error').isVisible()) throw Error(await page.locator('#error').textContent());
+  }
   async function pair({testGate=false}={}) {
-    await a.locator('#invite').click();await a.waitForFunction(()=>document.querySelector('#outgoing').value.includes('offer'));
+    await a.locator('#invite').click();await signalReady(a, 'offer');
     const offer=await a.locator('#outgoing').inputValue();
-    await b.locator('#incoming').fill(offer);await b.locator('#accept').click();await b.waitForFunction(()=>document.querySelector('#outgoing').value.includes('answer'));
+    await b.locator('#incoming').fill(offer);await b.locator('#accept').click();await signalReady(b, 'answer');
     const answer=await b.locator('#outgoing').inputValue();
     await a.locator('#incoming').fill(answer);await a.locator('#finish').click();
     await Promise.all([a.waitForFunction(()=>document.querySelector('#code').textContent.length===64),b.waitForFunction(()=>document.querySelector('#code').textContent.length===64)]);
@@ -30,7 +34,7 @@ try {
     await a.locator('#peerCode').fill(code);await a.locator('#confirm').click();
     if(testGate){
       // Wait on a real browser observation rather than assuming an open channel implies approval.
-      await b.waitForFunction(()=>document.querySelector('#status').textContent.includes('Kanal otvoren'));
+      await b.waitForFunction(()=>document.querySelector('#network').textContent.includes('kanal: open'));
       assert.equal(await a.locator('#rows li').count(),1);assert.equal(await b.locator('#rows li').count(),1);
       results.push('one-sided confirmation does not exchange bookmarks');
     }
@@ -53,10 +57,10 @@ try {
   await a.locator('#revoke').click();
   await b.waitForFunction(()=>!document.querySelector('#invite').disabled);
   // Wrong independent code fails closed, without sending model data.
-  await a.locator('#invite').click();await a.waitForFunction(()=>document.querySelector('#outgoing').value.includes('offer'));
+  await a.locator('#invite').click();await signalReady(a, 'offer');
   await b.locator('#incoming').fill(await a.locator('#outgoing').inputValue());await b.locator('#accept').click();await b.waitForFunction(()=>document.querySelector('#code').textContent.length===64);
   await b.locator('#peerCode').fill('0'.repeat(64));await b.locator('#confirm').click();await b.locator('#error').waitFor({state:'visible'});assert.match(await b.locator('#error').textContent(),/Otisci/);results.push('wrong independently verified code revokes session');
   await a.setViewportSize({width:390,height:844});assert.equal(await a.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),true);results.push('390px layout without horizontal overflow');
   assert.deepEqual(errors,[]);
   console.log(JSON.stringify({browser:browser.version(),originScope:'loopback',results,tests:results.length,pass:results.length,turn:'not tested',realDevices:'not tested'},null,2));
-} catch(e) { for(const page of observed) console.error(await page.locator('main').innerText()); throw e; } finally { await browser?.close();await app.close(); }
+} catch(e) { for(const page of observed) console.error(JSON.stringify({ status: await page.locator('#status').textContent(), network: await page.locator('#network').textContent(), error: await page.locator('#error').textContent() })); throw e; } finally { await browser?.close();await app.close(); }

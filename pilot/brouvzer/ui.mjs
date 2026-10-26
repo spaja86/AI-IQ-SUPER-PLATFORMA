@@ -34,7 +34,7 @@ try {
   const candidate = new BookmarkModel({ incognito, storage: incognito ? null : indexedStorage(indexedDB) });
   await candidate.init(); model = candidate;
   model.onChange(render); render();
-  if (!incognito) peer = new PeerSync(model, { onStatus: s => { status(s); controls(); }, onError: error });
+  if (!incognito) peer = new PeerSync(model, { onStatus: s => { status(s); controls(); }, onError: error, onDiagnostics: d => { $('network').textContent = `Mreža: ${d.connection}; ICE: ${d.ice}; kanal: ${d.channel}; kandidati: ${d.candidates.total} (direktni ${d.candidates.host}, preko relay-a ${d.candidates.relay}).`; } });
   status(incognito ? 'Inkognito pilot: bez skladišta i bez mreže.' : 'Lokalna kolekcija spremna. Veza još nije uparena.');
   $('mode').textContent = incognito ? 'Vrati se u probnu trajnu kolekciju' : 'Otvori inkognito pilot';
   $('mode').href = incognito ? '/' : '/?inkognito=1'; controls();

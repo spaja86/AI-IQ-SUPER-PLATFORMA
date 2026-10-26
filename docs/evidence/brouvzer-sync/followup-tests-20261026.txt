@@ -1,0 +1,33 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> spaja-brouvzer-sync-pilot@0.1.0 test
+> node --test ../../tests/brouvzer-sync/*.test.mjs
+
+✔ diagnostics count candidates without exposing addresses, ports, SDP or credentials (9.661ms)
+✔ completed ICE with zero candidates fails before generating a usable invitation (7.280062ms)
+✔ ICE completion with candidates succeeds and releases listeners (1.633952ms)
+✔ revoke cancels pending ICE gathering immediately (0.969295ms)
+✔ connection deadline fails closed even when native peer never emits a failure event (15.801179ms)
+✔ opened channel cancels the deadline without requiring user identity confirmation (25.759438ms)
+✔ two offline replicas converge with duplicate/reversed snapshots and remove wins (5099.735648ms)
+✔ concurrent writes of one bookmark have deterministic Yjs winner (5.428564ms)
+✔ commit persistence precedes visible success and survives model restart (1.783193ms)
+✔ failed durable write leaves old visible state unchanged (1.36322ms)
+✔ incognito never reads or writes persistent storage (1.388409ms)
+✔ hostile state, oversized payload and invalid bookmark rejected atomically (4.865812ms)
+✔ 100 record bound rejects 101st without mutation (207.342783ms)
+✔ pairing digest binds full SDP, session and document (36.598689ms)
+✔ no messages before confirmation, invalid peer code, replay, tampering and revocation (7.494212ms)
+✔ incognito cannot instantiate a peer (11.888046ms)
+✔ flow control retains pending state and sends latest snapshot after buffer drains (108.047088ms)
+✔ two channel adapters with delayed second confirmation converge; revoke stops exchange (mock transport) (237.113551ms)
+✔ concurrent pairing is rejected and revocation cancels pending certificate creation (1.56965ms)
+✔ loopback service serves only assets, rejects hostile origins/hosts and mutations (195.187583ms)
+ℹ tests 20
+ℹ suites 0
+ℹ pass 20
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 5982.51513
