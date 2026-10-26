@@ -5,6 +5,7 @@ import { tmpdir } from 'node:os';
 import { join, resolve } from 'node:path';
 import { fork, spawn } from 'node:child_process';
 import { once } from 'node:events';
+import { DatabaseSync } from 'node:sqlite';
 import { Store } from '../../../scripts/spaja-dev-orchestrator/store.mjs';
 import { Runner } from '../../../scripts/spaja-dev-orchestrator/runner.mjs';
 import { DEFAULT_LIMITS, manifest } from '../../../scripts/spaja-dev-orchestrator/policy.mjs';
@@ -86,6 +87,46 @@ test('pause aborts in-flight work and leaves dependency untouched', async t => {
   assert.equal(store.get().status, 'paused');
   assert.equal(store.get().tasks[0].status, 'interrupted');
   assert.equal(store.get().tasks[1].attempts, 0);
+});
+
+test('close drains active work even when persisting pause fails', async t => {
+  const { store, runner } = fixture(t);
+  await runner.control('start');
+  const db = new DatabaseSync(store.path);
+  db.exec("CREATE TRIGGER fail_pause BEFORE INSERT ON events WHEN NEW.kind='pause' BEGIN SELECT RAISE(ABORT, 'injected pause write failure'); END");
+  let settled = false;
+  const executing = runner.tick().finally(() => { settled = true; });
+  try {
+    await assert.rejects(runner.close(), /injected pause write failure/);
+    assert.equal(settled, true, 'close must drain the active task before reporting the persistence error');
+    assert.equal(store.get().tasks[0].status, 'interrupted');
+    assert.equal(store.get().tasks[1].attempts, 0);
+    assert.equal(await runner.tick(), false, 'a closing runner must not dispatch more work');
+  } finally {
+    db.exec('DROP TRIGGER fail_pause'); db.close();
+    await executing;
+  }
+});
+
+for (const action of ['pause', 'cancel']) test(`failed ${action} write stops work and disables further dispatch`, async t => {
+  const { store, runner } = fixture(t);
+  await runner.control('start');
+  const db = new DatabaseSync(store.path);
+  db.exec(`CREATE TRIGGER fail_stop BEFORE INSERT ON events WHEN NEW.kind='${action}' BEGIN SELECT RAISE(ABORT, 'injected stop write failure'); END`);
+  const executing = runner.tick();
+  try {
+    await assert.rejects(runner.control(action), /injected stop write failure/);
+    await executing;
+    assert.equal(store.get().tasks[0].status, 'interrupted');
+    assert.equal(store.get().tasks[1].attempts, 0);
+    // Even valid retry/resume cannot accidentally reactivate the failed worker.
+    store.control('retry'); store.control('resume');
+    assert.equal(await runner.tick(), false);
+    assert.equal(store.get().tasks[0].attempts, 1);
+  } finally {
+    db.exec('DROP TRIGGER fail_stop'); db.close();
+    await executing;
+  }
 });
 
 // Raw supervisor test inputs are test fixtures, not accepted by CLI/plan adapters.
@@ -172,6 +213,29 @@ test('CLI quit releases database and exits even if caller keeps stdin open', asy
   })]);
   assert.equal(code, 0);
   const reopened = new Store(database); reopened.close();
+});
+
+test('CLI shutdown write failure reports exit 1 and still releases the queue', async t => {
+  const dir = temporary(t), database = join(dir, 'queue.sqlite');
+  const store = new Store(database); store.create(plan('sum')); store.close();
+  const db = new DatabaseSync(database);
+  db.exec("CREATE TRIGGER fail_pause BEFORE INSERT ON events WHEN NEW.kind='pause' BEGIN SELECT RAISE(ABORT, 'injected CLI shutdown failure'); END");
+  db.close();
+  const run = spawn(process.execPath, [cli, 'run', database], { stdio: 'pipe' });
+  t.after(() => run.kill('SIGKILL'));
+  let text = '', errors = '';
+  run.stdout.on('data', x => text += x); run.stderr.on('data', x => errors += x);
+  await waitUntil(() => text.includes('"status":"ready"'));
+  const exited = once(run, 'close');
+  run.stdin.write('start\nquit\n');
+  const [code] = await Promise.race([exited, new Promise((_, reject) => {
+    const timer = setTimeout(() => reject(new Error('CLI shutdown stalled')), 5000); timer.unref();
+  })]);
+  assert.equal(code, 1);
+  assert.match(errors, /injected CLI shutdown failure/);
+  const reopened = new Store(database);
+  try { assert.equal(reopened.get().status, 'paused'); assert.equal(reopened.claim(), null); }
+  finally { reopened.close(); }
 });
 
 test('SIGKILL after durable claim recovers only uncertain work, preserving prior result', async t => {
