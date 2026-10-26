@@ -1,0 +1,27 @@
+name: SPAJA local development orchestrator checks
+
+# Tests only. No 3-hour worker, deployment, model calls, or scheduled development.
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: '24'
+      - name: Check syntax
+        run: |
+          for file in scripts/spaja-dev-orchestrator/*.mjs src/tests/spaja-dev-orchestrator/*.mjs; do
+            node --check "$file"
+          done
+      - name: Regression tests with simulated long windows
+        run: node --test --test-concurrency=1 src/tests/spaja-dev-orchestrator/*.test.mjs
