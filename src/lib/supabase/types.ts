@@ -6,6 +6,11 @@ export type PlanTip = 'starter' | 'basic' | 'pro' | 'enterprise' | 'unlimited';
 
 export type ModelId = 'gpt-4o-mini' | 'gpt-4o' | 'gpt-4-turbo' | 'o1-mini' | 'o3-mini';
 
+export interface StripeBillingCommitResult {
+  committed: boolean; applied: boolean; duplicate?: boolean; duplicate_effect: boolean;
+  out_of_order: boolean; quarantined: boolean;
+}
+
 export interface Database {
   public: {
     Tables: {
@@ -25,6 +30,7 @@ export interface Database {
           preferred_language: string | null;
           memory: string | null;
           billing_locked: boolean | null;
+          billing_revision: number;
           failed_payment_count: number | null;
           grace_period_expires_at: string | null;
           last_plan_changed_at: string | null;
@@ -84,6 +90,7 @@ export interface Database {
           preferred_language?: string | null;
           memory?: string | null;
           billing_locked?: boolean | null;
+          billing_revision?: number;
           failed_payment_count?: number | null;
           grace_period_expires_at?: string | null;
           last_plan_changed_at?: string | null;
@@ -748,6 +755,16 @@ export interface Database {
         ];
       };
       // Idempotency store — čuva obrađene Stripe event ID-jeve da se spreči dvostruka obrada
+      stripe_billing_commits: {
+        Row: { event_id: string; event_type: string; object_id: string; customer_id: string | null;
+          subscription_id: string | null; event_created: number; payload_hash: string;
+          result: StripeBillingCommitResult; processed_at: string };
+        Insert: { event_id: string; event_type: string; object_id: string; customer_id?: string | null;
+          subscription_id?: string | null; event_created: number; payload_hash: string;
+          result: StripeBillingCommitResult; processed_at?: string };
+        Update: never;
+        Relationships: [];
+      };
       stripe_webhook_events: {
         Row: {
           id: string;
@@ -1434,6 +1451,11 @@ export interface Database {
     };
     Views: Record<string, never>;
     Functions: {
+      commit_stripe_billing_event: {
+        Args: { p_event: Record<string, unknown>; p_user_id: string | null;
+          p_expected_revision: number; p_patch: Record<string, unknown>; p_audit: Record<string, unknown> };
+        Returns: StripeBillingCommitResult;
+      };
       match_knowledge_chunks_v4: {
         Args: {
           query_vector_literal: string;
