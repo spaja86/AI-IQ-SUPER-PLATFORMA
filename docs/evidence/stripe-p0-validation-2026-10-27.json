@@ -57,5 +57,13 @@
   "targetedEslint": {
     "exitCode": 0,
     "warnings": 0
+  },
+  "remoteObservation": {
+    "sha": "8b37771e6e4a4e21cf37679b814c66737595126c",
+    "pullRequest": 1377,
+    "actionsPrTriggeredRuns": 0,
+    "vercelStatusFailures": 2,
+    "commitVerification": "unsigned",
+    "remoteCiGreen": false
   }
 }
