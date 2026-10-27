@@ -1,0 +1,61 @@
+{
+  "localRouteTests": {
+    "tests": 106,
+    "pass": 103,
+    "fail": 3,
+    "skip": 0,
+    "todo": 0,
+    "remaining": [
+      "FRAUD-01",
+      "FRAUD-02",
+      "FRAUD-03"
+    ]
+  },
+  "localSqlTests": {
+    "engine": "PGlite 0.5.10",
+    "tests": 14,
+    "pass": 14,
+    "fail": 0,
+    "concurrentProcessesTested": false
+  },
+  "existingBillingTestFiles": {
+    "pass": 10,
+    "fail": 0,
+    "cliBlocked": "tsx IPC listen EPERM; Node import loader passed"
+  },
+  "dependencyAudit": {
+    "vulnerabilities": {
+      "info": 0,
+      "low": 15,
+      "moderate": 19,
+      "high": 21,
+      "critical": 0,
+      "total": 55
+    },
+    "dependencies": {
+      "prod": 476,
+      "dev": 563,
+      "optional": 124,
+      "peer": 167,
+      "peerOptional": 0,
+      "total": 1076
+    }
+  },
+  "stripeHttpOperations": 0,
+  "livePayments": 0,
+  "remoteDatabaseChanges": 0,
+  "productionBilling": "NO_GO",
+  "sourceHashes": {
+    "supabase/sql/stripe-p0-atomic.sql": "582e8fc1d1feb2afa1812d3f33c2e5992827038c861310f0e706d466b0c74a01",
+    "src/tests/billing/stripe-atomic-sql.test.mjs": "82c4296865abebefe1754a3985be431416070bb4dbac806293b795b3bfd6cde0",
+    "package.json": "ebdaa28dfac1f6b89e902b251ee7f0d4137f5d54a44050848afcf861e785c7f8"
+  },
+  "typecheck": {
+    "command": "tsc --noEmit --incremental false",
+    "exitCode": 0
+  },
+  "targetedEslint": {
+    "exitCode": 0,
+    "warnings": 0
+  }
+}
