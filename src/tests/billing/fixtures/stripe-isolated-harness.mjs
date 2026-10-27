@@ -39,13 +39,13 @@ export function createHarness(options = {}) {
     profile: {
       id: USER, plan: 'starter', subscription_status: null,
       stripe_customer_id: 'cus_fixture', stripe_subscription_id: null,
-      failed_payment_count: 0, created_at: '2025-01-01T00:00:00Z',
+      billing_revision: 0, failed_payment_count: 0, created_at: '2025-01-01T00:00:00Z',
       last_plan_changed_at: null, chat_messages_used: 4,
       ...options.profile,
     },
-    events: [], audits: [], deadLetters: [], queries: [], authTokens: [],
+    events: [], commits: [], effects: [], audits: [], deadLetters: [], queries: [], authTokens: [],
     fraudInputs: [], sessionCalls: [], sessions: new Map(), customerCalls: [],
-    priceCalls: [], listCalls: [], logs: [], networkAttempts,
+    subscriptionCalls: [], priceCalls: [], listCalls: [], logs: [], networkAttempts,
     profileWrites: 0, eventInsertAttempts: 0,
     price: { id: 'price_fixture_basic', currency: 'eur', active: true, recurring: { interval: 'month' }, unit_amount: 900, livemode: false, ...options.price },
     options,
@@ -84,9 +84,17 @@ export function createHarness(options = {}) {
       if (options.priceError) throw new Error('Fixture missing Price');
       return clone(state.price);
     } },
+    subscriptions: { retrieve: async id => {
+      state.subscriptionCalls.push(id);
+      if (options.subscriptionError) throw new Error('Fixture subscription unavailable');
+      return clone({ id: 'sub_fixture', customer: 'cus_fixture', status: 'active', livemode: false,
+        items: { data: [{ price: { id: 'price_fixture_basic' }, quantity: 1 }] },
+        latest_invoice: { id: 'in_fixture', customer: 'cus_fixture', status: 'paid', livemode: false },
+        ...options.subscription });
+    } },
     customers: { create: async (...args) => {
       state.customerCalls.push(clone(args));
-      return { id: `cus_fixture_new_${state.customerCalls.length}` };
+      return { id: 'cus_fixture_new_1' }; // Same per-user customer idempotency key.
     } },
   };
 
@@ -96,6 +104,8 @@ export function createHarness(options = {}) {
       select(columns) { operation.columns = columns; return this; },
       insert(payload) { operation.kind = 'insert'; operation.payload = payload; return this; },
       update(payload) { operation.kind = 'update'; operation.payload = payload; return this; },
+      is(key, value) { operation.filters.push([key, value]); return this; },
+      maybeSingle() { operation.single = true; return this; },
       eq(key, value) { operation.filters.push([key, value]); return this; },
       order(key, opts) { operation.order = [key, opts]; return this; },
       limit(n) { operation.limit = n; return this; },
@@ -104,14 +114,17 @@ export function createHarness(options = {}) {
     };
     function execute() {
       state.queries.push(clone(operation));
+      if (options.queryExecutor) return options.queryExecutor(operation);
       const matches = row => operation.filters.every(([key, value]) => row[key] === value);
       if (table === 'profiles') {
-        if (operation.kind === 'select') return { data: options.profileReadError ? null : matches(state.profile) ? clone(state.profile) : null, error: options.profileReadError ?? null };
+        if (operation.kind === 'select') return { data: options.profileReadError || options.missingProfile ? null : matches(state.profile) ? clone(state.profile) : null, error: options.profileReadError ?? null };
         state.profileWrites++;
         if (options.profileWriteThrow) throw Object.assign(new Error('Fixture profile write failure'), { code: '23514' });
         if (options.profileWriteError) return { data: null, error: options.profileWriteError };
-        if (matches(state.profile)) Object.assign(state.profile, operation.payload);
-        return { data: null, error: null };
+        if (options.zeroProfileWrite) return { data: null, error: null };
+        const matched = matches(state.profile);
+        if (matched) Object.assign(state.profile, operation.payload);
+        return { data: operation.columns && matched ? clone(state.profile) : null, error: null };
       }
       if (table === 'stripe_webhook_events') {
         if (operation.kind === 'insert') {
@@ -128,7 +141,11 @@ export function createHarness(options = {}) {
         }
         return { data: null, error: null };
       }
+      if (table === 'stripe_billing_commits') {
+        return { data: state.commits.find(matches) ?? null, error: options.commitReadError ?? null };
+      }
       if (table === 'financial_audit_log') {
+        if (options.auditReadError) return { data: null, error: options.auditReadError };
         if (operation.kind === 'insert') state.audits.push(clone(operation.payload));
         return { data: state.audits.length ? clone(state.audits.at(-1)) : null, error: null };
       }
@@ -143,6 +160,48 @@ export function createHarness(options = {}) {
   }
   const database = {
     from: query,
+    rpc: async (name, args) => {
+      if (options.rpcExecutor) return options.rpcExecutor(name, args);
+      if (name !== 'commit_stripe_billing_event') throw new Error('Unmodelled RPC');
+      state.queries.push({ rpc: name, args: clone(args) });
+      state.eventInsertAttempts++;
+      if (options.eventInsertThrow) throw Object.assign(new Error('Fixture event storage failure'), { code: '23514' });
+      if (options.eventInsertError) return { data: null, error: options.eventInsertError };
+      const { p_event: event, p_patch: patch, p_audit: audit, p_user_id: userId } = args;
+      const prior = state.commits.find(e => e.event_id === event.id);
+      if (prior) return prior.payload_hash === event.payload_hash
+        ? { data: { ...prior.result, duplicate: true, applied: false }, error: null }
+        : { data: null, error: { code: '23514' } };
+      const duplicateEffect = state.effects.includes(event.effect_key);
+      const last = state.commits.filter(e => e.subscription_id === event.subscription_id && e.result.applied)
+        .reduce((max, e) => Math.max(max, e.event_created), 0);
+      const stale = event.created < last;
+      const applied = !!userId && Object.keys(patch).length > 0 && !duplicateEffect && !stale;
+      if (applied) {
+        if (state.profile.billing_revision !== args.p_expected_revision) return { data: null, error: { code: '40001' } };
+        state.profileWrites++;
+        if (options.profileWriteThrow) throw Object.assign(new Error('Fixture profile write failure'), { code: '23514' });
+        if (options.profileWriteError) return { data: null, error: options.profileWriteError };
+        if (options.auditWriteError) return { data: null, error: options.auditWriteError };
+      }
+      if (event.quarantine_reason && options.deadLetterError) return { data: null, error: options.deadLetterError };
+      if (options.commitWriteError) return { data: null, error: options.commitWriteError };
+      // Transaction boundary: all injected failures above leave financial state untouched.
+      if (applied) {
+        Object.assign(state.profile, clone(patch)); state.profile.billing_revision++;
+        state.audits.push(clone(audit));
+        if (event.effect_key) state.effects.push(event.effect_key);
+      }
+      if (event.quarantine_reason) state.deadLetters.push({ event_id: event.id, quarantine: true });
+      const result = { committed: true, applied, duplicate_effect: duplicateEffect, out_of_order: stale, quarantined: !!event.quarantine_reason };
+      state.commits.push({ event_id: event.id, subscription_id: event.subscription_id, event_created: event.created, payload_hash: event.payload_hash, result });
+      state.events.push({ event_id: event.id, event_type: event.type });
+      if (options.loseCommitResponseOnce) {
+        options.loseCommitResponseOnce = false;
+        return { data: null, error: { code: '08006' } };
+      }
+      return { data: result, error: null };
+    },
     auth: { getUser: async token => {
       state.authTokens.push(token);
       const valid = token === 'fixture-valid-token' || token.startsWith('fixture-user-');
@@ -238,7 +297,7 @@ export function checkoutEvent(overrides = {}, eventOverrides = {}) {
 
 export function invoiceEvent() {
   return checkoutEvent({}, { id: 'evt_fixture_invoice', type: 'invoice.payment_failed',
-    data: { object: { id: 'in_fixture', customer: 'cus_fixture', amount_due: 900 } } });
+    data: { object: { id: 'in_fixture', customer: 'cus_fixture', amount_due: 900, attempt_count: 1, parent: { subscription_details: { subscription: 'sub_fixture' } } } } });
 }
 
 export const versions = {
