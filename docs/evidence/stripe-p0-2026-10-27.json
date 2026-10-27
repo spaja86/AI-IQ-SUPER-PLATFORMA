@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-27T00:23:44.891Z",
+  "generatedAt": "2026-10-27T00:33:24.578Z",
   "scope": "LOCAL_SIMULATION_ONLY",
   "mode": "strict-readiness",
   "readiness": "NO_GO",
@@ -23,7 +23,7 @@
     "package-lock.json": "455872928ca1677f9e78715121ce3e869b65ce668bb0b7c2c73b65c65006c437",
     "src/tests/billing/stripe-isolated.test.mjs": "e82d14614a75853ee5957a33d080c00b472570425f8771d583ed499a1b811be2",
     "src/tests/billing/fixtures/stripe-isolated-harness.mjs": "478440acec6c2cc137fd68d37ffa7be388c9bacdeabb2a9bf8e744efa50e7fa1",
-    "scripts/verify-stripe-isolated.mjs": "3bef17d643498b36b0f5d3307d2d93568676cc7b7ca4431b8c20c0febeecda4e",
+    "scripts/verify-stripe-isolated.mjs": "784a2bf42414515d54eb025e6af000aecd0b3c4fc54cca9e3be51c7036a265f0",
     "supabase/sql/stripe-p0-atomic.sql": "582e8fc1d1feb2afa1812d3f33c2e5992827038c861310f0e706d466b0c74a01"
   },
   "hostConfiguration": {
