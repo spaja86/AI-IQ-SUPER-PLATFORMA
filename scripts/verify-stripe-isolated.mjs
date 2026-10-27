@@ -36,7 +36,7 @@ const result = spawnSync(process.execPath, ['--test', '--test-reporter=tap', 'sr
   env: { TZ: 'UTC', NO_COLOR: '1', STRIPE_READINESS_STRICT: characterize ? '0' : '1' },
 });
 if (result.error) throw result.error;
-const output = `${result.stdout ?? ''}${result.stderr ?? ''}`.replaceAll(root, '<repo>');
+const output = `${result.stdout ?? ''}${result.stderr ?? ''}`.replaceAll(root, '<repo>').replace(/[ \t]+$/gm, '');
 const counts = Object.fromEntries(['tests', 'pass', 'fail', 'cancelled', 'skipped', 'todo'].map(key => {
   const value = output.match(new RegExp(`^# ${key} (\\d+)$`, 'm'))?.[1];
   if (value === undefined) throw new Error(`Missing test count ${key}; refusing incomplete evidence`);
