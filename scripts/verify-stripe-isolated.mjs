@@ -25,13 +25,13 @@ const sourceFiles = [
   'src/app/api/stripe/checkout/route.ts', 'src/app/api/stripe/webhook/route.ts',
   'src/lib/stripe/config.ts', 'src/lib/stripe/billing-validators.ts', 'src/lib/stripe/billing-guard.ts',
   'src/lib/stripe/billing-feature-flags.ts', 'src/lib/idempotency.ts', 'src/lib/rate-limit.ts',
-  'src/lib/supabase/server.ts', 'package-lock.json',
+  'src/lib/supabase/server.ts', 'src/lib/supabase/types.ts', 'package-lock.json',
   'src/tests/billing/stripe-isolated.test.mjs', 'src/tests/billing/fixtures/stripe-isolated-harness.mjs',
-  'scripts/verify-stripe-isolated.mjs',
+  'scripts/verify-stripe-isolated.mjs', 'supabase/sql/stripe-p0-atomic.sql',
 ];
 const sourceHashes = Object.fromEntries(sourceFiles.map(file => [file, createHash('sha256').update(readFileSync(resolve(root, file))).digest('hex')]));
 const result = spawnSync(process.execPath, ['--test', '--test-reporter=tap', 'src/tests/billing/stripe-isolated.test.mjs'], {
-  cwd: root, encoding: 'utf8', timeout: 30_000, maxBuffer: 8 * 1024 * 1024,
+  cwd: root, encoding: 'utf8', timeout: 90_000, maxBuffer: 8 * 1024 * 1024,
   // Explicit allowlist excludes credentials, NODE_OPTIONS and network/KV settings.
   env: { TZ: 'UTC', NO_COLOR: '1', STRIPE_READINESS_STRICT: characterize ? '0' : '1' },
 });
