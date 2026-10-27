@@ -7,7 +7,7 @@ import { createHarness, checkoutEvent, invoiceEvent, USER } from './fixtures/str
 const strict = process.env.STRIPE_READINESS_STRICT === '1';
 const harnesses = [];
 function setup(options) { const h = createHarness(options); harnesses.push(h); return h; }
-function gap(id, name, fn) { test(`[${id}] ${name}`, { todo: strict ? false : 'Confirmed readiness blocker; run test:stripe:readiness' }, fn); }
+function gap(id, name, fn) { test(`[${id}] ${name}`, { todo: !strict && id.startsWith('FRAUD-') ? 'Remaining fraud signal blocker' : false }, fn); }
 afterEach(() => {
   for (const h of harnesses.splice(0)) assert.deepEqual(h.state.networkAttempts, [], 'no network operation is permitted');
 });
@@ -198,7 +198,7 @@ test('same webhook event ID delivered five times concurrently has one simulated 
   assert.equal(h.state.profileWrites, 1); assert.equal(h.state.audits.length, 1);
 });
 test('invoice failure sets past_due and soft-lock on third failure', async () => {
-  const h = setup({ profile: { failed_payment_count: 2 } });
+  const h = setup({ profile: { failed_payment_count: 2, stripe_subscription_id: 'sub_fixture' }, subscription: { latest_invoice: { id: 'in_fixture', status: 'open' } } });
   assert.equal((await h.webhook(invoiceEvent())).status, 200);
   assert.equal(h.state.profile.failed_payment_count, 3);
   assert.equal(h.state.profile.subscription_status, 'past_due');
@@ -307,4 +307,129 @@ gap('WEBHOOK-10', 'paid asynchronous Checkout must activate fixture subscription
 gap('WEBHOOK-11', 'missing Stripe key must return a controlled webhook configuration response', async () => {
   const h = setup({ env: { STRIPE_SECRET_KEY: undefined } });
   const response = await h.webhook(checkoutEvent()); assert.equal(response.status, 500);
+});
+
+// P0 patch regressions. Assertions execute actual route code and fail strictly.
+for (const options of [
+  { missingProfile: true }, { profileReadError: { code: '23514' } },
+]) test('Checkout fails closed for missing/unreadable profile ' + JSON.stringify(options), async () => {
+  const h = setup(options); assert.ok((await h.checkout()).status >= 500); noCheckoutSideEffects(h);
+});
+test('zero-row customer link cannot create an unlinked Checkout', async () => {
+  const h = setup({ profile: { stripe_customer_id: null }, zeroProfileWrite: true });
+  assert.ok((await h.checkout()).status >= 500); assert.equal(h.state.sessionCalls.length, 0);
+});
+test('customer creation retries use a stable per-user idempotency key', async () => {
+  const h = setup({ profile: { stripe_customer_id: null }, profileWriteError: { code: '23514' } });
+  await h.checkout(); h.state.options.profileWriteError = null; assert.equal((await h.checkout()).status, 200);
+  assert.equal(h.state.customerCalls[0][1].idempotencyKey, h.state.customerCalls[1][1].idempotencyKey);
+});
+for (const price of [{ active: false }, { recurring: null }, { unit_amount: 1 }]) {
+  test('Checkout rejects misconfigured Price ' + JSON.stringify(price), async () => {
+    const h = setup({ price }); assert.equal((await h.checkout()).status, 409); noCheckoutSideEffects(h);
+  });
+}
+for (const session of [
+  { customer: 'cus_wrong' }, { subscription: null }, { subscription: {} },
+  { metadata: { supabase_user_id: USER, plan_id: 'starter' } },
+  { metadata: { supabase_user_id: 'unknown-user', plan_id: 'basic' } },
+]) test('paid Checkout rejects incorrect identity ' + JSON.stringify(session), async () => {
+  const h = setup(); assert.ok((await h.webhook(checkoutEvent(session))).status >= 500);
+  assert.equal(h.state.profileWrites, 0); assert.equal(h.state.commits.length, 0);
+});
+for (const subscription of [
+  { id: 'sub_wrong' }, { customer: 'cus_wrong' }, { livemode: true }, { status: 'canceled' },
+  { latest_invoice: null }, { latest_invoice: 'in_unexpanded' },
+  { latest_invoice: { id: 'in_fixture', customer: 'cus_fixture', status: 'open', livemode: false } },
+  { latest_invoice: { id: 'in_fixture', customer: 'cus_wrong', status: 'paid', livemode: false } },
+  { items: { data: [{ price: { id: 'price_fixture_pro' }, quantity: 1 }] } },
+  { items: { data: [{ price: { id: 'price_fixture_basic' }, quantity: 2 }] } },
+]) test('activation requires confirmed current subscription ' + JSON.stringify(subscription), async () => {
+  const h = setup({ subscription }); assert.ok((await h.webhook(checkoutEvent())).status >= 500);
+  assert.equal(h.state.profileWrites, 0); assert.equal(h.state.commits.length, 0);
+});
+test('expanded customer and subscription objects use their IDs', async () => {
+  const h = setup();
+  assert.equal((await h.webhook(checkoutEvent({ customer: { id: 'cus_fixture' }, subscription: { id: 'sub_fixture' } }))).status, 200);
+  assert.equal(h.state.profile.subscription_status, 'active');
+});
+test('unpaid completion then independent async paid event activates only once', async () => {
+  const h = setup();
+  assert.equal((await h.webhook(checkoutEvent({ payment_status: 'unpaid' }))).status, 200);
+  assert.equal(h.state.profileWrites, 0);
+  assert.equal((await h.webhook(checkoutEvent({}, { id: 'evt_async', type: 'checkout.session.async_payment_succeeded' }))).status, 200);
+  assert.equal(h.state.profileWrites, 1);
+});
+test('no_payment_required does not grant a paid plan implicitly', async () => {
+  const h = setup(); await h.webhook(checkoutEvent({ payment_status: 'no_payment_required' }));
+  assert.equal(h.state.profileWrites, 0);
+});
+for (const failure of ['commitReadError','eventInsertError','auditReadError','auditWriteError','commitWriteError']) {
+  test(`${failure} returns 5xx and leaves all financial state retryable`, async () => {
+    const h = setup({ [failure]: { code: '23514' } });
+    const event = checkoutEvent(); const before = JSON.stringify(h.state.profile);
+    assert.ok((await h.webhook(event)).status >= 500);
+    assert.equal(JSON.stringify(h.state.profile), before);
+    assert.equal(h.state.commits.length, 0); assert.equal(h.state.audits.length, 0);
+    h.state.options[failure] = null;
+    assert.equal((await h.webhook(event)).status, 200);
+    assert.equal(h.state.profile.subscription_status, 'active');
+  });
+}
+test('open database circuit returns 5xx without profile effects', async () => {
+  const h = setup({ eventInsertThrow: true });
+  for (let i = 0; i < 5; i++) assert.equal((await h.webhook(checkoutEvent())).status, 503);
+  h.state.options.eventInsertThrow = false;
+  assert.equal((await h.webhook(checkoutEvent())).status, 503);
+  assert.equal(h.state.profileWrites, 0);
+});
+test('lost commit response retries without repeating business effect', async () => {
+  const h = setup({ loseCommitResponseOnce: true });
+  assert.equal((await h.webhook(checkoutEvent())).status, 200);
+  assert.equal(h.state.profileWrites, 1); assert.equal(h.state.audits.length, 1);
+});
+test('quarantine storage failure returns 5xx and does not consume event', async () => {
+  const h = setup({ flags: { 'billing-webhook-quarantine': true }, deadLetterError: { code: '23514' } });
+  const event = invoiceEvent(); event.data.object.amount_due = 10000001;
+  assert.equal((await h.webhook(event)).status, 503); assert.equal(h.state.commits.length, 0);
+  h.state.options.deadLetterError = null;
+  const response = await h.webhook(event); assert.equal(response.status, 200);
+  assert.equal((await response.json()).quarantined, true); assert.equal(h.state.profileWrites, 0);
+});
+function subscriptionEvent(overrides = {}, type = 'customer.subscription.updated') {
+  return checkoutEvent({}, { id: 'evt_sub_update', type, data: { object: { id: 'sub_fixture', customer: 'cus_fixture',
+    status: 'active', items: { data: [{ price: { id: 'price_fixture_basic' }, quantity: 1 }] }, ...overrides } } });
+}
+test('subscription update cannot create first entitlement without paid Checkout binding', async () => {
+  const h = setup(); assert.equal((await h.webhook(subscriptionEvent())).status, 503); assert.equal(h.state.profileWrites, 0);
+});
+test('subscription update cannot activate an unpaid invoice', async () => {
+  const h = setup({ profile: { stripe_subscription_id: 'sub_fixture', subscription_status: 'past_due' },
+    subscription: { latest_invoice: { id: 'in_fixture', customer: 'cus_fixture', status: 'open', livemode: false } } });
+  assert.equal((await h.webhook(subscriptionEvent())).status, 503); assert.equal(h.state.profileWrites, 0);
+});
+for (const type of ['customer.subscription.updated','customer.subscription.deleted']) {
+  test(`${type} for another subscription cannot alter current entitlement`, async () => {
+    const h = setup({ profile: { stripe_subscription_id: 'sub_current', subscription_status: 'active' } });
+    assert.equal((await h.webhook(subscriptionEvent({},type))).status, 503); assert.equal(h.state.profileWrites, 0);
+  });
+}
+test('bound paid subscription update recovers past_due without resetting usage', async () => {
+  const h = setup({ profile: { stripe_subscription_id: 'sub_fixture', subscription_status: 'past_due', chat_messages_used: 17 } });
+  assert.equal((await h.webhook(subscriptionEvent())).status, 200);
+  assert.equal(h.state.profile.subscription_status, 'active'); assert.equal(h.state.profile.chat_messages_used, 17);
+});
+test('bound cancellation retains configured grace-period protection', async () => {
+  const h = setup({ profile: { stripe_subscription_id: 'sub_fixture', subscription_status: 'active', plan: 'basic', chat_messages_limit: 100 },
+    subscription: { status: 'canceled' }, flags: { 'billing-grace-period': true } });
+  assert.equal((await h.webhook(subscriptionEvent({ status: 'canceled' }, 'customer.subscription.deleted'))).status, 200);
+  assert.equal(h.state.profile.subscription_status, 'grace_period'); assert.equal(h.state.profile.chat_messages_limit, 100);
+});
+test('invoice event for a different subscription cannot soft-lock profile', async () => {
+  const h = setup({ profile: { stripe_subscription_id: 'sub_current' } });
+  assert.equal((await h.webhook(invoiceEvent())).status, 503); assert.equal(h.state.profileWrites, 0);
+});
+test('already paid invoice failure delivery cannot regress active status', async () => {
+  const h = setup({ profile: { stripe_subscription_id: 'sub_fixture', subscription_status: 'active' } });
+  assert.equal((await h.webhook(invoiceEvent())).status, 200); assert.equal(h.state.profileWrites, 0);
 });
