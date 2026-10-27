@@ -17,7 +17,7 @@ import { verifyUserFromToken } from '@/lib/supabase/server';
 import { getSupabaseServerClient } from '@/lib/supabase/server';
 import { BASE_URL } from '@/lib/constants';
 import { checkRateLimitGlobal, rateLimitKey } from '@/lib/rate-limit';
-import { stripeCheckoutCircuit } from '@/lib/stripe/billing-guard';
+import { stripeCheckoutCircuit, withRetry } from '@/lib/stripe/billing-guard';
 import {
   MAX_ACTIVE_CHECKOUT_SESSIONS,
   isPlanChangeCooldownPassed,
@@ -25,7 +25,7 @@ import {
 } from '@/lib/stripe/billing-validators';
 import { createTraceContext, traceStart, traceEnd } from '@/lib/stripe/billing-tracing';
 import { isBillingFlagEnabled } from '@/lib/stripe/billing-feature-flags';
-import { randomUUID } from 'crypto';
+import { createHash, randomUUID } from 'crypto';
 import {
   extractIdempotencyKey,
   generateIdempotencyKey,
@@ -123,14 +123,35 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Enterprise checkout je privremeno suspendovan.' }, { status: 503 });
     }
 
+    // ── Idempotency ključ (#10) ───────────────────────────────────────────────
+    // Sprečava kreiranje duplih sesija ako klijent pošalje isti zahtev dva puta.
+    const requestIdempotencyKey = extractIdempotencyKey(request.headers) ?? generateIdempotencyKey();
+    const keyValidation = validateIdempotencyKey(requestIdempotencyKey);
+    if (!keyValidation.valid) {
+      traceEnd(trace, 'error', 'invalid-idempotency-key');
+      return NextResponse.json(
+        { error: keyValidation.reason ?? 'Neispravan Idempotency-Key.', code: 'INVALID_IDEMPOTENCY_KEY' },
+        { status: 400 },
+      );
+    }
+    const scopedKey = `checkout:${user.id}:${planId}:${requestIdempotencyKey}`;
+    const operationHash = createHash('sha256').update(scopedKey).digest('hex');
+    const idempotencyKey = scopedKey.length <= 255 ? scopedKey : `checkout:${operationHash}`;
+
     const supabase = getSupabaseServerClient();
 
     // Dohvati profil za cooldown, fraud, active-session provjere
-    const { data: profile } = await supabase
+    const { data: profile, error: profileError } = await supabase
       .from('profiles')
-      .select('stripe_customer_id, last_plan_changed_at, failed_payment_count, created_at')
+      .select('stripe_customer_id, last_plan_changed_at, failed_payment_count, created_at, billing_locked')
       .eq('id', user.id)
       .single();
+
+    if (profileError || !profile) throw new Error('Billing profile unavailable');
+    if (profile.billing_locked) {
+      traceEnd(trace, 'blocked', 'billing-locked');
+      return NextResponse.json({ error: 'Billing nalog je zaključan.' }, { status: 403 });
+    }
 
     // ── Cooldown za promenu plana (#14) ──────────────────────────────────────
     if (!isPlanChangeCooldownPassed(profile?.last_plan_changed_at ?? null)) {
@@ -193,33 +214,29 @@ export async function POST(request: NextRequest) {
         { status: 409 },
       );
     }
+    if (!stripePrice.active || !stripePrice.recurring || stripePrice.unit_amount !== Math.round(plan.cenaEur * 100)) {
+      return NextResponse.json({ error: 'Stripe cena ne odgovara konfigurisanom planu.' }, { status: 409 });
+    }
     let customerId = profile?.stripe_customer_id;
 
     if (!customerId) {
       const customer = await stripe.customers.create({
         email: user.email,
         metadata: { supabase_user_id: user.id },
-      });
+      }, { idempotencyKey: `customer:${createHash('sha256').update(user.id).digest('hex')}` });
       customerId = customer.id;
 
-      await supabase
+      const linked = await withRetry(async () => supabase
         .from('profiles')
         .update({ stripe_customer_id: customerId })
-        .eq('id', user.id);
+        .eq('id', user.id).is('stripe_customer_id', null)
+        .select('stripe_customer_id').maybeSingle());
+      if (!linked.data) {
+        const current = await withRetry(async () => supabase.from('profiles')
+          .select('stripe_customer_id').eq('id', user.id).single());
+        if (current.data?.stripe_customer_id !== customerId) throw new Error('Customer link conflict');
+      }
     }
-
-    // ── Idempotency ključ (#10) ───────────────────────────────────────────────
-    // Sprečava kreiranje duplih sesija ako klijent pošalje isti zahtev dva puta.
-    const requestIdempotencyKey = extractIdempotencyKey(request.headers) ?? generateIdempotencyKey();
-    const keyValidation = validateIdempotencyKey(requestIdempotencyKey);
-    if (!keyValidation.valid) {
-      traceEnd(trace, 'error', 'invalid-idempotency-key');
-      return NextResponse.json(
-        { error: keyValidation.reason ?? 'Neispravan Idempotency-Key.', code: 'INVALID_IDEMPOTENCY_KEY' },
-        { status: 400 },
-      );
-    }
-    const idempotencyKey = `checkout:${user.id}:${planId}:${requestIdempotencyKey}`.slice(0, 255);
 
     // ── Circuit breaker za Stripe API (#9) ────────────────────────────────────
     const session = await stripeCheckoutCircuit.execute(
@@ -233,7 +250,7 @@ export async function POST(request: NextRequest) {
           metadata: {
             supabase_user_id: user.id,
             plan_id: planId,
-            request_id: trace.requestId,
+            request_id: operationHash,
           },
           automatic_tax: { enabled: true },
         },
