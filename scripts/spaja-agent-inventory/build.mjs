@@ -64,6 +64,26 @@ export function parseAgentDocs(text) {
   return { sections, rows };
 }
 
+/** Compare declarations only; neither an enabled flag nor a YAML file proves execution. */
+export function reconcileAgentStatus({ configuration, rows, missingWorkflowPaths, hasWorkflowDefinitions }) {
+  const active = rows.some(row => /\bActive\b/i.test(row.status));
+  const disabled = rows.some(row => /\bDisabled\b/i.test(row.status));
+  const issues = [];
+  if (!configuration.enabled && active) issues.push('documented-active-but-config-disabled');
+  if (configuration.enabled && disabled) issues.push('documented-disabled-but-config-enabled');
+  if (!configuration.enabled && configuration.status === 'active') issues.push('configured-active-but-config-disabled');
+  if (missingWorkflowPaths.length) {
+    if (active) issues.push('documented-active-but-workflow-missing');
+    if (configuration.status === 'active') issues.push('configured-active-but-workflow-missing');
+  }
+  if (!configuration.enabled && hasWorkflowDefinitions) issues.push('disabled-config-workflow-enforcement-unverified');
+  // Configured and Missing workflow describe catalog/implementation state, not runtime health.
+  if (configuration.enabled && rows.some(row => !/\b(?:Active|Configured|Missing workflow)\b/i.test(row.status))) {
+    issues.push('enabled-config-not-documented-active');
+  }
+  return unique(issues);
+}
+
 export function parseWorkflow(path, text) {
   const definition = load(text, { schema: JSON_SCHEMA, json: false });
   assertJson(definition);
@@ -196,9 +216,10 @@ export function buildInventory({ root, sourceRevision }) {
     if (sectionVariants.length > new Set(sectionVariants.map(s => s.language)).size
         || rowVariants.length > new Set(rowVariants.map(r => r.language)).size) discrepancies.push('duplicate-documentation-in-same-language');
     if (new Set(rowVariants.map(r => r.status)).size > 1) discrepancies.push('conflicting-documentation-statuses');
-    if (!configuration.enabled && rowVariants.some(r => r.status.includes('Active'))) discrepancies.push('documented-active-but-config-disabled');
+    discrepancies.push(...reconcileAgentStatus({ configuration, rows: rowVariants,
+      missingWorkflowPaths: deps.paths.filter(path => !byPath.has(path)),
+      hasWorkflowDefinitions: definitions.length > 0 }));
     if (!configuration.enabled && refs.length) discrepancies.push('disabled-config-has-workflow-definition-reference');
-    if (configuration.enabled && row && !row.status.includes('Active')) discrepancies.push('enabled-config-not-documented-active');
     if (id === 'human-review') discrepancies.push('human-role-is-not-an-executable-agent');
     const capabilities = unique(['human-approval-before-activation', 'audit-log', 'zero-cost-admission',
       ...definitions.flatMap(workflow => workflow.capabilities),
