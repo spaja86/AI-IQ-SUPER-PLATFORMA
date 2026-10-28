@@ -21,6 +21,7 @@ import type { PlanTip } from '@/lib/supabase/types';
  */
 export const ALLOWED_STRIPE_EVENT_TYPES = new Set([
   'checkout.session.completed',
+  'checkout.session.async_payment_succeeded',
   'customer.subscription.created',
   'customer.subscription.updated',
   'customer.subscription.deleted',

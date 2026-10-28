@@ -54,7 +54,12 @@ export async function withRetry<T>(
 
   for (let attempt = 1; attempt <= o.maxAttempts; attempt++) {
     try {
-      return await fn();
+      const result = await fn();
+      // PostgREST resolves database failures as { data, error }.
+      if (result && typeof result === 'object' && 'error' in result && result.error) {
+        throw result.error;
+      }
+      return result;
     } catch (err) {
       lastError = err;
       const code = (err as { code?: string })?.code;

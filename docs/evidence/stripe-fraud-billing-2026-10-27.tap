@@ -1,0 +1,190 @@
+
+📋 Autokuća B2B Pretplata Tests
+
+  ✅ Postoje tačno 2 autokuća klijenta
+  ✅ Kragujevac klijent ima ispravan OKRID
+  ✅ Beograd klijent ima ispravan OKRID
+  ✅ Kragujevac klijent ima ispravno pravno ime
+  ✅ Beograd klijent ima ispravno pravno ime
+  ✅ Postoje tačno 2 subscription zapisa
+  ✅ KG subscription ima ispravan broj računa
+  ✅ BG subscription ima ispravan broj računa
+  ✅ KG subscription valuta je EUR
+  ✅ BG subscription valuta je EUR
+  ✅ KG subscription endDate je null (beskonačno)
+  ✅ BG subscription endDate je null (beskonačno)
+  ✅ KG subscription autoRenew je true
+  ✅ BG subscription autoRenew je true
+  ✅ KG PDV stopa je 20%
+  ✅ BG PDV stopa je 20%
+  ✅ KG inicijalni status je incomplete-intake
+  ✅ BG inicijalni status je incomplete-intake
+  ✅ KG intake nije kompletan bez PIB/MB/iznosa
+  ✅ BG intake nije kompletan bez PIB/MB/iznosa
+  ✅ KG pretplata nije aktivna pre aktivacije
+  ✅ BG pretplata nije aktivna pre aktivacije
+  ✅ generateFullInvoice vraća null dok pretplata nije aktivna (KG)
+  ✅ generateFullInvoice vraća null dok pretplata nije aktivna (BG)
+  ✅ generateFullInvoice generiše ispravan račun posle aktivacije (KG)
+  ✅ generateFullInvoice generiše ispravan račun posle aktivacije (BG)
+  ✅ Godišnja naplata ima datum dospeća +1 godina
+  ✅ buildAuditEntry generiše ispravan audit zapis za KG
+  ✅ buildAuditEntry generiše ispravan audit zapis za BG
+  ✅ getAllAutokucaSubscriptionStatuses vraća 2 zapisa
+  ✅ Status pregled sadrži KG i BG
+  ✅ Status pregled — endDate je null za oba (perpetual)
+  ✅ Status pregled — autoRenew je true za oba
+  ✅ Status pregled — currency je EUR za oba
+  ✅ Status pregled — intakeComplete je false dok nema PIB/MB (oba)
+
+📊 Rezultat: 35 prošlo, 0 palo
+✔ src/tests/billing/autokuca-subscription.test.ts (602.49157ms)
+
+═══════════════════════════════════════════════════════════════════
+  SPAJA Billing Test Suite — #80-88
+═══════════════════════════════════════════════════════════════════
+
+▸ #81 Proration edge-case tests
+  ✓ Sve proration tranzicije validne
+▸ #82 Trial → paid → canceled lifecycle
+  ✓ Trial lifecycle tranzicije validne
+▸ #83 Refund/dispute flow tests
+  ✓ Refund/dispute flow validacije tačne
+▸ #84 Partial payment i failed retry sequence
+  ✓ Partial payment i retry sekvence validne
+▸ #85 Snapshot test billing-health strukture
+  ✓ Billing health snapshot konzistentan
+▸ #86 Stripe webhook contract testovi
+  ✓ Webhook payload contract testovi prošli
+▸ #87 Backward-compatibility testovi za stare event tipove
+  ✓ Backward-compatibility: 10 event tipova provjereno
+▸ #88 Schema drift detection
+  ✓ Schema drift detection validno
+▸ #80 Tax/VAT validacija po regionu
+  ✓ Tax/VAT validacija ispravna
+
+═══════════════════════════════════════════════════════════════════
+  Rezultat: 9 prošlo, 0 palo (od 9 testova)
+═══════════════════════════════════════════════════════════════════
+
+✔ src/tests/billing/billing-hardening.test.ts (458.247089ms)
+
+📋 Billing Orchestration Tests (#1176)
+
+  ✅ Starter plan ima chatLimit=10
+  ✅ Unlimited plan ima chatLimit=-1 (unlimited)
+  ✅ Starter nema API pristup
+  ✅ Basic ima API pristup
+  ✅ Enterprise ima SLA garanciju
+  ✅ Unlimited ima white-label opciju
+  ✅ Starter ima pristup SpajaPro engineu
+  ✅ Starter nema pristup banci
+  ✅ Pro ima pristup banci
+  ✅ Unlimited ima pristup svim endžinima
+  ✅ ENTITLEMENT_MAP ima 5 planova
+  ✅ getEntitlementSummary vraća konzistentne podatke
+  ✅ Engine matrix ima barem 5 endžina
+  ✅ Glavni endžin je u matrici
+  ✅ SpajaPro sluša subscription_activated event
+  ✅ OMEGA auth sluša account_locked event
+  ✅ processBillingEvent obrađuje subscription_activated uspešno
+  ✅ processBillingEvent obrađuje payment_failed uspešno
+  ✅ processBillingEvent obrađuje payment_succeeded kao payment-confirmed
+  ✅ processBillingEvent tretira payment_refunded kao konzervativni no-op signal
+  ✅ duplirani payment event ostaje determinističan
+  ✅ out-of-order payment sequence ne ruši orchestration rezultat
+  ✅ Stripe provajder je uvek aktivan
+  ✅ getOrchestrationStatus vraća konzistentne podatke
+  ✅ PAYPAL_API_BASE je validan URL
+  ✅ getPayPalPlanById vraća plan za basic
+  ✅ getPayPalPlanById vraća undefined za nepostojeći plan
+
+📊 Rezultat: 27 prošlo, 0 palo
+✔ src/tests/billing/billing-orchestration.test.ts (598.803028ms)
+
+📋 GIGATRON d.o.o. Pretplata Tests — 1 beskonačan račun
+
+  ✅ Pretplata je inicijalno u RSD i incomplete-intake statusu
+  ✅ Pojam beskonačnog računa je modelovan kao endDate null i autoRenew true
+  ✅ Intake nije kompletan bez pravnog osnova i identifikacije
+  ✅ Faktura ne može da se izda dok status nije odobren
+  ✅ Overview vraća governance referencu i guard status
+  ✅ Audit zapis koristi RSD i OKRID
+  ✅ Faktura se generiše tek nakon simulacije pravno odobrenog stanja
+  ✅ Mesečni obračun klampuje kraj meseca ispravno
+  ✅ Mesečni obračun podržava leap year februar
+  ✅ Godišnji obračun pomera godinu za 1
+  ✅ PDV obračun je ispravan za round2
+
+📊 Rezultat: 11 prošlo, 0 palo
+✔ src/tests/billing/gigatron-subscription.test.ts (429.649156ms)
+
+🏢 GitHub enterprise context tests
+
+✅ GitHub enterprise context tests passed
+
+✔ src/tests/billing/github-enterprise-context.test.ts (627.793685ms)
+
+📋 PEKIC d.o.o. Pretplata Tests
+
+  ✅ Pretplata je inicijalno u RSD i incomplete-intake statusu
+  ✅ Pojam beskonačnog računa je modelovan kao endDate null
+  ✅ Intake nije kompletan bez pravnog osnova i identifikacije
+  ✅ Faktura ne može da se izda dok status nije odobren
+  ✅ Overview vraća governance referencu i guard status
+  ✅ Audit zapis koristi RSD i OKRID
+  ✅ Faktura se generiše tek nakon simulacije pravno odobrenog stanja
+  ✅ Mesečni obračun klampuje kraj meseca ispravno
+  ✅ Mesečni obračun podržava leap year februar
+
+📊 Rezultat: 9 prošlo, 0 palo
+✔ src/tests/billing/pekic-subscription.test.ts (557.232435ms)
+
+🧾 Billing upgrade disclosure tests
+
+✓ disclosure consistency
+✓ payload validation
+✓ request record
+
+✅ All billing upgrade disclosure tests passed
+
+✔ src/tests/billing/upgrade-disclosure.test.ts (579.845513ms)
+
+📦 Vendor subscription segmentation tests
+
+✓ formal packages
+✓ shared governance model
+✓ billing status scenario matrix
+✓ correction scenario matrix
+✓ compliance and activation ordering
+✓ intake coverage
+✓ pricing sekvence alignment
+
+✅ Vendor subscription segmentation tests passed
+
+✔ src/tests/billing/vendor-subscriptions.test.ts (348.864477ms)
+
+🌐 Vercel DX pricing route tests
+
+✓ route response
+
+✅ Vercel DX pricing route tests passed
+
+✔ src/tests/billing/vercel-dx-platform-pricing-route.test.ts (360.858724ms)
+
+📊 Vercel DX Platform pricing tests
+
+✓ source-of-truth completeness
+✓ pricing sekvence alignment
+
+✅ Vercel DX Platform pricing tests passed
+
+✔ src/tests/billing/vercel-dx-platform-pricing.test.ts (279.836945ms)
+ℹ tests 10
+ℹ suites 0
+ℹ pass 10
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 862.61844

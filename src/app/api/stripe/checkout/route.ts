@@ -16,16 +16,15 @@ import { getStripe, getPlanById } from '@/lib/stripe/config';
 import { verifyUserFromToken } from '@/lib/supabase/server';
 import { getSupabaseServerClient } from '@/lib/supabase/server';
 import { BASE_URL } from '@/lib/constants';
-import { checkRateLimitGlobal, rateLimitKey } from '@/lib/rate-limit';
-import { stripeCheckoutCircuit } from '@/lib/stripe/billing-guard';
+import { stripeCheckoutCircuit, withRetry } from '@/lib/stripe/billing-guard';
 import {
   MAX_ACTIVE_CHECKOUT_SESSIONS,
   isPlanChangeCooldownPassed,
-  assessFraudRisk,
 } from '@/lib/stripe/billing-validators';
 import { createTraceContext, traceStart, traceEnd } from '@/lib/stripe/billing-tracing';
 import { isBillingFlagEnabled } from '@/lib/stripe/billing-feature-flags';
-import { randomUUID } from 'crypto';
+import { createHash, randomUUID } from 'crypto';
+import { CheckoutAdmissionError, readCheckoutBody, verifyCheckoutSource, recordCheckoutAdmission } from '@/lib/stripe/checkout-fraud';
 import {
   extractIdempotencyKey,
   generateIdempotencyKey,
@@ -34,6 +33,7 @@ import {
 
 export async function POST(request: NextRequest) {
   const trace = createTraceContext(request, '/api/stripe/checkout');
+  trace.requestId = `billing-${randomUUID()}`; // Never log client-supplied trace/header values.
   traceStart(trace);
 
   try {
@@ -45,36 +45,23 @@ export async function POST(request: NextRequest) {
 
     trace.userId = user.id;
 
-    // ── Dual rate limiting: po korisniku + po IP (#13) ───────────────────────
-    const userRlKey = rateLimitKey(user.id, '/api/stripe/checkout');
-    const userAllowed = await checkRateLimitGlobal(userRlKey, 5, 3600);
-    if (!userAllowed) {
-      traceEnd(trace, 'blocked', 'rate-limit-user');
-      return NextResponse.json(
-        { error: 'Previše zahteva za checkout. Pokušajte opet za sat vremena.' },
-        { status: 429 },
-      );
+    let rawBody: string;
+    try { rawBody = await readCheckoutBody(request); }
+    catch (error) {
+      return NextResponse.json({ error: 'Neispravan ili prevelik payload.' }, { status: error instanceof RangeError ? 413 : 400 });
     }
-
-    const clientIp =
-      request.headers.get('x-forwarded-for')?.split(',')[0]?.trim() ??
-      request.headers.get('x-real-ip') ??
-      'unknown';
-    if (clientIp !== 'unknown') {
-      const ipRlKey = rateLimitKey(clientIp, '/api/stripe/checkout-ip');
-      const ipAllowed = await checkRateLimitGlobal(ipRlKey, 20, 3600);
-      if (!ipAllowed) {
-        traceEnd(trace, 'blocked', 'rate-limit-ip');
-        return NextResponse.json(
-          { error: 'Previše zahteva sa ove IP adrese. Pokušajte opet za sat vremena.' },
-          { status: 429 },
-        );
-      }
+    const source = verifyCheckoutSource(request, rawBody);
+    const supabase = getSupabaseServerClient();
+    const admission = await recordCheckoutAdmission(supabase, user.id, source);
+    if (admission.decision !== 'allow') {
+      traceEnd(trace, 'blocked', admission.decision);
+      const status = ['fraud', 'billing_locked'].includes(admission.decision) ? 403 : 429;
+      return NextResponse.json({ error: 'Checkout zahtev trenutno nije dozvoljen.' }, { status });
     }
 
     let body: unknown;
     try {
-      body = await request.json();
+      body = JSON.parse(rawBody);
     } catch {
       traceEnd(trace, 'error', 'invalid-json');
       return NextResponse.json({ error: 'Neispravan JSON payload.', code: 'INVALID_JSON' }, { status: 400 });
@@ -123,14 +110,33 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Enterprise checkout je privremeno suspendovan.' }, { status: 503 });
     }
 
-    const supabase = getSupabaseServerClient();
+    // ── Idempotency ključ (#10) ───────────────────────────────────────────────
+    // Sprečava kreiranje duplih sesija ako klijent pošalje isti zahtev dva puta.
+    const requestIdempotencyKey = extractIdempotencyKey(request.headers) ?? generateIdempotencyKey();
+    const keyValidation = validateIdempotencyKey(requestIdempotencyKey);
+    if (!keyValidation.valid) {
+      traceEnd(trace, 'error', 'invalid-idempotency-key');
+      return NextResponse.json(
+        { error: keyValidation.reason ?? 'Neispravan Idempotency-Key.', code: 'INVALID_IDEMPOTENCY_KEY' },
+        { status: 400 },
+      );
+    }
+    const scopedKey = `checkout:${user.id}:${planId}:${requestIdempotencyKey}`;
+    const operationHash = createHash('sha256').update(scopedKey).digest('hex');
+    const idempotencyKey = scopedKey.length <= 255 ? scopedKey : `checkout:${operationHash}`;
 
     // Dohvati profil za cooldown, fraud, active-session provjere
-    const { data: profile } = await supabase
+    const { data: profile, error: profileError } = await supabase
       .from('profiles')
-      .select('stripe_customer_id, last_plan_changed_at, failed_payment_count, created_at')
+      .select('stripe_customer_id, last_plan_changed_at, failed_payment_count, created_at, billing_locked')
       .eq('id', user.id)
       .single();
+
+    if (profileError || !profile) throw new Error('Billing profile unavailable');
+    if (profile.billing_locked) {
+      traceEnd(trace, 'blocked', 'billing-locked');
+      return NextResponse.json({ error: 'Billing nalog je zaključan.' }, { status: 403 });
+    }
 
     // ── Cooldown za promenu plana (#14) ──────────────────────────────────────
     if (!isPlanChangeCooldownPassed(profile?.last_plan_changed_at ?? null)) {
@@ -138,30 +144,6 @@ export async function POST(request: NextRequest) {
       return NextResponse.json(
         { error: 'Suviše česte promene plana. Sačekajte 5 minuta pre sledeće promene.' },
         { status: 429 },
-      );
-    }
-
-    // ── Anti-fraud heuristike (#12) ──────────────────────────────────────────
-    const checkoutAttemptsLastHour = await (async () => {
-      // Koristimo isti rate-limit store — count je inkrementiran gore
-      // Ovde procenujemo iz stored count-a (gruba heuristika)
-      return 1; // Minimalna vrednost; u produkciji: čitati iz KV store-a
-    })();
-
-    const fraud = assessFraudRisk({
-      checkoutAttemptsLastHour,
-      failedPaymentsLast30Days: profile?.failed_payment_count ?? 0,
-      distinctIpsLast24h: 1,
-      isNewAccount: profile?.created_at
-        ? Date.now() - Date.parse(profile.created_at) < 7 * 24 * 60 * 60 * 1000
-        : false,
-    });
-
-    if (fraud.blocked) {
-      traceEnd(trace, 'blocked', `fraud-score:${fraud.score}`);
-      return NextResponse.json(
-        { error: 'Zahtev odbijen zbog sumnjive aktivnosti.' },
-        { status: 403 },
       );
     }
 
@@ -193,33 +175,29 @@ export async function POST(request: NextRequest) {
         { status: 409 },
       );
     }
+    if (!stripePrice.active || !stripePrice.recurring || stripePrice.unit_amount !== Math.round(plan.cenaEur * 100)) {
+      return NextResponse.json({ error: 'Stripe cena ne odgovara konfigurisanom planu.' }, { status: 409 });
+    }
     let customerId = profile?.stripe_customer_id;
 
     if (!customerId) {
       const customer = await stripe.customers.create({
         email: user.email,
         metadata: { supabase_user_id: user.id },
-      });
+      }, { idempotencyKey: `customer:${createHash('sha256').update(user.id).digest('hex')}` });
       customerId = customer.id;
 
-      await supabase
+      const linked = await withRetry(async () => supabase
         .from('profiles')
         .update({ stripe_customer_id: customerId })
-        .eq('id', user.id);
+        .eq('id', user.id).is('stripe_customer_id', null)
+        .select('stripe_customer_id').maybeSingle());
+      if (!linked.data) {
+        const current = await withRetry(async () => supabase.from('profiles')
+          .select('stripe_customer_id').eq('id', user.id).single());
+        if (current.data?.stripe_customer_id !== customerId) throw new Error('Customer link conflict');
+      }
     }
-
-    // ── Idempotency ključ (#10) ───────────────────────────────────────────────
-    // Sprečava kreiranje duplih sesija ako klijent pošalje isti zahtev dva puta.
-    const requestIdempotencyKey = extractIdempotencyKey(request.headers) ?? generateIdempotencyKey();
-    const keyValidation = validateIdempotencyKey(requestIdempotencyKey);
-    if (!keyValidation.valid) {
-      traceEnd(trace, 'error', 'invalid-idempotency-key');
-      return NextResponse.json(
-        { error: keyValidation.reason ?? 'Neispravan Idempotency-Key.', code: 'INVALID_IDEMPOTENCY_KEY' },
-        { status: 400 },
-      );
-    }
-    const idempotencyKey = `checkout:${user.id}:${planId}:${requestIdempotencyKey}`.slice(0, 255);
 
     // ── Circuit breaker za Stripe API (#9) ────────────────────────────────────
     const session = await stripeCheckoutCircuit.execute(
@@ -233,7 +211,7 @@ export async function POST(request: NextRequest) {
           metadata: {
             supabase_user_id: user.id,
             plan_id: planId,
-            request_id: trace.requestId,
+            request_id: operationHash,
           },
           automatic_tax: { enabled: true },
         },
@@ -253,11 +231,10 @@ export async function POST(request: NextRequest) {
     traceEnd(trace, 'ok');
     return NextResponse.json({ url: session.url });
   } catch (error) {
-    console.error('Stripe checkout error:', error);
-    traceEnd(trace, 'error', error instanceof Error ? error.message : 'unknown');
+    traceEnd(trace, 'error', error instanceof CheckoutAdmissionError ? 'admission-unavailable' : 'checkout-dependency-failure');
     return NextResponse.json(
       { error: 'Greska pri kreiranju checkout sesije.' },
-      { status: 500 },
+      { status: error instanceof CheckoutAdmissionError ? 503 : 500 },
     );
   }
 }

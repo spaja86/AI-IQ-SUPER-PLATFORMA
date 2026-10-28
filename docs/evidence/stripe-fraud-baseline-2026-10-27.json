@@ -1,0 +1,65 @@
+{
+  "generatedAt": "2026-10-27T20:54:55.997Z",
+  "scope": "LOCAL_SIMULATION_ONLY",
+  "mode": "strict-readiness",
+  "readiness": "NO_GO",
+  "sourceRevision": "8404697fb713d2515cab35961d42c136ae6174c6",
+  "versions": {
+    "node": "v24.22.1",
+    "typescript": "5.9.3",
+    "stripe": "22.1.0"
+  },
+  "sourceHashes": {
+    "src/app/api/stripe/checkout/route.ts": "930ec39804518fa2192329e0bc49a5523f8e1cf05d781dea75cb0d17f1b52c51",
+    "src/app/api/stripe/webhook/route.ts": "ca56baa70d4c65fa0b37c78d5bb4ae821cf078b4c1f04f813dd9919b02f72263",
+    "src/lib/stripe/config.ts": "10ce02344bc0e77eff726c956fce426ad52058dbc1bfce89a78130b7aaff0e3e",
+    "src/lib/stripe/billing-validators.ts": "a360226e7b5b115c36bae5e6b23ea7250de488d2203b6c928a7c1f14ac51dd0a",
+    "src/lib/stripe/billing-guard.ts": "74077d87dbf543a6e21955104ba642c670263f99d6a4da7dad862e53e71f7f6d",
+    "src/lib/stripe/billing-feature-flags.ts": "ad4d0c99a056ccff21b82d9c4663291593a39ad25a784e9b9d10dc23add48b5d",
+    "src/lib/idempotency.ts": "8b5a26ed96ec6e5272071c6159912a0fd01a5c99d48e075b8048321a4ebe5000",
+    "src/lib/rate-limit.ts": "c5a2075b1c30498be3f56bffe14898bd69be62b5ce9d874747d1e1f78abe217b",
+    "src/lib/supabase/server.ts": "342e8caa1825be2d175d069a49e749063a083f6141e0f997233d1c220e30ee07",
+    "src/lib/supabase/types.ts": "8e2e2500168cc6a0141a5fe14dd5f068fb4b1bf02e39ad5b179234424a9cb671",
+    "package-lock.json": "455872928ca1677f9e78715121ce3e869b65ce668bb0b7c2c73b65c65006c437",
+    "src/tests/billing/stripe-isolated.test.mjs": "e82d14614a75853ee5957a33d080c00b472570425f8771d583ed499a1b811be2",
+    "src/tests/billing/fixtures/stripe-isolated-harness.mjs": "478440acec6c2cc137fd68d37ffa7be388c9bacdeabb2a9bf8e744efa50e7fa1",
+    "scripts/verify-stripe-isolated.mjs": "784a2bf42414515d54eb025e6af000aecd0b3c4fc54cca9e3be51c7036a265f0",
+    "supabase/sql/stripe-p0-atomic.sql": "582e8fc1d1feb2afa1812d3f33c2e5992827038c861310f0e706d466b0c74a01"
+  },
+  "hostConfiguration": {
+    "STRIPE_SECRET_KEY": "absent",
+    "STRIPE_WEBHOOK_SECRET": "absent",
+    "STRIPE_PRICE_BASIC": "absent",
+    "STRIPE_PRICE_PRO": "absent",
+    "STRIPE_PRICE_ENTERPRISE": "absent",
+    "STRIPE_PRICE_UNLIMITED": "absent",
+    "NEXT_PUBLIC_SUPABASE_URL": "absent",
+    "SUPABASE_SERVICE_ROLE_KEY": "absent",
+    "NEXT_PUBLIC_SUPABASE_ANON_KEY": "absent",
+    "NEXT_PUBLIC_SITE_URL": "absent",
+    "VERCEL_KV_REST_API_URL": "absent",
+    "VERCEL_KV_REST_API_TOKEN": "absent"
+  },
+  "stripeSandboxApiOperations": 0,
+  "livePaymentOperations": 0,
+  "limitations": [
+    "Stripe HTTP, Supabase database and identity provider responses are doubles.",
+    "Actual route/helper code and Stripe SDK signature verification execute locally.",
+    "No remote JWT validation, PostgreSQL transactions/RLS, distributed store, browser or deployment verified.",
+    "Present host configuration is not proof of valid credentials or account mapping."
+  ],
+  "counts": {
+    "tests": 106,
+    "pass": 103,
+    "fail": 3,
+    "cancelled": 0,
+    "skipped": 0,
+    "todo": 0
+  },
+  "exitCode": 1,
+  "failedExpectations": [
+    "[FRAUD-01] route must use measured Checkout attempt count",
+    "[FRAUD-02] route must use measured distinct IP count",
+    "[FRAUD-03] new account with five failures and five IP attempts must be blocked"
+  ]
+}

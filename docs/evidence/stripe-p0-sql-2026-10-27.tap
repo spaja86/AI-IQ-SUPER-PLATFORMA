@@ -1,0 +1,94 @@
+TAP version 13
+# Subtest: transaction commits profile, audit, effect and completion together
+ok 1 - transaction commits profile, audit, effect and completion together
+  ---
+  duration_ms: 20873.665085
+  type: 'test'
+  ...
+# Subtest: completed event replay is a no-op; changed payload is rejected
+ok 2 - completed event replay is a no-op; changed payload is rejected
+  ---
+  duration_ms: 53.818507
+  type: 'test'
+  ...
+# Subtest: different event for same business effect preserves usage
+ok 3 - different event for same business effect preserves usage
+  ---
+  duration_ms: 52.315758
+  type: 'test'
+  ...
+# Subtest: audit failure rolls back profile and event; redelivery succeeds after recovery
+ok 4 - audit failure rolls back profile and event; redelivery succeeds after recovery
+  ---
+  duration_ms: 53.431685
+  type: 'test'
+  ...
+# Subtest: final event receipt failure rolls back all financial effects
+ok 5 - final event receipt failure rolls back all financial effects
+  ---
+  duration_ms: 56.567725
+  type: 'test'
+  ...
+# Subtest: stale revision and stale audit head reject without a partial write
+ok 6 - stale revision and stale audit head reject without a partial write
+  ---
+  duration_ms: 106.554946
+  type: 'test'
+  ...
+# Subtest: customer and subscription mismatches cannot mutate a profile
+ok 7 - customer and subscription mismatches cannot mutate a profile
+  ---
+  duration_ms: 33.477805
+  type: 'test'
+  ...
+# Subtest: older source event cannot regress the same subscription
+ok 8 - older source event cannot regress the same subscription
+  ---
+  duration_ms: 39.51688
+  type: 'test'
+  ...
+# Subtest: quarantine receipt is atomic with durable dead-letter storage
+ok 9 - quarantine receipt is atomic with durable dead-letter storage
+  ---
+  duration_ms: 60.881064
+  type: 'test'
+  ...
+# Subtest: unproven legacy event receipts require reconciliation
+ok 10 - unproven legacy event receipts require reconciliation
+  ---
+  duration_ms: 27.234367
+  type: 'test'
+  ...
+# Subtest: anon and authenticated cannot execute billing transaction or forge ledger
+ok 11 - anon and authenticated cannot execute billing transaction or forge ledger
+  ---
+  duration_ms: 23.922897
+  type: 'test'
+  ...
+# Subtest: authenticated user cannot grant plan directly; permitted name edit remains
+ok 12 - authenticated user cannot grant plan directly; permitted name edit remains
+  ---
+  duration_ms: 6.550792
+  type: 'test'
+  ...
+# Subtest: missing profile and unsupported update fields fail atomically
+ok 13 - missing profile and unsupported update fields fail atomically
+  ---
+  duration_ms: 26.074513
+  type: 'test'
+  ...
+# Subtest: ordering is scoped to subscription, independent of other customers
+ok 14 - ordering is scoped to subscription, independent of other customers
+  ---
+  duration_ms: 16.661472
+  type: 'test'
+  ...
+1..14
+# tests 14
+# suites 0
+# pass 14
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 24177.178257

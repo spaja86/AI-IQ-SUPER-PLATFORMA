@@ -1,0 +1,702 @@
+TAP version 13
+# Subtest: isolation refuses any non-fixture API key, including live and real test keys
+ok 1 - isolation refuses any non-fixture API key, including live and real test keys
+  ---
+  duration_ms: 5.78182
+  type: 'test'
+TAP version 13
+# Subtest: isolation refuses any non-fixture API key, including live and real test keys
+ok 1 - isolation refuses any non-fixture API key, including live and real test keys
+  ---
+  duration_ms: 5.78182
+  type: 'test'
+  ...
+# Subtest: Stripe config fails when API key is absent
+ok 2 - Stripe config fails when API key is absent
+  ---
+  duration_ms: 284.691254
+  type: 'test'
+  ...
+# Subtest: Supabase config fails when URL or service role is absent
+ok 3 - Supabase config fails when URL or service role is absent
+  ---
+  duration_ms: 7.47407
+  type: 'test'
+  ...
+# Subtest: missing Price configuration returns 500 before Stripe effects
+ok 4 - missing Price configuration returns 500 before Stripe effects
+  ---
+  duration_ms: 11.832472
+  type: 'test'
+  ...
+# Subtest: missing Stripe key returns controlled Checkout failure
+ok 5 - missing Stripe key returns controlled Checkout failure
+  ---
+  duration_ms: 5.507889
+  type: 'test'
+  ...
+# Subtest: real auth adapter rejects missing credentials when providers do not verify
+ok 6 - real auth adapter rejects missing credentials when providers do not verify
+  ---
+  duration_ms: 9.122505
+  type: 'test'
+  ...
+# Subtest: real auth adapter rejects Basic abc when providers do not verify
+ok 7 - real auth adapter rejects Basic abc when providers do not verify
+  ---
+  duration_ms: 2.73758
+  type: 'test'
+  ...
+# Subtest: real auth adapter rejects Bearer when providers do not verify
+ok 8 - real auth adapter rejects Bearer when providers do not verify
+  ---
+  duration_ms: 2.271059
+  type: 'test'
+  ...
+# Subtest: real auth adapter rejects Bearer invalid-fixture-token when providers do not verify
+ok 9 - real auth adapter rejects Bearer invalid-fixture-token when providers do not verify
+  ---
+  duration_ms: 2.639132
+  type: 'test'
+  ...
+# Subtest: auth adapter passes token to Supabase boundary and does not trust client user ID
+ok 10 - auth adapter passes token to Supabase boundary and does not trust client user ID
+  ---
+  duration_ms: 4.53019
+  type: 'test'
+  ...
+# Subtest: Checkout rejects malformed JSON
+ok 11 - Checkout rejects malformed JSON
+  ---
+  duration_ms: 4.271312
+  type: 'test'
+  ...
+# Subtest: Checkout rejects null body
+ok 12 - Checkout rejects null body
+  ---
+  duration_ms: 4.973006
+  type: 'test'
+  ...
+# Subtest: Checkout rejects array body
+ok 13 - Checkout rejects array body
+  ---
+  duration_ms: 2.699873
+  type: 'test'
+  ...
+# Subtest: Checkout rejects missing plan
+ok 14 - Checkout rejects missing plan
+  ---
+  duration_ms: 2.448105
+  type: 'test'
+  ...
+# Subtest: Checkout rejects non-string plan
+ok 15 - Checkout rejects non-string plan
+  ---
+  duration_ms: 2.020613
+  type: 'test'
+  ...
+# Subtest: Checkout rejects unknown plan
+ok 16 - Checkout rejects unknown plan
+  ---
+  duration_ms: 2.309997
+  type: 'test'
+  ...
+# Subtest: Checkout rejects free plan
+ok 17 - Checkout rejects free plan
+  ---
+  duration_ms: 2.317098
+  type: 'test'
+  ...
+# Subtest: billing-read-only-mode blocks the applicable Checkout
+ok 18 - billing-read-only-mode blocks the applicable Checkout
+  ---
+  duration_ms: 2.313413
+  type: 'test'
+  ...
+# Subtest: billing-kill-switch-checkout blocks the applicable Checkout
+ok 19 - billing-kill-switch-checkout blocks the applicable Checkout
+  ---
+  duration_ms: 2.127303
+  type: 'test'
+  ...
+# Subtest: billing-kill-switch-enterprise blocks the applicable Checkout
+ok 20 - billing-kill-switch-enterprise blocks the applicable Checkout
+  ---
+  duration_ms: 2.170728
+  type: 'test'
+  ...
+# Subtest: sixth Checkout request is rate limited per user in one process
+ok 21 - sixth Checkout request is rate limited per user in one process
+  ---
+  duration_ms: 5.048168
+  type: 'test'
+  ...
+# Subtest: twenty-first request from same claimed IP is blocked across fixture users
+ok 22 - twenty-first request from same claimed IP is blocked across fixture users
+  ---
+  duration_ms: 9.886161
+  type: 'test'
+  ...
+# Subtest: recent plan change enforces five-minute cooldown
+ok 23 - recent plan change enforces five-minute cooldown
+  ---
+  duration_ms: 3.466885
+  type: 'test'
+  ...
+# Subtest: three open sessions blocks Checkout for existing customer
+ok 24 - three open sessions blocks Checkout for existing customer
+  ---
+  duration_ms: 3.349989
+  type: 'test'
+  ...
+# Subtest: non-EUR Price rejects Checkout
+ok 25 - non-EUR Price rejects Checkout
+  ---
+  duration_ms: 2.843168
+  type: 'test'
+  ...
+# Subtest: unknown Stripe Price API failure does not create a Checkout session
+ok 26 - unknown Stripe Price API failure does not create a Checkout session
+  ---
+  duration_ms: 2.675195
+  type: 'test'
+  ...
+# Subtest: malformed idempotency key returns 400
+ok 27 - malformed idempotency key returns 400
+  ---
+  duration_ms: 2.316407
+  type: 'test'
+  ...
+# Subtest: Checkout success sends server-owned subscription parameters without granting access
+ok 28 - Checkout success sends server-owned subscription parameters without granting access
+  ---
+  duration_ms: 2.609017
+  type: 'test'
+  ...
+# Subtest: new fixture customer is linked to profile before session creation
+ok 29 - new fixture customer is linked to profile before session creation
+  ---
+  duration_ms: 2.633593
+  type: 'test'
+  ...
+# Subtest: same idempotency key AND stable trace reuse simulated session
+ok 30 - same idempotency key AND stable trace reuse simulated session
+  ---
+  duration_ms: 3.460485
+  type: 'test'
+  ...
+# Subtest: Checkout API exceptions open real circuit and next request receives 503
+ok 31 - Checkout API exceptions open real circuit and next request receives 503
+  ---
+  duration_ms: 4.623732
+  type: 'test'
+  ...
+# Subtest: Checkout response without URL fails with 503 and no activation
+ok 32 - Checkout response without URL fails with 503 and no activation
+  ---
+  duration_ms: 7.478787
+  type: 'test'
+  ...
+# Subtest: real fraud assessor blocks genuinely high signals when supplied
+ok 33 - real fraud assessor blocks genuinely high signals when supplied
+  ---
+  duration_ms: 2.343147
+  type: 'test'
+  ...
+# Subtest: missing webhook signature fails before DB access
+ok 34 - missing webhook signature fails before DB access
+  ---
+  duration_ms: 3.818062
+  type: 'test'
+  ...
+# Subtest: missing webhook secret fails before DB access
+ok 35 - missing webhook secret fails before DB access
+  ---
+  duration_ms: 2.628315
+  type: 'test'
+  ...
+# Subtest: real Stripe SDK rejects wrong signing secret
+ok 36 - real Stripe SDK rejects wrong signing secret
+  ---
+  duration_ms: 3.420465
+  type: 'test'
+  ...
+# Subtest: real Stripe SDK rejects modified raw body
+ok 37 - real Stripe SDK rejects modified raw body
+  ---
+  duration_ms: 2.305101
+  type: 'test'
+  ...
+# Subtest: real Stripe SDK rejects stale signature
+ok 38 - real Stripe SDK rejects stale signature
+  ---
+  duration_ms: 2.117469
+  type: 'test'
+  ...
+# Subtest: invalid tolerance configuration falls back to 300 seconds
+ok 39 - invalid tolerance configuration falls back to 300 seconds
+  ---
+  duration_ms: 2.932532
+  type: 'test'
+  ...
+# Subtest: correct signature plus invalid Checkout schema is rejected
+ok 40 - correct signature plus invalid Checkout schema is rejected
+  ---
+  duration_ms: 3.309478
+  type: 'test'
+  ...
+# Subtest: non-allowlisted event is acknowledged without billing writes
+ok 41 - non-allowlisted event is acknowledged without billing writes
+  ---
+  duration_ms: 2.901796
+  type: 'test'
+  ...
+# Subtest: signed paid Checkout event activates fixture subscription and records audit
+ok 42 - signed paid Checkout event activates fixture subscription and records audit
+  ---
+  duration_ms: 4.006384
+  type: 'test'
+  ...
+# Subtest: same webhook event ID delivered five times concurrently has one simulated profile write
+ok 43 - same webhook event ID delivered five times concurrently has one simulated profile write
+  ---
+  duration_ms: 5.437963
+  type: 'test'
+  ...
+# Subtest: invoice failure sets past_due and soft-lock on third failure
+ok 44 - invoice failure sets past_due and soft-lock on third failure
+  ---
+  duration_ms: 3.370779
+  type: 'test'
+  ...
+# Subtest: real retry helper retries thrown transient DB errors
+ok 45 - real retry helper retries thrown transient DB errors
+  ---
+  duration_ms: 23.97372
+  type: 'test'
+  ...
+# Subtest: [FRAUD-01] route must use measured Checkout attempt count
+not ok 46 - [FRAUD-01] route must use measured Checkout attempt count
+  ---
+  duration_ms: 6.674159
+  type: 'test'
+  location: '<repo>/src/tests/billing/stripe-isolated.test.mjs:10:30'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+
+    1 !== 5
+
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: 5
+  actual: 1
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (file://<repo>/src/tests/billing/stripe-isolated.test.mjs:219:10)
+    async Test.run (node:internal/test_runner/test:1409:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:974:7)
+  ...
+# Subtest: [FRAUD-02] route must use measured distinct IP count
+not ok 47 - [FRAUD-02] route must use measured distinct IP count
+  ---
+  duration_ms: 12.925914
+  type: 'test'
+  location: '<repo>/src/tests/billing/stripe-isolated.test.mjs:10:30'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+
+    1 !== 5
+
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: 5
+  actual: 1
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (file://<repo>/src/tests/billing/stripe-isolated.test.mjs:224:10)
+    async Test.run (node:internal/test_runner/test:1409:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:974:7)
+  ...
+# Subtest: [FRAUD-03] new account with five failures and five IP attempts must be blocked
+not ok 48 - [FRAUD-03] new account with five failures and five IP attempts must be blocked
+  ---
+  duration_ms: 5.157172
+  type: 'test'
+  location: '<repo>/src/tests/billing/stripe-isolated.test.mjs:10:30'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+
+    200 !== 403
+
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: 403
+  actual: 200
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (file://<repo>/src/tests/billing/stripe-isolated.test.mjs:230:10)
+    async Test.run (node:internal/test_runner/test:1409:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:974:7)
+  ...
+# Subtest: [CHECKOUT-01] same idempotency key with independently generated request IDs must retry successfully
+ok 49 - [CHECKOUT-01] same idempotency key with independently generated request IDs must retry successfully
+  ---
+  duration_ms: 3.300205
+  type: 'test'
+  ...
+# Subtest: [CHECKOUT-02] distinct 255-character keys must not collide after namespacing
+ok 50 - [CHECKOUT-02] distinct 255-character keys must not collide after namespacing
+  ---
+  duration_ms: 3.108677
+  type: 'test'
+  ...
+# Subtest: [CHECKOUT-03] invalid key must be rejected before new customer/profile mutations
+ok 51 - [CHECKOUT-03] invalid key must be rejected before new customer/profile mutations
+  ---
+  duration_ms: 2.53767
+  type: 'test'
+  ...
+# Subtest: [CHECKOUT-04] profile read error must stop Checkout before Stripe effects
+ok 52 - [CHECKOUT-04] profile read error must stop Checkout before Stripe effects
+  ---
+  duration_ms: 2.263537
+  type: 'test'
+  ...
+# Subtest: [CHECKOUT-05] failed customer link must prevent creation of unlinked session
+ok 53 - [CHECKOUT-05] failed customer link must prevent creation of unlinked session
+  ---
+  duration_ms: 631.117807
+  type: 'test'
+  ...
+# Subtest: [CHECKOUT-06] billing-locked profile must not create a new session
+ok 54 - [CHECKOUT-06] billing-locked profile must not create a new session
+  ---
+  duration_ms: 4.624532
+  type: 'test'
+  ...
+# Subtest: [WEBHOOK-01] unpaid completed Checkout must not activate subscription
+ok 55 - [WEBHOOK-01] unpaid completed Checkout must not activate subscription
+  ---
+  duration_ms: 3.948868
+  type: 'test'
+  ...
+# Subtest: [WEBHOOK-02] non-subscription Checkout must not activate subscription
+ok 56 - [WEBHOOK-02] non-subscription Checkout must not activate subscription
+  ---
+  duration_ms: 2.537119
+  type: 'test'
+  ...
+# Subtest: [WEBHOOK-03] unknown metadata plan must not grant access
+ok 57 - [WEBHOOK-03] unknown metadata plan must not grant access
+  ---
+  duration_ms: 2.25813
+  type: 'test'
+  ...
+# Subtest: [WEBHOOK-04] failed deduplication insert must stop billing mutations
+ok 58 - [WEBHOOK-04] failed deduplication insert must stop billing mutations
+  ---
+  duration_ms: 656.915106
+  type: 'test'
+  ...
+# Subtest: [WEBHOOK-05] resolved Supabase write error must retry and preserve webhook delivery
+ok 59 - [WEBHOOK-05] resolved Supabase write error must retry and preserve webhook delivery
+  ---
+  duration_ms: 639.268267
+  type: 'test'
+  ...
+# Subtest: [WEBHOOK-06] failed write must not consume event ID and discard its redelivery
+ok 60 - [WEBHOOK-06] failed write must not consume event ID and discard its redelivery
+  ---
+  duration_ms: 626.003151
+  type: 'test'
+  ...
+# Subtest: [WEBHOOK-07] handler and dead-letter failure must return retryable HTTP status
+ok 61 - [WEBHOOK-07] handler and dead-letter failure must return retryable HTTP status
+  ---
+  duration_ms: 6.089853
+  type: 'test'
+  ...
+# Subtest: [WEBHOOK-08] first valid delayed event must not be discarded by its own insertion timestamp
+ok 62 - [WEBHOOK-08] first valid delayed event must not be discarded by its own insertion timestamp
+  ---
+  duration_ms: 5.276692
+  type: 'test'
+  ...
+# Subtest: [WEBHOOK-09] different event IDs for same Checkout must not reset usage twice
+ok 63 - [WEBHOOK-09] different event IDs for same Checkout must not reset usage twice
+  ---
+  duration_ms: 5.643833
+  type: 'test'
+  ...
+# Subtest: [WEBHOOK-10] paid asynchronous Checkout must activate fixture subscription
+ok 64 - [WEBHOOK-10] paid asynchronous Checkout must activate fixture subscription
+  ---
+  duration_ms: 4.103991
+  type: 'test'
+  ...
+# Subtest: [WEBHOOK-11] missing Stripe key must return a controlled webhook configuration response
+ok 65 - [WEBHOOK-11] missing Stripe key must return a controlled webhook configuration response
+  ---
+  duration_ms: 1.664348
+  type: 'test'
+  ...
+# Subtest: Checkout fails closed for missing/unreadable profile {"missingProfile":true}
+ok 66 - Checkout fails closed for missing/unreadable profile {"missingProfile":true}
+  ---
+  duration_ms: 3.713635
+  type: 'test'
+  ...
+# Subtest: Checkout fails closed for missing/unreadable profile {"profileReadError":{"code":"23514"}}
+ok 67 - Checkout fails closed for missing/unreadable profile {"profileReadError":{"code":"23514"}}
+  ---
+  duration_ms: 3.580735
+  type: 'test'
+  ...
+# Subtest: zero-row customer link cannot create an unlinked Checkout
+ok 68 - zero-row customer link cannot create an unlinked Checkout
+  ---
+  duration_ms: 4.273115
+  type: 'test'
+  ...
+# Subtest: customer creation retries use a stable per-user idempotency key
+ok 69 - customer creation retries use a stable per-user idempotency key
+  ---
+  duration_ms: 4.367326
+  type: 'test'
+  ...
+# Subtest: Checkout rejects misconfigured Price {"active":false}
+ok 70 - Checkout rejects misconfigured Price {"active":false}
+  ---
+  duration_ms: 1.737909
+  type: 'test'
+  ...
+# Subtest: Checkout rejects misconfigured Price {"recurring":null}
+ok 71 - Checkout rejects misconfigured Price {"recurring":null}
+  ---
+  duration_ms: 3.662508
+  type: 'test'
+  ...
+# Subtest: Checkout rejects misconfigured Price {"unit_amount":1}
+ok 72 - Checkout rejects misconfigured Price {"unit_amount":1}
+  ---
+  duration_ms: 3.906795
+  type: 'test'
+  ...
+# Subtest: paid Checkout rejects incorrect identity {"customer":"cus_wrong"}
+ok 73 - paid Checkout rejects incorrect identity {"customer":"cus_wrong"}
+  ---
+  duration_ms: 5.071984
+  type: 'test'
+  ...
+# Subtest: paid Checkout rejects incorrect identity {"subscription":null}
+ok 74 - paid Checkout rejects incorrect identity {"subscription":null}
+  ---
+  duration_ms: 3.840565
+  type: 'test'
+  ...
+# Subtest: paid Checkout rejects incorrect identity {"subscription":{}}
+ok 75 - paid Checkout rejects incorrect identity {"subscription":{}}
+  ---
+  duration_ms: 3.835277
+  type: 'test'
+  ...
+# Subtest: paid Checkout rejects incorrect identity {"metadata":{"supabase_user_id":"00000000-0000-4000-8000-000000000001","plan_id":"starter"}}
+ok 76 - paid Checkout rejects incorrect identity {"metadata":{"supabase_user_id":"00000000-0000-4000-8000-000000000001","plan_id":"starter"}}
+  ---
+  duration_ms: 3.84998
+  type: 'test'
+  ...
+# Subtest: paid Checkout rejects incorrect identity {"metadata":{"supabase_user_id":"unknown-user","plan_id":"basic"}}
+ok 77 - paid Checkout rejects incorrect identity {"metadata":{"supabase_user_id":"unknown-user","plan_id":"basic"}}
+  ---
+  duration_ms: 3.887516
+  type: 'test'
+  ...
+# Subtest: activation requires confirmed current subscription {"id":"sub_wrong"}
+ok 78 - activation requires confirmed current subscription {"id":"sub_wrong"}
+  ---
+  duration_ms: 4.128387
+  type: 'test'
+  ...
+# Subtest: activation requires confirmed current subscription {"customer":"cus_wrong"}
+ok 79 - activation requires confirmed current subscription {"customer":"cus_wrong"}
+  ---
+  duration_ms: 3.861247
+  type: 'test'
+  ...
+# Subtest: activation requires confirmed current subscription {"livemode":true}
+ok 80 - activation requires confirmed current subscription {"livemode":true}
+  ---
+  duration_ms: 3.927837
+  type: 'test'
+  ...
+# Subtest: activation requires confirmed current subscription {"status":"canceled"}
+ok 81 - activation requires confirmed current subscription {"status":"canceled"}
+  ---
+  duration_ms: 4.151052
+  type: 'test'
+  ...
+# Subtest: activation requires confirmed current subscription {"latest_invoice":null}
+ok 82 - activation requires confirmed current subscription {"latest_invoice":null}
+  ---
+  duration_ms: 3.929961
+  type: 'test'
+  ...
+# Subtest: activation requires confirmed current subscription {"latest_invoice":"in_unexpanded"}
+ok 83 - activation requires confirmed current subscription {"latest_invoice":"in_unexpanded"}
+  ---
+  duration_ms: 4.57642
+  type: 'test'
+  ...
+# Subtest: activation requires confirmed current subscription {"latest_invoice":{"id":"in_fixture","customer":"cus_fixture","status":"open","livemode":false}}
+ok 84 - activation requires confirmed current subscription {"latest_invoice":{"id":"in_fixture","customer":"cus_fixture","status":"open","livemode":false}}
+  ---
+  duration_ms: 3.881067
+  type: 'test'
+  ...
+# Subtest: activation requires confirmed current subscription {"latest_invoice":{"id":"in_fixture","customer":"cus_wrong","status":"paid","livemode":false}}
+ok 85 - activation requires confirmed current subscription {"latest_invoice":{"id":"in_fixture","customer":"cus_wrong","status":"paid","livemode":false}}
+  ---
+  duration_ms: 3.881487
+  type: 'test'
+  ...
+# Subtest: activation requires confirmed current subscription {"items":{"data":[{"price":{"id":"price_fixture_pro"},"quantity":1}]}}
+ok 86 - activation requires confirmed current subscription {"items":{"data":[{"price":{"id":"price_fixture_pro"},"quantity":1}]}}
+  ---
+  duration_ms: 8.915174
+  type: 'test'
+  ...
+# Subtest: activation requires confirmed current subscription {"items":{"data":[{"price":{"id":"price_fixture_basic"},"quantity":2}]}}
+ok 87 - activation requires confirmed current subscription {"items":{"data":[{"price":{"id":"price_fixture_basic"},"quantity":2}]}}
+  ---
+  duration_ms: 4.039624
+  type: 'test'
+  ...
+# Subtest: expanded customer and subscription objects use their IDs
+ok 88 - expanded customer and subscription objects use their IDs
+  ---
+  duration_ms: 4.186865
+  type: 'test'
+  ...
+# Subtest: unpaid completion then independent async paid event activates only once
+ok 89 - unpaid completion then independent async paid event activates only once
+  ---
+  duration_ms: 4.574297
+  type: 'test'
+  ...
+# Subtest: no_payment_required does not grant a paid plan implicitly
+ok 90 - no_payment_required does not grant a paid plan implicitly
+  ---
+  duration_ms: 4.920166
+  type: 'test'
+  ...
+# Subtest: commitReadError returns 5xx and leaves all financial state retryable
+ok 91 - commitReadError returns 5xx and leaves all financial state retryable
+  ---
+  duration_ms: 4.528168
+  type: 'test'
+  ...
+# Subtest: eventInsertError returns 5xx and leaves all financial state retryable
+ok 92 - eventInsertError returns 5xx and leaves all financial state retryable
+  ---
+  duration_ms: 4.396911
+  type: 'test'
+  ...
+# Subtest: auditReadError returns 5xx and leaves all financial state retryable
+ok 93 - auditReadError returns 5xx and leaves all financial state retryable
+  ---
+  duration_ms: 7.426469
+  type: 'test'
+  ...
+# Subtest: auditWriteError returns 5xx and leaves all financial state retryable
+ok 94 - auditWriteError returns 5xx and leaves all financial state retryable
+  ---
+  duration_ms: 5.767108
+  type: 'test'
+  ...
+# Subtest: commitWriteError returns 5xx and leaves all financial state retryable
+ok 95 - commitWriteError returns 5xx and leaves all financial state retryable
+  ---
+  duration_ms: 4.482549
+  type: 'test'
+  ...
+# Subtest: open database circuit returns 5xx without profile effects
+ok 96 - open database circuit returns 5xx without profile effects
+  ---
+  duration_ms: 8.460922
+  type: 'test'
+  ...
+# Subtest: lost commit response retries without repeating business effect
+ok 97 - lost commit response retries without repeating business effect
+  ---
+  duration_ms: 240.372608
+  type: 'test'
+  ...
+# Subtest: quarantine storage failure returns 5xx and does not consume event
+ok 98 - quarantine storage failure returns 5xx and does not consume event
+  ---
+  duration_ms: 4.905093
+  type: 'test'
+  ...
+# Subtest: subscription update cannot create first entitlement without paid Checkout binding
+ok 99 - subscription update cannot create first entitlement without paid Checkout binding
+  ---
+  duration_ms: 3.632182
+  type: 'test'
+  ...
+# Subtest: subscription update cannot activate an unpaid invoice
+ok 100 - subscription update cannot activate an unpaid invoice
+  ---
+  duration_ms: 2.442858
+  type: 'test'
+  ...
+# Subtest: customer.subscription.updated for another subscription cannot alter current entitlement
+ok 101 - customer.subscription.updated for another subscription cannot alter current entitlement
+  ---
+  duration_ms: 1.894754
+  type: 'test'
+  ...
+# Subtest: customer.subscription.deleted for another subscription cannot alter current entitlement
+ok 102 - customer.subscription.deleted for another subscription cannot alter current entitlement
+  ---
+  duration_ms: 2.065291
+  type: 'test'
+  ...
+# Subtest: bound paid subscription update recovers past_due without resetting usage
+ok 103 - bound paid subscription update recovers past_due without resetting usage
+  ---
+  duration_ms: 2.120904
+  type: 'test'
+  ...
+# Subtest: bound cancellation retains configured grace-period protection
+ok 104 - bound cancellation retains configured grace-period protection
+  ---
+  duration_ms: 2.272101
+  type: 'test'
+  ...
+# Subtest: invoice event for a different subscription cannot soft-lock profile
+ok 105 - invoice event for a different subscription cannot soft-lock profile
+  ---
+  duration_ms: 1.67877
+  type: 'test'
+  ...
+# Subtest: already paid invoice failure delivery cannot regress active status
+ok 106 - already paid invoice failure delivery cannot regress active status
+  ---
+  duration_ms: 1.677759
+  type: 'test'
+  ...
+1..106
+# tests 106
+# suites 0
+# pass 103
+# fail 3
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 3950.712926
+
+NO_GO: 103 passed, 3 failed, 0 executed TODO. Stripe sandbox API operations: 0.
