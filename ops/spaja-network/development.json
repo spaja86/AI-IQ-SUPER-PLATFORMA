@@ -1,0 +1,11 @@
+{
+  "schemaVersion": 1,
+  "networkId": "spaja.nivo*spaja",
+  "publicDomain": null,
+  "listenPort": 8080,
+  "applications": [
+    { "appId": "platform", "spajaId": "spaja.nivo*spaja", "subdomain": "", "port": 3000 },
+    { "appId": "deploy", "spajaId": "spaja.nivo*spaja/deploy", "subdomain": "deploy", "port": 3100 },
+    { "appId": "super", "spajaId": "spaja.nivo*spaja/super", "subdomain": "super", "port": 3200 }
+  ]
+}
