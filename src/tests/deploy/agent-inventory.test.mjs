@@ -1,11 +1,11 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { spawnSync } from 'node:child_process';
-import { mkdtempSync, mkdirSync, readFileSync, rmSync, symlinkSync, writeFileSync } from 'node:fs';
+import { existsSync, mkdtempSync, mkdirSync, readFileSync, rmSync, symlinkSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { buildInventory, parseAgentDocs, parseWorkflow, readSource } from '../../../scripts/spaja-agent-inventory/build.mjs';
+import { buildInventory, parseAgentDocs, parseWorkflow, readSource, reconcileAgentStatus } from '../../../scripts/spaja-agent-inventory/build.mjs';
 import { SOURCE_BASE_REVISION } from '../../../scripts/spaja-agent-inventory/cli.mjs';
 import { canonical, DRY_RUN_POLICY, dryRunAgentImport, MAX_JSON_BYTES, parseJsonStrict,
   PRESERVED_DISABLED, sha256, validateInventory } from '../../lib/deploy/agent-inventory.mjs';
@@ -56,11 +56,68 @@ for (const id of PRESERVED_DISABLED) {
   });
 }
 
-test('calculator documentation conflict is recorded without enabling it', () => {
-  assert.ok(agent('calculator-validator-agent').discrepancies.includes('documented-active-but-config-disabled'));
-  assert.equal(agent('calculator-validator-agent').configEnabled, false);
+test('all three disabled agents have consistent bilingual status without claiming workflow enforcement', () => {
+  for (const id of PRESERVED_DISABLED) {
+    const entry = agent(id);
+    const rows = [entry.documentation.registered, ...entry.documentation.registered.duplicateRows];
+    assert.deepEqual(rows.map(row => row.language).sort(), ['en', 'sr']);
+    assert.ok(rows.every(row => row.status === '⏸ Disabled'));
+    assert.equal(entry.configEnabled, false);
+    assert.ok(!entry.discrepancies.includes('documented-active-but-config-disabled'));
+    assert.ok(entry.discrepancies.includes('disabled-config-workflow-enforcement-unverified'));
+    assert.ok(entry.workflowReferences.length > 0);
+    assert.ok(entry.dependencies.workflowPermissions.length > 0);
+  }
   assert.ok(agent('calculator-validator-agent').workflowReferences.some(ref => ref.association === 'reviewed-association'));
 });
+
+for (const [id, filename] of [
+  ['extrimli-cuz-validator-agent', 'extrimli-cuz-validator.yml'],
+  ['mrkli-mrak-validator-agent', 'mrkli-mrak-validator.yml'],
+]) {
+  test(`${id}: shared omega workflow cannot hide the missing validator or imply a replacement`, () => {
+    const entry = agent(id);
+    const path = `.github/workflows/${filename}`;
+    assert.equal(existsSync(join(root, path)), false);
+    assert.ok(entry.workflowReferences.some(ref => ref.path === path && ref.association === 'config-reference'));
+    assert.ok(entry.workflowDependencyClosure.includes('.github/workflows/omega-auto-build.yml'));
+    assert.equal(entry.workflowDefinitionState, 'incomplete-definitions');
+    assert.ok(entry.migrationBlockers.includes(`missing-workflow:${path}`));
+    assert.ok(entry.discrepancies.includes('configured-active-but-workflow-missing'));
+    assert.ok(!entry.discrepancies.includes('documented-active-but-workflow-missing'));
+    const rows = [entry.documentation.registered, ...entry.documentation.registered.duplicateRows];
+    assert.deepEqual(rows.map(row => row.language).sort(), ['en', 'sr']);
+    assert.ok(rows.every(row => row.status === '⚠ Missing workflow'));
+    assert.equal(entry.configuration.enabled, true); // Preserve the source declaration, never activate it.
+    assert.equal(entry.configuration.status, 'active');
+    const imported = dryRunAgentImport(inventory, inventory).entries.find(item => item.id === id);
+    assert.equal(imported.executionCompatible, false);
+    assert.equal(imported.importEnabled, false);
+    const changed = clone();
+    changed.agents.find(item => item.id === id).migrationBlockers = [];
+    assert.throws(() => validateInventory(changed, inventory), /inventory-source-mismatch/);
+  });
+}
+
+for (const [name, configuration, statuses, missing, definitions, expected] of [
+  ['English-only active regression', { enabled: false }, ['⏸ Disabled', '✅ Active'], [], true,
+    ['disabled-config-workflow-enforcement-unverified', 'documented-active-but-config-disabled']],
+  ['English-only disabled regression', { enabled: true }, ['✅ Active', '⏸ Disabled'], [], true,
+    ['documented-disabled-but-config-enabled', 'enabled-config-not-documented-active']],
+  ['active config despite disabled flag', { enabled: false, status: 'active' }, ['⏸ Disabled'], [], false,
+    ['configured-active-but-config-disabled']],
+  ['active config and docs with absent validator', { enabled: true, status: 'active' }, ['🚀 Active'], ['missing.yml'], true,
+    ['configured-active-but-workflow-missing', 'documented-active-but-workflow-missing']],
+  ['explicit missing implementation', { enabled: true, status: 'active' }, ['⚠ Missing workflow'], ['missing.yml'], true,
+    ['configured-active-but-workflow-missing']],
+  ['catalog membership is not a runtime claim', { enabled: true }, ['⚙ Configured'], [], true, []],
+  ['inactive is not active', { enabled: false }, ['Inactive'], [], false, []],
+]) {
+  test(`status reconciliation: ${name}`, () => {
+    assert.deepEqual(reconcileAgentStatus({ configuration, rows: statuses.map(status => ({ status })),
+      missingWorkflowPaths: missing, hasWorkflowDefinitions: definitions }), expected);
+  });
+}
 
 test('human review is a manual role, while a present workflow is not runtime evidence', () => {
   assert.equal(agent('human-review').workflowDefinitionState, 'human-only');
@@ -72,9 +129,39 @@ test('human review is a manual role, while a present workflow is not runtime evi
 
 test('documentation-only and feature-track entries do not silently enlarge the 43-agent namespace', () => {
   assert.equal(inventory.discrepancies.documentedWithoutConfiguration.length, 16);
-  assert.equal(inventory.discrepancies.configuredWithoutDocumentation.length, 6);
+  assert.deepEqual(inventory.discrepancies.configuredWithoutDocumentation, []);
   assert.ok(inventory.discrepancies.featureTracksOutsideAgentNamespace.includes('force-validator-agent'));
   assert.ok(!inventory.agents.some(entry => entry.id === 'force-validator-agent'));
+});
+
+test('all sixteen identities outside the catalog are explicitly documented-only in both tables', () => {
+  const docs = parseAgentDocs(readFileSync(join(root, 'AGENTS.md'), 'utf8'));
+  for (const id of inventory.discrepancies.documentedWithoutConfiguration) {
+    const row = docs.rows.get(id);
+    assert.ok(row, id);
+    const rows = [row, ...row.duplicateRows];
+    assert.deepEqual(rows.map(item => item.language).sort(), ['en', 'sr'], id);
+    assert.ok(rows.every(item => item.status === '📖 Documented only'), id);
+    assert.ok(!inventory.agents.some(entry => entry.id === id));
+  }
+});
+
+test('six previously undocumented configured roles cite their existing workflow and remain unverified', () => {
+  for (const id of ['aktiviti-all-validator-agent', 'another-races-ops-agent', 'digitron-validator-agent',
+    'geografija-realna-validator-agent', 'okrid-governance', 'tacskrin-validator-agent']) {
+    const entry = agent(id);
+    assert.equal(entry.roleSource, 'AGENTS.md');
+    assert.equal(entry.documentation.registered.status, '⚙ Configured');
+    const sections = [entry.documentation.roleSection, ...entry.documentation.duplicateSections.map(section => section.text.join('\n'))];
+    assert.equal(sections.length, 2);
+    for (const section of sections) {
+      assert.ok(entry.workflowReferences.some(ref => section.includes(ref.path)), id);
+      assert.ok(section.includes('execution unverified'), id);
+    }
+    assert.equal(entry.executionObserved, false);
+    assert.equal(entry.importActivation, false);
+    assert.ok(!entry.discrepancies.includes('enabled-config-not-documented-active'));
+  }
 });
 
 test('linked persona aliases stay unresolved instead of binding to similarly named agents', () => {
