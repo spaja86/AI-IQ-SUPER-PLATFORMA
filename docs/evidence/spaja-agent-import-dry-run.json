@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "mode": "dry-run",
   "target": "spaja-deploy",
-  "inventorySha256": "2c870e18fa7c7a5b84a5cac1ef324fab92e4edbc2b5c25271498ab7ee3ef633d",
+  "inventorySha256": "aa17ad8c7c0c2b960538df9d4f4e293a7399c71873ccd7df16ad4281a9c8efc2",
   "sourceRevision": "f6c2be5b25d5849193c9067b1f3f5aa67480d4ef",
   "effects": {
     "writes": 0,
@@ -80,10 +80,7 @@
         "human-activation-approval-not-granted",
         "mutable-external-reference"
       ],
-      "discrepancies": [
-        "configuration-missing-from-AGENTS.md",
-        "missing-registered-agents-row"
-      ]
+      "discrepancies": []
     },
     {
       "id": "analytics-bot",
@@ -186,10 +183,7 @@
         "human-activation-approval-not-granted",
         "mutable-external-reference"
       ],
-      "discrepancies": [
-        "configuration-missing-from-AGENTS.md",
-        "missing-registered-agents-row"
-      ]
+      "discrepancies": []
     },
     {
       "id": "calculator-validator-agent",
@@ -222,7 +216,7 @@
       ],
       "discrepancies": [
         "disabled-config-has-workflow-definition-reference",
-        "documented-active-but-config-disabled"
+        "disabled-config-workflow-enforcement-unverified"
       ]
     },
     {
@@ -389,7 +383,8 @@
         "mutable-external-reference"
       ],
       "discrepancies": [
-        "disabled-config-has-workflow-definition-reference"
+        "disabled-config-has-workflow-definition-reference",
+        "disabled-config-workflow-enforcement-unverified"
       ]
     },
     {
@@ -457,10 +452,7 @@
         "human-activation-approval-not-granted",
         "mutable-external-reference"
       ],
-      "discrepancies": [
-        "configuration-missing-from-AGENTS.md",
-        "missing-registered-agents-row"
-      ]
+      "discrepancies": []
     },
     {
       "id": "duet-validator-agent",
@@ -557,7 +549,9 @@
         "missing-referenced-files",
         "missing-workflow:.github/workflows/extrimli-cuz-validator.yml"
       ],
-      "discrepancies": []
+      "discrepancies": [
+        "configured-active-but-workflow-missing"
+      ]
     },
     {
       "id": "extrimli-validator-agent",
@@ -654,10 +648,7 @@
         "human-activation-approval-not-granted",
         "mutable-external-reference"
       ],
-      "discrepancies": [
-        "configuration-missing-from-AGENTS.md",
-        "missing-registered-agents-row"
-      ]
+      "discrepancies": []
     },
     {
       "id": "gigatron-validator-agent",
@@ -693,7 +684,8 @@
         "unresolved-test-suite-alias"
       ],
       "discrepancies": [
-        "disabled-config-has-workflow-definition-reference"
+        "disabled-config-has-workflow-definition-reference",
+        "disabled-config-workflow-enforcement-unverified"
       ]
     },
     {
@@ -985,7 +977,9 @@
         "human-activation-approval-not-granted",
         "missing-workflow:.github/workflows/mrkli-mrak-validator.yml"
       ],
-      "discrepancies": []
+      "discrepancies": [
+        "configured-active-but-workflow-missing"
+      ]
     },
     {
       "id": "multi-repo-sync-agent",
@@ -1120,10 +1114,7 @@
         "human-activation-approval-not-granted",
         "mutable-external-reference"
       ],
-      "discrepancies": [
-        "configuration-missing-from-AGENTS.md",
-        "missing-registered-agents-row"
-      ]
+      "discrepancies": []
     },
     {
       "id": "paraksil-validator-agent",
@@ -1378,10 +1369,7 @@
         "mutable-external-reference",
         "unresolved-test-suite-alias"
       ],
-      "discrepancies": [
-        "configuration-missing-from-AGENTS.md",
-        "missing-registered-agents-row"
-      ]
+      "discrepancies": []
     },
     {
       "id": "tarken-hingil-ekolan-maksimus",

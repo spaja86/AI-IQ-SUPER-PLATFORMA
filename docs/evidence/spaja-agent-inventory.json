@@ -326,7 +326,7 @@
     },
     {
       "path": "AGENTS.md",
-      "sha256": "24a531cc92bcff06f5c05c6753c72e83ff30dc52197c27a01b14ddce1481bf64"
+      "sha256": "027d5dd7781ec6579e4419efca62ecaa929d1d51daaac17b2288f8d476bd9756"
     },
     {
       "path": "docs/AKTIVITI-ALL.md",
@@ -458,7 +458,7 @@
     },
     {
       "path": "scripts/spaja-agent-inventory/build.mjs",
-      "sha256": "dee463b09dc1327449acd16867c12499e46ee840cf3973181bd91d4a596821e5"
+      "sha256": "81a453e889178f15a4079267b0d4d711568fc41ca9a70f4ac4635a761d7bcc01"
     },
     {
       "path": "scripts/spaja-agent-inventory/cli.mjs",
@@ -978,14 +978,7 @@
       "trikot-validator-agent",
       "zlatni-racuni-validator-agent"
     ],
-    "configuredWithoutDocumentation": [
-      "aktiviti-all-validator-agent",
-      "another-races-ops-agent",
-      "digitron-validator-agent",
-      "geografija-realna-validator-agent",
-      "okrid-governance",
-      "tacskrin-validator-agent"
-    ],
+    "configuredWithoutDocumentation": [],
     "conflictingDocumentedStatuses": [],
     "featureTracksOutsideAgentNamespace": [
       "astronomik-money-validator-agent",
@@ -1026,14 +1019,14 @@
         "testSuite": "src/tests/lib/adutiv.test.ts"
       },
       "documentation": {
-        "sectionLine": 1159,
+        "sectionLine": 1226,
         "registered": {
           "role": "ADUTIV Advantage Intelligence Engine",
           "trigger": "PR, Branch",
           "owner": "@spaja86",
           "status": "🚀 Active",
           "scope": "AI-IQ-SUPER-PLATFORMA (adutiv paths)",
-          "line": 656,
+          "line": 711,
           "language": "sr",
           "duplicateRows": [
             {
@@ -1042,7 +1035,7 @@
               "owner": "@spaja86",
               "status": "🚀 Active",
               "scope": "AI-IQ-SUPER-PLATFORMA (adutiv paths)",
-              "line": 1455,
+              "line": 1572,
               "language": "en",
               "duplicateRows": []
             }
@@ -1141,8 +1134,8 @@
     },
     {
       "id": "aktiviti-all-validator-agent",
-      "role": "AKTIVITI ALL — Validator",
-      "roleSource": ".github/workflows/aktiviti-all-validator.yml#/name",
+      "role": "Validacija AKTIVITI ALL scoring-a i API ugovora",
+      "roleSource": "AGENTS.md",
       "configEnabled": true,
       "configuration": {
         "enabled": true,
@@ -1186,10 +1179,46 @@
         "scope": "src/lib/aktiviti-all/**,src/app/api/aktiviti-all/**"
       },
       "documentation": {
-        "sectionLine": null,
-        "registered": null,
-        "roleSection": null,
-        "duplicateSections": []
+        "sectionLine": 592,
+        "registered": {
+          "role": "Validacija AKTIVITI ALL scoring-a i API ugovora",
+          "trigger": "PR paths, push main paths, manual",
+          "owner": "Unassigned",
+          "status": "⚙ Configured",
+          "scope": "AI-IQ-SUPER-PLATFORMA",
+          "line": 728,
+          "language": "sr",
+          "duplicateRows": [
+            {
+              "role": "Validate AKTIVITI ALL scoring and API contracts",
+              "trigger": "PR paths, push main paths, manual",
+              "owner": "Unassigned",
+              "status": "⚙ Configured",
+              "scope": "AI-IQ-SUPER-PLATFORMA",
+              "line": 1588,
+              "language": "en",
+              "duplicateRows": []
+            }
+          ]
+        },
+        "roleSection": "### aktiviti-all-validator-agent\n- **Role**: Validacija AKTIVITI ALL scoring-a i API ugovora\n- **Scope**: `src/lib/aktiviti-all/**, src/app/api/aktiviti-all/**`\n- **Workflow**: `.github/workflows/aktiviti-all-validator.yml`\n- **Trigger**: PR paths, push main paths, manual; exact filters and conditions remain in the workflow definition.\n- **Catalog status**: Configured (`enabled: true`); execution unverified.\n- **Evidence**: `.agent-config.json` → `agents.aktiviti-all-validator-agent` and the named workflow; no new runtime binding or owner assignment.",
+        "duplicateSections": [
+          {
+            "line": 1454,
+            "language": "en",
+            "text": [
+              "### aktiviti-all-validator-agent",
+              "- **Role**: Validate AKTIVITI ALL scoring and API contracts",
+              "- **Scope**: `src/lib/aktiviti-all/**, src/app/api/aktiviti-all/**`",
+              "- **Workflow**: `.github/workflows/aktiviti-all-validator.yml`",
+              "- **Trigger**: PR paths, push main paths, manual; exact filters and conditions remain in the workflow definition.",
+              "- **Catalog status**: Configured (`enabled: true`); execution unverified.",
+              "- **Evidence**: `.agent-config.json` → `agents.aktiviti-all-validator-agent` and the named workflow; no new runtime binding or owner assignment.",
+              ""
+            ],
+            "duplicateSections": []
+          }
+        ]
       },
       "workflowReferences": [
         {
@@ -1353,10 +1382,7 @@
         "human-activation-approval-not-granted",
         "mutable-external-reference"
       ],
-      "discrepancies": [
-        "configuration-missing-from-AGENTS.md",
-        "missing-registered-agents-row"
-      ],
+      "discrepancies": [],
       "executionObserved": false,
       "importActivation": false
     },
@@ -1385,14 +1411,14 @@
         "sourceOfTruthDoc": "docs/ROADMAP.md"
       },
       "documentation": {
-        "sectionLine": 69,
+        "sectionLine": 71,
         "registered": {
           "role": "Metrics & Reports",
           "trigger": "Nightly, Weekly",
           "owner": "@spaja86",
           "status": "✅ Active",
           "scope": "All repos",
-          "line": 625,
+          "line": 680,
           "language": "sr",
           "duplicateRows": [
             {
@@ -1401,7 +1427,7 @@
               "owner": "@spaja86",
               "status": "✅ Active",
               "scope": "All repos",
-              "line": 1424,
+              "line": 1541,
               "language": "en",
               "duplicateRows": []
             }
@@ -1410,7 +1436,7 @@
         "roleSection": "### analytics-bot (NEW)\n- **Role**: Tracking agent performance, metrics, i automation health\n- **Scope**: Sva repozitorijuma, nema ograničenja\n- **Trigger**: Nightly, weekly summary, on-demand\n- **Actions**:\n  - Broji number of automated reviews, deployments, security findings\n  - Prati average PR review time\n  - Generiše monthly reports u Issues ili Discussions\n  - Identifikuje failing patterns (which tests fail most often)\n  - Sinhronizuje metrics između repozitorijuma",
         "duplicateSections": [
           {
-            "line": 781,
+            "line": 845,
             "language": "en",
             "text": [
               "### analytics-bot (NEW)",
@@ -1645,7 +1671,7 @@
           "owner": "@spaja86",
           "status": "🚀 Active",
           "scope": "AI-IQ-SUPER-PLATFORMA (another-maks paths)",
-          "line": 628,
+          "line": 683,
           "language": "sr",
           "duplicateRows": []
         },
@@ -1959,8 +1985,8 @@
     },
     {
       "id": "another-races-ops-agent",
-      "role": "🏁 Back to Spaces — Another Races Validation",
-      "roleSource": ".github/workflows/back-to-spaces-another-races.yml#/name",
+      "role": "Validacija Another Races logike i gaming kataloga",
+      "roleSource": "AGENTS.md",
       "configEnabled": true,
       "configuration": {
         "enabled": true,
@@ -1994,10 +2020,46 @@
         ]
       },
       "documentation": {
-        "sectionLine": null,
-        "registered": null,
-        "roleSection": null,
-        "duplicateSections": []
+        "sectionLine": 600,
+        "registered": {
+          "role": "Validacija Another Races logike i gaming kataloga",
+          "trigger": "PR paths + race labels; push main/race/**/copilot/** paths; manual",
+          "owner": "Unassigned",
+          "status": "⚙ Configured",
+          "scope": "AI-IQ-SUPER-PLATFORMA",
+          "line": 729,
+          "language": "sr",
+          "duplicateRows": [
+            {
+              "role": "Validate Another Races logic and gaming catalog",
+              "trigger": "PR paths + race labels; push main/race/**/copilot/** paths; manual",
+              "owner": "Unassigned",
+              "status": "⚙ Configured",
+              "scope": "AI-IQ-SUPER-PLATFORMA",
+              "line": 1589,
+              "language": "en",
+              "duplicateRows": []
+            }
+          ]
+        },
+        "roleSection": "### another-races-ops-agent\n- **Role**: Validacija Another Races logike i gaming kataloga\n- **Scope**: `src/lib/back-to-spaces-another-races.ts, src/lib/igrice.ts`\n- **Workflow**: `.github/workflows/back-to-spaces-another-races.yml`\n- **Trigger**: PR paths + race labels; push main/race/**/copilot/** paths; manual; exact filters and conditions remain in the workflow definition.\n- **Catalog status**: Configured (`enabled: true`); execution unverified.\n- **Evidence**: `.agent-config.json` → `agents.another-races-ops-agent` and the named workflow; no new runtime binding or owner assignment.",
+        "duplicateSections": [
+          {
+            "line": 1462,
+            "language": "en",
+            "text": [
+              "### another-races-ops-agent",
+              "- **Role**: Validate Another Races logic and gaming catalog",
+              "- **Scope**: `src/lib/back-to-spaces-another-races.ts, src/lib/igrice.ts`",
+              "- **Workflow**: `.github/workflows/back-to-spaces-another-races.yml`",
+              "- **Trigger**: PR paths + race labels; push main/race/**/copilot/** paths; manual; exact filters and conditions remain in the workflow definition.",
+              "- **Catalog status**: Configured (`enabled: true`); execution unverified.",
+              "- **Evidence**: `.agent-config.json` → `agents.another-races-ops-agent` and the named workflow; no new runtime binding or owner assignment.",
+              ""
+            ],
+            "duplicateSections": []
+          }
+        ]
       },
       "workflowReferences": [
         {
@@ -2120,10 +2182,7 @@
         "human-activation-approval-not-granted",
         "mutable-external-reference"
       ],
-      "discrepancies": [
-        "configuration-missing-from-AGENTS.md",
-        "missing-registered-agents-row"
-      ],
+      "discrepancies": [],
       "executionObserved": false,
       "importActivation": false
     },
@@ -2139,35 +2198,36 @@
         "testSuite": "calculator-tests"
       },
       "documentation": {
-        "sectionLine": 58,
+        "sectionLine": 59,
         "registered": {
           "role": "Calculator Logic",
           "trigger": "PR, Branch",
           "owner": "@spaja86",
-          "status": "✅ Active",
+          "status": "⏸ Disabled",
           "scope": "IO-OPENUI-AO",
-          "line": 624,
+          "line": 679,
           "language": "sr",
           "duplicateRows": [
             {
               "role": "Calculator Logic",
               "trigger": "PR, Branch",
               "owner": "@spaja86",
-              "status": "✅ Active",
+              "status": "⏸ Disabled",
               "scope": "IO-OPENUI-AO",
-              "line": 1423,
+              "line": 1540,
               "language": "en",
               "duplicateRows": []
             }
           ]
         },
-        "roleSection": "### calculator-validator-agent (NEW)\n- **Role**: Validacija logike gaming calculator-a (IO-OPENUI-AO)\n- **Scope**: Samo IO-OPENUI-AO i calculator-specific branches\n- **Trigger**: PR sa labelom `calculator:logic-change`, push na `calc-*` branches\n- **Actions**:\n  - Pokreće custom test suite za calculator logiku\n  - Verifikuje matematičke rezultate i edge cases\n  - Proverava performance (execution time < 100ms)\n  - Skenira za nedoslednosti u kodu (NaN, Infinity, division by zero)\n  - Auto-labels sa `calculator:validated` ili `calculator:needs-review`",
+        "roleSection": "### calculator-validator-agent (NEW)\n- **Catalog status (2026-10-28)**: `enabled: false` in `.agent-config.json`; remains disabled. Workflow definitions do not prove that this flag is enforced; runtime is unverified.\n- **Role**: Validacija logike gaming calculator-a (IO-OPENUI-AO)\n- **Scope**: Samo IO-OPENUI-AO i calculator-specific branches\n- **Trigger**: PR sa labelom `calculator:logic-change`, push na `calc-*` branches\n- **Actions**:\n  - Pokreće custom test suite za calculator logiku\n  - Verifikuje matematičke rezultate i edge cases\n  - Proverava performance (execution time < 100ms)\n  - Skenira za nedoslednosti u kodu (NaN, Infinity, division by zero)\n  - Auto-labels sa `calculator:validated` ili `calculator:needs-review`",
         "duplicateSections": [
           {
-            "line": 770,
+            "line": 833,
             "language": "en",
             "text": [
               "### calculator-validator-agent (NEW)",
+              "- **Catalog status (2026-10-28)**: `enabled: false` in `.agent-config.json`; remains disabled. Workflow definitions do not prove that this flag is enforced; runtime is unverified.",
               "- **Role**: Validate gaming calculator logic (IO-OPENUI-AO)",
               "- **Scope**: IO-OPENUI-AO only and calculator-specific branches",
               "- **Trigger**: PR with `calculator:logic-change` label, push to `calc-*` branches",
@@ -2265,7 +2325,7 @@
       ],
       "discrepancies": [
         "disabled-config-has-workflow-definition-reference",
-        "documented-active-but-config-disabled"
+        "disabled-config-workflow-enforcement-unverified"
       ],
       "executionObserved": false,
       "importActivation": false
@@ -2301,7 +2361,7 @@
           "owner": "@spaja86",
           "status": "🚀 Active",
           "scope": "AI-IQ-SUPER-PLATFORMA (chatgpt-katalog paths)",
-          "line": 661,
+          "line": 716,
           "language": "sr",
           "duplicateRows": [
             {
@@ -2310,7 +2370,7 @@
               "owner": "@spaja86",
               "status": "🚀 Active",
               "scope": "AI-IQ-SUPER-PLATFORMA (chatgpt-katalog paths)",
-              "line": 1460,
+              "line": 1577,
               "language": "en",
               "duplicateRows": []
             }
@@ -2449,7 +2509,7 @@
           "owner": "@spaja86",
           "status": "✅ Active",
           "scope": "All repos",
-          "line": 619,
+          "line": 674,
           "language": "sr",
           "duplicateRows": [
             {
@@ -2458,7 +2518,7 @@
               "owner": "@spaja86",
               "status": "✅ Active",
               "scope": "All repos",
-              "line": 1418,
+              "line": 1535,
               "language": "en",
               "duplicateRows": []
             }
@@ -2467,7 +2527,7 @@
         "roleSection": "### ci-bot\n- Automatska provera i formatiranje (lint, tests).\n- Proverava TypeScript, JavaScript, Python zavisnosti.\n- Pokušava automatsku ispravku manjих problema (format, linting).\n- **Multi-repo scope**: Pokreće testove u svim povezanim repozitorijumima.",
         "duplicateSections": [
           {
-            "line": 736,
+            "line": 798,
             "language": "en",
             "text": [
               "### ci-bot",
@@ -2659,14 +2719,14 @@
         "scope": "src/lib/decibil/**,src/app/api/decibil/**"
       },
       "documentation": {
-        "sectionLine": 109,
+        "sectionLine": 112,
         "registered": {
           "role": "DECIBIL Audio/Signal Validation",
           "trigger": "PR, Branch",
           "owner": "@spaja86",
           "status": "🚀 Active",
           "scope": "AI-IQ-SUPER-PLATFORMA (decibil paths)",
-          "line": 630,
+          "line": 685,
           "language": "sr",
           "duplicateRows": [
             {
@@ -2675,7 +2735,7 @@
               "owner": "@spaja86",
               "status": "🚀 Active",
               "scope": "AI-IQ-SUPER-PLATFORMA (decibil paths)",
-              "line": 1427,
+              "line": 1544,
               "language": "en",
               "duplicateRows": []
             }
@@ -3019,14 +3079,14 @@
         "scope": "src/lib/delet/**,src/app/api/delet/**"
       },
       "documentation": {
-        "sectionLine": 514,
+        "sectionLine": 519,
         "registered": {
           "role": "DELET Deletion Readiness & Safety Validation",
           "trigger": "PR, Branch",
           "owner": "@spaja86",
           "status": "🚀 Active",
           "scope": "AI-IQ-SUPER-PLATFORMA (delet paths)",
-          "line": 667,
+          "line": 722,
           "language": "sr",
           "duplicateRows": [
             {
@@ -3035,7 +3095,7 @@
               "owner": "@spaja86",
               "status": "🚀 Active",
               "scope": "AI-IQ-SUPER-PLATFORMA (delet paths)",
-              "line": 1466,
+              "line": 1583,
               "language": "en",
               "duplicateRows": []
             }
@@ -3044,7 +3104,7 @@
         "roleSection": "### delet-validator-agent (NEW)\n- **Role**: Validacija DELET logike — deletion readiness scoring, compliance/risk balans i edge-case integritet\n- **Scope**: AI-IQ-SUPER-PLATFORMA — `src/lib/delet/**`, `src/app/api/delet/**`\n- **Trigger**: PR sa labelom `delet:logic-change`, push koji dira `delet` putanje\n- **Actions**:\n  - Pokreće unit i route test suite za DELET logiku\n  - Verifikuje determinističke rezultate i edge cases (`NaN`, `Infinity`, negativne vrednosti, nevalidni objective/scope, bounds)\n  - Proverava performance KPI: evaluacija ≤ 50ms, API response ≤ 200ms\n  - Skenira za nedoslednosti u kodu i sekrete\n  - Auto-labels PRs sa `delet:validated` ili `delet:needs-review`\n  - Ostavlja audit log u PR komentaru\n  - **Persona**: `delet-governance-core` (octave: 6, hipermreza node: 52)\n  - **Linked-repo impact**: none (v1)",
         "duplicateSections": [
           {
-            "line": 1314,
+            "line": 1381,
             "language": "en",
             "text": [
               "### delet-validator-agent (NEW)",
@@ -3443,32 +3503,33 @@
         "sectionLine": 30,
         "registered": {
           "role": "Deployment",
-          "trigger": "Merge to main",
+          "trigger": "Manual workflow_dispatch (fallback)",
           "owner": "@spaja86",
-          "status": "⏳ Planned",
+          "status": "⏸ Disabled",
           "scope": "All repos",
-          "line": 621,
+          "line": 676,
           "language": "sr",
           "duplicateRows": [
             {
               "role": "Deployment",
-              "trigger": "Merge to main",
+              "trigger": "Manual workflow_dispatch (fallback)",
               "owner": "@spaja86",
-              "status": "⏳ Planned",
+              "status": "⏸ Disabled",
               "scope": "All repos",
-              "line": 1420,
+              "line": 1537,
               "language": "en",
               "duplicateRows": []
             }
           ]
         },
-        "roleSection": "### deploy-bot\n- Obavlja deploy kada su testovi prošli.\n- Ne može deploy-ovati bez green status od ci-bot-a.\n- Ostavlja audit log u PR komentar.\n- **Multi-repo scope**: Sinhronizuje deploymente između povezanih platformi.",
+        "roleSection": "### deploy-bot\n- **Catalog status (2026-10-28)**: `enabled: false` in `.agent-config.json`; remains disabled. Workflow definitions do not prove that this flag is enforced; runtime is unverified.\n- Obavlja deploy kada su testovi prošli.\n- Ne može deploy-ovati bez green status od ci-bot-a.\n- Ostavlja audit log u PR komentar.\n- **Multi-repo scope**: Sinhronizuje deploymente između povezanih platformi.",
         "duplicateSections": [
           {
-            "line": 742,
+            "line": 804,
             "language": "en",
             "text": [
               "### deploy-bot",
+              "- **Catalog status (2026-10-28)**: `enabled: false` in `.agent-config.json`; remains disabled. Workflow definitions do not prove that this flag is enforced; runtime is unverified.",
               "- Handles deployments after passing checks.",
               "- Cannot deploy without green status from ci-bot.",
               "- Leaves audit log in PR comment.",
@@ -3570,7 +3631,8 @@
         "mutable-external-reference"
       ],
       "discrepancies": [
-        "disabled-config-has-workflow-definition-reference"
+        "disabled-config-has-workflow-definition-reference",
+        "disabled-config-workflow-enforcement-unverified"
       ],
       "executionObserved": false,
       "importActivation": false
@@ -3614,14 +3676,14 @@
         }
       },
       "documentation": {
-        "sectionLine": 324,
+        "sectionLine": 329,
         "registered": {
           "role": "Digit Intelligence Engine Validation",
           "trigger": "PR, Branch",
           "owner": "@spaja86",
           "status": "🚀 Active",
           "scope": "AI-IQ-SUPER-PLATFORMA (digit-engine paths)",
-          "line": 649,
+          "line": 704,
           "language": "sr",
           "duplicateRows": [
             {
@@ -3630,7 +3692,7 @@
               "owner": "@spaja86",
               "status": "🚀 Active",
               "scope": "AI-IQ-SUPER-PLATFORMA (digit-engine paths)",
-              "line": 1447,
+              "line": 1564,
               "language": "en",
               "duplicateRows": []
             }
@@ -3639,7 +3701,7 @@
         "roleSection": "### digit-engine-validator-agent (NEW)\n- **Role**: Validacija Digit Intelligence Engine logike — 10-cifreni simbolički slojevi, registar, API integritet i performanse\n- **Scope**: AI-IQ-SUPER-PLATFORMA — `src/lib/digit-engine/**`, `src/app/api/digit-engine/**`\n- **Trigger**: PR sa labelom `digit-engine:change`, push koji dira `digit-engine` putanje\n- **Actions**:\n  - Pokreće unit test suite za Digit Engine logiku (registry, getDigitDescriptor, getDigitByNode, listAllDigits)\n  - Verifikuje da su sva 10 cifara (0–9) registrovana sa ispravnim poljima\n  - Proverava performance KPI: lookup ≤ 10ms, bulk list ≤ 50ms, API response ≤ 200ms\n  - Verifikuje edge cases: digit = -1, digit = 10, NaN, Infinity → undefined/404\n  - Skenira za nedoslednosti u kodu i sekrete\n  - Auto-labels PRs sa `digit-engine:validated` ili `digit-engine:needs-review`\n  - Ostavlja audit log u PR komentaru\n  - **Persona**: `digit-engine-core` (octave: 10, hipermreza node: 80)\n  - **Multi-repo sync**: Sinhronizuje digit registry snapshots ka `spaja86/IO-OPENUI-AO`",
         "duplicateSections": [
           {
-            "line": 1055,
+            "line": 1122,
             "language": "en",
             "text": [
               "### digit-engine-validator-agent (NEW)",
@@ -3945,8 +4007,8 @@
     },
     {
       "id": "digitron-validator-agent",
-      "role": "DIGITRON — Validator",
-      "roleSource": ".github/workflows/digitron-validator.yml#/name",
+      "role": "Validacija DIGITRON logike i API ugovora",
+      "roleSource": "AGENTS.md",
       "configEnabled": true,
       "configuration": {
         "enabled": true,
@@ -3983,10 +4045,46 @@
         }
       },
       "documentation": {
-        "sectionLine": null,
-        "registered": null,
-        "roleSection": null,
-        "duplicateSections": []
+        "sectionLine": 608,
+        "registered": {
+          "role": "Validacija DIGITRON logike i API ugovora",
+          "trigger": "PR paths, push main paths, manual",
+          "owner": "Unassigned",
+          "status": "⚙ Configured",
+          "scope": "AI-IQ-SUPER-PLATFORMA",
+          "line": 730,
+          "language": "sr",
+          "duplicateRows": [
+            {
+              "role": "Validate DIGITRON logic and API contracts",
+              "trigger": "PR paths, push main paths, manual",
+              "owner": "Unassigned",
+              "status": "⚙ Configured",
+              "scope": "AI-IQ-SUPER-PLATFORMA",
+              "line": 1590,
+              "language": "en",
+              "duplicateRows": []
+            }
+          ]
+        },
+        "roleSection": "### digitron-validator-agent\n- **Role**: Validacija DIGITRON logike i API ugovora\n- **Scope**: `src/lib/digitron/**, src/app/api/digitron/**`\n- **Workflow**: `.github/workflows/digitron-validator.yml`\n- **Trigger**: PR paths, push main paths, manual; exact filters and conditions remain in the workflow definition.\n- **Catalog status**: Configured (`enabled: true`); execution unverified.\n- **Evidence**: `.agent-config.json` → `agents.digitron-validator-agent` and the named workflow; no new runtime binding or owner assignment.",
+        "duplicateSections": [
+          {
+            "line": 1470,
+            "language": "en",
+            "text": [
+              "### digitron-validator-agent",
+              "- **Role**: Validate DIGITRON logic and API contracts",
+              "- **Scope**: `src/lib/digitron/**, src/app/api/digitron/**`",
+              "- **Workflow**: `.github/workflows/digitron-validator.yml`",
+              "- **Trigger**: PR paths, push main paths, manual; exact filters and conditions remain in the workflow definition.",
+              "- **Catalog status**: Configured (`enabled: true`); execution unverified.",
+              "- **Evidence**: `.agent-config.json` → `agents.digitron-validator-agent` and the named workflow; no new runtime binding or owner assignment.",
+              ""
+            ],
+            "duplicateSections": []
+          }
+        ]
       },
       "workflowReferences": [
         {
@@ -4133,10 +4231,7 @@
         "human-activation-approval-not-granted",
         "mutable-external-reference"
       ],
-      "discrepancies": [
-        "configuration-missing-from-AGENTS.md",
-        "missing-registered-agents-row"
-      ],
+      "discrepancies": [],
       "executionObserved": false,
       "importActivation": false
     },
@@ -4200,14 +4295,14 @@
         "scope": "src/lib/duet/**,src/app/api/duet/**,src/lib/extrimli-extrondol/**,src/app/api/extrimli/extrondol/**"
       },
       "documentation": {
-        "sectionLine": 190,
+        "sectionLine": 193,
         "registered": {
           "role": "DUET Two-Party Synchronization Validation",
           "trigger": "PR, Branch",
           "owner": "@spaja86",
           "status": "🚀 Active",
           "scope": "AI-IQ-SUPER-PLATFORMA (duet paths)",
-          "line": 642,
+          "line": 697,
           "language": "sr",
           "duplicateRows": [
             {
@@ -4216,7 +4311,7 @@
               "owner": "@spaja86",
               "status": "🚀 Active",
               "scope": "AI-IQ-SUPER-PLATFORMA (duet paths)",
-              "line": 1439,
+              "line": 1556,
               "language": "en",
               "duplicateRows": []
             }
@@ -4225,7 +4320,7 @@
         "roleSection": "### duet-validator-agent (NEW)\n- **Role**: Validacija DUET logike — two-party synchronization scoring, tension resilience i shared-window integritet\n- **Scope**: AI-IQ-SUPER-PLATFORMA — `src/lib/duet/**`, `src/app/api/duet/**`\n- **Trigger**: PR sa labelom `duet:logic-change`, push koji dira `duet` putanje\n- **Actions**:\n  - Pokreće unit i route test suite za DUET logiku\n  - Verifikuje determinističke rezultate i edge cases (`NaN`, `Infinity`, negativne vrednosti, invalidni objective/mode, nevalidni shared window`)\n  - Proverava performance KPI: evaluacija ≤ 50ms, API response ≤ 200ms\n  - Skenira za nedoslednosti u kodu i sekrete\n  - Auto-labels PRs sa `duet:validated` ili `duet:needs-review`\n  - Ostavlja audit log u PR komentaru\n  - **Persona**: `duet-sync-core` (octave: 8, hipermreza node: 66)",
         "duplicateSections": [
           {
-            "line": 908,
+            "line": 973,
             "language": "en",
             "text": [
               "### duet-validator-agent (NEW)",
@@ -4512,14 +4607,14 @@
         "scope": "src/lib/dumbir/**,src/app/api/dumbir/**"
       },
       "documentation": {
-        "sectionLine": 216,
+        "sectionLine": 219,
         "registered": {
           "role": "ÐUMBIR Ginger Wellness Validation",
           "trigger": "PR, Branch",
           "owner": "@spaja86",
           "status": "🚀 Active",
           "scope": "AI-IQ-SUPER-PLATFORMA (dumbir paths)",
-          "line": 633,
+          "line": 688,
           "language": "sr",
           "duplicateRows": [
             {
@@ -4528,7 +4623,7 @@
               "owner": "@spaja86",
               "status": "🚀 Active",
               "scope": "AI-IQ-SUPER-PLATFORMA (dumbir paths)",
-              "line": 1430,
+              "line": 1547,
               "language": "en",
               "duplicateRows": []
             }
@@ -4537,7 +4632,7 @@
         "roleSection": "### dumbir-validator-agent (NEW)\n- **Role**: Validacija ÐUMBIR logike — ginger wellness scoring, potency/comfort balans i API contract integritet\n- **Scope**: AI-IQ-SUPER-PLATFORMA — `src/lib/dumbir/**`, `src/app/api/dumbir/**`\n- **Trigger**: PR sa labelom `dumbir:logic-change`, push koji dira `dumbir` putanje\n- **Actions**:\n  - Pokreće unit i route test suite za ÐUMBIR logiku\n  - Verifikuje determinističke rezultate i edge cases (`NaN`, `Infinity`, negativne vrednosti, unsupported addons, serving bounds)\n  - Proverava performance KPI: evaluacija ≤ 50ms, API response ≤ 200ms\n  - Skenira za nedoslednosti u kodu i sekrete\n  - Auto-labels PRs sa `dumbir:validated` ili `dumbir:needs-review`\n  - Ostavlja audit log u PR komentaru\n  - **Persona**: `dumbir-wellness-core` (octave: 12, hipermreza node: 96)",
         "duplicateSections": [
           {
-            "line": 934,
+            "line": 999,
             "language": "en",
             "text": [
               "### dumbir-validator-agent (NEW)",
@@ -4769,35 +4864,36 @@
         }
       },
       "documentation": {
-        "sectionLine": 296,
+        "sectionLine": 300,
         "registered": {
           "role": "Community & Social Hub Validation",
           "trigger": "PR, Branch",
           "owner": "@spaja86",
-          "status": "🚀 Active",
+          "status": "⚠ Missing workflow",
           "scope": "AI-IQ-SUPER-PLATFORMA (extrimli-cuz paths)",
-          "line": 646,
+          "line": 701,
           "language": "sr",
           "duplicateRows": [
             {
               "role": "Community & Social Hub Validation",
               "trigger": "PR, Branch",
               "owner": "@spaja86",
-              "status": "🚀 Active",
+              "status": "⚠ Missing workflow",
               "scope": "AI-IQ-SUPER-PLATFORMA (extrimli-cuz paths)",
-              "line": 1443,
+              "line": 1560,
               "language": "en",
               "duplicateRows": []
             }
           ]
         },
-        "roleSection": "### extrimli-cuz-validator-agent (NEW)\n- **Role**: Validacija EXTRIMLI CUZ logike — community & social hub, crew formation, mentorship matching, community feed i peer reputation\n- **Scope**: AI-IQ-SUPER-PLATFORMA — `src/lib/extrimli-cuz/**`, `src/app/api/extrimli-cuz/**`, `src/components/extrimli-cuz/**`\n- **Trigger**: PR sa labelom `extrimli-cuz:logic-change`, push koji dira `extrimli-cuz` putanje\n- **Actions**:\n  - Pokreće unit test suite za EXTRIMLI CUZ logiku (crew-engine, mentor-engine, feed-engine, reputation-engine)\n  - Verifikuje matematičke rezultate i edge cases (NaN, Infinity, prazni nizovi, division by zero, self-rating, duplicate votes)\n  - Proverava performance KPI: evaluacija ≤ 50ms, API response ≤ 200ms\n  - Skenira za nedoslednosti u kodu (nevalidni experienceLevel, negativni score, nevalidni ratingovi)\n  - Auto-labels PRs sa `extrimli-cuz:validated` ili `extrimli-cuz:needs-review`\n  - Ostavlja audit log u PR komentaru\n  - **Persona**: `extrimli-cuz-social` (octave: 7, hipermreza node: 57)\n  - **Multi-repo sync**: Sinhronizuje crew/mentor catalog snapshots ka `spaja86/IO-OPENUI-AO`",
+        "roleSection": "### extrimli-cuz-validator-agent (NEW)\n- **Catalog status (2026-10-28)**: `enabled: true` / `status: active` are configuration declarations only. **Missing component**: `.github/workflows/extrimli-cuz-validator.yml` was not implemented in the reviewed PR ancestry; no replacement is established. Actions below describe intended behavior. See [reference review](docs/SPAJA-AGENT-REFERENCE-RECONCILIATION.md).\n- **Role**: Validacija EXTRIMLI CUZ logike — community & social hub, crew formation, mentorship matching, community feed i peer reputation\n- **Scope**: AI-IQ-SUPER-PLATFORMA — `src/lib/extrimli-cuz/**`, `src/app/api/extrimli-cuz/**`, `src/components/extrimli-cuz/**`\n- **Trigger**: PR sa labelom `extrimli-cuz:logic-change`, push koji dira `extrimli-cuz` putanje\n- **Actions**:\n  - Pokreće unit test suite za EXTRIMLI CUZ logiku (crew-engine, mentor-engine, feed-engine, reputation-engine)\n  - Verifikuje matematičke rezultate i edge cases (NaN, Infinity, prazni nizovi, division by zero, self-rating, duplicate votes)\n  - Proverava performance KPI: evaluacija ≤ 50ms, API response ≤ 200ms\n  - Skenira za nedoslednosti u kodu (nevalidni experienceLevel, negativni score, nevalidni ratingovi)\n  - Auto-labels PRs sa `extrimli-cuz:validated` ili `extrimli-cuz:needs-review`\n  - Ostavlja audit log u PR komentaru\n  - **Persona**: `extrimli-cuz-social` (octave: 7, hipermreza node: 57)\n  - **Multi-repo sync**: Sinhronizuje crew/mentor catalog snapshots ka `spaja86/IO-OPENUI-AO`",
         "duplicateSections": [
           {
-            "line": 1027,
+            "line": 1093,
             "language": "en",
             "text": [
               "### extrimli-cuz-validator-agent (NEW)",
+              "- **Catalog status (2026-10-28)**: `enabled: true` / `status: active` are configuration declarations only. **Missing component**: `.github/workflows/extrimli-cuz-validator.yml` was not implemented in the reviewed PR ancestry; no replacement is established. Actions below describe intended behavior. See [reference review](docs/SPAJA-AGENT-REFERENCE-RECONCILIATION.md).",
               "- **Role**: Validate EXTRIMLI CUZ logic — community & social hub, crew formation, mentorship matching, community feed, and peer reputation engine",
               "- **Scope**: AI-IQ-SUPER-PLATFORMA — `src/lib/extrimli-cuz/**`, `src/app/api/extrimli-cuz/**`, `src/components/extrimli-cuz/**`",
               "- **Trigger**: PR with label `extrimli-cuz:logic-change`, push touching `extrimli-cuz` paths",
@@ -4938,7 +5034,9 @@
         "missing-referenced-files",
         "missing-workflow:.github/workflows/extrimli-cuz-validator.yml"
       ],
-      "discrepancies": [],
+      "discrepancies": [
+        "configured-active-but-workflow-missing"
+      ],
       "executionObserved": false,
       "importActivation": false
     },
@@ -5057,14 +5155,14 @@
         }
       },
       "documentation": {
-        "sectionLine": 282,
+        "sectionLine": 286,
         "registered": {
           "role": "Extreme Sports & Adventure Intelligence",
           "trigger": "PR, Branch",
           "owner": "@spaja86",
           "status": "🚀 Active",
           "scope": "AI-IQ-SUPER-PLATFORMA (extrimli paths)",
-          "line": 645,
+          "line": 700,
           "language": "sr",
           "duplicateRows": [
             {
@@ -5073,7 +5171,7 @@
               "owner": "@spaja86",
               "status": "🚀 Active",
               "scope": "AI-IQ-SUPER-PLATFORMA (extrimli paths)",
-              "line": 1442,
+              "line": 1559,
               "language": "en",
               "duplicateRows": []
             }
@@ -5082,7 +5180,7 @@
         "roleSection": "### extrimli-validator-agent (NEW)\n- **Role**: Validacija EXTRIMLI logike — extreme sports risk scoring, athlete performance tracking, gear catalog integrity i event management\n- **Scope**: AI-IQ-SUPER-PLATFORMA — `src/lib/extrimli/**`, `src/app/api/extrimli/**`, `src/components/extrimli/**`\n- **Trigger**: PR sa labelom `extrimli:logic-change`, push koji dira `extrimli` putanje\n- **Actions**:\n  - Pokreće unit test suite za EXTRIMLI logiku (registry, risk-engine, performance-tracker, gear-catalog, event-engine, weather-adapter)\n  - Verifikuje matematičke rezultate i edge cases (NaN, Infinity, negativne cene, nulti stock, division by zero)\n  - Proverava performance KPI: evaluacija ≤ 50ms, API response ≤ 200ms\n  - Skenira za nedoslednosti u kodu (negativni risk score, nevalidni SKU, neispravni gear)\n  - Auto-labels PRs sa `extrimli:validated` ili `extrimli:needs-review`\n  - Ostavlja audit log u PR komentaru\n  - **Persona**: `extrimli-core` (octave: 7, hipermreza node: 56)\n  - **Multi-repo sync**: Sinhronizuje gear catalog snapshots ka `spaja86/IO-OPENUI-AO`",
         "duplicateSections": [
           {
-            "line": 1013,
+            "line": 1079,
             "language": "en",
             "text": [
               "### extrimli-validator-agent (NEW)",
@@ -5835,14 +5933,14 @@
         "scope": "src/lib/gamelord/**,src/app/api/gamelord/**,src/lib/igrice.ts"
       },
       "documentation": {
-        "sectionLine": 501,
+        "sectionLine": 506,
         "registered": {
           "role": "GAMES (GAMELORD) Validation",
           "trigger": "PR, Branch",
           "owner": "@spaja86",
           "status": "🚀 Active",
           "scope": "AI-IQ-SUPER-PLATFORMA (gamelord paths)",
-          "line": 666,
+          "line": 721,
           "language": "sr",
           "duplicateRows": [
             {
@@ -5851,7 +5949,7 @@
               "owner": "@spaja86",
               "status": "🚀 Active",
               "scope": "AI-IQ-SUPER-PLATFORMA (gamelord paths)",
-              "line": 1465,
+              "line": 1582,
               "language": "en",
               "duplicateRows": []
             }
@@ -5860,7 +5958,7 @@
         "roleSection": "### gamelord-validator-agent (NEW)\n- **Role**: Validacija GAMES (GAMELORD) logike — deterministic dominance scoring, status mapping i edge-case integritet\n- **Scope**: AI-IQ-SUPER-PLATFORMA — `src/lib/gamelord/**`, `src/app/api/gamelord/**`, `src/lib/igrice.ts`\n- **Trigger**: PR sa labelom `gamelord:logic-change`, push koji dira `gamelord` putanje\n- **Actions**:\n  - Pokreće unit i route test suite za GAMELORD logiku\n  - Verifikuje determinističke rezultate i edge cases (`NaN`, `Infinity`, negativne vrednosti, bounds`)\n  - Proverava performance KPI: evaluacija ≤ 50ms, API response ≤ 200ms\n  - Skenira za nedoslednosti u kodu i sekrete\n  - Auto-labels PRs sa `gamelord:validated` ili `gamelord:needs-review`\n  - Ostavlja audit log u PR komentaru\n  - **Persona**: `gamelord-core` (octave: 9, hipermreza node: 74)",
         "duplicateSections": [
           {
-            "line": 1301,
+            "line": 1368,
             "language": "en",
             "text": [
               "### gamelord-validator-agent (NEW)",
@@ -6065,8 +6163,8 @@
     },
     {
       "id": "geografija-realna-validator-agent",
-      "role": "GEOGRAFIJA REALNA — Validator",
-      "roleSource": ".github/workflows/geografija-realna-validator.yml#/name",
+      "role": "Validacija GEOGRAFIJA REALNA logike i API ugovora",
+      "roleSource": "AGENTS.md",
       "configEnabled": true,
       "configuration": {
         "enabled": true,
@@ -6111,10 +6209,46 @@
         "scope": "src/lib/geografija-realna/**,src/app/api/geografija-realna/**"
       },
       "documentation": {
-        "sectionLine": null,
-        "registered": null,
-        "roleSection": null,
-        "duplicateSections": []
+        "sectionLine": 616,
+        "registered": {
+          "role": "Validacija GEOGRAFIJA REALNA logike i API ugovora",
+          "trigger": "PR paths, push main paths, manual",
+          "owner": "Unassigned",
+          "status": "⚙ Configured",
+          "scope": "AI-IQ-SUPER-PLATFORMA",
+          "line": 731,
+          "language": "sr",
+          "duplicateRows": [
+            {
+              "role": "Validate GEOGRAFIJA REALNA logic and API contracts",
+              "trigger": "PR paths, push main paths, manual",
+              "owner": "Unassigned",
+              "status": "⚙ Configured",
+              "scope": "AI-IQ-SUPER-PLATFORMA",
+              "line": 1591,
+              "language": "en",
+              "duplicateRows": []
+            }
+          ]
+        },
+        "roleSection": "### geografija-realna-validator-agent\n- **Role**: Validacija GEOGRAFIJA REALNA logike i API ugovora\n- **Scope**: `src/lib/geografija-realna/**, src/app/api/geografija-realna/**`\n- **Workflow**: `.github/workflows/geografija-realna-validator.yml`\n- **Trigger**: PR paths, push main paths, manual; exact filters and conditions remain in the workflow definition.\n- **Catalog status**: Configured (`enabled: true`); execution unverified.\n- **Evidence**: `.agent-config.json` → `agents.geografija-realna-validator-agent` and the named workflow; no new runtime binding or owner assignment.",
+        "duplicateSections": [
+          {
+            "line": 1478,
+            "language": "en",
+            "text": [
+              "### geografija-realna-validator-agent",
+              "- **Role**: Validate GEOGRAFIJA REALNA logic and API contracts",
+              "- **Scope**: `src/lib/geografija-realna/**, src/app/api/geografija-realna/**`",
+              "- **Workflow**: `.github/workflows/geografija-realna-validator.yml`",
+              "- **Trigger**: PR paths, push main paths, manual; exact filters and conditions remain in the workflow definition.",
+              "- **Catalog status**: Configured (`enabled: true`); execution unverified.",
+              "- **Evidence**: `.agent-config.json` → `agents.geografija-realna-validator-agent` and the named workflow; no new runtime binding or owner assignment.",
+              ""
+            ],
+            "duplicateSections": []
+          }
+        ]
       },
       "workflowReferences": [
         {
@@ -6278,10 +6412,7 @@
         "human-activation-approval-not-granted",
         "mutable-external-reference"
       ],
-      "discrepancies": [
-        "configuration-missing-from-AGENTS.md",
-        "missing-registered-agents-row"
-      ],
+      "discrepancies": [],
       "executionObserved": false,
       "importActivation": false
     },
@@ -6336,35 +6467,36 @@
         }
       },
       "documentation": {
-        "sectionLine": 96,
+        "sectionLine": 98,
         "registered": {
           "role": "GIGATRON Validation",
           "trigger": "PR, Branch",
           "owner": "@spaja86",
-          "status": "📋 Ready",
+          "status": "⏸ Disabled",
           "scope": "AI-IQ-SUPER-PLATFORMA (GIGATRON paths)",
-          "line": 627,
+          "line": 682,
           "language": "sr",
           "duplicateRows": [
             {
               "role": "GIGATRON Validation",
               "trigger": "PR, Branch",
               "owner": "@spaja86",
-              "status": "📋 Ready",
+              "status": "⏸ Disabled",
               "scope": "AI-IQ-SUPER-PLATFORMA (GIGATRON paths)",
-              "line": 1425,
+              "line": 1542,
               "language": "en",
               "duplicateRows": []
             }
           ]
         },
-        "roleSection": "### gigatron-validator-agent (NEW)\n- **Role**: Validacija GIGATRON IT & Elektronika procurement logike, affiliate kalkulacija i inventory integriteta\n- **Scope**: GIGATRON putanje u AI-IQ-SUPER-PLATFORMA (`src/lib/gigatron/**`, `src/app/api/gigatron/**`)\n- **Trigger**: PR sa labelom `gigatron:logic-change`, push koji dira `gigatron` putanje\n- **Actions**:\n  - Pokreće unit test suite za katalog logiku (cene, kategorije, SKU validacija)\n  - Verifikuje procurement model (narudžbine, edge cases: nulte zalihe, cenovni limiti, PDV)\n  - Proverava affiliate provizija kalkulator (% komisija, kumulativno tracking)\n  - Proverava performance: API response ≤ 200ms\n  - Skenira za nedoslednosti u kodu (negativne cene, neispravan PDV, nevalidni SKU)\n  - Auto-labels PRs sa `gigatron:validated` ili `gigatron:needs-review`\n  - Ostavlja audit log u PR komentaru",
+        "roleSection": "### gigatron-validator-agent (NEW)\n- **Catalog status (2026-10-28)**: `enabled: false` in `.agent-config.json`; remains disabled. Workflow definitions do not prove that this flag is enforced; runtime is unverified.\n- **Role**: Validacija GIGATRON IT & Elektronika procurement logike, affiliate kalkulacija i inventory integriteta\n- **Scope**: GIGATRON putanje u AI-IQ-SUPER-PLATFORMA (`src/lib/gigatron/**`, `src/app/api/gigatron/**`)\n- **Trigger**: PR sa labelom `gigatron:logic-change`, push koji dira `gigatron` putanje\n- **Actions**:\n  - Pokreće unit test suite za katalog logiku (cene, kategorije, SKU validacija)\n  - Verifikuje procurement model (narudžbine, edge cases: nulte zalihe, cenovni limiti, PDV)\n  - Proverava affiliate provizija kalkulator (% komisija, kumulativno tracking)\n  - Proverava performance: API response ≤ 200ms\n  - Skenira za nedoslednosti u kodu (negativne cene, neispravan PDV, nevalidni SKU)\n  - Auto-labels PRs sa `gigatron:validated` ili `gigatron:needs-review`\n  - Ostavlja audit log u PR komentaru",
         "duplicateSections": [
           {
-            "line": 792,
+            "line": 856,
             "language": "en",
             "text": [
               "### gigatron-validator-agent (NEW)",
+              "- **Catalog status (2026-10-28)**: `enabled: false` in `.agent-config.json`; remains disabled. Workflow definitions do not prove that this flag is enforced; runtime is unverified.",
               "- **Role**: Validate GIGATRON IT & Electronics procurement logic, affiliate calculations, and inventory integrity",
               "- **Scope**: GIGATRON paths in AI-IQ-SUPER-PLATFORMA (`src/lib/gigatron/**`, `src/app/api/gigatron/**`)",
               "- **Trigger**: PR with `gigatron:logic-change` label, push touching `gigatron` paths",
@@ -6627,7 +6759,8 @@
         "unresolved-test-suite-alias"
       ],
       "discrepancies": [
-        "disabled-config-has-workflow-definition-reference"
+        "disabled-config-has-workflow-definition-reference",
+        "disabled-config-workflow-enforcement-unverified"
       ],
       "executionObserved": false,
       "importActivation": false
@@ -6664,14 +6797,14 @@
         "scope": "src/lib/great-sumbion/**,src/app/api/great-sumbion/**,src/components/great-sumbion/**"
       },
       "documentation": {
-        "sectionLine": 150,
+        "sectionLine": 153,
         "registered": {
           "role": "GREAT SUMBION Validation",
           "trigger": "PR, Branch",
           "owner": "@spaja86",
           "status": "🚀 Active",
           "scope": "AI-IQ-SUPER-PLATFORMA (great-sumbion paths)",
-          "line": 640,
+          "line": 695,
           "language": "sr",
           "duplicateRows": [
             {
@@ -6680,7 +6813,7 @@
               "owner": "@spaja86",
               "status": "🚀 Active",
               "scope": "AI-IQ-SUPER-PLATFORMA (great-sumbion paths)",
-              "line": 1437,
+              "line": 1554,
               "language": "en",
               "duplicateRows": []
             }
@@ -6689,7 +6822,7 @@
         "roleSection": "### great-sumbion-validator-agent (NEW)\n- **Role**: Validacija GREAT SUMBION logike — weighted score orkestracija, tier klasifikacija i edge case integritet\n- **Scope**: AI-IQ-SUPER-PLATFORMA — `src/lib/great-sumbion/**`, `src/app/api/great-sumbion/**`, `src/components/great-sumbion/**`\n- **Trigger**: PR sa labelom `great-sumbion:logic-change`, push koji dira `great-sumbion` putanje\n- **Actions**:\n  - Pokreće unit test suite za GREAT SUMBION logiku (score engine, tier mapping, health)\n  - Verifikuje matematičke rezultate i edge cases (NaN, Infinity, negativne vrednosti, division by zero)\n  - Proverava performance KPI: evaluacija ≤ 50ms, API response ≤ 200ms\n  - Skenira za nedoslednosti u kodu i sekrete\n  - Auto-labels PRs sa `great-sumbion:validated` ili `great-sumbion:needs-review`\n  - Ostavlja audit log u PR komentaru\n  - **Persona**: `great-sumbion-core` (octave: 9, hipermreza node: 72)",
         "duplicateSections": [
           {
-            "line": 868,
+            "line": 933,
             "language": "en",
             "text": [
               "### great-sumbion-validator-agent (NEW)",
@@ -6882,7 +7015,7 @@
           "owner": "@spaja86",
           "status": "✅ Active",
           "scope": "All repos",
-          "line": 620,
+          "line": 675,
           "language": "sr",
           "duplicateRows": [
             {
@@ -6891,7 +7024,7 @@
               "owner": "@spaja86",
               "status": "✅ Active",
               "scope": "All repos",
-              "line": 1419,
+              "line": 1536,
               "language": "en",
               "duplicateRows": []
             }
@@ -6900,7 +7033,7 @@
         "roleSection": "### human-review\n- Zahteva ljudsku proveru pre merge-a.\n- Komentiše na PR-u sa detaljnim povratnim informacijama.\n- Odgovoran za quality assurance na svim kritičnim promenama.",
         "duplicateSections": [
           {
-            "line": 731,
+            "line": 793,
             "language": "en",
             "text": [
               "### human-review",
@@ -6978,14 +7111,14 @@
         "scope": "src/lib/konvencionalni-odnosi/**,src/app/api/konvencionalni-odnosi/**"
       },
       "documentation": {
-        "sectionLine": 163,
+        "sectionLine": 166,
         "registered": {
           "role": "KONVENCIONALNI ODNOSI Validation",
           "trigger": "PR, Branch",
           "owner": "@spaja86",
           "status": "🚀 Active",
           "scope": "AI-IQ-SUPER-PLATFORMA (konvencionalni-odnosi paths)",
-          "line": 641,
+          "line": 696,
           "language": "sr",
           "duplicateRows": [
             {
@@ -6994,7 +7127,7 @@
               "owner": "@spaja86",
               "status": "🚀 Active",
               "scope": "AI-IQ-SUPER-PLATFORMA (konvencionalni-odnosi paths)",
-              "line": 1438,
+              "line": 1555,
               "language": "en",
               "duplicateRows": []
             }
@@ -7003,7 +7136,7 @@
         "roleSection": "### konvencionalni-odnosi-validator-agent (NEW)\n- **Role**: Validacija KONVENCIONALNI ODNOSI logike — scoring kvaliteta odnosa, balans dimenzija i integritet edge case-ova\n- **Scope**: AI-IQ-SUPER-PLATFORMA — `src/lib/konvencionalni-odnosi/**`, `src/app/api/konvencionalni-odnosi/**`\n- **Trigger**: PR sa labelom `konvencionalni-odnosi:logic-change`, push koji dira `konvencionalni-odnosi` putanje\n- **Actions**:\n  - Pokreće unit i route test suite za KONVENCIONALNI ODNOSI logiku\n  - Verifikuje determinističke rezultate, tier/status mapping i upozorenja za nekonzistentne obrasce\n  - Proverava edge case-ove (`NaN`, `Infinity`, negativne vrednosti, prazni ulazi, score > 100)\n  - Proverava performance KPI: evaluacija ≤ 50ms, API response ≤ 200ms\n  - Skenira za nedoslednosti u kodu i sekrete\n  - Auto-labels PRs sa `konvencionalni-odnosi:validated` ili `konvencionalni-odnosi:needs-review`\n  - Ostavlja audit log u PR komentaru\n  - **Persona**: `konvencionalni-odnosi-core` (octave: 14, hipermreza node: 112)",
         "duplicateSections": [
           {
-            "line": 881,
+            "line": 946,
             "language": "en",
             "text": [
               "### konvencionalni-odnosi-validator-agent (NEW)",
@@ -7210,14 +7343,14 @@
         "testSuite": "src/tests/lib/konvenkcionalni-odnosi.test.ts"
       },
       "documentation": {
-        "sectionLine": 1143,
+        "sectionLine": 1210,
         "registered": {
           "role": "KONVENKCIONALNI ODNOSI Relation Management Validation",
           "trigger": "PR, Branch",
           "owner": "@spaja86",
           "status": "🚀 Active",
           "scope": "AI-IQ-SUPER-PLATFORMA (konvenkcionalni-odnosi paths)",
-          "line": 655,
+          "line": 710,
           "language": "sr",
           "duplicateRows": [
             {
@@ -7226,7 +7359,7 @@
               "owner": "@spaja86",
               "status": "🚀 Active",
               "scope": "AI-IQ-SUPER-PLATFORMA (konvenkcionalni-odnosi paths)",
-              "line": 1454,
+              "line": 1571,
               "language": "en",
               "duplicateRows": []
             }
@@ -7506,14 +7639,14 @@
         "scope": "src/lib/kulkon/**,src/app/api/kulkon/**"
       },
       "documentation": {
-        "sectionLine": 528,
+        "sectionLine": 533,
         "registered": {
           "role": "KULKON Culture Cohesion Validation",
           "trigger": "PR, Branch",
           "owner": "@spaja86",
           "status": "🚀 Active",
           "scope": "AI-IQ-SUPER-PLATFORMA (kulkon paths)",
-          "line": 668,
+          "line": 723,
           "language": "sr",
           "duplicateRows": [
             {
@@ -7522,7 +7655,7 @@
               "owner": "@spaja86",
               "status": "🚀 Active",
               "scope": "AI-IQ-SUPER-PLATFORMA (kulkon paths)",
-              "line": 1467,
+              "line": 1584,
               "language": "en",
               "duplicateRows": []
             }
@@ -7531,7 +7664,7 @@
         "roleSection": "### kulkon-validator-agent (NEW)\n- **Role**: Validacija KULKON logike — cohesion/resilience scoring, status mapiranje i edge-case integritet\n- **Scope**: AI-IQ-SUPER-PLATFORMA — `src/lib/kulkon/**`, `src/app/api/kulkon/**`\n- **Trigger**: PR sa labelom `kulkon:logic-change`, push koji dira `kulkon` putanje\n- **Actions**:\n  - Pokreće unit i route test suite za KULKON logiku\n  - Verifikuje determinističke rezultate i edge cases (`NaN`, `Infinity`, negativne vrednosti, nevalidni enumi, bounds)\n  - Proverava performance KPI: evaluacija ≤ 50ms, API response ≤ 200ms\n  - Skenira za nedoslednosti u kodu i sekrete\n  - Auto-labels PRs sa `kulkon:validated` ili `kulkon:needs-review`\n  - Ostavlja audit log u PR komentaru\n  - **Persona**: `kulkon-core` (octave: 7, hipermreza node: 59)\n  - **Linked-repo impact**: none (v1)",
         "duplicateSections": [
           {
-            "line": 1328,
+            "line": 1395,
             "language": "en",
             "text": [
               "### kulkon-validator-agent (NEW)",
@@ -7763,14 +7896,14 @@
         }
       },
       "documentation": {
-        "sectionLine": 268,
+        "sectionLine": 272,
         "registered": {
           "role": "Exotic Market Intelligence",
           "trigger": "PR, Branch",
           "owner": "@spaja86",
           "status": "🚀 Active",
           "scope": "AI-IQ-SUPER-PLATFORMA (madagaskar paths)",
-          "line": 643,
+          "line": 698,
           "language": "sr",
           "duplicateRows": [
             {
@@ -7779,7 +7912,7 @@
               "owner": "@spaja86",
               "status": "🚀 Active",
               "scope": "AI-IQ-SUPER-PLATFORMA (madagaskar paths)",
-              "line": 1440,
+              "line": 1557,
               "language": "en",
               "duplicateRows": []
             }
@@ -7788,7 +7921,7 @@
         "roleSection": "### madagaskar-validator-agent (NEW)\n- **Role**: Validacija MADAGASKAR logike — egzotična tržišna inteligencija, rarity premium kalkulacija, sustainability scoring i procurement integritet (v1 + v2: FX, aukcije, traceability, basket)\n- **Scope**: AI-IQ-SUPER-PLATFORMA — `src/lib/madagaskar/**`, `src/app/api/madagaskar/**`, `src/components/madagaskar/**`, `src/lib/madagaskar-2/**`, `src/app/api/madagaskar-2/**`\n- **Trigger**: PR sa labelom `madagaskar:logic-change` ili `madagaskar-2:logic-change`, push koji dira `madagaskar` ili `madagaskar-2` putanje\n- **Actions**:\n  - Pokreće unit test suite za MADAGASKAR logiku (registry, engine, utils — v1 + v2: fx, auction, traceability, basket, engine)\n  - Verifikuje matematičke rezultate i edge cases (NaN, Infinity, negativne količine, nevalidni IDs)\n  - Proverava performance KPI: evaluacija ≤ 50ms, API response ≤ 200ms\n  - Skenira za nedoslednosti u kodu (negativne cene, nevalidni rarity, nevalidni sustainability score)\n  - Auto-labels PRs sa `madagaskar:validated` / `madagaskar-2:validated` ili `madagaskar:needs-review` / `madagaskar-2:needs-review`\n  - Ostavlja audit log u PR komentaru\n  - **Persona**: `madagaskar-exotic-market` (octave: 5, hipermreza node: 40)\n  - **Multi-repo sync**: Sinhronizuje exotic goods catalog snapshots (v1 + v2) ka `spaja86/IO-OPENUI-AO`",
         "duplicateSections": [
           {
-            "line": 999,
+            "line": 1065,
             "language": "en",
             "text": [
               "### madagaskar-validator-agent (NEW)",
@@ -8032,14 +8165,14 @@
         }
       },
       "documentation": {
-        "sectionLine": 339,
+        "sectionLine": 344,
         "registered": {
           "role": "MAKSIMUS Analytical/Development Apex Agent",
           "trigger": "PR, Push, Weekly",
           "owner": "@spaja86",
           "status": "🚀 Active",
           "scope": "AI-IQ-SUPER-PLATFORMA (maksimus paths)",
-          "line": 650,
+          "line": 705,
           "language": "sr",
           "duplicateRows": [
             {
@@ -8048,7 +8181,7 @@
               "owner": "@spaja86",
               "status": "🚀 Active",
               "scope": "AI-IQ-SUPER-PLATFORMA (maksimus paths)",
-              "line": 1448,
+              "line": 1565,
               "language": "en",
               "duplicateRows": []
             }
@@ -8057,7 +8190,7 @@
         "roleSection": "### maksimus-validator-agent (NEW)\n- **Role**: Validacija MAKSIMUS logike — analitička orkestracija, razvojna strategija, platforma koordinacija i cross-agent handoff integritet\n- **Scope**: AI-IQ-SUPER-PLATFORMA — `src/lib/maksimus/**`, `src/app/api/maksimus/**`\n- **Trigger**: PR sa labelom `maksimus:logic-change`, push koji dira `maksimus` putanje, weekly schedule (sreda 04:00 UTC)\n- **Actions**:\n  - Pokreće unit test suite za MAKSIMUS logiku (identity, orchestrator, handoff, store)\n  - Verifikuje persona sinhronizaciju i handoff logiku ka ANOTHER MAKS\n  - Proverava performance KPI: evaluacija ≤ 50ms, build ≤ 3 min\n  - Skenira za nedoslednosti i sekrete u MAKSIMUS modulima\n  - Auto-labels PRs sa `maksimus:validated` ili `maksimus:needs-review`\n  - Ostavlja audit log u PR komentaru\n  - **Specijalizacija**: Analitička orkestracija, razvojna strategija, platforma koordinacija\n  - **Linked agent**: ANOTHER MAKS (kreativni agent)\n  - **Nova Generacija integration**: Hipermreza node 128, octave 13, persona sync aktivan",
         "duplicateSections": [
           {
-            "line": 1070,
+            "line": 1137,
             "language": "en",
             "text": [
               "### maksimus-validator-agent (NEW)",
@@ -8468,14 +8601,14 @@
         "trackingIssue": 920
       },
       "documentation": {
-        "sectionLine": 136,
+        "sectionLine": 139,
         "registered": {
           "role": "MIRIKL GitHub/Vercel Governance Validation",
           "trigger": "PR, Branch",
           "owner": "@spaja86",
           "status": "🚀 Active",
           "scope": "AI-IQ-SUPER-PLATFORMA (MIRIKL governance paths)",
-          "line": 639,
+          "line": 694,
           "language": "sr",
           "duplicateRows": [
             {
@@ -8484,7 +8617,7 @@
               "owner": "@spaja86",
               "status": "🚀 Active",
               "scope": "AI-IQ-SUPER-PLATFORMA (MIRIKL governance paths)",
-              "line": 1436,
+              "line": 1553,
               "language": "en",
               "duplicateRows": []
             }
@@ -8493,7 +8626,7 @@
         "roleSection": "### mirikl-validator-agent (NEW)\n- **Role**: Validacija MIRIKL governance logike — GitHub quality gate orkestracija, Vercel deploy boundary i cross-repo audit integritet\n- **Scope**: AI-IQ-SUPER-PLATFORMA — `docs/MIRIKL.md`, `.agent-config.json`, `.github/workflows/mirikl-validator.yml`, `.github/workflows/vercel-deploy.yml`, `docs/MULTI-REPO-LINKS.md`\n- **Trigger**: PR sa labelom `mirikl:logic-change`, push koji dira MIRIKL governance putanje\n- **Actions**:\n  - Pokreće release gate validaciju (build, lint, test, smoke, predeploy, security)\n  - Verifikuje da je Vercel Git integracija primarni deploy source of truth\n  - Verifikuje da GitHub Actions ostaje governance/audit layer\n  - Proverava rollout/rollback i KPI audit sekcije u summary izlazu\n  - Auto-labels PRs sa `mirikl:validated` ili `mirikl:needs-review`\n  - Ostavlja audit log u workflow summary-ju\n  - **OKRID**: `OKRID-2026-MIRIKL-001`\n  - **Tracking Issue**: `#920`",
         "duplicateSections": [
           {
-            "line": 854,
+            "line": 919,
             "language": "en",
             "text": [
               "### mirikl-validator-agent (NEW)",
@@ -8937,35 +9070,36 @@
         "scope": "src/lib/mrkli-mrak/**,src/app/api/mrkli-mrak/**"
       },
       "documentation": {
-        "sectionLine": 242,
+        "sectionLine": 245,
         "registered": {
           "role": "MRKLI MRAK Darkness Readiness Validation",
           "trigger": "PR, Branch",
           "owner": "@spaja86",
-          "status": "🚀 Active",
+          "status": "⚠ Missing workflow",
           "scope": "AI-IQ-SUPER-PLATFORMA (mrkli-mrak paths)",
-          "line": 635,
+          "line": 690,
           "language": "sr",
           "duplicateRows": [
             {
               "role": "MRKLI MRAK Darkness Readiness Validation",
               "trigger": "PR, Branch",
               "owner": "@spaja86",
-              "status": "🚀 Active",
+              "status": "⚠ Missing workflow",
               "scope": "AI-IQ-SUPER-PLATFORMA (mrkli-mrak paths)",
-              "line": 1432,
+              "line": 1549,
               "language": "en",
               "duplicateRows": []
             }
           ]
         },
-        "roleSection": "### mrkli-mrak-validator-agent (NEW)\n- **Role**: Validacija MRKLI MRAK logike — darkness readiness scoring, status klasifikacija i edge-case integritet\n- **Scope**: AI-IQ-SUPER-PLATFORMA — `src/lib/mrkli-mrak/**`, `src/app/api/mrkli-mrak/**`\n- **Trigger**: PR sa labelom `mrkli-mrak:logic-change`, push koji dira `mrkli-mrak` putanje\n- **Actions**:\n  - Pokreće unit i route test suite za MRKLI MRAK logiku\n  - Verifikuje determinističke rezultate i edge cases (`NaN`, `Infinity`, invalid ranges, prazni payload)\n  - Proverava performance KPI: evaluacija ≤ 50ms, API response ≤ 200ms\n  - Skenira za nedoslednosti u kodu i sekrete\n  - Auto-labels PRs sa `mrkli-mrak:validated` ili `mrkli-mrak:needs-review`\n  - Ostavlja audit log u PR komentaru\n  - **Persona**: `mrkli-mrak-core` (octave: 11, hipermreza node: 89)",
+        "roleSection": "### mrkli-mrak-validator-agent (NEW)\n- **Catalog status (2026-10-28)**: `enabled: true` / `status: active` are configuration declarations only. **Missing component**: `.github/workflows/mrkli-mrak-validator.yml` was not implemented in the reviewed PR ancestry; no replacement is established. Actions below describe intended behavior. See [reference review](docs/SPAJA-AGENT-REFERENCE-RECONCILIATION.md).\n- **Role**: Validacija MRKLI MRAK logike — darkness readiness scoring, status klasifikacija i edge-case integritet\n- **Scope**: AI-IQ-SUPER-PLATFORMA — `src/lib/mrkli-mrak/**`, `src/app/api/mrkli-mrak/**`\n- **Trigger**: PR sa labelom `mrkli-mrak:logic-change`, push koji dira `mrkli-mrak` putanje\n- **Actions**:\n  - Pokreće unit i route test suite za MRKLI MRAK logiku\n  - Verifikuje determinističke rezultate i edge cases (`NaN`, `Infinity`, invalid ranges, prazni payload)\n  - Proverava performance KPI: evaluacija ≤ 50ms, API response ≤ 200ms\n  - Skenira za nedoslednosti u kodu i sekrete\n  - Auto-labels PRs sa `mrkli-mrak:validated` ili `mrkli-mrak:needs-review`\n  - Ostavlja audit log u PR komentaru\n  - **Persona**: `mrkli-mrak-core` (octave: 11, hipermreza node: 89)",
         "duplicateSections": [
           {
-            "line": 973,
+            "line": 1038,
             "language": "en",
             "text": [
               "### mrkli-mrak-validator-agent (NEW)",
+              "- **Catalog status (2026-10-28)**: `enabled: true` / `status: active` are configuration declarations only. **Missing component**: `.github/workflows/mrkli-mrak-validator.yml` was not implemented in the reviewed PR ancestry; no replacement is established. Actions below describe intended behavior. See [reference review](docs/SPAJA-AGENT-REFERENCE-RECONCILIATION.md).",
               "- **Role**: Validate MRKLI MRAK logic — darkness readiness scoring, status classification, and edge-case integrity",
               "- **Scope**: AI-IQ-SUPER-PLATFORMA — `src/lib/mrkli-mrak/**`, `src/app/api/mrkli-mrak/**`",
               "- **Trigger**: PR with label `mrkli-mrak:logic-change`, push touching `mrkli-mrak` paths",
@@ -9113,7 +9247,9 @@
         "human-activation-approval-not-granted",
         "missing-workflow:.github/workflows/mrkli-mrak-validator.yml"
       ],
-      "discrepancies": [],
+      "discrepancies": [
+        "configured-active-but-workflow-missing"
+      ],
       "executionObserved": false,
       "importActivation": false
     },
@@ -9145,14 +9281,14 @@
         ]
       },
       "documentation": {
-        "sectionLine": 47,
+        "sectionLine": 48,
         "registered": {
           "role": "Multi-Repo Sync",
           "trigger": "Push, Weekly",
           "owner": "@spaja86",
           "status": "✅ Active",
           "scope": "SUPER-PLATFORMA ↔ IO-OPENUI-AO",
-          "line": 623,
+          "line": 678,
           "language": "sr",
           "duplicateRows": [
             {
@@ -9161,7 +9297,7 @@
               "owner": "@spaja86",
               "status": "✅ Active",
               "scope": "SUPER-PLATFORMA ↔ IO-OPENUI-AO",
-              "line": 1422,
+              "line": 1539,
               "language": "en",
               "duplicateRows": []
             }
@@ -9170,7 +9306,7 @@
         "roleSection": "### multi-repo-sync-agent (NEW)\n- **Role**: Sinhronizacija konfiguracije i status između povezanih repozitorijuma\n- **Scope**: AI-IQ-SUPER-PLATFORMA ↔ IO-OPENUI-AO i drugi povezani repo-ji\n- **Trigger**: Na Push-u na main branch, weekly sync, manual trigger\n- **Actions**:\n  - Proverava verzije zavisnosti koherencije\n  - Sinhronizuje `.agent-config.json` između repozitorijuma\n  - Ažurira README references i inter-repo links\n  - Sinhronizuje labels, milestones, i project status\n  - Ostavlja detailed audit log sa linkovima između PRs",
         "duplicateSections": [
           {
-            "line": 759,
+            "line": 822,
             "language": "en",
             "text": [
               "### multi-repo-sync-agent (NEW)",
@@ -9427,14 +9563,14 @@
         }
       },
       "documentation": {
-        "sectionLine": 80,
+        "sectionLine": 82,
         "registered": {
           "role": "NG Orchestration",
           "trigger": "PR, Push, Weekly",
           "owner": "@spaja86",
           "status": "🚀 Active",
           "scope": "All repos (Nova Generacija scope)",
-          "line": 626,
+          "line": 681,
           "language": "sr",
           "duplicateRows": []
         },
@@ -9783,14 +9919,14 @@
         "scope": "src/lib/nude/**,src/app/api/nude/**"
       },
       "documentation": {
-        "sectionLine": 230,
+        "sectionLine": 233,
         "registered": {
           "role": "NUDE Readiness Validation",
           "trigger": "PR, Branch",
           "owner": "@spaja86",
           "status": "🚀 Active",
           "scope": "AI-IQ-SUPER-PLATFORMA (nude paths)",
-          "line": 634,
+          "line": 689,
           "language": "sr",
           "duplicateRows": [
             {
@@ -9799,7 +9935,7 @@
               "owner": "@spaja86",
               "status": "🚀 Active",
               "scope": "AI-IQ-SUPER-PLATFORMA (nude paths)",
-              "line": 1431,
+              "line": 1548,
               "language": "en",
               "duplicateRows": []
             }
@@ -9808,7 +9944,7 @@
         "roleSection": "### nude-validator-agent (NEW)\n- **Role**: Validacija NUDE logike — readiness scoring, status mapiranje i edge-case integritet\n- **Scope**: AI-IQ-SUPER-PLATFORMA — `src/lib/nude/**`, `src/app/api/nude/**`\n- **Trigger**: PR sa labelom `nude:logic-change`, push koji dira `nude` putanje\n- **Actions**:\n  - Pokreće unit i route test suite za NUDE logiku\n  - Verifikuje determinističke rezultate i edge cases (`NaN`, `Infinity`, negativne vrednosti, bounds`)\n  - Proverava performance KPI: evaluacija ≤ 50ms, API response ≤ 200ms\n  - Skenira za nedoslednosti u kodu i sekrete\n  - Auto-labels PRs sa `nude:validated` ili `nude:needs-review`\n  - Ostavlja audit log u PR komentaru\n  - **Persona**: `nude-balance-core` (octave: 8, hipermreza node: 65)",
         "duplicateSections": [
           {
-            "line": 948,
+            "line": 1013,
             "language": "en",
             "text": [
               "### nude-validator-agent (NEW)",
@@ -9828,7 +9964,7 @@
             "duplicateSections": []
           },
           {
-            "line": 961,
+            "line": 1026,
             "language": "en",
             "text": [
               "### nude-validator-agent (NEW)",
@@ -10018,8 +10154,8 @@
     },
     {
       "id": "okrid-governance",
-      "role": "OKRID Weekly Governance Review",
-      "roleSource": ".github/workflows/okrid-weekly-review.yml#/name",
+      "role": "Nedeljni izveštaj o OKRID usaglašenosti PR-ova",
+      "roleSource": "AGENTS.md",
       "configEnabled": true,
       "configuration": {
         "enabled": true,
@@ -10039,10 +10175,46 @@
         "reviewCadence": "weekly"
       },
       "documentation": {
-        "sectionLine": null,
-        "registered": null,
-        "roleSection": null,
-        "duplicateSections": []
+        "sectionLine": 624,
+        "registered": {
+          "role": "Nedeljni izveštaj o OKRID usaglašenosti PR-ova",
+          "trigger": "Monday 07:00 UTC, manual",
+          "owner": "Unassigned",
+          "status": "⚙ Configured",
+          "scope": "AI-IQ-SUPER-PLATFORMA",
+          "line": 732,
+          "language": "sr",
+          "duplicateRows": [
+            {
+              "role": "Weekly report on PR compliance with OKRID",
+              "trigger": "Monday 07:00 UTC, manual",
+              "owner": "Unassigned",
+              "status": "⚙ Configured",
+              "scope": "AI-IQ-SUPER-PLATFORMA",
+              "line": 1592,
+              "language": "en",
+              "duplicateRows": []
+            }
+          ]
+        },
+        "roleSection": "### okrid-governance\n- **Role**: Nedeljni izveštaj o OKRID usaglašenosti PR-ova\n- **Scope**: `docs/OKRID.md, docs/OKRID-REGISTRY.md; repository PR metadata`\n- **Workflow**: `.github/workflows/okrid-weekly-review.yml`\n- **Trigger**: Monday 07:00 UTC, manual; exact filters and conditions remain in the workflow definition.\n- **Catalog status**: Configured (`enabled: true`); execution unverified.\n- **Evidence**: `.agent-config.json` → `agents.okrid-governance` and the named workflow; no new runtime binding or owner assignment.",
+        "duplicateSections": [
+          {
+            "line": 1486,
+            "language": "en",
+            "text": [
+              "### okrid-governance",
+              "- **Role**: Weekly report on PR compliance with OKRID",
+              "- **Scope**: `docs/OKRID.md, docs/OKRID-REGISTRY.md; repository PR metadata`",
+              "- **Workflow**: `.github/workflows/okrid-weekly-review.yml`",
+              "- **Trigger**: Monday 07:00 UTC, manual; exact filters and conditions remain in the workflow definition.",
+              "- **Catalog status**: Configured (`enabled: true`); execution unverified.",
+              "- **Evidence**: `.agent-config.json` → `agents.okrid-governance` and the named workflow; no new runtime binding or owner assignment.",
+              ""
+            ],
+            "duplicateSections": []
+          }
+        ]
       },
       "workflowReferences": [
         {
@@ -10128,10 +10300,7 @@
         "human-activation-approval-not-granted",
         "mutable-external-reference"
       ],
-      "discrepancies": [
-        "configuration-missing-from-AGENTS.md",
-        "missing-registered-agents-row"
-      ],
+      "discrepancies": [],
       "executionObserved": false,
       "importActivation": false
     },
@@ -10182,14 +10351,14 @@
         "scope": "src/lib/paraksil/**,src/app/api/paraksil/**"
       },
       "documentation": {
-        "sectionLine": 255,
+        "sectionLine": 259,
         "registered": {
           "role": "PARAKSIL Module Validation Sandbox",
           "trigger": "PR, Branch",
           "owner": "@spaja86",
           "status": "🚀 Active",
           "scope": "AI-IQ-SUPER-PLATFORMA (paraksil paths)",
-          "line": 636,
+          "line": 691,
           "language": "sr",
           "duplicateRows": [
             {
@@ -10198,7 +10367,7 @@
               "owner": "@spaja86",
               "status": "🚀 Active",
               "scope": "AI-IQ-SUPER-PLATFORMA (paraksil paths)",
-              "line": 1433,
+              "line": 1550,
               "language": "en",
               "duplicateRows": []
             }
@@ -10207,7 +10376,7 @@
         "roleSection": "### paraksil-validator-agent (NEW)\n- **Role**: Validacija PARAKSIL logike — generički sandbox za testiranje modula, scoring validacije i release gate klasifikaciju\n- **Scope**: AI-IQ-SUPER-PLATFORMA — `src/lib/paraksil/**`, `src/app/api/paraksil/**`\n- **Trigger**: PR sa labelom `paraksil:logic-change`, push koji dira `paraksil` putanje\n- **Actions**:\n  - Pokreće unit i route test suite za PARAKSIL logiku\n  - Verifikuje determinističke rezultate i edge cases (`NaN`, `Infinity`, negativne vrednosti, mismatch totals, unsupported suite)\n  - Proverava performance KPI: evaluacija ≤ 50ms, API response ≤ 200ms\n  - Skenira za nedoslednosti u kodu i sekrete\n  - Auto-labels PRs sa `paraksil:validated` ili `paraksil:needs-review`\n  - Ostavlja audit log u PR komentaru\n  - **Persona**: `paraksil-validator-core` (octave: 6, hipermreza node: 49)",
         "duplicateSections": [
           {
-            "line": 986,
+            "line": 1052,
             "language": "en",
             "text": [
               "### paraksil-validator-agent (NEW)",
@@ -10441,14 +10610,14 @@
         "scope": "src/lib/pilotrelax/**,src/app/api/pilotrelax/**"
       },
       "documentation": {
-        "sectionLine": 203,
+        "sectionLine": 206,
         "registered": {
           "role": "PILOTRELAX Relaxation Guidance Validation",
           "trigger": "PR, Branch",
           "owner": "@spaja86",
           "status": "🚀 Active",
           "scope": "AI-IQ-SUPER-PLATFORMA (pilotrelax paths)",
-          "line": 632,
+          "line": 687,
           "language": "sr",
           "duplicateRows": [
             {
@@ -10457,7 +10626,7 @@
               "owner": "@spaja86",
               "status": "🚀 Active",
               "scope": "AI-IQ-SUPER-PLATFORMA (pilotrelax paths)",
-              "line": 1429,
+              "line": 1546,
               "language": "en",
               "duplicateRows": []
             }
@@ -10466,7 +10635,7 @@
         "roleSection": "### pilotrelax-validator-agent (NEW)\n- **Role**: Validacija PILOTRELAX logike — relaxation scoring, protocol preporuke i edge-case integritet\n- **Scope**: AI-IQ-SUPER-PLATFORMA — `src/lib/pilotrelax/**`, `src/app/api/pilotrelax/**`\n- **Trigger**: PR sa labelom `pilotrelax:logic-change`, push koji dira `pilotrelax` putanje\n- **Actions**:\n  - Pokreće unit i route test suite za PILOTRELAX logiku\n  - Verifikuje determinističke rezultate i edge cases (`NaN`, `Infinity`, negativne vrednosti, invalidni protokoli, bounds`)\n  - Proverava performance KPI: evaluacija ≤ 50ms, API response ≤ 200ms\n  - Skenira za nedoslednosti u kodu i sekrete\n  - Auto-labels PRs sa `pilotrelax:validated` ili `pilotrelax:needs-review`\n  - Ostavlja audit log u PR komentaru\n  - **Persona**: `pilotrelax-calm-core` (octave: 7, hipermreza node: 58)",
         "duplicateSections": [
           {
-            "line": 921,
+            "line": 986,
             "language": "en",
             "text": [
               "### pilotrelax-validator-agent (NEW)",
@@ -10712,14 +10881,14 @@
         }
       },
       "documentation": {
-        "sectionLine": 559,
+        "sectionLine": 564,
         "registered": {
           "role": "POZADINE SVIH PROJEKCIJA Validation",
           "trigger": "PR, Branch",
           "owner": "@spaja86",
           "status": "🚀 Active",
           "scope": "AI-IQ-SUPER-PLATFORMA (pozadine-svih-projekcija paths)",
-          "line": 671,
+          "line": 726,
           "language": "sr",
           "duplicateRows": [
             {
@@ -10728,7 +10897,7 @@
               "owner": "@spaja86",
               "status": "🚀 Active",
               "scope": "AI-IQ-SUPER-PLATFORMA (pozadine-svih-projekcija paths)",
-              "line": 1470,
+              "line": 1587,
               "language": "en",
               "duplicateRows": []
             }
@@ -10737,7 +10906,7 @@
         "roleSection": "### pozadine-svih-projekcija-validator-agent (NEW)\n- **Role**: Validacija POZADINE SVIH PROJEKCIJA logike — projekciona ekvivalentnost, duplikat-token pravila i edge-case integritet\n- **Scope**: AI-IQ-SUPER-PLATFORMA — `src/lib/pozadine-svih-projekcija/**`, `src/app/api/pozadine-svih-projekcija/**`\n- **Trigger**: PR sa labelom `pozadine-svih-projekcija:logic-change`, push koji dira `pozadine-svih-projekcija` putanje\n- **Actions**:\n  - Pokreće unit i route test suite za POZADINE SVIH PROJEKCIJA logiku\n  - Verifikuje `==` pravilo prema zvaničnom nizu `DUKER NIKOS ZINGO NJUKER ZINGAN DISPO DJAMA FRIKO DJAPRE NIKOS JAKRE GIMBA`\n  - Proverava duplikat pravilo za `NIKOS` (tačno 2 pojave), redosled i fallback za nepoznate/prazne vrednosti\n  - Proverava edge case-ove (`NaN`, `Infinity`, nevalidan `signalStrength`, nepoznati tokeni)\n  - Proverava performance KPI: evaluacija ≤ 50ms, API response ≤ 200ms\n  - Skenira za nedoslednosti u kodu i sekrete\n  - Auto-labels PRs sa `pozadine-svih-projekcija:validated` ili `pozadine-svih-projekcija:needs-review`\n  - Ostavlja audit log u PR komentaru\n  - **Persona**: `pozadine-svih-projekcija-core` (octave: 10, hipermreza node: 84)\n  - **Linked-repo impact**: none (v1)\n\n- **Scope**: AI-IQ-SUPER-PLATFORMA — `src/lib/trikot/**`, `src/app/api/trikot/**`\n- **Trigger**: PR sa labelom `trikot:logic-change`, push koji dira `trikot` putanje\n- **Actions**:\n  - Pokreće unit i route test suite za TRIKOT logiku\n  - Verifikuje determinističke rezultate i edge cases (`NaN`, `Infinity`, negativne vrednosti, nevalidni enumi, bounds)\n  - Proverava performance KPI: evaluacija ≤ 50ms, API response ≤ 200ms\n  - Skenira za nedoslednosti u kodu i sekrete\n  - Auto-labels PRs sa `trikot:validated` ili `trikot:needs-review`\n  - Ostavlja audit log u PR komentaru\n  - **Persona**: `trikot-style-core` (octave: 6, hipermreza node: 54)\n  - **Linked-repo impact**: none (v1)",
         "duplicateSections": [
           {
-            "line": 1359,
+            "line": 1426,
             "language": "en",
             "text": [
               "### pozadine-svih-projekcija-validator-agent (NEW)",
@@ -10931,14 +11100,14 @@
         "scope": "src/lib/prosparitet/**,src/app/api/prosparitet/**"
       },
       "documentation": {
-        "sectionLine": 542,
+        "sectionLine": 547,
         "registered": {
           "role": "PROSPARITET Prosperity Readiness Validation",
           "trigger": "PR, Branch",
           "owner": "@spaja86",
           "status": "🚀 Active",
           "scope": "AI-IQ-SUPER-PLATFORMA (prosparitet paths)",
-          "line": 669,
+          "line": 724,
           "language": "sr",
           "duplicateRows": [
             {
@@ -10947,7 +11116,7 @@
               "owner": "@spaja86",
               "status": "🚀 Active",
               "scope": "AI-IQ-SUPER-PLATFORMA (prosparitet paths)",
-              "line": 1468,
+              "line": 1585,
               "language": "en",
               "duplicateRows": []
             }
@@ -10956,7 +11125,7 @@
         "roleSection": "### prosparitet-validator-agent (NEW)\n- **Role**: Validacija PROSPARITET logike — prosperity readiness scoring, status mapiranje i edge-case integritet\n- **Scope**: AI-IQ-SUPER-PLATFORMA — `src/lib/prosparitet/**`, `src/app/api/prosparitet/**`\n- **Trigger**: PR sa labelom `prosparitet:logic-change`, push koji dira `prosparitet` putanje\n- **Actions**:\n  - Pokreće unit i route test suite za PROSPARITET logiku\n  - Verifikuje determinističke rezultate i edge cases (`NaN`, `Infinity`, negativne vrednosti, nevalidni horizont, bounds)\n  - Proverava performance KPI: evaluacija ≤ 50ms, API response ≤ 200ms\n  - Skenira za nedoslednosti u kodu i sekrete\n  - Auto-labels PRs sa `prosparitet:validated` ili `prosparitet:needs-review`\n  - Ostavlja audit log u PR komentaru\n  - **Persona**: `prosparitet-core` (octave: 9, hipermreza node: 73)\n  - **Linked-repo impact**: none (v1)",
         "duplicateSections": [
           {
-            "line": 1342,
+            "line": 1409,
             "language": "en",
             "text": [
               "### prosparitet-validator-agent (NEW)",
@@ -11182,14 +11351,14 @@
         "linkedRepoSync": "spaja86/IO-OPENUI-AO"
       },
       "documentation": {
-        "sectionLine": 1230,
+        "sectionLine": 1297,
         "registered": {
           "role": "REKLAMITIN Reprodukcion Advertising Engine",
           "trigger": "PR, Branch",
           "owner": "@spaja86",
           "status": "🚀 Active",
           "scope": "AI-IQ-SUPER-PLATFORMA (reklamitin paths)",
-          "line": 660,
+          "line": 715,
           "language": "sr",
           "duplicateRows": [
             {
@@ -11198,7 +11367,7 @@
               "owner": "@spaja86",
               "status": "🚀 Active",
               "scope": "AI-IQ-SUPER-PLATFORMA (reklamitin paths)",
-              "line": 1459,
+              "line": 1576,
               "language": "en",
               "duplicateRows": []
             }
@@ -11324,14 +11493,14 @@
         ]
       },
       "documentation": {
-        "sectionLine": 36,
+        "sectionLine": 37,
         "registered": {
           "role": "Security Scanning",
           "trigger": "PR, Nightly",
           "owner": "@spaja86",
           "status": "✅ Active",
           "scope": "All repos",
-          "line": 622,
+          "line": 677,
           "language": "sr",
           "duplicateRows": [
             {
@@ -11340,7 +11509,7 @@
               "owner": "@spaja86",
               "status": "✅ Active",
               "scope": "All repos",
-              "line": 1421,
+              "line": 1538,
               "language": "en",
               "duplicateRows": []
             }
@@ -11349,7 +11518,7 @@
         "roleSection": "### security-scanner\n- **Role**: Automated security scanning (dependencies, secrets, SAST)\n- **Scope**: Sva repozitorijuma u organizaciji i multi-repo linkovi\n- **Trigger**: Na svakom PR-u, svakodnevni nightly scans\n- **Actions**: \n  - Auto-label PRs sa `security:review-needed` ako ima kritičnog nalaza\n  - Blokira merge ako je pronađena kritična ranjivost\n  - Skenira za lozinke, tokene, sekrete u kodu\n  - Proverava zavisnosti (npm audit, pip audit, cargo audit)\n  - **Multi-repo check**: Skenira sve linkove između repozitorijuma",
         "duplicateSections": [
           {
-            "line": 748,
+            "line": 811,
             "language": "en",
             "text": [
               "### security-scanner",
@@ -11578,14 +11747,14 @@
         }
       },
       "documentation": {
-        "sectionLine": 310,
+        "sectionLine": 315,
         "registered": {
           "role": "SPAJA Društvena Mreža Validation",
           "trigger": "PR, Branch",
           "owner": "@spaja86",
           "status": "🚀 Active",
           "scope": "AI-IQ-SUPER-PLATFORMA (spaja-drustvena-mreza paths)",
-          "line": 647,
+          "line": 702,
           "language": "sr",
           "duplicateRows": [
             {
@@ -11594,7 +11763,7 @@
               "owner": "@spaja86",
               "status": "🚀 Active",
               "scope": "AI-IQ-SUPER-PLATFORMA (spaja-drustvena-mreza paths)",
-              "line": 1444,
+              "line": 1561,
               "language": "en",
               "duplicateRows": []
             }
@@ -11603,7 +11772,7 @@
         "roleSection": "### spaja-drustvena-mreza-validator-agent (NEW)\n- **Role**: Validacija SPAJA Društvena Mreža logike — audience segmentation, profiles, feed, groups, messages, events i notifications readiness\n- **Scope**: AI-IQ-SUPER-PLATFORMA — `src/lib/spaja-drustvena-mreza/**`, `src/app/api/spaja-drustvena-mreza/**`, `src/app/spaja-drustvena-mreza/**`, `src/lib/sekvence/spaja-drustvena-mreza-page.ts`\n- **Trigger**: PR sa labelom `spaja-drustvena-mreza:logic-change`, push koji dira `spaja-drustvena-mreza` putanje\n- **Actions**:\n  - Pokreće unit i route test suite za SPAJA Društvena Mreža logiku\n  - Verifikuje edge case-ove (prazne objave, duplikate, self-reaction, nevalidne članove, abuse limite, waitlist scenarije)\n  - Proverava performance KPI: evaluacija ≤ 50ms, API response ≤ 200ms\n  - Skenira za sekrete i nedoslednosti u kodu\n  - Auto-labels PRs sa `spaja-drustvena-mreza:validated` ili `spaja-drustvena-mreza:needs-review`\n  - Ostavlja audit log u PR komentaru\n  - **Persona**: `spaja-drustvena-mreza-core` (octave: 8, hipermreza node: 67)\n  - **Multi-repo sync**: V1 je repo-local; downstream sync ka `spaja86/IO-OPENUI-AO` je follow-up only",
         "duplicateSections": [
           {
-            "line": 1041,
+            "line": 1108,
             "language": "en",
             "text": [
               "### spaja-drustvena-mreza-validator-agent (NEW)",
@@ -11791,8 +11960,8 @@
     },
     {
       "id": "tacskrin-validator-agent",
-      "role": "TACSKRIN — Validator",
-      "roleSource": ".github/workflows/tacskrin-validator.yml#/name",
+      "role": "Validacija TACSKRIN logike i API ugovora",
+      "roleSource": "AGENTS.md",
       "configEnabled": true,
       "configuration": {
         "enabled": true,
@@ -11848,10 +12017,46 @@
         }
       },
       "documentation": {
-        "sectionLine": null,
-        "registered": null,
-        "roleSection": null,
-        "duplicateSections": []
+        "sectionLine": 632,
+        "registered": {
+          "role": "Validacija TACSKRIN logike i API ugovora",
+          "trigger": "PR paths, push main paths, manual",
+          "owner": "Unassigned",
+          "status": "⚙ Configured",
+          "scope": "AI-IQ-SUPER-PLATFORMA",
+          "line": 733,
+          "language": "sr",
+          "duplicateRows": [
+            {
+              "role": "Validate TACSKRIN logic and API contracts",
+              "trigger": "PR paths, push main paths, manual",
+              "owner": "Unassigned",
+              "status": "⚙ Configured",
+              "scope": "AI-IQ-SUPER-PLATFORMA",
+              "line": 1593,
+              "language": "en",
+              "duplicateRows": []
+            }
+          ]
+        },
+        "roleSection": "### tacskrin-validator-agent\n- **Role**: Validacija TACSKRIN logike i API ugovora\n- **Scope**: `src/lib/tacskrin/**, src/app/api/tacskrin/**`\n- **Workflow**: `.github/workflows/tacskrin-validator.yml`\n- **Trigger**: PR paths, push main paths, manual; exact filters and conditions remain in the workflow definition.\n- **Catalog status**: Configured (`enabled: true`); execution unverified.\n- **Evidence**: `.agent-config.json` → `agents.tacskrin-validator-agent` and the named workflow; no new runtime binding or owner assignment.",
+        "duplicateSections": [
+          {
+            "line": 1494,
+            "language": "en",
+            "text": [
+              "### tacskrin-validator-agent",
+              "- **Role**: Validate TACSKRIN logic and API contracts",
+              "- **Scope**: `src/lib/tacskrin/**, src/app/api/tacskrin/**`",
+              "- **Workflow**: `.github/workflows/tacskrin-validator.yml`",
+              "- **Trigger**: PR paths, push main paths, manual; exact filters and conditions remain in the workflow definition.",
+              "- **Catalog status**: Configured (`enabled: true`); execution unverified.",
+              "- **Evidence**: `.agent-config.json` → `agents.tacskrin-validator-agent` and the named workflow; no new runtime binding or owner assignment.",
+              ""
+            ],
+            "duplicateSections": []
+          }
+        ]
       },
       "workflowReferences": [
         {
@@ -11958,10 +12163,7 @@
         "mutable-external-reference",
         "unresolved-test-suite-alias"
       ],
-      "discrepancies": [
-        "configuration-missing-from-AGENTS.md",
-        "missing-registered-agents-row"
-      ],
+      "discrepancies": [],
       "executionObserved": false,
       "importActivation": false
     },
@@ -11994,14 +12196,14 @@
         ]
       },
       "documentation": {
-        "sectionLine": 429,
+        "sectionLine": 434,
         "registered": {
           "role": "Apex Strategic Orchestration",
           "trigger": "PR, Push, Weekly",
           "owner": "@spaja86",
           "status": "🚀 Active",
           "scope": "AI-IQ-SUPER-PLATFORMA (tarken-hingil-ekolan-maksimus paths)",
-          "line": 637,
+          "line": 692,
           "language": "sr",
           "duplicateRows": [
             {
@@ -12010,7 +12212,7 @@
               "owner": "@spaja86",
               "status": "🚀 Active",
               "scope": "AI-IQ-SUPER-PLATFORMA (tarken-hingil-ekolan-maksimus paths)",
-              "line": 1434,
+              "line": 1551,
               "language": "en",
               "duplicateRows": []
             }
@@ -12019,7 +12221,7 @@
         "roleSection": "### tarken-hingil-ekolan-maksimus (NEW)\n- **Role**: Apex strateški orkestratorski agent — sinteza strateškog uma (Tarken), adaptivne obrade signala (Hingil), ekološke svesnosti sistema (Ekolan) i maksimalne izvršne sposobnosti (Maksimus)\n- **Scope**: AI-IQ-SUPER-PLATFORMA — `src/lib/tarken-hingil-ekolan-maksimus/**`, `src/app/api/tarken-hingil-ekolan-maksimus/**`\n- **Trigger**: PR sa labelom `tarken-hingil-ekolan-maksimus`, push koji dira `tarken-hingil-ekolan-maksimus` putanje, weekly schedule (sreda 04:00 UTC)\n- **Actions**:\n  - Pokreće unit test suite za THEM logiku (identity, orchestrator, ekolan-engine, hingil-signal, tarken-strategy, handoff)\n  - Verifikuje matematičke rezultate i edge cases (NaN, Infinity, prazni nizovi, division by zero)\n  - Proverava performance KPI: evaluacija ≤ 50ms, handoff ≤ 100ms, build ≤ 3 min, hipermreza konvergencija ≥ 0.95\n  - Skenira za sekrete i nedoslednosti u THEM modulima\n  - Validira persona registraciju u persona-bank seed\n  - Auto-labels PRs sa `them:validated` ili `them:needs-review`\n  - Pokreće self-healing dijagnostiku kada se detektuju anomalije\n  - Ostavlja audit log u PR komentaru (agentId, timestamp, changeType, KPI rezultati)\n  - **Octave**: 16 (najviši — apex koordinacioni agent)\n  - **Hipermreza node**: 256 (anchor node SpajaPro 16 mreže)\n  - **Linked agents**: ANOTHER MAKS, MAKSIMUS 2/3, nova-generacija-agent, persona-bank-agent\n  - **Nova Generacija integration**: Cross-platform persona sync, SpajaPro 16 Hipermreza anchor\n  - **Contract version**: 1.0.0",
         "duplicateSections": [
           {
-            "line": 821,
+            "line": 886,
             "language": "en",
             "text": [
               "### tarken-hingil-ekolan-maksimus (NEW)",
@@ -12380,14 +12582,14 @@
         "scope": "src/lib/trenazer/**,src/app/api/trenazer/**,src/components/trenazer/**"
       },
       "documentation": {
-        "sectionLine": 177,
+        "sectionLine": 180,
         "registered": {
           "role": "TRENAŽER Training Readiness Validation",
           "trigger": "PR, Branch",
           "owner": "@spaja86",
           "status": "🚀 Active",
           "scope": "AI-IQ-SUPER-PLATFORMA (trenazer paths)",
-          "line": 631,
+          "line": 686,
           "language": "sr",
           "duplicateRows": [
             {
@@ -12396,7 +12598,7 @@
               "owner": "@spaja86",
               "status": "🚀 Active",
               "scope": "AI-IQ-SUPER-PLATFORMA (trenazer paths)",
-              "line": 1428,
+              "line": 1545,
               "language": "en",
               "duplicateRows": []
             }
@@ -12405,7 +12607,7 @@
         "roleSection": "### trenazer-validator-agent (NEW)\n- **Role**: Validacija TRENAŽER logike — training readiness scoring, intensity preporuke i duration integritet\n- **Scope**: AI-IQ-SUPER-PLATFORMA — `src/lib/trenazer/**`, `src/app/api/trenazer/**`, `src/components/trenazer/**`\n- **Trigger**: PR sa labelom `trenazer:logic-change`, push koji dira `trenazer` putanje\n- **Actions**:\n  - Pokreće unit i route test suite za TRENAŽER logiku\n  - Verifikuje determinističke readiness rezultate i edge cases (`NaN`, `Infinity`, negativne vrednosti, sleep > 24h, duration cap)\n  - Proverava performance KPI: evaluacija ≤ 50ms, API response ≤ 200ms\n  - Skenira za nedoslednosti u kodu i sekrete\n  - Auto-labels PRs sa `trenazer:validated` ili `trenazer:needs-review`\n  - Ostavlja audit log u PR komentaru\n  - **Persona**: `trenazer-coach-core` (octave: 6, hipermreza node: 48)",
         "duplicateSections": [
           {
-            "line": 895,
+            "line": 960,
             "language": "en",
             "text": [
               "### trenazer-validator-agent (NEW)",
