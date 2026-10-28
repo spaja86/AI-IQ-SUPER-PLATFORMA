@@ -32,7 +32,7 @@ Ova konfiguracija očekuje Caddy na hostu, ne u odvojenom kontejneru.
 ## Lokalno pokretanje
 
 Preduslovi: Node.js 24 i Caddy 2.11.7, preuzet iz zvaničnog izvora. Caddy nije npm zavisnost aplikacije.
-Generator i testovi koriste samo Node standardnu biblioteku.
+Generator koristi zajednički TypeScript model iz `src/lib/deploy/spaja-network.ts` i Node 24 ugrađeno uklanjanje tipova; nema novih npm zavisnosti.
 
 ```sh
 node ops/spaja-network/network.mjs local --out /tmp/spaja-network-local
@@ -117,6 +117,83 @@ Javni režim ima admin API samo na `127.0.0.1:2019`. Ne postavljati drugi CDN/pr
 - Privatni Sites pristup, produkcioni DNS, postojeći firewall i AI pilot iz PR-a #1370 ostaju nepromenjeni.
 
 ## Provere i granice dokaza
+
+### Razvojno mapiranje — 28. oktobar 2026.
+
+Jedan model sada koriste Caddy generator, `/deploy-platforma`,
+`/api/deploy-platforma/network` i polje `network` u postojećem status API-ju.
+Ulaz je `ops/spaja-network/development.json`. `publicDomain: null` je nameran:
+nijedno vlasništvo, javni server, DNS ili TLS nisu potvrđeni.
+
+| Podatak | Značenje |
+| --- | --- |
+| `networkId` | Tačan interni ID `spaja.nivo*spaja`; nikada DNS ili URL |
+| `applications[].spajaId` | Osnovni ID za platformu; `/deploy` i `/super` za druge dve aplikacije |
+| `publicDomain` u ulazu / `publicDomain.candidate` u rezultatu | Izričito uneti osnovni javni hostname; može biti domen ili poddomen, bez dokaza registracije |
+| `publicDomain.registeredDomain` u rezultatu | Registrovani domen iz zasebnog, pregledanog dokaza; ne iz pretpostavke o poslednje dve DNS oznake |
+| `applications[].subdomain` | Jedna DNS oznaka u odnosu na osnovni hostname, ili prazno za osnovni host |
+| `applications[].proxy` | Fiksni loopback upstream i ruta `/`; originalni path/query ostaju sačuvani |
+| `applications[].tls` | Status zasebnog opažanja sertifikata za tačan javni host |
+
+`spaja.nivo-spaja.com` i `spaja-nivo-spaja.com` ostaju različiti mogući unosi.
+Nijedan nije automatski izabran, preimenovan, proglašen registrovanim ili vlasništvom korisnika.
+Validator odbija poznate ne-javne završetke, neispravne hostove, wildcard/URL/IP,
+duple ID-jeve/aplikacije/hostove/portove, nepoznate aplikacije i proizvoljne upstream URL-ove.
+Sintaksa nije provera kompletne aktuelne IANA/public-suffix baze: nepoznati, sintaktički
+mogući završetak ostaje **neproveren**, nikad dokaz registracije.
+
+```sh
+node ops/spaja-network/network.mjs local --mapping ops/spaja-network/development.json --out /tmp/spaja-network-mapping-local
+# Samo čitanje u lokalno pokrenutoj platformi:
+curl 'http://127.0.0.1:3000/api/deploy-platforma/network?id=spaja.nivo%2Aspaja%2Fdeploy'
+```
+
+Za zasebnu radnu konfiguraciju kopirati JSON u nov fajl i izmeniti samo eksplicitne
+host/port vrednosti. `--mapping` se ne sme mešati sa starim `--domain`/port argumentima.
+Stari CLI argumenti i lokalni portovi 3000/3100/3200 ostaju podržani.
+Postojeći fajlovi i izlazni direktorijumi se ne prepisuju. Nije napravljena migracija
+postojećih runtime/DNS konfiguracija. Manifest sada ima `schemaVersion: 2`; stara
+polja `networkName`, `services` i `dns` ostaju, a dodato je strukturirano `mapping`.
+Javni API i Caddy direktorijum uklanjaju interne portove i upstream adrese.
+
+#### Granica poverenja za TLS
+
+`buildNetworkMapping(input, evidence, now)` prima konfiguraciju i dokaze odvojeno.
+Konfiguracioni JSON odbija polja poput `tls`, `status`, `ownershipVerified` i `upstream`;
+API nema POST/upis i ne preuzima dokaze iz query parametara. Generator nikada ne
+prihvata dokaze iz ulaznog JSON-a i ne izdaje sertifikate. `https://` u planiranom
+URL-u znači planirani protokol, ne aktivan TLS.
+
+`active` zahteva server/operator opažanje `source: tls-probe`, tačan host,
+`chainVerified: true`, `hostnameVerified: true`, SHA-256 otisak i važeće datume.
+Dokaz mora biti star najviše 24 h, ne sme biti iz budućnosti i sertifikat mora
+važiti u trenutku provere i prikaza. Istekli dokaz daje `stale`, istekao sertifikat
+`expired`, neispravan dokaz `failed`; bez dokaza je `unverified`.
+To je validacija već prikupljenih dokaza, **nije implementirana javna TLS sonda**.
+Budući adapter sme proslediti dokaze samo iz pouzdanog server/operator izvora sa
+standardnom proverom CA lanca i imena; nikad iz korisničkog JSON-a ili browser tvrdnje.
+Ni aktivan TLS ne potvrđuje vlasništvo, DNS cilj, dostupnost upstream-a ili release odobrenje.
+`publicActivationAllowed` ostaje `false`; nema novog deployment trigger-a.
+
+Vercel governance izlaz je sada `scope: vercel-integration-only`, uz zaseban
+`spajaNetwork` rezultat. Njegova kompatibilna canonical apex/wildcard polja su `null`;
+potrošači moraju prikazati „nije podešeno“, bez sklapanja URL-a iz `null`.
+Legacy Vercel workflow-i, env/secrets i EXTRIMLI konfiguracije nisu menjani niti pokrenuti.
+Oni nisu izvor istine za ovo razvojno mapiranje i zahtevaju zaseban pregled pre eventualne javne upotrebe.
+
+```sh
+CADDY_BIN=/apsolutna/putanja/do/caddy node --test ops/spaja-network/network.test.mjs ops/spaja-network/mapping.test.mjs
+node --import tsx --test src/tests/lib/spaja-network.test.ts
+```
+
+Promena je nastavak PR-a #1371 / `OKRID-2026-SPAJA-NETWORK-001` po zahtevu vlasnika.
+Rollout: pregled razvojne grane → potvrđen domen/server → zasebni DNS/TLS i aplikacioni
+dokazi → odobrena operativna aktivacija. Rollback koda: vratiti ovaj commit; rollback
+servera ostaje prethodno sačuvani Caddyfile. Nema troška nove infrastrukture niti novih
+zavisnosti. KPI: tačno mapirane aplikacije, odbijeni konflikti i nula TLS aktivnosti bez
+dokaza. `IO-OPENUI-AO` nema promenu API-ja, runtime-a ili izvora u ovom zadatku.
+
+### Istorijska provera prototipa iz PR-a #1371
 
 ```sh
 CADDY_BIN=/apsolutna/putanja/do/caddy node --test ops/spaja-network/network.test.mjs

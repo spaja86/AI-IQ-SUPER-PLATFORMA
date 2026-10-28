@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import DeployPlatformSkeletonSurface from '@/components/deploy/DeployPlatformSkeletonSurface';
+import SpajaNetworkSummary from '@/components/deploy/SpajaNetworkSummary';
 
 export const metadata: Metadata = {
   title: 'Deploy Platforma Skeleton UI/UX',
@@ -7,5 +8,5 @@ export const metadata: Metadata = {
 };
 
 export default function DeployPlatforma() {
-  return <DeployPlatformSkeletonSurface />;
+  return <><SpajaNetworkSummary /><DeployPlatformSkeletonSurface /></>;
 }

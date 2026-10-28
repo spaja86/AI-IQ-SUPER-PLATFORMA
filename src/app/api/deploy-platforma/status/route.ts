@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import { deployRegistry } from '@/lib/deploy/deploy-registry';
 import { fetchAllPlatformStatuses } from '@/lib/deploy/deploy-status';
 import { APP_VERSION } from '@/lib/constants';
+import { getDevelopmentNetworkMapping } from '@/lib/deploy/spaja-network-development';
 
 export const dynamic = 'force-dynamic';
 
@@ -30,6 +31,7 @@ export async function GET() {
         nepoznato: statuses.length - aktivan - grade - greska,
       },
       lista: statuses,
+      network: getDevelopmentNetworkMapping(),
       timestamp: new Date().toISOString(),
     },
     {
