@@ -4,6 +4,8 @@ Datum provere: 28. oktobar 2026. Izvorna glavna grana: `f6c2be5b25d5849193c9067b
 Zahtev vlasnika: nastaviti migraciju 43 konfiguraciona unosa, pripremiti implementaciju za pregled, bez produkcionog deploymenta i automatskog merge-a.
 Predlog evidencije: `OKRID-2026-AGENT-MIGRATION-001` — proposed, nije registrovano ljudsko odobrenje.
 
+Nastavak pregleda referenci i statusa: [poreklo workflow referenci, ispravke i preostale zavisnosti](SPAJA-AGENT-REFERENCE-RECONCILIATION.md). Inventar je nastavljen od PR head-a `e2820791`; nije ponovo uspostavljan od početka.
+
 ## Rezultat
 
 - Tačno **43** unosa pod `agents`: **40 enabled**, **3 disabled**. Ovo nisu brojevi pokrenutih procesa.
@@ -57,10 +59,10 @@ Ovo je lokalna razvojna CLI kontrola u SPAJA Deploy modulu, bez nove HTTP rute i
 
 ## Neusaglašenosti koje ostaju za pregled
 
-- `calculator-validator-agent`: AGENTS kaže Active, konfiguracija false; konfiguracija se zadržava.
-- Nedostaju `.github/workflows/extrimli-cuz-validator.yml` i `.github/workflows/mrkli-mrak-validator.yml`.
+- `calculator-validator-agent`: SR/EN AGENTS status ispravljen iz Active u Disabled; konfiguracija ostaje false. I `deploy-bot` i `gigatron-validator-agent` sada imaju eksplicitni Disabled status.
+- Nedostaju `.github/workflows/extrimli-cuz-validator.yml` i `.github/workflows/mrkli-mrak-validator.yml`: reference uvedene bez implementacije u istoriji PR grane; nema potvrđenog preimenovanja ili zamene. AGENTS sada kaže Missing workflow; konfiguracioni `status: active` ostaje eksplicitna neusaglašenost.
 - `nude-validator-agent` ima dva engleska odeljka; sačuvana su oba i prijavljen duplikat u istom jeziku.
-- 16 dokumentovanih identiteta nije u `agents`; 6 konfiguracionih identiteta nema AGENTS ulogu/tabelu.
+- 16 dokumentovanih identiteta nije u `agents` i sada su označeni Documented only. Svih šest ranije nedokumentovanih konfiguracionih identiteta dobilo je SR/EN ulogu/tabelu iz postojećih izvora; nijedan novi agent nije dodat.
 - `force-validator-agent`, `astronomik-money-validator-agent`, `dinosaurus-trexar-validator-agent` i `trikot-validator-agent` imaju unose pod `featureTracks`, ne pod `agents`; ne uvoze se automatski kao dodatni agenti.
 - `persona-bank-agent` je dokumentovan, ali nije konfigurisan; `another-maks`, `maksimus-2` i `maksimus-3` ne vezuju se proizvoljno za slična imena. Takve zavisnosti ostaju nerazrešene.
 - Sve stvarne izvršne migracije čekaju adapter, pregled dozvola/izolacije, vezivanje budžeta, pouzdan audit i eksplicitno ljudsko odobrenje.
@@ -72,25 +74,25 @@ Svaki red je prihvatljiv samo kao metapodatak. `importEnabled=false` i `executio
 | Agent | Config enabled | Dokumentovan status | Povezana definicija | Poseban nalaz |
 |---|---|---|---|---|
 | `adutiv-validator-agent` | true | 🚀 Active | `adutiv-validator.yml` | izvršavanje neprovereno |
-| `aktiviti-all-validator-agent` | true | Nema reda u tabeli | `aktiviti-all-validator.yml` | nedostaje AGENTS zapis |
+| `aktiviti-all-validator-agent` | true | ⚙ Configured | `aktiviti-all-validator.yml` | uloga dopunjena; izvršavanje neprovereno |
 | `analytics-bot` | true | ✅ Active | `analytics-bot.yml` | izvršavanje neprovereno |
 | `another-maks-agent` | true | 🚀 Active | `another-maks.yml` | izvršavanje neprovereno |
-| `another-races-ops-agent` | true | Nema reda u tabeli | `back-to-spaces-another-races.yml` | nedostaje AGENTS zapis |
-| `calculator-validator-agent` | false | ✅ Active | `calculator-validator.yml` | ostaje isključen; Active/false konflikt |
+| `another-races-ops-agent` | true | ⚙ Configured | `back-to-spaces-another-races.yml` | uloga dopunjena; izvršavanje neprovereno |
+| `calculator-validator-agent` | false | ⏸ Disabled | `calculator-validator.yml` | ostaje isključen; workflow enforcement neproveren |
 | `chatgpt-katalog-validator-agent` | true | 🚀 Active | `chatgpt-katalog-validator.yml` | izvršavanje neprovereno |
 | `ci-bot` | true | ✅ Active | — | izvršavanje neprovereno |
 | `decibil-validator-agent` | true | 🚀 Active | `decibil-validator.yml` | izvršavanje neprovereno |
 | `delet-validator-agent` | true | 🚀 Active | `delet-validator.yml` | izvršavanje neprovereno |
-| `deploy-bot` | false | ⏳ Planned | `vercel-deploy.yml` | ostaje isključen |
+| `deploy-bot` | false | ⏸ Disabled | `vercel-deploy.yml` | ostaje isključen |
 | `digit-engine-validator-agent` | true | 🚀 Active | `digit-engine-validator.yml` | izvršavanje neprovereno |
-| `digitron-validator-agent` | true | Nema reda u tabeli | `digitron-validator.yml` | nedostaje AGENTS zapis |
+| `digitron-validator-agent` | true | ⚙ Configured | `digitron-validator.yml` | uloga dopunjena; izvršavanje neprovereno |
 | `duet-validator-agent` | true | 🚀 Active | `duet-validator.yml`, `extrimli-validator.yml` | izvršavanje neprovereno |
 | `dumbir-validator-agent` | true | 🚀 Active | `dumbir-validator.yml` | izvršavanje neprovereno |
-| `extrimli-cuz-validator-agent` | true | 🚀 Active | `extrimli-cuz-validator.yml` | nedostaje workflow |
+| `extrimli-cuz-validator-agent` | true | ⚠ Missing workflow | `extrimli-cuz-validator.yml` | nedostaje workflow |
 | `extrimli-validator-agent` | true | 🚀 Active | `extrimli-external-github.yml`, `extrimli-spaja-deploy.yml`, `extrimli-trance-extrem-deploy.yml`, `extrimli-validator.yml` | izvršavanje neprovereno |
 | `gamelord-validator-agent` | true | 🚀 Active | `gamelord-validator.yml` | izvršavanje neprovereno |
-| `geografija-realna-validator-agent` | true | Nema reda u tabeli | `geografija-realna-validator.yml` | nedostaje AGENTS zapis |
-| `gigatron-validator-agent` | false | 📋 Ready | `gigatron.yml` | ostaje isključen |
+| `geografija-realna-validator-agent` | true | ⚙ Configured | `geografija-realna-validator.yml` | uloga dopunjena; izvršavanje neprovereno |
+| `gigatron-validator-agent` | false | ⏸ Disabled | `gigatron.yml` | ostaje isključen |
 | `great-sumbion-validator-agent` | true | 🚀 Active | `great-sumbion-validator.yml` | izvršavanje neprovereno |
 | `human-review` | true | ✅ Active | — | ljudska uloga |
 | `konvencionalni-odnosi-validator-agent` | true | 🚀 Active | `konvencionalni-odnosi-validator.yml` | izvršavanje neprovereno |
@@ -99,11 +101,11 @@ Svaki red je prihvatljiv samo kao metapodatak. `importEnabled=false` i `executio
 | `madagaskar-validator-agent` | true | 🚀 Active | `madagaskar-validator.yml` | izvršavanje neprovereno |
 | `maksimus-validator-agent` | true | 🚀 Active | `maksimus-validator.yml` | izvršavanje neprovereno |
 | `mirikl-validator-agent` | true | 🚀 Active | `deploy-platforma.yml`, `mirikl-validator.yml`, `vercel-deploy.yml` | izvršavanje neprovereno |
-| `mrkli-mrak-validator-agent` | true | 🚀 Active | `mrkli-mrak-validator.yml` | nedostaje workflow |
+| `mrkli-mrak-validator-agent` | true | ⚠ Missing workflow | `mrkli-mrak-validator.yml` | nedostaje workflow |
 | `multi-repo-sync-agent` | true | ✅ Active | `multi-repo-sync.yml` | izvršavanje neprovereno |
 | `nova-generacija-agent` | true | 🚀 Active | `nova-generacija.yml` | izvršavanje neprovereno |
 | `nude-validator-agent` | true | 🚀 Active | `nude-validator.yml` | izvršavanje neprovereno |
-| `okrid-governance` | true | Nema reda u tabeli | `okrid-weekly-review.yml` | nedostaje AGENTS zapis |
+| `okrid-governance` | true | ⚙ Configured | `okrid-weekly-review.yml` | uloga dopunjena; izvršavanje neprovereno |
 | `paraksil-validator-agent` | true | 🚀 Active | `paraksil-validator.yml` | izvršavanje neprovereno |
 | `pilotrelax-validator-agent` | true | 🚀 Active | `pilotrelax-validator.yml` | izvršavanje neprovereno |
 | `pozadine-svih-projekcija-validator-agent` | true | 🚀 Active | `pozadine-svih-projekcija-validator.yml` | izvršavanje neprovereno |
@@ -111,13 +113,13 @@ Svaki red je prihvatljiv samo kao metapodatak. `importEnabled=false` i `executio
 | `reklamitin-validator-agent` | true | 🚀 Active | `reklamitin-validator.yml` | izvršavanje neprovereno |
 | `security-scanner` | true | ✅ Active | `security-scanner.yml` | izvršavanje neprovereno |
 | `spaja-drustvena-mreza-validator-agent` | true | 🚀 Active | `spaja-drustvena-mreza-validator.yml` | izvršavanje neprovereno |
-| `tacskrin-validator-agent` | true | Nema reda u tabeli | `tacskrin-validator.yml` | nedostaje AGENTS zapis |
+| `tacskrin-validator-agent` | true | ⚙ Configured | `tacskrin-validator.yml` | uloga dopunjena; izvršavanje neprovereno |
 | `tarken-hingil-ekolan-maksimus` | true | 🚀 Active | `tarken-hingil-ekolan-maksimus.yml` | izvršavanje neprovereno |
 | `trenazer-validator-agent` | true | 🚀 Active | `trenazer-validator.yml` | izvršavanje neprovereno |
 
 ## Provere i preostala ograničenja
 
-- Novi paket: **46/46 testova**, bez preskakanja i TODO; kompletan TAP je priložen.
+- Novi paket: **57/57 testova** (11 novih regresija u nastavku), bez preskakanja i TODO; kompletan TAP je priložen.
 - Postojeće Deploy/provider/authorization/UI i UMBREL/DURMITOR regresije: **6/6 test fajlova**, bez neuspeha. Broj fajlova nije broj svih unutrašnjih tvrdnji.
 - Smoke preko `node --import tsx`: **43/43**. Tekst postojećeg smoke skripta o go-live spremnosti nije odobrenje za produkciju.
 - Ciljani ESLint svih novih izvršnih/test fajlova: prolaz. Puni aplikacioni TypeScript na čistom kandidatskom stablu: prolaz.
@@ -129,7 +131,7 @@ Svaki red je prihvatljiv samo kao metapodatak. `importEnabled=false` i `executio
 
 ## Rollout Plan, Cost Impact & Rollback
 
-Samo zasebna razvojna grana/draft pregled. Bez produkcionog deploymenta, automatskog merge-a, ručnog workflow dispatch-a, promene GitHub dozvola, secret manager-a ili aktiviranja agenata. Predlog ne menja `.agent-config.json`, AGENTS, postojeći Deploy registar, postojeće adaptere, ograničenja AI troškova ili ljudske gate-ove.
+Samo zasebna razvojna grana/draft pregled. Bez produkcionog deploymenta, automatskog merge-a, ručnog workflow dispatch-a, promene GitHub dozvola, secret manager-a ili aktiviranja agenata. Dopuna menja dokumentovane statuse/uloge u AGENTS i detekciju neusaglašenosti. `.agent-config.json`, svih 79 workflow definicija, postojeći Deploy registar, adapteri, ograničenja AI troškova i ljudski gate-ovi ostaju neizmenjeni.
 
 Sledeće: ljudski/security pregled inventara, razrešenje statusa i zavisnosti, zatim poseban predlog ograničenog izvršnog adaptera uz eksplicitne dozvole, budget rezervacije i stop/recovery testove. Tri isključena unosa ne menjati bez posebne odluke. Ne prevesti `requiredChecks` ili `test_commands` u slobodan shell.
 
