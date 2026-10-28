@@ -1,0 +1,286 @@
+TAP version 13
+# Subtest: checked-in inventory reproduces all 43 agents from the current source bytes
+ok 1 - checked-in inventory reproduces all 43 agents from the current source bytes
+  ---
+  duration_ms: 58.803001
+  type: 'test'
+  ...
+# Subtest: source manifests bind every read document, workflow, registry and policy file
+ok 2 - source manifests bind every read document, workflow, registry and policy file
+  ---
+  duration_ms: 5.643552
+  type: 'test'
+  ...
+# Subtest: dry-run is deterministic, zero cost and preserves inputs byte-for-byte
+ok 3 - dry-run is deterministic, zero cost and preserves inputs byte-for-byte
+  ---
+  duration_ms: 111.906112
+  type: 'test'
+  ...
+# Subtest: calculator-validator-agent stays disabled and cannot be activated through inventory edits
+ok 4 - calculator-validator-agent stays disabled and cannot be activated through inventory edits
+  ---
+  duration_ms: 46.782805
+  type: 'test'
+  ...
+# Subtest: deploy-bot stays disabled and cannot be activated through inventory edits
+ok 5 - deploy-bot stays disabled and cannot be activated through inventory edits
+  ---
+  duration_ms: 56.471111
+  type: 'test'
+  ...
+# Subtest: gigatron-validator-agent stays disabled and cannot be activated through inventory edits
+ok 6 - gigatron-validator-agent stays disabled and cannot be activated through inventory edits
+  ---
+  duration_ms: 136.615613
+  type: 'test'
+  ...
+# Subtest: calculator documentation conflict is recorded without enabling it
+ok 7 - calculator documentation conflict is recorded without enabling it
+  ---
+  duration_ms: 0.401848
+  type: 'test'
+  ...
+# Subtest: human review is a manual role, while a present workflow is not runtime evidence
+ok 8 - human review is a manual role, while a present workflow is not runtime evidence
+  ---
+  duration_ms: 0.155115
+  type: 'test'
+  ...
+# Subtest: documentation-only and feature-track entries do not silently enlarge the 43-agent namespace
+ok 9 - documentation-only and feature-track entries do not silently enlarge the 43-agent namespace
+  ---
+  duration_ms: 0.428812
+  type: 'test'
+  ...
+# Subtest: linked persona aliases stay unresolved instead of binding to similarly named agents
+ok 10 - linked persona aliases stay unresolved instead of binding to similarly named agents
+  ---
+  duration_ms: 0.5176
+  type: 'test'
+  ...
+# Subtest: duplicate inventory IDs cannot hide an omitted agent
+ok 11 - duplicate inventory IDs cannot hide an omitted agent
+  ---
+  duration_ms: 9.97773
+  type: 'test'
+  ...
+# Subtest: rejects changed count
+ok 12 - rejects changed count
+  ---
+  duration_ms: 10.242584
+  type: 'test'
+  ...
+# Subtest: rejects changed version
+ok 13 - rejects changed version
+  ---
+  duration_ms: 8.644033
+  type: 'test'
+  ...
+# Subtest: rejects changed enabled type
+ok 14 - rejects changed enabled type
+  ---
+  duration_ms: 14.135897
+  type: 'test'
+  ...
+# Subtest: rejects changed runtime claim
+ok 15 - rejects changed runtime claim
+  ---
+  duration_ms: 13.376606
+  type: 'test'
+  ...
+# Subtest: rejects changed activation claim
+ok 16 - rejects changed activation claim
+  ---
+  duration_ms: 14.039341
+  type: 'test'
+  ...
+# Subtest: rejects changed source hash
+ok 17 - rejects changed source hash
+  ---
+  duration_ms: 43.382089
+  type: 'test'
+  ...
+# Subtest: rejects changed source revision
+ok 18 - rejects changed source revision
+  ---
+  duration_ms: 43.364781
+  type: 'test'
+  ...
+# Subtest: rejects changed workflow permissions
+ok 19 - rejects changed workflow permissions
+  ---
+  duration_ms: 38.195024
+  type: 'test'
+  ...
+# Subtest: rejects changed capabilities
+ok 20 - rejects changed capabilities
+  ---
+  duration_ms: 46.372449
+  type: 'test'
+  ...
+# Subtest: rejects changed hidden executable
+ok 21 - rejects changed hidden executable
+  ---
+  duration_ms: 35.584625
+  type: 'test'
+  ...
+# Subtest: rejects changed unknown root field
+ok 22 - rejects changed unknown root field
+  ---
+  duration_ms: 47.018782
+  type: 'test'
+  ...
+# Subtest: rejects changed source duplicate
+ok 23 - rejects changed source duplicate
+  ---
+  duration_ms: 7.24554
+  type: 'test'
+  ...
+# Subtest: rejects changed workflow duplicate
+ok 24 - rejects changed workflow duplicate
+  ---
+  duration_ms: 8.696145
+  type: 'test'
+  ...
+# Subtest: dry-run refuses apply
+ok 25 - dry-run refuses apply
+  ---
+  duration_ms: 0.836787
+  type: 'test'
+  ...
+# Subtest: dry-run refuses production
+ok 26 - dry-run refuses production
+  ---
+  duration_ms: 0.111008
+  type: 'test'
+  ...
+# Subtest: dry-run refuses activation
+ok 27 - dry-run refuses activation
+  ---
+  duration_ms: 0.130985
+  type: 'test'
+  ...
+# Subtest: dry-run refuses positive cost
+ok 28 - dry-run refuses positive cost
+  ---
+  duration_ms: 0.052342
+  type: 'test'
+  ...
+# Subtest: dry-run refuses negative cost
+ok 29 - dry-run refuses negative cost
+  ---
+  duration_ms: 0.047183
+  type: 'test'
+  ...
+# Subtest: dry-run refuses missing permission
+ok 30 - dry-run refuses missing permission
+  ---
+  duration_ms: 0.047576
+  type: 'test'
+  ...
+# Subtest: dry-run refuses write permission
+ok 31 - dry-run refuses write permission
+  ---
+  duration_ms: 0.046985
+  type: 'test'
+  ...
+# Subtest: dry-run refuses duplicate permission
+ok 32 - dry-run refuses duplicate permission
+  ---
+  duration_ms: 0.07863
+  type: 'test'
+  ...
+# Subtest: dry-run refuses shell
+ok 33 - dry-run refuses shell
+  ---
+  duration_ms: 0.061884
+  type: 'test'
+  ...
+# Subtest: dry-run refuses workflow dispatch
+ok 34 - dry-run refuses workflow dispatch
+  ---
+  duration_ms: 0.051102
+  type: 'test'
+  ...
+# Subtest: dry-run refuses PR1373 adapter
+ok 35 - dry-run refuses PR1373 adapter
+  ---
+  duration_ms: 0.113171
+  type: 'test'
+  ...
+# Subtest: dry-run refuses secret injection
+ok 36 - dry-run refuses secret injection
+  ---
+  duration_ms: 0.126612
+  type: 'test'
+  ...
+# Subtest: dry-run refuses approval bypass
+ok 37 - dry-run refuses approval bypass
+  ---
+  duration_ms: 0.111472
+  type: 'test'
+  ...
+# Subtest: malformed JSON, duplicate keys and escaped duplicate keys are rejected
+ok 38 - malformed JSON, duplicate keys and escaped duplicate keys are rejected
+  ---
+  duration_ms: 1.673946
+  type: 'test'
+  ...
+# Subtest: unsafe keys, oversized JSON and recursive in-memory objects fail closed
+ok 39 - unsafe keys, oversized JSON and recursive in-memory objects fail closed
+  ---
+  duration_ms: 22.867909
+  type: 'test'
+  ...
+# Subtest: YAML on stays a trigger; job permissions, conditions and dependencies are preserved
+ok 40 - YAML on stays a trigger; job permissions, conditions and dependencies are preserved
+  ---
+  duration_ms: 0.368072
+  type: 'test'
+  ...
+# Subtest: YAML duplicate keys and executable custom tags cannot enter workflow evidence
+ok 41 - YAML duplicate keys and executable custom tags cannot enter workflow evidence
+  ---
+  duration_ms: 0.979086
+  type: 'test'
+  ...
+# Subtest: local reusable workflow dependencies are included; external revisions stay unresolved
+ok 42 - local reusable workflow dependencies are included; external revisions stay unresolved
+  ---
+  duration_ms: 0.215503
+  type: 'test'
+  ...
+# Subtest: bilingual documentation remains separate evidence instead of a false duplicate-ID error
+ok 43 - bilingual documentation remains separate evidence instead of a false duplicate-ID error
+  ---
+  duration_ms: 0.156042
+  type: 'test'
+  ...
+# Subtest: source reader refuses traversal and direct or intermediate symlinks
+ok 44 - source reader refuses traversal and direct or intermediate symlinks
+  ---
+  duration_ms: 1.394012
+  type: 'test'
+  ...
+# Subtest: actual dry-run CLI succeeds with filesystem writes and subprocesses denied by Node
+ok 45 - actual dry-run CLI succeeds with filesystem writes and subprocesses denied by Node
+  ---
+  duration_ms: 531.026497
+  type: 'test'
+  ...
+# Subtest: CLI rejects execution flags and forged imports with nonzero exit and no payload echo
+ok 46 - CLI rejects execution flags and forged imports with nonzero exit and no payload echo
+  ---
+  duration_ms: 633.235059
+  type: 'test'
+  ...
+1..46
+# tests 46
+# suites 0
+# pass 46
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 2316.315632
