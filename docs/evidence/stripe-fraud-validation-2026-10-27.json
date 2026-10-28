@@ -1,0 +1,86 @@
+{
+  "baseRevision": "8404697fb713d2515cab35961d42c136ae6174c6",
+  "publication": "LOCAL_PATCH_NOT_PUBLISHED",
+  "production": "NO_GO",
+  "strictRoute": {
+    "tests": 140,
+    "pass": 140,
+    "fail": 0,
+    "cancelled": 0,
+    "skipped": 0,
+    "todo": 0
+  },
+  "sqlAndRecovery": {
+    "tests": 34,
+    "pass": 34,
+    "fail": 0,
+    "skipped": 0,
+    "todo": 0
+  },
+  "sqlBreakdown": {
+    "originalP0": 14,
+    "fraud": 18,
+    "processCrash": 2
+  },
+  "billingTypescriptFiles": {
+    "passed": 10,
+    "failed": 0
+  },
+  "typecheck": {
+    "command": "npx tsc --noEmit --incremental false",
+    "exitCode": 0
+  },
+  "targetedLint": {
+    "exitCode": 0,
+    "warnings": 0
+  },
+  "standardBillingRunner": {
+    "status": "BLOCKED",
+    "reason": "tsx CLI IPC listen EPERM; equivalent tests executed via Node import loader"
+  },
+  "dependencyAudit": {
+    "info": 0,
+    "low": 15,
+    "moderate": 19,
+    "high": 21,
+    "critical": 0,
+    "total": 55
+  },
+  "unchangedFinancialCoreAndLockfile": {
+    "src/app/api/stripe/webhook/route.ts": true,
+    "supabase/sql/stripe-p0-atomic.sql": true,
+    "src/tests/billing/stripe-atomic-sql.test.mjs": true,
+    "package-lock.json": true
+  },
+  "sourceSHA256": {
+    "src/app/api/stripe/checkout/route.ts": "7d750a4b1f970c86b319c20adb45dc5e1a1a9b55919e8c11f3b3fc5904637a79",
+    "src/lib/stripe/checkout-fraud.ts": "cb7e8102de798166d2c23592cd5187a189ecd6bb2266861f58d72545dec178ef",
+    "src/lib/stripe/checkout-proxy.ts": "7cfa00086984f3302da241c4c90cbcb301fb4f5343604c5fc4fe7154e8ece671",
+    "src/lib/supabase/types.ts": "93f6fd28a658ba7167dc3c3150e0871f36257d94f6cae0237d76f4a3774e022d",
+    "supabase/sql/stripe-checkout-fraud.sql": "20286cefffc11905ba496a423154f95a2191c5f84051bc8b37d1209d3d574819",
+    "src/tests/billing/stripe-fraud-sql.test.mjs": "35314b1908369f54267b8a0a4e05f47da390cb1a4880c2f362952a231ec1c7d7",
+    "src/tests/billing/stripe-fraud-recovery.test.mjs": "2908d56fd05cda4687f2e0bcf6bc4699bece24cb3a3f34216ab96dec7db2c2cd",
+    "src/tests/billing/fixtures/stripe-fraud-crash-worker.mjs": "7d60e84911b94cbb18334964b679de57e851d657f9734200b82720982ce37414",
+    "src/tests/billing/fixtures/stripe-fraud-sql-fixture.mjs": "5cee34638373f13f1cbffab3418e895a74e8947e0ebf79639b6cc69117172f2b",
+    "src/tests/billing/stripe-isolated.test.mjs": "76e509f96784233303aafaeb366c4acb20ea411077d1d1817c0fdb1bdf48a2f9",
+    "src/tests/billing/fixtures/stripe-isolated-harness.mjs": "54a865c07d54826136ded2aedda9957be533d3863725e8359d24e2cd774e15ec",
+    "scripts/verify-stripe-isolated.mjs": "7f75048d5c8d5495e79a83749220602a36b1746beb2dc02de4ee667083c5aebd",
+    "package.json": "5d608b6760250448f2b0c8d72e1f051f28e6ec3787096a3640f3b47fceaf7845"
+  },
+  "unexecuted": [
+    "native PostgreSQL multi-connection contention",
+    "actual Supabase/PostgREST",
+    "actual Stripe sandbox HTTP",
+    "real ingress deployment",
+    "remote CI for this patch",
+    "production migration",
+    "full app test/build/smoke/predeploy"
+  ],
+  "operations": {
+    "stripeLive": 0,
+    "stripeSandboxHTTP": 0,
+    "remoteDatabaseMutations": 0,
+    "deployments": 0,
+    "remoteCommits": 0
+  }
+}

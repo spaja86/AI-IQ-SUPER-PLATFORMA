@@ -52,7 +52,7 @@
     "test:stripe:isolated": "node scripts/verify-stripe-isolated.mjs",
     "test:stripe:characterize": "node scripts/verify-stripe-isolated.mjs --characterize",
     "test:stripe:readiness": "node scripts/verify-stripe-isolated.mjs",
-    "test:stripe:sql": "node --test --test-reporter=tap src/tests/billing/stripe-atomic-sql.test.mjs"
+    "test:stripe:sql": "node --test --test-reporter=tap src/tests/billing/stripe-atomic-sql.test.mjs src/tests/billing/stripe-fraud-sql.test.mjs src/tests/billing/stripe-fraud-recovery.test.mjs"
   },
   "dependencies": {
     "@supabase/ssr": "^0.10.2",

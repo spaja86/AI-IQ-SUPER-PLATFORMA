@@ -6,6 +6,7 @@ import { fileURLToPath } from 'node:url';
 import { createRequire } from 'node:module';
 import { createContext, Script } from 'node:vm';
 import * as crypto from 'node:crypto';
+import * as net from 'node:net';
 import ts from 'typescript';
 import Stripe from 'stripe';
 import { NextRequest, NextResponse } from 'next/server.js';
@@ -24,6 +25,8 @@ export function createHarness(options = {}) {
     throw new Error('Network disabled in Stripe isolated verification');
   };
   const env = {
+    STRIPE_CHECKOUT_PROXY_ID: 'fixture-ingress', STRIPE_CHECKOUT_PROXY_AUDIENCE: 'fixture-development',
+    STRIPE_CHECKOUT_PROXY_KEY: 'a1'.repeat(32), STRIPE_CHECKOUT_IP_HASH_KEY: 'b2'.repeat(32),
     STRIPE_SECRET_KEY: 'sk_test_local_fixture_not_a_real_key',
     STRIPE_WEBHOOK_SECRET: FIXTURE_SECRET,
     STRIPE_PRICE_BASIC: 'price_fixture_basic', STRIPE_PRICE_PRO: 'price_fixture_pro',
@@ -35,7 +38,10 @@ export function createHarness(options = {}) {
   if (env.STRIPE_SECRET_KEY && env.STRIPE_SECRET_KEY !== 'sk_test_local_fixture_not_a_real_key') {
     throw new Error('Only the synthetic fixture key is accepted by this harness');
   }
+  const durable = options.durable ?? { attempts: [], failures: [] };
+  const clock = () => options.now ?? Date.now();
   const state = {
+    durable, admissionCalls: [],
     profile: {
       id: USER, plan: 'starter', subscription_status: null,
       stripe_customer_id: 'cus_fixture', stripe_subscription_id: null,
@@ -162,6 +168,33 @@ export function createHarness(options = {}) {
     from: query,
     rpc: async (name, args) => {
       if (options.rpcExecutor) return options.rpcExecutor(name, args);
+      if (name === 'record_stripe_checkout_attempt') {
+        state.admissionCalls.push(clone(args));
+        if (options.admissionError) return { data: null, error: options.admissionError };
+        if (options.admissionThrow) throw new Error('Synthetic storage unavailable');
+        if (options.admissionResult) return { data: clone(options.admissionResult), error: null };
+        if (options.profileReadError || options.missingProfile) return { data: null, error: { code: 'P0002' } };
+        const prior = durable.attempts.find(a => a.attemptId === args.p_attempt_id);
+        if (prior) return { data: clone(prior.result), error: null };
+        if (durable.attempts.some(a => a.nonce === args.p_proxy_nonce)) return { data: null, error: { code: '23505' } };
+        const now = clock();
+        const userRows = durable.attempts.filter(a => a.userId === args.p_user_id);
+        const current = { attemptId: args.p_attempt_id, userId: args.p_user_id, nonce: args.p_proxy_nonce, ipHash: args.p_ip_hash, at: now };
+        const inputs = {
+          checkoutAttemptsLastHour: userRows.filter(a => a.at > now - 3600000 && a.at <= now).length + 1,
+          distinctIpsLast24h: new Set([...userRows.filter(a => a.at > now - 86400000 && a.at <= now).map(a => a.ipHash), args.p_ip_hash]).size,
+          ipAttemptsLastHour: durable.attempts.filter(a => a.ipHash === args.p_ip_hash && a.at > now - 3600000 && a.at <= now).length + 1,
+          failedPaymentsLast30Days: durable.failures.filter(a => a.userId === args.p_user_id && a.at > now - 30 * 86400000 && a.at <= now).length,
+          isNewAccount: Date.parse(state.profile.created_at) > now - 7 * 86400000,
+          billingLocked: !!state.profile.billing_locked,
+        };
+        const risk = load('src/lib/stripe/billing-validators.ts').assessFraudRisk(inputs);
+        current.result = { ...inputs, score: risk.score, committed: true, attemptId: args.p_attempt_id,
+          decision: inputs.billingLocked ? 'billing_locked' : risk.blocked ? 'fraud' : inputs.checkoutAttemptsLastHour > 5 ? 'rate_user' : inputs.ipAttemptsLastHour > 20 ? 'rate_ip' : 'allow' };
+        durable.attempts.push(current);
+        if (options.loseAdmissionResponseOnce) { options.loseAdmissionResponseOnce = false; return { data: null, error: { code: '08006' } }; }
+        return { data: clone(current.result), error: null };
+      }
       if (name !== 'commit_stripe_billing_event') throw new Error('Unmodelled RPC');
       state.queries.push({ rpc: name, args: clone(args) });
       state.eventInsertAttempts++;
@@ -211,7 +244,10 @@ export function createHarness(options = {}) {
   const modules = new Map();
   const context = createContext({
     process: { env }, Buffer, URL, URLSearchParams, Headers, Request, Response,
-    Date, setTimeout, clearTimeout, fetch: denyNetwork,
+    Date: options.now === undefined ? Date : class extends Date {
+      constructor(...args) { super(...(args.length ? args : [clock()])); }
+      static now() { return clock(); }
+    }, TextDecoder, Uint8Array, setTimeout, clearTimeout, fetch: denyNetwork,
     console: Object.fromEntries(['info', 'warn', 'error', 'log'].map(level => [level, (...args) => state.logs.push({ level, args })])),
   });
   function load(relativePath) {
@@ -224,6 +260,7 @@ export function createHarness(options = {}) {
     modules.set(absolute, cjsModule);
     function isolatedRequire(specifier) {
       if (specifier === 'next/server') return { NextRequest, NextResponse };
+      if (specifier === 'node:net') return net;
       if (specifier === 'crypto' || specifier === 'node:crypto') return crypto;
       if (specifier === 'stripe') return function StripeFixture() { return stripe; };
       if (specifier === '@/lib/constants') return { BASE_URL: 'http://localhost:3000' };
@@ -238,6 +275,7 @@ export function createHarness(options = {}) {
         'src/lib/stripe/config.ts', 'src/lib/supabase/server.ts', 'src/lib/rate-limit.ts',
         'src/lib/stripe/billing-guard.ts', 'src/lib/stripe/billing-validators.ts',
         'src/lib/stripe/billing-tracing.ts', 'src/lib/stripe/billing-feature-flags.ts',
+        'src/lib/stripe/checkout-fraud.ts',
         'src/lib/idempotency.ts', 'src/lib/stripe/billing-audit-chain.ts',
       ]);
       if (!allowed.has(path)) throw new Error(`Unmodelled module boundary: ${specifier}`);
@@ -265,10 +303,27 @@ export function createHarness(options = {}) {
   const webhook = load('src/app/api/stripe/webhook/route.ts');
   return {
     state, env, load, sdk,
-    checkout(body = { planId: 'basic' }, headers = {}) {
+    checkout(body = { planId: 'basic' }, headers = {}, proxy = {}) {
+      const rawBody = typeof body === 'string' ? body : JSON.stringify(body);
+      const allHeaders = { authorization: 'Bearer fixture-valid-token', 'content-type': 'application/json', ...headers };
+      if (proxy.signed !== false) {
+        const proxyId = proxy.proxyId ?? 'fixture-ingress';
+        const timestamp = String(proxy.timestamp ?? Math.floor(clock() / 1000));
+        const nonce = proxy.nonce ?? crypto.randomUUID();
+        const ip = proxy.ip ?? '192.0.2.10';
+        const hash = value => crypto.createHash('sha256').update(value).digest('hex');
+        // Independent fixture signer. Tests supply transport IP separately from HTTP headers.
+        const message = ['spaja-checkout-source-v1', proxy.audience ?? 'fixture-development', proxyId,
+          timestamp, nonce, ip, 'POST', proxy.path ?? '/api/stripe/checkout',
+          hash(allHeaders.authorization), hash(allHeaders['idempotency-key'] ?? ''), hash(rawBody)].join('\n');
+        Object.assign(allHeaders, {
+          'x-spaja-source-proxy': proxyId, 'x-spaja-source-time': timestamp, 'x-spaja-source-nonce': nonce,
+          'x-spaja-source-ip': ip, 'x-spaja-source-signature': crypto.createHmac('sha256', Buffer.from(proxy.key ?? 'a1'.repeat(32), 'hex')).update(message).digest('hex'),
+        });
+        Object.assign(allHeaders, proxy.tamperHeaders);
+      }
       return checkout.POST(new NextRequest('http://localhost/api/stripe/checkout', {
-        method: 'POST', headers: { authorization: 'Bearer fixture-valid-token', 'content-type': 'application/json', ...headers },
-        body: typeof body === 'string' ? body : JSON.stringify(body),
+        method: 'POST', headers: allHeaders, body: proxy.tamperBody ?? rawBody,
       }));
     },
     webhook(event, options = {}) {

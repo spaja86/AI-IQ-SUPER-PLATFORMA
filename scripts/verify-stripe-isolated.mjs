@@ -17,6 +17,8 @@ const configNames = [
   'STRIPE_PRICE_ENTERPRISE', 'STRIPE_PRICE_UNLIMITED',
   'NEXT_PUBLIC_SUPABASE_URL', 'SUPABASE_SERVICE_ROLE_KEY', 'NEXT_PUBLIC_SUPABASE_ANON_KEY',
   'NEXT_PUBLIC_SITE_URL',
+  'STRIPE_CHECKOUT_PROXY_ID', 'STRIPE_CHECKOUT_PROXY_AUDIENCE',
+  'STRIPE_CHECKOUT_PROXY_KEY', 'STRIPE_CHECKOUT_IP_HASH_KEY',
   'VERCEL_KV_REST_API_URL', 'VERCEL_KV_REST_API_TOKEN',
 ];
 // Presence only: no values are printed, loaded from files, or passed to tests.
@@ -28,6 +30,8 @@ const sourceFiles = [
   'src/lib/supabase/server.ts', 'src/lib/supabase/types.ts', 'package-lock.json',
   'src/tests/billing/stripe-isolated.test.mjs', 'src/tests/billing/fixtures/stripe-isolated-harness.mjs',
   'scripts/verify-stripe-isolated.mjs', 'supabase/sql/stripe-p0-atomic.sql',
+  'src/lib/stripe/checkout-fraud.ts', 'src/lib/stripe/checkout-proxy.ts',
+  'supabase/sql/stripe-checkout-fraud.sql',
 ];
 const sourceHashes = Object.fromEntries(sourceFiles.map(file => [file, createHash('sha256').update(readFileSync(resolve(root, file))).digest('hex')]));
 const result = spawnSync(process.execPath, ['--test', '--test-reporter=tap', 'src/tests/billing/stripe-isolated.test.mjs'], {
@@ -45,7 +49,7 @@ const counts = Object.fromEntries(['tests', 'pass', 'fail', 'cancelled', 'skippe
 const failedExpectations = [...output.matchAll(/^not ok \d+ - (.+)$/gm)].map(match => match[1].split(' # TODO')[0]);
 const report = {
   generatedAt: new Date().toISOString(), scope: 'LOCAL_SIMULATION_ONLY',
-  mode: characterize ? 'characterization-with-executed-todo' : 'strict-readiness',
+  mode: characterize ? 'characterization' : 'strict-readiness',
   readiness: counts.fail || counts.todo || counts.cancelled || counts.skipped ? 'NO_GO' : 'LOCAL_CHECKS_ONLY_NOT_SANDBOX_CERTIFICATION',
   sourceRevision: execFileSync('git', ['rev-parse', 'HEAD'], { cwd: root, encoding: 'utf8' }).trim(),
   versions, sourceHashes, hostConfiguration,

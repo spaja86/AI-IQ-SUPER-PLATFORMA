@@ -11,6 +11,14 @@ export interface StripeBillingCommitResult {
   out_of_order: boolean; quarantined: boolean;
 }
 
+export interface StripeCheckoutAdmission {
+  committed: boolean; attemptId: string;
+  checkoutAttemptsLastHour: number; distinctIpsLast24h: number;
+  ipAttemptsLastHour: number; failedPaymentsLast30Days: number;
+  isNewAccount: boolean; billingLocked: boolean; score: number;
+  decision: 'allow' | 'fraud' | 'rate_user' | 'rate_ip' | 'billing_locked';
+}
+
 export interface Database {
   public: {
     Tables: {
@@ -1451,6 +1459,12 @@ export interface Database {
     };
     Views: Record<string, never>;
     Functions: {
+      record_stripe_checkout_attempt: {
+        Args: { p_attempt_id: string; p_user_id: string; p_proxy_nonce: string; p_issued_at: number;
+          p_request_hash: string; p_ip_hash: string; p_identity_key_hash: string };
+        Returns: StripeCheckoutAdmission;
+      };
+      prune_stripe_checkout_attempts: { Args: Record<string, never>; Returns: number };
       commit_stripe_billing_event: {
         Args: { p_event: Record<string, unknown>; p_user_id: string | null;
           p_expected_revision: number; p_patch: Record<string, unknown>; p_audit: Record<string, unknown> };

@@ -1,13 +1,12 @@
 import assert from 'node:assert/strict';
 import { afterEach, test } from 'node:test';
+import { randomUUID } from 'node:crypto';
 import { createHarness, checkoutEvent, invoiceEvent, USER } from './fixtures/stripe-isolated-harness.mjs';
 
-// TODO cases EXECUTE their safety assertions. Strict mode makes each a failing
-// readiness gate, rather than treating the current vulnerability as correct.
-const strict = process.env.STRIPE_READINESS_STRICT === '1';
+// All original safety expectations execute as strict assertions.
 const harnesses = [];
 function setup(options) { const h = createHarness(options); harnesses.push(h); return h; }
-function gap(id, name, fn) { test(`[${id}] ${name}`, { todo: !strict && id.startsWith('FRAUD-') ? 'Remaining fraud signal blocker' : false }, fn); }
+function gap(id, name, fn) { test(`[${id}] ${name}`, fn); }
 afterEach(() => {
   for (const h of harnesses.splice(0)) assert.deepEqual(h.state.networkAttempts, [], 'no network operation is permitted');
 });
@@ -78,7 +77,7 @@ test('sixth Checkout request is rate limited per user in one process', async () 
   assert.equal((await h.checkout()).status, 429);
   assert.equal(h.state.sessionCalls.length, 5);
 });
-test('twenty-first request from same claimed IP is blocked across fixture users', async () => {
+test('twenty-first request from same trusted IP is blocked across fixture users', async () => {
   const h = setup();
   for (let i = 0; i < 21; i++) {
     const response = await h.checkout({}, { authorization: `Bearer fixture-user-${i}`, 'x-forwarded-for': '192.0.2.1' });
@@ -220,14 +219,140 @@ gap('FRAUD-01', 'route must use measured Checkout attempt count', async () => {
 });
 gap('FRAUD-02', 'route must use measured distinct IP count', async () => {
   const h = setup();
-  for (let i = 1; i <= 5; i++) await h.checkout(undefined, { 'x-forwarded-for': `192.0.2.${i}` });
+  for (let i = 1; i <= 5; i++) await h.checkout(undefined, {}, { ip: `192.0.2.${i}` });
   assert.equal(h.state.fraudInputs.at(-1).distinctIpsLast24h, 5);
 });
 gap('FRAUD-03', 'new account with five failures and five IP attempts must be blocked', async () => {
-  const h = setup({ profile: { failed_payment_count: 5, created_at: new Date().toISOString() } });
+  const durable = { attempts: [], failures: Array.from({ length: 5 }, (_, i) => ({ userId: USER, at: Date.now() - (i + 1) * 1000 })) };
+  const h = setup({ durable, profile: { failed_payment_count: 5, created_at: new Date(Date.now() - 1000).toISOString() } });
   let response;
-  for (let i = 1; i <= 5; i++) response = await h.checkout(undefined, { 'x-forwarded-for': `192.0.2.${i}` });
+  for (let i = 1; i <= 5; i++) response = await h.checkout(undefined, {}, { ip: `192.0.2.${i}` });
   assert.equal(response.status, 403);
+  assert.equal(h.state.fraudInputs.at(-1).failedPaymentsLast30Days, 5);
+  assert.equal(h.state.sessionCalls.length, 4);
+});
+
+for (const [name, headers, proxy] of [
+  ['forwarded headers alone', { 'x-forwarded-for': '192.0.2.1', 'x-real-ip': '192.0.2.1', 'cf-connecting-ip': '192.0.2.1' }, { signed: false }],
+  ['unapproved proxy', {}, { proxyId: 'unapproved' }],
+  ['wrong signature key', {}, { key: 'ff'.repeat(32) }],
+  ['wrong audience', {}, { audience: 'other-deployment' }],
+  ['wrong route', {}, { path: '/api/stripe/portal' }],
+  ['expired signature', {}, { timestamp: Math.floor(Date.now() / 1000) - 61 }],
+  ['future signature', {}, { timestamp: Math.floor(Date.now() / 1000) + 30 }],
+  ['IP list', {}, { ip: '192.0.2.1, 192.0.2.2' }],
+  ['IP port', {}, { ip: '192.0.2.1:443' }],
+  ['IPv6 zone ID', {}, { ip: 'fe80::1%eth0' }],
+  ['changed signed source', {}, { tamperHeaders: { 'x-spaja-source-ip': '192.0.2.99' } }],
+  ['changed signed authorization', {}, { tamperHeaders: { authorization: 'Bearer fixture-user-other' } }],
+  ['changed signed idempotency', {}, { tamperHeaders: { 'idempotency-key': 'changed-after-signing' } }],
+  ['changed signed body', {}, { tamperBody: '{"planId":"pro"}' }],
+  ['duplicate signature header', {}, { tamperHeaders: { 'x-spaja-source-signature': 'aa'.repeat(32) + ', ' + 'bb'.repeat(32) } }],
+]) {
+  test(`trusted ingress rejects ${name} before any database or Stripe effect`, async () => {
+    const h = setup();
+    assert.equal((await h.checkout(undefined, headers, proxy)).status, 503);
+    assert.equal(h.state.admissionCalls.length, 0); noCheckoutSideEffects(h);
+  });
+}
+for (const field of ['STRIPE_CHECKOUT_PROXY_KEY', 'STRIPE_CHECKOUT_PROXY_ID', 'STRIPE_CHECKOUT_PROXY_AUDIENCE', 'STRIPE_CHECKOUT_IP_HASH_KEY']) {
+  test(`missing ${field} fails closed`, async () => {
+    const h = setup({ env: { [field]: undefined } });
+    assert.equal((await h.checkout()).status, 503); noCheckoutSideEffects(h);
+  });
+}
+test('forged forwarding headers cannot change measured source or risk score', async () => {
+  const h = setup();
+  for (let i = 0; i < 5; i++) {
+    assert.equal((await h.checkout(undefined, { 'x-forwarded-for': `192.0.2.${i + 1}`, 'x-real-ip': `198.51.100.${i + 1}` })).status, 200);
+  }
+  assert.equal(h.state.fraudInputs.at(-1).checkoutAttemptsLastHour, 5);
+  assert.equal(h.state.fraudInputs.at(-1).distinctIpsLast24h, 1);
+});
+test('canonical IPv4, mapped IPv4 and expanded/compressed IPv6 identify the same source', () => {
+  const canonical = setup().load('src/lib/stripe/checkout-fraud.ts').canonicalIp;
+  assert.equal(canonical('::ffff:c000:20a'), canonical('192.0.2.10'));
+  assert.equal(canonical('::ffff:192.0.2.10'), canonical('192.0.2.10'));
+  assert.equal(canonical('2001:0DB8:0000:0000:0000:0000:0000:0001'), canonical('2001:db8::1'));
+  for (const invalid of ['unknown', '', ' 192.0.2.1', '127.1', '192.000.002.1', '[::1]', '::1%lo', '0x7f000001']) assert.throws(() => canonical(invalid));
+});
+test('an exact attestation replay cannot start another Checkout request', async () => {
+  const h = setup(); const nonce = randomUUID();
+  assert.equal((await h.checkout(undefined, stableHeaders, { nonce })).status, 200);
+  assert.equal((await h.checkout(undefined, stableHeaders, { nonce })).status, 503);
+  assert.equal(h.state.durable.attempts.length, 1); assert.equal(h.state.sessionCalls.length, 1);
+});
+test('fresh HTTP retries count even with the same Stripe idempotency key', async () => {
+  const h = setup();
+  for (let i = 0; i < 6; i++) assert.equal((await h.checkout(undefined, stableHeaders)).status, i < 5 ? 200 : 429);
+  assert.equal(h.state.durable.attempts.length, 6);
+  assert.equal(h.state.sessions.size, 1);
+});
+test('lost database response retries one committed admission without double counting', async () => {
+  const h = setup({ loseAdmissionResponseOnce: true });
+  assert.equal((await h.checkout()).status, 200);
+  assert.equal(h.state.admissionCalls.length, 2);
+  assert.equal(h.state.admissionCalls[0].p_attempt_id, h.state.admissionCalls[1].p_attempt_id);
+  assert.equal(h.state.durable.attempts.length, 1);
+});
+for (const failure of [
+  { admissionError: { code: '08006', message: 'fixture-private-provider-error' } },
+  { admissionThrow: true }, { admissionResult: { committed: false } },
+  { admissionResult: { committed: true, checkoutAttemptsLastHour: NaN } },
+]) {
+  test(`unconfirmed or invalid durable admission fails closed: ${JSON.stringify(failure)}`, async () => {
+    const h = setup(failure);
+    assert.equal((await h.checkout()).status, 503); noCheckoutSideEffects(h);
+    assert.ok(!JSON.stringify(h.state.logs).includes('fixture-private-provider-error'));
+  });
+}
+test('fifty parallel HTTP calls across restarted handlers share the durable user limit', async () => {
+  const durable = { attempts: [], failures: [] };
+  const handlers = Array.from({ length: 5 }, () => setup({ durable }));
+  const responses = await Promise.all(Array.from({ length: 50 }, (_, i) => handlers[i % 5].checkout()));
+  assert.equal(responses.filter(r => r.status === 200).length, 5);
+  assert.equal(responses.filter(r => r.status === 429).length, 45);
+  assert.equal(durable.attempts.length, 50);
+});
+test('historical profile failure counter is not misrepresented as a rolling 30-day measurement', async () => {
+  const h = setup({ profile: { failed_payment_count: 500 } });
+  assert.equal((await h.checkout()).status, 200);
+  assert.equal(h.state.fraudInputs.at(-1).failedPaymentsLast30Days, 0);
+});
+test('durable windows expire at their exact open lower bound in deterministic route fixture', async () => {
+  const now = Date.parse('2026-10-27T12:00:00Z');
+  const durable = { attempts: [], failures: [{ userId: USER, at: now - 30 * 86400000 }] };
+  const h = setup({ durable, now }); await h.checkout();
+  const first = durable.attempts[0];
+  first.at = now - 3600000;
+  await h.checkout(); assert.equal(h.state.fraudInputs.at(-1).checkoutAttemptsLastHour, 1);
+  first.at = now - 86400000; first.ipHash = 'c'.repeat(64);
+  await h.checkout(); assert.equal(h.state.fraudInputs.at(-1).distinctIpsLast24h, 1);
+  assert.equal(h.state.fraudInputs.at(-1).failedPaymentsLast30Days, 0);
+});
+test('body limit is enforced independently of the claimed Content-Length', async () => {
+  const h = setup(); assert.equal((await h.checkout('x'.repeat(16385), { 'content-length': '1' })).status, 413);
+  assert.equal(h.state.admissionCalls.length, 0); noCheckoutSideEffects(h);
+});
+test('raw IPs, source headers, tokens and client trace strings do not enter admission storage or logs', async () => {
+  const h = setup();
+  await h.checkout(undefined, { 'x-request-id': 'private-client-trace', 'x-forwarded-for': '198.51.100.99' }, { ip: '192.0.2.123' });
+  const recorded = JSON.stringify([h.state.admissionCalls, h.state.durable, h.state.logs]);
+  for (const secret of ['192.0.2.123', '198.51.100.99', 'private-client-trace', 'fixture-valid-token', 'a1'.repeat(32), 'b2'.repeat(32)]) assert.ok(!recorded.includes(secret));
+});
+test('ingress adapter signs socket IP and strips all caller source, trace and forwarding headers', async () => {
+  const h = setup(); const body = '{"planId":"basic"}';
+  const attest = h.load('src/lib/stripe/checkout-proxy.ts').attestCheckoutAtIngress;
+  const request = { method: 'POST', url: '/api/stripe/checkout', socket: { remoteAddress: '::ffff:192.0.2.10' },
+    headers: { authorization: 'Bearer fixture-valid-token', 'x-forwarded-for': '192.0.2.99',
+      'x-spaja-source-ip': '192.0.2.99', 'x-spaja-source-signature': 'forged', 'x-request-id': 'private' } };
+  const config = { proxyId: 'fixture-ingress', audience: 'fixture-development', key: 'a1'.repeat(32) };
+  const first = attest(request, body, config); const second = attest(request, body, config);
+  assert.equal(first['x-spaja-source-ip'], '192.0.2.10');
+  assert.equal(first['x-forwarded-for'], undefined); assert.equal(first['x-request-id'], undefined);
+  assert.notEqual(first['x-spaja-source-nonce'], second['x-spaja-source-nonce']);
+  assert.equal((await h.checkout(body, first, { signed: false })).status, 200);
+  assert.throws(() => attest({ ...request, socket: {}, headers: { 'x-real-ip': '192.0.2.10' } }, body, config));
 });
 gap('CHECKOUT-01', 'same idempotency key with independently generated request IDs must retry successfully', async () => {
   const h = setup();

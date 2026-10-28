@@ -1,6 +1,6 @@
 # Stripe Checkout/webhook P0 correction — 27 October 2026
 
-**Development patch; production billing remains NO-GO.** No real or sandbox Stripe HTTP operations, payments, deployments, merges or remote database changes were performed. The nine P0 expectations from #1372 now pass locally. The full strict route suite remains red because three previously documented anti-fraud P1 expectations are still unresolved.
+**Development patch; production billing remains NO-GO.** No real or sandbox Stripe HTTP operations, payments, deployments, merges or remote database changes were performed. The nine P0 expectations from #1372 pass locally. The original PR result below is retained as historical evidence. The subsequent [FRAUD-01/02/03 correction](STRIPE-FRAUD-FIX-2026-10-27.md) resolves the three remaining local expectations and adds trusted ingress, atomic admission, rolling measurements, privacy and recovery checks; publication and production gates remain separate.
 
 Source: #1372 at `da7a1e96443eee107538531a013981f8fdacb200`; current main checked as `f6c2be5b25d5849193c9067b1f3f5aa67480d4ef`. New work is isolated from both existing branches. Original audit evidence is retained unchanged.
 
@@ -32,7 +32,7 @@ Source: #1372 at `da7a1e96443eee107538531a013981f8fdacb200`; current main checke
 
 [Strict route JSON and source hashes](evidence/stripe-p0-2026-10-27.json) · [Route TAP](evidence/stripe-p0-2026-10-27.tap) · [SQL TAP](evidence/stripe-p0-sql-2026-10-27.tap) · [Validation summary](evidence/stripe-p0-validation-2026-10-27.json).
 
-The three remaining failed cases are **FRAUD-01, FRAUD-02 and FRAUD-03**: measured Checkout attempts, distinct trusted IPs, and blocking the resulting high-risk account. Their placeholder inputs remain unchanged. This patch does not claim distributed abuse protection or a verified rolling 30-day payment-failure counter. Required follow-up: trusted proxy policy and durable/atomic counters with bounded retention; do not substitute another constant.
+At the original PR head `8404697`, the three remaining failed cases were **FRAUD-01, FRAUD-02 and FRAUD-03**: measured Checkout attempts, distinct trusted IPs, and blocking the resulting high-risk account. See the [follow-up report](STRIPE-FRAUD-FIX-2026-10-27.md) for their correction. The historical evidence files below are unchanged; new evidence uses the `stripe-fraud-*` prefix.
 
 ## Database integration boundary
 

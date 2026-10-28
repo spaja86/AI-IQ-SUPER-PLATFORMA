@@ -1,0 +1,21 @@
+{
+  "observedAt": "2026-10-27T21:10:59.356Z",
+  "pr": 1377,
+  "head": "8404697fb713d2515cab35961d42c136ae6174c6",
+  "draft": true,
+  "prTriggeredRuns": 0,
+  "status": "failure",
+  "checks": [
+    {
+      "context": "Vercel – ai-iq-super-platforma-cd31",
+      "state": "failure",
+      "description": "Account is blocked."
+    },
+    {
+      "context": "Vercel – ai-iq-super-platforma",
+      "state": "failure",
+      "description": "Account is blocked."
+    }
+  ],
+  "followupPublished": false
+}
