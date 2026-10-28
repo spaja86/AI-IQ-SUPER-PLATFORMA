@@ -3,14 +3,18 @@ import {
   EXPECTED_VERCEL_INVOICE_AMOUNT,
   EXPECTED_VERCEL_INVOICE_NUMBER,
 } from '@/lib/vercel-billing-governance';
+import { SPAJA_NETWORK_ID } from '@/lib/deploy/spaja-network';
+import { getDevelopmentNetworkMapping } from '@/lib/deploy/spaja-network-development';
 
 export const VERCEL_STATUS_ROUTE_PATH = '/api/vercel-status' as const;
 export const VERCEL_OWNERSHIP_ROUTE_PATH = '/api/owner/vercel-ownership' as const;
 export const VERCEL_PRIMARY_DEPLOY_WORKFLOW = 'Vercel Git integracija' as const;
 export const VERCEL_FALLBACK_DEPLOY_WORKFLOW_PATH = '.github/workflows/vercel-deploy.yml' as const;
-export const VERCEL_CANONICAL_APEX_DOMAIN = 'spaja.nivo-spaja' as const;
-export const VERCEL_CANONICAL_WILDCARD_DOMAIN = '*.spaja.nivo-spaja' as const;
-export const VERCEL_INVALID_DOMAIN_PATTERN = 'spaja.nivo*spaja' as const;
+/** No public domain has been confirmed. Retained exports for existing consumers. */
+export const VERCEL_CANONICAL_APEX_DOMAIN = null;
+export const VERCEL_CANONICAL_WILDCARD_DOMAIN = null;
+/** @deprecated Valid logical ID, invalid only when used as a DNS hostname. */
+export const VERCEL_INVALID_DOMAIN_PATTERN = SPAJA_NETWORK_ID;
 const DOWNSTREAM_SYNC_PHASE_SEQUENCE = 3 as const;
 const POST_RELEASE_AUDIT_PHASE_SEQUENCE = 5 as const;
 
@@ -57,7 +61,7 @@ function resolveRecommendedNextAction(blockers: string[]): string {
     return 'Dopuniti Vercel infrastrukturu (token, project, team/org) pre pokretanja deploy-a.';
   }
 
-  return 'Pokrenuti deploy prvo push-em kroz Vercel Git integraciju, a ručni workflow koristiti samo kao fallback.';
+  return 'Za zasebnu Vercel integraciju koristiti Git put tek posle release provera. SPAJA razvojna mreža koristi Caddy mapiranje; javna aktivacija zahteva potvrđen domen/server i pregled.';
 }
 
 function resolveWaveStatus(blockers: string[], infraReady: boolean, phaseNumber: number): VercelDeployWaveStatus {
@@ -129,6 +133,8 @@ export function buildVercelDeployGovernanceSummary({
         : 'READY';
 
   return {
+    scope: 'vercel-integration-only',
+    spajaNetwork: getDevelopmentNetworkMapping(),
     blockerSourceOfTruth: {
       primaryEndpoint: sourceOfTruthPath,
       mirroredEndpoint: mirrorPath,
@@ -165,6 +171,9 @@ export function buildVercelDeployGovernanceSummary({
       },
     ],
     canonicalDomainStrategy: {
+      networkId: SPAJA_NETWORK_ID,
+      status: 'unconfigured',
+      ownershipVerified: false,
       invalidRequestedPattern: VERCEL_INVALID_DOMAIN_PATTERN,
       apexDomain: VERCEL_CANONICAL_APEX_DOMAIN,
       wildcardDomain: VERCEL_CANONICAL_WILDCARD_DOMAIN,

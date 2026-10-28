@@ -1,6 +1,4 @@
 import {
-  VERCEL_CANONICAL_APEX_DOMAIN,
-  VERCEL_CANONICAL_WILDCARD_DOMAIN,
   VERCEL_FALLBACK_DEPLOY_WORKFLOW_PATH,
   VERCEL_INVALID_DOMAIN_PATTERN,
   VERCEL_PRIMARY_DEPLOY_WORKFLOW,
@@ -233,18 +231,18 @@ export function buildVercelDeployReadinessPlan(
     status: 'WATCH',
     blockers: [],
     watchItems: [
-      `Workflow je zaključan na ${VERCEL_CANONICAL_APEX_DOMAIN} + ${VERCEL_CANONICAL_WILDCARD_DOMAIN}.`,
-      `Nevažeći pattern ${VERCEL_INVALID_DOMAIN_PATTERN} ostaje zabranjen.`,
-      'DNS/TLS aktivacija za apex i wildcard ostaje spoljašnja operativna potvrda.',
+      'Javni domen nije potvrđen; stari spaja.nivo-spaja nije kanonski javni domen.',
+      `${VERCEL_INVALID_DOMAIN_PATTERN} je interni SPAJA ID, ne DNS hostname.`,
+      'Konfiguracija domena i DNS/TLS dokazi su odvojeni; HTTPS URL nije potvrda sertifikata.',
     ],
     sourceOfTruth: [
-      'docs/EXTRIMLI-START-DEPLOY.md',
-      '.github/workflows/extrimli-spaja-deploy.yml',
+      'ops/spaja-network/README.md',
+      'ops/spaja-network/development.json',
     ],
     nextActions: [
-      `Potvrditi apex domen ${VERCEL_CANONICAL_APEX_DOMAIN}.`,
-      `Potvrditi wildcard domen ${VERCEL_CANONICAL_WILDCARD_DOMAIN}.`,
-      'Potvrditi aktivan DNS/TLS za oba domena u Vercel projektu.',
+      'Potvrditi tačan registrovani domen i vlasništvo, bez automatskog preimenovanja.',
+      'Mapirati svaki poddomen i aplikaciju preko zajedničkog SPAJA modela.',
+      'Zasebno proveriti DNS i sertifikat svakog javnog hosta pre javne aktivacije.',
     ],
   };
 
