@@ -1,0 +1,352 @@
+TAP version 13
+# Subtest: checked-in inventory reproduces all 43 agents from the current source bytes
+ok 1 - checked-in inventory reproduces all 43 agents from the current source bytes
+  ---
+  duration_ms: 73.708808
+  type: 'test'
+  ...
+# Subtest: source manifests bind every read document, workflow, registry and policy file
+ok 2 - source manifests bind every read document, workflow, registry and policy file
+  ---
+  duration_ms: 7.968096
+  type: 'test'
+  ...
+# Subtest: dry-run is deterministic, zero cost and preserves inputs byte-for-byte
+ok 3 - dry-run is deterministic, zero cost and preserves inputs byte-for-byte
+  ---
+  duration_ms: 130.911996
+  type: 'test'
+  ...
+# Subtest: calculator-validator-agent stays disabled and cannot be activated through inventory edits
+ok 4 - calculator-validator-agent stays disabled and cannot be activated through inventory edits
+  ---
+  duration_ms: 50.892429
+  type: 'test'
+  ...
+# Subtest: deploy-bot stays disabled and cannot be activated through inventory edits
+ok 5 - deploy-bot stays disabled and cannot be activated through inventory edits
+  ---
+  duration_ms: 66.237339
+  type: 'test'
+  ...
+# Subtest: gigatron-validator-agent stays disabled and cannot be activated through inventory edits
+ok 6 - gigatron-validator-agent stays disabled and cannot be activated through inventory edits
+  ---
+  duration_ms: 68.664001
+  type: 'test'
+  ...
+# Subtest: all three disabled agents have consistent bilingual status without claiming workflow enforcement
+ok 7 - all three disabled agents have consistent bilingual status without claiming workflow enforcement
+  ---
+  duration_ms: 0.517809
+  type: 'test'
+  ...
+# Subtest: extrimli-cuz-validator-agent: shared omega workflow cannot hide the missing validator or imply a replacement
+ok 8 - extrimli-cuz-validator-agent: shared omega workflow cannot hide the missing validator or imply a replacement
+  ---
+  duration_ms: 76.750302
+  type: 'test'
+  ...
+# Subtest: mrkli-mrak-validator-agent: shared omega workflow cannot hide the missing validator or imply a replacement
+ok 9 - mrkli-mrak-validator-agent: shared omega workflow cannot hide the missing validator or imply a replacement
+  ---
+  duration_ms: 82.237689
+  type: 'test'
+  ...
+# Subtest: status reconciliation: English-only active regression
+ok 10 - status reconciliation: English-only active regression
+  ---
+  duration_ms: 1.093388
+  type: 'test'
+  ...
+# Subtest: status reconciliation: English-only disabled regression
+ok 11 - status reconciliation: English-only disabled regression
+  ---
+  duration_ms: 0.210233
+  type: 'test'
+  ...
+# Subtest: status reconciliation: active config despite disabled flag
+ok 12 - status reconciliation: active config despite disabled flag
+  ---
+  duration_ms: 0.98161
+  type: 'test'
+  ...
+# Subtest: status reconciliation: active config and docs with absent validator
+ok 13 - status reconciliation: active config and docs with absent validator
+  ---
+  duration_ms: 0.107073
+  type: 'test'
+  ...
+# Subtest: status reconciliation: explicit missing implementation
+ok 14 - status reconciliation: explicit missing implementation
+  ---
+  duration_ms: 0.058246
+  type: 'test'
+  ...
+# Subtest: status reconciliation: catalog membership is not a runtime claim
+ok 15 - status reconciliation: catalog membership is not a runtime claim
+  ---
+  duration_ms: 3.521447
+  type: 'test'
+  ...
+# Subtest: status reconciliation: inactive is not active
+ok 16 - status reconciliation: inactive is not active
+  ---
+  duration_ms: 0.278015
+  type: 'test'
+  ...
+# Subtest: human review is a manual role, while a present workflow is not runtime evidence
+ok 17 - human review is a manual role, while a present workflow is not runtime evidence
+  ---
+  duration_ms: 0.184085
+  type: 'test'
+  ...
+# Subtest: documentation-only and feature-track entries do not silently enlarge the 43-agent namespace
+ok 18 - documentation-only and feature-track entries do not silently enlarge the 43-agent namespace
+  ---
+  duration_ms: 0.08507
+  type: 'test'
+  ...
+# Subtest: all sixteen identities outside the catalog are explicitly documented-only in both tables
+ok 19 - all sixteen identities outside the catalog are explicitly documented-only in both tables
+  ---
+  duration_ms: 1.998671
+  type: 'test'
+  ...
+# Subtest: six previously undocumented configured roles cite their existing workflow and remain unverified
+ok 20 - six previously undocumented configured roles cite their existing workflow and remain unverified
+  ---
+  duration_ms: 0.306151
+  type: 'test'
+  ...
+# Subtest: linked persona aliases stay unresolved instead of binding to similarly named agents
+ok 21 - linked persona aliases stay unresolved instead of binding to similarly named agents
+  ---
+  duration_ms: 0.106413
+  type: 'test'
+  ...
+# Subtest: duplicate inventory IDs cannot hide an omitted agent
+ok 22 - duplicate inventory IDs cannot hide an omitted agent
+  ---
+  duration_ms: 7.654799
+  type: 'test'
+  ...
+# Subtest: rejects changed count
+ok 23 - rejects changed count
+  ---
+  duration_ms: 6.885898
+  type: 'test'
+  ...
+# Subtest: rejects changed version
+ok 24 - rejects changed version
+  ---
+  duration_ms: 7.149405
+  type: 'test'
+  ...
+# Subtest: rejects changed enabled type
+ok 25 - rejects changed enabled type
+  ---
+  duration_ms: 9.972053
+  type: 'test'
+  ...
+# Subtest: rejects changed runtime claim
+ok 26 - rejects changed runtime claim
+  ---
+  duration_ms: 31.023869
+  type: 'test'
+  ...
+# Subtest: rejects changed activation claim
+ok 27 - rejects changed activation claim
+  ---
+  duration_ms: 9.706599
+  type: 'test'
+  ...
+# Subtest: rejects changed source hash
+ok 28 - rejects changed source hash
+  ---
+  duration_ms: 35.783258
+  type: 'test'
+  ...
+# Subtest: rejects changed source revision
+ok 29 - rejects changed source revision
+  ---
+  duration_ms: 36.473224
+  type: 'test'
+  ...
+# Subtest: rejects changed workflow permissions
+ok 30 - rejects changed workflow permissions
+  ---
+  duration_ms: 39.297159
+  type: 'test'
+  ...
+# Subtest: rejects changed capabilities
+ok 31 - rejects changed capabilities
+  ---
+  duration_ms: 36.690125
+  type: 'test'
+  ...
+# Subtest: rejects changed hidden executable
+ok 32 - rejects changed hidden executable
+  ---
+  duration_ms: 38.180295
+  type: 'test'
+  ...
+# Subtest: rejects changed unknown root field
+ok 33 - rejects changed unknown root field
+  ---
+  duration_ms: 38.4061
+  type: 'test'
+  ...
+# Subtest: rejects changed source duplicate
+ok 34 - rejects changed source duplicate
+  ---
+  duration_ms: 7.892354
+  type: 'test'
+  ...
+# Subtest: rejects changed workflow duplicate
+ok 35 - rejects changed workflow duplicate
+  ---
+  duration_ms: 11.278617
+  type: 'test'
+  ...
+# Subtest: dry-run refuses apply
+ok 36 - dry-run refuses apply
+  ---
+  duration_ms: 0.402176
+  type: 'test'
+  ...
+# Subtest: dry-run refuses production
+ok 37 - dry-run refuses production
+  ---
+  duration_ms: 0.084366
+  type: 'test'
+  ...
+# Subtest: dry-run refuses activation
+ok 38 - dry-run refuses activation
+  ---
+  duration_ms: 0.052142
+  type: 'test'
+  ...
+# Subtest: dry-run refuses positive cost
+ok 39 - dry-run refuses positive cost
+  ---
+  duration_ms: 0.238319
+  type: 'test'
+  ...
+# Subtest: dry-run refuses negative cost
+ok 40 - dry-run refuses negative cost
+  ---
+  duration_ms: 0.049033
+  type: 'test'
+  ...
+# Subtest: dry-run refuses missing permission
+ok 41 - dry-run refuses missing permission
+  ---
+  duration_ms: 0.594078
+  type: 'test'
+  ...
+# Subtest: dry-run refuses write permission
+ok 42 - dry-run refuses write permission
+  ---
+  duration_ms: 0.125759
+  type: 'test'
+  ...
+# Subtest: dry-run refuses duplicate permission
+ok 43 - dry-run refuses duplicate permission
+  ---
+  duration_ms: 0.133875
+  type: 'test'
+  ...
+# Subtest: dry-run refuses shell
+ok 44 - dry-run refuses shell
+  ---
+  duration_ms: 0.10471
+  type: 'test'
+  ...
+# Subtest: dry-run refuses workflow dispatch
+ok 45 - dry-run refuses workflow dispatch
+  ---
+  duration_ms: 0.058835
+  type: 'test'
+  ...
+# Subtest: dry-run refuses PR1373 adapter
+ok 46 - dry-run refuses PR1373 adapter
+  ---
+  duration_ms: 0.053177
+  type: 'test'
+  ...
+# Subtest: dry-run refuses secret injection
+ok 47 - dry-run refuses secret injection
+  ---
+  duration_ms: 0.065893
+  type: 'test'
+  ...
+# Subtest: dry-run refuses approval bypass
+ok 48 - dry-run refuses approval bypass
+  ---
+  duration_ms: 0.048483
+  type: 'test'
+  ...
+# Subtest: malformed JSON, duplicate keys and escaped duplicate keys are rejected
+ok 49 - malformed JSON, duplicate keys and escaped duplicate keys are rejected
+  ---
+  duration_ms: 2.773891
+  type: 'test'
+  ...
+# Subtest: unsafe keys, oversized JSON and recursive in-memory objects fail closed
+ok 50 - unsafe keys, oversized JSON and recursive in-memory objects fail closed
+  ---
+  duration_ms: 9.196112
+  type: 'test'
+  ...
+# Subtest: YAML on stays a trigger; job permissions, conditions and dependencies are preserved
+ok 51 - YAML on stays a trigger; job permissions, conditions and dependencies are preserved
+  ---
+  duration_ms: 0.500145
+  type: 'test'
+  ...
+# Subtest: YAML duplicate keys and executable custom tags cannot enter workflow evidence
+ok 52 - YAML duplicate keys and executable custom tags cannot enter workflow evidence
+  ---
+  duration_ms: 0.609232
+  type: 'test'
+  ...
+# Subtest: local reusable workflow dependencies are included; external revisions stay unresolved
+ok 53 - local reusable workflow dependencies are included; external revisions stay unresolved
+  ---
+  duration_ms: 0.224384
+  type: 'test'
+  ...
+# Subtest: bilingual documentation remains separate evidence instead of a false duplicate-ID error
+ok 54 - bilingual documentation remains separate evidence instead of a false duplicate-ID error
+  ---
+  duration_ms: 0.141087
+  type: 'test'
+  ...
+# Subtest: source reader refuses traversal and direct or intermediate symlinks
+ok 55 - source reader refuses traversal and direct or intermediate symlinks
+  ---
+  duration_ms: 1.263983
+  type: 'test'
+  ...
+# Subtest: actual dry-run CLI succeeds with filesystem writes and subprocesses denied by Node
+ok 56 - actual dry-run CLI succeeds with filesystem writes and subprocesses denied by Node
+  ---
+  duration_ms: 427.848503
+  type: 'test'
+  ...
+# Subtest: CLI rejects execution flags and forged imports with nonzero exit and no payload echo
+ok 57 - CLI rejects execution flags and forged imports with nonzero exit and no payload echo
+  ---
+  duration_ms: 575.691685
+  type: 'test'
+  ...
+1..57
+# tests 57
+# suites 0
+# pass 57
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 2257.536483

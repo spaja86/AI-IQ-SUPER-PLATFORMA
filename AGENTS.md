@@ -28,6 +28,7 @@ Ovo je dokument koji opisuje agente, njihove uloge i pravila korišćenja u ovom
 - **Multi-repo scope**: Pokreće testove u svim povezanim repozitorijumima.
 
 ### deploy-bot
+- **Catalog status (2026-10-28)**: `enabled: false` in `.agent-config.json`; remains disabled. Workflow definitions do not prove that this flag is enforced; runtime is unverified.
 - Obavlja deploy kada su testovi prošli.
 - Ne može deploy-ovati bez green status od ci-bot-a.
 - Ostavlja audit log u PR komentar.
@@ -56,6 +57,7 @@ Ovo je dokument koji opisuje agente, njihove uloge i pravila korišćenja u ovom
   - Ostavlja detailed audit log sa linkovima između PRs
 
 ### calculator-validator-agent (NEW)
+- **Catalog status (2026-10-28)**: `enabled: false` in `.agent-config.json`; remains disabled. Workflow definitions do not prove that this flag is enforced; runtime is unverified.
 - **Role**: Validacija logike gaming calculator-a (IO-OPENUI-AO)
 - **Scope**: Samo IO-OPENUI-AO i calculator-specific branches
 - **Trigger**: PR sa labelom `calculator:logic-change`, push na `calc-*` branches
@@ -94,6 +96,7 @@ Ovo je dokument koji opisuje agente, njihove uloge i pravila korišćenja u ovom
   - Ostavlja audit log sa svim Nova Generacija metrikama
 
 ### gigatron-validator-agent (NEW)
+- **Catalog status (2026-10-28)**: `enabled: false` in `.agent-config.json`; remains disabled. Workflow definitions do not prove that this flag is enforced; runtime is unverified.
 - **Role**: Validacija GIGATRON IT & Elektronika procurement logike, affiliate kalkulacija i inventory integriteta
 - **Scope**: GIGATRON putanje u AI-IQ-SUPER-PLATFORMA (`src/lib/gigatron/**`, `src/app/api/gigatron/**`)
 - **Trigger**: PR sa labelom `gigatron:logic-change`, push koji dira `gigatron` putanje
@@ -240,6 +243,7 @@ Ovo je dokument koji opisuje agente, njihove uloge i pravila korišćenja u ovom
   - Ostavlja audit log u PR komentaru
   - **Persona**: `nude-balance-core` (octave: 8, hipermreza node: 65)
 ### mrkli-mrak-validator-agent (NEW)
+- **Catalog status (2026-10-28)**: `enabled: true` / `status: active` are configuration declarations only. **Missing component**: `.github/workflows/mrkli-mrak-validator.yml` was not implemented in the reviewed PR ancestry; no replacement is established. Actions below describe intended behavior. See [reference review](docs/SPAJA-AGENT-REFERENCE-RECONCILIATION.md).
 - **Role**: Validacija MRKLI MRAK logike — darkness readiness scoring, status klasifikacija i edge-case integritet
 - **Scope**: AI-IQ-SUPER-PLATFORMA — `src/lib/mrkli-mrak/**`, `src/app/api/mrkli-mrak/**`
 - **Trigger**: PR sa labelom `mrkli-mrak:logic-change`, push koji dira `mrkli-mrak` putanje
@@ -294,6 +298,7 @@ Ovo je dokument koji opisuje agente, njihove uloge i pravila korišćenja u ovom
   - **Multi-repo sync**: Sinhronizuje gear catalog snapshots ka `spaja86/IO-OPENUI-AO`
 
 ### extrimli-cuz-validator-agent (NEW)
+- **Catalog status (2026-10-28)**: `enabled: true` / `status: active` are configuration declarations only. **Missing component**: `.github/workflows/extrimli-cuz-validator.yml` was not implemented in the reviewed PR ancestry; no replacement is established. Actions below describe intended behavior. See [reference review](docs/SPAJA-AGENT-REFERENCE-RECONCILIATION.md).
 - **Role**: Validacija EXTRIMLI CUZ logike — community & social hub, crew formation, mentorship matching, community feed i peer reputation
 - **Scope**: AI-IQ-SUPER-PLATFORMA — `src/lib/extrimli-cuz/**`, `src/app/api/extrimli-cuz/**`, `src/components/extrimli-cuz/**`
 - **Trigger**: PR sa labelom `extrimli-cuz:logic-change`, push koji dira `extrimli-cuz` putanje
@@ -584,6 +589,54 @@ Ovo je dokument koji opisuje agente, njihove uloge i pravila korišćenja u ovom
   - **Persona**: `trikot-style-core` (octave: 6, hipermreza node: 54)
   - **Linked-repo impact**: none (v1)
 
+### aktiviti-all-validator-agent
+- **Role**: Validacija AKTIVITI ALL scoring-a i API ugovora
+- **Scope**: `src/lib/aktiviti-all/**, src/app/api/aktiviti-all/**`
+- **Workflow**: `.github/workflows/aktiviti-all-validator.yml`
+- **Trigger**: PR paths, push main paths, manual; exact filters and conditions remain in the workflow definition.
+- **Catalog status**: Configured (`enabled: true`); execution unverified.
+- **Evidence**: `.agent-config.json` → `agents.aktiviti-all-validator-agent` and the named workflow; no new runtime binding or owner assignment.
+
+### another-races-ops-agent
+- **Role**: Validacija Another Races logike i gaming kataloga
+- **Scope**: `src/lib/back-to-spaces-another-races.ts, src/lib/igrice.ts`
+- **Workflow**: `.github/workflows/back-to-spaces-another-races.yml`
+- **Trigger**: PR paths + race labels; push main/race/**/copilot/** paths; manual; exact filters and conditions remain in the workflow definition.
+- **Catalog status**: Configured (`enabled: true`); execution unverified.
+- **Evidence**: `.agent-config.json` → `agents.another-races-ops-agent` and the named workflow; no new runtime binding or owner assignment.
+
+### digitron-validator-agent
+- **Role**: Validacija DIGITRON logike i API ugovora
+- **Scope**: `src/lib/digitron/**, src/app/api/digitron/**`
+- **Workflow**: `.github/workflows/digitron-validator.yml`
+- **Trigger**: PR paths, push main paths, manual; exact filters and conditions remain in the workflow definition.
+- **Catalog status**: Configured (`enabled: true`); execution unverified.
+- **Evidence**: `.agent-config.json` → `agents.digitron-validator-agent` and the named workflow; no new runtime binding or owner assignment.
+
+### geografija-realna-validator-agent
+- **Role**: Validacija GEOGRAFIJA REALNA logike i API ugovora
+- **Scope**: `src/lib/geografija-realna/**, src/app/api/geografija-realna/**`
+- **Workflow**: `.github/workflows/geografija-realna-validator.yml`
+- **Trigger**: PR paths, push main paths, manual; exact filters and conditions remain in the workflow definition.
+- **Catalog status**: Configured (`enabled: true`); execution unverified.
+- **Evidence**: `.agent-config.json` → `agents.geografija-realna-validator-agent` and the named workflow; no new runtime binding or owner assignment.
+
+### okrid-governance
+- **Role**: Nedeljni izveštaj o OKRID usaglašenosti PR-ova
+- **Scope**: `docs/OKRID.md, docs/OKRID-REGISTRY.md; repository PR metadata`
+- **Workflow**: `.github/workflows/okrid-weekly-review.yml`
+- **Trigger**: Monday 07:00 UTC, manual; exact filters and conditions remain in the workflow definition.
+- **Catalog status**: Configured (`enabled: true`); execution unverified.
+- **Evidence**: `.agent-config.json` → `agents.okrid-governance` and the named workflow; no new runtime binding or owner assignment.
+
+### tacskrin-validator-agent
+- **Role**: Validacija TACSKRIN logike i API ugovora
+- **Scope**: `src/lib/tacskrin/**, src/app/api/tacskrin/**`
+- **Workflow**: `.github/workflows/tacskrin-validator.yml`
+- **Trigger**: PR paths, push main paths, manual; exact filters and conditions remain in the workflow definition.
+- **Catalog status**: Configured (`enabled: true`); execution unverified.
+- **Evidence**: `.agent-config.json` → `agents.tacskrin-validator-agent` and the named workflow; no new runtime binding or owner assignment.
+
 ## Rules / Pravila
 
 1. **Audit Log** - Svaki agent mora ostaviti jasan audit log u commit poruci ili kao komentar na PR.
@@ -614,61 +667,70 @@ Ovo je dokument koji opisuje agente, njihove uloge i pravila korišćenja u ovom
 
 ## Registered Agents / Registrovani agenti
 
+Status key (reviewed 2026-10-28): **Disabled** follows `agents[id].enabled=false`; **Configured** means catalog membership only; **Missing workflow** marks an unresolved implementation; **Documented only** means the identity is outside the 43-entry `agents` catalog (it may have a workflow or feature track). Existing **Active** labels are declarations, never runtime evidence. No row authorizes activation. See [status and reference review](docs/SPAJA-AGENT-REFERENCE-RECONCILIATION.md).
+
 | Agent | Role | Trigger | Owner | Status | Scope |
 |-------|------|---------|-------|--------|-------|
 | ci-bot | Testing & Linting | PR, Push | @spaja86 | ✅ Active | All repos |
 | human-review | Code Review | Manual | @spaja86 | ✅ Active | All repos |
-| deploy-bot | Deployment | Merge to main | @spaja86 | ⏳ Planned | All repos |
+| deploy-bot | Deployment | Manual workflow_dispatch (fallback) | @spaja86 | ⏸ Disabled | All repos |
 | security-scanner | Security Scanning | PR, Nightly | @spaja86 | ✅ Active | All repos |
 | multi-repo-sync-agent | Multi-Repo Sync | Push, Weekly | @spaja86 | ✅ Active | SUPER-PLATFORMA ↔ IO-OPENUI-AO |
-| calculator-validator-agent | Calculator Logic | PR, Branch | @spaja86 | ✅ Active | IO-OPENUI-AO |
+| calculator-validator-agent | Calculator Logic | PR, Branch | @spaja86 | ⏸ Disabled | IO-OPENUI-AO |
 | analytics-bot | Metrics & Reports | Nightly, Weekly | @spaja86 | ✅ Active | All repos |
 | nova-generacija-agent | NG Orchestration | PR, Push, Weekly | @spaja86 | 🚀 Active | All repos (Nova Generacija scope) |
-| gigatron-validator-agent | GIGATRON Validation | PR, Branch | @spaja86 | 📋 Ready | AI-IQ-SUPER-PLATFORMA (GIGATRON paths) |
+| gigatron-validator-agent | GIGATRON Validation | PR, Branch | @spaja86 | ⏸ Disabled | AI-IQ-SUPER-PLATFORMA (GIGATRON paths) |
 | another-maks-agent | Creative/Generative Orchestration | PR, Push, Weekly | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (another-maks paths) |
-| persona-bank-agent | Unified Persona Banking | PR, Push, Nightly | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (persona-bank paths) |
+| persona-bank-agent | Unified Persona Banking | PR, Push, Nightly | @spaja86 | 📖 Documented only | AI-IQ-SUPER-PLATFORMA (persona-bank paths) |
 | decibil-validator-agent | DECIBIL Audio/Signal Validation | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (decibil paths) |
 | trenazer-validator-agent | TRENAŽER Training Readiness Validation | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (trenazer paths) |
 | pilotrelax-validator-agent | PILOTRELAX Relaxation Guidance Validation | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (pilotrelax paths) |
 | dumbir-validator-agent | ÐUMBIR Ginger Wellness Validation | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (dumbir paths) |
 | nude-validator-agent | NUDE Readiness Validation | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (nude paths) |
-| mrkli-mrak-validator-agent | MRKLI MRAK Darkness Readiness Validation | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (mrkli-mrak paths) |
+| mrkli-mrak-validator-agent | MRKLI MRAK Darkness Readiness Validation | PR, Branch | @spaja86 | ⚠ Missing workflow | AI-IQ-SUPER-PLATFORMA (mrkli-mrak paths) |
 | paraksil-validator-agent | PARAKSIL Module Validation Sandbox | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (paraksil paths) |
 | tarken-hingil-ekolan-maksimus | Apex Strategic Orchestration | PR, Push, Weekly | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (tarken-hingil-ekolan-maksimus paths) |
-| discount-telecom-validator-agent | Discount Telecom Validation | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (discount-telecom paths) |
+| discount-telecom-validator-agent | Discount Telecom Validation | PR, Branch | @spaja86 | 📖 Documented only | AI-IQ-SUPER-PLATFORMA (discount-telecom paths) |
 | mirikl-validator-agent | MIRIKL GitHub/Vercel Governance Validation | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (MIRIKL governance paths) |
 | great-sumbion-validator-agent | GREAT SUMBION Validation | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (great-sumbion paths) |
 | konvencionalni-odnosi-validator-agent | KONVENCIONALNI ODNOSI Validation | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (konvencionalni-odnosi paths) |
 | duet-validator-agent | DUET Two-Party Synchronization Validation | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (duet paths) |
 | madagaskar-validator-agent | Exotic Market Intelligence | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (madagaskar paths) |
-| force-validator-agent | FORCE Engine Validation | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (force paths) |
+| force-validator-agent | FORCE Engine Validation | PR, Branch | @spaja86 | 📖 Documented only | AI-IQ-SUPER-PLATFORMA (force paths) |
 | extrimli-validator-agent | Extreme Sports & Adventure Intelligence | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (extrimli paths) |
-| extrimli-cuz-validator-agent | Community & Social Hub Validation | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (extrimli-cuz paths) |
+| extrimli-cuz-validator-agent | Community & Social Hub Validation | PR, Branch | @spaja86 | ⚠ Missing workflow | AI-IQ-SUPER-PLATFORMA (extrimli-cuz paths) |
 | spaja-drustvena-mreza-validator-agent | SPAJA Društvena Mreža Validation | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (spaja-drustvena-mreza paths) |
-| agent-resilience | Kill Switch, Circuit Breaker & Self-Healing | PR, Push | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (all agents) |
+| agent-resilience | Kill Switch, Circuit Breaker & Self-Healing | PR, Push | @spaja86 | 📖 Documented only | AI-IQ-SUPER-PLATFORMA (all agents) |
 | digit-engine-validator-agent | Digit Intelligence Engine Validation | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (digit-engine paths) |
 | maksimus-validator-agent | MAKSIMUS Analytical/Development Apex Agent | PR, Push, Weekly | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (maksimus paths) |
-| epekm-denter-validator-agent | EPEKM-D Permanent Email Denter Validation | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (epekm-denter paths) |
-| dijagnoza-validator-agent | DIJAGNOZA Health Diagnostic Validation | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (dijagnoza paths) |
-| zlatni-racuni-validator-agent | ZLATNI RAČUNI Loyalty & Tier Validation | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (zlatni-racuni paths) |
-| ekzist-validator-agent | EKZIST Existential Profiler & Life Meaning Engine | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (ekzist paths) |
+| epekm-denter-validator-agent | EPEKM-D Permanent Email Denter Validation | PR, Branch | @spaja86 | 📖 Documented only | AI-IQ-SUPER-PLATFORMA (epekm-denter paths) |
+| dijagnoza-validator-agent | DIJAGNOZA Health Diagnostic Validation | PR, Branch | @spaja86 | 📖 Documented only | AI-IQ-SUPER-PLATFORMA (dijagnoza paths) |
+| zlatni-racuni-validator-agent | ZLATNI RAČUNI Loyalty & Tier Validation | PR, Branch | @spaja86 | 📖 Documented only | AI-IQ-SUPER-PLATFORMA (zlatni-racuni paths) |
+| ekzist-validator-agent | EKZIST Existential Profiler & Life Meaning Engine | PR, Branch | @spaja86 | 📖 Documented only | AI-IQ-SUPER-PLATFORMA (ekzist paths) |
 | konvenkcionalni-odnosi-validator-agent | KONVENKCIONALNI ODNOSI Relation Management Validation | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (konvenkcionalni-odnosi paths) |
 | adutiv-validator-agent | ADUTIV Advantage Intelligence Engine | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (adutiv paths) |
-| ekvivalent-network-validator-agent | EKVIVALENT NETWORK Equivalence Mapping Engine | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (ekvivalent-network paths) |
-| astronomik-money-validator-agent | ASTRONOMIK MONEY Cosmic Financial Intelligence | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (astronomik-money paths) |
-| dnevna-svetlost-validator-agent | DNEVNA SVETLOST Daylight Exposure & Wellbeing Engine | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (dnevna-svetlost paths) |
+| ekvivalent-network-validator-agent | EKVIVALENT NETWORK Equivalence Mapping Engine | PR, Branch | @spaja86 | 📖 Documented only | AI-IQ-SUPER-PLATFORMA (ekvivalent-network paths) |
+| astronomik-money-validator-agent | ASTRONOMIK MONEY Cosmic Financial Intelligence | PR, Branch | @spaja86 | 📖 Documented only | AI-IQ-SUPER-PLATFORMA (astronomik-money paths) |
+| dnevna-svetlost-validator-agent | DNEVNA SVETLOST Daylight Exposure & Wellbeing Engine | PR, Branch | @spaja86 | 📖 Documented only | AI-IQ-SUPER-PLATFORMA (dnevna-svetlost paths) |
 | reklamitin-validator-agent | REKLAMITIN Reprodukcion Advertising Engine | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (reklamitin paths) |
 | chatgpt-katalog-validator-agent | ChatGPT Katalog — AI Tools Intelligence | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (chatgpt-katalog paths) |
-| tajming-validator-agent | TAJMING Timing Intelligence Engine | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (tajming paths) |
-| swiming-validator-agent | SWIMING Swimming Performance & Wellness Engine | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (swiming paths) |
-| dresing-validator-agent | DRESING Outfit Intelligence & Dress-Code Advisor | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (dresing paths) |
-| dinosaurus-trexar-validator-agent | DINOSAURUS-Trexar Readiness & Tier Validation | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (dinosaurus-trexar paths) |
+| tajming-validator-agent | TAJMING Timing Intelligence Engine | PR, Branch | @spaja86 | 📖 Documented only | AI-IQ-SUPER-PLATFORMA (tajming paths) |
+| swiming-validator-agent | SWIMING Swimming Performance & Wellness Engine | PR, Branch | @spaja86 | 📖 Documented only | AI-IQ-SUPER-PLATFORMA (swiming paths) |
+| dresing-validator-agent | DRESING Outfit Intelligence & Dress-Code Advisor | PR, Branch | @spaja86 | 📖 Documented only | AI-IQ-SUPER-PLATFORMA (dresing paths) |
+| dinosaurus-trexar-validator-agent | DINOSAURUS-Trexar Readiness & Tier Validation | PR, Branch | @spaja86 | 📖 Documented only | AI-IQ-SUPER-PLATFORMA (dinosaurus-trexar paths) |
 | gamelord-validator-agent | GAMES (GAMELORD) Validation | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (gamelord paths) |
 | delet-validator-agent | DELET Deletion Readiness & Safety Validation | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (delet paths) |
 | kulkon-validator-agent | KULKON Culture Cohesion Validation | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (kulkon paths) |
 | prosparitet-validator-agent | PROSPARITET Prosperity Readiness Validation | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (prosparitet paths) |
-| trikot-validator-agent | TRIKOT Outfit Readiness Validation | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (trikot paths) |
+| trikot-validator-agent | TRIKOT Outfit Readiness Validation | PR, Branch | @spaja86 | 📖 Documented only | AI-IQ-SUPER-PLATFORMA (trikot paths) |
 | pozadine-svih-projekcija-validator-agent | POZADINE SVIH PROJEKCIJA Validation | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (pozadine-svih-projekcija paths) |
+
+| aktiviti-all-validator-agent | Validacija AKTIVITI ALL scoring-a i API ugovora | PR paths, push main paths, manual | Unassigned | ⚙ Configured | AI-IQ-SUPER-PLATFORMA |
+| another-races-ops-agent | Validacija Another Races logike i gaming kataloga | PR paths + race labels; push main/race/**/copilot/** paths; manual | Unassigned | ⚙ Configured | AI-IQ-SUPER-PLATFORMA |
+| digitron-validator-agent | Validacija DIGITRON logike i API ugovora | PR paths, push main paths, manual | Unassigned | ⚙ Configured | AI-IQ-SUPER-PLATFORMA |
+| geografija-realna-validator-agent | Validacija GEOGRAFIJA REALNA logike i API ugovora | PR paths, push main paths, manual | Unassigned | ⚙ Configured | AI-IQ-SUPER-PLATFORMA |
+| okrid-governance | Nedeljni izveštaj o OKRID usaglašenosti PR-ova | Monday 07:00 UTC, manual | Unassigned | ⚙ Configured | AI-IQ-SUPER-PLATFORMA |
+| tacskrin-validator-agent | Validacija TACSKRIN logike i API ugovora | PR paths, push main paths, manual | Unassigned | ⚙ Configured | AI-IQ-SUPER-PLATFORMA |
 
 ## Agent Configuration Files / Konfiguracione Datoteke
 
@@ -740,6 +802,7 @@ This file describes agents, their roles, and usage rules for automation in this 
 - **Multi-repo scope**: Runs tests across all linked repositories.
 
 ### deploy-bot
+- **Catalog status (2026-10-28)**: `enabled: false` in `.agent-config.json`; remains disabled. Workflow definitions do not prove that this flag is enforced; runtime is unverified.
 - Handles deployments after passing checks.
 - Cannot deploy without green status from ci-bot.
 - Leaves audit log in PR comment.
@@ -768,6 +831,7 @@ This file describes agents, their roles, and usage rules for automation in this 
   - Leaves detailed audit log with cross-repo PR links
 
 ### calculator-validator-agent (NEW)
+- **Catalog status (2026-10-28)**: `enabled: false` in `.agent-config.json`; remains disabled. Workflow definitions do not prove that this flag is enforced; runtime is unverified.
 - **Role**: Validate gaming calculator logic (IO-OPENUI-AO)
 - **Scope**: IO-OPENUI-AO only and calculator-specific branches
 - **Trigger**: PR with `calculator:logic-change` label, push to `calc-*` branches
@@ -790,6 +854,7 @@ This file describes agents, their roles, and usage rules for automation in this 
   - Synchronizes metrics across repositories
 
 ### gigatron-validator-agent (NEW)
+- **Catalog status (2026-10-28)**: `enabled: false` in `.agent-config.json`; remains disabled. Workflow definitions do not prove that this flag is enforced; runtime is unverified.
 - **Role**: Validate GIGATRON IT & Electronics procurement logic, affiliate calculations, and inventory integrity
 - **Scope**: GIGATRON paths in AI-IQ-SUPER-PLATFORMA (`src/lib/gigatron/**`, `src/app/api/gigatron/**`)
 - **Trigger**: PR with `gigatron:logic-change` label, push touching `gigatron` paths
@@ -971,6 +1036,7 @@ This file describes agents, their roles, and usage rules for automation in this 
   - Leaves audit log in PR comment
   - **Persona**: `nude-balance-core` (octave: 8, hipermreza node: 65)
 ### mrkli-mrak-validator-agent (NEW)
+- **Catalog status (2026-10-28)**: `enabled: true` / `status: active` are configuration declarations only. **Missing component**: `.github/workflows/mrkli-mrak-validator.yml` was not implemented in the reviewed PR ancestry; no replacement is established. Actions below describe intended behavior. See [reference review](docs/SPAJA-AGENT-REFERENCE-RECONCILIATION.md).
 - **Role**: Validate MRKLI MRAK logic — darkness readiness scoring, status classification, and edge-case integrity
 - **Scope**: AI-IQ-SUPER-PLATFORMA — `src/lib/mrkli-mrak/**`, `src/app/api/mrkli-mrak/**`
 - **Trigger**: PR with label `mrkli-mrak:logic-change`, push touching `mrkli-mrak` paths
@@ -1025,6 +1091,7 @@ This file describes agents, their roles, and usage rules for automation in this 
   - **Multi-repo sync**: Syncs gear catalog snapshots to `spaja86/IO-OPENUI-AO`
 
 ### extrimli-cuz-validator-agent (NEW)
+- **Catalog status (2026-10-28)**: `enabled: true` / `status: active` are configuration declarations only. **Missing component**: `.github/workflows/extrimli-cuz-validator.yml` was not implemented in the reviewed PR ancestry; no replacement is established. Actions below describe intended behavior. See [reference review](docs/SPAJA-AGENT-REFERENCE-RECONCILIATION.md).
 - **Role**: Validate EXTRIMLI CUZ logic — community & social hub, crew formation, mentorship matching, community feed, and peer reputation engine
 - **Scope**: AI-IQ-SUPER-PLATFORMA — `src/lib/extrimli-cuz/**`, `src/app/api/extrimli-cuz/**`, `src/components/extrimli-cuz/**`
 - **Trigger**: PR with label `extrimli-cuz:logic-change`, push touching `extrimli-cuz` paths
@@ -1384,6 +1451,54 @@ This file describes agents, their roles, and usage rules for automation in this 
   - **Persona**: `trikot-style-core` (octave: 6, hipermreza node: 54)
   - **Linked-repo impact**: none (v1)
 
+### aktiviti-all-validator-agent
+- **Role**: Validate AKTIVITI ALL scoring and API contracts
+- **Scope**: `src/lib/aktiviti-all/**, src/app/api/aktiviti-all/**`
+- **Workflow**: `.github/workflows/aktiviti-all-validator.yml`
+- **Trigger**: PR paths, push main paths, manual; exact filters and conditions remain in the workflow definition.
+- **Catalog status**: Configured (`enabled: true`); execution unverified.
+- **Evidence**: `.agent-config.json` → `agents.aktiviti-all-validator-agent` and the named workflow; no new runtime binding or owner assignment.
+
+### another-races-ops-agent
+- **Role**: Validate Another Races logic and gaming catalog
+- **Scope**: `src/lib/back-to-spaces-another-races.ts, src/lib/igrice.ts`
+- **Workflow**: `.github/workflows/back-to-spaces-another-races.yml`
+- **Trigger**: PR paths + race labels; push main/race/**/copilot/** paths; manual; exact filters and conditions remain in the workflow definition.
+- **Catalog status**: Configured (`enabled: true`); execution unverified.
+- **Evidence**: `.agent-config.json` → `agents.another-races-ops-agent` and the named workflow; no new runtime binding or owner assignment.
+
+### digitron-validator-agent
+- **Role**: Validate DIGITRON logic and API contracts
+- **Scope**: `src/lib/digitron/**, src/app/api/digitron/**`
+- **Workflow**: `.github/workflows/digitron-validator.yml`
+- **Trigger**: PR paths, push main paths, manual; exact filters and conditions remain in the workflow definition.
+- **Catalog status**: Configured (`enabled: true`); execution unverified.
+- **Evidence**: `.agent-config.json` → `agents.digitron-validator-agent` and the named workflow; no new runtime binding or owner assignment.
+
+### geografija-realna-validator-agent
+- **Role**: Validate GEOGRAFIJA REALNA logic and API contracts
+- **Scope**: `src/lib/geografija-realna/**, src/app/api/geografija-realna/**`
+- **Workflow**: `.github/workflows/geografija-realna-validator.yml`
+- **Trigger**: PR paths, push main paths, manual; exact filters and conditions remain in the workflow definition.
+- **Catalog status**: Configured (`enabled: true`); execution unverified.
+- **Evidence**: `.agent-config.json` → `agents.geografija-realna-validator-agent` and the named workflow; no new runtime binding or owner assignment.
+
+### okrid-governance
+- **Role**: Weekly report on PR compliance with OKRID
+- **Scope**: `docs/OKRID.md, docs/OKRID-REGISTRY.md; repository PR metadata`
+- **Workflow**: `.github/workflows/okrid-weekly-review.yml`
+- **Trigger**: Monday 07:00 UTC, manual; exact filters and conditions remain in the workflow definition.
+- **Catalog status**: Configured (`enabled: true`); execution unverified.
+- **Evidence**: `.agent-config.json` → `agents.okrid-governance` and the named workflow; no new runtime binding or owner assignment.
+
+### tacskrin-validator-agent
+- **Role**: Validate TACSKRIN logic and API contracts
+- **Scope**: `src/lib/tacskrin/**, src/app/api/tacskrin/**`
+- **Workflow**: `.github/workflows/tacskrin-validator.yml`
+- **Trigger**: PR paths, push main paths, manual; exact filters and conditions remain in the workflow definition.
+- **Catalog status**: Configured (`enabled: true`); execution unverified.
+- **Evidence**: `.agent-config.json` → `agents.tacskrin-validator-agent` and the named workflow; no new runtime binding or owner assignment.
+
 ## Rules
 
 1. **Audit Logs** - Agents must leave clear audit logs either in commit messages or PR comments.
@@ -1413,61 +1528,70 @@ This file describes agents, their roles, and usage rules for automation in this 
 
 ## Registered Agents
 
+Status key (reviewed 2026-10-28): **Disabled** follows `agents[id].enabled=false`; **Configured** means catalog membership only; **Missing workflow** marks an unresolved implementation; **Documented only** means the identity is outside the 43-entry `agents` catalog (it may have a workflow or feature track). Existing **Active** labels are declarations, never runtime evidence. No row authorizes activation. See [status and reference review](docs/SPAJA-AGENT-REFERENCE-RECONCILIATION.md).
+
 | Agent | Role | Trigger | Owner | Status | Scope |
 |-------|------|---------|-------|--------|-------|
 | ci-bot | Testing & Linting | PR, Push | @spaja86 | ✅ Active | All repos |
 | human-review | Code Review | Manual | @spaja86 | ✅ Active | All repos |
-| deploy-bot | Deployment | Merge to main | @spaja86 | ⏳ Planned | All repos |
+| deploy-bot | Deployment | Manual workflow_dispatch (fallback) | @spaja86 | ⏸ Disabled | All repos |
 | security-scanner | Security Scanning | PR, Nightly | @spaja86 | ✅ Active | All repos |
 | multi-repo-sync-agent | Multi-Repo Sync | Push, Weekly | @spaja86 | ✅ Active | SUPER-PLATFORMA ↔ IO-OPENUI-AO |
-| calculator-validator-agent | Calculator Logic | PR, Branch | @spaja86 | ✅ Active | IO-OPENUI-AO |
+| calculator-validator-agent | Calculator Logic | PR, Branch | @spaja86 | ⏸ Disabled | IO-OPENUI-AO |
 | analytics-bot | Metrics & Reports | Nightly, Weekly | @spaja86 | ✅ Active | All repos |
-| gigatron-validator-agent | GIGATRON Validation | PR, Branch | @spaja86 | 📋 Ready | AI-IQ-SUPER-PLATFORMA (GIGATRON paths) |
-| persona-bank-agent | Unified Persona Banking | PR, Push, Nightly | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (persona-bank paths) |
+| gigatron-validator-agent | GIGATRON Validation | PR, Branch | @spaja86 | ⏸ Disabled | AI-IQ-SUPER-PLATFORMA (GIGATRON paths) |
+| persona-bank-agent | Unified Persona Banking | PR, Push, Nightly | @spaja86 | 📖 Documented only | AI-IQ-SUPER-PLATFORMA (persona-bank paths) |
 | decibil-validator-agent | DECIBIL Audio/Signal Validation | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (decibil paths) |
 | trenazer-validator-agent | TRENAŽER Training Readiness Validation | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (trenazer paths) |
 | pilotrelax-validator-agent | PILOTRELAX Relaxation Guidance Validation | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (pilotrelax paths) |
 | dumbir-validator-agent | ÐUMBIR Ginger Wellness Validation | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (dumbir paths) |
 | nude-validator-agent | NUDE Readiness Validation | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (nude paths) |
-| mrkli-mrak-validator-agent | MRKLI MRAK Darkness Readiness Validation | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (mrkli-mrak paths) |
+| mrkli-mrak-validator-agent | MRKLI MRAK Darkness Readiness Validation | PR, Branch | @spaja86 | ⚠ Missing workflow | AI-IQ-SUPER-PLATFORMA (mrkli-mrak paths) |
 | paraksil-validator-agent | PARAKSIL Module Validation Sandbox | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (paraksil paths) |
 | tarken-hingil-ekolan-maksimus | Apex Strategic Orchestration | PR, Push, Weekly | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (tarken-hingil-ekolan-maksimus paths) |
-| discount-telecom-validator-agent | Discount Telecom Validation | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (discount-telecom paths) |
+| discount-telecom-validator-agent | Discount Telecom Validation | PR, Branch | @spaja86 | 📖 Documented only | AI-IQ-SUPER-PLATFORMA (discount-telecom paths) |
 | mirikl-validator-agent | MIRIKL GitHub/Vercel Governance Validation | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (MIRIKL governance paths) |
 | great-sumbion-validator-agent | GREAT SUMBION Validation | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (great-sumbion paths) |
 | konvencionalni-odnosi-validator-agent | KONVENCIONALNI ODNOSI Validation | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (konvencionalni-odnosi paths) |
 | duet-validator-agent | DUET Two-Party Synchronization Validation | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (duet paths) |
 | madagaskar-validator-agent | Exotic Market Intelligence | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (madagaskar paths) |
-| force-validator-agent | FORCE Engine Validation | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (force paths) |
+| force-validator-agent | FORCE Engine Validation | PR, Branch | @spaja86 | 📖 Documented only | AI-IQ-SUPER-PLATFORMA (force paths) |
 | extrimli-validator-agent | Extreme Sports & Adventure Intelligence | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (extrimli paths) |
-| extrimli-cuz-validator-agent | Community & Social Hub Validation | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (extrimli-cuz paths) |
+| extrimli-cuz-validator-agent | Community & Social Hub Validation | PR, Branch | @spaja86 | ⚠ Missing workflow | AI-IQ-SUPER-PLATFORMA (extrimli-cuz paths) |
 | spaja-drustvena-mreza-validator-agent | SPAJA Društvena Mreža Validation | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (spaja-drustvena-mreza paths) |
-| agent-resilience | Kill Switch, Circuit Breaker & Self-Healing | PR, Push | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (all agents) |
+| agent-resilience | Kill Switch, Circuit Breaker & Self-Healing | PR, Push | @spaja86 | 📖 Documented only | AI-IQ-SUPER-PLATFORMA (all agents) |
 
 | digit-engine-validator-agent | Digit Intelligence Engine Validation | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (digit-engine paths) |
 | maksimus-validator-agent | MAKSIMUS Analytical/Development Apex Agent | PR, Push, Weekly | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (maksimus paths) |
-| epekm-denter-validator-agent | EPEKM-D Permanent Email Denter Validation | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (epekm-denter paths) |
-| dijagnoza-validator-agent | DIJAGNOZA Health Diagnostic Validation | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (dijagnoza paths) |
-| zlatni-racuni-validator-agent | ZLATNI RAČUNI Loyalty & Tier Validation | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (zlatni-racuni paths) |
+| epekm-denter-validator-agent | EPEKM-D Permanent Email Denter Validation | PR, Branch | @spaja86 | 📖 Documented only | AI-IQ-SUPER-PLATFORMA (epekm-denter paths) |
+| dijagnoza-validator-agent | DIJAGNOZA Health Diagnostic Validation | PR, Branch | @spaja86 | 📖 Documented only | AI-IQ-SUPER-PLATFORMA (dijagnoza paths) |
+| zlatni-racuni-validator-agent | ZLATNI RAČUNI Loyalty & Tier Validation | PR, Branch | @spaja86 | 📖 Documented only | AI-IQ-SUPER-PLATFORMA (zlatni-racuni paths) |
 
-| ekzist-validator-agent | EKZIST Existential Profiler & Life Meaning Engine | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (ekzist paths) |
+| ekzist-validator-agent | EKZIST Existential Profiler & Life Meaning Engine | PR, Branch | @spaja86 | 📖 Documented only | AI-IQ-SUPER-PLATFORMA (ekzist paths) |
 | konvenkcionalni-odnosi-validator-agent | KONVENKCIONALNI ODNOSI Relation Management Validation | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (konvenkcionalni-odnosi paths) |
 | adutiv-validator-agent | ADUTIV Advantage Intelligence Engine | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (adutiv paths) |
-| ekvivalent-network-validator-agent | EKVIVALENT NETWORK Equivalence Mapping Engine | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (ekvivalent-network paths) |
-| astronomik-money-validator-agent | ASTRONOMIK MONEY Cosmic Financial Intelligence | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (astronomik-money paths) |
-| dnevna-svetlost-validator-agent | DNEVNA SVETLOST Daylight Exposure & Wellbeing Engine | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (dnevna-svetlost paths) |
+| ekvivalent-network-validator-agent | EKVIVALENT NETWORK Equivalence Mapping Engine | PR, Branch | @spaja86 | 📖 Documented only | AI-IQ-SUPER-PLATFORMA (ekvivalent-network paths) |
+| astronomik-money-validator-agent | ASTRONOMIK MONEY Cosmic Financial Intelligence | PR, Branch | @spaja86 | 📖 Documented only | AI-IQ-SUPER-PLATFORMA (astronomik-money paths) |
+| dnevna-svetlost-validator-agent | DNEVNA SVETLOST Daylight Exposure & Wellbeing Engine | PR, Branch | @spaja86 | 📖 Documented only | AI-IQ-SUPER-PLATFORMA (dnevna-svetlost paths) |
 | reklamitin-validator-agent | REKLAMITIN Reprodukcion Advertising Engine | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (reklamitin paths) |
 | chatgpt-katalog-validator-agent | ChatGPT Katalog — AI Tools Intelligence | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (chatgpt-katalog paths) |
-| tajming-validator-agent | TAJMING Timing Intelligence Engine | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (tajming paths) |
-| swiming-validator-agent | SWIMING Swimming Performance & Wellness Engine | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (swiming paths) |
-| dresing-validator-agent | DRESING Outfit Intelligence & Dress-Code Advisor | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (dresing paths) |
-| dinosaurus-trexar-validator-agent | DINOSAURUS-Trexar Readiness & Tier Validation | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (dinosaurus-trexar paths) |
+| tajming-validator-agent | TAJMING Timing Intelligence Engine | PR, Branch | @spaja86 | 📖 Documented only | AI-IQ-SUPER-PLATFORMA (tajming paths) |
+| swiming-validator-agent | SWIMING Swimming Performance & Wellness Engine | PR, Branch | @spaja86 | 📖 Documented only | AI-IQ-SUPER-PLATFORMA (swiming paths) |
+| dresing-validator-agent | DRESING Outfit Intelligence & Dress-Code Advisor | PR, Branch | @spaja86 | 📖 Documented only | AI-IQ-SUPER-PLATFORMA (dresing paths) |
+| dinosaurus-trexar-validator-agent | DINOSAURUS-Trexar Readiness & Tier Validation | PR, Branch | @spaja86 | 📖 Documented only | AI-IQ-SUPER-PLATFORMA (dinosaurus-trexar paths) |
 | gamelord-validator-agent | GAMES (GAMELORD) Validation | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (gamelord paths) |
 | delet-validator-agent | DELET Deletion Readiness & Safety Validation | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (delet paths) |
 | kulkon-validator-agent | KULKON Culture Cohesion Validation | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (kulkon paths) |
 | prosparitet-validator-agent | PROSPARITET Prosperity Readiness Validation | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (prosparitet paths) |
-| trikot-validator-agent | TRIKOT Outfit Readiness Validation | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (trikot paths) |
+| trikot-validator-agent | TRIKOT Outfit Readiness Validation | PR, Branch | @spaja86 | 📖 Documented only | AI-IQ-SUPER-PLATFORMA (trikot paths) |
 | pozadine-svih-projekcija-validator-agent | POZADINE SVIH PROJEKCIJA Validation | PR, Branch | @spaja86 | 🚀 Active | AI-IQ-SUPER-PLATFORMA (pozadine-svih-projekcija paths) |
+| aktiviti-all-validator-agent | Validate AKTIVITI ALL scoring and API contracts | PR paths, push main paths, manual | Unassigned | ⚙ Configured | AI-IQ-SUPER-PLATFORMA |
+| another-races-ops-agent | Validate Another Races logic and gaming catalog | PR paths + race labels; push main/race/**/copilot/** paths; manual | Unassigned | ⚙ Configured | AI-IQ-SUPER-PLATFORMA |
+| digitron-validator-agent | Validate DIGITRON logic and API contracts | PR paths, push main paths, manual | Unassigned | ⚙ Configured | AI-IQ-SUPER-PLATFORMA |
+| geografija-realna-validator-agent | Validate GEOGRAFIJA REALNA logic and API contracts | PR paths, push main paths, manual | Unassigned | ⚙ Configured | AI-IQ-SUPER-PLATFORMA |
+| okrid-governance | Weekly report on PR compliance with OKRID | Monday 07:00 UTC, manual | Unassigned | ⚙ Configured | AI-IQ-SUPER-PLATFORMA |
+| tacskrin-validator-agent | Validate TACSKRIN logic and API contracts | PR paths, push main paths, manual | Unassigned | ⚙ Configured | AI-IQ-SUPER-PLATFORMA |
+
 ## Agent Configuration Files
 
 Each repository can have a `.agent-config.json`:

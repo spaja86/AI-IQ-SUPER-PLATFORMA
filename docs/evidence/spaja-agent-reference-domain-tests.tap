@@ -1,0 +1,130 @@
+TAP version 13
+# 🔗 [mrkli-mrak] route tests
+#   ✅ GET /api/mrkli-mrak/health returns report and headers
+#   ✅ POST /api/mrkli-mrak/evaluate returns 200 for valid payload
+#   ✅ POST /api/mrkli-mrak/evaluate returns 422 for unsupported support tool
+#   ✅ POST /api/mrkli-mrak/evaluate returns 400 for invalid JSON
+#   ✅ POST /api/mrkli-mrak/evaluate returns 400 when mode is missing
+#   ✅ POST /api/mrkli-mrak/evaluate returns 400 for shallow-shape mismatch
+# 📊 Results: 6 passed, 0 failed
+# Subtest: src/tests/api/mrkli-mrak-route.test.ts
+ok 1 - src/tests/api/mrkli-mrak-route.test.ts
+  ---
+  duration_ms: 451.648077
+  type: 'test'
+  ...
+# 🔎 [extrimli-cuz] constants
+#   ✅ contract version is v1
+#   ✅ module version is 1.0.0
+#   ✅ persona id is extrimli-cuz-social
+#   ✅ performance max is 50ms
+#   ✅ api response max is 200ms
+# 🔎 [extrimli-cuz] crew-engine
+#   ✅ creates a public crew with captain as first member
+#   ✅ throws if name is empty
+#   ✅ throws if captainId is empty
+#   ✅ throws if sportIds is empty
+#   ✅ throws if region is empty
+#   ✅ getCrew returns undefined for missing crew
+#   ✅ listCrews filters by sportId
+#   ✅ listCrews filters by region
+#   ✅ join public crew adds member immediately
+#   ✅ join private crew creates pending request
+#   ✅ acceptMember adds to members for private crew
+#   ✅ acceptMember rejects non-captain
+#   ✅ leaveCrew removes member
+#   ✅ captain cannot leave without transferring captaincy
+#   ✅ transferCaptaincy changes captain to existing member
+#   ✅ transferCaptaincy throws for non-member new captain
+#   ✅ joinCrew returns error for missing crew
+#   ✅ joinCrew rejects already-a-member
+#   ✅ joinCrew rejects duplicate pending request
+# 🔎 [extrimli-cuz] mentor-engine
+#   ✅ registers a mentor profile
+#   ✅ throws on invalid experienceLevel (>10)
+#   ✅ throws on NaN experienceLevel
+#   ✅ throws on Infinity experienceLevel
+#   ✅ throws if bio is empty
+#   ✅ throws if sportIds is empty array
+#   ✅ getMentor returns undefined for unknown
+#   ✅ listMentors filters by sport
+#   ✅ listMentors filters by availability
+#   ✅ matchMentor finds best available mentor
+#   ✅ matchMentor returns null when no mentor registered
+#   ✅ matchMentor returns null if mentee level >= mentor level
+#   ✅ matchMentor returns null for invalid menteeExperienceLevel
+#   ✅ submitMentorFeedback updates rating and session count
+#   ✅ submitMentorFeedback throws on self-rate
+#   ✅ submitMentorFeedback throws on rating > 5
+#   ✅ submitMentorFeedback throws on rating < 1
+#   ✅ submitMentorFeedback throws for unknown mentor
+# 🔎 [extrimli-cuz] feed-engine
+#   ✅ creates a feed post
+#   ✅ createPost fails if content is empty
+#   ✅ createPost fails if athleteId is empty
+#   ✅ createPost fails if sportId is empty
+#   ✅ createPost fails on invalid type
+#   ✅ getPost returns undefined for missing id
+#   ✅ listPosts filters by sportId
+#   ✅ listPosts filters by athleteId
+#   ✅ listPosts filters by type
+#   ✅ likePost adds like
+#   ✅ likePost is idempotent
+#   ✅ unlikePost removes like
+#   ✅ flagPost marks post as flagged
+#   ✅ listPosts filters by flagged
+#   ✅ likePost throws for unknown post
+#   ✅ flagPost throws for unknown post
+# 🔎 [extrimli-cuz] reputation-engine
+#   ✅ returns Bronze with no ratings
+#   ✅ returns Diamond for perfect (all 5) ratings
+#   ✅ returns correct score for avg rating 3 (Silver)
+#   ✅ returns Bronze for lowest (all 1) ratings
+#   ✅ aggregates multiple raters correctly
+#   ✅ throws on self-rating
+#   ✅ throws on duplicate rating from same rater
+#   ✅ throws on sportsmanship < 1
+#   ✅ throws on skill > 5
+#   ✅ throws on reliability = NaN
+#   ✅ throws on reliability = Infinity
+# 🔎 [extrimli-cuz] health
+#   ✅ getCuzHealthReport returns correct shape
+#   ✅ getCuzHealthReport counts are live
+# 📊 Results: 71 passed, 0 failed
+# Subtest: src/tests/lib/extrimli-cuz.test.ts
+ok 2 - src/tests/lib/extrimli-cuz.test.ts
+  ---
+  duration_ms: 345.295786
+  type: 'test'
+  ...
+# 🔎 [mrkli-mrak] constants
+#   ✅ contract version is non-empty
+#   ✅ persona id is stable
+#   ✅ slug is stable
+# 🔎 [mrkli-mrak] engine
+#   ✅ evaluates a valid exploration scenario
+#   ✅ high darkness + high risk can produce blackout/dense state
+#   ✅ empty object returns invalid result
+#   ✅ NaN ambientLightLux returns invalid result
+#   ✅ Infinity sessionMinutes returns invalid result
+#   ✅ out-of-range focus level returns invalid result
+#   ✅ zero sessionMinutes returns invalid result
+#   ✅ health report reflects latest evaluation
+# 🔎 [mrkli-mrak] performance
+#   ✅ evaluateMrkliMrak completes within 50ms
+# 📊 Results: 12 passed, 0 failed
+# Subtest: src/tests/lib/mrkli-mrak.test.ts
+ok 3 - src/tests/lib/mrkli-mrak.test.ts
+  ---
+  duration_ms: 323.113397
+  type: 'test'
+  ...
+1..3
+# tests 3
+# suites 0
+# pass 3
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 467.645529

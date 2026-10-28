@@ -1,0 +1,111 @@
+TAP version 13
+# 🗂️  Deploy Registry Test Suite
+# 📦 1. Registry integrity
+#   ✅ deployRegistry nije prazan
+#   ✅ svaka platforma ima id, naziv, opis, ikona, vercelProjectId
+#   ✅ svaka platforma ima produktionUrl koji počinje sa https://
+#   ✅ svaka platforma ima ispravan framework string
+#   ✅ svaka platforma ima ispravan status
+#   ✅ nema dupliranih ID-eva u registru
+#   ✅ project sharing requires an explicit approved alias
+#   ✅ rejects duplicate logical IDs even for the approved alias
+#   ✅ rejects an unrelated platform sharing the approved project
+#   ✅ rejects accidental sharing between unrelated projects
+#   ✅ rejects missing alias endpoint: mekartor
+#   ✅ rejects project drift: mekartor
+#   ✅ rejects missing alias endpoint: ai-iq-super-platforma
+#   ✅ rejects project drift: ai-iq-super-platforma
+#   ✅ rejects coordinated project drift of both alias endpoints
+# 📦 2. Trigger-capable platforms
+#   ✅ platforme sa manualTriggerEnabled=true moraju imati deployHookEnvVar
+#   ✅ getTriggablePlatforms vraća samo platforme sa deployHookEnvVar i manualTriggerEnabled
+# 📦 3. Health check platforms
+#   ✅ getPlatformsWithHealthCheck vraća samo platforme sa healthUrl
+#   ✅ healthUrl-ovi počinju sa https://
+# 📦 4. Specific platform presence
+#   ✅ ai-iq-super-platforma postoji u registru
+#   ✅ nova-generacija postoji u registru
+#   ✅ poslovni-novcanik postoji u registru
+#   ✅ kompanija-spaja postoji u registru
+#   ✅ getDeployPlatformById vraća undefined za nepostojeci ID
+# ──────────────────────────────────────────────────
+# 🗂️  Deploy Registry: ✅ 24  ❌ 0  📊 24
+# ──────────────────────────────────────────────────
+# ✅ Svi deploy registry testovi prošli
+# Subtest: src/tests/lib/deploy-registry.test.ts
+ok 1 - src/tests/lib/deploy-registry.test.ts
+  ---
+  duration_ms: 515.479035
+  type: 'test'
+  ...
+# 🚀 Deploy Trigger Test Suite
+# 📦 1. triggerPlatformDeploy — input validation
+#   ✅ vraća failure za nepostojeću platformu
+#   ✅ vraća failure za platformu bez deploy hook-a (manualTriggerEnabled=false setup)
+#   ✅ production deploy bez confirmToken vraća failure
+#   ✅ production deploy sa ispravnim confirmToken ostaje pod governance kapijom
+#   ✅ production deploy koristi prosleđeni governance snapshot pre globalnog reporta
+#   ✅ staging deploy bez env var vraća graceful failure
+#   ✅ triggerPlatformDeploy nikad ne baca izuzetak
+#   ✅ Mekartor and parent retain distinct hook lookup and logical result IDs
+# 📦 2. Deploy History
+#   ✅ recordDeployHistory snima uspešan deploy
+#   ✅ recordDeployHistory snima neuspešan deploy
+#   ✅ getDeployHistory vraća prazno za nepoznatu platformu
+#   ✅ getDeployHistory vraća zabeležene deploye
+#   ✅ history je sortiran po vremenu — najnoviji prvi
+#   ✅ history je ograničen na MAX_HISTORY_PER_PLATFORM (20)
+#   ✅ getAllDeployHistory vraća combine istoriju svih platformi
+#   ✅ clearDeployHistory briše istoriju za platformu
+# ──────────────────────────────────────────────────
+# 🚀 Deploy Trigger: ✅ 16  ❌ 0  📊 16
+# ──────────────────────────────────────────────────
+# ✅ Svi deploy trigger testovi prošli
+# Subtest: src/tests/lib/deploy-trigger.test.ts
+ok 2 - src/tests/lib/deploy-trigger.test.ts
+  ---
+  duration_ms: 1824.070163
+  type: 'test'
+  ...
+# 🧪 Deploy UI Contracts Test Suite
+#   ✅ normalizeStatusApiPayload mapira validne stavke i fallback state
+#   ✅ normalizeStatusApiPayload koristi server counters kada su dostupni
+#   ✅ buildOverviewFromList računa READY/BUILDING/ERROR i nepoznato
+#   ✅ stateToLabel vraća očekivane UI label-e
+# ✅ Passed: 4  ❌ Failed: 0
+# Subtest: src/tests/lib/deploy-ui-contracts.test.ts
+ok 3 - src/tests/lib/deploy-ui-contracts.test.ts
+  ---
+  duration_ms: 541.427389
+  type: 'test'
+  ...
+# PASS: provider separation, opt-in, dev-only fixed worker, version/digest evidence, CAS rollback, corruption/symlink/missing artifact, write failure, retention and cleanup; Vercel mocked only
+# Subtest: src/tests/lib/deployment-provider.test.ts
+ok 4 - src/tests/lib/deployment-provider.test.ts
+  ---
+  duration_ms: 1780.929184
+  type: 'test'
+  ...
+# PASS: DURMITOR nested+layer total budget, sufficient-budget shape, zero-time and invalid budgets
+# Subtest: src/tests/lib/durmitor-budget.test.ts
+ok 5 - src/tests/lib/durmitor-budget.test.ts
+  ---
+  duration_ms: 498.319116
+  type: 'test'
+  ...
+# PASS: UMBREL total iteration cap, no post-budget children, zero-time and invalid finite budgets
+# Subtest: src/tests/lib/umbrel-budget.test.ts
+ok 6 - src/tests/lib/umbrel-budget.test.ts
+  ---
+  duration_ms: 461.977813
+  type: 'test'
+  ...
+1..6
+# tests 6
+# suites 0
+# pass 6
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 1846.139042
