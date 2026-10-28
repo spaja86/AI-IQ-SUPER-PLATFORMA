@@ -35,7 +35,7 @@
     "test:unit": "node scripts/run-tsx-tests.mjs src/tests/unit",
     "test:lib": "node scripts/run-tsx-tests.mjs src/tests/lib",
     "test:api": "node scripts/run-tsx-tests.mjs src/tests/api",
-    "test:ci": "npm run test:core && npm run test:autofinish:critical && npm run test:billing && npm run test:brouvzer && npm run test:call-centar && npm run test:depon && npm run test:unit && npm run test:lib && npm run test:api",
+    "test:ci": "npm run test:agents:inventory && npm run test:core && npm run test:autofinish:critical && npm run test:billing && npm run test:brouvzer && npm run test:call-centar && npm run test:depon && npm run test:unit && npm run test:lib && npm run test:api",
     "test": "npm run test:ci",
     "test:smoke": "npx tsx src/tests/smoke/smoke.test.ts",
     "blockchain:compile": "npx hardhat compile",
@@ -48,7 +48,11 @@
     "suoc:pilot": "node --import tsx scripts/suoc-pilot.ts",
     "test:suoc:pilot": "node --import tsx --test src/tests/spaja-ultra/pilot.test.ts",
     "test:vrh:reference": "node --import tsx --test --test-concurrency=1 src/tests/lib/petlje.test.ts src/tests/lib/vrh-*.test.ts src/tests/lib/spajascripte-*.test.ts src/tests/lib/spaja-fallback-isolation.test.ts src/tests/lib/umbrel-budget.test.ts src/tests/lib/durmitor-budget.test.ts",
-    "test:vrh": "npm run test:suoc && npm run test:suoc:pilot && npm run test:vrh:reference"
+    "test:vrh": "npm run test:suoc && npm run test:suoc:pilot && npm run test:vrh:reference",
+    "agents:inventory": "node scripts/spaja-agent-inventory/cli.mjs generate",
+    "agents:inventory:check": "node scripts/spaja-agent-inventory/cli.mjs check",
+    "agents:import:dry-run": "node scripts/spaja-agent-inventory/cli.mjs dry-run",
+    "test:agents:inventory": "node --test src/tests/deploy/agent-inventory.test.mjs"
   },
   "dependencies": {
     "@supabase/ssr": "^0.10.2",
@@ -79,6 +83,7 @@
     "eslint": "^10",
     "eslint-config-next": "16.4.1",
     "hardhat": "^3.4.3",
+    "js-yaml": "4.1.1",
     "tailwindcss": "^4",
     "tsx": "^4.23.15",
     "typescript": "5.9.3"
