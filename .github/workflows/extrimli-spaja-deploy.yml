@@ -99,13 +99,13 @@ on:
         required: false
         default: ''
       canonical_domain:
-        description: 'Kanonski apex domen (bez wildcard), npr. spaja.nivo-spaja'
+        description: 'Kandidatski javni domen; unos nije dokaz registracije ili vlasništva'
         required: false
-        default: 'spaja.nivo-spaja'
+        default: ''
       wildcard_domain:
-        description: 'Wildcard domen mora biti oblika *.domen, npr. *.spaja.nivo-spaja'
+        description: 'Opcioni kandidatski wildcard; ne predstavlja TLS dokaz'
         required: false
-        default: '*.spaja.nivo-spaja'
+        default: ''
       rollback_hook_url:
         description: 'Rollback deploy hook URL (aktivira se ako health check padne)'
         required: false
@@ -229,6 +229,7 @@ jobs:
           npx tsx src/tests/lib/extrimli-extrondend.test.ts
           npx tsx src/tests/lib/extrimli-extrondol.test.ts
           npx tsx src/tests/lib/extrimli-start-deploy-doc.test.ts
+          node --import tsx --test scripts/extrimli-network-gate.test.mjs
           npx tsx src/tests/lib/extrimli-koron.test.ts
           npx tsx src/tests/lib/extrimli-cuz.test.ts
           npx tsx src/tests/lib/duet.test.ts
@@ -446,7 +447,8 @@ jobs:
   production_gate:
     name: 🔒 FAZA 4 — Production Gate
     runs-on: ubuntu-latest
-    permissions: {}
+    permissions:
+      contents: read
     needs: staging
     outputs:
       canonical_domain: ${{ steps.domain_strategy.outputs.canonical_domain }}
@@ -454,74 +456,16 @@ jobs:
 
     steps:
       # START_DEPLOY_DOMAIN_GATE
-      - name: 🌐 Validate canonical domain strategy
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: '24'
+      - name: Validate network activation evidence (fail closed)
         id: domain_strategy
-        run: |
-          CANONICAL_DOMAIN="${{ github.event.inputs.canonical_domain }}"
-          WILDCARD_DOMAIN="${{ github.event.inputs.wildcard_domain }}"
-          EXPECTED_CANONICAL="spaja.nivo-spaja"
-          EXPECTED_WILDCARD="*.spaja.nivo-spaja"
-
-          if [ -z "$CANONICAL_DOMAIN" ]; then CANONICAL_DOMAIN="$EXPECTED_CANONICAL"; fi
-          if [ -z "$WILDCARD_DOMAIN" ]; then WILDCARD_DOMAIN="$EXPECTED_WILDCARD"; fi
-          DOMAIN_REGEX='^([A-Za-z0-9]|[A-Za-z0-9][A-Za-z0-9-]{0,61}[A-Za-z0-9])(\.([A-Za-z0-9]|[A-Za-z0-9][A-Za-z0-9-]{0,61}[A-Za-z0-9]))+$'
-
-          if [ "$CANONICAL_DOMAIN" != "$EXPECTED_CANONICAL" ] || [ "$WILDCARD_DOMAIN" != "$EXPECTED_WILDCARD" ]; then
-            echo "❌ START deploy podržava isključivo kanonski domain pair:"
-            echo "   canonical_domain=$EXPECTED_CANONICAL"
-            echo "   wildcard_domain=$EXPECTED_WILDCARD"
-            echo "   Dobijeno: canonical_domain=$CANONICAL_DOMAIN, wildcard_domain=$WILDCARD_DOMAIN"
-            exit 1
-          fi
-
-          if [[ "$CANONICAL_DOMAIN" == *"*"* ]]; then
-            echo "❌ canonical_domain ne sme sadržati '*' (primer pogrešnog formata: spaja.nivo*spaja)."
-            exit 1
-          fi
-          if [[ "$CANONICAL_DOMAIN" == .* || "$CANONICAL_DOMAIN" == *. || "$CANONICAL_DOMAIN" == *..* ]]; then
-            echo "❌ canonical_domain ne sme imati prazne label-e niti vodeću/završnu tačku."
-            exit 1
-          fi
-          if ! [[ "$CANONICAL_DOMAIN" =~ $DOMAIN_REGEX ]]; then
-            echo "❌ canonical_domain mora biti validan apex domen (min 2 label-e)."
-            exit 1
-          fi
-
-          if ! [[ "$WILDCARD_DOMAIN" =~ ^\*\.([A-Za-z0-9]|[A-Za-z0-9][A-Za-z0-9-]{0,61}[A-Za-z0-9])(\.([A-Za-z0-9]|[A-Za-z0-9][A-Za-z0-9-]{0,61}[A-Za-z0-9]))+$ ]]; then
-            echo "❌ wildcard_domain mora biti u formatu '*.domen'."
-            exit 1
-          fi
-
-          WILDCARD_SUFFIX="${WILDCARD_DOMAIN#*.}"
-          if [[ "$WILDCARD_SUFFIX" == *"*"* ]]; then
-            echo "❌ wildcard_domain ne sme imati '*' u sredini label-e."
-            exit 1
-          fi
-          if [[ "$WILDCARD_SUFFIX" == .* || "$WILDCARD_SUFFIX" == *. || "$WILDCARD_SUFFIX" == *..* ]]; then
-            echo "❌ wildcard_domain suffix ne sme imati prazne label-e niti vodeću/završnu tačku."
-            exit 1
-          fi
-          if ! [[ "$WILDCARD_SUFFIX" =~ $DOMAIN_REGEX ]]; then
-            echo "❌ wildcard_domain suffix mora biti validan domen."
-            exit 1
-          fi
-
-          if [ "$WILDCARD_SUFFIX" != "$CANONICAL_DOMAIN" ]; then
-            echo "❌ wildcard_domain mora mapirati isti apex domen kao canonical_domain."
-            echo "   canonical_domain=$CANONICAL_DOMAIN"
-            echo "   wildcard_domain=$WILDCARD_DOMAIN"
-            exit 1
-          fi
-
-          echo "✅ Domen strategija validna: $CANONICAL_DOMAIN + $WILDCARD_DOMAIN"
-          echo "## 🌐 Domain strategy gate" >> "$GITHUB_STEP_SUMMARY"
-          echo "" >> "$GITHUB_STEP_SUMMARY"
-          echo "- canonical_domain: \`$CANONICAL_DOMAIN\`" >> "$GITHUB_STEP_SUMMARY"
-          echo "- wildcard_domain: \`$WILDCARD_DOMAIN\`" >> "$GITHUB_STEP_SUMMARY"
-          echo "- DNS policy: wildcard samo kao leva labela (\`*.domen\`)" >> "$GITHUB_STEP_SUMMARY"
-          echo "- TLS policy: Vercel managed certificate za apex + wildcard" >> "$GITHUB_STEP_SUMMARY"
-          echo "canonical_domain=$CANONICAL_DOMAIN" >> "$GITHUB_OUTPUT"
-          echo "wildcard_domain=$WILDCARD_DOMAIN" >> "$GITHUB_OUTPUT"
+        env:
+          EXTRIMLI_DOMAIN_CANDIDATE: ${{ github.event.inputs.canonical_domain }}
+          EXTRIMLI_WILDCARD_CANDIDATE: ${{ github.event.inputs.wildcard_domain }}
+        run: node scripts/extrimli-network-gate.mjs
 
       - name: 🔒 Validate production confirmation token
         run: |
@@ -578,6 +522,7 @@ jobs:
     permissions:
       contents: read
     needs: production_gate
+    if: ${{ github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/main' && needs.production_gate.result == 'success' }}
     environment: ${{ github.event.inputs.environment || 'staging' }}
 
     steps:

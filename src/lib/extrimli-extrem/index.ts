@@ -12536,7 +12536,7 @@ export function getExtrimliExtremProfilerReport(): ExtrimliExtremProfilerReport 
       governanceLayer: 'GitHub Actions',
       environmentStrategy: ['preview', 'staging', 'production'],
       requiredGates: ['preview', 'staging', 'smoke', 'rollback', 'observability'],
-      canonicalDomainStrategy: 'spaja.nivo-spaja + *.spaja.nivo-spaja',
+      canonicalDomainStrategy: 'publicDomain=null; activation blocked',
     },
     securityAndCompliance: {
       secretManagementBoundary: 'no-invoices-payment-methods-or-secrets-in-git',

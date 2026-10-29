@@ -1,3 +1,4 @@
+import { buildNetworkMapping } from '../deploy/spaja-network';
 import {
   EXTRONDOL_RELEASE_AUDIT_ACCEPTANCE_EVIDENCE,
   EXTRONDOL_GOVERNANCE_ACCEPTANCE_EVIDENCE,
@@ -526,36 +527,19 @@ const EXTRONDOL_ROLLOUT_RING_SEQUENCE = [
   'RING-4-RESILIENCE',
 ] as const;
 
-function isValidApexDomain(domain: string): boolean {
-  const regex = /^([A-Za-z0-9]|[A-Za-z0-9][A-Za-z0-9-]{0,61}[A-Za-z0-9])(\.([A-Za-z0-9]|[A-Za-z0-9][A-Za-z0-9-]{0,61}[A-Za-z0-9]))+$/;
-  return Boolean(domain) && !domain.includes('*') && regex.test(domain);
-}
-
-function isValidWildcardDomain(domain: string): boolean {
-  if (!domain.startsWith('*.')) return false;
-  const suffix = domain.slice(2);
-  return isValidApexDomain(suffix);
-}
-
 function validateDomainStrategy() {
-  const requestedPatternRejected = !isValidApexDomain(EXTRONDOL_REQUESTED_DOMAIN_PATTERN)
-    && !isValidWildcardDomain(EXTRONDOL_REQUESTED_DOMAIN_PATTERN);
-  const canonicalValid = isValidApexDomain(EXTRONDOL_CANONICAL_APEX_DOMAIN);
-  const wildcardValid = isValidWildcardDomain(EXTRONDOL_CANONICAL_WILDCARD_DOMAIN);
-  const wildcardSuffix = EXTRONDOL_CANONICAL_WILDCARD_DOMAIN.replace('*.', '');
-  const suffixAligned = wildcardSuffix === EXTRONDOL_CANONICAL_APEX_DOMAIN;
-  const reasons: string[] = [];
-  if (requestedPatternRejected) reasons.push(`invalid requested pattern: ${EXTRONDOL_REQUESTED_DOMAIN_PATTERN}`);
-  if (!canonicalValid) reasons.push(`invalid canonical apex: ${EXTRONDOL_CANONICAL_APEX_DOMAIN}`);
-  if (!wildcardValid) reasons.push(`invalid canonical wildcard: ${EXTRONDOL_CANONICAL_WILDCARD_DOMAIN}`);
-  if (!suffixAligned) reasons.push('canonical wildcard suffix must match canonical apex');
+  // Logical identifiers remain valid SPAJA IDs, never DNS names or release approval.
+  const mapping = buildNetworkMapping();
   return {
+    networkId: mapping.networkId,
+    publicDomain: mapping.publicDomain,
+    publicActivationAllowed: mapping.publicActivationAllowed,
     requestedPattern: EXTRONDOL_REQUESTED_DOMAIN_PATTERN,
-    requestedPatternRejected,
+    requestedPatternRejected: true,
     canonicalApex: EXTRONDOL_CANONICAL_APEX_DOMAIN,
     canonicalWildcard: EXTRONDOL_CANONICAL_WILDCARD_DOMAIN,
-    valid: canonicalValid && wildcardValid && suffixAligned,
-    invalidReason: reasons.length > 0 ? reasons.join('; ') : null,
+    valid: mapping.publicActivationAllowed,
+    invalidReason: 'spaja.nivo*spaja is a logical ID; public registration, ownership and TLS evidence are missing',
   } as const;
 }
 
@@ -8636,7 +8620,7 @@ export function getExtrimliExtrondolReport(evidence?: ExtrimliExtrondolGovernanc
     },
     {
       id: 'domain-strategy-lock',
-      description: 'Requested `spaja.nivo*spaja` is rejected and canonical domains remain `spaja.nivo-spaja` + `*.spaja.nivo-spaja`.',
+      description: 'Logical SPAJA ID is not DNS; canonical domains remain null and public activation is blocked.',
       passed: domainStrategy.valid && domainStrategy.requestedPatternRejected,
     },
     {

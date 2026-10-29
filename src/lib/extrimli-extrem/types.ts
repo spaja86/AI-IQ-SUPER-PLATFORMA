@@ -5518,7 +5518,7 @@ export interface ExtrimliDokDikDakDukConsistencyHealth {
         governanceLayer: 'GitHub Actions';
         environmentStrategy: readonly ['preview', 'staging', 'production'];
         requiredGates: readonly ['preview', 'staging', 'smoke', 'rollback', 'observability'];
-        canonicalDomainStrategy: 'spaja.nivo-spaja + *.spaja.nivo-spaja';
+        canonicalDomainStrategy: 'publicDomain=null; activation blocked';
       };
       securityAndCompliance: {
         secretManagementBoundary: 'no-invoices-payment-methods-or-secrets-in-git';

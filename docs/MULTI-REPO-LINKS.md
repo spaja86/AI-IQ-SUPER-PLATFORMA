@@ -1071,7 +1071,7 @@ AI-IQ-SUPER-PLATFORMA#EXTRIMLI-003 -> IO-OPENUI-AO#<follow-up issue>
 | **Go-live tracking** | `docs/EXTRIMLI-START-DEPLOY.md` |
 | **OKRID** | `OKRID-2026-EXTRIMLI-START-001` |
 | **Persona** | `extrimli-core` (octave: 7, hipermreza node: 56) |
-| **Canonical domain strategy** | `spaja.nivo-spaja` (apex) + `*.spaja.nivo-spaja` (wildcard) |
+| **Canonical domain strategy** | logički ID `spaja.nivo*spaja`; javni domen null; aktivacija blokirana |
 | **Required labels** | `extrimli:logic-change`, `extrimli:external-github`, `agent:config-change` |
 | **Human review** | Mandatory before merge / release |
 
@@ -1087,7 +1087,7 @@ AI-IQ-SUPER-PLATFORMA#EXTRIMLI-003 -> IO-OPENUI-AO#<follow-up issue>
 - Update `extrimli-validator-agent` trigger in linked-repo `.agent-config.json` to include START deploy ref
 - Track EXTRIMLI v1 + v3 API contract versions in linked repo consumers
 - Verify `extrimli-core` persona (node: 56) registered in persona-bank post-deploy
-- Mirror canonical DNS convention (`spaja.nivo-spaja` + `*.spaja.nivo-spaja`) u linked deploy dokumentaciji
+- Mirror canonical DNS convention (logički ID / kandidat / potvrđena javna adresa) u linked deploy dokumentaciji
 - Mirror summary-only activation lock `DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == AKTIVACIJA` with bounded vocabulary `EXTRIMLI EXTRONDOL EXTREM DOK DUK DAK DIK FOR`
 
 <!-- START_DEPLOY_WAWE3_EVIDENCE -->
@@ -1324,7 +1324,7 @@ AI-IQ-SUPER-PLATFORMA#EXTRIMLI-DEVELOPER-CREATE-001 -> IO-OPENUI-AO#<follow-up i
 - Confirm EXTRIMLI KORON overlay surface fields are mapped before promotion past WAWE 3
 - Confirm EXTRONDEND/EXTRONDOL naming lock is mirrored in downstream docs and label schema
 - Mirror label schema: `nivo-duet:logic-change`, `dinkos:logic-change`
-- Mirror domain strategy lock: `spaja.nivo-spaja` (`EXTRONDOL_CANONICAL_APEX_DOMAIN`) + `*.spaja.nivo-spaja` (`EXTRONDOL_CANONICAL_WILDCARD_DOMAIN`); requested `spaja.nivo*spaja` remains invalid
+- Mirror domain strategy lock: `EXTRONDOL_CANONICAL_APEX_DOMAIN = null` + `EXTRONDOL_CANONICAL_WILDCARD_DOMAIN = null`; `spaja.nivo*spaja` is a logical ID, invalid only as DNS
 - Confirm B2B activation remains blocked downstream until contract/onboarding/downstream-sync/human-review evidence is present
 - Open mandatory follow-up issue ako downstream ostane delimično neusaglašen posle WAWE 3/4
 
