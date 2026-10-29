@@ -1,14 +1,16 @@
 /**
  * 🏦 AI IQ WORLD BANK — Procesiranje Transakcija
  *
- * Aktivni sloj obrade: transakcije, kamatna obrada, AI fraud detekcija,
- * SWIFT/blockchain rutiranje i KPI procesiranja.
+ * Statički demonstracioni podaci: transakcije, kamate, fraud i routing primeri.
+ * KPI vrednosti nisu telemetrija stvarnih plaćanja. Privatna testna evidencija
+ * SPAJA Billing dostupna je samo kroz zaseban autorizovani razvojni API.
  *
  * Sve ostale komponente (sekvence, API rute) čitaju podatke isključivo odavde.
  */
 
 import { APP_VERSION, KOMPANIJA } from './constants';
 import { AIIQ_WORLD_BANK_KAMATNA_STOPA } from './ai-iq-world-bank';
+import { billingWorldBankCapabilities } from './billing-world-bank/status';
 
 // ─── Konstante ────────────────────────────────────────────────────────────────
 
@@ -79,6 +81,8 @@ export interface KpiProcesiranja {
 
 export interface AiIqWorldBankProcesiranjeRezultat {
   environment: 'simulation';
+  dataOrigin: 'static-fixtures';
+  billingIntegration: ReturnType<typeof billingWorldBankCapabilities>;
   settlementVerified: false;
   paymentsEnabled: false;
   status: 'aktivan';
@@ -224,6 +228,8 @@ export function buildAiIqWorldBankProcesiranje(): AiIqWorldBankProcesiranjeRezul
 
   return {
     environment: 'simulation',
+    dataOrigin: 'static-fixtures',
+    billingIntegration: billingWorldBankCapabilities(),
     settlementVerified: false,
     paymentsEnabled: false,
     status: 'aktivan',

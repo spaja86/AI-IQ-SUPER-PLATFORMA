@@ -1,0 +1,561 @@
+TAP version 13
+# 📋 Autokuća B2B Pretplata Tests
+#   ✅ Postoje tačno 2 autokuća klijenta
+#   ✅ Kragujevac klijent ima ispravan OKRID
+#   ✅ Beograd klijent ima ispravan OKRID
+#   ✅ Kragujevac klijent ima ispravno pravno ime
+#   ✅ Beograd klijent ima ispravno pravno ime
+#   ✅ Postoje tačno 2 subscription zapisa
+#   ✅ KG subscription ima ispravan broj računa
+#   ✅ BG subscription ima ispravan broj računa
+#   ✅ KG subscription valuta je EUR
+#   ✅ BG subscription valuta je EUR
+#   ✅ KG subscription endDate je null (beskonačno)
+#   ✅ BG subscription endDate je null (beskonačno)
+#   ✅ KG subscription autoRenew je true
+#   ✅ BG subscription autoRenew je true
+#   ✅ KG PDV stopa je 20%
+#   ✅ BG PDV stopa je 20%
+#   ✅ KG inicijalni status je incomplete-intake
+#   ✅ BG inicijalni status je incomplete-intake
+#   ✅ KG intake nije kompletan bez PIB/MB/iznosa
+#   ✅ BG intake nije kompletan bez PIB/MB/iznosa
+#   ✅ KG pretplata nije aktivna pre aktivacije
+#   ✅ BG pretplata nije aktivna pre aktivacije
+#   ✅ generateFullInvoice vraća null dok pretplata nije aktivna (KG)
+#   ✅ generateFullInvoice vraća null dok pretplata nije aktivna (BG)
+#   ✅ generateFullInvoice generiše ispravan račun posle aktivacije (KG)
+#   ✅ generateFullInvoice generiše ispravan račun posle aktivacije (BG)
+#   ✅ Godišnja naplata ima datum dospeća +1 godina
+#   ✅ buildAuditEntry generiše ispravan audit zapis za KG
+#   ✅ buildAuditEntry generiše ispravan audit zapis za BG
+#   ✅ getAllAutokucaSubscriptionStatuses vraća 2 zapisa
+#   ✅ Status pregled sadrži KG i BG
+#   ✅ Status pregled — endDate je null za oba (perpetual)
+#   ✅ Status pregled — autoRenew je true za oba
+#   ✅ Status pregled — currency je EUR za oba
+#   ✅ Status pregled — intakeComplete je false dok nema PIB/MB (oba)
+# 📊 Rezultat: 35 prošlo, 0 palo
+# Subtest: src/tests/billing/autokuca-subscription.test.ts
+ok 1 - src/tests/billing/autokuca-subscription.test.ts
+  ---
+  duration_ms: 912.365335
+  type: 'test'
+  ...
+# ═══════════════════════════════════════════════════════════════════
+#   SPAJA Billing Test Suite — \#80-88
+# ═══════════════════════════════════════════════════════════════════
+# ▸ \#81 Proration edge-case tests
+#   ✓ Sve proration tranzicije validne
+# ▸ \#82 Trial → paid → canceled lifecycle
+#   ✓ Trial lifecycle tranzicije validne
+# ▸ \#83 Refund/dispute flow tests
+#   ✓ Refund/dispute flow validacije tačne
+# ▸ \#84 Partial payment i failed retry sequence
+#   ✓ Partial payment i retry sekvence validne
+# ▸ \#85 Snapshot test billing-health strukture
+#   ✓ Billing health snapshot konzistentan
+# ▸ \#86 Stripe webhook contract testovi
+#   ✓ Webhook payload contract testovi prošli
+# ▸ \#87 Backward-compatibility testovi za stare event tipove
+#   ✓ Backward-compatibility: 10 event tipova provjereno
+# ▸ \#88 Schema drift detection
+#   ✓ Schema drift detection validno
+# ▸ \#80 Tax/VAT validacija po regionu
+#   ✓ Tax/VAT validacija ispravna
+# ═══════════════════════════════════════════════════════════════════
+#   Rezultat: 9 prošlo, 0 palo (od 9 testova)
+# ═══════════════════════════════════════════════════════════════════
+# Subtest: src/tests/billing/billing-hardening.test.ts
+ok 2 - src/tests/billing/billing-hardening.test.ts
+  ---
+  duration_ms: 1380.272509
+  type: 'test'
+  ...
+# 📋 Billing Orchestration Tests (\#1176)
+#   ✅ Starter plan ima chatLimit=10
+#   ✅ Unlimited plan ima chatLimit=-1 (unlimited)
+#   ✅ Starter nema API pristup
+#   ✅ Basic ima API pristup
+#   ✅ Enterprise ima SLA garanciju
+#   ✅ Unlimited ima white-label opciju
+#   ✅ Starter ima pristup SpajaPro engineu
+#   ✅ Starter nema pristup banci
+#   ✅ Pro ima pristup banci
+#   ✅ Unlimited ima pristup svim endžinima
+#   ✅ ENTITLEMENT_MAP ima 5 planova
+#   ✅ getEntitlementSummary vraća konzistentne podatke
+#   ✅ Engine matrix ima barem 5 endžina
+#   ✅ Glavni endžin je u matrici
+#   ✅ SpajaPro sluša subscription_activated event
+#   ✅ OMEGA auth sluša account_locked event
+#   ✅ processBillingEvent obrađuje subscription_activated uspešno
+#   ✅ processBillingEvent obrađuje payment_failed uspešno
+#   ✅ processBillingEvent obrađuje payment_succeeded kao payment-confirmed
+#   ✅ processBillingEvent tretira payment_refunded kao konzervativni no-op signal
+#   ✅ duplirani payment event ostaje determinističan
+#   ✅ out-of-order payment sequence ne ruši orchestration rezultat
+#   ✅ Stripe provajder je uvek aktivan
+#   ✅ getOrchestrationStatus vraća konzistentne podatke
+#   ✅ PAYPAL_API_BASE je validan URL
+#   ✅ getPayPalPlanById vraća plan za basic
+#   ✅ getPayPalPlanById vraća undefined za nepostojeći plan
+# 📊 Rezultat: 27 prošlo, 0 palo
+# Subtest: src/tests/billing/billing-orchestration.test.ts
+ok 3 - src/tests/billing/billing-orchestration.test.ts
+  ---
+  duration_ms: 911.658284
+  type: 'test'
+  ...
+# 📋 GIGATRON d.o.o. Pretplata Tests — 1 beskonačan račun
+#   ✅ Pretplata je inicijalno u RSD i incomplete-intake statusu
+#   ✅ Pojam beskonačnog računa je modelovan kao endDate null i autoRenew true
+#   ✅ Intake nije kompletan bez pravnog osnova i identifikacije
+#   ✅ Faktura ne može da se izda dok status nije odobren
+#   ✅ Overview vraća governance referencu i guard status
+#   ✅ Audit zapis koristi RSD i OKRID
+#   ✅ Faktura se generiše tek nakon simulacije pravno odobrenog stanja
+#   ✅ Mesečni obračun klampuje kraj meseca ispravno
+#   ✅ Mesečni obračun podržava leap year februar
+#   ✅ Godišnji obračun pomera godinu za 1
+#   ✅ PDV obračun je ispravan za round2
+# 📊 Rezultat: 11 prošlo, 0 palo
+# Subtest: src/tests/billing/gigatron-subscription.test.ts
+ok 4 - src/tests/billing/gigatron-subscription.test.ts
+  ---
+  duration_ms: 868.423801
+  type: 'test'
+  ...
+# 🏢 GitHub enterprise context tests
+# ✅ GitHub enterprise context tests passed
+# Subtest: src/tests/billing/github-enterprise-context.test.ts
+ok 5 - src/tests/billing/github-enterprise-context.test.ts
+  ---
+  duration_ms: 1444.24322
+  type: 'test'
+  ...
+# 📋 PEKIC d.o.o. Pretplata Tests
+#   ✅ Pretplata je inicijalno u RSD i incomplete-intake statusu
+#   ✅ Pojam beskonačnog računa je modelovan kao endDate null
+#   ✅ Intake nije kompletan bez pravnog osnova i identifikacije
+#   ✅ Faktura ne može da se izda dok status nije odobren
+#   ✅ Overview vraća governance referencu i guard status
+#   ✅ Audit zapis koristi RSD i OKRID
+#   ✅ Faktura se generiše tek nakon simulacije pravno odobrenog stanja
+#   ✅ Mesečni obračun klampuje kraj meseca ispravno
+#   ✅ Mesečni obračun podržava leap year februar
+# 📊 Rezultat: 9 prošlo, 0 palo
+# Subtest: src/tests/billing/pekic-subscription.test.ts
+ok 6 - src/tests/billing/pekic-subscription.test.ts
+  ---
+  duration_ms: 937.773095
+  type: 'test'
+  ...
+# 🧾 Billing upgrade disclosure tests
+# ✓ disclosure consistency
+# ✓ payload validation
+# ✓ request record
+# ✅ All billing upgrade disclosure tests passed
+# Subtest: src/tests/billing/upgrade-disclosure.test.ts
+ok 7 - src/tests/billing/upgrade-disclosure.test.ts
+  ---
+  duration_ms: 1185.493983
+  type: 'test'
+  ...
+# 📦 Vendor subscription segmentation tests
+# ✓ formal packages
+# ✓ shared governance model
+# ✓ billing status scenario matrix
+# ✓ correction scenario matrix
+# ✓ compliance and activation ordering
+# ✓ intake coverage
+# ✓ pricing sekvence alignment
+# ✅ Vendor subscription segmentation tests passed
+# Subtest: src/tests/billing/vendor-subscriptions.test.ts
+ok 8 - src/tests/billing/vendor-subscriptions.test.ts
+  ---
+  duration_ms: 1493.953638
+  type: 'test'
+  ...
+# 🌐 Vercel DX pricing route tests
+# ✓ route response
+# ✅ Vercel DX pricing route tests passed
+# Subtest: src/tests/billing/vercel-dx-platform-pricing-route.test.ts
+ok 9 - src/tests/billing/vercel-dx-platform-pricing-route.test.ts
+  ---
+  duration_ms: 1528.876644
+  type: 'test'
+  ...
+# 📊 Vercel DX Platform pricing tests
+# ✓ source-of-truth completeness
+# ✓ pricing sekvence alignment
+# ✅ Vercel DX Platform pricing tests passed
+# Subtest: src/tests/billing/vercel-dx-platform-pricing.test.ts
+ok 10 - src/tests/billing/vercel-dx-platform-pricing.test.ts
+  ---
+  duration_ms: 1535.373677
+  type: 'test'
+  ...
+# Subtest: successful test billing event creates balanced, traceable World Bank postings
+ok 11 - successful test billing event creates balanced, traceable World Bank postings
+  ---
+  duration_ms: 110.602489
+  type: 'test'
+  ...
+# Subtest: failure has no money postings and a later success can settle the test payment once
+ok 12 - failure has no money postings and a later success can settle the test payment once
+  ---
+  duration_ms: 84.050681
+  type: 'test'
+  ...
+# Subtest: same event ID replay survives reopening the database without duplicate postings
+ok 13 - same event ID replay survives reopening the database without duplicate postings
+  ---
+  duration_ms: 76.437652
+  type: 'test'
+  ...
+# Subtest: different event ID for same business effect is recorded without duplicate money
+ok 14 - different event ID for same business effect is recorded without duplicate money
+  ---
+  duration_ms: 73.143343
+  type: 'test'
+  ...
+# Subtest: reused event ID with changed content fails without mutations
+ok 15 - reused event ID with changed content fails without mutations
+  ---
+  duration_ms: 43.674376
+  type: 'test'
+  ...
+# Subtest: partial and full reversal keep the original capture and append inverse entries
+ok 16 - partial and full reversal keep the original capture and append inverse entries
+  ---
+  duration_ms: 209.394871
+  type: 'test'
+  ...
+# Subtest: over-reversal and changed reversal effect payload are rejected atomically
+ok 17 - over-reversal and changed reversal effect payload are rejected atomically
+  ---
+  duration_ms: 203.033011
+  type: 'test'
+  ...
+# Subtest: reversal before capture is retriable and is not prematurely acknowledged
+ok 18 - reversal before capture is retriable and is not prematurely acknowledged
+  ---
+  duration_ms: 61.601404
+  type: 'test'
+  ...
+# Subtest: late failure and repeated success never regress a captured/reversed payment
+ok 19 - late failure and repeated success never regress a captured/reversed payment
+  ---
+  duration_ms: 69.659463
+  type: 'test'
+  ...
+# Subtest: payment binding rejects changed customerId
+ok 20 - payment binding rejects changed customerId
+  ---
+  duration_ms: 76.438744
+  type: 'test'
+  ...
+# Subtest: payment binding rejects changed invoiceId
+ok 21 - payment binding rejects changed invoiceId
+  ---
+  duration_ms: 38.749999
+  type: 'test'
+  ...
+# Subtest: payment binding rejects changed currency
+ok 22 - payment binding rejects changed currency
+  ---
+  duration_ms: 38.751471
+  type: 'test'
+  ...
+# Subtest: payment binding rejects changed amountMinor
+ok 23 - payment binding rejects changed amountMinor
+  ---
+  duration_ms: 41.045604
+  type: 'test'
+  ...
+# Subtest: tenant isolation includes read, event deduplication and effect deduplication
+ok 24 - tenant isolation includes read, event deduplication and effect deduplication
+  ---
+  duration_ms: 98.907822
+  type: 'test'
+  ...
+# Subtest: same invoice cannot be captured again under a different payment ID
+ok 25 - same invoice cannot be captured again under a different payment ID
+  ---
+  duration_ms: 23.645285
+  type: 'test'
+  ...
+# Subtest: currency totals remain separate and decimal exponents explicit
+ok 26 - currency totals remain separate and decimal exponents explicit
+  ---
+  duration_ms: 33.22975
+  type: 'test'
+  ...
+# Subtest: failure during receipt insert rolls back payment, effect and postings; retry recovers
+ok 27 - failure during receipt insert rolls back payment, effect and postings; retry recovers
+  ---
+  duration_ms: 31.578231
+  type: 'test'
+  ...
+# Subtest: reject invalid/test-boundary input {"livemode":true}
+ok 28 - reject invalid/test-boundary input {"livemode":true}
+  ---
+  duration_ms: 25.085766
+  type: 'test'
+  ...
+# Subtest: reject invalid/test-boundary input {"source":"stripe"}
+ok 29 - reject invalid/test-boundary input {"source":"stripe"}
+  ---
+  duration_ms: 19.300092
+  type: 'test'
+  ...
+# Subtest: reject invalid/test-boundary input {"amountMinor":0}
+ok 30 - reject invalid/test-boundary input {"amountMinor":0}
+  ---
+  duration_ms: 43.1602
+  type: 'test'
+  ...
+# Subtest: reject invalid/test-boundary input {"amountMinor":-1}
+ok 31 - reject invalid/test-boundary input {"amountMinor":-1}
+  ---
+  duration_ms: 99.766415
+  type: 'test'
+  ...
+# Subtest: reject invalid/test-boundary input {"amountMinor":1.1}
+ok 32 - reject invalid/test-boundary input {"amountMinor":1.1}
+  ---
+  duration_ms: 13.535729
+  type: 'test'
+  ...
+# Subtest: reject invalid/test-boundary input {"amountMinor":9007199254740992}
+ok 33 - reject invalid/test-boundary input {"amountMinor":9007199254740992}
+  ---
+  duration_ms: 18.129073
+  type: 'test'
+  ...
+# Subtest: reject invalid/test-boundary input {"amountMinor":"100"}
+ok 34 - reject invalid/test-boundary input {"amountMinor":"100"}
+  ---
+  duration_ms: 201.666458
+  type: 'test'
+  ...
+# Subtest: reject invalid/test-boundary input {"currency":"rsd"}
+ok 35 - reject invalid/test-boundary input {"currency":"rsd"}
+  ---
+  duration_ms: 29.677532
+  type: 'test'
+  ...
+# Subtest: reject invalid/test-boundary input {"currency":"FAKE"}
+ok 36 - reject invalid/test-boundary input {"currency":"FAKE"}
+  ---
+  duration_ms: 49.462999
+  type: 'test'
+  ...
+# Subtest: reject invalid/test-boundary input {"occurredAt":"yesterday"}
+ok 37 - reject invalid/test-boundary input {"occurredAt":"yesterday"}
+  ---
+  duration_ms: 37.531263
+  type: 'test'
+  ...
+# Subtest: reject invalid/test-boundary input {"eventId":"evt_live_1"}
+ok 38 - reject invalid/test-boundary input {"eventId":"evt_live_1"}
+  ---
+  duration_ms: 86.992335
+  type: 'test'
+  ...
+# Subtest: reject invalid/test-boundary input {"type":"checkout.session.completed"}
+ok 39 - reject invalid/test-boundary input {"type":"checkout.session.completed"}
+  ---
+  duration_ms: 18.682435
+  type: 'test'
+  ...
+# Subtest: reject invalid/test-boundary input {"tenantId":"attacker"}
+ok 40 - reject invalid/test-boundary input {"tenantId":"attacker"}
+  ---
+  duration_ms: 34.338442
+  type: 'test'
+  ...
+# Subtest: reject invalid/test-boundary input {"cardNumber":"fixture-private-data"}
+ok 41 - reject invalid/test-boundary input {"cardNumber":"fixture-private-data"}
+  ---
+  duration_ms: 21.859894
+  type: 'test'
+  ...
+# Subtest: reject invalid/test-boundary input {"type":"payment.failed"}
+ok 42 - reject invalid/test-boundary input {"type":"payment.failed"}
+  ---
+  duration_ms: 37.0354
+  type: 'test'
+  ...
+# Subtest: reject invalid/test-boundary input {"type":"payment.reversed"}
+ok 43 - reject invalid/test-boundary input {"type":"payment.reversed"}
+  ---
+  duration_ms: 54.282983
+  type: 'test'
+  ...
+# Subtest: reject invalid/test-boundary input {"reversalId":"test_rev_unexpected"}
+ok 44 - reject invalid/test-boundary input {"reversalId":"test_rev_unexpected"}
+  ---
+  duration_ms: 87.553716
+  type: 'test'
+  ...
+# Subtest: reject invalid/test-boundary input {"schemaVersion":2}
+ok 45 - reject invalid/test-boundary input {"schemaVersion":2}
+  ---
+  duration_ms: 112.239799
+  type: 'test'
+  ...
+# Subtest: actual API POST → GET exposes committed test evidence and all production gates false
+ok 46 - actual API POST → GET exposes committed test evidence and all production gates false
+  ---
+  duration_ms: 177.38241
+  type: 'test'
+  ...
+# Subtest: GET enforces financial access scope (anonymous)
+ok 47 - GET enforces financial access scope (anonymous)
+  ---
+  duration_ms: 3.883783
+  type: 'test'
+  ...
+# Subtest: POST enforces financial access scope (anonymous)
+ok 48 - POST enforces financial access scope (anonymous)
+  ---
+  duration_ms: 15.201562
+  type: 'test'
+  ...
+# Subtest: GET enforces financial access scope (wrong scope)
+ok 49 - GET enforces financial access scope (wrong scope)
+  ---
+  duration_ms: 1.688104
+  type: 'test'
+  ...
+# Subtest: POST enforces financial access scope (wrong scope)
+ok 50 - POST enforces financial access scope (wrong scope)
+  ---
+  duration_ms: 1.288131
+  type: 'test'
+  ...
+# Subtest: GET enforces financial access scope (bad token)
+ok 51 - GET enforces financial access scope (bad token)
+  ---
+  duration_ms: 1.100689
+  type: 'test'
+  ...
+# Subtest: fails closed before database access for NODE_ENV
+ok 52 - fails closed before database access for NODE_ENV
+  ---
+  duration_ms: 1.204957
+  type: 'test'
+  ...
+# Subtest: fails closed before database access for NODE_ENV
+ok 53 - fails closed before database access for NODE_ENV
+  ---
+  duration_ms: 0.76299
+  type: 'test'
+  ...
+# Subtest: fails closed before database access for SPAJA_BILLING_TEST_ENABLED
+ok 54 - fails closed before database access for SPAJA_BILLING_TEST_ENABLED
+  ---
+  duration_ms: 3.643251
+  type: 'test'
+  ...
+# Subtest: fails closed before database access for SPAJA_BILLING_TEST_READ_TOKEN
+ok 55 - fails closed before database access for SPAJA_BILLING_TEST_READ_TOKEN
+  ---
+  duration_ms: 1.057374
+  type: 'test'
+  ...
+# Subtest: fails closed before database access for SPAJA_BILLING_TEST_READ_TOKEN
+ok 56 - fails closed before database access for SPAJA_BILLING_TEST_READ_TOKEN
+  ---
+  duration_ms: 0.677231
+  type: 'test'
+  ...
+# Subtest: fails closed before database access for SPAJA_BILLING_TEST_DIRECTORY
+ok 57 - fails closed before database access for SPAJA_BILLING_TEST_DIRECTORY
+  ---
+  duration_ms: 0.717792
+  type: 'test'
+  ...
+# Subtest: forged role, identity, forwarded IP and cookies cannot grant financial access
+ok 58 - forged role, identity, forwarded IP and cookies cannot grant financial access
+  ---
+  duration_ms: 0.874848
+  type: 'test'
+  ...
+# Subtest: server-configured tenant is isolated and cannot be overridden by body or URL
+ok 59 - server-configured tenant is isolated and cannot be overridden by body or URL
+  ---
+  duration_ms: 42.000623
+  type: 'test'
+  ...
+# Subtest: duplicate is acknowledged, altered replay rejected, original record retained
+ok 60 - duplicate is acknowledged, altered replay rejected, original record retained
+  ---
+  duration_ms: 68.49796
+  type: 'test'
+  ...
+# Subtest: live payloads and real provider event envelopes are rejected
+ok 61 - live payloads and real provider event envelopes are rejected
+  ---
+  duration_ms: 1.083242
+  type: 'test'
+  ...
+# Subtest: malformed JSON, oversized bodies, wrong media type and browser origin are rejected
+ok 62 - malformed JSON, oversized bodies, wrong media type and browser origin are rejected
+  ---
+  duration_ms: 1.4932
+  type: 'test'
+  ...
+# Subtest: read limit is bounded and rejects coercion/unknown parameters
+ok 63 - read limit is bounded and rejects coercion/unknown parameters
+  ---
+  duration_ms: 41.787726
+  type: 'test'
+  ...
+# Subtest: storage failure returns generic 503, no successful acknowledgement or path disclosure
+ok 64 - storage failure returns generic 503, no successful acknowledgement or path disclosure
+  ---
+  duration_ms: 7.058409
+  type: 'test'
+  ...
+# Subtest: public simulator describes fixtures and never includes authenticated ledger records
+ok 65 - public simulator describes fixtures and never includes authenticated ledger records
+  ---
+  duration_ms: 11.810931
+  type: 'test'
+  ...
+# Subtest: eight independent processes race one event: exactly one financial effect persists
+ok 66 - eight independent processes race one event: exactly one financial effect persists
+  ---
+  duration_ms: 656.621538
+  type: 'test'
+  ...
+# Subtest: process death before-commit: restart and replay recover without partial/double postings
+ok 67 - process death before-commit: restart and replay recover without partial/double postings
+  ---
+  duration_ms: 594.083189
+  type: 'test'
+  ...
+# Subtest: process death after-commit: restart and replay recover without partial/double postings
+ok 68 - process death after-commit: restart and replay recover without partial/double postings
+  ---
+  duration_ms: 417.636195
+  type: 'test'
+  ...
+# Subtest: database permissions restrict local access; symlink and shared directories fail closed
+ok 69 - database permissions restrict local access; symlink and shared directories fail closed
+  ---
+  duration_ms: 32.087177
+  type: 'test'
+  ...
+1..69
+# tests 69
+# suites 0
+# pass 69
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 5078.284028

@@ -1,0 +1,364 @@
+TAP version 13
+# Subtest: successful test billing event creates balanced, traceable World Bank postings
+ok 1 - successful test billing event creates balanced, traceable World Bank postings
+  ---
+  duration_ms: 99.437712
+  type: 'test'
+  ...
+# Subtest: failure has no money postings and a later success can settle the test payment once
+ok 2 - failure has no money postings and a later success can settle the test payment once
+  ---
+  duration_ms: 95.085513
+  type: 'test'
+  ...
+# Subtest: same event ID replay survives reopening the database without duplicate postings
+ok 3 - same event ID replay survives reopening the database without duplicate postings
+  ---
+  duration_ms: 79.914026
+  type: 'test'
+  ...
+# Subtest: different event ID for same business effect is recorded without duplicate money
+ok 4 - different event ID for same business effect is recorded without duplicate money
+  ---
+  duration_ms: 209.821873
+  type: 'test'
+  ...
+# Subtest: reused event ID with changed content fails without mutations
+ok 5 - reused event ID with changed content fails without mutations
+  ---
+  duration_ms: 202.340372
+  type: 'test'
+  ...
+# Subtest: partial and full reversal keep the original capture and append inverse entries
+ok 6 - partial and full reversal keep the original capture and append inverse entries
+  ---
+  duration_ms: 206.008996
+  type: 'test'
+  ...
+# Subtest: over-reversal and changed reversal effect payload are rejected atomically
+ok 7 - over-reversal and changed reversal effect payload are rejected atomically
+  ---
+  duration_ms: 146.061849
+  type: 'test'
+  ...
+# Subtest: reversal before capture is retriable and is not prematurely acknowledged
+ok 8 - reversal before capture is retriable and is not prematurely acknowledged
+  ---
+  duration_ms: 255.310168
+  type: 'test'
+  ...
+# Subtest: late failure and repeated success never regress a captured/reversed payment
+ok 9 - late failure and repeated success never regress a captured/reversed payment
+  ---
+  duration_ms: 239.306032
+  type: 'test'
+  ...
+# Subtest: payment binding rejects changed customerId
+ok 10 - payment binding rejects changed customerId
+  ---
+  duration_ms: 51.593993
+  type: 'test'
+  ...
+# Subtest: payment binding rejects changed invoiceId
+ok 11 - payment binding rejects changed invoiceId
+  ---
+  duration_ms: 31.332424
+  type: 'test'
+  ...
+# Subtest: payment binding rejects changed currency
+ok 12 - payment binding rejects changed currency
+  ---
+  duration_ms: 56.598986
+  type: 'test'
+  ...
+# Subtest: payment binding rejects changed amountMinor
+ok 13 - payment binding rejects changed amountMinor
+  ---
+  duration_ms: 60.176332
+  type: 'test'
+  ...
+# Subtest: tenant isolation includes read, event deduplication and effect deduplication
+ok 14 - tenant isolation includes read, event deduplication and effect deduplication
+  ---
+  duration_ms: 95.530174
+  type: 'test'
+  ...
+# Subtest: same invoice cannot be captured again under a different payment ID
+ok 15 - same invoice cannot be captured again under a different payment ID
+  ---
+  duration_ms: 41.2856
+  type: 'test'
+  ...
+# Subtest: currency totals remain separate and decimal exponents explicit
+ok 16 - currency totals remain separate and decimal exponents explicit
+  ---
+  duration_ms: 48.959461
+  type: 'test'
+  ...
+# Subtest: failure during receipt insert rolls back payment, effect and postings; retry recovers
+ok 17 - failure during receipt insert rolls back payment, effect and postings; retry recovers
+  ---
+  duration_ms: 73.715489
+  type: 'test'
+  ...
+# Subtest: reject invalid/test-boundary input {"livemode":true}
+ok 18 - reject invalid/test-boundary input {"livemode":true}
+  ---
+  duration_ms: 57.89527
+  type: 'test'
+  ...
+# Subtest: reject invalid/test-boundary input {"source":"stripe"}
+ok 19 - reject invalid/test-boundary input {"source":"stripe"}
+  ---
+  duration_ms: 66.043061
+  type: 'test'
+  ...
+# Subtest: reject invalid/test-boundary input {"amountMinor":0}
+ok 20 - reject invalid/test-boundary input {"amountMinor":0}
+  ---
+  duration_ms: 80.06595
+  type: 'test'
+  ...
+# Subtest: reject invalid/test-boundary input {"amountMinor":-1}
+ok 21 - reject invalid/test-boundary input {"amountMinor":-1}
+  ---
+  duration_ms: 39.886296
+  type: 'test'
+  ...
+# Subtest: reject invalid/test-boundary input {"amountMinor":1.1}
+ok 22 - reject invalid/test-boundary input {"amountMinor":1.1}
+  ---
+  duration_ms: 70.715434
+  type: 'test'
+  ...
+# Subtest: reject invalid/test-boundary input {"amountMinor":9007199254740992}
+ok 23 - reject invalid/test-boundary input {"amountMinor":9007199254740992}
+  ---
+  duration_ms: 78.500591
+  type: 'test'
+  ...
+# Subtest: reject invalid/test-boundary input {"amountMinor":"100"}
+ok 24 - reject invalid/test-boundary input {"amountMinor":"100"}
+  ---
+  duration_ms: 232.713968
+  type: 'test'
+  ...
+# Subtest: reject invalid/test-boundary input {"currency":"rsd"}
+ok 25 - reject invalid/test-boundary input {"currency":"rsd"}
+  ---
+  duration_ms: 83.718488
+  type: 'test'
+  ...
+# Subtest: reject invalid/test-boundary input {"currency":"FAKE"}
+ok 26 - reject invalid/test-boundary input {"currency":"FAKE"}
+  ---
+  duration_ms: 45.881017
+  type: 'test'
+  ...
+# Subtest: reject invalid/test-boundary input {"occurredAt":"yesterday"}
+ok 27 - reject invalid/test-boundary input {"occurredAt":"yesterday"}
+  ---
+  duration_ms: 46.595559
+  type: 'test'
+  ...
+# Subtest: reject invalid/test-boundary input {"eventId":"evt_live_1"}
+ok 28 - reject invalid/test-boundary input {"eventId":"evt_live_1"}
+  ---
+  duration_ms: 48.918124
+  type: 'test'
+  ...
+# Subtest: reject invalid/test-boundary input {"type":"checkout.session.completed"}
+ok 29 - reject invalid/test-boundary input {"type":"checkout.session.completed"}
+  ---
+  duration_ms: 79.9302
+  type: 'test'
+  ...
+# Subtest: reject invalid/test-boundary input {"tenantId":"attacker"}
+ok 30 - reject invalid/test-boundary input {"tenantId":"attacker"}
+  ---
+  duration_ms: 32.621137
+  type: 'test'
+  ...
+# Subtest: reject invalid/test-boundary input {"cardNumber":"fixture-private-data"}
+ok 31 - reject invalid/test-boundary input {"cardNumber":"fixture-private-data"}
+  ---
+  duration_ms: 44.890764
+  type: 'test'
+  ...
+# Subtest: reject invalid/test-boundary input {"type":"payment.failed"}
+ok 32 - reject invalid/test-boundary input {"type":"payment.failed"}
+  ---
+  duration_ms: 32.306413
+  type: 'test'
+  ...
+# Subtest: reject invalid/test-boundary input {"type":"payment.reversed"}
+ok 33 - reject invalid/test-boundary input {"type":"payment.reversed"}
+  ---
+  duration_ms: 68.277295
+  type: 'test'
+  ...
+# Subtest: reject invalid/test-boundary input {"reversalId":"test_rev_unexpected"}
+ok 34 - reject invalid/test-boundary input {"reversalId":"test_rev_unexpected"}
+  ---
+  duration_ms: 31.633669
+  type: 'test'
+  ...
+# Subtest: reject invalid/test-boundary input {"schemaVersion":2}
+ok 35 - reject invalid/test-boundary input {"schemaVersion":2}
+  ---
+  duration_ms: 28.148442
+  type: 'test'
+  ...
+# Subtest: actual API POST → GET exposes committed test evidence and all production gates false
+ok 36 - actual API POST → GET exposes committed test evidence and all production gates false
+  ---
+  duration_ms: 657.996736
+  type: 'test'
+  ...
+# Subtest: GET enforces financial access scope (anonymous)
+ok 37 - GET enforces financial access scope (anonymous)
+  ---
+  duration_ms: 9.37473
+  type: 'test'
+  ...
+# Subtest: POST enforces financial access scope (anonymous)
+ok 38 - POST enforces financial access scope (anonymous)
+  ---
+  duration_ms: 32.469478
+  type: 'test'
+  ...
+# Subtest: GET enforces financial access scope (wrong scope)
+ok 39 - GET enforces financial access scope (wrong scope)
+  ---
+  duration_ms: 14.535598
+  type: 'test'
+  ...
+# Subtest: POST enforces financial access scope (wrong scope)
+ok 40 - POST enforces financial access scope (wrong scope)
+  ---
+  duration_ms: 1.588304
+  type: 'test'
+  ...
+# Subtest: GET enforces financial access scope (bad token)
+ok 41 - GET enforces financial access scope (bad token)
+  ---
+  duration_ms: 17.619396
+  type: 'test'
+  ...
+# Subtest: fails closed before database access for NODE_ENV
+ok 42 - fails closed before database access for NODE_ENV
+  ---
+  duration_ms: 1.674554
+  type: 'test'
+  ...
+# Subtest: fails closed before database access for NODE_ENV
+ok 43 - fails closed before database access for NODE_ENV
+  ---
+  duration_ms: 14.849167
+  type: 'test'
+  ...
+# Subtest: fails closed before database access for SPAJA_BILLING_TEST_ENABLED
+ok 44 - fails closed before database access for SPAJA_BILLING_TEST_ENABLED
+  ---
+  duration_ms: 13.785346
+  type: 'test'
+  ...
+# Subtest: fails closed before database access for SPAJA_BILLING_TEST_READ_TOKEN
+ok 45 - fails closed before database access for SPAJA_BILLING_TEST_READ_TOKEN
+  ---
+  duration_ms: 6.377733
+  type: 'test'
+  ...
+# Subtest: fails closed before database access for SPAJA_BILLING_TEST_READ_TOKEN
+ok 46 - fails closed before database access for SPAJA_BILLING_TEST_READ_TOKEN
+  ---
+  duration_ms: 5.11552
+  type: 'test'
+  ...
+# Subtest: fails closed before database access for SPAJA_BILLING_TEST_DIRECTORY
+ok 47 - fails closed before database access for SPAJA_BILLING_TEST_DIRECTORY
+  ---
+  duration_ms: 1.438028
+  type: 'test'
+  ...
+# Subtest: forged role, identity, forwarded IP and cookies cannot grant financial access
+ok 48 - forged role, identity, forwarded IP and cookies cannot grant financial access
+  ---
+  duration_ms: 22.190565
+  type: 'test'
+  ...
+# Subtest: server-configured tenant is isolated and cannot be overridden by body or URL
+ok 49 - server-configured tenant is isolated and cannot be overridden by body or URL
+  ---
+  duration_ms: 135.22131
+  type: 'test'
+  ...
+# Subtest: duplicate is acknowledged, altered replay rejected, original record retained
+ok 50 - duplicate is acknowledged, altered replay rejected, original record retained
+  ---
+  duration_ms: 150.279146
+  type: 'test'
+  ...
+# Subtest: live payloads and real provider event envelopes are rejected
+ok 51 - live payloads and real provider event envelopes are rejected
+  ---
+  duration_ms: 5.357645
+  type: 'test'
+  ...
+# Subtest: malformed JSON, oversized bodies, wrong media type and browser origin are rejected
+ok 52 - malformed JSON, oversized bodies, wrong media type and browser origin are rejected
+  ---
+  duration_ms: 13.583262
+  type: 'test'
+  ...
+# Subtest: read limit is bounded and rejects coercion/unknown parameters
+ok 53 - read limit is bounded and rejects coercion/unknown parameters
+  ---
+  duration_ms: 229.111221
+  type: 'test'
+  ...
+# Subtest: storage failure returns generic 503, no successful acknowledgement or path disclosure
+ok 54 - storage failure returns generic 503, no successful acknowledgement or path disclosure
+  ---
+  duration_ms: 3.514357
+  type: 'test'
+  ...
+# Subtest: public simulator describes fixtures and never includes authenticated ledger records
+ok 55 - public simulator describes fixtures and never includes authenticated ledger records
+  ---
+  duration_ms: 12.307671
+  type: 'test'
+  ...
+# Subtest: eight independent processes race one event: exactly one financial effect persists
+ok 56 - eight independent processes race one event: exactly one financial effect persists
+  ---
+  duration_ms: 1305.215407
+  type: 'test'
+  ...
+# Subtest: process death before-commit: restart and replay recover without partial/double postings
+ok 57 - process death before-commit: restart and replay recover without partial/double postings
+  ---
+  duration_ms: 559.622211
+  type: 'test'
+  ...
+# Subtest: process death after-commit: restart and replay recover without partial/double postings
+ok 58 - process death after-commit: restart and replay recover without partial/double postings
+  ---
+  duration_ms: 443.862459
+  type: 'test'
+  ...
+# Subtest: database permissions restrict local access; symlink and shared directories fail closed
+ok 59 - database permissions restrict local access; symlink and shared directories fail closed
+  ---
+  duration_ms: 202.198363
+  type: 'test'
+  ...
+1..59
+# tests 59
+# suites 0
+# pass 59
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 4163.905312
