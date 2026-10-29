@@ -1,0 +1,219 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> spaja-platforma@42.35.0 test:stripe:sql
+> node --test --test-reporter=tap src/tests/billing/stripe-atomic-sql.test.mjs src/tests/billing/stripe-fraud-sql.test.mjs src/tests/billing/stripe-fraud-recovery.test.mjs
+
+TAP version 13
+# Subtest: transaction commits profile, audit, effect and completion together
+ok 1 - transaction commits profile, audit, effect and completion together
+  ---
+  duration_ms: 5275.633841
+  type: 'test'
+  ...
+# Subtest: completed event replay is a no-op; changed payload is rejected
+ok 2 - completed event replay is a no-op; changed payload is rejected
+  ---
+  duration_ms: 15.603926
+  type: 'test'
+  ...
+# Subtest: different event for same business effect preserves usage
+ok 3 - different event for same business effect preserves usage
+  ---
+  duration_ms: 17.525553
+  type: 'test'
+  ...
+# Subtest: audit failure rolls back profile and event; redelivery succeeds after recovery
+ok 4 - audit failure rolls back profile and event; redelivery succeeds after recovery
+  ---
+  duration_ms: 11.559401
+  type: 'test'
+  ...
+# Subtest: final event receipt failure rolls back all financial effects
+ok 5 - final event receipt failure rolls back all financial effects
+  ---
+  duration_ms: 12.357733
+  type: 'test'
+  ...
+# Subtest: stale revision and stale audit head reject without a partial write
+ok 6 - stale revision and stale audit head reject without a partial write
+  ---
+  duration_ms: 16.204036
+  type: 'test'
+  ...
+# Subtest: customer and subscription mismatches cannot mutate a profile
+ok 7 - customer and subscription mismatches cannot mutate a profile
+  ---
+  duration_ms: 8.615554
+  type: 'test'
+  ...
+# Subtest: older source event cannot regress the same subscription
+ok 8 - older source event cannot regress the same subscription
+  ---
+  duration_ms: 5.771028
+  type: 'test'
+  ...
+# Subtest: quarantine receipt is atomic with durable dead-letter storage
+ok 9 - quarantine receipt is atomic with durable dead-letter storage
+  ---
+  duration_ms: 8.762095
+  type: 'test'
+  ...
+# Subtest: unproven legacy event receipts require reconciliation
+ok 10 - unproven legacy event receipts require reconciliation
+  ---
+  duration_ms: 6.050208
+  type: 'test'
+  ...
+# Subtest: anon and authenticated cannot execute billing transaction or forge ledger
+ok 11 - anon and authenticated cannot execute billing transaction or forge ledger
+  ---
+  duration_ms: 6.329178
+  type: 'test'
+  ...
+# Subtest: authenticated user cannot grant plan directly; permitted name edit remains
+ok 12 - authenticated user cannot grant plan directly; permitted name edit remains
+  ---
+  duration_ms: 1.806602
+  type: 'test'
+  ...
+# Subtest: missing profile and unsupported update fields fail atomically
+ok 13 - missing profile and unsupported update fields fail atomically
+  ---
+  duration_ms: 7.672954
+  type: 'test'
+  ...
+# Subtest: ordering is scoped to subscription, independent of other customers
+ok 14 - ordering is scoped to subscription, independent of other customers
+  ---
+  duration_ms: 4.533362
+  type: 'test'
+  ...
+# Subtest: disk-backed SQL survives SIGKILL after commit; retry reuses the persisted admission
+ok 15 - disk-backed SQL survives SIGKILL after commit; retry reuses the persisted admission
+  ---
+  duration_ms: 6579.145957
+  type: 'test'
+  ...
+# Subtest: SIGKILL before commit recovers without a partial attempt or consumed proxy nonce
+ok 16 - SIGKILL before commit recovers without a partial attempt or consumed proxy nonce
+  ---
+  duration_ms: 2975.575009
+  type: 'test'
+  ...
+# Subtest: actual SQL measures attempts 1..6 and denies sixth without mutating financial records
+ok 17 - actual SQL measures attempts 1..6 and denies sixth without mutating financial records
+  ---
+  duration_ms: 4069.277983
+  type: 'test'
+  ...
+# Subtest: actual SQL measures five IPs, five committed failures and new-account block score 95
+ok 18 - actual SQL measures five IPs, five committed failures and new-account block score 95
+  ---
+  duration_ms: 27.245261
+  type: 'test'
+  ...
+# Subtest: same attempt retry returns identical result; replay nonce and changed binding fail
+ok 19 - same attempt retry returns identical result; replay nonce and changed binding fail
+  ---
+  duration_ms: 21.831311
+  type: 'test'
+  ...
+# Subtest: 25 parallel submissions are serialized, retain every attempt and admit at most five
+ok 20 - 25 parallel submissions are serialized, retain every attempt and admit at most five
+  ---
+  duration_ms: 55.063645
+  type: 'test'
+  ...
+# Subtest: IP quota is shared by separate users; user counters stay independent
+ok 21 - IP quota is shared by separate users; user counters stay independent
+  ---
+  duration_ms: 75.84891
+  type: 'test'
+  ...
+# Subtest: SQL windows include current activity and exclude expired/future attempts and IP observations
+ok 22 - SQL windows include current activity and exclude expired/future attempts and IP observations
+  ---
+  duration_ms: 21.308584
+  type: 'test'
+  ...
+# Subtest: 30-day failures use committed unique effects, exclude old/future/unapplied rows and ignore lifetime counter
+ok 23 - 30-day failures use committed unique effects, exclude old/future/unapplied rows and ignore lifetime counter
+  ---
+  duration_ms: 13.860058
+  type: 'test'
+  ...
+# Subtest: preexisting billing lock remains authoritative even with a low measured fraud score
+ok 24 - preexisting billing lock remains authoritative even with a low measured fraud score
+  ---
+  duration_ms: 10.434466
+  type: 'test'
+  ...
+# Subtest: missing policy approval, unreconciled history and key changes fail closed without resetting counters
+ok 25 - missing policy approval, unreconciled history and key changes fail closed without resetting counters
+  ---
+  duration_ms: 16.451764
+  type: 'test'
+  ...
+# Subtest: stale or future attestations, missing profiles and invalid input never create admission rows
+ok 26 - stale or future attestations, missing profiles and invalid input never create admission rows
+  ---
+  duration_ms: 12.919581
+  type: 'test'
+  ...
+# Subtest: future or absent account creation dates fail closed rather than lowering risk
+ok 27 - future or absent account creation dates fail closed rather than lowering risk
+  ---
+  duration_ms: 8.550366
+  type: 'test'
+  ...
+# Subtest: insert failure rolls back admission; retry after recovery counts once
+ok 28 - insert failure rolls back admission; retry after recovery counts once
+  ---
+  duration_ms: 16.292303
+  type: 'test'
+  ...
+# Subtest: caller rollback leaves no count and a committed response can be recovered exactly
+ok 29 - caller rollback leaves no count and a committed response can be recovered exactly
+  ---
+  duration_ms: 14.117426
+  type: 'test'
+  ...
+# Subtest: anon/authenticated cannot read, forge, prune, configure or execute admission
+ok 30 - anon/authenticated cannot read, forge, prune, configure or execute admission
+  ---
+  duration_ms: 23.349764
+  type: 'test'
+  ...
+# Subtest: retention removes only expired transient attempts and keeps all financial records
+ok 31 - retention removes only expired transient attempts and keeps all financial records
+  ---
+  duration_ms: 25.308827
+  type: 'test'
+  ...
+# Subtest: actual Next Checkout handlers consume real SQL results across fresh instances
+ok 32 - actual Next Checkout handlers consume real SQL results across fresh instances
+  ---
+  duration_ms: 327.876378
+  type: 'test'
+  ...
+# Subtest: SQL thresholds agree with the existing assessor across 48 measured risk combinations
+ok 33 - SQL thresholds agree with the existing assessor across 48 measured risk combinations
+  ---
+  duration_ms: 905.707317
+  type: 'test'
+  ...
+# Subtest: route blocks measured high-risk SQL account before Stripe side effects
+ok 34 - route blocks measured high-risk SQL account before Stripe side effects
+  ---
+  duration_ms: 28.547156
+  type: 'test'
+  ...
+1..34
+# tests 34
+# suites 0
+# pass 34
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 10090.647212

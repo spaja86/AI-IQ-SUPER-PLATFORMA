@@ -1,0 +1,176 @@
+{
+  "scenario": "SPAJA Billing → AI IQ WORLD BANK: synthetic test ledger",
+  "deliveries": [
+    {
+      "httpStatus": 201,
+      "eventId": "test_evt_failure",
+      "transactionId": "test_trx_358294a1-23d7-4476-a590-dc53984c8007",
+      "paymentStatus": "failed",
+      "disposition": "applied"
+    },
+    {
+      "httpStatus": 201,
+      "eventId": "test_evt_capture",
+      "transactionId": "test_trx_358294a1-23d7-4476-a590-dc53984c8007",
+      "paymentStatus": "succeeded",
+      "disposition": "applied"
+    },
+    {
+      "httpStatus": 200,
+      "eventId": "test_evt_capture",
+      "transactionId": "test_trx_358294a1-23d7-4476-a590-dc53984c8007",
+      "paymentStatus": "succeeded",
+      "disposition": "duplicate_event"
+    },
+    {
+      "httpStatus": 200,
+      "eventId": "test_evt_capture_redelivery",
+      "transactionId": "test_trx_358294a1-23d7-4476-a590-dc53984c8007",
+      "paymentStatus": "succeeded",
+      "disposition": "duplicate_effect"
+    },
+    {
+      "httpStatus": 201,
+      "eventId": "test_evt_partial",
+      "transactionId": "test_trx_358294a1-23d7-4476-a590-dc53984c8007",
+      "paymentStatus": "partially_reversed",
+      "disposition": "applied"
+    },
+    {
+      "httpStatus": 201,
+      "eventId": "test_evt_full",
+      "transactionId": "test_trx_358294a1-23d7-4476-a590-dc53984c8007",
+      "paymentStatus": "reversed",
+      "disposition": "applied"
+    },
+    {
+      "httpStatus": 200,
+      "eventId": "test_evt_late_failure",
+      "transactionId": "test_trx_358294a1-23d7-4476-a590-dc53984c8007",
+      "paymentStatus": "reversed",
+      "disposition": "ignored_stale"
+    }
+  ],
+  "final": {
+    "environment": "development-test",
+    "paymentsEnabled": false,
+    "transfersEnabled": false,
+    "settlementVerified": false,
+    "productionReady": false,
+    "integrations": {
+      "spajaBillingToWorldBank": {
+        "status": "implemented_test_only",
+        "source": "synthetic-spaja-billing-events",
+        "endpoint": "/api/dev/spaja-billing/world-bank",
+        "evidence": "docs/SPAJA-BILLING-WORLD-BANK-TEST.md"
+      },
+      "stripeWebhook": {
+        "status": "not_connected_to_test_ledger",
+        "sandboxVerified": false
+      },
+      "supabaseLedger": {
+        "status": "not_connected",
+        "migrationsApplied": false
+      },
+      "bankSettlement": {
+        "status": "not_integrated",
+        "verified": false
+      }
+    },
+    "localLedgerReadVerified": true,
+    "ledger": {
+      "counts": {
+        "events": 6,
+        "payments": 1,
+        "postings": 6
+      },
+      "payments": [
+        {
+          "transactionId": "test_trx_358294a1-23d7-4476-a590-dc53984c8007",
+          "paymentId": "test_pay_demo",
+          "customerId": "test_cus_demo",
+          "invoiceId": "test_inv_demo",
+          "currency": "RSD",
+          "amountMinor": 120000,
+          "capturedMinor": 120000,
+          "reversedMinor": 120000,
+          "status": "reversed"
+        }
+      ],
+      "events": [
+        {
+          "eventId": "test_evt_late_failure",
+          "transactionId": "test_trx_358294a1-23d7-4476-a590-dc53984c8007",
+          "eventType": "payment.failed",
+          "amountMinor": 120000,
+          "currency": "RSD",
+          "occurredAt": "2026-10-29T15:00:00.000Z",
+          "recordedAt": "2026-10-29T12:36:32.042Z",
+          "disposition": "ignored_stale"
+        },
+        {
+          "eventId": "test_evt_full",
+          "transactionId": "test_trx_358294a1-23d7-4476-a590-dc53984c8007",
+          "eventType": "payment.reversed",
+          "amountMinor": 100000,
+          "currency": "RSD",
+          "occurredAt": "2026-10-29T15:00:00.000Z",
+          "recordedAt": "2026-10-29T12:36:32.040Z",
+          "disposition": "applied"
+        },
+        {
+          "eventId": "test_evt_partial",
+          "transactionId": "test_trx_358294a1-23d7-4476-a590-dc53984c8007",
+          "eventType": "payment.reversed",
+          "amountMinor": 20000,
+          "currency": "RSD",
+          "occurredAt": "2026-10-29T15:00:00.000Z",
+          "recordedAt": "2026-10-29T12:36:32.037Z",
+          "disposition": "applied"
+        },
+        {
+          "eventId": "test_evt_capture_redelivery",
+          "transactionId": "test_trx_358294a1-23d7-4476-a590-dc53984c8007",
+          "eventType": "payment.succeeded",
+          "amountMinor": 120000,
+          "currency": "RSD",
+          "occurredAt": "2026-10-29T15:00:00.000Z",
+          "recordedAt": "2026-10-29T12:36:32.035Z",
+          "disposition": "duplicate_effect"
+        },
+        {
+          "eventId": "test_evt_capture",
+          "transactionId": "test_trx_358294a1-23d7-4476-a590-dc53984c8007",
+          "eventType": "payment.succeeded",
+          "amountMinor": 120000,
+          "currency": "RSD",
+          "occurredAt": "2026-10-29T15:00:00.000Z",
+          "recordedAt": "2026-10-29T12:36:32.031Z",
+          "disposition": "applied"
+        },
+        {
+          "eventId": "test_evt_failure",
+          "transactionId": "test_trx_358294a1-23d7-4476-a590-dc53984c8007",
+          "eventType": "payment.failed",
+          "amountMinor": 120000,
+          "currency": "RSD",
+          "occurredAt": "2026-10-29T15:00:00.000Z",
+          "recordedAt": "2026-10-29T12:36:32.028Z",
+          "disposition": "applied"
+        }
+      ],
+      "totals": [
+        {
+          "currency": "RSD",
+          "capturedMinor": "120000",
+          "reversedMinor": "120000",
+          "netMinor": "0",
+          "balanceMinor": "0",
+          "exponent": 2
+        }
+      ],
+      "limit": 100,
+      "truncated": false
+    }
+  }
+}
