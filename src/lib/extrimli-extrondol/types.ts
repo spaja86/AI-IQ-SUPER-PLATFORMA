@@ -214,8 +214,8 @@ export interface ExtrimliExtrondolAcceptanceCriterion {
 export interface ExtrimliExtrondolDomainStrategy {
   requestedPattern: string;
   requestedPatternRejected: boolean;
-  canonicalApex: string;
-  canonicalWildcard: string;
+  canonicalApex: string | null;
+  canonicalWildcard: string | null;
   valid: boolean;
   invalidReason: string | null;
 }
@@ -3091,8 +3091,8 @@ export interface ExtrimliExtrondolStartProject {
   };
   domainStrategyLock: {
     requestedPattern: string;
-    canonicalApex: string;
-    canonicalWildcard: string;
+    canonicalApex: string | null;
+    canonicalWildcard: string | null;
     rejectPatternsLike: readonly ['spaja.nivo*spaja'];
   };
   mandatoryOutputs: readonly [
@@ -4393,8 +4393,8 @@ export const EXTRONDOL_DINKOS_TRIGGER_LABEL = 'dinkos:logic-change';
 export const EXTRONDOL_NIVO_DUET_SEGMENT = 'nivo-duet';
 export const EXTRONDOL_NIVO_DUET_TRIGGER_LABEL = 'nivo-duet:logic-change';
 export const EXTRONDOL_REQUESTED_DOMAIN_PATTERN = 'spaja.nivo*spaja';
-export const EXTRONDOL_CANONICAL_APEX_DOMAIN = 'spaja.nivo-spaja';
-export const EXTRONDOL_CANONICAL_WILDCARD_DOMAIN = '*.spaja.nivo-spaja';
+export const EXTRONDOL_CANONICAL_APEX_DOMAIN = null;
+export const EXTRONDOL_CANONICAL_WILDCARD_DOMAIN = null;
 export const EXTRONDOL_BASE_ORCHESTRATION_SHARE = 0.82;
 export const EXTRONDOL_NIVO_DUET_SHARE = 0.18;
 export const EXTRONDOL_DUET_WARNING_PENALTY_STEP = 4;

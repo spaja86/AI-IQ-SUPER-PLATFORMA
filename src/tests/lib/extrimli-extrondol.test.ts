@@ -139,8 +139,8 @@ async function runTests(): Promise<void> {
     assert(EXTRONDOL_PERSONA_ID === 'extrimli-extrondol-orchestrator', `unexpected persona: ${EXTRONDOL_PERSONA_ID}`);
     assert(EXTRONDOL_SOURCE_OF_TRUTH === '/api/extrimli/extrondol', 'unexpected source of truth');
     assert(EXTRONDOL_REQUESTED_DOMAIN_PATTERN === 'spaja.nivo*spaja', 'unexpected requested domain pattern');
-    assert(EXTRONDOL_CANONICAL_APEX_DOMAIN === 'spaja.nivo-spaja', 'unexpected canonical apex domain');
-    assert(EXTRONDOL_CANONICAL_WILDCARD_DOMAIN === '*.spaja.nivo-spaja', 'unexpected canonical wildcard domain');
+    assert(EXTRONDOL_CANONICAL_APEX_DOMAIN === null, 'unexpected canonical apex domain');
+    assert(EXTRONDOL_CANONICAL_WILDCARD_DOMAIN === null, 'unexpected canonical wildcard domain');
     assert(EXTRONDOL_DINKOS_TRIGGER_LABEL === 'dinkos:logic-change', 'unexpected DINKOS trigger label');
     assert(EXTRONDOL_DINKOS_PERSONA_ID === 'extrimli-dinkos-signal-core', 'unexpected DINKOS persona');
     assert(EXTRONDOL_DUET_INVALID_FALLBACK_SCORE === 50, 'unexpected DUET invalid fallback score');
@@ -1705,9 +1705,9 @@ async function runTests(): Promise<void> {
   await test('report enforces domain strategy lock', () => {
     const report = getExtrimliExtrondolReport();
     assert(report.domainStrategy.requestedPattern === 'spaja.nivo*spaja', 'requested pattern mismatch');
-    assert(report.domainStrategy.canonicalApex === 'spaja.nivo-spaja', 'canonical apex mismatch');
-    assert(report.domainStrategy.canonicalWildcard === '*.spaja.nivo-spaja', 'canonical wildcard mismatch');
-    assert(report.domainStrategy.valid, 'canonical domain strategy must be valid');
+    assert(report.domainStrategy.canonicalApex === null, 'canonical apex mismatch');
+    assert(report.domainStrategy.canonicalWildcard === null, 'canonical wildcard mismatch');
+    assert(!report.domainStrategy.valid, 'missing evidence must block domain strategy');
     assert(report.domainStrategy.requestedPatternRejected, 'requested pattern must be rejected');
     assert(
       typeof report.domainStrategy.invalidReason === 'string' && report.domainStrategy.invalidReason.includes('spaja.nivo*spaja'),
@@ -2087,7 +2087,7 @@ async function runTests(): Promise<void> {
     assert(report.integrationBoundaries.dependsOn.includes('/api/duet/evaluate'), 'duet dependency must be present');
     assert(report.acceptanceCriteria.some((item) => item.id === 'nivo-duet-mapping' && item.passed), 'nivo-duet-mapping criterion must pass');
     assert(report.acceptanceCriteria.some((item) => item.id === 'dinkos-contract' && item.passed), 'dinkos-contract criterion must pass');
-    assert(report.acceptanceCriteria.some((item) => item.id === 'domain-strategy-lock' && item.passed), 'domain-strategy-lock criterion must pass');
+    assert(report.acceptanceCriteria.some((item) => item.id === 'domain-strategy-lock' && !item.passed), 'domain-strategy-lock must block without evidence');
     assert(report.acceptanceCriteria.some((item) => item.id === 'payment-verification-gate'), 'payment-verification-gate criterion must exist');
     assert(report.acceptanceCriteria.some((item) => item.id === 'b2b-downstream-sync' && item.passed), 'b2b-downstream-sync criterion must pass');
     assert(report.acceptanceCriteria.some((item) => item.id === 'distance-ratio-ekvilater-table' && item.passed), 'distance-ratio-ekvilater-table criterion must pass');

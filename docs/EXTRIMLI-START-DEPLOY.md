@@ -9,6 +9,10 @@ na SPAJA platformi. Prati sve faze, KPI rezultate, rollback plan i downstream ko
 
 ## Status
 
+Aktivacija je BLOCKED. Oznake Locked/Ready u istorijskim tabelama opisuju zahteve,
+ne potvrđuju izvršene provere, TLS ili uspešan deployment.
+
+
 <!-- START_DEPLOY_REQUIRED_LABELS -->
 | Polje | Vrednost |
 |-------|----------|
@@ -51,19 +55,30 @@ na SPAJA platformi. Prati sve faze, KPI rezultate, rollback plan i downstream ko
 <!-- START_DEPLOY_CANONICAL_DOMAIN_STRATEGY -->
 | Polje | Vrednost |
 |-------|----------|
-| **Requested string** | `spaja.nivo*spaja` |
-| **DNS validity** | ❌ Invalid (`*` ne može biti u sredini label-e) |
-| **Canonical apex domain** | `spaja.nivo-spaja` |
-| **Canonical wildcard domain** | `*.spaja.nivo-spaja` |
-| **Routing model** | Apex + wildcard poddomeni |
-| **TLS** | Vercel managed cert za apex + wildcard |
+| **Logical SPAJA ID** | `spaja.nivo*spaja` — validan logički ID; ❌ Invalid kao DNS hostname |
+| **Javna adresa** | `publicDomain = null` |
+| **Kandidat** | Eksplicitni kandidatski hostname, bez tvrdnje o vlasništvu |
+| **Wildcard** | Nema podrazumevane vrednosti; opcion, zahteva zasebnu proveru |
+| **TLS** | Nepotvrđen; Vercel konfiguracija nije dokaz aktivnog sertifikata |
+
+EXTRIMLI koristi model iz PR #1379 (`src/lib/deploy/spaja-network.ts`).
+`canonical_domain` i `wildcard_domain` su kompatibilni nazivi kandidatskih ulaza.
+Prazan unos ne bira domen. Stari `spaja.nivo-spaja` nije javni domen za aktivaciju.
+
+`scripts/extrimli-network-gate.mjs` uvek blokira aktivaciju: workflow još nema
+pouzdan serverski kanal za nezavisne dokaze. Dispatch inputi, env boolean zastavice,
+confirm_production, predeploy exit 0, DNS sintaksa i provider konfiguracija ne otključavaju hook.
+I staging hook ostaje blokiran jer postojeći zajednički hook ne dokazuje izolaciju od produkcije.
+Postojeći servisi, tajne i DNS ostaju neizmenjeni. Buduća aktivacija zahteva zaseban pregled
+integracije dokaza, sve release kontrole i izričito operativno odobrenje.
 
 **DNS/TLS gate (pre WAWE 4):**
-- [ ] Domen `spaja.nivo-spaja` dodat u Vercel projekat
-- [ ] DNS zapisi kod provajdera usmereni na Vercel (A/CNAME prema Vercel uputstvu)
-- [ ] `*.spaja.nivo-spaja` wildcard zapis aktivan
-- [ ] TLS/SSL sertifikat za apex i wildcard status = Active
-- [ ] Deploy hook i svi tokeni ostaju isključivo u GitHub/Vercel Secrets sloju
+- [ ] Nezavisni sveži dokaz registracije i vlasništva tačnog kandidata
+- [ ] Nezavisna provera DNS-a i dostupnosti aplikacija
+- [ ] TLS za svaki tačan host: chain/hostname, fingerprint, rok i svežina do 24h
+- [ ] Wildcard sertifikat i DNS provereni zasebno ako se wildcard koristi
+- [ ] Billing/evidence/ownership/FinOps/infra, downstream i human-review kontrole zatvorene
+- [ ] Odobrena integracija pouzdanog kanala dokaza; javna aktivacija ostaje blokirana
 
 ## EXTRONDOL START Scope
 
@@ -119,7 +134,7 @@ na SPAJA platformi. Prati sve faze, KPI rezultate, rollback plan i downstream ko
 | Evidence | Target | Status |
 |----------|--------|--------|
 | `docs/MULTI-REPO-LINKS.md` START deploy section | `spaja86/IO-OPENUI-AO` | ✅ Updated |
-| Canonical domain strategy mirror (`spaja.nivo-spaja` + `*.spaja.nivo-spaja`) | linked deploy docs / runbooks | ✅ Required |
+| Logical ID / kandidat / potvrđena javna adresa mirror | linked deploy docs / runbooks | ✅ Required |
 | EXTRONDOL START payload sync (`WAWE`, `B2B`, `DUET`, `DINKOS`, `distanceRatioEkvilaterTable`, `startProject`) | linked governance consumers | ✅ Required |
 | Developer/Create activation summary sync (`DEVELOPER AND CREATE == VRH PROGRAMSKOG EKVILADENTA == AKTIVACIJA`) | summary-only downstream reflection | ✅ Required |
 | Cross-repo follow-up issue remains mandatory before WAWE 4 promotion | use concrete `IO-OPENUI-AO#<number>` reference once opened | ✅ Locked |
@@ -130,7 +145,7 @@ na SPAJA platformi. Prati sve faze, KPI rezultate, rollback plan i downstream ko
 | Evidence | Rule | Status |
 |----------|------|--------|
 | Vercel Git integration remains primary production source of truth | promotion without side-channel deploys | ✅ Locked |
-| Canonical domain strategy gate rejects `spaja.nivo*spaja` | apex + wildcard only | ✅ Locked |
+| Network evidence gate | nedostajući dokazi blokiraju hook | ✅ Locked |
 | Rollout rings remain `10% → 50% → 100%` | progressive rollout | ✅ Locked |
 | Promotion freeze stays active unless audit/KPI/downstream/human-review evidence is complete | no premature activation | ✅ Locked |
 | Rollback path validated | Vercel promote/revert + follow-up sync | ✅ Locked |
@@ -168,8 +183,8 @@ na SPAJA platformi. Prati sve faze, KPI rezultate, rollback plan i downstream ko
 - [ ] EXTRONDOL ostaje `/api/extrimli/extrondol` source-of-truth
 - [ ] START payload ostaje additive-only
 - [ ] DUET ostaje signal-only sloj za WAWE odluke
-- [ ] `spaja.nivo*spaja` ostaje odbijen obrazac
-- [ ] `spaja.nivo-spaja` + `*.spaja.nivo-spaja` ostaju jedini kanonski domeni
+- [ ] `spaja.nivo*spaja` ostaje logički ID, odbijen kao DNS
+- [ ] Javni domen i wildcard ostaju null dok nisu nezavisno potvrđeni
 - [ ] Downstream sync prema `spaja86/IO-OPENUI-AO` uključuje WAWE, B2B, DUET/DINKOS i distance-ratio polja
 - [ ] Human review, audit trail, onboarding i downstream sync evidence kompletni pre promocije
 
