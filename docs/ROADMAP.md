@@ -236,3 +236,11 @@ This document turns the repo-wide future plan into an operational roadmap for `A
 | `nova-generacija-gaming` flag | 10% staging | `src/lib/feature-flags.ts` |
 | `nova-generacija-hipermreza` flag | enterprise/unlimited plans | `src/lib/feature-flags.ts` |
 | `great-sumbion-validator-agent` + `.github/workflows/great-sumbion-validator.yml` | 🚀 Active | `AGENTS.md`, `.agent-config.json`, `docs/GREAT-SUMBION.md` |
+
+### Predlog 26.10.2026 — Brouvzer probna sinhronizacija
+
+`OKRID-2026-BROUVZER-001` (proposed): lokalna probna bookmark kolekcija za dva
+učesnika, Yjs konvergencija/trajnost i WebRTC DTLS sa nezavisnom potvrdom
+otiska. KPI i granice su u `docs/BROUVZER-SYNC-PILOT.md`; stvarni rezultati
+u `docs/BROUVZER-SYNC-VALIDATION.md`. Human/security review i provera na
+fizičkim uređajima pre razmatranja release-a; produkciono izdanje nije odobreno.

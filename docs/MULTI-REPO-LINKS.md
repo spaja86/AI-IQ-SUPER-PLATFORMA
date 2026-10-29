@@ -2194,3 +2194,10 @@ Koristiti format `AI-IQ-SUPER-PLATFORMA#VPOREKLO-2026-09 -> IO-OPENUI-AO#123` gd
 `OKRID-2026-GOV-001`: [VRH GitHub provera](VRH-GITHUB-VALIDATION.md) dodaje
 repo-local numeričke/SUOC/pilot provere. Downstream `spaja86/IO-OPENUI-AO`:
 nema izmene koda, ugovora, verzija, konfiguracije ili deployment-a.
+
+## SPAJA Brouvzer sync pilot — 26.10.2026 (predlog)
+
+`OKRID-2026-BROUVZER-001` (proposed): odvojena probna CRDT/DTLS sinhronizacija
+za dva učesnika, opisana u [BROUVZER-SYNC-PILOT.md](BROUVZER-SYNC-PILOT.md).
+No linked repo change required. IO-OPENUI-AO nije izmenjen; nema razmene
+njegovih podataka, aktivacije signalizacijskog servisa ili produkcionog deploy-a.

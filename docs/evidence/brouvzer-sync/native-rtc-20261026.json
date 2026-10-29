@@ -1,0 +1,46 @@
+{
+  "browser": "138.0.7204.0",
+  "outcome": "native-channel-not-open",
+  "nativeOnly": true,
+  "candidates": {
+    "a": 0,
+    "b": 0
+  },
+  "sdpCandidateCount": {
+    "a": 0,
+    "b": 0
+  },
+  "channelOpen": false,
+  "a": {
+    "ice": "new",
+    "connection": "new",
+    "gathering": "complete"
+  },
+  "b": {
+    "ice": "new",
+    "connection": "new",
+    "gathering": "complete"
+  },
+  "events": [
+    [
+      "a",
+      "gathering",
+      "gathering"
+    ],
+    [
+      "a",
+      "gathering",
+      "complete"
+    ],
+    [
+      "b",
+      "gathering",
+      "gathering"
+    ],
+    [
+      "b",
+      "gathering",
+      "complete"
+    ]
+  ]
+}

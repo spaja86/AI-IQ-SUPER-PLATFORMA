@@ -16,6 +16,12 @@ This registry tracks active and archived OKRIDs for `spaja86/AI-IQ-SUPER-PLATFOR
 | `OKRID-2026-EXTRIMLI-TRANCE-001` | release-governance | active | Platform ops + Automation + Release Engineering + EXTRIMLI domain | EXTRIMLI Trance Extrem Deploy — 6-phase high-velocity zero-downtime deploy on Platform SPAJA | eval ≤ 50ms, API p99 ≤ 200ms, hipermreza convergence ≥ 0.95, build ≤ 3 min, zero-downtime 100%, rollback ≤ 2 min | `.github/workflows/extrimli-trance-extrem-deploy.yml`, `docs/EXTRIMLI-TRANCE-EXTREM.md`, `docs/MULTI-REPO-LINKS.md` | `spaja86/IO-OPENUI-AO` gear catalog sync required |
 | `OKRID-2026-ZELEZARA-001` | release-governance | active | Business + Legal + Finance + Compliance + EXTRIMLI governance | Železara / HBIS pretplata identity and restore-old-name governance | 100% contract identity confirmation, 0 activations before payment confirmation, 0 split-client interpretations, 100% legacy-name restoration when required | `docs/ZELEZARA-PRETPLATA-HBIS.md`, `docs/EXTRIMLI.md`, `docs/MULTI-REPO-LINKS.md` | `spaja86/IO-OPENUI-AO` follow-up required |
 
+## Proposed OKRIDs
+
+| OKRID ID | Scope | Status | Owner area | Roadmap item | KPI targets | Repo scope | Downstream refs |
+|---|---|---|---|---|---|---|---|
+| `OKRID-2026-BROUVZER-001` | initiative | proposed | Product + Security; owner nomination pending review | Two-peer synthetic bookmark CRDT/DTLS pilot | Convergence, no content before both confirmations, replay rejection, incognito isolation in documented checks | `pilot/brouvzer`, Brouvzer navigation, focused tests/docs | No linked repo change required; see `docs/MULTI-REPO-LINKS.md` |
+
 ## Archived OKRIDs
 
 | OKRID ID | Scope | Archived date | Outcome summary | KPI outcome | Notes |

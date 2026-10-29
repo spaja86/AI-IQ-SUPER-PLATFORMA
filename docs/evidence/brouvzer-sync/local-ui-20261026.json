@@ -1,0 +1,16 @@
+{
+  "browser": "138.0.7204.0",
+  "results": [
+    "local bookmark durable commit",
+    "rename through UI",
+    "IndexedDB reload",
+    "IndexedDB survives browser/profile restart",
+    "incognito no read, no persistence, pairing disabled",
+    "deletion survives reload",
+    "390/768/1440px no horizontal overflow",
+    "unavailable IndexedDB blocks edits and pairing"
+  ],
+  "tests": 8,
+  "pass": 8,
+  "rtc": "not exercised by local UI suite"
+}

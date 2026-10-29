@@ -1,0 +1,23 @@
+{
+  "observedOn": "2026-10-26",
+  "commit": "fbd07e5ee402748d145d3fe3047c5dbcf8a4cebb",
+  "checkedJobs": [
+    {
+      "name": "Omega sync safety",
+      "jobId": 121495714069,
+      "runUrl": "https://github.com/spaja86/AI-IQ-SUPER-PLATFORMA/actions/runs/40300143221",
+      "annotationSource": "https://api.github.com/repos/spaja86/AI-IQ-SUPER-PLATFORMA/check-runs/121495714069/annotations",
+      "message": "The job was not started because your account is locked due to a billing issue."
+    },
+    {
+      "name": "Dependency Review",
+      "jobId": 121495715708,
+      "runUrl": "https://github.com/spaja86/AI-IQ-SUPER-PLATFORMA/actions/runs/40300143384",
+      "annotationSource": "https://api.github.com/repos/spaja86/AI-IQ-SUPER-PLATFORMA/check-runs/121495715708/annotations",
+      "message": "The job was not started because your account is locked due to a billing issue."
+    }
+  ],
+  "interpretation": "These inspected jobs did not run tests; no remote code pass/fail or successful dependency review is established.",
+  "changesToBillingOrRunners": false,
+  "manualRerun": false
+}

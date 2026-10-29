@@ -1,0 +1,698 @@
+{
+  "sourceBase": "160b43b8c49fab07c0e4ca3b61b54e603fb44583",
+  "date": "2026-10-26",
+  "testedFilesSha256": {
+    "tests/brouvzer-sync/native-rtc-config.cjs": "85eb221136f8eadcd3015d8f888c878bc993cfbdb4bc4269de9cf3964554630f",
+    "tests/brouvzer-sync/native-rtc-probe.cjs": "3f3e3c13478a1cfb9e15f5083d0c23cdf2bb42f6ab89e31c3bc5f10455ec4b14",
+    "tests/brouvzer-sync/native-rtc.cjs": "d68d761e799f16c65f2d44721923bff7c3b21a406e0e901a0c1b9afc26be1693",
+    "tests/brouvzer-sync/native-rtc.test.mjs": "238fe67e27f8614aab059a92afb2cea0228f5533832ed74cdd0e494ee1825e90",
+    "tests/brouvzer-sync/native-configs/host-default.json": "e12c70509305794c38a525a14c7653edc687ce4e5dcbf0d2fc158c26df0f738b",
+    "tests/brouvzer-sync/native-configs/host-loopback.json": "02d59921a4acc49426c7cf3ce6cd1dcff4bfa6368518e4b8f5d4032e1517c9ae",
+    "tests/brouvzer-sync/native-configs/loopback-origin.json": "b37c770a2497c3277d2d6befa7485f8f0789a85e79eb67e8cd4e5450159e7c77",
+    "tests/brouvzer-sync/native-configs/relay-without-servers.json": "b5d157bba2ba4f87e2ab7c2a665781710306775c397f209339ade8127571d05a",
+    "tests/brouvzer-sync/native-configs/withhold-answer.json": "afd3b7e877a9077fb39c6f9b41095ffb25376f31b3a31e298c926d0b50c62e63"
+  },
+  "externalIceUsed": false,
+  "runs": [
+    {
+      "profile": "host-default",
+      "exitCode": 2,
+      "schemaVersion": 1,
+      "nativeOnly": true,
+      "configuration": {
+        "iceServerCount": 0,
+        "schemes": [],
+        "iceTransportPolicy": "all",
+        "externalIceApproved": false,
+        "browserProfile": "default",
+        "pageOrigin": "blank",
+        "headless": true,
+        "scenario": "normal",
+        "timeouts": {
+          "browserMs": 30000,
+          "operationMs": 6000,
+          "gatherMs": 6000,
+          "connectMs": 6000,
+          "transferMs": 2000,
+          "closeMs": 2000
+        }
+      },
+      "browserVersion": "138.0.7204.0",
+      "browserSource": "alternate-module",
+      "applicationProtocol": "not-tested",
+      "scenario": "normal",
+      "capabilities": {
+        "peerConnection": true,
+        "secureContext": false
+      },
+      "outcome": "gather-timeout",
+      "phase": "gather-a",
+      "candidates": {
+        "a": 0,
+        "b": 0
+      },
+      "candidateTypes": {
+        "a": {
+          "host": 0,
+          "srflx": 0,
+          "prflx": 0,
+          "relay": 0,
+          "unknown": 0
+        },
+        "b": {
+          "host": 0,
+          "srflx": 0,
+          "prflx": 0,
+          "relay": 0,
+          "unknown": 0
+        }
+      },
+      "sdpCandidateCount": {
+        "a": 0,
+        "b": 0
+      },
+      "gathering": {
+        "a": "timeout",
+        "b": "not-started"
+      },
+      "channelOpen": false,
+      "received": {
+        "a": false,
+        "b": false
+      },
+      "transferVerified": false,
+      "iceErrorCodes": [],
+      "events": [
+        {
+          "peer": "a",
+          "kind": "gathering",
+          "value": "gathering"
+        },
+        {
+          "peer": "a",
+          "kind": "channel",
+          "value": "closed"
+        }
+      ],
+      "selectedPair": {
+        "a": null,
+        "b": null
+      },
+      "cleanup": {
+        "peersCreated": 2,
+        "channelsCreated": 1,
+        "peersClosed": true,
+        "channelsClosed": true,
+        "closeError": false,
+        "verified": true
+      },
+      "beforeClose": {
+        "a": {
+          "ice": "new",
+          "connection": "new",
+          "gathering": "gathering",
+          "signaling": "have-local-offer"
+        },
+        "b": {
+          "ice": "new",
+          "connection": "new",
+          "gathering": "new",
+          "signaling": "stable"
+        }
+      },
+      "afterClose": {
+        "a": {
+          "ice": "closed",
+          "connection": "closed",
+          "gathering": "gathering",
+          "signaling": "closed"
+        },
+        "b": {
+          "ice": "closed",
+          "connection": "closed",
+          "gathering": "new",
+          "signaling": "closed"
+        }
+      },
+      "elapsedMs": 6231,
+      "harnessCleanup": {
+        "contextClosed": true,
+        "browserClosed": true,
+        "originServerClosed": true
+      }
+    },
+    {
+      "profile": "host-loopback",
+      "exitCode": 2,
+      "schemaVersion": 1,
+      "nativeOnly": true,
+      "configuration": {
+        "iceServerCount": 0,
+        "schemes": [],
+        "iceTransportPolicy": "all",
+        "externalIceApproved": false,
+        "browserProfile": "loopback-test",
+        "pageOrigin": "blank",
+        "headless": true,
+        "scenario": "normal",
+        "timeouts": {
+          "browserMs": 30000,
+          "operationMs": 6000,
+          "gatherMs": 6000,
+          "connectMs": 6000,
+          "transferMs": 2000,
+          "closeMs": 2000
+        }
+      },
+      "browserVersion": "138.0.7204.0",
+      "browserSource": "alternate-module",
+      "applicationProtocol": "not-tested",
+      "scenario": "normal",
+      "capabilities": {
+        "peerConnection": true,
+        "secureContext": false
+      },
+      "outcome": "no-ice-candidates",
+      "phase": "gather-b",
+      "candidates": {
+        "a": 0,
+        "b": 0
+      },
+      "candidateTypes": {
+        "a": {
+          "host": 0,
+          "srflx": 0,
+          "prflx": 0,
+          "relay": 0,
+          "unknown": 0
+        },
+        "b": {
+          "host": 0,
+          "srflx": 0,
+          "prflx": 0,
+          "relay": 0,
+          "unknown": 0
+        }
+      },
+      "sdpCandidateCount": {
+        "a": 0,
+        "b": 0
+      },
+      "gathering": {
+        "a": "complete",
+        "b": "complete"
+      },
+      "channelOpen": false,
+      "received": {
+        "a": false,
+        "b": false
+      },
+      "transferVerified": false,
+      "iceErrorCodes": [],
+      "events": [
+        {
+          "peer": "a",
+          "kind": "gathering",
+          "value": "gathering"
+        },
+        {
+          "peer": "a",
+          "kind": "gathering",
+          "value": "complete"
+        },
+        {
+          "peer": "b",
+          "kind": "gathering",
+          "value": "gathering"
+        },
+        {
+          "peer": "b",
+          "kind": "gathering",
+          "value": "complete"
+        },
+        {
+          "peer": "a",
+          "kind": "channel",
+          "value": "closed"
+        }
+      ],
+      "selectedPair": {
+        "a": null,
+        "b": null
+      },
+      "cleanup": {
+        "peersCreated": 2,
+        "channelsCreated": 1,
+        "peersClosed": true,
+        "channelsClosed": true,
+        "closeError": false,
+        "verified": true
+      },
+      "beforeClose": {
+        "a": {
+          "ice": "new",
+          "connection": "new",
+          "gathering": "complete",
+          "signaling": "have-local-offer"
+        },
+        "b": {
+          "ice": "new",
+          "connection": "new",
+          "gathering": "complete",
+          "signaling": "stable"
+        }
+      },
+      "afterClose": {
+        "a": {
+          "ice": "closed",
+          "connection": "closed",
+          "gathering": "complete",
+          "signaling": "closed"
+        },
+        "b": {
+          "ice": "closed",
+          "connection": "closed",
+          "gathering": "complete",
+          "signaling": "closed"
+        }
+      },
+      "elapsedMs": 587,
+      "harnessCleanup": {
+        "contextClosed": true,
+        "browserClosed": true,
+        "originServerClosed": true
+      }
+    },
+    {
+      "profile": "loopback-origin",
+      "exitCode": 2,
+      "schemaVersion": 1,
+      "nativeOnly": true,
+      "configuration": {
+        "iceServerCount": 0,
+        "schemes": [],
+        "iceTransportPolicy": "all",
+        "externalIceApproved": false,
+        "browserProfile": "default",
+        "pageOrigin": "loopback",
+        "headless": true,
+        "scenario": "normal",
+        "timeouts": {
+          "browserMs": 30000,
+          "operationMs": 6000,
+          "gatherMs": 6000,
+          "connectMs": 6000,
+          "transferMs": 2000,
+          "closeMs": 2000
+        }
+      },
+      "browserVersion": "138.0.7204.0",
+      "browserSource": "alternate-module",
+      "applicationProtocol": "not-tested",
+      "scenario": "normal",
+      "capabilities": {
+        "peerConnection": true,
+        "secureContext": true
+      },
+      "outcome": "gather-timeout",
+      "phase": "gather-a",
+      "candidates": {
+        "a": 0,
+        "b": 0
+      },
+      "candidateTypes": {
+        "a": {
+          "host": 0,
+          "srflx": 0,
+          "prflx": 0,
+          "relay": 0,
+          "unknown": 0
+        },
+        "b": {
+          "host": 0,
+          "srflx": 0,
+          "prflx": 0,
+          "relay": 0,
+          "unknown": 0
+        }
+      },
+      "sdpCandidateCount": {
+        "a": 0,
+        "b": 0
+      },
+      "gathering": {
+        "a": "timeout",
+        "b": "not-started"
+      },
+      "channelOpen": false,
+      "received": {
+        "a": false,
+        "b": false
+      },
+      "transferVerified": false,
+      "iceErrorCodes": [],
+      "events": [
+        {
+          "peer": "a",
+          "kind": "gathering",
+          "value": "gathering"
+        },
+        {
+          "peer": "a",
+          "kind": "channel",
+          "value": "closed"
+        }
+      ],
+      "selectedPair": {
+        "a": null,
+        "b": null
+      },
+      "cleanup": {
+        "peersCreated": 2,
+        "channelsCreated": 1,
+        "peersClosed": true,
+        "channelsClosed": true,
+        "closeError": false,
+        "verified": true
+      },
+      "beforeClose": {
+        "a": {
+          "ice": "new",
+          "connection": "new",
+          "gathering": "gathering",
+          "signaling": "have-local-offer"
+        },
+        "b": {
+          "ice": "new",
+          "connection": "new",
+          "gathering": "new",
+          "signaling": "stable"
+        }
+      },
+      "afterClose": {
+        "a": {
+          "ice": "closed",
+          "connection": "closed",
+          "gathering": "gathering",
+          "signaling": "closed"
+        },
+        "b": {
+          "ice": "closed",
+          "connection": "closed",
+          "gathering": "new",
+          "signaling": "closed"
+        }
+      },
+      "elapsedMs": 7140,
+      "harnessCleanup": {
+        "contextClosed": true,
+        "browserClosed": true,
+        "originServerClosed": true
+      }
+    },
+    {
+      "profile": "relay-without-servers",
+      "exitCode": 2,
+      "schemaVersion": 1,
+      "nativeOnly": true,
+      "configuration": {
+        "iceServerCount": 0,
+        "schemes": [],
+        "iceTransportPolicy": "relay",
+        "externalIceApproved": false,
+        "browserProfile": "loopback-test",
+        "pageOrigin": "blank",
+        "headless": true,
+        "scenario": "normal",
+        "timeouts": {
+          "browserMs": 30000,
+          "operationMs": 6000,
+          "gatherMs": 6000,
+          "connectMs": 6000,
+          "transferMs": 2000,
+          "closeMs": 2000
+        }
+      },
+      "browserVersion": "138.0.7204.0",
+      "browserSource": "alternate-module",
+      "applicationProtocol": "not-tested",
+      "scenario": "normal",
+      "capabilities": {
+        "peerConnection": true,
+        "secureContext": false
+      },
+      "outcome": "relay-without-servers",
+      "phase": "gather-b",
+      "candidates": {
+        "a": 0,
+        "b": 0
+      },
+      "candidateTypes": {
+        "a": {
+          "host": 0,
+          "srflx": 0,
+          "prflx": 0,
+          "relay": 0,
+          "unknown": 0
+        },
+        "b": {
+          "host": 0,
+          "srflx": 0,
+          "prflx": 0,
+          "relay": 0,
+          "unknown": 0
+        }
+      },
+      "sdpCandidateCount": {
+        "a": 0,
+        "b": 0
+      },
+      "gathering": {
+        "a": "complete",
+        "b": "complete"
+      },
+      "channelOpen": false,
+      "received": {
+        "a": false,
+        "b": false
+      },
+      "transferVerified": false,
+      "iceErrorCodes": [],
+      "events": [
+        {
+          "peer": "a",
+          "kind": "gathering",
+          "value": "gathering"
+        },
+        {
+          "peer": "a",
+          "kind": "gathering",
+          "value": "complete"
+        },
+        {
+          "peer": "b",
+          "kind": "gathering",
+          "value": "gathering"
+        },
+        {
+          "peer": "b",
+          "kind": "gathering",
+          "value": "complete"
+        },
+        {
+          "peer": "a",
+          "kind": "channel",
+          "value": "closed"
+        }
+      ],
+      "selectedPair": {
+        "a": null,
+        "b": null
+      },
+      "cleanup": {
+        "peersCreated": 2,
+        "channelsCreated": 1,
+        "peersClosed": true,
+        "channelsClosed": true,
+        "closeError": false,
+        "verified": true
+      },
+      "beforeClose": {
+        "a": {
+          "ice": "new",
+          "connection": "new",
+          "gathering": "complete",
+          "signaling": "have-local-offer"
+        },
+        "b": {
+          "ice": "new",
+          "connection": "new",
+          "gathering": "complete",
+          "signaling": "stable"
+        }
+      },
+      "afterClose": {
+        "a": {
+          "ice": "closed",
+          "connection": "closed",
+          "gathering": "complete",
+          "signaling": "closed"
+        },
+        "b": {
+          "ice": "closed",
+          "connection": "closed",
+          "gathering": "complete",
+          "signaling": "closed"
+        }
+      },
+      "elapsedMs": 6249,
+      "harnessCleanup": {
+        "contextClosed": true,
+        "browserClosed": true,
+        "originServerClosed": true
+      }
+    },
+    {
+      "profile": "withhold-answer",
+      "exitCode": 2,
+      "schemaVersion": 1,
+      "nativeOnly": true,
+      "configuration": {
+        "iceServerCount": 0,
+        "schemes": [],
+        "iceTransportPolicy": "all",
+        "externalIceApproved": false,
+        "browserProfile": "loopback-test",
+        "pageOrigin": "blank",
+        "headless": true,
+        "scenario": "withhold-answer",
+        "timeouts": {
+          "browserMs": 30000,
+          "operationMs": 6000,
+          "gatherMs": 6000,
+          "connectMs": 1000,
+          "transferMs": 2000,
+          "closeMs": 2000
+        }
+      },
+      "browserVersion": "138.0.7204.0",
+      "browserSource": "alternate-module",
+      "applicationProtocol": "not-tested",
+      "scenario": "withhold-answer",
+      "capabilities": {
+        "peerConnection": true,
+        "secureContext": false
+      },
+      "outcome": "connection-timeout",
+      "phase": "connect",
+      "candidates": {
+        "a": 0,
+        "b": 0
+      },
+      "candidateTypes": {
+        "a": {
+          "host": 0,
+          "srflx": 0,
+          "prflx": 0,
+          "relay": 0,
+          "unknown": 0
+        },
+        "b": {
+          "host": 0,
+          "srflx": 0,
+          "prflx": 0,
+          "relay": 0,
+          "unknown": 0
+        }
+      },
+      "sdpCandidateCount": {
+        "a": 0,
+        "b": 0
+      },
+      "gathering": {
+        "a": "complete",
+        "b": "complete"
+      },
+      "channelOpen": false,
+      "received": {
+        "a": false,
+        "b": false
+      },
+      "transferVerified": false,
+      "iceErrorCodes": [],
+      "events": [
+        {
+          "peer": "a",
+          "kind": "gathering",
+          "value": "gathering"
+        },
+        {
+          "peer": "a",
+          "kind": "gathering",
+          "value": "complete"
+        },
+        {
+          "peer": "b",
+          "kind": "gathering",
+          "value": "gathering"
+        },
+        {
+          "peer": "b",
+          "kind": "gathering",
+          "value": "complete"
+        },
+        {
+          "peer": "a",
+          "kind": "channel",
+          "value": "closed"
+        }
+      ],
+      "selectedPair": {
+        "a": null,
+        "b": null
+      },
+      "cleanup": {
+        "peersCreated": 2,
+        "channelsCreated": 1,
+        "peersClosed": true,
+        "channelsClosed": true,
+        "closeError": false,
+        "verified": true
+      },
+      "beforeClose": {
+        "a": {
+          "ice": "new",
+          "connection": "new",
+          "gathering": "complete",
+          "signaling": "have-local-offer"
+        },
+        "b": {
+          "ice": "new",
+          "connection": "new",
+          "gathering": "complete",
+          "signaling": "stable"
+        }
+      },
+      "afterClose": {
+        "a": {
+          "ice": "closed",
+          "connection": "closed",
+          "gathering": "complete",
+          "signaling": "closed"
+        },
+        "b": {
+          "ice": "closed",
+          "connection": "closed",
+          "gathering": "complete",
+          "signaling": "closed"
+        }
+      },
+      "elapsedMs": 3396,
+      "harnessCleanup": {
+        "contextClosed": true,
+        "browserClosed": true,
+        "originServerClosed": true
+      }
+    }
+  ]
+}
