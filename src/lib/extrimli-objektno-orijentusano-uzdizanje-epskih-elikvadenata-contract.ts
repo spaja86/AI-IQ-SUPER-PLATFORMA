@@ -1,1 +1,0 @@
-export const EXTRIMLI_OBJEKTNO_ORIJENTUSANO_UZDIZANJE_EPSKIH_ELIKVADENATA_CONTRACT_VERSION = 'v1-objektno-orijentusano-uzdizanje-epskih-elikvadenata';

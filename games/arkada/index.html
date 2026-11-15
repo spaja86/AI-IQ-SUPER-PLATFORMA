@@ -1,0 +1,7 @@
+<!doctype html>
+<html lang="sr-Latn"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>SPAJA Igre · 30 izazova</title>
+<style>body{background:#142321;color:#fff1d4;margin:auto;max-width:760px;padding:20px;font:17px system-ui}button,select{padding:10px 14px;margin:4px;color:inherit;background:#2b423c;border:1px solid #819087;border-radius:8px;font:inherit;min-height:44px}button:hover{background:#36594e}button:focus-visible,select:focus-visible{outline:3px solid #ffd482}h1{font-size:clamp(28px,7vw,55px);margin:4px 0}#actions{display:grid;grid-template-columns:repeat(3,minmax(0,1fr))}#actions button{overflow-wrap:anywhere}.active{background:#ffd482;color:#172321;font-weight:800}@media(max-width:480px){#actions:not(.grid){grid-template-columns:1fr}} </style>
+<main><h1>SPAJA Igre</h1><label for="choose">Izaberi izazov</label><select id="choose"></select>
+<button id="random">Nasumična igra</button><h2 id="title"></h2><p id="prompt"></p><p id="score" role="status"></p><div id="actions"></div><button id="restart">Počni ponovo</button></main>
+<script src="game.js"></script><script src="view.js"></script></html>

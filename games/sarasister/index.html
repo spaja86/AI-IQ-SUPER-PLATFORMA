@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="sr-Latn">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>SARAsister</title>
+<style>
+*{box-sizing:border-box}body{margin:0;background:#111a1b;color:#fcf4df;font:16px system-ui,sans-serif}main{max-width:1120px;margin:auto;padding:24px}
+header{display:flex;justify-content:space-between;align-items:end;gap:16px;margin-bottom:14px}h1{font-size:clamp(34px,7vw,72px);margin:0;line-height:1;letter-spacing:-.07em}p{margin:8px 0}header p{color:#e2ce9e}canvas{display:block;width:100%;aspect-ratio:16/9;background:#172426;border:1px solid #52645c;border-radius:14px;touch-action:none}#status{font-weight:700;color:#ffe1a1;min-height:1.6em}#stats{color:#d1dfd5}
+nav,.move{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}button{font:inherit;font-weight:650;color:#fff1d3;background:#2a3734;border:1px solid #67796e;border-radius:8px;padding:9px 12px;min-height:44px;touch-action:none}button:focus-visible{outline:3px solid #fce095}button:active{background:#60705d}.attack{background:#77372d}small{color:#bbc8bd} @media(max-width:600px){main{padding:14px}header{display:block}button{font-size:.88rem}}
+</style>
+<main>
+<header><h1>SARAsister</h1><p>Potraga za Larom</p></header>
+<canvas id="world" width="960" height="540" aria-label="Perspektivni prikaz šume i dvorišta"></canvas>
+<p id="status" role="status"></p>
+<p id="stats"></p>
+<nav aria-label="Borba i izrada oružja">
+<button class="attack" id="attack">Napad</button><button id="spear">Koplje · 2 drveta</button>
+<button id="sword">Kristalni mač · 1 drvo + 2 kristala</button><button id="restart">Nova igra</button>
+</nav>
+<div class="move" aria-label="Kretanje">
+<button data-key="ArrowLeft" aria-label="Levo">←</button><button data-key="ArrowUp" aria-label="Napred">↑</button>
+<button data-key="ArrowDown" aria-label="Nazad">↓</button><button data-key="ArrowRight" aria-label="Desno">→</button>
+</div>
+<p><small>WASD ili strelice za kretanje, razmak za napad, 1 i 2 za izradu. Oslobodi Laru kad pobediš obe dadilje.</small></p>
+</main>
+<script src="game.js"></script>
+<script src="view.js"></script>
+</html>
+

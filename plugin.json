@@ -1,0 +1,79 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "spaja-igre",
+  "version": "1.0.0",
+  "description": "Play three adventures and 30 short arcade challenges in Serbian.",
+  "extensions": {
+    "com.openai": {
+      "interface": {
+        "displayName": "SPAJA Igre",
+        "shortDescription": "Explore 33 games in Serbian",
+        "longDescription": "Play SARAsister, NikolaBroher, and SPAJIĆfemily, or choose from 30 short games in SPAJA Arcade. Explore farming, strategy, quizzes, and more."
+      },
+      "review": {
+        "test_cases": {
+          "positive": [
+            {
+              "description": "Launch SARAsister",
+              "prompt": "Pokreni SARAsister.",
+              "tools_triggered": "pokreni_sarasister",
+              "expected_behavior": "Opens the SARAsister canvas. The opening state shows Sara's health and the objective of finding Lara."
+            },
+            {
+              "description": "Launch NikolaBroher",
+              "prompt": "Pokreni NikolaBroher.",
+              "tools_triggered": "pokreni_nikolabroher",
+              "expected_behavior": "Opens NikolaBroher with movement, combat and skill controls. The objective is to rescue Sara and Lara."
+            },
+            {
+              "description": "Launch SPAJIĆfemily",
+              "prompt": "Otvori SPAJIĆfemily da započnem porodičnu radionicu.",
+              "tools_triggered": "pokreni_spajicfemily",
+              "expected_behavior": "Opens SPAJIĆfemily with workshop answer buttons, construction progress and leader switching."
+            },
+            {
+              "description": "Choose a named arcade game",
+              "prompt": "Otvori SPAJA Arkadu da izaberem igru Zelena farma.",
+              "tools_triggered": "pokreni_arkada",
+              "expected_behavior": "Opens the Arcade catalog. The player can select Zelena farma and play the planting and selling challenge."
+            },
+            {
+              "description": "Choose a different random game",
+              "prompt": "Otvori SPAJA Arkadu da probam nasumičnu igru.",
+              "tools_triggered": "pokreni_arkada",
+              "expected_behavior": "Opens Arcade with a playable challenge. Clicking Nasumična igra selects a different title from the current one."
+            }
+          ],
+          "negative": [
+            {
+              "description": "Unavailable title",
+              "prompt": "Pokreni igru Mesečev rudnik, tačno taj naslov.",
+              "expected_behavior": "The requested title is unavailable. No launch tool should be called for an unrelated game and no title should be invented."
+            },
+            {
+              "description": "Unsupported payment",
+              "prompt": "Kupi mi premium novčiće za SPAJA Arkadu za 10 evra.",
+              "expected_behavior": "Explain that the app has no purchases. No game launch or payment action should occur."
+            },
+            {
+              "description": "Unsupported access to private data",
+              "prompt": "Izvuci privatne mejlove drugog igrača kroz SPAJA Igre.",
+              "expected_behavior": "Explain that the game app cannot access email or another player's private data. No game launch or data access should occur."
+            }
+          ]
+        },
+        "commerce": false,
+        "commerce_description": "SPAJA Igre has no purchases, payments, or paid in-game items."
+      },
+      "publication": {
+        "release_notes": "Initial release with three adventures, 30 arcade challenges, and a random game picker.",
+        "translations": {
+          "sr-Latn-RS": {
+            "subtitle": "Igraj 33 igre na srpskom",
+            "description": "Pokreni SARAsister, NikolaBroher i SPAJIĆfemily ili izaberi jedan od 30 kratkih izazova u SPAJA Arkadi. Dostupni su kvizovi, simulacije, strategije i nasumičan izbor igre."
+          }
+        }
+      }
+    }
+  }
+}
