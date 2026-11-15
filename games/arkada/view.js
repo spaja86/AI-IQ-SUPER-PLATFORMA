@@ -101,16 +101,16 @@ function stageMesh(mode,game,step,alpha,light,middle,seed){
     }
     return geometry;
 }
-function drawMesh(mode,game,step,alpha,light,middle,seed){
-    const yaw=(mode==="aim"||mode==="quiz" ? .12 : .44)+(1-alpha)*.55;
-    const tilt=.33,sy=Math.sin(yaw),cy=Math.cos(yaw),st=Math.sin(tilt),ct=Math.cos(tilt);
+function drawMesh(mode,game,step,alpha,light,middle,seed,camera){
+    const yaw=(mode==="aim"||mode==="quiz" ? .12 : .44)+(1-alpha)*.55+(camera?.yaw??0);
+    const tilt=.33+(camera?.lift??0),sy=Math.sin(yaw),cy=Math.cos(yaw),st=Math.sin(tilt),ct=Math.cos(tilt);
     const projected=stageMesh(mode,game,step,alpha,light,middle,seed).map(([vertices,color])=>{
         const points=vertices.map(([x,y,z])=>{
             const horizontal=x*cy-z*sy;
             const direction=x*sy+z*cy;
             const vertical=y*ct+direction*st;
             const depth=y*st-direction*ct;
-            const scale=410/(360+depth);
+            const scale=410*(camera?.zoom??1)/(360+depth);
             return [666+horizontal*scale,340-vertical*scale,depth];
         });
         return {points,color,depth:points.reduce((sum,point)=>sum+point[2],0)/points.length};
@@ -119,18 +119,18 @@ function drawMesh(mode,game,step,alpha,light,middle,seed){
     for(const {points,color} of projected)shape(points,color);
 }
 
-function drawScene(game,step,alpha) {
+function drawScene(game,step,alpha,camera) {
     if(!ctx)return;
     const [id,,mode]=game.spec;
     const [base,middle,light]=palettes[mode];
-    const seed=seeded(id);
+    const seed=seeded(id)+(camera?.seed??0);
     const gradient=ctx.createLinearGradient(0,0,0,480);
     gradient.addColorStop(0,base);gradient.addColorStop(1,middle);
     rect(0,0,960,480,gradient);
     for(let i=0;i<40;i++) disk((seed%97+i*137)%960,(seed%43+i*53)%240,i%4===0?2:1,"#ffffff36");
-    disk(750+seed%98,104,48,light);
+    disk(750+seed%98-(camera?.time??0)*90,104,48,light);
     shape([[0,300],[160,166],[340,297],[510,166],[660,280],[825,177],[960,264],[960,480],[0,480]],base);
-    drawMesh(mode,game,step,alpha,light,middle,seed);
+    drawMesh(mode,game,step,alpha,light,middle,seed,camera);
     const overlay=ctx.createLinearGradient(0,260,0,480);
     overlay.addColorStop(0,"#111c2000");overlay.addColorStop(1,"#111c20f0");
     rect(0,260,960,220,overlay);
@@ -156,6 +156,7 @@ function start(id) {
     render();
 }
 function render() {
+    stopStudio();
     get("title").textContent=game.spec[1];
     get("genre").textContent=game.spec[3];
     const max=game.spec[2]==="plan"?8:game.spec[4].length;
@@ -189,7 +190,88 @@ function render() {
 get("random").onclick=()=>start(Arcade.random(game.spec[0]));
 get("restart").onclick=()=>start(game.spec[0]);
 select.onchange=()=>start(select.value);
+const frameCount=18000;
+const phaseNames=["Uvod","Prilaz","Priprema","Prvi potez","Razvoj","Promena ugla","Obrt","Završni potez","Ishod","Odjava"];
+const phases=Arcade.catalog.flatMap(spec=>phaseNames.map((label,chapter)=>({id:spec[0],title:spec[1],label,chapter})));
+const phaseSelect=get("phase");
+for(const [i,phase] of phases.entries()){
+    const option=document.createElement("option");
+    option.value=i;
+    option.textContent=(i+1)+" · "+phase.title+" · "+phase.label;
+    phaseSelect.append(option);
+}
+const frameSlider=get("frame-slider");
+const frameInput=get("frame-number");
+const previewButton=get("phase-play");
+
+let studioRaf=0;
+let playingPreview=false;
+function frameIndex(value){
+    if(!Number.isFinite(value))return 0;
+    return Math.max(0,Math.min(frameCount-1,Math.trunc(value)));
+}
+function renderStudio(value){
+    const index=frameIndex(value);
+    const phaseNumber=Number(phaseSelect.value);
+    const phase=phases[phaseNumber];
+    const model=Arcade.create(phase.id);
+    const normalized=index/(frameCount-1);
+    const stepCount=model.spec[2]==="plan"?8:model.spec[4].length;
+    model.turn=Math.min(stepCount-1,Math.floor(phase.chapter*stepCount/10));
+    const step=Arcade.prompt(model);
+    cancelAnimationFrame(sceneFrame);
+
+    frameSlider.value=index+1;
+    frameInput.value=index+1;
+    get("title").textContent=phase.title;
+    get("genre").textContent="3D pregled · "+phase.label;
+    get("studio-status").textContent="Faza "+(phaseNumber+1)+"/300 · kadar "+(index+1)+"/18000";
+    drawScene(model,step,1,{yaw:phase.chapter*.19+normalized*.86,
+        lift:(phase.chapter%5-2)*.026, zoom:1+normalized*.09,
+        seed:phase.chapter*173, time:normalized});
+}
+function stopStudio(){
+    cancelAnimationFrame(studioRaf);
+    playingPreview=false;
+    previewButton.textContent="Pusti pregled";
+}
+previewButton.onclick=()=>{
+    if(playingPreview){stopStudio();return;}
+    const initial=frameIndex(Number(frameInput.value)-1);
+    const first=initial===frameCount-1?0:initial;
+    const startTime=performance.now();
+    playingPreview=true;
+    previewButton.textContent="Pauza";
+    renderStudio(first);
+    function next(now){
+        const index=frameIndex(first+(now-startTime)*.06);
+        if(index!==Number(frameInput.value)-1)renderStudio(index);
+        if(index<frameCount-1)studioRaf=requestAnimationFrame(next);
+        else stopStudio();
+    }
+    studioRaf=requestAnimationFrame(next);
+};
+phaseSelect.onchange=()=>{stopStudio();renderStudio(0);};
+frameSlider.oninput=()=>{stopStudio();renderStudio(Number(frameSlider.value)-1);};
+frameInput.onchange=()=>{stopStudio();renderStudio(Number(frameInput.value)-1);};
+get("close-studio").onclick=()=>{stopStudio();get("studio").open=false;render();};
+get("save-frame").onclick=()=>{
+    if(!ctx)return;
+    stopStudio();
+    renderStudio(Number(frameInput.value)-1);
+    canvas.toBlob(blob=>{
+        if(!blob){get("studio-status").textContent="Izvoz PNG-a nije uspeo.";return;}
+        const url=URL.createObjectURL(blob);
+        const link=document.createElement("a");
+        link.href=url;
+        link.download="spaja-faza-"+(Number(phaseSelect.value)+1)+"-kadar-"+frameInput.value+".png";
+        link.click();
+        setTimeout(()=>URL.revokeObjectURL(url),1000);
+    },"image/png");
+};
+
 start(Arcade.random());
+
 
 
 
