@@ -32,6 +32,93 @@ function seeded(text){
     for(const char of text) value=(Math.imul(value,31)+char.codePointAt(0))>>>0;
     return value;
 }
+const boxFaces=[
+    [[0,3,2,1],.60],[[4,5,6,7],1],[[0,1,5,4],.76],
+    [[3,7,6,2],.89],[[1,2,6,5],.67],[[0,4,7,3],.82]
+];
+function shade(color,factor){
+    const value=parseInt(color.slice(1),16);
+    return "rgb("+[16,8,0].map(shift=>Math.round(((value>>shift)&255)*factor)).join(",")+")";
+}
+function box(x,y,z,w,h,d,color){
+    const vertices=[[x,y,z],[x+w,y,z],[x+w,y,z+d],[x,y,z+d],
+        [x,y+h,z],[x+w,y+h,z],[x+w,y+h,z+d],[x,y+h,z+d]];
+    return boxFaces.map(([indices,light])=>[indices.map(index=>vertices[index]),shade(color,light)]);
+}
+function ring(x,y,z,r,thickness,color){
+    const faces=[];
+    for(let i=0;i<24;i++){
+        const a=i*Math.PI/12,b=(i+1)*Math.PI/12;
+        const at=(angle,radius,depth)=>[x+Math.cos(angle)*radius,y+Math.sin(angle)*radius,z+depth];
+        faces.push([[at(a,r,0),at(b,r,0),at(b,r-thickness,0),at(a,r-thickness,0)],color]);
+        faces.push([[at(a,r,0),at(b,r,0),at(b,r,8),at(a,r,8)],shade(color,.55)]);
+    }
+    return faces;
+}
+function stageMesh(mode,game,step,alpha,light,middle,seed){
+    const geometry=[];
+    const add=(...args)=>geometry.push(...box(...args));
+    if(mode==="plan"){
+        for(let i=0;i<7;i++){
+            const x=(i%4)*54-100,z=Math.floor(i/4)*58-20,h=36+((seed+i*33)%78);
+            add(x,0,z,39,h,39,i%2?middle:light);
+            add(x+6,h,z+6,27,6,27,light);
+        }
+    } else if(mode==="drive"){
+        add(-118,-6,-54,236,6,108,"#2e4054");
+        for(let i=0;i<6;i++)add(-112+i*39,0,-2,16,1,4,"#dfbd80");
+        const x=-40+((step?.mark??1)-1)*47+25*(1-alpha);
+        for(const dx of [6,51]) for(const z of [-22,15])add(x+dx,0,z,11,12,12,"#152433");
+        add(x,10,-20,68,15,43,light);add(x+20,25,-15,31,14,33,middle);
+        add(x+53,18,-16,13,4,7,"#fff1d4");
+    } else if(mode==="aim"){
+        for(let i=0;i<9;i++){
+            const x=(i%3)*58-58,y=112-Math.floor(i/3)*49;
+            const color=i===step?.mark?light:middle;
+            geometry.push(...ring(x,y,-10,19,7,color),...ring(x,y,-10,8,7,color));
+        }
+        add(-105,0,-2,210,5,10,middle);
+    } else if(mode==="tactic"){
+        for(let i=0;i<5;i++){
+            const x=(i%3)*64-95,z=Math.floor(i/3)*60-28;
+            const active=i===game.turn%5,color=active?light:middle;
+            const y=active?8*Math.sin(alpha*Math.PI):0;
+            add(x,y,z,51,8,36,"#1b2938");add(x+4,y+8,z+4,43,12,28,color);
+            add(x+13,y+20,z+10,24,12,19,color);add(x+31,y+24,z+17,29,5,5,color);
+        }
+    } else if(mode==="quiz"){
+        for(let i=0;i<3;i++){
+            const x=i*61-90,h=87+(i===game.turn%3?12*Math.sin(alpha*Math.PI):0);
+            add(x,0,0,47,h,12,i===game.turn%3?light:middle);
+            for(let j=0;j<4;j++)add(x+8,h-18-j*12,-2,26-j*3,3,2,"#353d68");
+        }
+    } else {
+        for(let i=0;i<8;i++){
+            const x=(i%4)*58-109,z=Math.floor(i/4)*72-22,h=30+(seed+i*27)%62;
+            add(x,0,z,10,h,10,"#3b3050");add(x-13,h-8,z-13,36,19,36,middle);
+            add(x-7,h+11,z-7,24,19,24,i===game.turn%8?light:middle);
+        }
+    }
+    return geometry;
+}
+function drawMesh(mode,game,step,alpha,light,middle,seed){
+    const yaw=(mode==="aim"||mode==="quiz" ? .12 : .44)+(1-alpha)*.55;
+    const tilt=.33,sy=Math.sin(yaw),cy=Math.cos(yaw),st=Math.sin(tilt),ct=Math.cos(tilt);
+    const projected=stageMesh(mode,game,step,alpha,light,middle,seed).map(([vertices,color])=>{
+        const points=vertices.map(([x,y,z])=>{
+            const horizontal=x*cy-z*sy;
+            const direction=x*sy+z*cy;
+            const vertical=y*ct+direction*st;
+            const depth=y*st-direction*ct;
+            const scale=410/(360+depth);
+            return [666+horizontal*scale,340-vertical*scale,depth];
+        });
+        return {points,color,depth:points.reduce((sum,point)=>sum+point[2],0)/points.length};
+    });
+    projected.sort((a,b)=>b.depth-a.depth);
+    for(const {points,color} of projected)shape(points,color);
+}
+
 function drawScene(game,step,alpha) {
     if(!ctx)return;
     const [id,,mode]=game.spec;
@@ -43,46 +130,7 @@ function drawScene(game,step,alpha) {
     for(let i=0;i<40;i++) disk((seed%97+i*137)%960,(seed%43+i*53)%240,i%4===0?2:1,"#ffffff36");
     disk(750+seed%98,104,48,light);
     shape([[0,300],[160,166],[340,297],[510,166],[660,280],[825,177],[960,264],[960,480],[0,480]],base);
-    const shade="#142636";
-    if(mode==="plan"){
-        for(let i=0;i<11;i++){
-            const h=36+((seed+i*43)%108);
-            rect(360+i*44,319-h,34,h,i%2?middle:shade);
-            rect(367+i*44,329-h,7,10,light);
-        }
-    } else if(mode==="drive"){
-        shape([[607,225],[690,225],[960,480],[340,480]],shade);
-        for(let i=0;i<6;i++){const y=242+i*i*8;rect(647-i*2,y,6+i*4,5+i*3,light);}
-        const lane=step?.mark??1;
-        const x=495+lane*145+20*(1-alpha);
-        rect(x,353,80,35,light);rect(x+14,335,49,23,middle);
-        disk(x+14,390,11,shade);disk(x+67,390,11,shade);
-    } else if(mode==="aim"){
-        for(let i=0;i<9;i++){
-            const x=523+(i%3)*97,y=104+Math.floor(i/3)*87;
-            disk(x,y,33,i===step?.mark?light:shade);
-            disk(x,y,22,middle);disk(x,y,9,i===step?.mark?light:base);
-        }
-    } else if(mode==="tactic"){
-        for(let i=0;i<5;i++){
-            const x=472+i*78,y=314-(i%2)*54;
-            shape([[x,y],[x+28,y-16],[x+56,y],[x+56,y+29],[x+28,y+45],[x,y+29]],i===(game.turn%5)?light:middle);
-            rect(x+12,y+7,30,14,shade);rect(x+27,y+3,24,5,shade);
-        }
-    } else if(mode==="quiz"){
-        for(let i=0;i<3;i++){
-            const x=516+i*94;
-            rect(x,165+(i%2)*30,64,115,i===game.turn%3?light:middle);
-            for(let j=0;j<4;j++)rect(x+10,180+(i%2)*30+j*15,35-j*3,4,base);
-        }
-    } else {
-        for(let i=0;i<9;i++){
-            const x=440+i*55,h=42+((seed+i*31)%122);
-            rect(x,355-h,9,h,shade);
-            shape([[x-26,355-h+40],[x+5,355-h-44],[x+36,355-h+40]],i%3?shade:middle);
-        }
-        disk(660,317,25,light);
-    }
+    drawMesh(mode,game,step,alpha,light,middle,seed);
     const overlay=ctx.createLinearGradient(0,260,0,480);
     overlay.addColorStop(0,"#111c2000");overlay.addColorStop(1,"#111c20f0");
     rect(0,260,960,220,overlay);
@@ -94,8 +142,8 @@ function animateScene(game,step){
     drawScene(game,step,0);
     const start=performance.now();
     function next(now){
-        const alpha=Math.min(1,(now-start)/260);
-        drawScene(game,step,alpha);
+        const alpha=Math.min(1,(now-start)/720);
+        drawScene(game,step,1-(1-alpha)**3);
         if(alpha<1)sceneFrame=requestAnimationFrame(next);
     }
     sceneFrame=requestAnimationFrame(next);
@@ -142,5 +190,6 @@ get("random").onclick=()=>start(Arcade.random(game.spec[0]));
 get("restart").onclick=()=>start(game.spec[0]);
 select.onchange=()=>start(select.value);
 start(Arcade.random());
+
 
 
