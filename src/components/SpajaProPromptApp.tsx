@@ -350,57 +350,8 @@ export default function SpajaProPromptApp({ promptovi, verzije, kategorije }: Pr
         {/* ═══ BUILDER TAB ═══ */}
         {activeTab === 'builder' && (
           <div className="grid gap-6 lg:grid-cols-3">
-            {/* Quick prompts sidebar */}
-            <div className="lg:col-span-1">
-              <div className="rounded-2xl border border-gray-700/50 bg-gray-900/50 p-4">
-                <h3 className="mb-3 flex items-center gap-2 text-sm font-semibold text-gray-300">
-                  <span>⚡</span> Brzi Prompt-ovi ({filtrirani.length})
-                </h3>
-                <div className="mb-3">
-                  <select
-                    value={izabranaKategorija}
-                    onChange={(e) => setIzabranaKategorija(e.target.value)}
-                    className="w-full rounded-lg border border-gray-700 bg-gray-800 px-3 py-1.5 text-xs text-white focus:border-blue-500 focus:outline-none"
-                  >
-                    <option value="sve">Sve kategorije</option>
-                    {kategorije.map((k) => (
-                      <option key={k} value={k}>{k}</option>
-                    ))}
-                  </select>
-                </div>
-                <div className="max-h-[500px] space-y-2 overflow-y-auto pr-1">
-                  {filtrirani.slice(0, 20).map((p) => (
-                    <Button
-                      key={p.id}
-                      onClick={() => izaberiPrompt(p)}
-                      className={`w-full rounded-xl border p-2.5 text-left transition ${
-                        izabraniPrompt?.id === p.id
-                          ? 'border-blue-500/50 bg-blue-900/20 shadow-lg shadow-blue-500/5'
-                          : 'border-gray-700/30 bg-gray-800/30 hover:border-gray-600 hover:bg-gray-800/50'
-                      }`}
-                    >
-                      <div className="flex items-start gap-2">
-                        <span className="text-base">{p.ikona}</span>
-                        <div className="min-w-0 flex-1">
-                          <div className="truncate text-xs font-medium text-white">{p.naziv}</div>
-                          <div className="mt-0.5 flex flex-wrap gap-1">
-                            <span className="rounded bg-gray-700/50 px-1 py-0.5 text-[10px] text-gray-400">v{p.spajaProVerzija}</span>
-                            <span className={`rounded px-1 py-0.5 text-[10px] ${
-                              p.prioritet === 'kritican' ? 'bg-red-900/50 text-red-400' :
-                              p.prioritet === 'visok' ? 'bg-orange-900/50 text-orange-400' :
-                              'bg-gray-700/50 text-gray-400'
-                            }`}>{p.prioritet}</span>
-                          </div>
-                        </div>
-                      </div>
-                    </Button>
-                  ))}
-                </div>
-              </div>
-            </div>
-
             {/* Editor area */}
-            <div className="space-y-4 lg:col-span-2">
+            <div className="min-w-0 space-y-4 lg:col-span-2 lg:col-start-2 lg:row-start-1">
               {/* Selected prompt info */}
               {izabraniPrompt && (
                 <div className="rounded-2xl border border-blue-500/20 bg-blue-900/10 p-4">
@@ -417,6 +368,15 @@ export default function SpajaProPromptApp({ promptovi, verzije, kategorije }: Pr
                     ))}
                   </div>
                 </div>
+              )}
+
+              {/* Explain why parameter fields may be absent. */}
+              {(!izabraniPrompt || izabraniPrompt.parametri.length === 0) && (
+                <p className="rounded-xl border border-blue-500/20 bg-blue-900/10 p-3 text-sm text-blue-200">
+                  {izabraniPrompt
+                    ? 'Ovaj prompt nema dodatne parametre. Tekst možete menjati u editoru ispod.'
+                    : 'Možete odmah uneti tekst u editor. Za dodatna polja izaberite prompt sa parametrima iz Biblioteke ili liste brzih promptova.'}
+                </p>
               )}
 
               {/* Parameters */}
@@ -517,7 +477,9 @@ export default function SpajaProPromptApp({ promptovi, verzije, kategorije }: Pr
                     {aktivnaVerzija?.status ?? 'nepoznato'}
                   </span>
                 </div>
+                <label htmlFor="spajapro-prompt-editor" className="mb-2 block text-sm text-gray-300">Vaš prompt</label>
                 <textarea
+                  id="spajapro-prompt-editor"
                   value={korisnikUnos}
                   onChange={(e) => setKorisnikUnos(e.target.value)}
                   placeholder="Unesite prompt za SpajaPro engine... Izaberite iz biblioteke ili napišite svoj."
@@ -588,6 +550,54 @@ export default function SpajaProPromptApp({ promptovi, verzije, kategorije }: Pr
                   </div>
                 </div>
               )}
+            </div>
+            {/* Quick prompts sidebar */}
+            <div className="lg:col-span-1 lg:col-start-1 lg:row-start-1">
+              <div className="rounded-2xl border border-gray-700/50 bg-gray-900/50 p-4">
+                <h3 className="mb-3 flex items-center gap-2 text-sm font-semibold text-gray-300">
+                  <span>⚡</span> Brzi Prompt-ovi ({filtrirani.length})
+                </h3>
+                <div className="mb-3">
+                  <select
+                    value={izabranaKategorija}
+                    onChange={(e) => setIzabranaKategorija(e.target.value)}
+                    className="w-full rounded-lg border border-gray-700 bg-gray-800 px-3 py-1.5 text-xs text-white focus:border-blue-500 focus:outline-none"
+                  >
+                    <option value="sve">Sve kategorije</option>
+                    {kategorije.map((k) => (
+                      <option key={k} value={k}>{k}</option>
+                    ))}
+                  </select>
+                </div>
+                <div className="max-h-[500px] space-y-2 overflow-y-auto pr-1">
+                  {filtrirani.slice(0, 20).map((p) => (
+                    <Button
+                      key={p.id}
+                      onClick={() => izaberiPrompt(p)}
+                      className={`w-full rounded-xl border p-2.5 text-left transition ${
+                        izabraniPrompt?.id === p.id
+                          ? 'border-blue-500/50 bg-blue-900/20 shadow-lg shadow-blue-500/5'
+                          : 'border-gray-700/30 bg-gray-800/30 hover:border-gray-600 hover:bg-gray-800/50'
+                      }`}
+                    >
+                      <div className="flex items-start gap-2">
+                        <span className="text-base">{p.ikona}</span>
+                        <div className="min-w-0 flex-1">
+                          <div className="truncate text-xs font-medium text-white">{p.naziv}</div>
+                          <div className="mt-0.5 flex flex-wrap gap-1">
+                            <span className="rounded bg-gray-700/50 px-1 py-0.5 text-[10px] text-gray-400">v{p.spajaProVerzija}</span>
+                            <span className={`rounded px-1 py-0.5 text-[10px] ${
+                              p.prioritet === 'kritican' ? 'bg-red-900/50 text-red-400' :
+                              p.prioritet === 'visok' ? 'bg-orange-900/50 text-orange-400' :
+                              'bg-gray-700/50 text-gray-400'
+                            }`}>{p.prioritet}</span>
+                          </div>
+                        </div>
+                      </div>
+                    </Button>
+                  ))}
+                </div>
+              </div>
             </div>
           </div>
         )}
